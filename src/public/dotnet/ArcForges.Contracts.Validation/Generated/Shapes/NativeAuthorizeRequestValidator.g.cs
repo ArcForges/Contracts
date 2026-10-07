@@ -66,6 +66,8 @@ public static class NativeAuthorizeRequestForm
         Append(text, "code_challenge_method", value.CodeChallengeMethod);
         Append(text, "state", value.State);
         Append(text, "installationId", value.InstallationId);
+        Append(text, "publicKey", value.PublicKey);
+        Append(text, "keyVersion", value.KeyVersion);
         var bytes = global::System.Text.Encoding.ASCII.GetBytes(text.ToString());
         if (!TryParse(bytes, out _, out var failure))
             throw new global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationException(failure);
@@ -173,6 +175,8 @@ public static class NativeAuthorizeRequestForm
                 case "code_challenge_method": if (!Check5(property.Value)) return false; break;
                 case "state": if (!Check6(property.Value)) return false; break;
                 case "installationId": if (!Check7(property.Value)) return false; break;
+                case "publicKey": if (!Check8(property.Value)) return false; break;
+                case "keyVersion": if (!Check9(property.Value)) return false; break;
                 default: return false;
             }
         }
@@ -183,6 +187,8 @@ public static class NativeAuthorizeRequestForm
         if (!seen.Contains("code_challenge_method")) return false;
         if (!seen.Contains("state")) return false;
         if (!seen.Contains("installationId")) return false;
+        if (!seen.Contains("publicKey")) return false;
+        if (!seen.Contains("keyVersion")) return false;
         if (!NativeClientRedirect(value)) return false;
         return true;
     }
@@ -251,6 +257,29 @@ public static class NativeAuthorizeRequestForm
         if (text == "00000000-0000-0000-0000-000000000000") return false;
         return true;
     }
+    private static bool Check8(global::System.Text.Json.JsonElement value)
+    {
+        if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
+        var text = value.GetString()!;
+        if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 122) return false;
+        if (ScalarLength(text) > 122) return false;
+        if (!Matches(text, "^[A-Za-z0-9_-]{121}[AQgw]$")) return false;
+        if (!InstallationHttpPublicKey(text)) return false;
+        return true;
+    }
+    private static bool Check9(global::System.Text.Json.JsonElement value)
+    {
+        if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
+        var text = value.GetString()!;
+        if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 1) return false;
+        if (ScalarLength(text) > 19) return false;
+        if (!Matches(text, "^[1-9][0-9]*$")) return false;
+        if (!global::System.Int64.TryParse(text, global::System.Globalization.NumberStyles.AllowLeadingSign, global::System.Globalization.CultureInfo.InvariantCulture, out _)) return false;
+        if (text.StartsWith('0') || text.StartsWith('-')) return false;
+        return true;
+    }
 
     private static bool Matches(string value, string pattern)
     {
@@ -300,6 +329,30 @@ public static class NativeAuthorizeRequestForm
             if (basename is "CON" or "PRN" or "AUX" or "NUL" || (basename.Length == 4 && (basename.StartsWith("COM", global::System.StringComparison.Ordinal) || basename.StartsWith("LPT", global::System.StringComparison.Ordinal)) && basename[3] is >= '1' and <= '9')) return false;
         }
         return true;
+    }
+
+    private static bool InstallationSpki(global::System.ReadOnlySpan<byte> bytes)
+    {
+        if (bytes.Length != 91) return false;
+        try
+        {
+            using var key = global::System.Security.Cryptography.ECDsa.Create();
+            key.ImportSubjectPublicKeyInfo(bytes, out var consumed);
+            return consumed == bytes.Length && key.KeySize == 256 && key.ExportParameters(false).Curve.Oid.Value == "1.2.840.10045.3.1.7" && key.ExportSubjectPublicKeyInfo().AsSpan().SequenceEqual(bytes);
+        }
+        catch (global::System.Security.Cryptography.CryptographicException) { return false; }
+        catch (global::System.ArgumentException) { return false; }
+        catch (global::System.PlatformNotSupportedException) { return false; }
+    }
+
+    private static bool InstallationHttpPublicKey(string text)
+    {
+        if (text.Length != 122) return false;
+        global::System.Span<char> base64 = stackalloc char[124];
+        global::System.Span<byte> key = stackalloc byte[91];
+        for (var i = 0; i < text.Length; i++) base64[i] = text[i] == '-' ? '+' : text[i] == '_' ? '/' : text[i];
+        base64[122] = '='; base64[123] = '=';
+        return global::System.Convert.TryFromBase64Chars(base64, key, out var count) && count == 91 && InstallationSpki(key);
     }
 
     private static bool NativeClientRedirect(global::System.Text.Json.JsonElement value)

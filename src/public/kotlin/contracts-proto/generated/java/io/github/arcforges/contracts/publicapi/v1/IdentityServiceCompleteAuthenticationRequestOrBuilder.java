@@ -44,4 +44,15 @@ public interface IdentityServiceCompleteAuthenticationRequestOrBuilder extends
    * @return The proof.
    */
   io.github.arcforges.contracts.publicapi.v1.AuthProof getProof();
+
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+   * @return Whether the installationProof field is set.
+   */
+  boolean hasInstallationProof();
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+   * @return The installationProof.
+   */
+  io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof getInstallationProof();
 }

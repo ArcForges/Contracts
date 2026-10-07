@@ -32,6 +32,12 @@ public sealed record NativeTokenResponse
     /// <summary>Required purpose field from the authored NativeTokenResponse schema.</summary>
     [global::System.Text.Json.Serialization.JsonPropertyName("purpose")]
     public required string Purpose { get; init; }
+    /// <summary>Required installationProofContext field from the authored NativeTokenResponse schema.</summary>
+    [global::System.Text.Json.Serialization.JsonPropertyName("installationProofContext")]
+    public required string InstallationProofContext { get; init; }
+    /// <summary>Required installationKeyVersion field from the authored NativeTokenResponse schema.</summary>
+    [global::System.Text.Json.Serialization.JsonPropertyName("installationKeyVersion")]
+    public required string InstallationKeyVersion { get; init; }
 }
 
 /// <summary>Generated closed NativeTokenDevice JSON record.</summary>

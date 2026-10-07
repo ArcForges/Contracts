@@ -61,6 +61,9 @@ public static class NativeAuthorizeCallbackSuccessForm
         var text = new global::System.Text.StringBuilder();
         Append(text, "code", value.Code);
         Append(text, "state", value.State);
+        Append(text, "installationProofChallenge", value.InstallationProofChallenge);
+        Append(text, "installationProofBinding", value.InstallationProofBinding);
+        Append(text, "installationKeyVersion", value.InstallationKeyVersion);
         var bytes = global::System.Text.Encoding.ASCII.GetBytes(text.ToString());
         if (!TryParse(bytes, out _, out var failure))
             throw new global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationException(failure);
@@ -163,11 +166,17 @@ public static class NativeAuthorizeCallbackSuccessForm
             {
                 case "code": if (!Check1(property.Value)) return false; break;
                 case "state": if (!Check2(property.Value)) return false; break;
+                case "installationProofChallenge": if (!Check3(property.Value)) return false; break;
+                case "installationProofBinding": if (!Check4(property.Value)) return false; break;
+                case "installationKeyVersion": if (!Check5(property.Value)) return false; break;
                 default: return false;
             }
         }
         if (!seen.Contains("code")) return false;
         if (!seen.Contains("state")) return false;
+        if (!seen.Contains("installationProofChallenge")) return false;
+        if (!seen.Contains("installationProofBinding")) return false;
+        if (!seen.Contains("installationKeyVersion")) return false;
         return true;
     }
     private static bool Check1(global::System.Text.Json.JsonElement value)
@@ -188,6 +197,38 @@ public static class NativeAuthorizeCallbackSuccessForm
         if (ScalarLength(text) < 1) return false;
         if (ScalarLength(text) > 128) return false;
         if (!Matches(text, "^[\\x21-\\x7E]+$")) return false;
+        return true;
+    }
+    private static bool Check3(global::System.Text.Json.JsonElement value)
+    {
+        if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
+        var text = value.GetString()!;
+        if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 43) return false;
+        if (ScalarLength(text) > 43) return false;
+        if (!Matches(text, "^[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$")) return false;
+        return true;
+    }
+    private static bool Check4(global::System.Text.Json.JsonElement value)
+    {
+        if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
+        var text = value.GetString()!;
+        if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 43) return false;
+        if (ScalarLength(text) > 43) return false;
+        if (!Matches(text, "^[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$")) return false;
+        return true;
+    }
+    private static bool Check5(global::System.Text.Json.JsonElement value)
+    {
+        if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
+        var text = value.GetString()!;
+        if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 1) return false;
+        if (ScalarLength(text) > 19) return false;
+        if (!Matches(text, "^[1-9][0-9]*$")) return false;
+        if (!global::System.Int64.TryParse(text, global::System.Globalization.NumberStyles.AllowLeadingSign, global::System.Globalization.CultureInfo.InvariantCulture, out _)) return false;
+        if (text.StartsWith('0') || text.StartsWith('-')) return false;
         return true;
     }
 

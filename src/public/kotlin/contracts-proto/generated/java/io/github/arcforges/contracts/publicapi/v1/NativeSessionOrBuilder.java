@@ -116,4 +116,26 @@ public interface NativeSessionOrBuilder extends
    * @return The purpose.
    */
   io.github.arcforges.contracts.publicapi.v1.AuthPurpose getPurpose();
+
+  /**
+   * <code>optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];</code>
+   * @return Whether the installationProofContext field is set.
+   */
+  boolean hasInstallationProofContext();
+  /**
+   * <code>optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];</code>
+   * @return The installationProofContext.
+   */
+  com.google.protobuf.ByteString getInstallationProofContext();
+
+  /**
+   * <code>optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];</code>
+   * @return Whether the installationKeyVersion field is set.
+   */
+  boolean hasInstallationKeyVersion();
+  /**
+   * <code>optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];</code>
+   * @return The installationKeyVersion.
+   */
+  long getInstallationKeyVersion();
 }

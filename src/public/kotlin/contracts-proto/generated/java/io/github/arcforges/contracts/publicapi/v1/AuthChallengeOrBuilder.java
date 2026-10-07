@@ -154,4 +154,37 @@ public interface AuthChallengeOrBuilder extends
    * @return The recoveryMethod.
    */
   io.github.arcforges.contracts.publicapi.v1.RecoveryMethod getRecoveryMethod();
+
+  /**
+   * <code>optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];</code>
+   * @return Whether the installationProofChallenge field is set.
+   */
+  boolean hasInstallationProofChallenge();
+  /**
+   * <code>optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];</code>
+   * @return The installationProofChallenge.
+   */
+  com.google.protobuf.ByteString getInstallationProofChallenge();
+
+  /**
+   * <code>optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];</code>
+   * @return Whether the installationProofBinding field is set.
+   */
+  boolean hasInstallationProofBinding();
+  /**
+   * <code>optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];</code>
+   * @return The installationProofBinding.
+   */
+  com.google.protobuf.ByteString getInstallationProofBinding();
+
+  /**
+   * <code>optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];</code>
+   * @return Whether the installationKeyVersion field is set.
+   */
+  boolean hasInstallationKeyVersion();
+  /**
+   * <code>optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];</code>
+   * @return The installationKeyVersion.
+   */
+  long getInstallationKeyVersion();
 }

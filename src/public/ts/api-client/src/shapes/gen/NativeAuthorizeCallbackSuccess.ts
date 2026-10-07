@@ -4,6 +4,9 @@
 export interface NativeAuthorizeCallbackSuccess {
   code: string;
   state: string;
+  installationProofChallenge: string;
+  installationProofBinding: string;
+  installationKeyVersion: string;
 }
 
 export function isNativeAuthorizeCallbackSuccess(value: unknown): value is NativeAuthorizeCallbackSuccess { return check0(value); }
@@ -35,7 +38,7 @@ export function parseNativeAuthorizeCallbackSuccessForm(input: Uint8Array | stri
 /** Writes schema-order name=value pairs with only RFC 3986 unreserved characters unescaped and refuses output the schema rejects. */
 export function serializeNativeAuthorizeCallbackSuccessForm(value: NativeAuthorizeCallbackSuccess): Uint8Array {
   const out: string[] = [];
-  for (const name of ["code", "state"] as const) {
+  for (const name of ["code", "state", "installationProofChallenge", "installationProofBinding", "installationKeyVersion"] as const) {
     const item = (value as unknown as Record<string, string | undefined>)[name];
     if (item === undefined) continue;
     if (!validText(item)) throw Object.assign(new Error("NativeAuthorizeCallbackSuccess form refused: invalid."), { failure: "invalid" });
@@ -56,11 +59,17 @@ function check0(value: unknown): boolean {
     switch (key) {
       case "code": if (!check1(object[key])) return false; break;
       case "state": if (!check2(object[key])) return false; break;
+      case "installationProofChallenge": if (!check3(object[key])) return false; break;
+      case "installationProofBinding": if (!check4(object[key])) return false; break;
+      case "installationKeyVersion": if (!check5(object[key])) return false; break;
       default: return false;
     }
   }
   if (!Object.prototype.hasOwnProperty.call(object, "code")) return false;
   if (!Object.prototype.hasOwnProperty.call(object, "state")) return false;
+  if (!Object.prototype.hasOwnProperty.call(object, "installationProofChallenge")) return false;
+  if (!Object.prototype.hasOwnProperty.call(object, "installationProofBinding")) return false;
+  if (!Object.prototype.hasOwnProperty.call(object, "installationKeyVersion")) return false;
   return true;
 }
 function check1(value: unknown): boolean {
@@ -75,6 +84,29 @@ function check2(value: unknown): boolean {
   if ([...value].length < 1) return false;
   if ([...value].length > 128) return false;
   if ((new RegExp("^[\\x21-\\x7E]+$", 'u')).exec(value)?.[0] !== value) return false;
+  return true;
+}
+function check3(value: unknown): boolean {
+  if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 43) return false;
+  if ([...value].length > 43) return false;
+  if ((new RegExp("^[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$", 'u')).exec(value)?.[0] !== value) return false;
+  return true;
+}
+function check4(value: unknown): boolean {
+  if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 43) return false;
+  if ([...value].length > 43) return false;
+  if ((new RegExp("^[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$", 'u')).exec(value)?.[0] !== value) return false;
+  return true;
+}
+function check5(value: unknown): boolean {
+  if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 1) return false;
+  if ([...value].length > 19) return false;
+  if ((new RegExp("^[1-9][0-9]*$", 'u')).exec(value)?.[0] !== value) return false;
+  if (BigInt(value as string) < -9223372036854775808n || BigInt(value as string) > 9223372036854775807n) return false;
+  if (BigInt(value as string) <= 0n) return false;
   return true;
 }
 

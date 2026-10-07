@@ -65,6 +65,9 @@ public static class NativeTokenRequestForm
         Append(text, "client_id", value.ClientId);
         Append(text, "redirect_uri", value.RedirectUri);
         Append(text, "installationId", value.InstallationId);
+        Append(text, "commandId", value.CommandId);
+        Append(text, "installationKeyVersion", value.InstallationKeyVersion);
+        Append(text, "installationProofSignature", value.InstallationProofSignature);
         var bytes = global::System.Text.Encoding.ASCII.GetBytes(text.ToString());
         if (!TryParse(bytes, out _, out var failure))
             throw new global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationException(failure);
@@ -171,6 +174,9 @@ public static class NativeTokenRequestForm
                 case "client_id": if (!Check4(property.Value)) return false; break;
                 case "redirect_uri": if (!Check5(property.Value)) return false; break;
                 case "installationId": if (!Check6(property.Value)) return false; break;
+                case "commandId": if (!Check7(property.Value)) return false; break;
+                case "installationKeyVersion": if (!Check8(property.Value)) return false; break;
+                case "installationProofSignature": if (!Check9(property.Value)) return false; break;
                 default: return false;
             }
         }
@@ -180,6 +186,9 @@ public static class NativeTokenRequestForm
         if (!seen.Contains("client_id")) return false;
         if (!seen.Contains("redirect_uri")) return false;
         if (!seen.Contains("installationId")) return false;
+        if (!seen.Contains("commandId")) return false;
+        if (!seen.Contains("installationKeyVersion")) return false;
+        if (!seen.Contains("installationProofSignature")) return false;
         if (!NativeClientRedirect(value)) return false;
         return true;
     }
@@ -238,6 +247,39 @@ public static class NativeTokenRequestForm
         if (ScalarLength(text) > 36) return false;
         if (!Matches(text, "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")) return false;
         if (text == "00000000-0000-0000-0000-000000000000") return false;
+        return true;
+    }
+    private static bool Check7(global::System.Text.Json.JsonElement value)
+    {
+        if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
+        var text = value.GetString()!;
+        if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 36) return false;
+        if (ScalarLength(text) > 36) return false;
+        if (!Matches(text, "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")) return false;
+        if (text == "00000000-0000-0000-0000-000000000000") return false;
+        return true;
+    }
+    private static bool Check8(global::System.Text.Json.JsonElement value)
+    {
+        if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
+        var text = value.GetString()!;
+        if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 1) return false;
+        if (ScalarLength(text) > 19) return false;
+        if (!Matches(text, "^[1-9][0-9]*$")) return false;
+        if (!global::System.Int64.TryParse(text, global::System.Globalization.NumberStyles.AllowLeadingSign, global::System.Globalization.CultureInfo.InvariantCulture, out _)) return false;
+        if (text.StartsWith('0') || text.StartsWith('-')) return false;
+        return true;
+    }
+    private static bool Check9(global::System.Text.Json.JsonElement value)
+    {
+        if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
+        var text = value.GetString()!;
+        if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 86) return false;
+        if (ScalarLength(text) > 86) return false;
+        if (!Matches(text, "^[A-Za-z0-9_-]{85}[AQgw]$")) return false;
         return true;
     }
 

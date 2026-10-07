@@ -21,6 +21,8 @@ public  final class AuthChallenge extends
     rpId_ = "";
     providerId_ = "";
     redirectUrl_ = "";
+    installationProofChallenge_ = com.google.protobuf.ByteString.EMPTY;
+    installationProofBinding_ = com.google.protobuf.ByteString.EMPTY;
   }
   private int bitField0_;
   public static final int FLOW_ID_FIELD_NUMBER = 1;
@@ -521,6 +523,110 @@ public  final class AuthChallenge extends
   private void clearRecoveryMethod() {
     bitField0_ = (bitField0_ & ~0x00000200);
     recoveryMethod_ = 0;
+  }
+
+  public static final int INSTALLATION_PROOF_CHALLENGE_FIELD_NUMBER = 11;
+  private com.google.protobuf.ByteString installationProofChallenge_;
+  /**
+   * <code>optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];</code>
+   * @return Whether the installationProofChallenge field is set.
+   */
+  @java.lang.Override
+  public boolean hasInstallationProofChallenge() {
+    return ((bitField0_ & 0x00000400) != 0);
+  }
+  /**
+   * <code>optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];</code>
+   * @return The installationProofChallenge.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString getInstallationProofChallenge() {
+    return installationProofChallenge_;
+  }
+  /**
+   * <code>optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];</code>
+   * @param value The installationProofChallenge to set.
+   */
+  private void setInstallationProofChallenge(com.google.protobuf.ByteString value) {
+    java.lang.Class<?> valueClass = value.getClass();
+  bitField0_ |= 0x00000400;
+    installationProofChallenge_ = value;
+  }
+  /**
+   * <code>optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];</code>
+   */
+  private void clearInstallationProofChallenge() {
+    bitField0_ = (bitField0_ & ~0x00000400);
+    installationProofChallenge_ = getDefaultInstance().getInstallationProofChallenge();
+  }
+
+  public static final int INSTALLATION_PROOF_BINDING_FIELD_NUMBER = 12;
+  private com.google.protobuf.ByteString installationProofBinding_;
+  /**
+   * <code>optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];</code>
+   * @return Whether the installationProofBinding field is set.
+   */
+  @java.lang.Override
+  public boolean hasInstallationProofBinding() {
+    return ((bitField0_ & 0x00000800) != 0);
+  }
+  /**
+   * <code>optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];</code>
+   * @return The installationProofBinding.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString getInstallationProofBinding() {
+    return installationProofBinding_;
+  }
+  /**
+   * <code>optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];</code>
+   * @param value The installationProofBinding to set.
+   */
+  private void setInstallationProofBinding(com.google.protobuf.ByteString value) {
+    java.lang.Class<?> valueClass = value.getClass();
+  bitField0_ |= 0x00000800;
+    installationProofBinding_ = value;
+  }
+  /**
+   * <code>optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];</code>
+   */
+  private void clearInstallationProofBinding() {
+    bitField0_ = (bitField0_ & ~0x00000800);
+    installationProofBinding_ = getDefaultInstance().getInstallationProofBinding();
+  }
+
+  public static final int INSTALLATION_KEY_VERSION_FIELD_NUMBER = 13;
+  private long installationKeyVersion_;
+  /**
+   * <code>optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];</code>
+   * @return Whether the installationKeyVersion field is set.
+   */
+  @java.lang.Override
+  public boolean hasInstallationKeyVersion() {
+    return ((bitField0_ & 0x00001000) != 0);
+  }
+  /**
+   * <code>optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];</code>
+   * @return The installationKeyVersion.
+   */
+  @java.lang.Override
+  public long getInstallationKeyVersion() {
+    return installationKeyVersion_;
+  }
+  /**
+   * <code>optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];</code>
+   * @param value The installationKeyVersion to set.
+   */
+  private void setInstallationKeyVersion(long value) {
+    bitField0_ |= 0x00001000;
+    installationKeyVersion_ = value;
+  }
+  /**
+   * <code>optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];</code>
+   */
+  private void clearInstallationKeyVersion() {
+    bitField0_ = (bitField0_ & ~0x00001000);
+    installationKeyVersion_ = 0L;
   }
 
   public static io.github.arcforges.contracts.publicapi.v1.AuthChallenge parseFrom(
@@ -1133,6 +1239,114 @@ public  final class AuthChallenge extends
       return this;
     }
 
+    /**
+     * <code>optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];</code>
+     * @return Whether the installationProofChallenge field is set.
+     */
+    @java.lang.Override
+    public boolean hasInstallationProofChallenge() {
+      return instance.hasInstallationProofChallenge();
+    }
+    /**
+     * <code>optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];</code>
+     * @return The installationProofChallenge.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getInstallationProofChallenge() {
+      return instance.getInstallationProofChallenge();
+    }
+    /**
+     * <code>optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];</code>
+     * @param value The installationProofChallenge to set.
+     * @return This builder for chaining.
+     */
+    public Builder setInstallationProofChallenge(com.google.protobuf.ByteString value) {
+      copyOnWrite();
+      instance.setInstallationProofChallenge(value);
+      return this;
+    }
+    /**
+     * <code>optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearInstallationProofChallenge() {
+      copyOnWrite();
+      instance.clearInstallationProofChallenge();
+      return this;
+    }
+
+    /**
+     * <code>optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];</code>
+     * @return Whether the installationProofBinding field is set.
+     */
+    @java.lang.Override
+    public boolean hasInstallationProofBinding() {
+      return instance.hasInstallationProofBinding();
+    }
+    /**
+     * <code>optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];</code>
+     * @return The installationProofBinding.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getInstallationProofBinding() {
+      return instance.getInstallationProofBinding();
+    }
+    /**
+     * <code>optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];</code>
+     * @param value The installationProofBinding to set.
+     * @return This builder for chaining.
+     */
+    public Builder setInstallationProofBinding(com.google.protobuf.ByteString value) {
+      copyOnWrite();
+      instance.setInstallationProofBinding(value);
+      return this;
+    }
+    /**
+     * <code>optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearInstallationProofBinding() {
+      copyOnWrite();
+      instance.clearInstallationProofBinding();
+      return this;
+    }
+
+    /**
+     * <code>optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];</code>
+     * @return Whether the installationKeyVersion field is set.
+     */
+    @java.lang.Override
+    public boolean hasInstallationKeyVersion() {
+      return instance.hasInstallationKeyVersion();
+    }
+    /**
+     * <code>optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];</code>
+     * @return The installationKeyVersion.
+     */
+    @java.lang.Override
+    public long getInstallationKeyVersion() {
+      return instance.getInstallationKeyVersion();
+    }
+    /**
+     * <code>optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];</code>
+     * @param value The installationKeyVersion to set.
+     * @return This builder for chaining.
+     */
+    public Builder setInstallationKeyVersion(long value) {
+      copyOnWrite();
+      instance.setInstallationKeyVersion(value);
+      return this;
+    }
+    /**
+     * <code>optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearInstallationKeyVersion() {
+      copyOnWrite();
+      instance.clearInstallationKeyVersion();
+      return this;
+    }
+
     // @@protoc_insertion_point(builder_scope:arcforges.publicapi.v1.AuthChallenge)
   }
   @java.lang.Override
@@ -1160,11 +1374,14 @@ public  final class AuthChallenge extends
             "redirectUrl_",
             "purpose_",
             "recoveryMethod_",
+            "installationProofChallenge_",
+            "installationProofBinding_",
+            "installationKeyVersion_",
           };
           java.lang.String info =
-              "\u0000\n\u0000\u0001\u0001\n\n\u0000\u0000\u0000\u0001\u1009\u0000\u0002\u100c\u0001" +
+              "\u0000\r\u0000\u0001\u0001\r\r\u0000\u0000\u0000\u0001\u1009\u0000\u0002\u100c\u0001" +
               "\u0003\u100a\u0002\u0004\u1208\u0003\u0005\u1009\u0004\u0006\u1009\u0005\u0007\u1208" +
-              "\u0006\b\u1208\u0007\t\u100c\b\n\u100c\t";
+              "\u0006\b\u1208\u0007\t\u100c\b\n\u100c\t\u000b\u100a\n\f\u100a\u000b\r\u1003\f";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

@@ -443,17 +443,21 @@ class JsonShapes:
         return cs, validator, ts
 
     def cs_helpers(self) -> str:
+        from installation_possession import CS_SHAPE_HELPERS
         rules = {rule for node in self.nodes for rule in node.get("x-arcforges-rules", [])}
         selected = {"panelTree": CS_PANEL_RULES, "policyBody": CS_POLICY_RULES, "canonicalDecimal": CS_DECIMAL_RULES,
                     "configurationDocument": CS_CONFIGURATION_RULES, "manifestProfile": CS_MANIFEST_RULES, "workflowGraph": CS_WORKFLOW_RULES,
-                    "authChallengePurpose": CS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": CS_NATIVE_CLIENT_RULE}
+                    "authChallengePurpose": CS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": CS_NATIVE_CLIENT_RULE,
+                    "installationHttpPublicKey": CS_SHAPE_HELPERS + CS_INSTALLATION_HTTP_RULE}
         return CS_JSON_HELPERS + "".join(selected[rule] for rule in sorted(rules & selected.keys()))
 
     def ts_helpers(self) -> str:
+        from installation_possession import TS_SHAPE_HELPERS
         rules = {rule for node in self.nodes for rule in node.get("x-arcforges-rules", [])}
         selected = {"panelTree": TS_PANEL_RULES, "policyBody": TS_POLICY_RULES, "canonicalDecimal": TS_DECIMAL_RULES,
                     "configurationDocument": TS_CONFIGURATION_RULES, "manifestProfile": TS_MANIFEST_RULES, "workflowGraph": TS_WORKFLOW_RULES,
-                    "authChallengePurpose": TS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": TS_NATIVE_CLIENT_RULE}
+                    "authChallengePurpose": TS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": TS_NATIVE_CLIENT_RULE,
+                    "installationHttpPublicKey": TS_SHAPE_HELPERS + TS_INSTALLATION_HTTP_RULE}
         helpers = TS_FORM_HELPERS if self.form else TS_JSON_HELPERS
         if self.finite_numbers and not self.form:
             helpers = helpers.replace("/** Strict UTF-8 JSON: no BOM, comments, trailing commas or duplicate properties; depth <= 32; integer lexemes only. */",
@@ -684,6 +688,9 @@ class JsonShapes:
             elif rule == "nonzeroUuid":
                 c.append('        if (text == "00000000-0000-0000-0000-000000000000") return false;')
                 t.append("  if (value === '00000000-0000-0000-0000-000000000000') return false;")
+            elif rule == "installationHttpPublicKey":
+                c.append("        if (!InstallationHttpPublicKey(text)) return false;")
+                t.append("  if (!installationHttpPublicKey(value)) return false;")
             elif rule == "panelTree":
                 c.append("        if (!PanelTree(value)) return false;")
                 t.append("  if (!panelTree(value)) return false;")
@@ -1287,6 +1294,9 @@ def generate_proto_checks(check: bool) -> None:
             content += DESCRIPTOR_CS_HELPERS
         if any(n.startswith("arcforges.publicapi.") for n in names):
             content += CS_HELPERS
+        if "arcforges.publicapi.v1.InstallationClaim" in names:
+            from installation_possession import CS_SHAPE_HELPERS
+            content += CS_SHAPE_HELPERS
         if "arcforges.publicapi.v1.AggregateBody" in names:
             content += SYNC_ADMISSION_CS
         content += "\n}\n"
@@ -1297,12 +1307,16 @@ def generate_proto_checks(check: bool) -> None:
         from foundation_semantics import TS_HELPERS, DESCRIPTOR_TS_HELPERS, SYNC_ADMISSION_TS, ts_imports
         descriptor_helpers = DESCRIPTOR_TS_HELPERS if "arcforges.foundation.v1.ContractVersion" in names else ""
         sync_admission = SYNC_ADMISSION_TS if "arcforges.publicapi.v1.AggregateBody" in names else ""
+        if "arcforges.publicapi.v1.InstallationClaim" in names:
+            from installation_possession import TS_SHAPE_HELPERS
+            descriptor_helpers += TS_SHAPE_HELPERS
         emit(ROOT / directory / "src/shapes/gen/proto.ts", HEADER + ts_imports(names) + "\n".join(proto_ts(name, messages) for name in sorted(names)) + TS_PROTO_HELPERS + TS_HELPERS + descriptor_helpers + sync_admission, check)
 
 
 def proto_cs(name: str, messages: dict) -> str:
     from foundation_semantics import cs_rules
     from con06_inprocess import CS_RULES
+    from installation_possession import cs_rules as INSTALLATION_CS_RULES
     info = messages[name]
     profile = info["constraints"]
     cstype = "global::" + profile["csharpType"]
@@ -1355,6 +1369,7 @@ def proto_cs(name: str, messages: dict) -> str:
         "chunkOffsets": "if (value.Offset > ulong.MaxValue - (ulong)value.Bytes.Length || value.NextOffset != value.Offset + (ulong)value.Bytes.Length) return false;",
         **cs_rules,
         **CS_RULES,
+        **INSTALLATION_CS_RULES,
     }
     for rule in profile.get("rules", []):
         if rule not in rules:
@@ -1400,6 +1415,7 @@ def cs_field_checks(prop: str, field: dict, rules: dict) -> list[str]:
 def proto_ts(name: str, messages: dict) -> str:
     from foundation_semantics import ts_rules
     from con06_inprocess import TS_RULES
+    from installation_possession import ts_rules as INSTALLATION_TS_RULES
     info = messages[name]
     profile = info["constraints"]
     simple = name.split(".")[-1]
@@ -1450,6 +1466,7 @@ def proto_ts(name: str, messages: dict) -> str:
         "chunkOffsets": "if ((value.offset as bigint) + BigInt((value.bytes as Uint8Array).length) > 18446744073709551615n || value.nextOffset !== (value.offset as bigint) + BigInt((value.bytes as Uint8Array).length)) return false;",
         **ts_rules,
         **TS_RULES,
+        **INSTALLATION_TS_RULES,
     }
     lines.extend("  " + special[rule] for rule in profile.get("rules", []))
     lines += ["  return true;", "  } finally { context.depth--; context.active.delete(input); }", "}"]
@@ -1533,6 +1550,24 @@ CS_PROTO_HELPERS = r'''
         var digits = value.Replace("-", "", global::System.StringComparison.Ordinal).Replace(".", "", global::System.StringComparison.Ordinal).TrimStart('0');
         return digits.Length <= 28;
     }
+'''
+
+CS_INSTALLATION_HTTP_RULE = r'''
+    private static bool InstallationHttpPublicKey(string text)
+    {
+        if (text.Length != 122) return false;
+        global::System.Span<char> base64 = stackalloc char[124];
+        global::System.Span<byte> key = stackalloc byte[91];
+        for (var i = 0; i < text.Length; i++) base64[i] = text[i] == '-' ? '+' : text[i] == '_' ? '/' : text[i];
+        base64[122] = '='; base64[123] = '=';
+        return global::System.Convert.TryFromBase64Chars(base64, key, out var count) && count == 91 && InstallationSpki(key);
+    }
+'''
+TS_INSTALLATION_HTTP_RULE = r'''
+function installationHttpPublicKey(text: string): boolean {
+  if (text.length !== 122) return false;
+  try { const decoded=atob(text.replaceAll('-','+').replaceAll('_','/')+'==');if(decoded.length!==91)return false;return installationSpki(Uint8Array.from(decoded,character=>character.charCodeAt(0))); } catch { return false; }
+}
 '''
 
 TS_PROTO_HELPERS = r'''

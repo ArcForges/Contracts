@@ -66,4 +66,15 @@ public interface IdentityServiceCompleteEnrollmentRequestOrBuilder extends
    * @return The profile.
    */
   io.github.arcforges.contracts.publicapi.v1.ProfileUpdate getProfile();
+
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+   * @return Whether the installationProof field is set.
+   */
+  boolean hasInstallationProof();
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+   * @return The installationProof.
+   */
+  io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof getInstallationProof();
 }

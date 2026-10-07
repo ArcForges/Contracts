@@ -29,6 +29,12 @@ public sealed record NativeAuthorizeRequest
     /// <summary>Required installationId field from the authored NativeAuthorizeRequest schema.</summary>
     [global::System.Text.Json.Serialization.JsonPropertyName("installationId")]
     public required string InstallationId { get; init; }
+    /// <summary>Required publicKey field from the authored NativeAuthorizeRequest schema.</summary>
+    [global::System.Text.Json.Serialization.JsonPropertyName("publicKey")]
+    public required string PublicKey { get; init; }
+    /// <summary>Required keyVersion field from the authored NativeAuthorizeRequest schema.</summary>
+    [global::System.Text.Json.Serialization.JsonPropertyName("keyVersion")]
+    public required string KeyVersion { get; init; }
 }
 
 /// <summary>Compile-time JSON metadata for the NativeAuthorizeRequest schema and its record dependencies.</summary>

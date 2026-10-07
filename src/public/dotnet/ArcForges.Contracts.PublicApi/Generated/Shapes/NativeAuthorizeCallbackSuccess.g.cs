@@ -14,6 +14,15 @@ public sealed record NativeAuthorizeCallbackSuccess
     /// <summary>Required state field from the authored NativeAuthorizeCallbackSuccess schema.</summary>
     [global::System.Text.Json.Serialization.JsonPropertyName("state")]
     public required string State { get; init; }
+    /// <summary>Required installationProofChallenge field from the authored NativeAuthorizeCallbackSuccess schema.</summary>
+    [global::System.Text.Json.Serialization.JsonPropertyName("installationProofChallenge")]
+    public required string InstallationProofChallenge { get; init; }
+    /// <summary>Required installationProofBinding field from the authored NativeAuthorizeCallbackSuccess schema.</summary>
+    [global::System.Text.Json.Serialization.JsonPropertyName("installationProofBinding")]
+    public required string InstallationProofBinding { get; init; }
+    /// <summary>Required installationKeyVersion field from the authored NativeAuthorizeCallbackSuccess schema.</summary>
+    [global::System.Text.Json.Serialization.JsonPropertyName("installationKeyVersion")]
+    public required string InstallationKeyVersion { get; init; }
 }
 
 /// <summary>Compile-time JSON metadata for the NativeAuthorizeCallbackSuccess schema and its record dependencies.</summary>

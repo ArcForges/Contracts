@@ -108,6 +108,33 @@ public object IdentityServiceRefreshSessionRequestKt {
 
     public val IdentityServiceRefreshSessionRequestKt.Dsl.installationIdOrNull: io.github.arcforges.contracts.foundation.v1.Id?
       get() = _builder.installationIdOrNull
+
+    /**
+     * `.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];`
+     */
+    public var installationProof: io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof
+      @kotlin.jvm.JvmName("getInstallationProof")
+        get() = _builder.installationProof
+      @kotlin.jvm.JvmName("setInstallationProof")
+        set(value) {
+        _builder.installationProof = value
+      }
+    /**
+     * `.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];`
+     */
+    public fun clearInstallationProof() {
+      _builder.clearInstallationProof()
+    }
+    /**
+     * `.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];`
+     * @return Whether the installationProof field is set.
+     */
+    public fun hasInstallationProof(): kotlin.Boolean {
+      return _builder.hasInstallationProof()
+    }
+
+    public val IdentityServiceRefreshSessionRequestKt.Dsl.installationProofOrNull: io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof?
+      get() = _builder.installationProofOrNull
   }
 }
 public inline fun io.github.arcforges.contracts.publicapi.v1.IdentityServiceRefreshSessionRequest.copy(block: `io.github.arcforges.contracts.publicapi.v1`.IdentityServiceRefreshSessionRequestKt.Dsl.() -> kotlin.Unit): io.github.arcforges.contracts.publicapi.v1.IdentityServiceRefreshSessionRequest =
@@ -118,3 +145,6 @@ public val io.github.arcforges.contracts.publicapi.v1.IdentityServiceRefreshSess
 
 public val io.github.arcforges.contracts.publicapi.v1.IdentityServiceRefreshSessionRequestOrBuilder.installationIdOrNull: io.github.arcforges.contracts.foundation.v1.Id?
   get() = if (hasInstallationId()) getInstallationId() else null
+
+public val io.github.arcforges.contracts.publicapi.v1.IdentityServiceRefreshSessionRequestOrBuilder.installationProofOrNull: io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof?
+  get() = if (hasInstallationProof()) getInstallationProof() else null

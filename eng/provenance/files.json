@@ -639,7 +639,15 @@
     "tests/tooling/test_release_guards.py",
     "tests/tooling/test_secret_history_scope.py",
     "tests/tooling/test_serialization_policy.py",
-    "tests/tooling/test_signed_formats.py"
+    "tests/tooling/test_signed_formats.py",
+    "docs/native-installation-possession.md",
+    "eng/installation_possession.py",
+    "fixtures/public/con-34-installation-possession.json",
+    "src/public/kotlin/contracts-proto/src/main/kotlin/io/github/arcforges/contracts/InstallationPossessionValidation.kt",
+    "tests/StructureTests/InstallationPossessionContractTests.cs",
+    "tests/kotlin/CON34InstallationAdjunctTest.kt",
+    "tests/kotlin/CON34InstallationPossessionTest.kt",
+    "tests/public/con-34-installation-possession.test.mjs"
   ],
   "reused": {
     "LICENSE": "canonical-apache-licence-r1",
@@ -3931,5 +3939,7 @@
     "third-party/dokka/which-typed-array-LICENSE.txt": "dokka-which-typed-array-licence-r1",
     "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1"
   },
-  "artifacts": ["dokka-documentation-resources-r21"]
+  "artifacts": [
+    "dokka-documentation-resources-r21"
+  ]
 }

@@ -165,6 +165,33 @@ public object IdentityServiceCompleteEnrollmentRequestKt {
 
     public val IdentityServiceCompleteEnrollmentRequestKt.Dsl.profileOrNull: io.github.arcforges.contracts.publicapi.v1.ProfileUpdate?
       get() = _builder.profileOrNull
+
+    /**
+     * `.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];`
+     */
+    public var installationProof: io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof
+      @kotlin.jvm.JvmName("getInstallationProof")
+        get() = _builder.installationProof
+      @kotlin.jvm.JvmName("setInstallationProof")
+        set(value) {
+        _builder.installationProof = value
+      }
+    /**
+     * `.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];`
+     */
+    public fun clearInstallationProof() {
+      _builder.clearInstallationProof()
+    }
+    /**
+     * `.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];`
+     * @return Whether the installationProof field is set.
+     */
+    public fun hasInstallationProof(): kotlin.Boolean {
+      return _builder.hasInstallationProof()
+    }
+
+    public val IdentityServiceCompleteEnrollmentRequestKt.Dsl.installationProofOrNull: io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof?
+      get() = _builder.installationProofOrNull
   }
 }
 public inline fun io.github.arcforges.contracts.publicapi.v1.IdentityServiceCompleteEnrollmentRequest.copy(block: `io.github.arcforges.contracts.publicapi.v1`.IdentityServiceCompleteEnrollmentRequestKt.Dsl.() -> kotlin.Unit): io.github.arcforges.contracts.publicapi.v1.IdentityServiceCompleteEnrollmentRequest =
@@ -184,3 +211,6 @@ public val io.github.arcforges.contracts.publicapi.v1.IdentityServiceCompleteEnr
 
 public val io.github.arcforges.contracts.publicapi.v1.IdentityServiceCompleteEnrollmentRequestOrBuilder.profileOrNull: io.github.arcforges.contracts.publicapi.v1.ProfileUpdate?
   get() = if (hasProfile()) getProfile() else null
+
+public val io.github.arcforges.contracts.publicapi.v1.IdentityServiceCompleteEnrollmentRequestOrBuilder.installationProofOrNull: io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof?
+  get() = if (hasInstallationProof()) getInstallationProof() else null

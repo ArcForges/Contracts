@@ -73,4 +73,26 @@ public interface InstallationClaimOrBuilder extends
    */
   com.google.protobuf.ByteString
       getAppVersionBytes();
+
+  /**
+   * <code>optional bytes public_key = 5 [json_name = "publicKey"];</code>
+   * @return Whether the publicKey field is set.
+   */
+  boolean hasPublicKey();
+  /**
+   * <code>optional bytes public_key = 5 [json_name = "publicKey"];</code>
+   * @return The publicKey.
+   */
+  com.google.protobuf.ByteString getPublicKey();
+
+  /**
+   * <code>optional uint64 key_version = 6 [json_name = "keyVersion"];</code>
+   * @return Whether the keyVersion field is set.
+   */
+  boolean hasKeyVersion();
+  /**
+   * <code>optional uint64 key_version = 6 [json_name = "keyVersion"];</code>
+   * @return The keyVersion.
+   */
+  long getKeyVersion();
 }

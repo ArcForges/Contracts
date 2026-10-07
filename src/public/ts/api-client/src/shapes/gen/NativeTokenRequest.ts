@@ -8,6 +8,9 @@ export interface NativeTokenRequest {
   client_id: string;
   redirect_uri: string;
   installationId: string;
+  commandId: string;
+  installationKeyVersion: string;
+  installationProofSignature: string;
 }
 
 export function isNativeTokenRequest(value: unknown): value is NativeTokenRequest { return check0(value); }
@@ -39,7 +42,7 @@ export function parseNativeTokenRequestForm(input: Uint8Array | string): NativeT
 /** Writes schema-order name=value pairs with only RFC 3986 unreserved characters unescaped and refuses output the schema rejects. */
 export function serializeNativeTokenRequestForm(value: NativeTokenRequest): Uint8Array {
   const out: string[] = [];
-  for (const name of ["grant_type", "code", "code_verifier", "client_id", "redirect_uri", "installationId"] as const) {
+  for (const name of ["grant_type", "code", "code_verifier", "client_id", "redirect_uri", "installationId", "commandId", "installationKeyVersion", "installationProofSignature"] as const) {
     const item = (value as unknown as Record<string, string | undefined>)[name];
     if (item === undefined) continue;
     if (!validText(item)) throw Object.assign(new Error("NativeTokenRequest form refused: invalid."), { failure: "invalid" });
@@ -64,6 +67,9 @@ function check0(value: unknown): boolean {
       case "client_id": if (!check4(object[key])) return false; break;
       case "redirect_uri": if (!check5(object[key])) return false; break;
       case "installationId": if (!check6(object[key])) return false; break;
+      case "commandId": if (!check7(object[key])) return false; break;
+      case "installationKeyVersion": if (!check8(object[key])) return false; break;
+      case "installationProofSignature": if (!check9(object[key])) return false; break;
       default: return false;
     }
   }
@@ -73,6 +79,9 @@ function check0(value: unknown): boolean {
   if (!Object.prototype.hasOwnProperty.call(object, "client_id")) return false;
   if (!Object.prototype.hasOwnProperty.call(object, "redirect_uri")) return false;
   if (!Object.prototype.hasOwnProperty.call(object, "installationId")) return false;
+  if (!Object.prototype.hasOwnProperty.call(object, "commandId")) return false;
+  if (!Object.prototype.hasOwnProperty.call(object, "installationKeyVersion")) return false;
+  if (!Object.prototype.hasOwnProperty.call(object, "installationProofSignature")) return false;
   if (!nativeClientRedirect(value)) return false;
   return true;
 }
@@ -113,6 +122,30 @@ function check6(value: unknown): boolean {
   if ([...value].length > 36) return false;
   if ((new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", 'u')).exec(value)?.[0] !== value) return false;
   if (value === '00000000-0000-0000-0000-000000000000') return false;
+  return true;
+}
+function check7(value: unknown): boolean {
+  if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 36) return false;
+  if ([...value].length > 36) return false;
+  if ((new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", 'u')).exec(value)?.[0] !== value) return false;
+  if (value === '00000000-0000-0000-0000-000000000000') return false;
+  return true;
+}
+function check8(value: unknown): boolean {
+  if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 1) return false;
+  if ([...value].length > 19) return false;
+  if ((new RegExp("^[1-9][0-9]*$", 'u')).exec(value)?.[0] !== value) return false;
+  if (BigInt(value as string) < -9223372036854775808n || BigInt(value as string) > 9223372036854775807n) return false;
+  if (BigInt(value as string) <= 0n) return false;
+  return true;
+}
+function check9(value: unknown): boolean {
+  if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 86) return false;
+  if ([...value].length > 86) return false;
+  if ((new RegExp("^[A-Za-z0-9_-]{85}[AQgw]$", 'u')).exec(value)?.[0] !== value) return false;
   return true;
 }
 

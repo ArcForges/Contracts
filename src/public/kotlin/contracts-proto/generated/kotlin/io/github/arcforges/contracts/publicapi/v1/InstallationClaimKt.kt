@@ -129,6 +129,54 @@ public object InstallationClaimKt {
     public fun hasAppVersion(): kotlin.Boolean {
       return _builder.hasAppVersion()
     }
+
+    /**
+     * `optional bytes public_key = 5 [json_name = "publicKey"];`
+     */
+    public var publicKey: com.google.protobuf.ByteString
+      @kotlin.jvm.JvmName("getPublicKey")
+        get() = _builder.publicKey
+      @kotlin.jvm.JvmName("setPublicKey")
+        set(value) {
+        _builder.publicKey = value
+      }
+    /**
+     * `optional bytes public_key = 5 [json_name = "publicKey"];`
+     */
+    public fun clearPublicKey() {
+      _builder.clearPublicKey()
+    }
+    /**
+     * `optional bytes public_key = 5 [json_name = "publicKey"];`
+     * @return Whether the publicKey field is set.
+     */
+    public fun hasPublicKey(): kotlin.Boolean {
+      return _builder.hasPublicKey()
+    }
+
+    /**
+     * `optional uint64 key_version = 6 [json_name = "keyVersion"];`
+     */
+    public var keyVersion: kotlin.Long
+      @kotlin.jvm.JvmName("getKeyVersion")
+        get() = _builder.keyVersion
+      @kotlin.jvm.JvmName("setKeyVersion")
+        set(value) {
+        _builder.keyVersion = value
+      }
+    /**
+     * `optional uint64 key_version = 6 [json_name = "keyVersion"];`
+     */
+    public fun clearKeyVersion() {
+      _builder.clearKeyVersion()
+    }
+    /**
+     * `optional uint64 key_version = 6 [json_name = "keyVersion"];`
+     * @return Whether the keyVersion field is set.
+     */
+    public fun hasKeyVersion(): kotlin.Boolean {
+      return _builder.hasKeyVersion()
+    }
   }
 }
 public inline fun io.github.arcforges.contracts.publicapi.v1.InstallationClaim.copy(block: `io.github.arcforges.contracts.publicapi.v1`.InstallationClaimKt.Dsl.() -> kotlin.Unit): io.github.arcforges.contracts.publicapi.v1.InstallationClaim =

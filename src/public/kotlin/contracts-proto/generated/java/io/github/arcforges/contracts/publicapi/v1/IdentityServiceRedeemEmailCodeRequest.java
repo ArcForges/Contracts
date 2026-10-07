@@ -172,6 +172,54 @@ public  final class IdentityServiceRedeemEmailCodeRequest extends
     bitField0_ |= 0x00000004;
   }
 
+  public static final int INSTALLATION_PROOF_FIELD_NUMBER = 12;
+  private io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof installationProof_;
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+   */
+  @java.lang.Override
+  public boolean hasInstallationProof() {
+    return ((bitField0_ & 0x00000008) != 0);
+  }
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+   */
+  @java.lang.Override
+  public io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof getInstallationProof() {
+    return installationProof_ == null ? io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof.getDefaultInstance() : installationProof_;
+  }
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+   */
+  @java.lang.SuppressWarnings("ReturnValueIgnored")
+  private void setInstallationProof(io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof value) {
+    value.getClass();  // minimal bytecode null check
+    installationProof_ = value;
+    bitField0_ |= 0x00000008;
+  }
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+   */
+  @java.lang.SuppressWarnings({"ReferenceEquality", "ReturnValueIgnored"})
+  private void mergeInstallationProof(io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof value) {
+    value.getClass();  // minimal bytecode null check
+    if (installationProof_ != null &&
+        installationProof_ != io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof.getDefaultInstance()) {
+      installationProof_ =
+        io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof.newBuilder(installationProof_).mergeFrom(value).buildPartial();
+    } else {
+      installationProof_ = value;
+    }
+    bitField0_ |= 0x00000008;
+  }
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+   */
+  private void clearInstallationProof() {
+    installationProof_ = null;
+    bitField0_ = (bitField0_ & ~0x00000008);
+  }
+
   public static io.github.arcforges.contracts.publicapi.v1.IdentityServiceRedeemEmailCodeRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -420,6 +468,53 @@ public  final class IdentityServiceRedeemEmailCodeRequest extends
       return this;
     }
 
+    /**
+     * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+     */
+    @java.lang.Override
+    public boolean hasInstallationProof() {
+      return instance.hasInstallationProof();
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+     */
+    @java.lang.Override
+    public io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof getInstallationProof() {
+      return instance.getInstallationProof();
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+     */
+    public Builder setInstallationProof(io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof value) {
+      copyOnWrite();
+      instance.setInstallationProof(value);
+      return this;
+      }
+    /**
+     * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+     */
+    public Builder setInstallationProof(
+        io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof.Builder builderForValue) {
+      copyOnWrite();
+      instance.setInstallationProof(builderForValue.build());
+      return this;
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+     */
+    public Builder mergeInstallationProof(io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof value) {
+      copyOnWrite();
+      instance.mergeInstallationProof(value);
+      return this;
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+     */
+    public Builder clearInstallationProof() {  copyOnWrite();
+      instance.clearInstallationProof();
+      return this;
+    }
+
     // @@protoc_insertion_point(builder_scope:arcforges.publicapi.v1.IdentityServiceRedeemEmailCodeRequest)
   }
   @java.lang.Override
@@ -440,10 +535,11 @@ public  final class IdentityServiceRedeemEmailCodeRequest extends
             "meta_",
             "flowId_",
             "code_",
+            "installationProof_",
           };
           java.lang.String info =
-              "\u0000\u0003\u0000\u0001\u0001\u000b\u0003\u0000\u0000\u0000\u0001\u1009\u0000\n" +
-              "\u1009\u0001\u000b\u1208\u0002";
+              "\u0000\u0004\u0000\u0001\u0001\f\u0004\u0000\u0000\u0000\u0001\u1009\u0000\n\u1009" +
+              "\u0001\u000b\u1208\u0002\f\u1009\u0003";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

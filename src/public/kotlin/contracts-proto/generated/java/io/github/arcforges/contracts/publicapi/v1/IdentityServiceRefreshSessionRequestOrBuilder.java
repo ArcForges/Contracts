@@ -50,4 +50,15 @@ public interface IdentityServiceRefreshSessionRequestOrBuilder extends
    * @return The installationId.
    */
   io.github.arcforges.contracts.foundation.v1.Id getInstallationId();
+
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+   * @return Whether the installationProof field is set.
+   */
+  boolean hasInstallationProof();
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];</code>
+   * @return The installationProof.
+   */
+  io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof getInstallationProof();
 }

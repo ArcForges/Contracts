@@ -241,6 +241,54 @@ public object NativeSessionKt {
     public fun hasPurpose(): kotlin.Boolean {
       return _builder.hasPurpose()
     }
+
+    /**
+     * `optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];`
+     */
+    public var installationProofContext: com.google.protobuf.ByteString
+      @kotlin.jvm.JvmName("getInstallationProofContext")
+        get() = _builder.installationProofContext
+      @kotlin.jvm.JvmName("setInstallationProofContext")
+        set(value) {
+        _builder.installationProofContext = value
+      }
+    /**
+     * `optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];`
+     */
+    public fun clearInstallationProofContext() {
+      _builder.clearInstallationProofContext()
+    }
+    /**
+     * `optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];`
+     * @return Whether the installationProofContext field is set.
+     */
+    public fun hasInstallationProofContext(): kotlin.Boolean {
+      return _builder.hasInstallationProofContext()
+    }
+
+    /**
+     * `optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];`
+     */
+    public var installationKeyVersion: kotlin.Long
+      @kotlin.jvm.JvmName("getInstallationKeyVersion")
+        get() = _builder.installationKeyVersion
+      @kotlin.jvm.JvmName("setInstallationKeyVersion")
+        set(value) {
+        _builder.installationKeyVersion = value
+      }
+    /**
+     * `optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];`
+     */
+    public fun clearInstallationKeyVersion() {
+      _builder.clearInstallationKeyVersion()
+    }
+    /**
+     * `optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];`
+     * @return Whether the installationKeyVersion field is set.
+     */
+    public fun hasInstallationKeyVersion(): kotlin.Boolean {
+      return _builder.hasInstallationKeyVersion()
+    }
   }
 }
 public inline fun io.github.arcforges.contracts.publicapi.v1.NativeSession.copy(block: `io.github.arcforges.contracts.publicapi.v1`.NativeSessionKt.Dsl.() -> kotlin.Unit): io.github.arcforges.contracts.publicapi.v1.NativeSession =

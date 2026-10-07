@@ -108,6 +108,33 @@ public object IdentityServiceRedeemEmailCodeRequestKt {
     public fun hasCode(): kotlin.Boolean {
       return _builder.hasCode()
     }
+
+    /**
+     * `.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];`
+     */
+    public var installationProof: io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof
+      @kotlin.jvm.JvmName("getInstallationProof")
+        get() = _builder.installationProof
+      @kotlin.jvm.JvmName("setInstallationProof")
+        set(value) {
+        _builder.installationProof = value
+      }
+    /**
+     * `.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];`
+     */
+    public fun clearInstallationProof() {
+      _builder.clearInstallationProof()
+    }
+    /**
+     * `.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];`
+     * @return Whether the installationProof field is set.
+     */
+    public fun hasInstallationProof(): kotlin.Boolean {
+      return _builder.hasInstallationProof()
+    }
+
+    public val IdentityServiceRedeemEmailCodeRequestKt.Dsl.installationProofOrNull: io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof?
+      get() = _builder.installationProofOrNull
   }
 }
 public inline fun io.github.arcforges.contracts.publicapi.v1.IdentityServiceRedeemEmailCodeRequest.copy(block: `io.github.arcforges.contracts.publicapi.v1`.IdentityServiceRedeemEmailCodeRequestKt.Dsl.() -> kotlin.Unit): io.github.arcforges.contracts.publicapi.v1.IdentityServiceRedeemEmailCodeRequest =
@@ -118,3 +145,6 @@ public val io.github.arcforges.contracts.publicapi.v1.IdentityServiceRedeemEmail
 
 public val io.github.arcforges.contracts.publicapi.v1.IdentityServiceRedeemEmailCodeRequestOrBuilder.flowIdOrNull: io.github.arcforges.contracts.foundation.v1.Id?
   get() = if (hasFlowId()) getFlowId() else null
+
+public val io.github.arcforges.contracts.publicapi.v1.IdentityServiceRedeemEmailCodeRequestOrBuilder.installationProofOrNull: io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof?
+  get() = if (hasInstallationProof()) getInstallationProof() else null

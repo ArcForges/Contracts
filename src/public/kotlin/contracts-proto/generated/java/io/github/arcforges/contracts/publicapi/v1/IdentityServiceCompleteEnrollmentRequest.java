@@ -259,6 +259,54 @@ public  final class IdentityServiceCompleteEnrollmentRequest extends
     bitField0_ = (bitField0_ & ~0x00000010);
   }
 
+  public static final int INSTALLATION_PROOF_FIELD_NUMBER = 14;
+  private io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof installationProof_;
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+   */
+  @java.lang.Override
+  public boolean hasInstallationProof() {
+    return ((bitField0_ & 0x00000020) != 0);
+  }
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+   */
+  @java.lang.Override
+  public io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof getInstallationProof() {
+    return installationProof_ == null ? io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof.getDefaultInstance() : installationProof_;
+  }
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+   */
+  @java.lang.SuppressWarnings("ReturnValueIgnored")
+  private void setInstallationProof(io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof value) {
+    value.getClass();  // minimal bytecode null check
+    installationProof_ = value;
+    bitField0_ |= 0x00000020;
+  }
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+   */
+  @java.lang.SuppressWarnings({"ReferenceEquality", "ReturnValueIgnored"})
+  private void mergeInstallationProof(io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof value) {
+    value.getClass();  // minimal bytecode null check
+    if (installationProof_ != null &&
+        installationProof_ != io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof.getDefaultInstance()) {
+      installationProof_ =
+        io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof.newBuilder(installationProof_).mergeFrom(value).buildPartial();
+    } else {
+      installationProof_ = value;
+    }
+    bitField0_ |= 0x00000020;
+  }
+  /**
+   * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+   */
+  private void clearInstallationProof() {
+    installationProof_ = null;
+    bitField0_ = (bitField0_ & ~0x00000020);
+  }
+
   public static io.github.arcforges.contracts.publicapi.v1.IdentityServiceCompleteEnrollmentRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -591,6 +639,53 @@ public  final class IdentityServiceCompleteEnrollmentRequest extends
       return this;
     }
 
+    /**
+     * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+     */
+    @java.lang.Override
+    public boolean hasInstallationProof() {
+      return instance.hasInstallationProof();
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+     */
+    @java.lang.Override
+    public io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof getInstallationProof() {
+      return instance.getInstallationProof();
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+     */
+    public Builder setInstallationProof(io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof value) {
+      copyOnWrite();
+      instance.setInstallationProof(value);
+      return this;
+      }
+    /**
+     * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+     */
+    public Builder setInstallationProof(
+        io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof.Builder builderForValue) {
+      copyOnWrite();
+      instance.setInstallationProof(builderForValue.build());
+      return this;
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+     */
+    public Builder mergeInstallationProof(io.github.arcforges.contracts.publicapi.v1.InstallationPossessionProof value) {
+      copyOnWrite();
+      instance.mergeInstallationProof(value);
+      return this;
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];</code>
+     */
+    public Builder clearInstallationProof() {  copyOnWrite();
+      instance.clearInstallationProof();
+      return this;
+    }
+
     // @@protoc_insertion_point(builder_scope:arcforges.publicapi.v1.IdentityServiceCompleteEnrollmentRequest)
   }
   @java.lang.Override
@@ -613,10 +708,11 @@ public  final class IdentityServiceCompleteEnrollmentRequest extends
             "proof_",
             "credential_",
             "profile_",
+            "installationProof_",
           };
           java.lang.String info =
-              "\u0000\u0005\u0000\u0001\u0001\r\u0005\u0000\u0000\u0000\u0001\u1009\u0000\n\u1009" +
-              "\u0001\u000b\u1009\u0002\f\u1009\u0003\r\u1009\u0004";
+              "\u0000\u0006\u0000\u0001\u0001\u000e\u0006\u0000\u0000\u0000\u0001\u1009\u0000\n" +
+              "\u1009\u0001\u000b\u1009\u0002\f\u1009\u0003\r\u1009\u0004\u000e\u1009\u0005";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

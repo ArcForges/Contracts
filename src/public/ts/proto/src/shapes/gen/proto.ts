@@ -4880,7 +4880,25 @@ function checkAuthChallenge(input: unknown, context: ValidationContext): boolean
     if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
     if (fieldValue !== 1 && fieldValue !== 2 && fieldValue !== 3 && fieldValue !== 4) return false;
   }
+  if (value.installationProofChallenge !== undefined) {
+    const fieldValue = value.installationProofChallenge;
+    if (!(fieldValue instanceof Uint8Array)) return false;
+    if (fieldValue.length !== 32) return false;
+  }
+  if (value.installationProofBinding !== undefined) {
+    const fieldValue = value.installationProofBinding;
+    if (!(fieldValue instanceof Uint8Array)) return false;
+    if (fieldValue.length !== 32) return false;
+  }
+  if (value.installationKeyVersion !== undefined) {
+    const fieldValue = value.installationKeyVersion;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+    if (fieldValue > 9223372036854775807n) return false;
+  }
   if (value.purpose === 4 ? value.recoveryMethod === undefined || value.method !== undefined : value.method === undefined || value.recoveryMethod !== undefined) return false;
+  if ((value.installationProofChallenge !== undefined) !== (value.installationProofBinding !== undefined) || (value.installationProofChallenge !== undefined) !== (value.installationKeyVersion !== undefined)) return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -13307,6 +13325,10 @@ function checkIdentityServiceCompleteAuthenticationRequest(input: unknown, conte
     const fieldValue = value.proof;
     if (!checkAuthProof(fieldValue, context)) return false;
   }
+  if (value.installationProof !== undefined) {
+    const fieldValue = value.installationProof;
+    if (!checkInstallationPossessionProof(fieldValue, context)) return false;
+  }
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -13442,6 +13464,10 @@ function checkIdentityServiceCompleteEnrollmentRequest(input: unknown, context: 
   if (value.profile !== undefined) {
     const fieldValue = value.profile;
     if (!checkProfileUpdate(fieldValue, context)) return false;
+  }
+  if (value.installationProof !== undefined) {
+    const fieldValue = value.installationProof;
+    if (!checkInstallationPossessionProof(fieldValue, context)) return false;
   }
   return true;
   } finally { context.depth--; context.active.delete(input); }
@@ -14296,6 +14322,10 @@ function checkIdentityServiceRedeemEmailCodeRequest(input: unknown, context: Val
     if ([...fieldValue].length < 1) return false;
     if (utf8Length(fieldValue) > 8192) return false;
   }
+  if (value.installationProof !== undefined) {
+    const fieldValue = value.installationProof;
+    if (!checkInstallationPossessionProof(fieldValue, context)) return false;
+  }
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -14360,6 +14390,10 @@ function checkIdentityServiceRefreshSessionRequest(input: unknown, context: Vali
   if (value.installationId !== undefined) {
     const fieldValue = value.installationId;
     if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.installationProof !== undefined) {
+    const fieldValue = value.installationProof;
+    if (!checkInstallationPossessionProof(fieldValue, context)) return false;
   }
   return true;
   } finally { context.depth--; context.active.delete(input); }
@@ -14905,6 +14939,42 @@ function checkInstallationClaim(input: unknown, context: ValidationContext): boo
     if (!validUnicode(fieldValue)) return false;
     if ([...fieldValue].length > 128) return false;
     if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.publicKey !== undefined) {
+    const fieldValue = value.publicKey;
+    if (!(fieldValue instanceof Uint8Array)) return false;
+    if (fieldValue.length !== 91) return false;
+  }
+  if (value.keyVersion !== undefined) {
+    const fieldValue = value.keyVersion;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+    if (fieldValue > 9223372036854775807n) return false;
+  }
+  if ((value.publicKey !== undefined) !== (value.keyVersion !== undefined) || value.publicKey !== undefined && !installationSpki(value.publicKey as Uint8Array)) return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isInstallationPossessionProof(input: unknown): boolean { return checkInstallationPossessionProof(input, {active: new Set<object>(), depth: 0}); }
+function checkInstallationPossessionProof(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.keyVersion === undefined) return false;
+  if (value.keyVersion !== undefined) {
+    const fieldValue = value.keyVersion;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+    if (fieldValue > 9223372036854775807n) return false;
+  }
+  if (value.signature === undefined) return false;
+  if (value.signature !== undefined) {
+    const fieldValue = value.signature;
+    if (!(fieldValue instanceof Uint8Array)) return false;
+    if (fieldValue.length !== 64) return false;
   }
   return true;
   } finally { context.depth--; context.active.delete(input); }
@@ -15686,6 +15756,20 @@ function checkNativeSession(input: unknown, context: ValidationContext): boolean
     if (typeof fieldValue !== "number") return false;
     if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
     if (fieldValue !== 1 && fieldValue !== 2 && fieldValue !== 3 && fieldValue !== 4 && fieldValue !== 5) return false;
+  }
+  if (value.installationProofContext === undefined) return false;
+  if (value.installationProofContext !== undefined) {
+    const fieldValue = value.installationProofContext;
+    if (!(fieldValue instanceof Uint8Array)) return false;
+    if (fieldValue.length !== 32) return false;
+  }
+  if (value.installationKeyVersion === undefined) return false;
+  if (value.installationKeyVersion !== undefined) {
+    const fieldValue = value.installationKeyVersion;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+    if (fieldValue > 9223372036854775807n) return false;
   }
   return true;
   } finally { context.depth--; context.active.delete(input); }
@@ -25035,6 +25119,16 @@ function compareDescriptorVersions(left: string, right: string): number {
     else if (x !== y) return x < y ? -1 : 1;
   }
   return ap.length - bp.length;
+}
+
+function installationSpki(bytes: Uint8Array): boolean {
+  const prefix=[0x30,0x59,0x30,0x13,0x06,0x07,0x2a,0x86,0x48,0xce,0x3d,0x02,0x01,0x06,0x08,0x2a,0x86,0x48,0xce,0x3d,0x03,0x01,0x07,0x03,0x42,0x00,0x04];
+  if(bytes.length!==91 || !prefix.every((v,i)=>bytes[i]===v)) return false;
+  const integer=(data:Uint8Array)=>data.reduce((v,b)=>(v<<8n)|BigInt(b),0n);
+  const x=integer(bytes.subarray(27,59)),y=integer(bytes.subarray(59));
+  const p=0xffffffff00000001000000000000000000000000ffffffffffffffffffffffffn;
+  const b=0x5ac635d8aa3a93e7b3ebbd55769886bc651d06b0cc53b0f63bce3c3e27d2604bn;
+  return x<p && y<p && (y*y-(x*x*x-3n*x+b))%p===0n;
 }
 
 /**

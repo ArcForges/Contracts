@@ -26,6 +26,15 @@ public sealed record NativeTokenRequest
     /// <summary>Required installationId field from the authored NativeTokenRequest schema.</summary>
     [global::System.Text.Json.Serialization.JsonPropertyName("installationId")]
     public required string InstallationId { get; init; }
+    /// <summary>Required commandId field from the authored NativeTokenRequest schema.</summary>
+    [global::System.Text.Json.Serialization.JsonPropertyName("commandId")]
+    public required string CommandId { get; init; }
+    /// <summary>Required installationKeyVersion field from the authored NativeTokenRequest schema.</summary>
+    [global::System.Text.Json.Serialization.JsonPropertyName("installationKeyVersion")]
+    public required string InstallationKeyVersion { get; init; }
+    /// <summary>Required installationProofSignature field from the authored NativeTokenRequest schema.</summary>
+    [global::System.Text.Json.Serialization.JsonPropertyName("installationProofSignature")]
+    public required string InstallationProofSignature { get; init; }
 }
 
 /// <summary>Compile-time JSON metadata for the NativeTokenRequest schema and its record dependencies.</summary>

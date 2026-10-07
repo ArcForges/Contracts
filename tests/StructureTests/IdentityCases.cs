@@ -161,6 +161,7 @@ internal static class IdentityCases
         ["IdentityServiceUpdateProfileResponse"] = Shape(IdentityServiceUpdateProfileResponse.Parser, ContractShapeValidation.IsValid),
         ["IdentityServiceUpdateProfileValue"] = Shape(IdentityServiceUpdateProfileValue.Parser, ContractShapeValidation.IsValid),
         ["InstallationClaim"] = Shape(InstallationClaim.Parser, ContractShapeValidation.IsValid),
+        ["InstallationPossessionProof"] = Shape(InstallationPossessionProof.Parser, ContractShapeValidation.IsValid),
         ["InstalledProduct"] = Shape(InstalledProduct.Parser, ContractShapeValidation.IsValid),
         ["NativeSession"] = Shape(NativeSession.Parser, ContractShapeValidation.IsValid),
         ["ProfileUpdate"] = Shape(ProfileUpdate.Parser, ContractShapeValidation.IsValid),
@@ -201,6 +202,7 @@ internal static class IdentityCases
     private static readonly Dictionary<string, MessageDescriptor> Records = new(StringComparer.Ordinal)
     {
         ["InstallationClaim"] = InstallationClaim.Descriptor,
+        ["InstallationPossessionProof"] = InstallationPossessionProof.Descriptor,
         ["AuthChallenge"] = AuthChallenge.Descriptor,
         ["WebAuthnOptions"] = WebAuthnOptions.Descriptor,
         ["WebAuthnCreation"] = WebAuthnCreation.Descriptor,
@@ -310,10 +312,10 @@ internal static class IdentityCases
             Require(Shape(Records[record.Name]) == record.Value.GetString(), record.Name + " exact tags");
         Require(Records.Count == fixture.GetProperty("records").EnumerateObject().Count(), "record inventory");
 
-        // Independent Registry04-derived oracle: number, name, JSON name, type, repetition and presence of all 176 messages.
+        // Independent Registry04-derived oracle preserves176 messages and appends the genuine possession proof.
         var fieldOracle = fixture.GetProperty("fields");
         var messageTypes = IdentityReflection.Descriptor.MessageTypes.ToDictionary(item => item.Name, StringComparer.Ordinal);
-        Require(fieldOracle.EnumerateObject().Count() == 176 && messageTypes.Count == 176, "exact 176 message inventory");
+        Require(fieldOracle.EnumerateObject().Count() == 177 && messageTypes.Count == 177, "exact 177 message inventory");
         foreach (var message in fieldOracle.EnumerateObject())
         {
             Require(messageTypes.TryGetValue(message.Name, out var messageDescriptor), "message " + message.Name);
@@ -401,7 +403,7 @@ internal static class IdentityCases
     {
         Require(NativeTokenRequestForm.MaxBytes == 16384 && NativeAuthorizeRequestForm.MaxBytes == 16384, "specified 16 KiB form bound");
         Require(BrowserAuthChallengeJson.MaxBytes == 65536 && BrowserAuthChallengeJson.MaxDepth == 32, "strict JSON bound and depth");
-        const string form = "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00";
+        const string form = "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00&commandId=21223344-5566-4788-99aa-bbccddeeff00&installationKeyVersion=1&installationProofSignature=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
         var bytes = Encoding.ASCII.GetBytes(form);
         Require(NativeTokenRequestForm.TryParse(bytes, out var parsed, out _) && parsed!.ClientId == "arcscope.desktop" &&
             parsed.RedirectUri == "com.arcforges.arcscope:/auth/callback", "native token form decodes percent escapes");

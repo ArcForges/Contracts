@@ -204,6 +204,7 @@ def generate_export_barrel(row: dict, output: Path, check: bool = False) -> None
         barrel += 'export * from "./wire.js";\n'
         barrel += 'export * from "./semantic-hash.js";\n'
         barrel += 'export * from "./encoded-body.js";\n'
+        barrel += 'export * from "./installation-possession.js";\n'
     if proto_services(row):
         barrel += 'export * from "./services/gen/catalog.js";\n'
     index_file = ROOT / row["sourceRoot"] / "src/index.ts"
@@ -322,6 +323,8 @@ def generate(check: bool = False) -> None:
         generate_fixtures(check)
         from generate_values import generate as generate_values
         generate_values(check)
+        from installation_possession import generate as generate_installation_possession
+        generate_installation_possession(check)
         from con06_inprocess import generate as generate_inprocess
         generate_inprocess(check)
     print("Generated bindings match the authored proto." if check else "Generated C#, TypeScript, Java/Kotlin and descriptor set.")

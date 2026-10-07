@@ -4672,7 +4672,21 @@ public static class ContractShapeValidation
         {
             if ((int)value.RecoveryMethod != 1 && (int)value.RecoveryMethod != 2 && (int)value.RecoveryMethod != 3 && (int)value.RecoveryMethod != 4) return false;
         }
+        if (value.HasInstallationProofChallenge)
+        {
+            if (value.InstallationProofChallenge.Length != 32) return false;
+        }
+        if (value.HasInstallationProofBinding)
+        {
+            if (value.InstallationProofBinding.Length != 32) return false;
+        }
+        if (value.HasInstallationKeyVersion)
+        {
+            if (value.InstallationKeyVersion < 1UL) return false;
+            if (value.InstallationKeyVersion > 9223372036854775807UL) return false;
+        }
         if ((int)value.Purpose == 4 ? !value.HasRecoveryMethod || value.HasMethod : !value.HasMethod || value.HasRecoveryMethod) return false;
+        if (value.HasInstallationProofChallenge != value.HasInstallationProofBinding || value.HasInstallationProofChallenge != value.HasInstallationKeyVersion) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -11767,6 +11781,10 @@ public static class ContractShapeValidation
         if (!Check(value.FlowId, context)) return false;
         if (value.Proof is null) return false;
         if (!Check(value.Proof, context)) return false;
+        if (value.InstallationProof is not null)
+        {
+            if (!Check(value.InstallationProof, context)) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -11882,6 +11900,10 @@ public static class ContractShapeValidation
         }
         if (value.Profile is null) return false;
         if (!Check(value.Profile, context)) return false;
+        if (value.InstallationProof is not null)
+        {
+            if (!Check(value.InstallationProof, context)) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -12616,6 +12638,10 @@ public static class ContractShapeValidation
             if (ScalarLength(value.Code) < 1) return false;
             if (global::System.Text.Encoding.UTF8.GetByteCount(value.Code) > 8192) return false;
         }
+        if (value.InstallationProof is not null)
+        {
+            if (!Check(value.InstallationProof, context)) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -12673,6 +12699,10 @@ public static class ContractShapeValidation
         }
         if (value.InstallationId is null) return false;
         if (!Check(value.InstallationId, context)) return false;
+        if (value.InstallationProof is not null)
+        {
+            if (!Check(value.InstallationProof, context)) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -13156,6 +13186,38 @@ public static class ContractShapeValidation
             if (!ValidUnicode(value.AppVersion)) return false;
             if (ScalarLength(value.AppVersion) > 128) return false;
             if (!Matches(value.AppVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.HasPublicKey)
+        {
+            if (value.PublicKey.Length != 91) return false;
+        }
+        if (value.HasKeyVersion)
+        {
+            if (value.KeyVersion < 1UL) return false;
+            if (value.KeyVersion > 9223372036854775807UL) return false;
+        }
+        if (value.HasPublicKey != value.HasKeyVersion || value.HasPublicKey && !InstallationSpki(value.PublicKey.Span)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.InstallationPossessionProof.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.InstallationPossessionProof? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.InstallationPossessionProof? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasKeyVersion) return false;
+        if (value.HasKeyVersion)
+        {
+            if (value.KeyVersion < 1UL) return false;
+            if (value.KeyVersion > 9223372036854775807UL) return false;
+        }
+        if (!value.HasSignature) return false;
+        if (value.HasSignature)
+        {
+            if (value.Signature.Length != 64) return false;
         }
         return true;
         }
@@ -13771,6 +13833,17 @@ public static class ContractShapeValidation
         if (value.HasPurpose)
         {
             if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        }
+        if (!value.HasInstallationProofContext) return false;
+        if (value.HasInstallationProofContext)
+        {
+            if (value.InstallationProofContext.Length != 32) return false;
+        }
+        if (!value.HasInstallationKeyVersion) return false;
+        if (value.HasInstallationKeyVersion)
+        {
+            if (value.InstallationKeyVersion < 1UL) return false;
+            if (value.InstallationKeyVersion > 9223372036854775807UL) return false;
         }
         return true;
         }
@@ -21425,6 +21498,20 @@ public static class ContractShapeValidation
             }
         }
         return true;
+    }
+
+    private static bool InstallationSpki(global::System.ReadOnlySpan<byte> bytes)
+    {
+        if (bytes.Length != 91) return false;
+        try
+        {
+            using var key = global::System.Security.Cryptography.ECDsa.Create();
+            key.ImportSubjectPublicKeyInfo(bytes, out var consumed);
+            return consumed == bytes.Length && key.KeySize == 256 && key.ExportParameters(false).Curve.Oid.Value == "1.2.840.10045.3.1.7" && key.ExportSubjectPublicKeyInfo().AsSpan().SequenceEqual(bytes);
+        }
+        catch (global::System.Security.Cryptography.CryptographicException) { return false; }
+        catch (global::System.ArgumentException) { return false; }
+        catch (global::System.PlatformNotSupportedException) { return false; }
     }
 
     /// <summary>

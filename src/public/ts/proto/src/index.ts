@@ -23,4 +23,5 @@ export * from "./values.js";
 export * from "./wire.js";
 export * from "./semantic-hash.js";
 export * from "./encoded-body.js";
+export * from "./installation-possession.js";
 export * from "./services/gen/catalog.js";

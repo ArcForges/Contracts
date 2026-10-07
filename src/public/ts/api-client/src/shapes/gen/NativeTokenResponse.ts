@@ -10,6 +10,8 @@ export interface NativeTokenResponse {
   device: NativeTokenDevice;
   recoveryGeneration: string;
   purpose: string;
+  installationProofContext: string;
+  installationKeyVersion: string;
 }
 
 export interface NativeTokenDevice {
@@ -86,6 +88,8 @@ function orderNativeTokenResponse(value: NativeTokenResponse): Record<string, un
   out["device"] = orderNativeTokenDevice(value["device"]);
   out["recoveryGeneration"] = value["recoveryGeneration"];
   out["purpose"] = value["purpose"];
+  out["installationProofContext"] = value["installationProofContext"];
+  out["installationKeyVersion"] = value["installationKeyVersion"];
   return out;
 }
 function check0(value: unknown): boolean {
@@ -101,6 +105,8 @@ function check0(value: unknown): boolean {
       case "device": if (!check6(object[key])) return false; break;
       case "recoveryGeneration": if (!check19(object[key])) return false; break;
       case "purpose": if (!check20(object[key])) return false; break;
+      case "installationProofContext": if (!check21(object[key])) return false; break;
+      case "installationKeyVersion": if (!check22(object[key])) return false; break;
       default: return false;
     }
   }
@@ -112,6 +118,8 @@ function check0(value: unknown): boolean {
   if (!Object.prototype.hasOwnProperty.call(object, "device")) return false;
   if (!Object.prototype.hasOwnProperty.call(object, "recoveryGeneration")) return false;
   if (!Object.prototype.hasOwnProperty.call(object, "purpose")) return false;
+  if (!Object.prototype.hasOwnProperty.call(object, "installationProofContext")) return false;
+  if (!Object.prototype.hasOwnProperty.call(object, "installationKeyVersion")) return false;
   return true;
 }
 function check1(value: unknown): boolean {
@@ -269,6 +277,22 @@ function check19(value: unknown): boolean {
 function check20(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
   if (value !== "authenticate" && value !== "enroll" && value !== "stepUp" && value !== "recover" && value !== "cancelDeletion") return false;
+  return true;
+}
+function check21(value: unknown): boolean {
+  if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 43) return false;
+  if ([...value].length > 43) return false;
+  if ((new RegExp("^[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$", 'u')).exec(value)?.[0] !== value) return false;
+  return true;
+}
+function check22(value: unknown): boolean {
+  if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 1) return false;
+  if ([...value].length > 19) return false;
+  if ((new RegExp("^[1-9][0-9]*$", 'u')).exec(value)?.[0] !== value) return false;
+  if (BigInt(value as string) < -9223372036854775808n || BigInt(value as string) > 9223372036854775807n) return false;
+  if (BigInt(value as string) <= 0n) return false;
   return true;
 }
 

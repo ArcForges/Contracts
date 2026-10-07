@@ -9,6 +9,8 @@ export interface NativeAuthorizeRequest {
   code_challenge_method: string;
   state: string;
   installationId: string;
+  publicKey: string;
+  keyVersion: string;
 }
 
 export function isNativeAuthorizeRequest(value: unknown): value is NativeAuthorizeRequest { return check0(value); }
@@ -40,7 +42,7 @@ export function parseNativeAuthorizeRequestForm(input: Uint8Array | string): Nat
 /** Writes schema-order name=value pairs with only RFC 3986 unreserved characters unescaped and refuses output the schema rejects. */
 export function serializeNativeAuthorizeRequestForm(value: NativeAuthorizeRequest): Uint8Array {
   const out: string[] = [];
-  for (const name of ["client_id", "redirect_uri", "response_type", "code_challenge", "code_challenge_method", "state", "installationId"] as const) {
+  for (const name of ["client_id", "redirect_uri", "response_type", "code_challenge", "code_challenge_method", "state", "installationId", "publicKey", "keyVersion"] as const) {
     const item = (value as unknown as Record<string, string | undefined>)[name];
     if (item === undefined) continue;
     if (!validText(item)) throw Object.assign(new Error("NativeAuthorizeRequest form refused: invalid."), { failure: "invalid" });
@@ -66,6 +68,8 @@ function check0(value: unknown): boolean {
       case "code_challenge_method": if (!check5(object[key])) return false; break;
       case "state": if (!check6(object[key])) return false; break;
       case "installationId": if (!check7(object[key])) return false; break;
+      case "publicKey": if (!check8(object[key])) return false; break;
+      case "keyVersion": if (!check9(object[key])) return false; break;
       default: return false;
     }
   }
@@ -76,6 +80,8 @@ function check0(value: unknown): boolean {
   if (!Object.prototype.hasOwnProperty.call(object, "code_challenge_method")) return false;
   if (!Object.prototype.hasOwnProperty.call(object, "state")) return false;
   if (!Object.prototype.hasOwnProperty.call(object, "installationId")) return false;
+  if (!Object.prototype.hasOwnProperty.call(object, "publicKey")) return false;
+  if (!Object.prototype.hasOwnProperty.call(object, "keyVersion")) return false;
   if (!nativeClientRedirect(value)) return false;
   return true;
 }
@@ -121,6 +127,23 @@ function check7(value: unknown): boolean {
   if ([...value].length > 36) return false;
   if ((new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", 'u')).exec(value)?.[0] !== value) return false;
   if (value === '00000000-0000-0000-0000-000000000000') return false;
+  return true;
+}
+function check8(value: unknown): boolean {
+  if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 122) return false;
+  if ([...value].length > 122) return false;
+  if ((new RegExp("^[A-Za-z0-9_-]{121}[AQgw]$", 'u')).exec(value)?.[0] !== value) return false;
+  if (!installationHttpPublicKey(value)) return false;
+  return true;
+}
+function check9(value: unknown): boolean {
+  if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 1) return false;
+  if ([...value].length > 19) return false;
+  if ((new RegExp("^[1-9][0-9]*$", 'u')).exec(value)?.[0] !== value) return false;
+  if (BigInt(value as string) < -9223372036854775808n || BigInt(value as string) > 9223372036854775807n) return false;
+  if (BigInt(value as string) <= 0n) return false;
   return true;
 }
 
@@ -194,6 +217,21 @@ function encodeFormComponent(value: string, out: string[]): void {
     if ((byte >= 0x41 && byte <= 0x5a) || (byte >= 0x61 && byte <= 0x7a) || (byte >= 0x30 && byte <= 0x39) || byte === 0x2d || byte === 0x2e || byte === 0x5f || byte === 0x7e) out.push(String.fromCharCode(byte));
     else out.push("%" + byte.toString(16).toUpperCase().padStart(2, "0"));
   }
+}
+
+function installationSpki(bytes: Uint8Array): boolean {
+  const prefix=[0x30,0x59,0x30,0x13,0x06,0x07,0x2a,0x86,0x48,0xce,0x3d,0x02,0x01,0x06,0x08,0x2a,0x86,0x48,0xce,0x3d,0x03,0x01,0x07,0x03,0x42,0x00,0x04];
+  if(bytes.length!==91 || !prefix.every((v,i)=>bytes[i]===v)) return false;
+  const integer=(data:Uint8Array)=>data.reduce((v,b)=>(v<<8n)|BigInt(b),0n);
+  const x=integer(bytes.subarray(27,59)),y=integer(bytes.subarray(59));
+  const p=0xffffffff00000001000000000000000000000000ffffffffffffffffffffffffn;
+  const b=0x5ac635d8aa3a93e7b3ebbd55769886bc651d06b0cc53b0f63bce3c3e27d2604bn;
+  return x<p && y<p && (y*y-(x*x*x-3n*x+b))%p===0n;
+}
+
+function installationHttpPublicKey(text: string): boolean {
+  if (text.length !== 122) return false;
+  try { const decoded=atob(text.replaceAll('-','+').replaceAll('_','/')+'==');if(decoded.length!==91)return false;return installationSpki(Uint8Array.from(decoded,character=>character.charCodeAt(0))); } catch { return false; }
 }
 
 function nativeClientRedirect(value: unknown): boolean {

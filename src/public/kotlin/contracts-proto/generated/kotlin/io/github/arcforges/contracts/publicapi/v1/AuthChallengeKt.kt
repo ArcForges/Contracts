@@ -300,6 +300,78 @@ public object AuthChallengeKt {
     public fun hasRecoveryMethod(): kotlin.Boolean {
       return _builder.hasRecoveryMethod()
     }
+
+    /**
+     * `optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];`
+     */
+    public var installationProofChallenge: com.google.protobuf.ByteString
+      @kotlin.jvm.JvmName("getInstallationProofChallenge")
+        get() = _builder.installationProofChallenge
+      @kotlin.jvm.JvmName("setInstallationProofChallenge")
+        set(value) {
+        _builder.installationProofChallenge = value
+      }
+    /**
+     * `optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];`
+     */
+    public fun clearInstallationProofChallenge() {
+      _builder.clearInstallationProofChallenge()
+    }
+    /**
+     * `optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];`
+     * @return Whether the installationProofChallenge field is set.
+     */
+    public fun hasInstallationProofChallenge(): kotlin.Boolean {
+      return _builder.hasInstallationProofChallenge()
+    }
+
+    /**
+     * `optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];`
+     */
+    public var installationProofBinding: com.google.protobuf.ByteString
+      @kotlin.jvm.JvmName("getInstallationProofBinding")
+        get() = _builder.installationProofBinding
+      @kotlin.jvm.JvmName("setInstallationProofBinding")
+        set(value) {
+        _builder.installationProofBinding = value
+      }
+    /**
+     * `optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];`
+     */
+    public fun clearInstallationProofBinding() {
+      _builder.clearInstallationProofBinding()
+    }
+    /**
+     * `optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];`
+     * @return Whether the installationProofBinding field is set.
+     */
+    public fun hasInstallationProofBinding(): kotlin.Boolean {
+      return _builder.hasInstallationProofBinding()
+    }
+
+    /**
+     * `optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];`
+     */
+    public var installationKeyVersion: kotlin.Long
+      @kotlin.jvm.JvmName("getInstallationKeyVersion")
+        get() = _builder.installationKeyVersion
+      @kotlin.jvm.JvmName("setInstallationKeyVersion")
+        set(value) {
+        _builder.installationKeyVersion = value
+      }
+    /**
+     * `optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];`
+     */
+    public fun clearInstallationKeyVersion() {
+      _builder.clearInstallationKeyVersion()
+    }
+    /**
+     * `optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];`
+     * @return Whether the installationKeyVersion field is set.
+     */
+    public fun hasInstallationKeyVersion(): kotlin.Boolean {
+      return _builder.hasInstallationKeyVersion()
+    }
   }
 }
 public inline fun io.github.arcforges.contracts.publicapi.v1.AuthChallenge.copy(block: `io.github.arcforges.contracts.publicapi.v1`.AuthChallengeKt.Dsl.() -> kotlin.Unit): io.github.arcforges.contracts.publicapi.v1.AuthChallenge =

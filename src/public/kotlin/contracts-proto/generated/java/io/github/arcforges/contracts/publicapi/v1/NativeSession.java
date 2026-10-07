@@ -19,6 +19,7 @@ public  final class NativeSession extends
   private NativeSession() {
     accessToken_ = "";
     refreshToken_ = "";
+    installationProofContext_ = com.google.protobuf.ByteString.EMPTY;
   }
   private int bitField0_;
   public static final int SESSION_ID_FIELD_NUMBER = 1;
@@ -408,6 +409,75 @@ public  final class NativeSession extends
   private void clearPurpose() {
     bitField0_ = (bitField0_ & ~0x00000080);
     purpose_ = 0;
+  }
+
+  public static final int INSTALLATION_PROOF_CONTEXT_FIELD_NUMBER = 9;
+  private com.google.protobuf.ByteString installationProofContext_;
+  /**
+   * <code>optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];</code>
+   * @return Whether the installationProofContext field is set.
+   */
+  @java.lang.Override
+  public boolean hasInstallationProofContext() {
+    return ((bitField0_ & 0x00000100) != 0);
+  }
+  /**
+   * <code>optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];</code>
+   * @return The installationProofContext.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString getInstallationProofContext() {
+    return installationProofContext_;
+  }
+  /**
+   * <code>optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];</code>
+   * @param value The installationProofContext to set.
+   */
+  private void setInstallationProofContext(com.google.protobuf.ByteString value) {
+    java.lang.Class<?> valueClass = value.getClass();
+  bitField0_ |= 0x00000100;
+    installationProofContext_ = value;
+  }
+  /**
+   * <code>optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];</code>
+   */
+  private void clearInstallationProofContext() {
+    bitField0_ = (bitField0_ & ~0x00000100);
+    installationProofContext_ = getDefaultInstance().getInstallationProofContext();
+  }
+
+  public static final int INSTALLATION_KEY_VERSION_FIELD_NUMBER = 10;
+  private long installationKeyVersion_;
+  /**
+   * <code>optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];</code>
+   * @return Whether the installationKeyVersion field is set.
+   */
+  @java.lang.Override
+  public boolean hasInstallationKeyVersion() {
+    return ((bitField0_ & 0x00000200) != 0);
+  }
+  /**
+   * <code>optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];</code>
+   * @return The installationKeyVersion.
+   */
+  @java.lang.Override
+  public long getInstallationKeyVersion() {
+    return installationKeyVersion_;
+  }
+  /**
+   * <code>optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];</code>
+   * @param value The installationKeyVersion to set.
+   */
+  private void setInstallationKeyVersion(long value) {
+    bitField0_ |= 0x00000200;
+    installationKeyVersion_ = value;
+  }
+  /**
+   * <code>optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];</code>
+   */
+  private void clearInstallationKeyVersion() {
+    bitField0_ = (bitField0_ & ~0x00000200);
+    installationKeyVersion_ = 0L;
   }
 
   public static io.github.arcforges.contracts.publicapi.v1.NativeSession parseFrom(
@@ -900,6 +970,78 @@ public  final class NativeSession extends
       return this;
     }
 
+    /**
+     * <code>optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];</code>
+     * @return Whether the installationProofContext field is set.
+     */
+    @java.lang.Override
+    public boolean hasInstallationProofContext() {
+      return instance.hasInstallationProofContext();
+    }
+    /**
+     * <code>optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];</code>
+     * @return The installationProofContext.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getInstallationProofContext() {
+      return instance.getInstallationProofContext();
+    }
+    /**
+     * <code>optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];</code>
+     * @param value The installationProofContext to set.
+     * @return This builder for chaining.
+     */
+    public Builder setInstallationProofContext(com.google.protobuf.ByteString value) {
+      copyOnWrite();
+      instance.setInstallationProofContext(value);
+      return this;
+    }
+    /**
+     * <code>optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearInstallationProofContext() {
+      copyOnWrite();
+      instance.clearInstallationProofContext();
+      return this;
+    }
+
+    /**
+     * <code>optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];</code>
+     * @return Whether the installationKeyVersion field is set.
+     */
+    @java.lang.Override
+    public boolean hasInstallationKeyVersion() {
+      return instance.hasInstallationKeyVersion();
+    }
+    /**
+     * <code>optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];</code>
+     * @return The installationKeyVersion.
+     */
+    @java.lang.Override
+    public long getInstallationKeyVersion() {
+      return instance.getInstallationKeyVersion();
+    }
+    /**
+     * <code>optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];</code>
+     * @param value The installationKeyVersion to set.
+     * @return This builder for chaining.
+     */
+    public Builder setInstallationKeyVersion(long value) {
+      copyOnWrite();
+      instance.setInstallationKeyVersion(value);
+      return this;
+    }
+    /**
+     * <code>optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearInstallationKeyVersion() {
+      copyOnWrite();
+      instance.clearInstallationKeyVersion();
+      return this;
+    }
+
     // @@protoc_insertion_point(builder_scope:arcforges.publicapi.v1.NativeSession)
   }
   @java.lang.Override
@@ -925,11 +1067,13 @@ public  final class NativeSession extends
             "device_",
             "recoveryGeneration_",
             "purpose_",
+            "installationProofContext_",
+            "installationKeyVersion_",
           };
           java.lang.String info =
-              "\u0000\b\u0000\u0001\u0001\b\b\u0000\u0000\u0000\u0001\u1009\u0000\u0002\u1208\u0001" +
+              "\u0000\n\u0000\u0001\u0001\n\n\u0000\u0000\u0000\u0001\u1009\u0000\u0002\u1208\u0001" +
               "\u0003\u1009\u0002\u0004\u1208\u0003\u0005\u1009\u0004\u0006\u1009\u0005\u0007\u1003" +
-              "\u0006\b\u100c\u0007";
+              "\u0006\b\u100c\u0007\t\u100a\b\n\u1003\t";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

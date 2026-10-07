@@ -266,9 +266,9 @@ test("CON.07 records, enums and oneofs keep their numbered tags and presence", (
   );
 });
 
-test("CON.07 Registry04 field oracle pins every number, name, JSON name, type, repetition and presence of all 176 messages", () => {
+test("CON.07 Registry04 field oracle preserves176 messages and appends genuine possession proof fields", () => {
   const names = Object.keys(fixture.fields);
-  assert.equal(names.length, 176);
+  assert.equal(names.length, 177);
   for (const name of names) {
     const schema = proto[`${name}Schema`];
     assert.ok(schema, name);

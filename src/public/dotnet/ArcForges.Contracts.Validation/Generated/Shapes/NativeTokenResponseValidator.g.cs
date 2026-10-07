@@ -85,6 +85,8 @@ public static class NativeTokenResponseJson
                 case "device": if (!Check6(property.Value)) return false; break;
                 case "recoveryGeneration": if (!Check19(property.Value)) return false; break;
                 case "purpose": if (!Check20(property.Value)) return false; break;
+                case "installationProofContext": if (!Check21(property.Value)) return false; break;
+                case "installationKeyVersion": if (!Check22(property.Value)) return false; break;
                 default: return false;
             }
         }
@@ -96,6 +98,8 @@ public static class NativeTokenResponseJson
         if (!seen.Contains("device")) return false;
         if (!seen.Contains("recoveryGeneration")) return false;
         if (!seen.Contains("purpose")) return false;
+        if (!seen.Contains("installationProofContext")) return false;
+        if (!seen.Contains("installationKeyVersion")) return false;
         return true;
     }
     private static bool Check1(global::System.Text.Json.JsonElement value)
@@ -311,6 +315,28 @@ public static class NativeTokenResponseJson
         var text = value.GetString()!;
         if (!ValidText(text)) return false;
         if (text != "authenticate" && text != "enroll" && text != "stepUp" && text != "recover" && text != "cancelDeletion") return false;
+        return true;
+    }
+    private static bool Check21(global::System.Text.Json.JsonElement value)
+    {
+        if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
+        var text = value.GetString()!;
+        if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 43) return false;
+        if (ScalarLength(text) > 43) return false;
+        if (!Matches(text, "^[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$")) return false;
+        return true;
+    }
+    private static bool Check22(global::System.Text.Json.JsonElement value)
+    {
+        if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
+        var text = value.GetString()!;
+        if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 1) return false;
+        if (ScalarLength(text) > 19) return false;
+        if (!Matches(text, "^[1-9][0-9]*$")) return false;
+        if (!global::System.Int64.TryParse(text, global::System.Globalization.NumberStyles.AllowLeadingSign, global::System.Globalization.CultureInfo.InvariantCulture, out _)) return false;
+        if (text.StartsWith('0') || text.StartsWith('-')) return false;
         return true;
     }
 

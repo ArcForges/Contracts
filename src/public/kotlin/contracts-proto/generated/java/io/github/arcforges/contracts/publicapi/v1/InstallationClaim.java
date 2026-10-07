@@ -20,6 +20,7 @@ public  final class InstallationClaim extends
     product_ = "";
     platform_ = "";
     appVersion_ = "";
+    publicKey_ = com.google.protobuf.ByteString.EMPTY;
   }
   private int bitField0_;
   public static final int INSTALLATION_ID_FIELD_NUMBER = 1;
@@ -236,6 +237,75 @@ public  final class InstallationClaim extends
     checkByteStringIsUtf8(value);
     appVersion_ = value.toStringUtf8();
     bitField0_ |= 0x00000008;
+  }
+
+  public static final int PUBLIC_KEY_FIELD_NUMBER = 5;
+  private com.google.protobuf.ByteString publicKey_;
+  /**
+   * <code>optional bytes public_key = 5 [json_name = "publicKey"];</code>
+   * @return Whether the publicKey field is set.
+   */
+  @java.lang.Override
+  public boolean hasPublicKey() {
+    return ((bitField0_ & 0x00000010) != 0);
+  }
+  /**
+   * <code>optional bytes public_key = 5 [json_name = "publicKey"];</code>
+   * @return The publicKey.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString getPublicKey() {
+    return publicKey_;
+  }
+  /**
+   * <code>optional bytes public_key = 5 [json_name = "publicKey"];</code>
+   * @param value The publicKey to set.
+   */
+  private void setPublicKey(com.google.protobuf.ByteString value) {
+    java.lang.Class<?> valueClass = value.getClass();
+  bitField0_ |= 0x00000010;
+    publicKey_ = value;
+  }
+  /**
+   * <code>optional bytes public_key = 5 [json_name = "publicKey"];</code>
+   */
+  private void clearPublicKey() {
+    bitField0_ = (bitField0_ & ~0x00000010);
+    publicKey_ = getDefaultInstance().getPublicKey();
+  }
+
+  public static final int KEY_VERSION_FIELD_NUMBER = 6;
+  private long keyVersion_;
+  /**
+   * <code>optional uint64 key_version = 6 [json_name = "keyVersion"];</code>
+   * @return Whether the keyVersion field is set.
+   */
+  @java.lang.Override
+  public boolean hasKeyVersion() {
+    return ((bitField0_ & 0x00000020) != 0);
+  }
+  /**
+   * <code>optional uint64 key_version = 6 [json_name = "keyVersion"];</code>
+   * @return The keyVersion.
+   */
+  @java.lang.Override
+  public long getKeyVersion() {
+    return keyVersion_;
+  }
+  /**
+   * <code>optional uint64 key_version = 6 [json_name = "keyVersion"];</code>
+   * @param value The keyVersion to set.
+   */
+  private void setKeyVersion(long value) {
+    bitField0_ |= 0x00000020;
+    keyVersion_ = value;
+  }
+  /**
+   * <code>optional uint64 key_version = 6 [json_name = "keyVersion"];</code>
+   */
+  private void clearKeyVersion() {
+    bitField0_ = (bitField0_ & ~0x00000020);
+    keyVersion_ = 0L;
   }
 
   public static io.github.arcforges.contracts.publicapi.v1.InstallationClaim parseFrom(
@@ -553,6 +623,78 @@ public  final class InstallationClaim extends
       return this;
     }
 
+    /**
+     * <code>optional bytes public_key = 5 [json_name = "publicKey"];</code>
+     * @return Whether the publicKey field is set.
+     */
+    @java.lang.Override
+    public boolean hasPublicKey() {
+      return instance.hasPublicKey();
+    }
+    /**
+     * <code>optional bytes public_key = 5 [json_name = "publicKey"];</code>
+     * @return The publicKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getPublicKey() {
+      return instance.getPublicKey();
+    }
+    /**
+     * <code>optional bytes public_key = 5 [json_name = "publicKey"];</code>
+     * @param value The publicKey to set.
+     * @return This builder for chaining.
+     */
+    public Builder setPublicKey(com.google.protobuf.ByteString value) {
+      copyOnWrite();
+      instance.setPublicKey(value);
+      return this;
+    }
+    /**
+     * <code>optional bytes public_key = 5 [json_name = "publicKey"];</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearPublicKey() {
+      copyOnWrite();
+      instance.clearPublicKey();
+      return this;
+    }
+
+    /**
+     * <code>optional uint64 key_version = 6 [json_name = "keyVersion"];</code>
+     * @return Whether the keyVersion field is set.
+     */
+    @java.lang.Override
+    public boolean hasKeyVersion() {
+      return instance.hasKeyVersion();
+    }
+    /**
+     * <code>optional uint64 key_version = 6 [json_name = "keyVersion"];</code>
+     * @return The keyVersion.
+     */
+    @java.lang.Override
+    public long getKeyVersion() {
+      return instance.getKeyVersion();
+    }
+    /**
+     * <code>optional uint64 key_version = 6 [json_name = "keyVersion"];</code>
+     * @param value The keyVersion to set.
+     * @return This builder for chaining.
+     */
+    public Builder setKeyVersion(long value) {
+      copyOnWrite();
+      instance.setKeyVersion(value);
+      return this;
+    }
+    /**
+     * <code>optional uint64 key_version = 6 [json_name = "keyVersion"];</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearKeyVersion() {
+      copyOnWrite();
+      instance.clearKeyVersion();
+      return this;
+    }
+
     // @@protoc_insertion_point(builder_scope:arcforges.publicapi.v1.InstallationClaim)
   }
   @java.lang.Override
@@ -574,10 +716,13 @@ public  final class InstallationClaim extends
             "product_",
             "platform_",
             "appVersion_",
+            "publicKey_",
+            "keyVersion_",
           };
           java.lang.String info =
-              "\u0000\u0004\u0000\u0001\u0001\u0004\u0004\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
-              "\u1208\u0001\u0003\u1208\u0002\u0004\u1208\u0003";
+              "\u0000\u0006\u0000\u0001\u0001\u0006\u0006\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+              "\u1208\u0001\u0003\u1208\u0002\u0004\u1208\u0003\u0005\u100a\u0004\u0006\u1003\u0005" +
+              "";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {
