@@ -84,13 +84,11 @@ jobs:
             artifacts/evidence/naming.json
             artifacts/evidence/licence-boundary.json
             artifacts/evidence/provenance.json
-            artifacts/evidence/documentation-provenance.json
             artifacts/evidence/contract-access.json
             artifacts/evidence/serialization-policy.json
             artifacts/evidence/operation-reachability.json
             artifacts/evidence/authorization-boundaries.json
             artifacts/evidence/serialization-probe-linux-x64.json
-            build/reports/licence-boundary.json
           if-no-files-found: error
           retention-days: 30
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7

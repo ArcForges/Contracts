@@ -19,6 +19,7 @@ import {
   declaredTypes,
   descriptorGraph,
   HTTP_SCHEMA_SOURCE,
+  historyIdentities,
   inventory,
   retiredIdentities,
   safePath,
@@ -492,6 +493,64 @@ test("a new access row for a retired identity is refused, and so is removing or 
     (row) => row.package !== "ArcForges.Contracts.LocalRpc.Chat",
   );
   checkRetiredHistory(active, base, retired);
+});
+
+function realCatalog() {
+  return JSON.parse(readFileSync(path.join(ROOT, "eng/contract-packages.json"), "utf8"));
+}
+
+// S50(2)(a): the retired set is the union of the base and head catalogs, so the access check alone refuses
+// erasing a retired identity from eng/contract-packages.json together with its owner and historical rows.
+test("erasing a retired identity from the catalog and the access policy is refused against either base", () => {
+  const catalog = realCatalog();
+  const policy = realPolicy();
+  const files = inventory(ROOT);
+  // The base before CON.40 (origin/main) carries neither catalog nor access markers.
+  const unmarkedCatalog = structuredClone(catalog);
+  for (const row of unmarkedCatalog.packages) delete row.retired;
+  const unmarkedPolicy = structuredClone(policy);
+  for (const row of unmarkedPolicy.packages) delete row.retired;
+  delete unmarkedPolicy.retiredOperations;
+  const bases = [
+    [policy, catalog],
+    [unmarkedPolicy, unmarkedCatalog],
+  ];
+  // The unchanged head passes against both bases.
+  for (const [base, baseCatalog] of bases) {
+    assert.deepEqual(
+      [...historyIdentities(catalog, baseCatalog).keys()].sort(),
+      [...RETIRED].sort(),
+    );
+    checkSources(ROOT, files, policy, { base, baseCatalog });
+  }
+  for (const erased of [
+    ["@arcforges/operator-client"],
+    ["io.github.arcforges:contract-fixtures"],
+    ["@arcforges/operator-client", "io.github.arcforges:contract-fixtures"],
+  ]) {
+    const headCatalog = structuredClone(catalog);
+    headCatalog.packages = headCatalog.packages.filter((row) => !erased.includes(row.id));
+    const head = structuredClone(policy);
+    head.packages = head.packages.filter((row) => !erased.includes(row.id));
+    head.distribution = head.distribution.filter((row) => !erased.includes(row.package));
+    // The head catalog alone no longer names the erased identities; the base catalog still does.
+    assert.ok(erased.every((id) => !retiredIdentities(ROOT, headCatalog).has(id)));
+    for (const [base, baseCatalog] of bases) {
+      const history = historyIdentities(headCatalog, baseCatalog);
+      assert.deepEqual([...history.keys()].sort(), [...RETIRED].sort());
+      assert.throws(
+        () => checkSources(ROOT, files, head, { catalog: headCatalog, base, baseCatalog }),
+        /historical access row of a retired identity removed or changed/,
+      );
+      // Keeping the historical rows but dropping only the owner row is refused as well.
+      const owners = structuredClone(policy);
+      owners.packages = owners.packages.filter((row) => !erased.includes(row.id));
+      assert.throws(
+        () => checkRetiredHistory(owners, base, history),
+        /owner of a retired identity/,
+      );
+    }
+  }
 });
 
 test("retired marking must match the package inventory and retired sources must stay gone", () => {

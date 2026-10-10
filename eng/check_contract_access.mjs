@@ -249,9 +249,12 @@ function fields(row, names) {
  * Identities marked retired in eng/contract-packages.json (CON.40), as id -> retiring task. A retired identity
  * keeps its catalog row and every historical access row, but has no producer sources and no new versions.
  */
-export function retiredIdentities(root = ROOT) {
+export function retiredIdentities(
+  root = ROOT,
+  manifest = JSON.parse(bytes(root, "eng/contract-packages.json")),
+) {
   const retired = new Map();
-  for (const row of JSON.parse(bytes(root, "eng/contract-packages.json")).packages) {
+  for (const row of manifest.packages) {
     if (row.retired === undefined) continue;
     requireThat(
       row.retired &&
@@ -262,6 +265,20 @@ export function retiredIdentities(root = ROOT) {
     retired.set(row.id, row.retired.task);
   }
   return retired;
+}
+
+/**
+ * The identities under the retired-history rule (CON.40, S50(2)(a)), taken from the union of the reviewed base
+ * catalog and the head catalog: an identity marked retired in either, and a base identity whose catalog row is
+ * gone at the head. Catalog rows are never deleted, so erasing a retired identity from eng/contract-packages.json
+ * together with its access rows still leaves its base rows under the rule, and the access check refuses it.
+ */
+export function historyIdentities(head, base) {
+  const history = new Map([...retiredIdentities(ROOT, base), ...retiredIdentities(ROOT, head)]);
+  const present = new Set(head.packages.map((row) => row.id));
+  for (const row of base.packages)
+    if (!present.has(row.id) && !history.has(row.id)) history.set(row.id, "removed");
+  return history;
 }
 
 function canonical(value) {
@@ -322,7 +339,8 @@ export function checkRetiredHistory(policy, base, retired) {
 }
 
 export function checkSources(root, files, policy, options = {}) {
-  const retired = options.retired ?? retiredIdentities(root);
+  const catalog = options.catalog ?? JSON.parse(bytes(root, "eng/contract-packages.json"));
+  const retired = options.retired ?? retiredIdentities(root, catalog);
   fields(
     policy,
     "schemaVersion licence reviewedOn design sourceCommit schemas types packages distribution buildInputs retiredOperations",
@@ -458,7 +476,12 @@ export function checkSources(root, files, policy, options = {}) {
         /^[A-Z]+\.[0-9]+$/.test(row.task),
       "invalid retired operation marking: " + row.service + "/" + row.method,
     );
-  if (options.base !== undefined) checkRetiredHistory(policy, options.base, retired);
+  if (options.base !== undefined)
+    checkRetiredHistory(
+      policy,
+      options.base,
+      options.baseCatalog === undefined ? retired : historyIdentities(catalog, options.baseCatalog),
+    );
   const rootInputs = new Set([
     "eng/contract-packages.json",
     "Directory.Build.props",
@@ -675,6 +698,7 @@ export function audit(root = ROOT) {
   base = baseCommit(root);
   checkSources(root, files, policy, {
     base: JSON.parse(git(root, "show", base + ":" + POLICY)),
+    baseCatalog: JSON.parse(git(root, "show", base + ":eng/contract-packages.json")),
   });
   checkPackageBoundaries(root);
   checkPackageInputs(root);
