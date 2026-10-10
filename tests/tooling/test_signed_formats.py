@@ -95,37 +95,29 @@ class SignedFormats(unittest.TestCase):
                                 text=True, capture_output=True, check=True)
         self.assertEqual(json.loads(result.stdout), [True] * len(rows))
 
-    def test_generated_typescript_codecs(self):
-        names = {"catalog-index.v1": "CatalogIndex", "catalog-revocations.v1": "CatalogRevocations",
-                 "android-update.v1": "AndroidUpdate", "realm.v1": "RealmDescriptor"}
-        rows = [{"name": names[self.values[case["id"]]["schemaVersion"]],
-                 "json": canonical(self.values[case["id"]]), "accepted": case["expected"] != "shape",
-                 "id": case["id"]} for case in self.fixture["cases"]]
-        rows += [{"name": "CatalogIndex", "json": case["json"], "accepted": False, "id": case["id"]}
-                 for case in self.fixture["malformedJson"]]
-        script = r"""
-const {isDeepStrictEqual} = require('node:util'), {pathToFileURL} = require('node:url');
-let input = ''; process.stdin.setEncoding('utf8'); process.stdin.on('data', x => input += x);
-process.stdin.on('end', async () => {
- const {directory, rows} = JSON.parse(input), failures = [];
- for (const row of rows) {
-  const module = await import(pathToFileURL(directory + '/' + row.name + '.ts'));
-  const parse = module['tryParse' + row.name + 'Json'];
-  const result = parse(row.json);
-  if (result.ok !== row.accepted) failures.push(row.id + ': shape acceptance mismatch');
-  if (result.ok) {
-   const roundtrip = parse(module['serialize' + row.name + 'Json'](result.value));
-   if (!roundtrip.ok || !isDeepStrictEqual(roundtrip.value, result.value))
-    failures.push(row.id + ': typed roundtrip mismatch');
-  }
- }
- process.stdout.write(JSON.stringify(failures));
-});
-"""
-        result = subprocess.run(["node", "--experimental-transform-types", "-e", script],
-                                input=json.dumps({"directory": str(ROOT / "src/public/ts/api-client/src/shapes/gen"), "rows": rows}),
-                                text=True, capture_output=True, check=True)
-        self.assertEqual(json.loads(result.stdout), [])
+    def test_generated_codecs_are_carried_by_the_csharp_suite(self):
+        # CON.40: the @arcforges/api-client TypeScript codecs are retired with their package. The same fixture
+        # vectors (shape acceptance of every case, the typed round trip of every accepted document and the
+        # malformed JSON refusals) run against the generated C# codecs in StructureTests (Con40SdkCases).
+        self.assertFalse((ROOT / "src/public/ts/api-client").exists())
+        names = {"CatalogIndex", "CatalogRevocations", "AndroidUpdate", "RealmDescriptor"}
+        for name in sorted(names):
+            with self.subTest(codec=name):
+                self.assertTrue((ROOT / "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes" / (name + ".g.cs")).is_file())
+                self.assertTrue((ROOT / "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes" / (name + "Validator.g.cs")).is_file())
+        suite = (ROOT / "tests/StructureTests/Con40SdkCases.cs").read_text(encoding="utf-8")
+        run = suite[suite.index("public static void Run(string root)"):suite.index("TestMap(root);")]
+        self.assertIn("SignedFormatCodecs(root);", run)
+        case = suite[suite.index("private static void SignedFormatCodecs(string root)"):]
+        case = case[:case.index("\n    }\n") + 7]
+        self.assertIn('"fixtures/public/con-16-signed-formats.json"', case)
+        self.assertIn('GetProperty("malformedJson")', case)
+        self.assertIn('"expected").GetString() != "shape"', case)
+        for name in sorted(names):
+            self.assertIn(f"Val.{name}Json.TryParse, Val.{name}Json.Serialize", case)
+        self.assertEqual({row["expected"] for row in self.fixture["malformedJson"]}, {"syntax"})
+        self.assertTrue(any(case["expected"] == "shape" for case in self.fixture["cases"]))
+        self.assertTrue(any(case["expected"] != "shape" for case in self.fixture["cases"]))
 
 
 

@@ -196,6 +196,24 @@ class LicenceBoundaryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'inventory drift'):
             audit(self.root)
 
+    def test_retired_npm_workspaces_are_gone(self):
+        # CON.40 retired @arcforges/proto, @arcforges/api-client, @arcforges/contract-fixtures and
+        # @arcforges/operator-client: the only npm projects left are the root workspace and @arcforges/ai-internal,
+        # and a retired workspace that reappears without a reviewed registration is inventory drift.
+        retired = ['src/public/ts/proto', 'src/public/ts/api-client', 'src/public/ts/contract-fixtures',
+                   'src/internal/ts/operator-client']
+        for name in retired:
+            with self.subTest(name=name):
+                self.assertFalse((ROOT / name).exists())
+        npm = ['package.json', 'src/internal/ts/ai-internal/package.json']
+        self.assertEqual(sorted(project['path'] for project in audit(ROOT)['projects'] if project['kind'] == 'npm'), npm)
+        self.assertEqual(sorted(entry['path'] for entry in json.loads(
+            (ROOT / 'eng/policy/licence-boundary.json').read_text(encoding='utf-8'))['projects'] if entry['kind'] == 'npm'), npm)
+        self.write('src/public/ts/proto/package.json', json.dumps({'name': '@arcforges/proto', 'license': 'Apache-2.0',
+                                                                   'arcforges': {'licenceBoundary': 'Apache'}}))
+        with self.assertRaisesRegex(ValueError, 'inventory drift'):
+            audit(self.root)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -20,6 +20,7 @@ using Hello = ArcForges.Contracts.Hello.V1;
 using Native = ArcForges.Contracts.PublicApi.Http.V1.NativeAuth;
 using Op = ArcForges.Contracts.CloudInternal.Operator.V1;
 using P = ArcForges.Contracts.PublicApi.V1;
+using SF = ArcForges.Contracts.PublicApi.Http.V1.SignedFormats;
 using Shapes = ArcForges.Contracts.Validation.ContractShapeValidation;
 using Sim = ArcForges.Contracts.Simulation.V1;
 using V = ArcForges.Contracts.Foundation.Values;
@@ -54,9 +55,10 @@ internal static class Con40SdkCases
         Support(root);
         OperatorVisibility();
         SimulationCatalogue(root);
+        SignedFormatCodecs(root);
         TestMap(root);
         Console.WriteLine("CON.40 C# parity: wire, serialization, CON.10, independent foundation encoding and coverage, values, "
-            + "catalog, CON.02, CON.07, CON.11, CON.24, CON.25, af-segment oracle, semantic hash, support and operator cases passed.");
+            + "catalog, CON.02, CON.07, CON.11, CON.24, CON.25, af-segment oracle, semantic hash, support, operator and CON.16 codec cases passed.");
     }
 
     // ---------------------------------------------------------------------------------------------- wire.test.mjs
@@ -1300,6 +1302,72 @@ internal static class Con40SdkCases
                 Require(mapped.Contains((source, match.Groups[2].Value)), "test map: unmapped TypeScript case " + source + " " + match.Groups[2].Value);
         }
         Console.WriteLine($"CON.40 test map: {mapped.Count} retired TypeScript and Kotlin cases, {anchors} C# anchors verified.");
+    }
+
+    // ------------------------------------------------- CON.16 generated codecs (tests/tooling/test_signed_formats.py)
+
+    private delegate bool SignedTryParse<T>(ReadOnlyMemory<byte> utf8, out T? value, out ContractSerializationFailure failure) where T : class;
+
+    private static (bool Accepted, bool RoundTrip) SignedCodec<T>(byte[] utf8, SignedTryParse<T> tryParse, Func<T, byte[]> serialize) where T : class
+    {
+        if (!tryParse(utf8, out var value, out _)) return (false, false);
+        var written = serialize(value!);
+        return (true, tryParse(written, out var again, out _) && serialize(again!).AsSpan().SequenceEqual(written));
+    }
+
+    /// <summary>The CON.16 vectors that tests/tooling/test_signed_formats.py ran against the retired @arcforges/api-client
+    /// TypeScript codecs (CON.40), run against the generated C# codecs: a case is accepted exactly when its expected
+    /// outcome is not a shape refusal, an accepted document survives a typed round trip, and malformed JSON is refused.</summary>
+    private static void SignedFormatCodecs(string root)
+    {
+        using var document = Load(root, "fixtures/public/con-16-signed-formats.json");
+        var fixture = document.RootElement;
+        var documents = fixture.GetProperty("documents").EnumerateArray()
+            .ToDictionary(item => item.GetProperty("id").GetString()!, item => item.GetProperty("value").GetRawText(), StringComparer.Ordinal);
+        var codecs = new Dictionary<string, Func<byte[], (bool Accepted, bool RoundTrip)>>(StringComparer.Ordinal)
+        {
+            ["catalog-index.v1"] = bytes => SignedCodec<SF.CatalogIndex>(bytes, Val.CatalogIndexJson.TryParse, Val.CatalogIndexJson.Serialize),
+            ["catalog-revocations.v1"] = bytes => SignedCodec<SF.CatalogRevocations>(bytes, Val.CatalogRevocationsJson.TryParse, Val.CatalogRevocationsJson.Serialize),
+            ["android-update.v1"] = bytes => SignedCodec<SF.AndroidUpdate>(bytes, Val.AndroidUpdateJson.TryParse, Val.AndroidUpdateJson.Serialize),
+            ["realm.v1"] = bytes => SignedCodec<SF.RealmDescriptor>(bytes, Val.RealmDescriptorJson.TryParse, Val.RealmDescriptorJson.Serialize),
+        };
+        int accepted = 0, refused = 0;
+        foreach (var item in fixture.GetProperty("cases").EnumerateArray())
+        {
+            var id = item.GetProperty("id").GetString()!;
+            var value = JsonNode.Parse(documents[item.GetProperty("document").GetString()!])!;
+            if (item.TryGetProperty("mutation", out var mutation))
+            {
+                var path = mutation.GetProperty("path").EnumerateArray().ToArray();
+                var target = value;
+                foreach (var part in path[..^1])
+                    target = part.ValueKind == JsonValueKind.Number ? target[part.GetInt32()]! : target[part.GetString()!]!;
+                var replacement = JsonNode.Parse(mutation.GetProperty("value").GetRawText());
+                if (path[^1].ValueKind == JsonValueKind.Number) target[path[^1].GetInt32()] = replacement;
+                else target[path[^1].GetString()!] = replacement;
+            }
+            if (item.TryGetProperty("repeatEntryCount", out var repeat))
+            {
+                var entries = value["body"]!["entries"]!.AsArray();
+                var entry = entries[0]!.DeepClone();
+                entry["archiveHttpsUrl"] = JsonValue.Create(entry["archiveHttpsUrl"]!.GetValue<string>()
+                    + new string('a', item.GetProperty("archiveUrlSuffixLength").GetInt32()));
+                entries.Clear();
+                for (var index = 0; index < repeat.GetInt32(); index++) entries.Add(entry.DeepClone());
+            }
+            var result = codecs[value["schemaVersion"]!.GetValue<string>()](Encoding.UTF8.GetBytes(value.ToJsonString()));
+            var expected = item.GetProperty("expected").GetString() != "shape";
+            Require(result.Accepted == expected, "CON.16 codecs: shape acceptance of " + id);
+            Require(!result.Accepted || result.RoundTrip, "CON.16 codecs: typed round trip of " + id);
+            if (expected) accepted++; else refused++;
+        }
+        foreach (var item in fixture.GetProperty("malformedJson").EnumerateArray())
+        {
+            Require(!codecs["catalog-index.v1"](Encoding.UTF8.GetBytes(item.GetProperty("json").GetString()!)).Accepted,
+                "CON.16 codecs: malformed JSON refused: " + item.GetProperty("id").GetString());
+            refused++;
+        }
+        Require(accepted > 0 && refused > 0, "CON.16 codecs: accepted and refused vectors both ran");
     }
 
     // ================================================================================================ shared helpers

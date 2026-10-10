@@ -84,6 +84,21 @@ class PublicationCompletion(unittest.TestCase):
         self.assertNotIn("connect_client", tool)
         self.assertFalse((root / "tests/public/KotlinConnectClient").exists())
 
+    def test_typescript_grpc_web_consumer_is_retired(self):
+        # CON.40: the TypeScript gRPC-Web consumer of @arcforges/proto and @arcforges/api-client is retired with
+        # those packages; the local consumer installs only the retained @arcforges/ai-internal archive.
+        root = Path(__file__).resolve().parents[2]
+        tool = (root / "eng/consumer_tools.py").read_text(encoding="utf-8")
+        code = "\n".join(line for line in tool.splitlines() if not line.lstrip().startswith("#"))
+        for retired in ("@arcforges/proto", "@arcforges/api-client", "@arcforges/contract-fixtures",
+                        "@arcforges/operator-client", "package-consumer.ts", "@connectrpc", "@bufbuild"):
+            with self.subTest(retired=retired):
+                self.assertNotIn(retired, code)
+        self.assertFalse((root / "tests/public/package-consumer.ts").exists())
+        self.assertIn('"typescriptGrpcWeb": "retired"', tool)
+        self.assertIn("@arcforges/ai-internal/build-identity", tool)
+        self.assertIn("!= NPM_IDS", tool)
+
     def test_publication_handoff_checks_bytes_without_rescanning_archives(self):
         entries = []
         from package_catalog import packages

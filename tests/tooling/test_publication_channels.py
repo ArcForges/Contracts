@@ -45,7 +45,7 @@ class PublicationChannels(unittest.TestCase):
         for current, incoming, tag in (("1.0.0-ci.99.1", "1.0.0", "latest"),
                                       ("2.0.0", "1.0.0", "release"), ("1.0.0", "1.1.0", "latest")):
             with patch("publish_tools.get", return_value=json.dumps({"dist-tags": {"latest": current}}).encode()):
-                self.assertEqual(npm_publish_tag("@arcforges/proto", incoming), tag)
+                self.assertEqual(npm_publish_tag("@arcforges/ai-internal", incoming), tag)
 
     def test_maven_channel_is_retired(self):
         # CON.40: the Maven channel stops. Nothing is unpublished; no new Maven version can be selected,

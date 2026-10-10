@@ -37,10 +37,6 @@
       "kind": "npm"
     },
     {
-      "path": "src/internal/ts/operator-client/package.json",
-      "kind": "npm"
-    },
-    {
       "path": "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj",
       "kind": "msbuild"
     },
@@ -67,18 +63,6 @@
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj",
       "kind": "msbuild"
-    },
-    {
-      "path": "src/public/ts/api-client/package.json",
-      "kind": "npm"
-    },
-    {
-      "path": "src/public/ts/contract-fixtures/package.json",
-      "kind": "npm"
-    },
-    {
-      "path": "src/public/ts/proto/package.json",
-      "kind": "npm"
     },
     {
       "path": "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj",

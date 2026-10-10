@@ -9,11 +9,7 @@
   },
   "packageManager": "npm@11.19.0",
   "workspaces": [
-    "src/public/ts/proto",
-    "src/public/ts/api-client",
-    "src/public/ts/contract-fixtures",
-    "src/internal/ts/ai-internal",
-    "src/internal/ts/operator-client"
+    "src/internal/ts/ai-internal"
   ],
   "scripts": {
     "generate": "python eng/contracts.py generate",
@@ -26,7 +22,7 @@
     "verify": "python eng/contracts.py verify-local"
   },
   "devDependencies": {
-    "@bufbuild/protoc-gen-es": "2.15.0",
+    "@bufbuild/protobuf": "2.15.0",
     "prettier": "3.9.8",
     "typescript": "7.0.2"
   },

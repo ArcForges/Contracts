@@ -14,7 +14,7 @@ from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
-from contracts import NPM, run, version
+from contracts import NPM, NPM_IDS, run, version
 from packaging_tools import verify_artifacts
 
 
@@ -92,8 +92,15 @@ def publish_verified(directory: Path, registry: str) -> None:
     authorize(manifest["version"])
     if manifest["dirty"]:
         raise ValueError("Never publish a candidate built from a dirty checkout")
-    # Keep manifest order: proto must be accepted before api-client is uploaded.
+    # Keep manifest order: a first-party dependency is accepted before its dependants are uploaded.
     entries = [entry for entry in manifest["files"] if entry["kind"] == registry]
+    if registry == "npm":
+        # CON.40: only the retained @arcforges/ai-internal package is published to npm. A retired identity
+        # (@arcforges/proto, @arcforges/api-client, @arcforges/contract-fixtures, @arcforges/operator-client)
+        # fails closed before any registry read or upload; nothing is unpublished or deprecated.
+        refused = sorted(entry["id"] for entry in entries if entry["id"] not in NPM_IDS)
+        if refused:
+            raise ValueError("Retired or unregistered npm identity: " + ", ".join(refused))
     for entry in entries:
         path = directory / entry["name"]
         if existing_matches(path, entry, manifest["version"]):

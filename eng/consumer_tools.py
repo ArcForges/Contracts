@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import json
 import os
 from pathlib import Path
 import shutil
@@ -13,8 +12,8 @@ import tempfile
 import time
 import xml.etree.ElementTree as ET
 
-from contracts import ARTIFACTS, NPM, NUGET_ID, ROOT, read_json, run, write_json
-from packaging_tools import archive_files, verify_artifacts
+from contracts import ARTIFACTS, NPM, NPM_IDS, NUGET_ID, ROOT, run, write_json
+from packaging_tools import verify_artifacts
 
 
 def free_port() -> int:
@@ -115,45 +114,32 @@ def consume(directory: Path, aot: bool) -> None:
             run("dotnet", "restore", target, "--locked-mode", cwd=consumer, env=env)
             run("dotnet", "build", target, "-c", "Release", "--no-restore", cwd=consumer, env=env)
 
-        ts = consumer / "typescript"
+        # CON.40: the TypeScript gRPC-Web consumer of @arcforges/proto and @arcforges/api-client retired with those
+        # packages; the C# HelloClient below is the gRPC consumer. The retained @arcforges/ai-internal archive is
+        # installed alone, from the candidate feed into an empty cache, and its runtime build identity is checked.
+        ts = consumer / "ai-internal"
         ts.mkdir()
-        dependencies = {entry["id"]: "file:../feed/" + entry["name"]
-                        for entry in manifest["files"] if entry["kind"] == "npm" and entry["id"] in {"@arcforges/proto", "@arcforges/api-client", "@arcforges/contract-fixtures"}}
-        api_entry = next(entry for entry in manifest["files"] if entry["id"] == "@arcforges/api-client")
-        api_package = json.loads(archive_files(directory / api_entry["name"])["package.json"])
-        for dep in ["@bufbuild/protobuf", "@connectrpc/connect"]:
-            dependencies[dep] = api_package["dependencies"][dep]
+        npm_entries = [entry for entry in manifest["files"] if entry["kind"] == "npm"]
+        if tuple(entry["id"] for entry in npm_entries) != NPM_IDS:
+            raise ValueError("The candidate npm channel must contain exactly " + ", ".join(NPM_IDS))
         write_json(ts / "package.json", {
             "name": "contracts-archive-consumer", "private": True, "version": "0.0.0", "type": "module",
-            "dependencies": dependencies,
-            "devDependencies": {"typescript": read_json(ROOT / "package.json")["devDependencies"]["typescript"]},
+            "dependencies": {entry["id"]: "file:../feed/" + entry["name"] for entry in npm_entries},
         })
         shutil.copyfile(ROOT / ".npmrc", ts / ".npmrc")
-        shutil.copyfile(ROOT / "tests/public/package-consumer.ts", ts / "consumer.ts")
         shutil.copyfile(ROOT / "fixtures/public/hello.json", consumer / "hello.json")
-        write_json(ts / "tsconfig.json", {
-            "compilerOptions": {"target": "ES2022", "module": "NodeNext", "moduleResolution": "NodeNext",
-                                "strict": True, "noEmitOnError": True, "outDir": "dist"},
-            "include": ["consumer.ts"],
-        })
         ts.joinpath("run.mjs").write_text('''import { readFileSync } from "node:fs";
-import { verify } from "./dist/consumer.js";
-import protoIdentity from "@arcforges/proto/build-identity" with { type: "json" };
-import clientIdentity from "@arcforges/api-client/build-identity" with { type: "json" };
 import { deepStrictEqual } from "node:assert";
+import * as aiInternal from "@arcforges/ai-internal";
+import identity from "@arcforges/ai-internal/build-identity" with { type: "json" };
 const expectedBuild = JSON.parse(readFileSync(process.env.ARCFORGES_EXPECTED_BUILD));
-for (const identity of [protoIdentity, clientIdentity]) {
-  deepStrictEqual(identity.build, expectedBuild);
-  if (!identity.axes.ContractSet.values.some(value => value.subject === "arcforges.hello")) throw new Error("Hello schema identity missing");
-}
-console.log("Both published npm runtime build identities verified.");
-const fixture = JSON.parse(readFileSync(new URL("../hello.json", import.meta.url)));
-await verify(process.argv[2], fixture.cases);
-console.log("TypeScript archive consumer: real gRPC-Web success/error checks passed.");
+deepStrictEqual(identity.build, expectedBuild);
+if (Object.keys(aiInternal).length === 0) throw new Error("@arcforges/ai-internal exports nothing");
+console.log("@arcforges/ai-internal archive consumer: runtime build identity verified.");
 ''', encoding="utf-8")
         run(NPM, "install", "--ignore-scripts", cwd=ts, env=env)
         run(NPM, "ci", "--ignore-scripts", cwd=ts, env=env)
-        run("node", ts / "node_modules/typescript/bin/tsc", "-p", ts / "tsconfig.json", cwd=ts, env=env)
+        run("node", ts / "run.mjs", cwd=ts, env=env)
 
         # CON.40: the Kotlin (Maven) consumer is retired with the Maven channel.
         native = consumer / "native-client"
@@ -178,7 +164,6 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
                 wait_for_host(host, [grpc_port, web_port])
                 run("dotnet", consumer / "HelloClient/bin/Release/net10.0/HelloClient.dll",
                     f"http://127.0.0.1:{grpc_port}", consumer / "hello.json", cwd=consumer, env=env)
-                run("node", ts / "run.mjs", f"http://127.0.0.1:{web_port}", cwd=ts, env=env)
                 if aot:
                     run(native / ("HelloClient.exe" if os.name == "nt" else "HelloClient"),
                         f"http://127.0.0.1:{grpc_port}", consumer / "hello.json", cwd=consumer, env=env)
@@ -203,7 +188,8 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
                 "csharp": "passed", "npm": "passed",
                 "nativeAot": "passed" if aot else "not-run"},
             "inputs": manifest["files"], "isolatedCaches": True, "sourceReferences": False,
-            "csharpGrpc": "passed", "typescriptGrpcWeb": "passed", "nativeOnlyKotlinClient": "retired",
+            "csharpGrpc": "passed", "aiInternalNpm": "passed", "typescriptGrpcWeb": "retired",
+            "nativeOnlyKotlinClient": "retired",
             "nativeAotGrpc": "passed" if aot else "not-run",
             "browser": "not-run", "androidDevice": "not-run",
         })

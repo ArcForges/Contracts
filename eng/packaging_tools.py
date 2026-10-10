@@ -16,7 +16,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 from package_catalog import packages, ordered, closure
-from contracts import (ARTIFACTS, DOTNET_PROJECT, NPM, NPM_IDS, NPM_PROJECTS, NUGET_ID,
+from contracts import (ARTIFACTS, DOTNET_PROJECT, NPM, NPM_IDS, NUGET_ID,
                        ROOT, build, check_tools, generate, read_json, run, sha256,
                        source_commit, version, write_json)
 
@@ -168,7 +168,8 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
                descriptor_path.read_bytes(), identity))
 
 
-NAMING_PACKAGES = {"@arcforges/proto", "ArcForges.Contracts.Validation"}
+# CON.40: @arcforges/proto is retired; the C# Validation package is the one carrier of the naming scanner.
+NAMING_PACKAGES = {"ArcForges.Contracts.Validation"}
 NAMING_FILES = ("eng/check_naming.py", "eng/policy/product-names.json")
 
 
@@ -223,6 +224,9 @@ def pack(release: str) -> None:
                 f"-p:RepositoryCommit={commit}", f"-p:ContractMetadataDir={nuget_metadata}")
             entries.append({"name": f"{row['id']}.{release}.nupkg", "kind": "nuget", "id": row["id"]})
         for row in ordered("npm"):
+            # CON.40: retired catalog rows are never packed; the npm channel is closed to NPM_IDS.
+            if row["id"] not in NPM_IDS:
+                raise ValueError("Retired or unregistered npm identity cannot be packed: " + row["id"])
             project = ROOT / row["sourceRoot"]
             package = read_json(project / "package.json")
             target = stage / package["name"].split("/")[-1]

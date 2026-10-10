@@ -184,6 +184,10 @@
     {
       "id": "@arcforges/proto",
       "kind": "npm",
+      "retired": {
+        "task": "CON.40",
+        "reason": "C#-only SDK standardisation (P2-021 Decision 4): no new version is generated, built, packed or published from main; the TypeScript sources and generators are removed and already published versions stay immutable and resolvable."
+      },
       "access": "public",
       "sourceRoot": "src/public/ts/proto",
       "proto": [
@@ -213,6 +217,10 @@
     {
       "id": "@arcforges/api-client",
       "kind": "npm",
+      "retired": {
+        "task": "CON.40",
+        "reason": "C#-only SDK standardisation (P2-021 Decision 4): no new version is generated, built, packed or published from main; the TypeScript sources and generators are removed and already published versions stay immutable and resolvable."
+      },
       "access": "public",
       "sourceRoot": "src/public/ts/api-client",
       "proto": [],
@@ -233,6 +241,10 @@
     {
       "id": "@arcforges/contract-fixtures",
       "kind": "npm",
+      "retired": {
+        "task": "CON.40",
+        "reason": "C#-only SDK standardisation (P2-021 Decision 4): no new version is generated, built, packed or published from main; the TypeScript sources and generators are removed and already published versions stay immutable and resolvable."
+      },
       "access": "public",
       "sourceRoot": "src/public/ts/contract-fixtures",
       "proto": [],
@@ -258,6 +270,10 @@
     {
       "id": "@arcforges/operator-client",
       "kind": "npm",
+      "retired": {
+        "task": "CON.40",
+        "reason": "C#-only SDK standardisation (P2-021 Decision 4): no new version is generated, built, packed or published from main; the TypeScript sources and generators are removed and already published versions stay immutable and resolvable."
+      },
       "access": "internal",
       "sourceRoot": "src/internal/ts/operator-client",
       "proto": ["internal/proto/arcforges/operator/v1/operator.proto"],

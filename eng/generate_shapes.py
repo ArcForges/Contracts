@@ -1041,17 +1041,19 @@ function inventoryRules(value: unknown): boolean {
 
 
 def generate(check: bool = False) -> None:
+    # CON.40: a TypeScript root is emitted only for the retained @arcforges/ai-internal package. The public
+    # schemas keep their C# models and validators; the retired @arcforges/api-client root is None.
     mappings = [
-        ('public/http/v1/manifest.schema.json', 'ArcForges.Sdk.Contracts.Extensions.V1', 'src/public/dotnet/ArcForges.Sdk.Contracts', 'src/public/ts/api-client'),
-        ('public/http/v1/workflow.schema.json', 'ArcForges.Sdk.Contracts.Extensions.V1', 'src/public/dotnet/ArcForges.Sdk.Contracts', 'src/public/ts/api-client'),
-        ('public/http/v1/panel.schema.json', 'ArcForges.Sdk.Contracts.Extensions.V1', 'src/public/dotnet/ArcForges.Sdk.Contracts', 'src/public/ts/api-client'),
-        ('public/http/v1/policy-body.schema.json', 'ArcForges.Contracts.PublicApi.Http.V1.Policy', 'src/public/dotnet/ArcForges.Contracts.PublicApi', 'src/public/ts/api-client'),
+        ('public/http/v1/manifest.schema.json', 'ArcForges.Sdk.Contracts.Extensions.V1', 'src/public/dotnet/ArcForges.Sdk.Contracts', None),
+        ('public/http/v1/workflow.schema.json', 'ArcForges.Sdk.Contracts.Extensions.V1', 'src/public/dotnet/ArcForges.Sdk.Contracts', None),
+        ('public/http/v1/panel.schema.json', 'ArcForges.Sdk.Contracts.Extensions.V1', 'src/public/dotnet/ArcForges.Sdk.Contracts', None),
+        ('public/http/v1/policy-body.schema.json', 'ArcForges.Contracts.PublicApi.Http.V1.Policy', 'src/public/dotnet/ArcForges.Contracts.PublicApi', None),
         ('internal/ai-http/v1/configuration.schema.json', 'ArcForges.Contracts.CloudInternal.Http.V1', 'src/internal/dotnet/ArcForges.Contracts.CloudInternal', 'src/internal/ts/ai-internal'),
-        ("public/http/v1/schema.json", "ArcForges.Contracts.PublicApi.Http.V1", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
-        ("public/http/v1/inventory.schema.json", "ArcForges.Sdk.Contracts.Inventory.V1", "src/public/dotnet/ArcForges.Sdk.Contracts", "src/public/ts/api-client"),
-        ("public/http/v1/signed-formats.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.SignedFormats", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
-        ("public/http/v1/browser.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.Browser", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
-        ("public/http/v1/native-auth.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.NativeAuth", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
+        ("public/http/v1/schema.json", "ArcForges.Contracts.PublicApi.Http.V1", "src/public/dotnet/ArcForges.Contracts.PublicApi", None),
+        ("public/http/v1/inventory.schema.json", "ArcForges.Sdk.Contracts.Inventory.V1", "src/public/dotnet/ArcForges.Sdk.Contracts", None),
+        ("public/http/v1/signed-formats.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.SignedFormats", "src/public/dotnet/ArcForges.Contracts.PublicApi", None),
+        ("public/http/v1/browser.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.Browser", "src/public/dotnet/ArcForges.Contracts.PublicApi", None),
+        ("public/http/v1/native-auth.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.NativeAuth", "src/public/dotnet/ArcForges.Contracts.PublicApi", None),
         ("internal/ai-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
         ("internal/cf-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
         ("internal/storage-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Storage.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
@@ -1100,19 +1102,23 @@ def generate(check: bool = False) -> None:
                 if imports:
                     generated_ts = generated_ts.replace(HEADER, HEADER + imports, 1)
             generated_model_names = compiler.model_names - external
+            validator_root = csroot if "CloudInternal" in namespace else "src/public/dotnet/ArcForges.Contracts.Validation"
+            # One generated scope per output root: the TypeScript module when one is emitted, otherwise the
+            # shared C# validator root, so duplicate model and root names are still refused before writing.
+            scope = tsroot or validator_root
             for known, key, names in [(cs_symbols, namespace, compiler.cs_symbols),
-                                      (ts_symbols, tsroot, generated_model_names)]:
+                                      (ts_symbols, scope, generated_model_names)]:
                 duplicate = names & known.setdefault(key, set())
                 if duplicate:
                     raise ValueError(f"Duplicate generated schema model names in {key}: {sorted(duplicate)}; use distinct authored definition names")
                 known[key].update(names)
             name = schema["title"]
-            if name in tsnames.setdefault(tsroot, []):
+            if name in tsnames.setdefault(scope, []):
                 raise ValueError(f"Duplicate generated root type: {name}")
-            tsnames[tsroot].append(name)
-            validator_root = csroot if "CloudInternal" in namespace else "src/public/dotnet/ArcForges.Contracts.Validation"
+            tsnames[scope].append(name)
             planned.append((csroot, validator_root, name, generated_cs, generated_validator))
-            tsoutputs.setdefault(tsroot, []).append(generated_ts)
+            if tsroot:
+                tsoutputs.setdefault(tsroot, []).append(generated_ts)
         if "x-arcforges-routes" in authored:
             wires = {compiler.title: compiler.wire for compiler in compilers}
             route_cs, route_ts = route_catalogue(authored["title"], namespace, authored["x-arcforges-routes"], wires)
@@ -1123,7 +1129,8 @@ def generate(check: bool = False) -> None:
         emit(ROOT / validator_root / "Generated/Shapes" / (name + "Validator.g.cs"), generated_validator, check)
     for csroot, tsroot, title, route_cs, route_ts in route_catalogues:
         emit(ROOT / csroot / "Generated/Shapes" / (title + "Routes.g.cs"), route_cs, check)
-        emit(ROOT / tsroot / "src/shapes/gen" / (title + "Routes.ts"), route_ts, check)
+        if tsroot:
+            emit(ROOT / tsroot / "src/shapes/gen" / (title + "Routes.ts"), route_ts, check)
     for tsroot, contents in tsoutputs.items():
         # Separate module scopes avoid helper/name collisions while preserving one public entry.
         names = tsnames[tsroot]
@@ -1291,13 +1298,7 @@ def generate_proto_checks(check: bool) -> None:
             content += SYNC_ADMISSION_CS
         content += "\n}\n"
         emit(ROOT / directory / "Generated/Shapes/ProtoValidation.g.cs", content, check)
-    # Public protobuf-es checks intentionally exclude extension/private protocols.
-    for directory, names in [("src/public/ts/proto", {n for n in public if not n.startswith("arcforges.extensions.")}),
-                             ("src/internal/ts/operator-client", next((g[2] for g in groups if g[0] == "ArcForges.Contracts.CloudInternal.Shapes"), set()))]:
-        from foundation_semantics import TS_HELPERS, DESCRIPTOR_TS_HELPERS, SYNC_ADMISSION_TS, ts_imports
-        descriptor_helpers = DESCRIPTOR_TS_HELPERS if "arcforges.foundation.v1.ContractVersion" in names else ""
-        sync_admission = SYNC_ADMISSION_TS if "arcforges.publicapi.v1.AggregateBody" in names else ""
-        emit(ROOT / directory / "src/shapes/gen/proto.ts", HEADER + ts_imports(names) + "\n".join(proto_ts(name, messages) for name in sorted(names)) + TS_PROTO_HELPERS + TS_HELPERS + descriptor_helpers + sync_admission, check)
+    # CON.40: the protobuf-es (TypeScript) shape checks retired with @arcforges/proto and @arcforges/operator-client.
 
 
 def proto_cs(name: str, messages: dict) -> str:
@@ -1396,101 +1397,6 @@ def cs_field_checks(prop: str, field: dict, rules: dict) -> list[str]:
     return result
 
 
-def proto_ts(name: str, messages: dict) -> str:
-    from foundation_semantics import ts_rules
-    from con06_inprocess import TS_RULES
-    info = messages[name]
-    profile = info["constraints"]
-    simple = name.split(".")[-1]
-    lines = [f"export function is{simple}(input: unknown): boolean {{ return check{simple}(input, {{active: new Set<object>(), depth: 0}}); }}",
-             f"function check{simple}(input: unknown, context: ValidationContext): boolean {{",
-             "  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;",
-             "  context.active.add(input); context.depth++;", "  try {", "  const value = input as Record<string, unknown>;"]
-    groups: dict[str, list[str]] = {}
-    for fieldname, rules in profile["fields"].items():
-        field = info["fields"][fieldname]
-        if field["oneof"]:
-            groups.setdefault(field["oneof"], []).append(fieldname)
-            prop = f"(value.{field['oneof']} as {{value: unknown}}).value"
-            lines.append(f"  if ((value.{field['oneof']} as {{case?: string}} | undefined)?.case === {literal(fieldname)}) {{")
-        else:
-            prop = "value." + fieldname
-            if rules.get("required") or field["label"] == "repeated":
-                lines.append(f"  if ({prop} === undefined) return false;")
-            lines.append(f"  if ({prop} !== undefined) {{")
-        lines.append(f"    const fieldValue = {prop};")
-        prop = "fieldValue"
-        repeated = field["label"] == "repeated"
-        if repeated:
-            lines += [f"    if (!Array.isArray({prop})) return false;"]
-            for key, op in [("minItems", "<"), ("maxItems", ">")]:
-                if key in rules:
-                    lines.append(f"    if ({prop}.length {op} {rules[key]}) return false;")
-            if rules.get("unique"):
-                lines.append(f"    if (new Set({prop}).size !== {prop}.length) return false;")
-            lines.append(f"    for (const item of {prop}) {{")
-        lines.extend("    " + line for line in ts_field_checks("item" if repeated else prop, field, rules.get("items", {}) if repeated else rules))
-        if repeated:
-            lines.append("    }")
-        lines.append("  }")
-    for group, members in groups.items():
-        lines.append(f"  if (value.{group} === undefined || typeof value.{group} !== 'object' || value.{group} === null) return false;")
-        options = [literal(v) for v in members]
-        if group not in profile.get("oneofRequired", []):
-            options.append("undefined")
-        lines.append("  if (" + " && ".join(f"(value.{group} as {{case?: string}}).case !== {o}" for o in options) + ") return false;")
-    special = {
-        "nonzeroId": "if (!(value.value as Uint8Array).some(v => v !== 0)) return false;",
-        "canonicalDecimal": "if (!canonicalDecimal(value.value as string)) return false;",
-        "committedRevision": "if ((value.revision as {value: bigint}).value <= 0n) return false;",
-        "authChallengePurpose": "if (value.purpose === 4 ? value.recoveryMethod === undefined || value.method !== undefined : value.method === undefined || value.recoveryMethod !== undefined) return false;",
-        "exclusiveRevision": "if ([value.expectedRev, value.expectedNative].filter(v => v !== undefined).length > 1) return false;",
-        "chunkOffsets": "if ((value.offset as bigint) + BigInt((value.bytes as Uint8Array).length) > 18446744073709551615n || value.nextOffset !== (value.offset as bigint) + BigInt((value.bytes as Uint8Array).length)) return false;",
-        **ts_rules,
-        **TS_RULES,
-    }
-    lines.extend("  " + special[rule] for rule in profile.get("rules", []))
-    lines += ["  return true;", "  } finally { context.depth--; context.active.delete(input); }", "}"]
-    return "\n".join(lines)
-
-
-def ts_field_checks(prop: str, field: dict, rules: dict) -> list[str]:
-    kind = field["type"]
-    result = []
-    if field["message"]:
-        return [f"if (!check{field['message'].split('.')[-1]}({prop}, context)) return false;"]
-    bigint = kind in {"uint64", "int64", "sint64"}
-    if kind == "bytes":
-        result.append(f"if (!({prop} instanceof Uint8Array)) return false;")
-    else:
-        typename = "bigint" if bigint else "string" if kind == "string" else "boolean" if kind == "bool" else "number"
-        result.append(f"if (typeof {prop} !== {literal(typename)}) return false;")
-        if typename == "number":
-            if kind in {"double", "float"}:
-                result.append(f"if (!Number.isFinite({prop}){f' || Math.abs({prop}) > 3.4028234663852886e38' if kind == 'float' else ''}) return false;")
-            else:
-                result.append(f"if (!Number.isInteger({prop}) || {prop} < {'0' if kind == 'uint32' else '-2147483648'} || {prop} > {'4294967295' if kind == 'uint32' else '2147483647'}) return false;")
-        if kind == "string":
-            result.append(f"if (!validUnicode({prop})) return false;")
-    if bigint:
-        lower, upper = ("0n", "18446744073709551615n") if kind == "uint64" else ("-9223372036854775808n", "9223372036854775807n")
-        result.append(f"if ({prop} < {lower} || {prop} > {upper}) return false;")
-    for key, op in [("min", "<"), ("max", ">")]:
-        if key in rules:
-            result.append(f"if ({prop} {op} {rules[key]}{'n' if bigint else ''}) return false;")
-    for key, op in [("bytesLength", "!=="), ("minLength", "<"), ("maxLength", ">")]:
-        if key in rules:
-            size = f"[...{prop}].length" if kind == "string" else prop + ".length"
-            result.append(f"if ({size} {op} {rules[key]}) return false;")
-    if "pattern" in rules:
-        result.append(f"if ((new RegExp({literal(rules['pattern'])}, 'u')).exec({prop})?.[0] !== {prop}) return false;")
-    if "maxUtf8Bytes" in rules:
-        result.append(f"if (utf8Length({prop}) > {rules['maxUtf8Bytes']}) return false;")
-    if "enumValues" in rules:
-        result.append("if (" + " && ".join(f"{prop} !== {json.dumps(v)}" for v in rules["enumValues"]) + ") return false;")
-    return result
-
-
 CS_PROTO_HELPERS = r'''
     private sealed class ValidationContext
     {
@@ -1533,35 +1439,6 @@ CS_PROTO_HELPERS = r'''
     }
 '''
 
-TS_PROTO_HELPERS = r'''
-type ValidationContext = {active: Set<object>; depth: number};
-function validUnicode(text: string): boolean {
-  for (let i = 0; i < text.length; i++) {
-    const unit = text.charCodeAt(i);
-    if (unit < 0xd800 || unit > 0xdfff) continue;
-    if (unit > 0xdbff || ++i >= text.length) return false;
-    const low = text.charCodeAt(i);
-    if (low < 0xdc00 || low > 0xdfff) return false;
-  }
-  return true;
-}
-
-function canonicalDecimal(value: string): boolean {
-  if (/^-?(0|[1-9][0-9]*)(\.[0-9]{1,9})?$/.exec(value)?.[0] !== value) return false;
-  if (value.startsWith('-') && !/[1-9]/.test(value)) return false;
-  return value.replace(/[-.]/g, '').replace(/^0+/, '').length <= 28;
-}
-function utf8Length(value: string): number {
-  let size = 0;
-  for (const scalar of value) {
-    const point = scalar.codePointAt(0)!;
-    size += point <= 0x7f ? 1 : point <= 0x7ff ? 2 : point <= 0xffff ? 3 : 4;
-  }
-  return size;
-}
-'''
-# SPDX-License-Identifier: Apache-2.0
-# Local handoff source; integrate reviewed constants into the owned generator.
 CS_PANEL_RULES = r'''
     private static bool PanelTree(global::System.Text.Json.JsonElement value)
     {

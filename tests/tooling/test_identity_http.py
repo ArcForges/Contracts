@@ -268,8 +268,14 @@ class IdentityHttpExceptions(unittest.TestCase):
         identity = "public/proto/arcforges/publicapi/v1/identity.proto"
         owners = sorted(pid for pid, row in catalog.items() if identity in row["proto"])
         self.assertEqual(owners, ["@arcforges/proto", "ArcForges.Contracts.PublicApi", "io.github.arcforges:contracts-connect-client", "io.github.arcforges:contracts-proto"])
+        # CON.40: the TypeScript and Kotlin owners are kept as retired rows; PublicApi is the one active owner.
+        retired = {pid for pid, row in catalog.items() if "retired" in row}
+        self.assertEqual([pid for pid in owners if pid not in retired], ["ArcForges.Contracts.PublicApi"])
+        self.assertTrue(all(catalog[pid]["retired"]["task"] == "CON.40" for pid in owners if pid in retired))
         for schema in ("public/http/v1/browser.schema.json", "public/http/v1/native-auth.schema.json"):
-            self.assertEqual(sorted(pid for pid, row in catalog.items() if schema in row["jsonSchemas"]), ["@arcforges/api-client", "ArcForges.Contracts.PublicApi"])
+            schema_owners = sorted(pid for pid, row in catalog.items() if schema in row["jsonSchemas"])
+            self.assertEqual(schema_owners, ["@arcforges/api-client", "ArcForges.Contracts.PublicApi"])
+            self.assertEqual([pid for pid in schema_owners if pid not in retired], ["ArcForges.Contracts.PublicApi"])
 
     def test_identity_proto_matches_the_independent_fixture_oracle(self):
         text = re.sub(r"//[^\n]*", "", (ROOT / "public/proto/arcforges/publicapi/v1/identity.proto").read_text(encoding="utf-8"))
