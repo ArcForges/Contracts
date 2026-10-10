@@ -4,7 +4,7 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="ArcForges.Contracts.PublicApi" Version="1.0.0-ci.113.1" />
+    <PackageVersion Include="ArcForges.Contracts.PublicApi" Version="1.0.0-ci.350.1" />
     <PackageVersion Include="ArcForges.Build.Policy" Version="1.0.0-ci.94.1" />
     <PackageVersion Include="Google.Protobuf" Version="3.36.1" />
     <PackageVersion Include="Grpc.Core.Api" Version="2.84.0" />
