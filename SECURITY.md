@@ -18,12 +18,14 @@ private contact channel without disclosing the vulnerability itself.
 
 ## Release security
 
-CI has read-only permissions by default. Only main NuGet/npm registry jobs request
-OIDC identity, after generation, build and isolated package-consumer checks.
-Maven Central uses its environment's Portal token and in-memory PGP signing key.
-Rotate those credentials, keep the PGP public key available, and restrict the
-environment to main. All publishers use checked archives; the signing-only build
-cannot compile or replace them. Never commit credentials or signing material.
+CI has read-only permissions by default. Only the main and release-tag NuGet and
+npm (`@arcforges/ai-internal` only) registry jobs request OIDC identity, after the
+generation, build and offline candidate checks. Both publishers use the checked
+candidate archives and cannot rebuild them. The Maven Central channel, its Portal
+token and its PGP signing key are retired (CON.40): no workflow reads them, and
+removing the unused `maven-central` environment secrets is a repository-settings
+task for the owner. Already published packages stay immutable; nothing is
+unpublished, deprecated or deleted. Never commit credentials or signing material.
 
 Dependency updates, dependency review, CodeQL and secret scanning complement
 review; passing these checks does not prove the absence of vulnerabilities.

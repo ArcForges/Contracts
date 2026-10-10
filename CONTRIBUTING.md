@@ -11,11 +11,12 @@
 
 Use LF/UTF-8 and the repository formatting rules. Do not hand-edit generated code
 or publish from a contributor branch. Dependency updates include the affected
-lock files; CI restores them in locked mode. For Gradle changes, use
-`python eng/contracts.py restore --update-locks`, regenerate and pack, then
-`python eng/contracts.py consume --update-kotlin-locks` to refresh the separate
-consumer locks/checksums. Review both dependency versions and new checksums;
-ordinary CI must never generate or accept missing verification metadata.
+lock files; CI restores them in locked mode (`npm ci` and `dotnet restore --locked-mode`).
+For an intentional update, use `python eng/contracts.py restore --update-locks`,
+regenerate and review both the dependency versions and the lock diff; ordinary CI
+must never generate or accept a missing lock entry. The Gradle build, Kotlin
+generators and Maven channel are retired (CON.40), so no Gradle lock, wrapper or
+verification metadata is maintained here.
 
 ## Concurrent contract closures
 
@@ -41,23 +42,12 @@ that main, regenerates bindings and inventories with pinned tools, and obtains
 review of the updated head. Never hand-merge generated output or create a second
 publication solely for validation.
 
-A Dependabot Gradle PR can update the version catalog or wrapper without
-refreshing the producer or isolated consumer locks and checksums. Wrapper
-upgrades can also change embedded Kotlin dependencies. Complete the same update
-sequence in that PR before merging; rebasing alone does not regenerate them.
-Keep the wrapper JAR, scripts and properties together, verify the upstream JAR
-and distribution checksums, and preserve the `.gitattributes` line-ending rules.
-
-The Java/Kotlin CodeQL job temporarily pins the SHA-256-verified upstream
-`codeql-bundle-20260913` nightly because stable CLI 2.27.0 cannot extract Kotlin
-2.4.20. This is an unsupported prerelease scanner, used only in that analysis job;
-it is not a package or build dependency. See the
-[upstream compatibility issue](https://github.com/github/codeql/issues/22381#issuecomment-5620711447).
-Once the action's recommended stable CLI includes the fix in 2.27.1 or later,
-remove the bundle download and `tools` override and verify Java/Kotlin extraction
-with the pinned compiler. Do not downgrade Kotlin to work around the scanner:
-older Gradle plugins are affected by
-[GHSA-r937-wjx7-w2jp](https://github.com/advisories/GHSA-r937-wjx7-w2jp).
+Dependabot updates the NuGet, npm and GitHub Actions dependencies. The Gradle
+ecosystem and the npm `protobuf` and `connect` groups of the retired TypeScript
+generators left the Dependabot configuration with CON.40, and the Java/Kotlin CodeQL job and its
+pinned prerelease CodeQL bundle were removed; CodeQL analyses C#,
+JavaScript/TypeScript and Python. Never reintroduce a source, generator or new
+version for a retired package identity.
 
 Contributions to ArcForges-authored source, generated bindings, examples, tooling,
 configuration and documentation use Apache-2.0 under the root LICENSE. Add SPDX

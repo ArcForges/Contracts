@@ -1,7 +1,13 @@
 # Kotlin artifacts implementation plan
 
+> **Retired (CON.40).** The Kotlin and Maven packages this plan produced are retired from new
+> publication: the Kotlin sources, generators, Gradle build and consumer tests are removed, and
+> their cases are mapped to C# suites in `eng/policy/con-40-test-map.json`. Already published
+> versions stay immutable and resolvable; nothing is unpublished, deprecated or deleted. Android
+> consumers use the C# NuGet packages. This plan is historical evidence only.
+
 Historical completed bootstrap plan. WP03.00 retires `contracts-client` from
-new publications; the current three-module inventory is authoritative in
+new publications; the three-module inventory, retired by CON.40, stays recorded in
 [the producer catalog](../eng/contract-packages.json). Existing releases remain immutable.
 
 > Historical plan/evidence. Current execution follows [AGENTS.md](../AGENTS.md) and Design P2-017;

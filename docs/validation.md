@@ -1,5 +1,11 @@
 # Bootstrap validation evidence
 
+> **CON.40.** The TypeScript, Java/Kotlin and Maven evidence below describes channels that are
+> retired from new publication. The current candidate contains the twelve C# NuGet packages and
+> `@arcforges/ai-internal` only; the retired TypeScript and Kotlin tests are mapped one for one to
+> C# cases in `eng/policy/con-40-test-map.json`, and the Java/Kotlin CodeQL check and Maven
+> environment are no longer used.
+
 > Historical plan/evidence. Current execution follows [AGENTS.md](../AGENTS.md) and Design P2-017;
 > hosted runtime/consumer gates and repeated public-byte checks below are superseded, not instructions to repeat them.
 
