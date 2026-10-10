@@ -2,7 +2,6 @@
 """Exercise rejected source and actual MSBuild boundaries in temporary repositories."""
 
 import json
-import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -183,14 +182,19 @@ class LicenceBoundaryTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('AFL002', result.stdout)
 
-    def test_actual_gradle_rejects_evaluated_override(self):
-        init = self.root / 'override.gradle'
-        init.write_text('gradle.afterProject { p -> if (p.path == ":contracts-connect-client") p.ext.licenceBoundary = "AGPL" }\n', encoding='utf-8')
-        wrapper = ROOT / ('gradlew.bat' if os.name == 'nt' else 'gradlew')
-        result = subprocess.run([str(wrapper), '--no-daemon', '--console=plain', '-I', str(init), 'help'],
-                                cwd=ROOT, text=True, encoding='utf-8', capture_output=True, timeout=180)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn('AFL001', result.stdout + result.stderr)
+    def test_gradle_build_is_retired(self):
+        # CON.40 retired the Kotlin/Maven channel, so the evaluated Gradle override check has no build left to run:
+        # the owner has no Gradle wrapper or Gradle project, and a Gradle project that reappears without a
+        # reviewed registration is inventory drift.
+        for name in ('gradlew', 'gradlew.bat', 'build.gradle.kts', 'settings.gradle.kts', 'gradle'):
+            with self.subTest(name=name):
+                self.assertFalse((ROOT / name).exists())
+        self.assertNotIn('gradle', {project['kind'] for project in audit(ROOT)['projects']})
+        self.assertNotIn('gradle', {entry['kind'] for entry in json.loads(
+            (ROOT / 'eng/policy/licence-boundary.json').read_text(encoding='utf-8'))['projects']})
+        self.write('build.gradle.kts', 'extra["spdxLicense"] = "Apache-2.0"\nextra["licenceBoundary"] = "Apache"\n')
+        with self.assertRaisesRegex(ValueError, 'inventory drift'):
+            audit(self.root)
 
 
 if __name__ == '__main__':

@@ -701,9 +701,14 @@ class DependencyAdmission(unittest.TestCase):
             validate(self.policy, self.graph)
 
     def test_review_cannot_mutate_previously_admitted_artifact(self):
+        # CON.40 retired the Gradle/Maven closure, so the current policy admits no maven: coordinate; the last
+        # receipt that admitted them (con-40-r2) keeps them immutable history for any later successor.
+        self.assertFalse(any(key.startswith('maven:') for key in self.policy['closure']))
+        maven_history = json.loads((ROOT / 'eng/policy/dependency-reviews/con-40-r2.json').read_text())
         for kind in ['nuget:', 'npm:', 'maven:']:
-            old = copy.deepcopy(self.policy)
-            changed = copy.deepcopy(self.policy)
+            base = maven_history if kind == 'maven:' else self.policy
+            old = copy.deepcopy(base)
+            changed = copy.deepcopy(base)
             row = next(value for key, value in changed['closure'].items() if key.startswith(kind))
             if isinstance(row['integrity'], dict):
                 row['integrity'][next(iter(row['integrity']))] = ['0' * 64]

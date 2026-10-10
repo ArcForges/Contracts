@@ -85,6 +85,19 @@ class ReleaseGuards(unittest.TestCase):
                         publish_verified(ARTIFACTS / "packages", "npm")
                     network.assert_not_called()
 
+    def test_retired_maven_channel_cannot_be_reached_by_any_event(self):
+        # CON.40 retired the Maven channel (formerly test_maven_release.test_pr_event_cannot_reach_maven_credentials):
+        # a Maven publication request fails closed for every event, before any candidate or registry access.
+        for event in ("pull_request", "push"):
+            env = {"GITHUB_EVENT_NAME": event, "GITHUB_REPOSITORY": "ArcForges/Contracts",
+                   "GITHUB_REF": "refs/heads/main", "GITHUB_SHA": "a" * 40}
+            with self.subTest(event=event), patch.dict(os.environ, env), patch("publish_tools.get") as network, \
+                    patch("publish_tools.verify_artifacts") as candidate:
+                with self.assertRaisesRegex(ValueError, "Retired or unknown publication channel"):
+                    publish_verified(ARTIFACTS / "packages", "maven")
+                network.assert_not_called()
+                candidate.assert_not_called()
+
     def test_duplicate_npm_version_with_different_bytes_fails(self):
         manifest = json.loads((ARTIFACTS / "packages/manifest.json").read_text())
         entry = next(entry for entry in manifest["files"] if entry["kind"] == "npm")

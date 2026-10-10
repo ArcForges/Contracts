@@ -15,7 +15,6 @@ from urllib.parse import quote
 import xml.etree.ElementTree as ET
 import zipfile
 
-from release_channels import maven_version
 from package_catalog import packages, ordered, closure
 from contracts import (ARTIFACTS, DOTNET_PROJECT, NPM, NPM_IDS, NPM_PROJECTS, NUGET_ID,
                        ROOT, build, check_tools, generate, read_json, run, sha256,
@@ -97,7 +96,6 @@ def nuget_graph(release: str, row: dict | None = None) -> tuple[list[dict], list
 
 
 def package_row(identity: str) -> dict:
-    identity = identity.replace("/", ":") if identity.startswith("io.github.arcforges/") else identity
     return next(row for row in packages() if row["id"] == identity)
 
 
@@ -160,9 +158,7 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
         "descriptorSha256": sha256(descriptor_path),
         "dependencyLocks": {"package-lock.json": sha256(ROOT / "package-lock.json"),
                             **{item["sourceRoot"] + "/packages.lock.json": sha256(ROOT / item["sourceRoot"] / "packages.lock.json")
-                               for item in packages("nuget")},
-                            **{str(path.relative_to(ROOT)).replace("\\", "/"): sha256(path)
-                               for path in [ROOT / "gradle.lockfile", *sorted((ROOT / "src/public/kotlin").rglob("gradle.lockfile"))]}},
+                               for item in packages("nuget")}},
     })
     from build_identity import build as build_identity, report
     identity = build_identity()
@@ -170,9 +166,6 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
         raise ValueError("Source changed while packaging")
     write_json(directory / "build-identity.json", report(root, dependencies,
                descriptor_path.read_bytes(), identity))
-    if root["purl"].startswith("pkg:maven/"):
-        write_json(directory / "META-INF/arcforges" / root["name"].split("/")[-1] / "build-identity.json",
-                   read_json(directory / "build-identity.json"))
 
 
 NAMING_PACKAGES = {"@arcforges/proto", "ArcForges.Contracts.Validation"}
@@ -252,8 +245,7 @@ def pack(release: str) -> None:
             packed = json.loads(run(NPM, "pack", target, "--ignore-scripts", "--json",
                                     "--pack-destination", output, capture=True))
             entries.append({"name": packed[0]["filename"], "kind": "npm", "id": package["name"]})
-        from maven_tools import pack as pack_maven
-        entries.append(pack_maven(output, release, commit, dirty))
+        # CON.40: the Maven bundle is retired; retired catalog rows are never packed.
         for descriptor in sorted({row["descriptor"] for row in packages()}):
             shutil.copyfile(ARTIFACTS / descriptor, output / descriptor)
             entries.append({"name": descriptor, "kind": "descriptor", "id": "descriptor:" + descriptor})
@@ -261,7 +253,7 @@ def pack(release: str) -> None:
             entry.update(sha256=sha256(output / entry["name"]), size=(output / entry["name"]).stat().st_size)
         from build_identity import build as build_identity
         write_json(output / "manifest.json", {"format": "arcforges.contracts.candidate.v1", "build": build_identity(),
-                   "version": release, "mavenVersion": maven_version(release),
+                   "version": release,
                    "commit": commit, "dirty": dirty, "files": entries})
     verify_artifacts(output, commit)
     print(f"Candidate archives are ready in {output}. Publication has not occurred.")
@@ -289,17 +281,16 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
     if manifest["format"] != "arcforges.contracts.candidate.v1":
         raise ValueError("Unknown candidate format")
     if "mavenVersion" in manifest:
-        if manifest["mavenVersion"] != maven_version(release):
-            raise ValueError("Maven coordinate differs from the build channel")
+        raise ValueError("The Maven channel is retired (CON.40); a candidate cannot carry a Maven version")
     if commit and manifest["commit"] != commit:
         raise ValueError("Candidate source commit differs from the expected checkout")
     from build_identity import validate_source, verify_report
     validate_source(manifest["build"])
     if manifest["build"]["sourceCommit"] != manifest["commit"] or manifest["build"]["dirty"] != manifest["dirty"]:
         raise ValueError("Candidate build identity differs from source metadata")
-    kinds = {row["id"]: row["kind"] for row in packages() if row["kind"] != "maven"}
+    # Active catalog rows only: a retired identity (CON.40) is never part of a new candidate.
+    kinds = {row["id"]: row["kind"] for row in packages()}
     kinds.update({"descriptor:" + row["descriptor"]: "descriptor" for row in packages()})
-    kinds["io.github.arcforges"] = "maven"
     if len(manifest["files"]) != len(kinds) or {entry["id"] for entry in manifest["files"]} != set(kinds):
         raise ValueError("Candidate must contain the complete registered package and descriptor inventory")
     names = {entry["name"] for entry in manifest["files"]}
@@ -320,10 +311,6 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
         if entry["kind"] == "descriptor":
             if entry["id"] != "descriptor:" + name or not path.read_bytes():
                 raise ValueError("Missing descriptor")
-            continue
-        if entry["kind"] == "maven":
-            from maven_tools import verify_bundle
-            verify_bundle(path, manifest, (directory / "contracts.binpb").read_bytes())
             continue
         row = package_row(entry["id"])
         descriptor = (directory / row["descriptor"]).read_bytes()

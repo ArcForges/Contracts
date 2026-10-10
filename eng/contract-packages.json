@@ -268,6 +268,10 @@
     {
       "id": "io.github.arcforges:contracts-proto",
       "kind": "maven",
+      "retired": {
+        "task": "CON.40",
+        "reason": "C#-only SDK standardisation (P2-021 Decision 4): no new version is generated, built, packed or published from main; the Kotlin sources are removed and already published versions stay immutable and resolvable."
+      },
       "access": "public",
       "sourceRoot": "src/public/kotlin/contracts-proto",
       "proto": [
@@ -297,6 +301,10 @@
     {
       "id": "io.github.arcforges:contracts-connect-client",
       "kind": "maven",
+      "retired": {
+        "task": "CON.40",
+        "reason": "C#-only SDK standardisation (P2-021 Decision 4): no new version is generated, built, packed or published from main; the Kotlin sources are removed and already published versions stay immutable and resolvable."
+      },
       "access": "public",
       "sourceRoot": "src/public/kotlin/contracts-connect-client",
       "proto": [
@@ -320,6 +328,10 @@
     {
       "id": "io.github.arcforges:contract-fixtures",
       "kind": "maven",
+      "retired": {
+        "task": "CON.40",
+        "reason": "C#-only SDK standardisation (P2-021 Decision 4): no new version is generated, built, packed or published from main; the Kotlin sources are removed and already published versions stay immutable and resolvable."
+      },
       "access": "public",
       "sourceRoot": "src/public/kotlin/contract-fixtures",
       "proto": [],

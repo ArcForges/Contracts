@@ -7,7 +7,6 @@ import os
 from pathlib import Path
 import re
 import subprocess
-import tomllib
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -226,9 +225,9 @@ def immutable_coordinates(policy, receipts):
 
 
 def frameworks(root):
+    # CON.40 retired the Gradle/Kotlin toolchain (gradle/libs.versions.toml); its pins leave the selection.
     return {'dotnetSdk': json.loads((root / 'global.json').read_text())['sdk']['version'],
-            'node': (root / '.node-version').read_text().strip(),
-            **tomllib.loads((root / 'gradle/libs.versions.toml').read_text())['versions']}
+            'node': (root / '.node-version').read_text().strip()}
 
 
 def major_upgrade(before, after):

@@ -11,11 +11,9 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "eng"))
-import central_publish
-import snapshot_publish
 from consumer_tools import NUGET_ID, consume, pin_candidate
 from packaging_tools import verify_artifacts
-from publish_tools import existing_matches
+from publish_tools import existing_matches, publish_verified
 
 
 class PublicationCompletion(unittest.TestCase):
@@ -25,70 +23,20 @@ class PublicationCompletion(unittest.TestCase):
         self.root = Path(self.temporary.name)
         self.directory = self.root / "candidate"
         self.directory.mkdir()
-        (self.directory / "maven.zip").write_bytes(b"retained-candidate")
-        self.manifest = {"version": "1.0.0", "mavenVersion": "1.0.0", "commit": "a" * 40,
-                         "files": [{"kind": "maven", "name": "maven.zip", "sha256": "b" * 64}]}
-        self.deployment = "69143abb-d8f5-40d3-b9fe-bc030561be28"
-        self.status = {"deploymentId": self.deployment, "deploymentName": "ArcForges-Contracts-1.0.0",
-                       "deploymentState": "PUBLISHED", "purls": [
-                           f"pkg:maven/io.github.arcforges/{name}@1.0.0" for name in central_publish.MAVEN_MODULES]}
-        self.environment = {"MAVEN_CENTRAL_USERNAME": "fixture", "MAVEN_CENTRAL_TOKEN": "fixture-only",
-                            "MAVEN_CENTRAL_DEPLOYMENT_ID": ""}
+        self.manifest = {"version": "1.0.0", "commit": "a" * 40, "files": []}
 
-    def central(self, status):
-        with patch("central_publish.ARTIFACTS", self.root), \
-             patch("central_publish.zip_contents", return_value={}), \
-             patch("central_publish.recover_receipt", return_value={"deploymentId": self.deployment, "phase": "PUBLISHING"}), \
-             patch("central_publish.request", return_value=json.dumps(status).encode()) as request, \
-             patch("central_publish.get", side_effect=AssertionError("Public artifact download prohibited")), \
-             patch.dict(os.environ, self.environment):
-            central_publish.publish(self.directory, self.manifest)
-            self.assertEqual(request.call_count, 1)
-            self.assertIn("/status?", request.call_args.args[0])
-
-    def test_published_coordinates_complete_without_public_download(self):
-        self.central(self.status)
-        receipt = json.loads((self.root / "publication/deployment.json").read_text())
-        self.assertEqual(receipt["phase"], "PUBLISHED")
-
-    def test_other_deployment_or_package_cannot_complete(self):
-        for key, value in (("deploymentId", "another"), ("deploymentName", "another"), ("purls", [])):
-            with self.subTest(key=key), self.assertRaises(ValueError):
-                self.central(dict(self.status, **{key: value}))
-
-    def test_network_error_is_not_retried(self):
-        with patch("central_publish.zip_contents", return_value={}), \
-             patch("central_publish.ARTIFACTS", self.root), \
-             patch("central_publish.recover_receipt", return_value={"deploymentId": self.deployment, "phase": "PUBLISHING"}), \
-             patch("central_publish.request", side_effect=ConnectionError("fixture network failure")) as request, \
-             patch.dict(os.environ, self.environment), self.assertRaises(ConnectionError):
-            central_publish.publish(self.directory, self.manifest)
-        request.assert_called_once()
-
-    def snapshot(self, current):
-        self.manifest.update(version="1.0.0-ci.12.1", mavenVersion="1.0.0-SNAPSHOT")
-        with patch("snapshot_publish.ARTIFACTS", self.root), \
-             patch("snapshot_publish.run", return_value=json.dumps(current)), \
-             patch("snapshot_publish.zip_contents", return_value={"candidate": b"bytes"}), \
-             patch("snapshot_publish.transport") as transport, \
-             patch("snapshot_publish.inspect", side_effect=AssertionError("Public byte inspection prohibited")), \
-             patch("snapshot_publish.get", side_effect=AssertionError("Public artifact download prohibited")):
-            snapshot_publish.publish(self.directory, self.manifest)
-        return transport
-
-    def test_latest_main_completes_at_upload(self):
-        transport = self.snapshot({"ref": "refs/heads/main", "object": {"type": "commit", "sha": "a" * 40}})
-        transport.assert_called_once_with({"candidate": b"bytes"}, "1.0.0-SNAPSHOT")
-        self.assertEqual(json.loads((self.root / "publication/deployment.json").read_text())["phase"], "upload-completed")
-
-    def test_superseded_main_does_not_upload(self):
-        transport = self.snapshot({"ref": "refs/heads/main", "object": {"type": "commit", "sha": "c" * 40}})
-        transport.assert_not_called()
-        self.assertEqual(json.loads((self.root / "publication/deployment.json").read_text())["phase"], "superseded")
-
-    def test_malformed_main_ref_does_not_upload(self):
-        with self.assertRaisesRegex(ValueError, "invalid main"):
-            self.snapshot({"ref": "refs/heads/main", "object": {"type": "tag", "sha": "a" * 40}})
+    def test_maven_publication_modules_are_retired(self):
+        # CON.40: the Central and snapshot completion paths no longer exist, so no credentialed Maven
+        # publication can be reached; nothing already published is touched.
+        import importlib.util
+        for module in ("central_publish", "snapshot_publish", "maven_tools"):
+            with self.subTest(module=module):
+                self.assertIsNone(importlib.util.find_spec(module))
+        with patch.dict(os.environ, {"GITHUB_EVENT_NAME": "push", "GITHUB_REPOSITORY": "ArcForges/Contracts",
+                                     "GITHUB_REF": "refs/heads/main", "GITHUB_SHA": "a" * 40}), \
+                patch("publish_tools.get", side_effect=AssertionError("Public artifact download prohibited")), \
+                self.assertRaisesRegex(ValueError, "Retired or unknown publication channel"):
+            publish_verified(self.directory, "maven")
 
     def test_existing_nuget_fails_from_metadata_without_downloading_archive(self):
         entry = {"kind": "nuget", "id": "ArcForges.Contracts.PublicApi"}
@@ -126,19 +74,22 @@ class PublicationCompletion(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "more than once"):
             pin_candidate(path, "1.0.0-ci.311.1")
 
-    def test_kotlin_consumer_receives_the_repository_root_it_cannot_walk_to(self):
+    def test_kotlin_consumer_is_retired(self):
+        # CON.40: the Kotlin (Maven) package consumer and its sources are retired with the Maven channel.
+        import importlib.util
         root = Path(__file__).resolve().parents[2]
         tool = (root / "eng/consumer_tools.py").read_text(encoding="utf-8")
-        kotlin = (root / "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/Con11ApplicationStreamsCases.kt").read_text(encoding="utf-8")
-        self.assertRegex(tool, r"run\(connect_client, web_port, grpc_port, cwd=consumer, env=dict\(connect_env, ARCFORGES_REPOSITORY_ROOT=str\(ROOT\)\)\)")
-        self.assertIn('System.getenv("ARCFORGES_REPOSITORY_ROOT")', kotlin)
+        self.assertIsNone(importlib.util.find_spec("kotlin_consumer"))
+        self.assertNotIn("kotlin_consumer", tool)
+        self.assertNotIn("connect_client", tool)
+        self.assertFalse((root / "tests/public/KotlinConnectClient").exists())
 
     def test_publication_handoff_checks_bytes_without_rescanning_archives(self):
         entries = []
         from package_catalog import packages
         inventory = [("package-" + str(index) + (".nupkg" if row["kind"] == "nuget" else ".tgz"), row["kind"], row["id"])
-                     for index, row in enumerate(packages()) if row["kind"] != "maven"]
-        inventory += [("maven.zip", "maven", "io.github.arcforges")]
+                     for index, row in enumerate(packages())]
+        self.assertNotIn("maven", {kind for _, kind, _ in inventory})
         inventory += [(name, "descriptor", "descriptor:" + name)
                       for name in sorted({row["descriptor"] for row in packages()})]
         for name, kind, identity in inventory:
@@ -152,6 +103,15 @@ class PublicationCompletion(unittest.TestCase):
         with patch("build_identity.validate_source"), \
              patch("packaging_tools.archive_files", side_effect=AssertionError("Archive rescan prohibited")):
             self.assertEqual(verify_artifacts(self.directory, "a" * 40, contents=False), manifest)
+            # A retired Maven bundle can no longer enter the candidate inventory (CON.40).
+            (self.directory / "maven.zip").write_bytes(b"retired-channel")
+            retired = dict(manifest, files=[*entries, {"name": "maven.zip", "kind": "maven", "id": "io.github.arcforges",
+                                                       "sha256": hashlib.sha256(b"retired-channel").hexdigest(), "size": 15}])
+            (self.directory / "manifest.json").write_text(json.dumps(retired), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "complete registered package and descriptor inventory"):
+                verify_artifacts(self.directory, "a" * 40, contents=False)
+            (self.directory / "maven.zip").unlink()
+            (self.directory / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
             (self.directory / inventory[0][0]).write_bytes(b"altered")
             with self.assertRaisesRegex(ValueError, "hash or size mismatch"):
                 verify_artifacts(self.directory, "a" * 40, contents=False)

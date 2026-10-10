@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Resource admission and semantic checks against the actual Maven candidate."""
+"""Dokka resource admission and profile checks; the Maven javadoc archives are retired (CON.40)."""
 
 import copy
 import json
 import re
 from pathlib import Path
 import sys
+import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "eng"))
 import documentation_tools as documentation
-from maven_tools import zip_contents
 
 
 CON10_PUBLIC_SERVICE_METHODS = {
@@ -1213,34 +1213,38 @@ class DocumentationAdmissionTests(unittest.TestCase):
             documentation.verify_components(policy, {})
 
 
-class DocumentationArchiveTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.root = Path(__file__).resolve().parents[2]
-        directory = cls.root / "artifacts/packages"
-        cls.manifest = json.loads((directory / "manifest.json").read_bytes())
-        bundle = next(row for row in cls.manifest["files"] if row["kind"] == "maven")
-        cls.files = zip_contents((directory / bundle["name"]).read_bytes())
+class DocumentationArchiveRetirementTests(unittest.TestCase):
+    """CON.40 retired the Maven channel, so no Dokka javadoc archive is built any more.
 
-    def fixture(self, module):
-        name = f"io/github/arcforges/{module}/{self.manifest.get('mavenVersion', self.manifest['version'])}/{module}-{self.manifest.get('mavenVersion', self.manifest['version'])}-javadoc.jar"
-        return self.files[name], zip_contents(self.files[name])
+    The former archive-mutation cases read the javadoc JARs from the Maven candidate bundle. That bundle no
+    longer exists, so they become an assertion of its retirement: the candidate cannot carry a Maven bundle
+    or Maven version, and the Maven producer and its Kotlin sources are gone. The committed Dokka profiles
+    and their reviewed resource deltas above stay verified unchanged.
+    """
 
-    def test_actual_archive_resource_mutations_fail_semantic_checks(self):
-        archive, original = self.fixture("contract-fixtures")
-        changes = [lambda d: d.update({"script.js": b"GPL replacement"}),
-                   lambda d: d.update({"ui-kit/fonts/extra.woff2": b"font"}),
-                   lambda d: d.update({"scripts/main.js": d["scripts/main.js"] + b"/* changed */"}),
-                   lambda d: d.pop("index.html"),
-                   lambda d: d.update({"NOTICE": d["NOTICE"].replace(b"webpack", b"missing", 1)}),
-                   lambda d: d.update({"META-INF/MANIFEST.MF": b"Manifest-Version: 1.0\nExtra: changed\n\n"})]
-        for change in changes:
-            with self.subTest(change=change):
-                docs = copy.deepcopy(original)
-                change(docs)
-                with self.assertRaises(ValueError):
-                    documentation.verify(docs, "contract-fixtures", self.manifest, archive)
-
+    def test_maven_javadoc_archives_are_retired(self):
+        import importlib.util
+        import package_catalog
+        import packaging_tools
+        root = Path(__file__).resolve().parents[2]
+        self.assertIsNone(importlib.util.find_spec("maven_tools"))
+        self.assertFalse((root / "src/public/kotlin").exists())
+        self.assertNotIn("maven", {row["kind"] for row in package_catalog.packages()})
+        retired = [row for row in package_catalog.packages(include_retired=True) if row["kind"] == "maven"]
+        self.assertEqual({row["id"] for row in retired}, {"io.github.arcforges:" + module for module in
+                                                          ("contracts-proto", "contracts-connect-client", "contract-fixtures")})
+        self.assertTrue(all(row["retired"]["task"] == "CON.40" for row in retired))
+        source = (root / "eng/packaging_tools.py").read_text(encoding="utf-8")
+        self.assertNotIn("maven_tools", source)
+        self.assertNotIn("javadoc", source)
+        with tempfile.TemporaryDirectory(prefix="retired-javadoc-") as temporary:
+            directory = Path(temporary)
+            (directory / "manifest.json").write_text(json.dumps({
+                "format": "arcforges.contracts.candidate.v1", "version": "1.0.0-ci.1.1",
+                "mavenVersion": "1.0.0-SNAPSHOT", "commit": "a" * 40, "dirty": False,
+                "build": {"sourceCommit": "a" * 40, "dirty": False}, "files": []}), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "Maven channel is retired"):
+                packaging_tools.verify_artifacts(directory, contents=False)
 
 if __name__ == "__main__":
     unittest.main()

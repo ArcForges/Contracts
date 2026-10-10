@@ -56,23 +56,10 @@ def pin_candidate(path: Path, release: str) -> None:
     pins.write(path, encoding="utf-8", xml_declaration=True)
 
 
-def consume(directory: Path, aot: bool, update_kotlin_locks: bool = False, snapshot_registry: bool = False) -> None:
+def consume(directory: Path, aot: bool) -> None:
     if os.environ.get("GITHUB_ACTIONS") or os.environ.get("CI", "").lower() == "true":
         raise ValueError("Package consumers are explicit local diagnostics only; CI execution is prohibited")
     manifest = verify_artifacts(directory)
-    repository = None
-    def verify_snapshot():
-        from snapshot_publish import PUBLIC, inspect
-        from maven_tools import verify_bundle
-        if manifest.get("mavenVersion") != "1.0.0-SNAPSHOT":
-            raise ValueError("Live snapshot consumption requires a snapshot candidate")
-        entry = next(item for item in manifest["files"] if item["kind"] == "maven")
-        files = verify_bundle(directory / entry["name"], manifest, (directory / "contracts.binpb").read_bytes())
-        if not inspect(files, manifest)[0]:
-            raise ValueError("Live snapshot differs from the tested candidate")
-        return PUBLIC
-    if snapshot_registry:
-        repository = verify_snapshot()
     release = manifest["version"]
     rid = "win-x64" if os.name == "nt" else "linux-x64"
     evidence_dir = ARTIFACTS / "evidence" / rid
@@ -168,9 +155,7 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
         run(NPM, "ci", "--ignore-scripts", cwd=ts, env=env)
         run("node", ts / "node_modules/typescript/bin/tsc", "-p", ts / "tsconfig.json", cwd=ts, env=env)
 
-        from kotlin_consumer import prepare as prepare_kotlin
-        connect_client, connect_env = prepare_kotlin(consumer, directory, manifest, env, evidence_dir,
-                                                     update_kotlin_locks, "KotlinConnectClient", repository=repository)
+        # CON.40: the Kotlin (Maven) consumer is retired with the Maven channel.
         native = consumer / "native-client"
         if aot:
             run("dotnet", "restore", consumer / "HelloClient", "-r", rid,
@@ -194,7 +179,6 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
                 run("dotnet", consumer / "HelloClient/bin/Release/net10.0/HelloClient.dll",
                     f"http://127.0.0.1:{grpc_port}", consumer / "hello.json", cwd=consumer, env=env)
                 run("node", ts / "run.mjs", f"http://127.0.0.1:{web_port}", cwd=ts, env=env)
-                run(connect_client, web_port, grpc_port, cwd=consumer, env=dict(connect_env, ARCFORGES_REPOSITORY_ROOT=str(ROOT)))
                 if aot:
                     run(native / ("HelloClient.exe" if os.name == "nt" else "HelloClient"),
                         f"http://127.0.0.1:{grpc_port}", consumer / "hello.json", cwd=consumer, env=env)
@@ -213,18 +197,14 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
         for project_name in ["HelloHost", "HelloClient"]:
             shutil.copyfile(consumer / project_name / "packages.lock.json", evidence_dir / f"{project_name}.packages.lock.json")
         shutil.copyfile(ts / "package-lock.json", evidence_dir / "package-lock.json")
-        if snapshot_registry:
-            pass  # Initial explicit snapshot verification already established this candidate.
         write_json(evidence_dir / "result.json", {
             "version": release, "commit": manifest["commit"], "rid": rid,
             "build": manifest["build"], "runtimeBuildIdentity": {
-                "csharp": "passed", "npm": "passed", "jvmThreeModules": "passed",
+                "csharp": "passed", "npm": "passed",
                 "nativeAot": "passed" if aot else "not-run"},
             "inputs": manifest["files"], "isolatedCaches": True, "sourceReferences": False,
             "csharpGrpc": "passed", "typescriptGrpcWeb": "passed", "nativeOnlyKotlinClient": "retired",
-            "kotlinConnectGrpcWeb": "passed", "kotlinConnectGrpc": "passed",
             "nativeAotGrpc": "passed" if aot else "not-run",
-            "browser": "not-run", "androidDevice": "not-run", "registryRestore": "maven-snapshot-passed" if snapshot_registry else "not-run",
-            "mavenVersion": manifest.get("mavenVersion", release), "mavenRepository": repository or "isolated-candidate",
+            "browser": "not-run", "androidDevice": "not-run",
         })
     print(f"Independent package consumers passed. Evidence: {evidence_dir}")

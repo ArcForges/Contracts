@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Canonical versions and trusted push identities, shared by packing and publishing."""
+"""Canonical versions and trusted push identities, shared by packing and publishing.
+
+The publication channels are NuGet and the single internal npm package channel. The Maven
+channel (and its 1.0.0-SNAPSHOT mapping) is retired by CON.40: no new Maven version is built
+or published, and already published versions stay immutable.
+"""
 
 import os
 import re
@@ -12,14 +17,6 @@ CI = rf"1\.0\.0-ci\.{NUMBER}\.{NUMBER}"
 
 def stable(value: str) -> bool:
     return re.fullmatch(STABLE, value) is not None
-
-
-def maven_version(build: str) -> str:
-    if stable(build):
-        return build
-    if re.fullmatch(CI, build):
-        return "1.0.0-SNAPSHOT"
-    raise ValueError("Unsupported build version")
 
 
 def selected_version() -> str:

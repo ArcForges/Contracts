@@ -72,7 +72,13 @@ def npm_publish_tag(package_id: str, release: str) -> str:
     return "latest" if incoming > current else "ci"
 
 
+CHANNELS = ("nuget", "npm")
+
+
 def publish_verified(directory: Path, registry: str) -> None:
+    if registry not in CHANNELS:
+        # CON.40: the Maven channel is retired. Nothing is unpublished; new versions are not published.
+        raise ValueError(f"Retired or unknown publication channel: {registry}")
     if (os.environ.get("GITHUB_REPOSITORY") != "ArcForges/Contracts"
             or not (os.environ.get("GITHUB_REF") == "refs/heads/main"
                     or os.environ.get("GITHUB_REF", "").startswith("refs/tags/v"))
@@ -82,19 +88,10 @@ def publish_verified(directory: Path, registry: str) -> None:
     if not re.fullmatch("[0-9a-f]{40}", expected_commit):
         raise ValueError("Publishing requires the exact GitHub source commit")
     manifest = verify_artifacts(directory, expected_commit, contents=False)
-    from release_channels import authorize, maven_version
+    from release_channels import authorize
     authorize(manifest["version"])
     if manifest["dirty"]:
         raise ValueError("Never publish a candidate built from a dirty checkout")
-    if registry == "maven":
-        if manifest.get("mavenVersion") != maven_version(manifest["version"]):
-            raise ValueError("Publication requires a channel-aware Maven candidate")
-        if manifest["mavenVersion"].endswith("-SNAPSHOT"):
-            from snapshot_publish import publish
-        else:
-            from central_publish import publish
-        publish(directory, manifest)
-        return
     # Keep manifest order: proto must be accepted before api-client is uploaded.
     entries = [entry for entry in manifest["files"] if entry["kind"] == registry]
     for entry in entries:

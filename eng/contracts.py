@@ -310,9 +310,7 @@ def generate(check: bool = False) -> None:
             if row["kind"] == "npm":
                 generate_export_barrel(row, output, check)
         run(*common(public), "--include_imports", f"--descriptor_set_out={ARTIFACTS / 'contracts.binpb'}")
-        from kotlin_tools import generate as generate_kotlin
-        maven = next(row for row in packages if row["id"] == "io.github.arcforges:contracts-proto")
-        generate_kotlin(protoc, [str(ROOT / source) for source in maven["proto"]], stage, check)
+        # CON.40: the Kotlin/Java (Maven) generators are retired; no Kotlin or Java output is generated.
         generate_service_catalogues(packages, check)
         from generate_shapes import generate as generate_shapes
         generate_shapes(check)
@@ -322,7 +320,7 @@ def generate(check: bool = False) -> None:
         generate_values(check)
         from con06_inprocess import generate as generate_inprocess
         generate_inprocess(check)
-    print("Generated bindings match the authored proto." if check else "Generated C#, TypeScript, Java/Kotlin and descriptor set.")
+    print("Generated bindings match the authored proto." if check else "Generated C#, TypeScript and descriptor set.")
 
 
 def build() -> None:
@@ -413,10 +411,8 @@ def main() -> None:
     consumer_parser = sub.add_parser("consume")
     consumer_parser.add_argument("--directory", type=Path, default=ARTIFACTS / "packages")
     consumer_parser.add_argument("--aot", action="store_true")
-    consumer_parser.add_argument("--snapshot-registry", action="store_true", help="Verify and consume the live Sonatype snapshot")
-    consumer_parser.add_argument("--update-kotlin-locks", action="store_true")
     publish_parser = sub.add_parser("publish")
-    publish_parser.add_argument("registry", choices=["nuget", "npm", "maven"])
+    publish_parser.add_argument("registry", choices=["nuget", "npm"])
     publish_parser.add_argument("--directory", type=Path, default=ARTIFACTS / "packages")
     args = parser.parse_args()
     if args.command == "restore":
@@ -435,7 +431,7 @@ def main() -> None:
             verify_artifacts(args.directory.resolve(), args.commit)
         elif args.command == "consume":
             from consumer_tools import consume
-            consume(args.directory.resolve(), args.aot, args.update_kotlin_locks, args.snapshot_registry)
+            consume(args.directory.resolve(), args.aot)
         elif args.command == "publish":
             publish(args.directory.resolve(), args.registry)
 

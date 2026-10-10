@@ -1,15 +1,26 @@
 # SPDX-License-Identifier: Apache-2.0
-"""The complete Contracts producer inventory shared by build and publication."""
+"""The complete Contracts producer inventory shared by build and publication.
+
+A row marked "retired" stays in the catalog as the record of a published identity whose
+publication stopped (CON.40). No new version of it is generated, built, packed or published:
+packages() and ordered() return active rows only, while closure() still resolves a retired
+identity so its historical schema closure remains reportable.
+"""
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def packages(kind: str | None = None, root: Path = ROOT) -> list[dict]:
+def retired(row: dict) -> bool:
+    return "retired" in row
+
+
+def packages(kind: str | None = None, root: Path = ROOT, *, include_retired: bool = False) -> list[dict]:
     catalog = json.loads((root / "eng/contract-packages.json").read_text(encoding="utf-8"))
     if catalog.get("schemaVersion") != 1:
         raise ValueError("Unsupported contract package catalog")
@@ -29,11 +40,23 @@ def packages(kind: str | None = None, root: Path = ROOT) -> list[dict]:
             raise ValueError("Unknown first-party package dependency")
         if Path(row["descriptor"]).name != row["descriptor"] or "\\" in row["descriptor"]:
             raise ValueError("Descriptor filename must be flat")
-    return [row for row in rows if kind is None or row["kind"] == kind]
+        if retired(row):
+            marker = row["retired"]
+            if (not isinstance(marker, dict) or set(marker) != {"task", "reason"}
+                    or not isinstance(marker["task"], str) or not re.fullmatch(r"[A-Z]+\.[0-9]+", marker["task"])
+                    or not isinstance(marker["reason"], str) or not marker["reason"].strip()):
+                raise ValueError("Retired package marker must name its task and reason: " + row["id"])
+            if (root / row["sourceRoot"]).exists():
+                raise ValueError("Retired package still has producer sources: " + row["id"])
+    by_id = {row["id"]: row for row in rows}
+    for row in rows:
+        if not retired(row) and any(retired(by_id[dep]) for dep in row["dependencies"]):
+            raise ValueError("Active package depends on a retired package: " + row["id"])
+    return [row for row in rows if (kind is None or row["kind"] == kind) and (include_retired or not retired(row))]
 
 
 def closure(package_id: str, root: Path = ROOT) -> list[dict]:
-    rows = {row["id"]: row for row in packages(root=root)}
+    rows = {row["id"]: row for row in packages(root=root, include_retired=True)}
     ordered: list[dict] = []
     active: set[str] = set()
     seen: set[str] = set()

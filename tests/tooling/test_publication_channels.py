@@ -1,10 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Publication boundary negatives and real Gradle snapshot repository transport."""
+"""Publication boundary negatives; the Maven snapshot and Central channels are retired (CON.40)."""
 
+import importlib.util
 import json
-from functools import partial
-from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
-from threading import Thread
 import os
 from pathlib import Path
 import subprocess
@@ -15,18 +13,15 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "eng"))
 from contracts import ARTIFACTS, version
-from release_channels import authorize, maven_version, selected_version
-from snapshot_publish import inspect, resolve, transport
-from maven_tools import verify_bundle
-from publish_tools import npm_publish_tag
+from release_channels import authorize, selected_version
+from packaging_tools import verify_artifacts
+from publish_tools import npm_publish_tag, publish_verified
 
 
 class PublicationChannels(unittest.TestCase):
     def test_versions_and_channel_mapping(self):
         for value in ("1.0.0", "2.31.4", "1.0.0-ci.12.1"):
             self.assertEqual(version(value), value)
-        self.assertEqual(maven_version("1.0.0-ci.12.1"), "1.0.0-SNAPSHOT")
-        self.assertEqual(maven_version("2.31.4"), "2.31.4")
         for value in ("v1.0.0", "01.0.0", "1.0", "1.0.0-SNAPSHOT", "1.0.0-ci.01.1", "1.0.0-rc.1"):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 version(value)
@@ -52,79 +47,30 @@ class PublicationChannels(unittest.TestCase):
             with patch("publish_tools.get", return_value=json.dumps({"dist-tags": {"latest": current}}).encode()):
                 self.assertEqual(npm_publish_tag("@arcforges/proto", incoming), tag)
 
-    def test_snapshot_metadata_cannot_escape_repository(self):
-        for value in ("../../evil", "1.0.0-ci.1.1", "1.0.0-20260920.123456-0"):
-            xml = ("<metadata><groupId>io.github.arcforges</groupId><artifactId>contracts-proto</artifactId>"
-                   "<version>1.0.0-SNAPSHOT</version><versioning><snapshotVersions><snapshotVersion>"
-                   f"<extension>jar</extension><value>{value}</value></snapshotVersion>"
-                   "</snapshotVersions></versioning></metadata>").encode()
-            with patch("snapshot_publish.get", return_value=xml), self.assertRaisesRegex(ValueError, "timestamped"):
-                resolve("contracts-proto", "1.0.0-SNAPSHOT")
+    def test_maven_channel_is_retired(self):
+        # CON.40: the Maven channel stops. Nothing is unpublished; no new Maven version can be selected,
+        # packed or published, and the Maven publication modules no longer exist.
+        import release_channels
+        self.assertFalse(hasattr(release_channels, "maven_version"))
+        for module in ("maven_tools", "central_publish", "snapshot_publish", "kotlin_tools", "kotlin_consumer"):
+            with self.subTest(module=module):
+                self.assertIsNone(importlib.util.find_spec(module))
+        with patch.dict(os.environ, {"GITHUB_EVENT_NAME": "push", "GITHUB_REPOSITORY": "ArcForges/Contracts",
+                                     "GITHUB_REF": "refs/heads/main", "GITHUB_SHA": "a" * 40}), \
+                patch("publish_tools.verify_artifacts", side_effect=AssertionError("Candidate read before channel check")), \
+                patch("publish_tools.get", side_effect=AssertionError("Registry contacted for a retired channel")):
+            with self.assertRaisesRegex(ValueError, "Retired or unknown publication channel"):
+                publish_verified(ARTIFACTS / "packages", "maven")
 
-    @unittest.skipUnless(os.environ.get("ARCFORGES_LOCAL_INTEGRATION") == "1" and not os.environ.get("GITHUB_ACTIONS") and os.environ.get("CI", "").lower() != "true", "Explicit local transport/signing diagnostic only")
-    def test_real_snapshot_transport_preserves_all_candidate_files(self):
-        directory = ARTIFACTS / "packages"
-        manifest = json.loads((directory / "manifest.json").read_text())
-        if manifest.get("mavenVersion") != "1.0.0-SNAPSHOT":
-            self.skipTest("Formal release candidate uses the separately tested signing transport")
-        entry = next(item for item in manifest["files"] if item["kind"] == "maven")
-        files = verify_bundle(directory / entry["name"], manifest, (directory / "contracts.binpb").read_bytes())
-        with tempfile.TemporaryDirectory(prefix="snapshot-repository-") as temporary:
-            repository = Path(temporary)
-            requests = []
-            class RepositoryHandler(SimpleHTTPRequestHandler):
-                def log_message(self, *_args):
-                    pass
-
-                def do_GET(self):
-                    requests.append(("GET", self.path))
-                    super().do_GET()
-
-                def do_PUT(self):
-                    requests.append(("PUT", self.path))
-                    target = Path(self.translate_path(self.path)).resolve()
-                    if not target.is_relative_to(repository.resolve()):
-                        self.send_error(403)
-                        return
-                    size = int(self.headers["Content-Length"])
-                    if not 0 <= size <= 20_000_000:
-                        self.send_error(413)
-                        return
-                    target.parent.mkdir(parents=True, exist_ok=True)
-                    target.write_bytes(self.rfile.read(size))
-                    self.send_response(201)
-                    self.send_header("Content-Length", "0")
-                    self.end_headers()
-
-            server = ThreadingHTTPServer(("127.0.0.1", 0), partial(RepositoryHandler, directory=str(repository)))
-            thread = Thread(target=server.serve_forever, daemon=True)
-            thread.start()
-            uri = f"http://127.0.0.1:{server.server_port}/"
-            try:
-                transport(files, manifest["mavenVersion"], uri)
-                self.assertTrue(any(method == "GET" and path.endswith("maven-metadata.xml") for method, path in requests))
-                self.assertTrue(any(method == "PUT" and path.endswith(".jar") for method, path in requests))
-                complete, records = inspect(files, manifest, uri)
-                self.assertTrue(complete)
-                self.assertEqual(len(records), len(files))
-                # The retry's public-byte check succeeds without another upload.
-                self.assertTrue(inspect(files, manifest, uri)[0])
-                altered = dict(files)
-                jar = next(name for name in altered if name.endswith(".jar") and not name.endswith(("-sources.jar", "-javadoc.jar")))
-                altered[jar] += b"changed"
-                with self.assertRaisesRegex(ValueError, "different bytes"):
-                    inspect(altered, manifest, uri)
-                old = dict(manifest, version="1.0.0-ci.0.0")
-                if old["version"] != manifest["version"]:
-                    with self.assertRaisesRegex(ValueError, "newer snapshot"):
-                        inspect(files, old, uri)
-                target = repository / records[0]["remote"]
-                target.unlink()
-                self.assertFalse(inspect(files, manifest, uri)[0])
-            finally:
-                server.shutdown()
-                server.server_close()
-                thread.join(timeout=5)
+    def test_maven_versioned_candidate_is_rejected(self):
+        with tempfile.TemporaryDirectory(prefix="retired-maven-candidate-") as temporary:
+            directory = Path(temporary)
+            (directory / "manifest.json").write_text(json.dumps({
+                "format": "arcforges.contracts.candidate.v1", "version": "1.0.0-ci.12.1",
+                "mavenVersion": "1.0.0-SNAPSHOT", "commit": "a" * 40, "dirty": False,
+                "build": {"sourceCommit": "a" * 40, "dirty": False}, "files": []}), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "Maven channel is retired"):
+                verify_artifacts(directory, contents=False)
 
 
 if __name__ == "__main__":
