@@ -13,11 +13,6 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
-    groups:
-      protobuf:
-        patterns: ["@bufbuild/*"]
-      connect:
-        patterns: ["@connectrpc/*"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
@@ -25,15 +20,3 @@ updates:
     groups:
       actions:
         patterns: ["*"]
-  - package-ecosystem: gradle
-    directory: /
-    schedule:
-      interval: weekly
-    open-pull-requests-limit: 5
-    groups:
-      grpc:
-        patterns: ["io.grpc:*"]
-      connect-kotlin:
-        patterns: ["com.connectrpc:*"]
-      kotlin:
-        patterns: ["org.jetbrains.kotlin*", "org.jetbrains.kotlinx:*"]

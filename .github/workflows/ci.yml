@@ -45,13 +45,7 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
-      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
-        with:
-          distribution: temurin
-          java-version-file: .java-version
-      - uses: gradle/actions/wrapper-validation@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
       - name: Restore locked dependencies
-        # Java 17 is also the published JVM bytecode target.
         run: python eng/contracts.py restore
       - name: Verify dependency admission and upgrade receipt
         run: python eng/dependency_admission.py
@@ -118,12 +112,10 @@ jobs:
           CANDIDATE_RESULT: ${{ needs.candidate.result }}
           NUGET_ENABLED: ${{ vars.NUGET_PUBLISH_ENABLED }}
           NPM_MODE: ${{ vars.NPM_PUBLISH_MODE }}
-          MAVEN_ENABLED: ${{ vars.MAVEN_PUBLISH_ENABLED }}
         run: |
           test "$CANDIDATE_RESULT" = success
           echo "Generation, compilation, offline checks and candidate validation passed." >> "$GITHUB_STEP_SUMMARY"
           echo "NuGet publishing enabled: ${NUGET_ENABLED:-false}; npm publishing mode: ${NPM_MODE:-disabled}." >> "$GITHUB_STEP_SUMMARY"
-          echo "Maven Central publishing enabled: ${MAVEN_ENABLED:-false}. Kotlin uses compiled Maven JARs." >> "$GITHUB_STEP_SUMMARY"
           echo "Registry jobs only run for main or canonical release-tag pushes. Skipped jobs mean no publication." >> "$GITHUB_STEP_SUMMARY"
 
   publish-nuget:
@@ -198,52 +190,3 @@ jobs:
           NPM_PUBLISH_MODE: ${{ vars.NPM_PUBLISH_MODE }}
           NPM_BOOTSTRAP_TOKEN: ${{ vars.NPM_PUBLISH_MODE == 'bootstrap' && secrets.NPM_BOOTSTRAP_TOKEN || '' }}
         run: python eng/contracts.py publish npm
-
-  publish-maven:
-    name: Publish Maven channel
-    needs: [candidate, verify]
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) && github.repository == 'ArcForges/Contracts' && vars.MAVEN_PUBLISH_ENABLED == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    environment: maven-central
-    concurrency:
-      group: contracts-maven-publication
-      queue: max
-      cancel-in-progress: false
-    permissions:
-      contents: read
-      actions: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
-        with:
-          distribution: temurin
-          java-version-file: .java-version
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version-file: .python-version
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: ${{ needs.candidate.outputs.artifact }}
-          path: artifacts/packages/
-      - name: Publish retained Maven files to the selected channel
-        timeout-minutes: 10
-        env:
-          GH_TOKEN: ${{ github.token }}
-          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
-          MAVEN_SIGNING_KEY: ${{ startsWith(github.ref, 'refs/tags/v') && secrets.MAVEN_SIGNING_KEY || '' }}
-          MAVEN_SIGNING_PASSWORD: ${{ startsWith(github.ref, 'refs/tags/v') && secrets.MAVEN_SIGNING_PASSWORD || '' }}
-          MAVEN_CENTRAL_DEPLOYMENT_ID: ${{ vars.MAVEN_CENTRAL_DEPLOYMENT_ID }}
-        run: python eng/contracts.py publish maven
-      - name: Retain deployment receipt for failed-job recovery
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: maven-deployment-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/publication/deployment.json
-          if-no-files-found: ignore
-          retention-days: 90
