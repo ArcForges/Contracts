@@ -9,23 +9,20 @@
   },
   "packageManager": "npm@11.19.0",
   "workspaces": [
-    "src/public/ts/proto",
-    "src/public/ts/api-client",
-    "src/public/ts/contract-fixtures",
-    "src/internal/ts/ai-internal",
-    "src/internal/ts/operator-client"
+    "src/internal/ts/ai-internal"
   ],
   "scripts": {
     "generate": "python eng/contracts.py generate",
     "generate:check": "python eng/contracts.py generate --check",
-    "build": "npm run build --workspace @arcforges/proto && npm run build --workspace @arcforges/api-client && npm run build --workspace @arcforges/contract-fixtures && npm run build --workspace @arcforges/ai-internal && npm run build --workspace @arcforges/operator-client",
-    "test": "node --test tests/public/wire.test.mjs tests/public/structure.test.mjs tests/public/foundation-links.test.mjs tests/public/serialization.test.mjs tests/public/semantic-hash.test.mjs tests/public/con-02-descriptors.test.mjs tests/public/con-03-sync-allowlist.test.mjs tests/public/support.test.mjs tests/public/extension-policy.test.mjs tests/public/catalog.test.mjs tests/public/simulation.test.mjs tests/public/con-10-chat-task-agent.test.mjs tests/public/con-11-application-streams.test.mjs tests/public/con-24-scope-library.test.mjs tests/public/con-25-connector.test.mjs tests/public/con-25-af-segment.test.mjs tests/public/operator-contract.test.mjs tests/public/con-07-identity.test.mjs && tsc --noEmit --strict --target es2022 --module nodenext tests/public/foundation-types.ts",
+    "build": "npm run build --workspace @arcforges/ai-internal",
+    "test": "npm run test:ai-internal",
+    "test:ai-internal": "node --test tests/public/ai-internal.test.mjs",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
     "verify": "python eng/contracts.py verify-local"
   },
   "devDependencies": {
-    "@bufbuild/protoc-gen-es": "2.15.0",
+    "@bufbuild/protobuf": "2.15.0",
     "prettier": "3.9.8",
     "typescript": "7.0.2"
   },

@@ -1,21 +1,27 @@
 // SPDX-License-Identifier: Apache-2.0
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
 import {
   ROOT,
+  baseCommit,
   checkAssignments,
   checkPackageBoundaries,
   checkPackageInputs,
+  checkRetiredHistory,
+  checkRetiredOperations,
   maskXmlComments,
   checkSources,
   compile,
   declaredTypes,
   descriptorGraph,
   HTTP_SCHEMA_SOURCE,
+  historyIdentities,
   inventory,
+  retiredIdentities,
   safePath,
 } from "../../eng/check_contract_access.mjs";
 
@@ -140,9 +146,10 @@ test("reviewed current source inventory rejects omissions, reassignment and hash
     readFileSync(path.join(ROOT, "eng/policy/contract-access.json"), "utf8"),
   );
   const files = inventory(ROOT);
-  checkSources(ROOT, files, policy);
+  checkSources(ROOT, files, policy, { base: policy });
   for (const mutate of [
     (p) => p.distribution.pop(),
+    (p) => p.distribution.shift(),
     (p) => p.schemas.pop(),
     (p) => p.distribution[0].types.pop(),
     (p) =>
@@ -154,7 +161,7 @@ test("reviewed current source inventory rejects omissions, reassignment and hash
   ]) {
     const changed = structuredClone(policy);
     mutate(changed);
-    assert.throws(() => checkSources(ROOT, files, changed));
+    assert.throws(() => checkSources(ROOT, files, changed, { base: policy }));
   }
   assert.throws(() => checkSources(ROOT, [...files, "src/internal/New.cs"], policy), /unassigned/);
 });
@@ -412,5 +419,245 @@ test("an internal HTTP schema may reference only an existing internal source and
         packages: [{ ...row, access: "public", sourceRoot: "src/public/ts/private" }],
       }),
     /public-to-internal schema ownership/,
+  );
+});
+
+// CON.40 (S47(4)): every historical access row of a retired identity is kept and marked retired; a new row
+// for a retired identity and the removal or change of a historical row are refused.
+const RETIRED = [
+  "@arcforges/proto",
+  "@arcforges/api-client",
+  "@arcforges/contract-fixtures",
+  "@arcforges/operator-client",
+  "io.github.arcforges:contracts-proto",
+  "io.github.arcforges:contracts-connect-client",
+  "io.github.arcforges:contract-fixtures",
+];
+
+function realPolicy() {
+  return JSON.parse(readFileSync(path.join(ROOT, "eng/policy/contract-access.json"), "utf8"));
+}
+
+test("the seven retired identities keep every access row, marked retired, and ai-internal stays active", () => {
+  const retired = retiredIdentities(ROOT);
+  assert.deepEqual([...retired.keys()].sort(), [...RETIRED].sort());
+  assert.ok([...retired.values()].every((task) => task === "CON.40"));
+  const policy = realPolicy();
+  for (const row of policy.packages)
+    assert.equal(row.retired, RETIRED.includes(row.id) ? "CON.40" : undefined, row.id);
+  for (const id of RETIRED)
+    assert.ok(
+      policy.distribution.some((row) => row.package === id),
+      "rows kept for " + id,
+    );
+  const files = inventory(ROOT);
+  for (const row of policy.distribution.filter((r) => RETIRED.includes(r.package)))
+    assert.ok(!files.includes(row.path), row.path);
+  assert.ok(
+    policy.distribution.some((row) => row.package === "@arcforges/ai-internal") &&
+      !retired.has("@arcforges/ai-internal"),
+  );
+});
+
+test("a new access row for a retired identity is refused, and so is removing or changing a historical one", () => {
+  const base = realPolicy();
+  const retired = retiredIdentities(ROOT);
+  checkRetiredHistory(base, base, retired);
+  const index = base.distribution.findIndex((row) => row.package === "@arcforges/proto");
+  const added = structuredClone(base);
+  added.distribution.push({
+    ...base.distribution[index],
+    path: "src/public/ts/proto/src/new.ts",
+  });
+  assert.throws(() => checkRetiredHistory(added, base, retired), /new access row for a retired/);
+  const removed = structuredClone(base);
+  removed.distribution.splice(index, 1);
+  assert.throws(() => checkRetiredHistory(removed, base, retired), /removed or changed/);
+  const changed = structuredClone(base);
+  changed.distribution[index].types = [];
+  assert.throws(() => checkRetiredHistory(changed, base, retired), /removed or changed/);
+  const owner = structuredClone(base);
+  owner.packages = owner.packages.filter((row) => row.id !== "@arcforges/proto");
+  assert.throws(() => checkRetiredHistory(owner, base, retired), /owner of a retired identity/);
+  const historical = structuredClone(base);
+  historical.packages = historical.packages.filter((row) => row.id !== "@arcforges/proto");
+  assert.throws(() => checkRetiredHistory(base, historical, retired), /new access owner/);
+  // The base before the marking had no retired field: adding the marker is not a change of the row.
+  const unmarked = structuredClone(base);
+  for (const row of unmarked.packages) delete row.retired;
+  delete unmarked.retiredOperations;
+  checkRetiredHistory(base, unmarked, retired);
+  // Rows of active identities follow their sources and may come and go.
+  const active = structuredClone(base);
+  active.distribution = active.distribution.filter(
+    (row) => row.package !== "ArcForges.Contracts.LocalRpc.Chat",
+  );
+  checkRetiredHistory(active, base, retired);
+});
+
+function realCatalog() {
+  return JSON.parse(readFileSync(path.join(ROOT, "eng/contract-packages.json"), "utf8"));
+}
+
+// S50(2)(a): the retired set is the union of the base and head catalogs, so the access check alone refuses
+// erasing a retired identity from eng/contract-packages.json together with its owner and historical rows.
+test("erasing a retired identity from the catalog and the access policy is refused against either base", () => {
+  const catalog = realCatalog();
+  const policy = realPolicy();
+  const files = inventory(ROOT);
+  // The base before CON.40 (origin/main) carries neither catalog nor access markers.
+  const unmarkedCatalog = structuredClone(catalog);
+  for (const row of unmarkedCatalog.packages) delete row.retired;
+  const unmarkedPolicy = structuredClone(policy);
+  for (const row of unmarkedPolicy.packages) delete row.retired;
+  delete unmarkedPolicy.retiredOperations;
+  const bases = [
+    [policy, catalog],
+    [unmarkedPolicy, unmarkedCatalog],
+  ];
+  // The unchanged head passes against both bases.
+  for (const [base, baseCatalog] of bases) {
+    assert.deepEqual(
+      [...historyIdentities(catalog, baseCatalog).keys()].sort(),
+      [...RETIRED].sort(),
+    );
+    checkSources(ROOT, files, policy, { base, baseCatalog });
+  }
+  for (const erased of [
+    ["@arcforges/operator-client"],
+    ["io.github.arcforges:contract-fixtures"],
+    ["@arcforges/operator-client", "io.github.arcforges:contract-fixtures"],
+  ]) {
+    const headCatalog = structuredClone(catalog);
+    headCatalog.packages = headCatalog.packages.filter((row) => !erased.includes(row.id));
+    const head = structuredClone(policy);
+    head.packages = head.packages.filter((row) => !erased.includes(row.id));
+    head.distribution = head.distribution.filter((row) => !erased.includes(row.package));
+    // The head catalog alone no longer names the erased identities; the base catalog still does.
+    assert.ok(erased.every((id) => !retiredIdentities(ROOT, headCatalog).has(id)));
+    for (const [base, baseCatalog] of bases) {
+      const history = historyIdentities(headCatalog, baseCatalog);
+      assert.deepEqual([...history.keys()].sort(), [...RETIRED].sort());
+      assert.throws(
+        () => checkSources(ROOT, files, head, { catalog: headCatalog, base, baseCatalog }),
+        /historical access row of a retired identity removed or changed/,
+      );
+      // Keeping the historical rows but dropping only the owner row is refused as well.
+      const owners = structuredClone(policy);
+      owners.packages = owners.packages.filter((row) => !erased.includes(row.id));
+      assert.throws(
+        () => checkRetiredHistory(owners, base, history),
+        /owner of a retired identity/,
+      );
+    }
+  }
+});
+
+test("retired marking must match the package inventory and retired sources must stay gone", () => {
+  const policy = realPolicy();
+  const files = inventory(ROOT);
+  const unmarked = structuredClone(policy);
+  delete unmarked.packages.find((row) => row.id === "@arcforges/proto").retired;
+  assert.throws(() => checkSources(ROOT, files, unmarked), /retired access marking differs/);
+  const marked = structuredClone(policy);
+  marked.packages.find((row) => row.id === "@arcforges/ai-internal").retired = "CON.40";
+  assert.throws(() => checkSources(ROOT, files, marked), /retired access marking differs/);
+  const restored = policy.distribution.find((row) => row.package === "@arcforges/proto").path;
+  assert.throws(
+    () => checkSources(ROOT, [...files, restored], policy),
+    /retired package keeps producer sources/,
+  );
+  const escaped = structuredClone(policy);
+  escaped.distribution.find((row) => row.package === "@arcforges/proto").path =
+    "src/public/ts/other.ts";
+  assert.throws(() => checkSources(ROOT, files, escaped), /invalid retired access row/);
+});
+
+test("checkPackageInputs refuses a retired identity whose producer sources reappear", (t) => {
+  const root = temporary(t);
+  const row = {
+    id: "@arcforges/retired",
+    kind: "npm",
+    access: "public",
+    sourceRoot: "src/public/ts/retired",
+    dependencies: [],
+    retired: { task: "CON.40", reason: "fixture" },
+  };
+  checkPackageInputs(root, { packages: [row] });
+  mkdirSync(path.join(root, row.sourceRoot), { recursive: true });
+  assert.throws(
+    () => checkPackageInputs(root, { packages: [row] }),
+    /retired package keeps producer sources/,
+  );
+});
+
+test("the five ContentSandbox PDF RPCs are marked retired and stay declared", (t) => {
+  const policy = realPolicy();
+  assert.deepEqual(
+    policy.retiredOperations.map((row) => row.method),
+    ["OpenPdf", "GetPdfPage", "ExtractPdfText", "RenderPdfTile", "ClosePdf"],
+  );
+  for (const row of policy.retiredOperations) {
+    assert.equal(row.service, "arcforges.local.sandbox.v1.ContentSandboxService");
+    assert.equal(row.decision, "P2-022");
+    assert.equal(row.task, "CON.40");
+  }
+  const files = inventory(ROOT);
+  for (const mutate of [
+    (p) => p.retiredOperations.push(structuredClone(p.retiredOperations[0])),
+    (p) => (p.retiredOperations[0].service = "arcforges.local.sandbox.v1.Unknown"),
+    (p) => (p.retiredOperations[0].decision = "pending"),
+    (p) => delete p.retiredOperations,
+  ]) {
+    const changed = structuredClone(policy);
+    mutate(changed);
+    assert.throws(() => checkSources(ROOT, files, changed));
+  }
+  const dropped = structuredClone(policy);
+  dropped.retiredOperations.pop();
+  assert.throws(
+    () => checkRetiredHistory(dropped, policy, retiredIdentities(ROOT)),
+    /retired operation marking removed/,
+  );
+  const { descriptor } = fixture(t, [
+    [
+      "internal",
+      "sandbox.proto",
+      "message M { string v = 1; } service ContentSandboxService { rpc OpenPdf(M) returns (M); }",
+    ],
+  ]);
+  checkRetiredOperations(descriptor, [
+    { service: "sample.ContentSandboxService", method: "OpenPdf" },
+  ]);
+  assert.throws(
+    () =>
+      checkRetiredOperations(descriptor, [
+        { service: "sample.ContentSandboxService", method: "ClosePdf" },
+      ]),
+    /retired operation is not declared/,
+  );
+});
+
+test("the history base is the reviewed pull-request or merge-group base, else the pushed parent", (t) => {
+  const head = execFileSync("git", ["-C", ROOT, "rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+  const root = temporary(t);
+  const event = path.join(root, "event.json");
+  const cases = [
+    ["pull_request", { pull_request: { base: { sha: head } } }, "refs/pull/1/merge"],
+    ["merge_group", { merge_group: { base_sha: head } }, "refs/heads/gh-readonly-queue/main"],
+    ["push", { before: head }, "refs/heads/main"],
+    ["push", { before: "0".repeat(40) }, "refs/heads/main"],
+    ["push", { before: "0".repeat(40) }, "refs/tags/v1.0.0"],
+  ];
+  for (const [name, value, ref] of cases) {
+    writeFileSync(event, JSON.stringify(value));
+    assert.equal(
+      baseCommit(ROOT, { GITHUB_EVENT_NAME: name, GITHUB_EVENT_PATH: event, GITHUB_REF: ref }),
+      head,
+    );
+  }
+  writeFileSync(event, JSON.stringify({ pull_request: { base: { sha: "f".repeat(40) } } }));
+  assert.throws(() =>
+    baseCommit(ROOT, { GITHUB_EVENT_NAME: "pull_request", GITHUB_EVENT_PATH: event }),
   );
 });

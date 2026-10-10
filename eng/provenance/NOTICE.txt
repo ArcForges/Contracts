@@ -31,7 +31,7 @@ Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
 Selected ArcForges contract bindings are generated from Apache-2.0 schemas using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0 and Connect-Kotlin 0.9.0. Shape validators, domain identity adapters and fixture exports use Apache-2.0 repository tooling. Historical protobuf BSD-3-Clause and applicable generator Apache-2.0 attributions are retained. Build tools are not bundled in client packages. Native-grpc-only Android generation remains retired.
 
-contract-bindings-con-25-r1
+contract-bindings-con-40-r2
 Source: https://github.com/ArcForges/Contracts @ 05bfe3bf1757d8ef507e8bf205418a763b871f64
 Material licence: Apache-2.0
 Notice scope: packages
@@ -40,7 +40,7 @@ Copyright 2008 Google Inc. All rights reserved.
 Copyright 2015, 2019, 2020 gRPC authors.
 Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
-Generated Contracts source remains Apache-2.0. CON.25 adds only the authorized public connector contracts, the local call-context record, the af-segment simulation records and generated C#, TypeScript, Kotlin and JSON-shape bindings; it adds no runtime behavior and no new generator or third-party package.
+Generated Contracts source remains Apache-2.0. CON.40 retires the generated Kotlin/Java bindings with the Maven channel and the generated TypeScript bindings of the retired npm packages; the retained generated C#, @arcforges/ai-internal TypeScript and JSON-shape bindings are unchanged, and no runtime behavior, generator or third-party package is added.
 
 dokka-array-buffer-byte-length-licence-r1
 Source: https://github.com/inspect-js/array-buffer-byte-length @ 59deea89141b4aeeb64122e5e15efda485942c00
@@ -168,14 +168,6 @@ Notice scope: documentation
 Copyright (C) 2015 Jordan Harband
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
-
-dokka-documentation-resources-r21
-Source: https://github.com/Kotlin/dokka @ 656ca46fbbd676d872b0bd383042fc12ae7adcdd
-Material licence: Apache-2.0 AND MIT
-Notice scope: documentation
-Copyright 2014-2024 JetBrains s.r.o. and Dokka contributors.
-The 81 actual included npm components, original copyright holders and full licences are enumerated in the immutable profile and retained documentation notices.
-Dokka 2.2.0 API documentation includes its Apache-2.0 frontend and the reviewed Apache/MIT dependency closure. Every documentation companion retains all 81 dependency licence texts and the Dokka licence/NOTICE. The ten embedded OFL fonts and their four font-face declarations are excluded; system font fallbacks remain. No JDK Javadoc GPL resource is used. Public API documentation, navigation and offline search remain available. An Apache-2.0 ArcForges CSS correction makes content links readable in the dark theme. The r19 documentation adds the CON.11 public Application, History, Execution and Event service API pages, including EventService.Poll; its private RunStream projection remains outside public documentation. The r21 documentation adds the CON.25 public ConnectorService client/interface API pages, its records and the four af-segment Simulation records.
 
 dokka-dom-helpers-licence-r1
 Source: https://github.com/react-bootstrap/dom-helpers @ 06310089836557a0affb1eeed65d175aadcb22db
@@ -719,14 +711,6 @@ Notice scope: documentation
 Copyright (c) 2015 Jordan Harband
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
-
-gradle-wrapper-9-7-1-r1
-Source: https://github.com/gradle/gradle @ 92f0512e7f06d84621afba191f75e265363890cf
-Material licence: Apache-2.0
-Notice scope: source
-Copyright 2015 the original author or authors.
-Copyright 2023 the original author or authors (wrapper generator).
-Gradle wrapper 9.7.1 retains its original script headers and embedded JAR licence. Apache-2.0 terms are provided in LICENSE.
 
 protobuf-generator-licence-r1
 Source: https://github.com/protocolbuffers/protobuf @ 35cd01f9fe9afbeea38cc7b979a3b6bfcde82c03

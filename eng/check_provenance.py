@@ -36,35 +36,100 @@ LICENCES = {**{name: "permissive" for name in
             "GPL-3.0-only": "gpl-only", "NOASSERTION": "unclear", "EPL-1.0": "incompatible"}
 
 
-def retired_contract_artifact(root: Path, owner: str, target: dict, old_record: str,
-                              files: set | list) -> bool:
-    """One explicit historical retirement; all other removed artifacts fail closed."""
-    receipt_path = "eng/provenance/retirements/contracts-client-wp03-00.json"
-    expected = {"project": "contracts-client", "package": "io.github.arcforges:contracts-client",
-                "kind": "maven-javadoc"}
-    if owner != "Contracts" or any(target.get(key) != value for key, value in expected.items()):
-        return False
-    if receipt_path not in files:
-        return False
-    receipt = document(read(root, receipt_path))
-    fields(receipt, "schemaVersion owner project package kind previousRecord replacementPackage sourceRoot designCommit reason")
-    require(receipt["schemaVersion"] == 1 and receipt["owner"] == owner and
-            all(receipt[key] == value for key, value in expected.items()), "Invalid artifact retirement identity")
-    require(receipt["previousRecord"] == old_record == "dokka-documentation-resources-r3",
-            "Artifact retirement does not bind the accepted record")
-    require(receipt["designCommit"] == "26f15ebf6278e8cd42c2b2396e82c326513e1078" and
-            bool(text(receipt["reason"])), "Artifact retirement lacks approved design decision")
-    require(receipt["sourceRoot"] == "src/public/kotlin/contracts-client" and
-            not (root / receipt["sourceRoot"]).exists() and
-            not any(name.startswith(receipt["sourceRoot"] + "/") for name in files),
-            "Retired artifact still has producer sources")
-    require(receipt["replacementPackage"] == "io.github.arcforges:contracts-connect-client",
-            "Unexpected retirement replacement")
-    packages = document(read(root, "eng/contract-packages.json"))["packages"]
-    ids = {row["id"] for row in packages}
-    require(receipt["package"] not in ids and receipt["replacementPackage"] in ids,
-            "Retirement differs from active publication catalog")
-    return True
+RETIREMENTS = "eng/provenance/retirements/"
+CATALOG = "eng/contract-packages.json"
+LEGACY_RECEIPT_FIELDS = "schemaVersion owner project package kind previousRecord replacementPackage sourceRoot designCommit reason"
+RECEIPT_FIELDS = "schemaVersion id owner task packages sourceRoots artifacts previousRecord designCommit reason review"
+RECEIPT_REVIEW_FIELDS = "owner reviewer reviewedOn decision"
+RECEIPT_ID = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
+TASK = re.compile(r"[A-Z]+\.[0-9]+")
+
+
+def retirement_receipts(root: Path, owner: str, files: set | list, history: dict[str, bytes]) -> dict[tuple, str]:
+    """Validate every retirement receipt and return the removed artifact targets each one covers.
+
+    A first-party artifact target leaves the active inventory only through exactly one reviewed receipt
+    under eng/provenance/retirements/ that names the target, the record it leaves, the retired catalog
+    identities and their exact producer source roots, which must be gone. Every identity marked retired in
+    the package catalog needs such a receipt. Committed receipts are immutable history (the caller binds
+    them through ``history``); the schemaVersion 1 receipt format predates review fields and is accepted
+    only as unchanged committed history. Nothing else is inferred from a deletion.
+    """
+    names = set(files)
+    catalog = document(read(root, CATALOG))["packages"] if CATALOG in names else []
+    by_id = {row["id"]: row for row in catalog}
+    covered: dict[tuple, str] = {}
+    receipted: dict[str, str] = {}
+    for filename in sorted(names):
+        if not filename.startswith(RETIREMENTS):
+            continue
+        require(filename.endswith(".json") and "/" not in filename[len(RETIREMENTS):],
+                "Unknown retirement receipt file: " + filename)
+        receipt = document(read(root, filename))
+        require(isinstance(receipt, dict), "Invalid retirement receipt: " + filename)
+        if type(receipt.get("schemaVersion")) is int and receipt["schemaVersion"] == 1:
+            require(filename in history, "Unreviewed retirement receipt format: " + filename)
+            fields(receipt, LEGACY_RECEIPT_FIELDS)
+            for key in ("project", "package", "kind", "replacementPackage"):
+                text(receipt[key])
+            identifier(receipt["previousRecord"])
+            artifacts = [{key: receipt[key] for key in ("project", "package", "kind")}]
+            previous, roots = receipt["previousRecord"], [receipt["sourceRoot"]]
+            require(receipt["package"] not in by_id and receipt["replacementPackage"] in by_id,
+                    "Retirement differs from publication catalog: " + filename)
+        else:
+            fields(receipt, RECEIPT_FIELDS)
+            require(type(receipt["schemaVersion"]) is int and receipt["schemaVersion"] == 2,
+                    "Unknown retirement receipt schema: " + filename)
+            require(isinstance(receipt["id"], str) and bool(RECEIPT_ID.fullmatch(receipt["id"])) and
+                    filename == RETIREMENTS + receipt["id"] + ".json", "Retirement receipt path/ID mismatch: " + filename)
+            require(isinstance(receipt["task"], str) and bool(TASK.fullmatch(receipt["task"])),
+                    "Retirement receipt names no task: " + filename)
+            review = receipt["review"]
+            fields(review, RECEIPT_REVIEW_FIELDS)
+            require(review["owner"] == "Licensing and Provenance Owner" and review["decision"] == "approved",
+                    "Unapproved retirement receipt: " + filename)
+            text(review["reviewer"])
+            require(date.fromisoformat(text(review["reviewedOn"])).isoformat() == review["reviewedOn"],
+                    "Invalid retirement review date")
+            strings(receipt["packages"])
+            for identity in receipt["packages"]:
+                row = by_id.get(identity)
+                require(row is not None and isinstance(row.get("retired"), dict) and
+                        row["retired"].get("task") == receipt["task"],
+                        "Retirement differs from publication catalog: " + identity)
+                require(identity not in receipted, "Package retired by more than one receipt: " + identity)
+                receipted[identity] = filename
+            strings(receipt["sourceRoots"], path)
+            roots = receipt["sourceRoots"]
+            require(set(roots) == {by_id[identity]["sourceRoot"] for identity in receipt["packages"]},
+                    "Retirement source roots differ from the retired catalog rows: " + filename)
+            require(isinstance(receipt["artifacts"], list), "Invalid retired artifacts")
+            artifacts, previous = receipt["artifacts"], receipt["previousRecord"]
+            for target in artifacts:
+                fields(target, "project package kind")
+                for key in ("project", "package", "kind"):
+                    text(target[key])
+                require(target["package"] in receipt["packages"], "Retired artifact outside the retired packages")
+            if artifacts:
+                identifier(previous)
+            else:
+                require(previous is None, "Retirement without artifacts names a previous record")
+        require(receipt["owner"] == owner, "Invalid artifact retirement identity: " + filename)
+        digest(receipt["designCommit"], (40,))
+        text(receipt["reason"])
+        for source_root in roots:
+            path(source_root)
+            require(not (root / source_root).exists() and not any(name.startswith(source_root + "/") for name in names),
+                    "Retired artifact still has producer sources: " + source_root)
+        for target in artifacts:
+            key = (target["project"], target["package"], target["kind"], previous)
+            require(key not in covered, "Artifact retired by more than one receipt: " + target["package"])
+            covered[key] = filename
+    for row in catalog:
+        if "retired" in row:
+            require(row["id"] in receipted, "Retired package has no reviewed retirement receipt: " + row["id"])
+    return covered
 
 
 def require(condition: bool, message: str) -> None:
@@ -334,6 +399,7 @@ def validate(root: Path, owner: str, files: list[str], history: dict[str, bytes]
             parent = records[parent]["supersedes"]
     active = set(inv["reused"].values()) | set(inv["artifacts"])
     require(bool(active), "At least one real record must be in use")
+    retired = retirement_receipts(root, owner, files, history)
     for name in active:
         require(name in records, "Missing provenance record: " + name)
         require({item["path"] for item in records[name]["targets"]} ==
@@ -342,6 +408,8 @@ def validate(root: Path, owner: str, files: list[str], history: dict[str, bytes]
         require(bool(records[name]["artifactTargets"]) == (name in inv["artifacts"]),
                 "Artifact record is not explicitly registered")
         for target in records[name]["artifactTargets"]:
+            require(not any(key[:3] == (target["project"], target["package"], target["kind"]) for key in retired),
+                    "Retired artifact is still registered: " + target["package"])
             require(target["profile"] in files and
                     hashlib.sha256(read(root, target["profile"]).replace(b"\r\n", b"\n")).hexdigest() == target["sha256"],
                     "Untracked or changed artifact profile")
@@ -369,7 +437,9 @@ def validate(root: Path, owner: str, files: list[str], history: dict[str, bytes]
                 replacements = [name for name in inv["artifacts"] if any(
                     all(row[key] == target[key] for key in ("project", "package", "kind"))
                     for row in records[name]["artifactTargets"])]
-                if not replacements and retired_contract_artifact(root, owner, target, old_name, files):
+                if not replacements:
+                    require((target["project"], target["package"], target["kind"], old_name) in retired,
+                            "Active artifact removed without a reviewed retirement receipt")
                     continue
                 require(len(replacements) == 1, "Active artifact silently removed or multiply classified")
                 name = replacements[0]
@@ -420,8 +490,9 @@ def run(root: Path, owner: str, base: str | None = None, write_notice: bool = Fa
     files = git(root, "ls-files", "-z", "--cached", "--others", "--exclude-standard").decode("utf-8").split("\0")
     files = [p for p in files if p]
     compared = baseline(root, base)
+    # Records and retirement receipts committed at the base are immutable history.
     history = {p: git(root, "show", compared + ":" + p) for p in
-               git(root, "ls-tree", "-r", "--name-only", compared, "--", STORE).decode().splitlines()}
+               git(root, "ls-tree", "-r", "--name-only", compared, "--", STORE, RETIREMENTS).decode().splitlines()}
     previous_files = git(root, "ls-tree", "-r", "--name-only", compared, "--", INVENTORY).decode().splitlines()
     previous = document(git(root, "show", compared + ":" + INVENTORY)) if previous_files else None
     result = validate(root, owner, files, history, previous, write_notice)

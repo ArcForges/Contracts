@@ -5,16 +5,8 @@
   "licenceBoundary": "Apache",
   "projects": [
     {
-      "path": "build.gradle.kts",
-      "kind": "gradle"
-    },
-    {
       "path": "eng/Codegen/Codegen.csproj",
       "kind": "msbuild"
-    },
-    {
-      "path": "eng/central-signing/build.gradle.kts",
-      "kind": "gradle"
     },
     {
       "path": "package.json",
@@ -42,10 +34,6 @@
     },
     {
       "path": "src/internal/ts/ai-internal/package.json",
-      "kind": "npm"
-    },
-    {
-      "path": "src/internal/ts/operator-client/package.json",
       "kind": "npm"
     },
     {
@@ -77,30 +65,6 @@
       "kind": "msbuild"
     },
     {
-      "path": "src/public/kotlin/contract-fixtures/build.gradle.kts",
-      "kind": "gradle"
-    },
-    {
-      "path": "src/public/kotlin/contracts-connect-client/build.gradle.kts",
-      "kind": "gradle"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/build.gradle.kts",
-      "kind": "gradle"
-    },
-    {
-      "path": "src/public/ts/api-client/package.json",
-      "kind": "npm"
-    },
-    {
-      "path": "src/public/ts/contract-fixtures/package.json",
-      "kind": "npm"
-    },
-    {
-      "path": "src/public/ts/proto/package.json",
-      "kind": "npm"
-    },
-    {
       "path": "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj",
       "kind": "msbuild"
     },
@@ -119,10 +83,6 @@
     {
       "path": "tests/public/HelloHost/HelloHost.csproj",
       "kind": "msbuild"
-    },
-    {
-      "path": "tests/public/KotlinConnectClient/build.gradle.kts",
-      "kind": "gradle"
     },
     {
       "path": "tests/public/SerializationProbe/SerializationProbe.csproj",

@@ -14,7 +14,7 @@ from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
-from contracts import NPM, run, version
+from contracts import NPM, NPM_IDS, run, version
 from packaging_tools import verify_artifacts
 
 
@@ -72,7 +72,13 @@ def npm_publish_tag(package_id: str, release: str) -> str:
     return "latest" if incoming > current else "ci"
 
 
+CHANNELS = ("nuget", "npm")
+
+
 def publish_verified(directory: Path, registry: str) -> None:
+    if registry not in CHANNELS:
+        # CON.40: the Maven channel is retired. Nothing is unpublished; new versions are not published.
+        raise ValueError(f"Retired or unknown publication channel: {registry}")
     if (os.environ.get("GITHUB_REPOSITORY") != "ArcForges/Contracts"
             or not (os.environ.get("GITHUB_REF") == "refs/heads/main"
                     or os.environ.get("GITHUB_REF", "").startswith("refs/tags/v"))
@@ -82,21 +88,19 @@ def publish_verified(directory: Path, registry: str) -> None:
     if not re.fullmatch("[0-9a-f]{40}", expected_commit):
         raise ValueError("Publishing requires the exact GitHub source commit")
     manifest = verify_artifacts(directory, expected_commit, contents=False)
-    from release_channels import authorize, maven_version
+    from release_channels import authorize
     authorize(manifest["version"])
     if manifest["dirty"]:
         raise ValueError("Never publish a candidate built from a dirty checkout")
-    if registry == "maven":
-        if manifest.get("mavenVersion") != maven_version(manifest["version"]):
-            raise ValueError("Publication requires a channel-aware Maven candidate")
-        if manifest["mavenVersion"].endswith("-SNAPSHOT"):
-            from snapshot_publish import publish
-        else:
-            from central_publish import publish
-        publish(directory, manifest)
-        return
-    # Keep manifest order: proto must be accepted before api-client is uploaded.
+    # Keep manifest order: a first-party dependency is accepted before its dependants are uploaded.
     entries = [entry for entry in manifest["files"] if entry["kind"] == registry]
+    if registry == "npm":
+        # CON.40: only the retained @arcforges/ai-internal package is published to npm. A retired identity
+        # (@arcforges/proto, @arcforges/api-client, @arcforges/contract-fixtures, @arcforges/operator-client)
+        # fails closed before any registry read or upload; nothing is unpublished or deprecated.
+        refused = sorted(entry["id"] for entry in entries if entry["id"] not in NPM_IDS)
+        if refused:
+            raise ValueError("Retired or unregistered npm identity: " + ", ".join(refused))
     for entry in entries:
         path = directory / entry["name"]
         if existing_matches(path, entry, manifest["version"]):

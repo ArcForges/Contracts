@@ -7900,5 +7900,10 @@
         }
       ]
     }
+  },
+  "outputRetirement": {
+    "task": "CON.40",
+    "authority": "P2-021 Decision 4; CON.40 C#-only SDK standardisation",
+    "outputs": ["java", "kotlin", "typescript"]
   }
 }

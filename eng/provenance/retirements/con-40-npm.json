@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 2,
+  "id": "con-40-npm",
+  "owner": "Contracts",
+  "task": "CON.40",
+  "packages": [
+    "@arcforges/proto",
+    "@arcforges/api-client",
+    "@arcforges/contract-fixtures",
+    "@arcforges/operator-client"
+  ],
+  "sourceRoots": [
+    "src/public/ts/proto",
+    "src/public/ts/api-client",
+    "src/public/ts/contract-fixtures",
+    "src/internal/ts/operator-client"
+  ],
+  "artifacts": [],
+  "previousRecord": null,
+  "designCommit": "2817cdbdafcde49720ddd11af68d7a79262f1a75",
+  "reason": "CON.40 (P2-021 Decision 4, C#-only first-party SDKs) stops new publication of the npm identities @arcforges/proto, @arcforges/api-client, @arcforges/contract-fixtures and @arcforges/operator-client after their first-party consumers migrated (WEB.40, CLOUD.84). Their generated TypeScript producer sources and generators are removed; @arcforges/ai-internal keeps its pipeline and publication. No provenance artifact target was registered for these packages. Already published npm versions stay immutable and resolvable; nothing is unpublished, deprecated or deleted.",
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "w-deku-20261008-rev-con-40",
+    "reviewedOn": "2026-10-10",
+    "decision": "approved"
+  }
+}

@@ -1,5 +1,14 @@
 # Maven development snapshots and formal releases
 
+> **Retired (CON.40).** The Maven channel is retired: no new version of
+> `io.github.arcforges:contracts-proto`, `contracts-connect-client` or `contract-fixtures` is
+> built or published from main, and the Gradle build, Kotlin sources and generators, the
+> SNAPSHOT and Maven Central publication jobs and the central signing project are removed.
+> Already published SNAPSHOT and formal versions stay as the provider keeps them; nothing is
+> unpublished, deprecated or deleted, and existing exact consumer pins are unchanged. This page
+> is historical: it is not an instruction to configure, publish or recover the Maven channel.
+> C# NuGet is the only first-party SDK channel (see [releasing.md](releasing.md)).
+
 The group remains `io.github.arcforges`, with `contracts-proto`, `contracts-connect-client` and `contract-fixtures`.
 
 Main builds publish `1.0.0-SNAPSHOT` to `https://central.sonatype.com/repository/maven-snapshots/`. Canonical `vX.Y.Z` tags publish immutable `X.Y.Z` releases to Maven Central. The tag commit must be reachable from main and passes the same build/offline candidate gates. No production tag is created by a validation test.

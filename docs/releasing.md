@@ -1,29 +1,36 @@
 # Registry setup and automatic releases
 
 The workflow is `.github/workflows/ci.yml`. Main pushes automatically build,
-validate and publish NuGet/npm `1.0.0-ci.<run-number>.<run-attempt>` and Maven `1.0.0-SNAPSHOT`. Canonical `vX.Y.Z` tags on main ancestry publish `X.Y.Z` across all three registries. PR,
+validate and publish the twelve C# NuGet packages and the one internal npm package
+`@arcforges/ai-internal` at `1.0.0-ci.<run-number>.<run-attempt>`. Canonical `vX.Y.Z`
+tags on main ancestry publish `X.Y.Z` of the same identities to both registries. PR,
 merge-group and manual diagnostic events validate only. Setting a variable by
 itself does not trigger a run; finish setup before the next main merge.
+
+C# NuGet is the only first-party SDK channel for business clients (CON.40, P2-021
+Decision 4). The [retired channels](#retired-channels-con40) publish no new version;
+their already published versions stay immutable and resolvable.
 
 The GitHub repository is [ArcForges/Contracts](https://github.com/ArcForges/Contracts).
 GitHub organisation membership does not create a corresponding npm organisation.
 
 ## 1. GitHub configuration
 
-In repository Settings, create environments **nuget**, **npm** and **maven-central**. In each,
+In repository Settings, create environments **nuget** and **npm**. In each,
 restrict deployment to branch **main** and tags **v***. Leave required reviewers and wait timers
 off for unattended publication. Actions default permissions should be read-only;
-NuGet/npm jobs request OIDC only after the build/offline candidate gate. Maven Central uses
-its own environment secrets and requests no OIDC token.
+NuGet/npm jobs request OIDC only after the build/offline candidate gate. No workflow
+uses the former **maven-central** environment or its secrets any more.
 
 Under Settings → Secrets and variables → Actions → Variables:
 
-| Variable                | Initial setup                                                     | Normal operation                       |
-| ----------------------- | ----------------------------------------------------------------- | -------------------------------------- |
-| `NUGET_USER`            | Your nuget.org username, currently `dekueon`                      | Same username; not an API key or email |
-| `NUGET_PUBLISH_ENABLED` | Unset or `false` until the policy below exists                    | `true`                                 |
-| `NPM_PUBLISH_MODE`      | Unset/`disabled`, then `bootstrap` for the first creation         | `oidc`                                 |
-| `MAVEN_PUBLISH_ENABLED` | `false` until Central namespace, token and PGP key are configured | `true`                                 |
+| Variable                | Initial setup                                             | Normal operation                       |
+| ----------------------- | --------------------------------------------------------- | -------------------------------------- |
+| `NUGET_USER`            | Your nuget.org username, currently `dekueon`              | Same username; not an API key or email |
+| `NUGET_PUBLISH_ENABLED` | Unset or `false` until the policy below exists            | `true`                                 |
+| `NPM_PUBLISH_MODE`      | Unset/`disabled`, then `bootstrap` for the first creation | `oidc`                                 |
+
+The former `MAVEN_PUBLISH_ENABLED` variable is not read by any workflow since CON.40.
 
 No normal NuGet or npm publishing secret is required. npm's **first creation**
 uses the temporary environment secret described below. Repository variables are
@@ -37,8 +44,10 @@ is directly gated by the CI `Verify` job. Require successful CI/security checks
 in branch protection before merging.
 
 These GitHub-side settings are configured for this repository, including the
-CI/security checks (including Java/Kotlin CodeQL) and PR requirement on main (zero required review
-approvals). Normal operation uses `NUGET_PUBLISH_ENABLED=true` and
+CI/security checks and PR requirement on main (zero required review approvals).
+CodeQL analyses C#, JavaScript/TypeScript and Python. The `CodeQL (java-kotlin)` job
+is removed (CON.40); if branch protection still lists it as a required check, the
+repository owner removes that requirement, because the job no longer reports. Normal operation uses `NUGET_PUBLISH_ENABLED=true` and
 `NPM_PUBLISH_MODE=oidc`; the WP03.00 first publication temporarily used bootstrap
 mode for new npm identities. See the [accepted publication and OIDC transition](#wp0300-accepted-publication)
 for the recorded state, and check current repository variables before diagnosing
@@ -87,9 +96,12 @@ npm currently requires a package to exist before its trusted publisher can be
 configured. Every new package identity needs one first real candidate publication.
 The initial proto/API packages already existed; WP03.00 introduced
 `@arcforges/contract-fixtures`, `@arcforges/ai-internal` and
-`@arcforges/operator-client`. All five now exist; the completed bootstrap and
-remaining OIDC evidence are recorded below. A future new identity follows the
-same first-creation sequence with a temporary granular token:
+`@arcforges/operator-client`. All five exist; the completed bootstrap and
+remaining OIDC evidence are recorded below. Since CON.40 the npm channel is closed
+to `@arcforges/ai-internal`: the other four identities are retired, and a new npm
+identity is outside the C#-only channel list unless a reviewed design decision adds
+it. Such an identity would follow the same first-creation sequence with a temporary
+granular token:
 
 1. In the npm account menu, open Access Tokens and create a granular token named
    `Contracts-initial-publish`.
@@ -103,7 +115,7 @@ same first-creation sequence with a temporary granular token:
    put it in source or store it as a repository variable.
 5. Set the repository variable **NPM_PUBLISH_MODE=bootstrap**.
 6. Merge the bootstrap PR, or the next accepted PR if the scaffold is already on
-   main. CI publishes all registered npm packages after the
+   main. CI publishes every active registered npm package after the
    build/offline candidate gate, in dependency order. Use a token authorized for
    existing packages and new identities; secret-name presence does not prove validity.
 
@@ -126,12 +138,14 @@ Open each package's Settings → Trusted publishing. Add GitHub Actions:
 | Environment          | `npm`                |
 | Allowed operation    | Direct `npm publish` |
 
-Configure this **for every package in the producer catalog**. npm trust is per package; there is no
+Configure this **for every active npm package in the producer catalog**, which is
+`@arcforges/ai-internal` alone since CON.40. The trusted-publisher entries of the four
+retired npm packages may stay; no workflow publishes them. npm trust is per package; there is no
 NuGet-style package glob policy. The relationship is reused for every future
 version. A genuinely new npm package needs its own initial setup once.
 
 Set **NPM_PUBLISH_MODE=oidc** before the next main merge. That run uses GitHub
-OIDC and automatically supplies provenance on npm. Confirm every required npm package
+OIDC and automatically supplies provenance on npm. Confirm the npm package
 was accepted, then delete the **NPM_BOOTSTRAP_TOKEN** GitHub environment secret,
 revoke the token on npm, and disallow token publishing in the packages' publishing
 settings. Keep account 2FA enabled. Daily main merges now need no credentials,
@@ -156,13 +170,23 @@ Tokens invalidates the credential itself. Keep the package trusted-publisher
 connections and the GitHub `npm` environment. Registry publication does not
 establish product or Android device acceptance.
 
-## Maven Central setup
+## Retired channels (CON.40)
 
-Follow [the complete Maven Central account, signing and recovery guide](maven-central.md).
-The group is `io.github.arcforges`, with `contracts-proto`,
-`contracts-connect-client` and `contract-fixtures`. The native-only
-`contracts-client` is retired from new candidates; historical releases remain available. Formal releases share the NuGet/npm version; development Maven snapshots retain the CI build identity in JAR metadata. Enable SNAPSHOTs for the existing namespace; keep its credentials and publication switch.
-For a new repository installation, leave Maven disabled until that setup is ready.
+CON.40 stops new publication of these identities from main. Their catalog rows stay
+in `eng/contract-packages.json` marked `retired`, their sources and generators are
+removed, and the candidate gate refuses to pack or publish them:
+
+- npm `@arcforges/proto`, `@arcforges/api-client`, `@arcforges/contract-fixtures` and
+  `@arcforges/operator-client`;
+- Maven group `io.github.arcforges`: `contracts-proto`, `contracts-connect-client` and
+  `contract-fixtures`, with the whole Maven channel (main `1.0.0-SNAPSHOT` and formal
+  Maven Central releases, signing and the Gradle build).
+
+Stopping publication never unpublishes, deprecates or deletes a published version.
+Every already published version stays immutable and resolvable, so existing exact
+consumer pins keep working. The native-only `contracts-client` was retired from new
+candidates at WP03.00 in the same way. [The Maven guide](maven-central.md) is kept as
+historical evidence only; it is not a setup instruction.
 
 ## 5. Understand the result
 
@@ -171,8 +195,7 @@ For a new repository installation, leave Maven disabled until that setup is read
 - **Publish job skipped:** its registry is disabled, or this event was not a main or formal-tag
   push. Check the variables and workflow event.
 - **Publish job passed:** the provider accepted the candidate or an identity-bound recovery completed.
-  A SNAPSHOT receipt with phase `superseded` explicitly means no upload because a newer main commit owns the channel. Registry scanning/indexing can finish
-  after upload. Check the registry job for each ecosystem separately.
+  Registry scanning/indexing can finish after upload. Check the registry job for each ecosystem separately.
 - **npm latest:** the highest published `1.0.0-ci.<run-number>.<run-attempt>`
   version in that package, compared numerically by run number and then attempt.
   New main releases explicitly publish with `--tag latest`. npm's default package
@@ -203,7 +226,8 @@ above continues. These mutable tags do not alter consumer locks.
 
 ## 6. Failure and retry
 
-Registries do not provide an atomic transaction spanning all 22 packages.
+Registries do not provide an atomic transaction spanning all thirteen active
+packages (twelve NuGet and one npm).
 Treat the common version as usable only after all required packages are present.
 Do not promote a partially published set by changing a client's dependency to an
 unrelated version.
@@ -212,18 +236,19 @@ Inspect the exact failure before retrying a publication job. Stop on local netwo
 change proxies or retry blindly. Diagnose CI failures and fix their concrete cause before recovery. A diagnosed retry uses the original retained candidate/version,
 without rebuilding. Existing npm versions are compared through registry integrity metadata.
 An existing NuGet version fails for investigation of its publication receipt; it is not downloaded
-or silently skipped. Maven formal recovery resumes the retained deployment ID and checks provider
-status/coordinates. SNAPSHOT upload checks the latest main identity and completes at transport
-success. No registry uses a routine public archive download/byte-comparison cycle.
+or silently skipped. No registry uses a routine public archive download/byte-comparison cycle.
 
 Re-running all jobs on a main run creates a new candidate with an increased CI attempt suffix. Formal tags keep their immutable version, so retry failed publication jobs using the retained original candidate. Missing/expired artifacts also require a new validated
 run; do not reconstruct an old version from another source revision.
 
 To stop future uploads, disable the relevant variable. To recover consumers,
 pin their last verified version and merge a fix that publishes a new immutable
-version. Immutable releases are never overwritten, automatically unlisted or deleted. Maven development snapshots are the explicit mutable exception. Formal tag publication does not establish product readiness or production compatibility.
+version. Immutable releases are never overwritten, automatically unlisted or deleted. Formal tag publication does not establish product readiness or production compatibility.
 
 ## WP03.00 first publication readiness (historical)
+
+The WP03.00 and WP03.01 sections below are historical records. Their 22-output set
+includes the npm and Maven identities that CON.40 later retired from new publication.
 
 Before source merge, confirm NuGet policy coverage for Contracts, SDK and CLI,
 and a valid scope-authorized temporary npm bootstrap credential for the three new

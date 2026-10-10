@@ -71,15 +71,20 @@ def reachable_number_fields(root):
 class JsonShapeUnions(unittest.TestCase):
     def test_accepted_seed_outputs_unchanged(self):
         mappings = [
-            ("public/http/v1/schema.json", "ArcForges.Contracts.PublicApi.Http.V1", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/dotnet/ArcForges.Contracts.Validation", "src/public/ts/api-client"),
-            ("public/http/v1/inventory.schema.json", "ArcForges.Sdk.Contracts.Inventory.V1", "src/public/dotnet/ArcForges.Sdk.Contracts", "src/public/dotnet/ArcForges.Contracts.Validation", "src/public/ts/api-client"),
+            # CON.40: the public seeds keep their C# outputs; their @arcforges/api-client TypeScript root is retired.
+            ("public/http/v1/schema.json", "ArcForges.Contracts.PublicApi.Http.V1", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/dotnet/ArcForges.Contracts.Validation", None),
+            ("public/http/v1/inventory.schema.json", "ArcForges.Sdk.Contracts.Inventory.V1", "src/public/dotnet/ArcForges.Sdk.Contracts", "src/public/dotnet/ArcForges.Contracts.Validation", None),
             ("internal/ai-http/v1/configuration.schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
         ]
         for source, namespace, models, checks, tsroot in mappings:
             schema = json.loads((ROOT / source).read_text())
             outputs = JsonShapes(schema, namespace).generate()
             title = schema["title"]
-            paths = [f"{models}/Generated/Shapes/{title}.g.cs", f"{checks}/Generated/Shapes/{title}Validator.g.cs", f"{tsroot}/src/shapes/gen/{title}.ts"]
+            paths = [f"{models}/Generated/Shapes/{title}.g.cs", f"{checks}/Generated/Shapes/{title}Validator.g.cs"]
+            if tsroot is None:
+                self.assertFalse((ROOT / "src/public/ts/api-client").exists())
+            else:
+                paths.append(f"{tsroot}/src/shapes/gen/{title}.ts")
             for path, output in zip(paths, outputs):
                 self.assertEqual((ROOT / path).read_text().strip(), output.strip(), path)
 

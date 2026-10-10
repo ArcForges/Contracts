@@ -35,6 +35,10 @@ ALIASES.update(Bytes="bytes", Int32="int32", Int64="int64", UInt64="uint64", Boo
 RETIRED_MESSAGES = {'SavedViewRecord', 'TimelineTrack', 'NotesTextPosition', 'MediaStream', 'FilterGroup', 'NotesDataset', 'SandboxOutput', 'RevisionView', 'BlockEdit', 'NotesSelectors', 'PropertyDefinition', 'TextRunSegment', 'ColourConfiguration', 'ProcessingGraph', 'TimelineEdit', 'NotesQuery', 'MarkerView', 'MediaView', 'BlockMove', 'ScalarPredicate', 'PropertyValue', 'SandboxFrame', 'RenderPreset', 'RichText', 'EffectSpec', 'ScalarValue', 'GeneratedSource', 'OtioExportRequest', 'NotesMovePreview', 'SandboxMediaInfo', 'TableRow', 'TagMove', 'MathContent', 'NotesCommand', 'ImageLayout', 'TableBlock', 'TagRecord', 'BlockProperties', 'OptionMove', 'TimedText', 'InlineAtom', 'TranscriptRecord', 'RetimePoint', 'LocalNotesVersion', 'TimelineClip', 'TimelineCommand', 'SelectOption', 'SlateProject', 'SlateSelection', 'KeyframeList', 'DocumentRef', 'NotesDocument', 'FolderView', 'TableCell', 'TimelineView', 'OtioImportRequest', 'NotebookBody', 'NotesSort', 'SlateMetadata', 'SequenceView', 'SandboxReadResult', 'OtioFidelityReport', 'TransitionSpec', 'MediaBin', 'RenderRequest', 'PropertyDefinitionVersion', 'NotesFilter', 'NotebookView', 'AudioChunk', 'ClassificationMap', 'TextSpan', 'FidelityEntry', 'MediaColourAssignment', 'CodeBlock', 'ClipPlacement', 'TranscriptSegment', 'PropertyMove', 'EffectParameter', 'RetimeCurve', 'IdList', 'ProcessingEdge', 'NotesSelection', 'BlockBody', 'CheckpointView', 'SandboxStreamInfo', 'SubtitleInterchange', 'LinkSpec', 'DocumentView', 'Keyframe', 'NotesTableAction', 'TranscriptionRequest', 'LocalRootVersion', 'Block', 'DocumentProjection', 'MediaRelink'}
 RETIRED_FIELDS = {'RequestMeta': [{'name': 'expected_local', 'tag': 5}], 'StateFailure': [{'name': 'local', 'tag': 4}], 'ResourceVersionRef': [{'name': 'local', 'tag': 4}], 'AggregateBody': [{'name': 'notes', 'tag': 1}, {'name': 'slate_metadata', 'tag': 4}, {'name': 'notebook', 'tag': 5}, {'name': 'property_definition', 'tag': 6}, {'name': 'saved_view', 'tag': 7}, {'name': 'tag', 'tag': 8}], 'ContextSelector': [{'name': 'notes', 'tag': 3}, {'name': 'slate', 'tag': 5}], 'EventTrigger': [{'name': 'predicate', 'tag': 3}]}
 
+# Exact approved CON.40 output retirement (P2-021 Decision 4, S47(6)): the TypeScript and Kotlin/Java
+# generated outputs stop. Their inventory rows are kept and marked, never deleted (append-only inventory).
+RETIRED_OUTPUTS = {"task": "CON.40", "authority": "P2-021 Decision 4; CON.40 C#-only SDK standardisation",
+                   "outputs": ["java", "kotlin", "typescript"]}
 RETIRED_ID_DOMAINS = {'EffectInstanceId', 'TimelineGroupId', 'TableRowId', 'TransitionId', 'TimelineLinkGroupId', 'MediaAssetId', 'InlineId', 'TrackId', 'SelectOptionId', 'FolderId', 'DocumentId', 'SlateProjectId', 'TableCellId', 'ViewId', 'TimelineItemId', 'TimelineMarkerId', 'TextRunId', 'PropertyDefId', 'BlockId', 'MediaBinId', 'SequenceId', 'NotebookId'}
 TOKEN = re.compile(r'\s+|//[^\n]*|/\*[\s\S]*?\*/|"(?:\\.|[^"\\])*"|[A-Za-z_][A-Za-z_0-9]*|-?[0-9]+|[{}\[\];=,.]')
 NAME = re.compile(r"[A-Za-z_][A-Za-z_0-9]*\Z")
@@ -258,6 +262,7 @@ def check_model(inventory: dict, schemas: dict, constraints: dict, values: dict,
         current = all_messages[name][1]
         require(all(field["tag"] in current["reservedTags"] and field["name"] in current["reservedNames"] for field in retired_fields), f"{name}: missing approved retirement reservation")
     require(set(enums) == set(all_enums), "Selected enum inventory differs from authored schemas")
+    require(inventory.get("outputRetirement") == RETIRED_OUTPUTS, "Generated output retirement changed")
     seeds = (set(old["messages"]) | EXTRA_SEEDS) - RETIRED_MESSAGES
     require(set(inventory["seeds"]) == seeds and len(inventory["seeds"]) == len(seeds), "Selected seed closure changed")
     edges: dict[str, set[str]] = {}
@@ -351,9 +356,13 @@ def check(root: Path = ROOT, generated: bool = False, self_test: bool = False) -
     schemas = {path: parse_schema(safe_path(root, path).read_text(encoding="utf-8"), path) for path in [FOUNDATION, CONTENT, DESCRIPTORS]}
     counts = check_model(inventory, schemas, constraints, values, baseline)
     if generated:
+        retired = set(inventory["outputRetirement"]["outputs"])
         for record in inventory["records"]:
-            for path in record["outputs"].values():
-                require(safe_path(root, path).is_file(), f"Missing selected generated output: {path}")
+            for language, path in record["outputs"].items():
+                if language in retired:
+                    require(not safe_path(root, path).exists(), f"Retired generated output reappeared: {path}")
+                else:
+                    require(safe_path(root, path).is_file(), f"Missing selected generated output: {path}")
     if self_test:
         cases = []
         changed = deepcopy(schemas)
@@ -394,6 +403,15 @@ def check(root: Path = ROOT, generated: bool = False, self_test: bool = False) -
         changed = deepcopy(inventory)
         changed["retirement"]["messages"].remove("NotesFilter")
         cases.append(("retired message name released", changed, schemas, constraints, values))
+        changed = deepcopy(inventory)
+        changed["outputRetirement"]["outputs"].remove("typescript")
+        cases.append(("retired generated output released", changed, schemas, constraints, values))
+        changed = deepcopy(inventory)
+        changed["outputRetirement"]["outputs"].append("csharp")
+        cases.append(("active generated output retired", changed, schemas, constraints, values))
+        changed = deepcopy(inventory)
+        changed["records"][0]["outputs"].pop("kotlin")
+        cases.append(("retired output row deleted", changed, schemas, constraints, values))
         for label, selected, authored, rules, identities in cases:
             try:
                 check_model(selected, authored, rules, identities, baseline)

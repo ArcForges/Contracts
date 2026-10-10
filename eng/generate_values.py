@@ -31,29 +31,5 @@ public readonly record struct {name}
 
 '''
         emit(ROOT/f'src/public/dotnet/ArcForges.Contracts.{owner}/Generated/Values/Identifiers.g.cs',content,check)
-    ts=HEADER+'''import { create } from "@bufbuild/protobuf";
-import { IdSchema } from "../../gen/arcforges/foundation/v1/foundation_pb.js";
-import type { Id } from "../../gen/arcforges/foundation/v1/foundation_pb.js";
-declare const identifierBrand: unique symbol;
-export type IdentifierDomain = '''+' | '.join(json.dumps(n) for names in profile['identifiers'].values() for n in names)+''';
-export type DomainId<T extends IdentifierDomain> = string & { readonly [identifierBrand]: T };
-export function parseId<T extends IdentifierDomain>(domain: T, value: string): DomainId<T> {
-  if (typeof domain !== 'string' || !identifierDomains.has(domain) || typeof value !== 'string' || /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.exec(value)?.[0] !== value || value === '00000000-0000-0000-0000-000000000000') throw new TypeError('Invalid canonical domain identity');
-  return value as DomainId<T>;
-}
-export function idFromWire<T extends IdentifierDomain>(domain: T, value: Id): DomainId<T> {
-  if (!(value?.value instanceof Uint8Array) || value.value.length !== 16 || !value.value.some(v => v !== 0)) throw new TypeError('Invalid wire UUID');
-  const h = Array.from(value.value, v => v.toString(16).padStart(2, '0')).join('');
-  return parseId(domain, `${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`);
-}
-export function idToWire<T extends IdentifierDomain>(domain: T, value: DomainId<NoInfer<T>>): Id {
-  const digits = parseId(domain, value).replaceAll('-', '');
-  const bytes = Uint8Array.from({length:16}, (_, i) => Number.parseInt(digits.slice(i*2,i*2+2),16));
-  return create(IdSchema, {value: bytes});
-}
-'''
-    ts+='const identifierDomains: ReadonlySet<string> = new Set('+json.dumps([n for names in profile['identifiers'].values() for n in names])+');\n'
-    for names in profile['identifiers'].values():
-        for name in names:
-            ts+=f'export type {name} = DomainId<"{name}">;\n'
-    emit(ROOT/'src/public/ts/proto/src/values/gen/identifiers.ts',ts,check)
+    # CON.40: the TypeScript identity adapters (src/public/ts/proto) retired with @arcforges/proto; the C#
+    # value types above are the only generated identity adapters.

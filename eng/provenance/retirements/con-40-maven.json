@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "id": "con-40-maven",
+  "owner": "Contracts",
+  "task": "CON.40",
+  "packages": [
+    "io.github.arcforges:contracts-proto",
+    "io.github.arcforges:contracts-connect-client",
+    "io.github.arcforges:contract-fixtures"
+  ],
+  "sourceRoots": [
+    "src/public/kotlin/contracts-proto",
+    "src/public/kotlin/contracts-connect-client",
+    "src/public/kotlin/contract-fixtures"
+  ],
+  "artifacts": [
+    {
+      "project": "contracts-proto",
+      "package": "io.github.arcforges:contracts-proto",
+      "kind": "maven-javadoc"
+    },
+    {
+      "project": "contracts-connect-client",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "kind": "maven-javadoc"
+    },
+    {
+      "project": "contract-fixtures",
+      "package": "io.github.arcforges:contract-fixtures",
+      "kind": "maven-javadoc"
+    }
+  ],
+  "previousRecord": "dokka-documentation-resources-r21",
+  "designCommit": "2817cdbdafcde49720ddd11af68d7a79262f1a75",
+  "reason": "CON.40 (P2-021 Decision 4, C#-only first-party SDKs) stops new publication of the Maven identities io.github.arcforges:contracts-proto, contracts-connect-client and contract-fixtures after their Kotlin consumers migrated (AND.40). Their Kotlin and Java producer sources, the Gradle build and the Maven channel are removed, so no Dokka maven-javadoc archive is built any more and the three artifact targets of dokka-documentation-resources-r21 leave the active inventory. The C# NuGet packages are the replacement SDK surface. Already published Maven versions stay immutable and resolvable; nothing is unpublished, deprecated or deleted, and every historical record, artifact profile and receipt remains unchanged.",
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "w-deku-20261008-rev-con-40",
+    "reviewedOn": "2026-10-10",
+    "decision": "approved"
+  }
+}
