@@ -64,7 +64,10 @@ export function digest(value) {
 }
 
 function git(root, ...args) {
-  return execFileSync("git", ["-C", root, ...args], { encoding: "utf8" }).trim();
+  return execFileSync("git", ["-C", root, ...args], {
+    encoding: "utf8",
+    maxBuffer: 256 * 1024 * 1024,
+  }).trim();
 }
 
 export function inventory(root) {
@@ -242,10 +245,87 @@ function fields(row, names) {
   assert.deepEqual(Object.keys(row).sort(), names.split(" ").sort(), "invalid policy fields");
 }
 
-export function checkSources(root, files, policy) {
+/**
+ * Identities marked retired in eng/contract-packages.json (CON.40), as id -> retiring task. A retired identity
+ * keeps its catalog row and every historical access row, but has no producer sources and no new versions.
+ */
+export function retiredIdentities(root = ROOT) {
+  const retired = new Map();
+  for (const row of JSON.parse(bytes(root, "eng/contract-packages.json")).packages) {
+    if (row.retired === undefined) continue;
+    requireThat(
+      row.retired &&
+        typeof row.retired.task === "string" &&
+        /^[A-Z]+\.[0-9]+$/.test(row.retired.task),
+      "retired package marker names no task: " + row.id,
+    );
+    retired.set(row.id, row.retired.task);
+  }
+  return retired;
+}
+
+function canonical(value) {
+  if (Array.isArray(value)) return "[" + value.map(canonical).join(",") + "]";
+  if (value && typeof value === "object")
+    return (
+      "{" +
+      Object.keys(value)
+        .sort()
+        .map((key) => JSON.stringify(key) + ":" + canonical(value[key]))
+        .join(",") +
+      "}"
+    );
+  return JSON.stringify(value);
+}
+
+const RETIRED_OPERATION_FIELDS = "service method decision task";
+
+/**
+ * The retired-identity access rule (CON.40, S47(4)) against the reviewed base policy. Every historical access
+ * row of an identity marked retired is kept unchanged and marked retired through its owner row; a row for a
+ * retired identity that is absent at the base is refused, and so is the removal or change of a historical
+ * row. Retired operation markings are append-only.
+ */
+export function checkRetiredHistory(policy, base, retired) {
+  const rows = (value) =>
+    new Map(
+      value.distribution.filter((row) => retired.has(row.package)).map((row) => [row.path, row]),
+    );
+  const current = rows(policy);
+  const previous = rows(base);
+  for (const [key, row] of previous)
+    requireThat(
+      current.has(key) && canonical(current.get(key)) === canonical(row),
+      "historical access row of a retired identity removed or changed: " + key,
+    );
+  for (const key of current.keys())
+    requireThat(previous.has(key), "new access row for a retired identity: " + key);
+  const owners = (value) =>
+    new Map(
+      value.packages
+        .filter((row) => retired.has(row.id))
+        .map(({ retired: _marker, ...row }) => [row.id, canonical(row)]),
+    );
+  const currentOwners = owners(policy);
+  const previousOwners = owners(base);
+  for (const [key, row] of previousOwners)
+    requireThat(
+      currentOwners.get(key) === row,
+      "historical access owner of a retired identity removed or changed: " + key,
+    );
+  for (const key of currentOwners.keys())
+    requireThat(previousOwners.has(key), "new access owner for a retired identity: " + key);
+  const operations = (value) => new Set((value.retiredOperations ?? []).map(canonical));
+  const currentOperations = operations(policy);
+  for (const row of operations(base))
+    requireThat(currentOperations.has(row), "retired operation marking removed or changed");
+}
+
+export function checkSources(root, files, policy, options = {}) {
+  const retired = options.retired ?? retiredIdentities(root);
   fields(
     policy,
-    "schemaVersion licence reviewedOn design sourceCommit schemas types packages distribution buildInputs",
+    "schemaVersion licence reviewedOn design sourceCommit schemas types packages distribution buildInputs retiredOperations",
   );
   fields(policy.design, "commit path sha256");
   requireThat(
@@ -256,9 +336,15 @@ export function checkSources(root, files, policy) {
   );
   for (const row of policy.schemas) fields(row, "path access sha256");
   for (const row of policy.distribution) fields(row, "path package access types sha256 kind");
-  for (const row of policy.packages) fields(row, "id sourceRoot access");
+  for (const row of policy.packages)
+    fields(
+      row,
+      row.retired === undefined ? "id sourceRoot access" : "id sourceRoot access retired",
+    );
   for (const row of policy.buildInputs) fields(row, "path sha256");
   for (const row of policy.types) fields(row, "name kind file access");
+  requireThat(Array.isArray(policy.retiredOperations), "invalid retired operations");
+  for (const row of policy.retiredOperations) fields(row, RETIRED_OPERATION_FIELDS);
   requireThat(
     policy.schemaVersion === 1 && policy.licence === "Apache-2.0",
     "invalid access policy",
@@ -267,11 +353,42 @@ export function checkSources(root, files, policy) {
     policy.schemas.length > 0 && policy.distribution.length > 0,
     "empty access inventory",
   );
+  for (const row of policy.packages)
+    requireThat(
+      row.retired === retired.get(row.id),
+      "retired access marking differs from the package inventory: " + row.id,
+    );
+  const retiredOwner = (row) => {
+    const owner = policy.packages.find((p) => p.id === row.package);
+    return owner !== undefined && owner.retired !== undefined;
+  };
   const actualSchemas = files.filter((p) => p.endsWith(".proto") && /^(public|internal)\//.test(p));
   const actualSources = files.filter((p) => p.startsWith("src/") && SOURCE.test(p));
+  requireThat(
+    new Set(policy.distribution.map((r) => r.path)).size === policy.distribution.length,
+    "duplicate source assignment",
+  );
+  // Historical rows of a retired identity are kept, never re-read: their producer sources are gone.
+  const present = new Set(files);
+  for (const row of policy.distribution.filter(retiredOwner)) {
+    safePath(row.path);
+    const owner = policy.packages.find((p) => p.id === row.package);
+    requireThat(
+      owner.access === row.access &&
+        row.path.startsWith(owner.sourceRoot + "/") &&
+        ["generated", "authored"].includes(row.kind) &&
+        /^[0-9a-f]{64}$/.test(row.sha256) &&
+        Array.isArray(row.types),
+      "invalid retired access row: " + row.path,
+    );
+    requireThat(
+      !present.has(row.path) && !files.some((p) => p.startsWith(owner.sourceRoot + "/")),
+      "retired package keeps producer sources: " + row.package,
+    );
+  }
   for (const [rows, actual] of [
     [policy.schemas, actualSchemas],
-    [policy.distribution, actualSources],
+    [policy.distribution.filter((row) => !retiredOwner(row)), actualSources],
   ]) {
     requireThat(
       new Set(rows.map((r) => r.path)).size === rows.length,
@@ -285,7 +402,7 @@ export function checkSources(root, files, policy) {
     for (const row of rows) {
       requireThat(ACCESS.has(row.access), "unknown access boundary");
       requireThat(digest(bytes(root, row.path)) === row.sha256, "source hash drift: " + row.path);
-      if (rows === policy.distribution) {
+      if (rows !== policy.schemas) {
         requireThat(["generated", "authored"].includes(row.kind), "invalid source kind");
         assert.deepEqual(
           declaredTypes(bytes(root, row.path)),
@@ -327,6 +444,21 @@ export function checkSources(root, files, policy) {
       "empty package assignment",
     );
   }
+  const services = new Set(policy.types.filter((t) => t.kind === "service").map((t) => t.name));
+  requireThat(
+    new Set(policy.retiredOperations.map((r) => r.service + "/" + r.method)).size ===
+      policy.retiredOperations.length,
+    "duplicate retired operation",
+  );
+  for (const row of policy.retiredOperations)
+    requireThat(
+      services.has(row.service) &&
+        /^[A-Z][A-Za-z0-9]*$/.test(row.method) &&
+        /^P[0-9]-[0-9]{3}$/.test(row.decision) &&
+        /^[A-Z]+\.[0-9]+$/.test(row.task),
+      "invalid retired operation marking: " + row.service + "/" + row.method,
+    );
+  if (options.base !== undefined) checkRetiredHistory(policy, options.base, retired);
   const rootInputs = new Set([
     "eng/contract-packages.json",
     "Directory.Build.props",
@@ -358,6 +490,39 @@ export function checkSources(root, files, policy) {
       digest(bytes(root, row.path)) === row.sha256,
       "package graph input drift: " + row.path,
     );
+}
+
+/** Every retired operation is still declared by its service; the marking never removes a schema member. */
+export function checkRetiredOperations(descriptor, operations) {
+  const methods = new Map();
+  for (const file of descriptor.file)
+    for (const service of file.service)
+      methods.set(
+        (file.package ? file.package + "." : "") + service.name,
+        new Set(service.method.map((m) => m.name)),
+      );
+  for (const row of operations)
+    requireThat(
+      methods.get(row.service)?.has(row.method),
+      "retired operation is not declared: " + row.service + "/" + row.method,
+    );
+}
+
+/** The reviewed base for the history rule: the pull-request or merge-group base, the pushed parent, else origin/main. */
+export function baseCommit(root = ROOT, env = process.env) {
+  const event = env.GITHUB_EVENT_PATH
+    ? JSON.parse(readFileSync(env.GITHUB_EVENT_PATH, "utf8"))
+    : {};
+  let ref;
+  if (env.GITHUB_EVENT_NAME === "pull_request") ref = event.pull_request.base.sha;
+  else if (env.GITHUB_EVENT_NAME === "merge_group") ref = event.merge_group.base_sha;
+  else if (env.GITHUB_EVENT_NAME === "push" && !(env.GITHUB_REF ?? "").startsWith("refs/tags/"))
+    ref = /^0+$/.test(event.before ?? "") ? "HEAD" : event.before;
+  else if (env.GITHUB_EVENT_NAME === "push") ref = "HEAD";
+  else ref = git(root, "rev-parse", "--abbrev-ref", "HEAD") === "main" ? "HEAD" : "origin/main";
+  const resolved = git(root, "rev-parse", "--verify", ref + "^{commit}");
+  requireThat(/^[0-9a-f]{40}$/.test(resolved), "unresolved access policy base");
+  return resolved;
 }
 
 export function checkPackageBoundaries(
@@ -441,6 +606,14 @@ export function checkPackageInputs(
       .map((row) => [row.sourceRoot + "/" + row.id + ".csproj", row.id]),
   );
   for (const row of manifest.packages) {
+    if (row.retired !== undefined) {
+      // A retired identity has no producer sources and therefore no dependency graph to read.
+      requireThat(
+        !existsSync(path.join(root, safePath(row.sourceRoot))),
+        "retired package keeps producer sources: " + row.id,
+      );
+      continue;
+    }
     let actual = [];
     if (row.kind === "nuget") {
       const project = maskXmlComments(bytes(root, row.sourceRoot + "/" + row.id + ".csproj"));
@@ -496,9 +669,13 @@ export function checkPackageInputs(
 
 export function audit(root = ROOT) {
   const policy = JSON.parse(bytes(root, POLICY));
+  let base;
   const before = [git(root, "rev-parse", "HEAD"), git(root, "status", "--porcelain")];
   const files = inventory(root);
-  checkSources(root, files, policy);
+  base = baseCommit(root);
+  checkSources(root, files, policy, {
+    base: JSON.parse(git(root, "show", base + ":" + POLICY)),
+  });
   checkPackageBoundaries(root);
   checkPackageInputs(root);
   const packages = JSON.parse(bytes(root, "eng/contract-packages.json")).packages;
@@ -512,8 +689,10 @@ export function audit(root = ROOT) {
     files.filter((p) => HTTP_SCHEMA_SOURCE.test(p)).sort(),
     "HTTP schema has no package owner",
   );
-  const types = descriptorGraph(compile(root, policy.schemas), policy.schemas);
+  const descriptor = compile(root, policy.schemas);
+  const types = descriptorGraph(descriptor, policy.schemas);
   checkAssignments(types, policy.types);
+  checkRetiredOperations(descriptor, policy.retiredOperations);
   assert.deepEqual(
     [git(root, "rev-parse", "HEAD"), git(root, "status", "--porcelain")],
     before,
@@ -529,6 +708,14 @@ export function audit(root = ROOT) {
     distributionFiles: policy.distribution.length,
     declaredSourceTypes: policy.distribution.reduce((n, r) => n + r.types.length, 0),
     packages: policy.packages.length,
+    retiredPackages: policy.packages
+      .filter((row) => row.retired !== undefined)
+      .map((row) => row.id),
+    retiredDistributionFiles: policy.distribution.filter((row) =>
+      policy.packages.some((owner) => owner.id === row.package && owner.retired !== undefined),
+    ).length,
+    retiredOperations: policy.retiredOperations.map((row) => row.service + "/" + row.method),
+    baseCommit: base,
     publicToInternalReclassifications: [],
     internalToPublicReclassifications: [],
     policySha256: digest(bytes(root, POLICY)),

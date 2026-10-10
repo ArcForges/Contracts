@@ -1,0 +1,704 @@
+{
+  "review": {
+    "owner": "w-deku-20261010-con-40",
+    "reviewer": "w-deku-20261008-rev-con-40",
+    "decision": "approved",
+    "reviewedOn": "2026-10-10",
+    "baselineCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+    "inputHashes": {
+      ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
+      ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
+      ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
+      "Directory.Build.props": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b",
+      "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
+      "Directory.Packages.props": "a1873374afdc3ca3edbcfb970695f15f9f95501ccbd504ebf985e28fbcb19e94",
+      "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
+      "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
+      "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
+      "eng/contract-packages.json": "c1c6d70bc89e20f33568e262b3e7da4fa79eb624141875b8e79af4ad31997a14",
+      "eng/policy/contract-access.json": "1faf68f7c8010ab6d29ae7f11c8a0f22087ededca48564786bc66e3e51955cf7",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r12.json": "ec2e185c1112a37219c20313b440d26ae6a73a64b7a0fdba140fde57021819ba",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r13.json": "86ac84ee4bf10aad1fa223e4d767ce8967f8076894e5fb670ff358d890848617",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r14.json": "55dac3d0fb2159fdc26cb55639f407767579d96f491a406f19437ebd2bc2ddf2",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r15.json": "31c4b9a5d5fd2185680258ea649d03137d3d8cf48982d13737b72d8b6e29eeb8",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r16.json": "dc744df2fe24dbbbf1070080fc901e25ebe6f8186f8288ca2cf83def5855525b",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r17.json": "089b5702bdee31c045223ec3d3b393a7af81b8598a9fd246ff1f08ff8a0ff96d",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r18.json": "e9d073175ca244a7dcd28ab3c016d4d7c677cdbd61cb28f38ff61f7a18251357",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r19.json": "21c095306b250beb0c193b79de915ccd1fc4449beacb89383fe1270c177a2103",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r20.json": "50c53b90f17e6ba01342ef9ca1170e3ccfd185fe2d9908175fc443842423f4ed",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r21.json": "77fc3148abce3402779efc86d87d640c4d8b3e3edb6ba9e31847f4deaf401933",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r4.json": "510cd4c09f2005fa13b07e85517ddac07893323322ff961c23cb13c9fa92fc2e",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r5.json": "1c6c005f814fe804298ccb00a32ffb69cad9c6bcabb0c8697cb1ddb2d4146dae",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r6.json": "e7d03411e1c653f369a764d599bb5e8d3be68ccb9a2b04b0701a3845e7fcee35",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r7.json": "5b86329a7aa205353dfdb0fb75d924e50d2486e281dafb22fe90bf93012b03ad",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r8.json": "224432d3957639e42fb429aa2841d80dbfd10aaec18b8ab3b4bf3851829f2089",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r9.json": "8fae9b8b9ba086ce05ca66b48604e1f96afbb14f89da00cc9d2b5e4dbd839ac5",
+      "eng/provenance/records/canonical-apache-licence-r1.json": "e4252278767a0b4dd27a09a50b176c9420469828345e61336a4b5ca1d17c7b44",
+      "eng/provenance/records/con-12-bindings-r1.json": "b69ba75443f90ab4e31ceca63b95ef84e59d8be90ba1a6d6d2760bfafc8b026a",
+      "eng/provenance/records/con02-descriptor-bindings-r1.json": "0f3b130e1cfacae47cc5bd49c6b0381cfdacfb3f9e65119ed0a450d0465a7d93",
+      "eng/provenance/records/con17-later-service-descriptors-r1.json": "52c1ec9a974469c7e511c12f42e21a1029a70e60a7e9e4af30901dec3e7eadee",
+      "eng/provenance/records/con17-published-descriptors-r1.json": "b0f35abb8edcaa665d53663f5eaad3cd7825195fd93bbe093101e29452bed97c",
+      "eng/provenance/records/con17-semantic-export-r1.json": "9ae65ee01b25241105c986f5f696eb3bc99c23e165613ba227e094424b64d720",
+      "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
+      "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
+      "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
+      "eng/provenance/records/contract-bindings-con-09-r1.json": "e2a88abb498776d235d595edc50198d703b03448c9da5d4da73a070675c1478a",
+      "eng/provenance/records/contract-bindings-con-10-r1.json": "e703d4c694aa601ae3f2b0a9a99aa993c1995c12256c8f381f8a08b632d0b1db",
+      "eng/provenance/records/contract-bindings-con-10-r2.json": "b71b504451eaaae60b9fa6708c15415570456b77e1349e06977ea28989bfcc36",
+      "eng/provenance/records/contract-bindings-con-10-r3.json": "47b16738233e197c53a5d1fb709e967ca8373439f09f76fe5eacb30c7581e75f",
+      "eng/provenance/records/contract-bindings-con-11-r1.json": "09081ebdbb6c04a359e22dc2922fffdc41136a592a9296ed8e1f85a8d0943020",
+      "eng/provenance/records/contract-bindings-con-13-r1.json": "f310c64cc003c246cb0f286b808c5369b0870721d9ea51bcbfe540dd01eba331",
+      "eng/provenance/records/contract-bindings-con-14-r1.json": "bb71b832feab11db4314b6f420185f188f16933c50e15d50fe47805819d08188",
+      "eng/provenance/records/contract-bindings-con-15-r1.json": "0941aa5a9a84a5f6c2d5c78876ed5f93fe19b9434e0cb81816f5359585e3bf94",
+      "eng/provenance/records/contract-bindings-con-21-r1.json": "7df2e6ad745b2e06f18cdb27f281d732242d335d2e0d85c98c2551d561506fb8",
+      "eng/provenance/records/contract-bindings-con-22-r1.json": "6d3ac24ffb2292973cddbf1f49bb1b693e7eaa11375c7f6ee2cfe21718c4eee1",
+      "eng/provenance/records/contract-bindings-con-24-r1.json": "cc7ee308dcc44a0131ffa814bc26a724c851da768649d94d1bf53d6480863af7",
+      "eng/provenance/records/contract-bindings-con-25-r1.json": "0121ffeff9116f4cb34144fb4c38255fb0e8223ac9d331c94ea14eaff8c39383",
+      "eng/provenance/records/contract-bindings-con-40-r1.json": "95760896186cb14709013a6ad019b77df1dd676d725e0dc0afa8b6405431c436",
+      "eng/provenance/records/contract-bindings-con-40-r2.json": "0025b3390f033a9df3c636b2da09782ae2c2b821608d6c686c22a855a0ad569f",
+      "eng/provenance/records/contract-bindings-con04-r1.json": "f900403e0f5f1f82ab86e51201815089fd7e29d4b61e3301628845e70aae1747",
+      "eng/provenance/records/contract-bindings-con05-r1.json": "08e180d1d7da82af50f9886464285da044c30f0719e8c4c3a00e552aeab0e704",
+      "eng/provenance/records/contract-bindings-con06-r1.json": "10c807b936a0af8a5a4651c2c06ea4042e4fcee989793d9e5e59df9e6ffdfde3",
+      "eng/provenance/records/contract-bindings-con16-r1.json": "369f1d77e97b6e7e1db9db65d94595925aff218c5179817b954e3a6a3c2c62ae",
+      "eng/provenance/records/contract-bindings-ext-02-r1.json": "4b03cf02e9ea907a1e83e6e32ea5532f84904fdfcabd57ae22ed542fce363fa4",
+      "eng/provenance/records/contract-bindings-r2.json": "95d2bde3b8d00c03061866838bc28b907bcec0e29a0ede996a42e79b7bb53221",
+      "eng/provenance/records/contract-bindings-r3.json": "ba8adc87164b16804cad6525c50674d4f1b05da89d1d300a9b4f770576906878",
+      "eng/provenance/records/contract-bindings-r4.json": "0918c490633e7205d66af8fe7bd825cb4f6db259c12b4ba33ee08aa4e55e57aa",
+      "eng/provenance/records/contract-bindings-r5.json": "ed0dadea8490e9e97956af033d1c350efe6c67021adb6d5304c1cd1850b61588",
+      "eng/provenance/records/contract-bindings-r6.json": "d9542d9b3f7c316e3c280899313e9af6ba68f03e3e90b7840a25e077f3bcbb0d",
+      "eng/provenance/records/dokka-array-buffer-byte-length-licence-r1.json": "906e5f9298de3d24654fa77460e12888a8ea2c98f89c1d95974dcf7d8bf73704",
+      "eng/provenance/records/dokka-available-typed-arrays-licence-r1.json": "168ac5eef74afda62ef3567eae064fb817179a24653f24b9d15ec0f5dc052816",
+      "eng/provenance/records/dokka-babel-runtime-licence-r1.json": "4ff13d02084d04052687e0151f0a3b9949d12ce712253b15437ff4a95902654e",
+      "eng/provenance/records/dokka-call-bind-apply-helpers-licence-r1.json": "2b1b70355716be411798040cb7f531cfcaf09b8c3907a7bbedfd61ee3b78b5eb",
+      "eng/provenance/records/dokka-call-bind-licence-r1.json": "bba895c674f398ce0de80c7aa30cffaf8c9c4bfee55f4d1a223766f2c908f6f6",
+      "eng/provenance/records/dokka-call-bound-licence-r1.json": "d6428ac8c2ac9f4a1f85f10e8807ca455fdb552fc8033ffe3ec7d1f905ba9b90",
+      "eng/provenance/records/dokka-classnames-licence-r1.json": "f5927e1496a05bac5b09bb960024455d4ca621be6e4e43f05437b34ed0c1ac43",
+      "eng/provenance/records/dokka-clsx-licence-r1.json": "757cc85cb6bddfde0030029ecbdee12e0c6e8485c42183ba74f3b41d578ea8cb",
+      "eng/provenance/records/dokka-column-resizer-core-licence-r1.json": "448eff01e7bbd7b110c1ee0c11398d5105ff9aa6d744f37e8fa96f8ba66d0fbf",
+      "eng/provenance/records/dokka-combokeys-licence-r1.json": "75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",
+      "eng/provenance/records/dokka-core-js-licence-r1.json": "3cf28ab2fd5f6473f45dcbabf18aebc01189ba642ea5b5617ff1606dfacfd756",
+      "eng/provenance/records/dokka-css-loader-licence-r1.json": "fa8cdef1d5beccffd74f6ccbb57379b1304a3e204242f776059cba24529e5e76",
+      "eng/provenance/records/dokka-deep-equal-licence-r1.json": "b39d18ff1bce56cde5faf26e399a23c1bbc5cdb3525aec17024eef2092247e18",
+      "eng/provenance/records/dokka-define-data-property-licence-r1.json": "17f2f4e45bfa4828496bb697f349fb27760356b1e221b0b4c0e686c8f8494277",
+      "eng/provenance/records/dokka-define-properties-licence-r1.json": "be80edc44910583355abeae35a6099bcd3adaa715851cbea95602dd563705f73",
+      "eng/provenance/records/dokka-documentation-resources-r1.json": "7246ebabdc633c0d328c7d0e221088d3965bf36169cfefb2f8ae1c0f3778eb19",
+      "eng/provenance/records/dokka-documentation-resources-r10.json": "4ae7d4d319bfa6e6cf62c55fb4123d92d173faf61ba675a2a41a55a603b84816",
+      "eng/provenance/records/dokka-documentation-resources-r11.json": "cdc12e115466f223cdfcecad01af388f6d085d92a22825af1c409f685508e18a",
+      "eng/provenance/records/dokka-documentation-resources-r12.json": "89bdbdda091ca9d19699c809d8551363be45bcec7bb5d1861a7fb13f589e4c87",
+      "eng/provenance/records/dokka-documentation-resources-r13.json": "9e1819f35c137fb50f9cb08ec1095af257c7e32b0a744e9cd4cd011cd7e48b77",
+      "eng/provenance/records/dokka-documentation-resources-r14.json": "334130b6c94d2f7642b8a17234197dc2a51ff1a5109c949564f1711a3f684686",
+      "eng/provenance/records/dokka-documentation-resources-r15.json": "cd9cdc8ac03f3f5c23d9f253301edf7d15422989da424cace5d2ebb7771b4f7f",
+      "eng/provenance/records/dokka-documentation-resources-r16.json": "bffea9a8359f528f8f6a2cec3183cbaafadda8054b00dd3668ce6bb5556c3bc8",
+      "eng/provenance/records/dokka-documentation-resources-r17.json": "3bc7431c48218515a37975326b17b5b6ada9631d3db85c3f78510582dfd5950f",
+      "eng/provenance/records/dokka-documentation-resources-r18.json": "e4f5bcc5e19f961ad227c6122920795b39f2df79438ce31c416dce81f2eea272",
+      "eng/provenance/records/dokka-documentation-resources-r19.json": "5d501f5d43b337a9281ae7d1e418d0deacc07f5ab995f63851d3ce14a843e9b2",
+      "eng/provenance/records/dokka-documentation-resources-r2.json": "7ff0f30361298e2df58dc7180294007f0b27e20b1ff7c70a33d351c1328115c8",
+      "eng/provenance/records/dokka-documentation-resources-r20.json": "60cdc3d4ef83d2a1714190f254ab8a04180238b7ff96cc6730b79915c31a892b",
+      "eng/provenance/records/dokka-documentation-resources-r21.json": "b7326ea89368f56278dc60b00614b721984af6cc9fbe788a8b23e5d9f4c2ccbd",
+      "eng/provenance/records/dokka-documentation-resources-r3.json": "0cae2f2168ca3eb8f92303a95812e8fbd4dd82cacce49e574d46078f94c9c169",
+      "eng/provenance/records/dokka-documentation-resources-r4.json": "79c3dcfb45b78b005baffc4c6b44f6cbf9f1175f7060cd6500d784fc26098b66",
+      "eng/provenance/records/dokka-documentation-resources-r5.json": "6ab8701ca3da446be1148b73699b256137943d315dcf92b20b3b35669cd284ef",
+      "eng/provenance/records/dokka-documentation-resources-r6.json": "0c9b3c6783c7436ddd06588c39002b32f23e7424e394267a21a41c8af1a4024e",
+      "eng/provenance/records/dokka-documentation-resources-r7.json": "bed620535cf50a6e736123e9223bfdbdb77202dc3838fed48e2baf3bb79aca8b",
+      "eng/provenance/records/dokka-documentation-resources-r8.json": "ae159ec440748eaf2a0e23518f64bdabbfec88006c26e78eddb9540a4db1dee8",
+      "eng/provenance/records/dokka-documentation-resources-r9.json": "bb936d1a5ef78869cb390fbbc48e05e79dcb69609343557cce36ce0ff276ceaf",
+      "eng/provenance/records/dokka-dom-helpers-licence-r1.json": "13303b969579dd5694c0544925d45b7126c3d9c1a6e0a754122896ca263da918",
+      "eng/provenance/records/dokka-dunder-proto-licence-r1.json": "78b90efc76c0649d6150b4710fc90b58a99fe582af3696a7f3180f3a79f6aa7d",
+      "eng/provenance/records/dokka-es-define-property-licence-r1.json": "f496d51bead2a29f6d9ea98032b46ccf6363caeb3dea928807974128d2f16139",
+      "eng/provenance/records/dokka-es-errors-licence-r1.json": "62c7508dee7b711566bdbc4f1f0d3907609477d9fcc2b1a37176cae0d570be7e",
+      "eng/provenance/records/dokka-es-get-iterator-licence-r1.json": "6bd29a282c583b3798d6738232d9e46ad2c69b122d0f601d51480ce5dfb90aa9",
+      "eng/provenance/records/dokka-es-object-atoms-licence-r1.json": "d23be3ea4d29296b2afdeb4c87cdc1967d3fcac65489efca6e9c315d59282515",
+      "eng/provenance/records/dokka-for-each-licence-r1.json": "e71810875144b6703684404b88ca77b45077bf9b240199e2ca3f6754a4f26425",
+      "eng/provenance/records/dokka-function-bind-licence-r1.json": "2b1137c37eab8192c35347eb2ca95eea59677920b7bbc5c948dfe6b589993ed4",
+      "eng/provenance/records/dokka-functions-have-names-licence-r1.json": "ea7a5adef62b8603220d2ce1aca9440526dc1e052abaa5352c46cdf18e066d50",
+      "eng/provenance/records/dokka-get-intrinsic-licence-r1.json": "c18d311f5021a64b1e97b3fb622f8c7c1af5241cbfb5a847a756c26ef88d2492",
+      "eng/provenance/records/dokka-get-proto-licence-r1.json": "8f844514516ff137fdbf53bcd5318edf42a35730e5489a4be7ca50e80f60dd63",
+      "eng/provenance/records/dokka-gopd-licence-r1.json": "ba9dbdde65fdb1ac04852f31de1fbcafe05c25ec386c8dc6ae33d62b4f5c9c0e",
+      "eng/provenance/records/dokka-has-bigints-licence-r1.json": "e150e83104f26a97791b9ecb8e471747f549e2b493fe261ce6da0068e14d2b65",
+      "eng/provenance/records/dokka-has-property-descriptors-licence-r1.json": "100d1b845a620c72ba3b74e0464b92ba23666502bfb08146a91967300ae75220",
+      "eng/provenance/records/dokka-has-symbols-licence-r1.json": "7d20741f95630a0dfa0eb65d85bd2173c4311edac50af1a4ba760180bed1d78d",
+      "eng/provenance/records/dokka-has-tostringtag-licence-r1.json": "ff7a26d4ff159c99561605a3d739d3d0f1dd8555d99cb0bbc5c04d0310768480",
+      "eng/provenance/records/dokka-hasown-licence-r1.json": "2513d1d47f82c11c98b6f8c432e34cac67d36959d0828514cb77f5a34f8df5b5",
+      "eng/provenance/records/dokka-internal-slot-licence-r1.json": "c4b40d9429ac63ea3c2a5f1edc55641d2d28dc2765df7ae25f5c18a9848826c7",
+      "eng/provenance/records/dokka-is-arguments-licence-r1.json": "f37eb034c3d7fc793114c3f12d82d07ad4cf0c4a42927f10bd200c2430c1dfb8",
+      "eng/provenance/records/dokka-is-array-buffer-licence-r1.json": "03aae98c247a27cd97175a75888c5eddb81821e84a283312ae8004d2080406a8",
+      "eng/provenance/records/dokka-is-bigint-licence-r1.json": "c8e917c1fa1c406c356c3b655b4ab56a92a15b38da89562272191d0221876bff",
+      "eng/provenance/records/dokka-is-boolean-object-licence-r1.json": "89fbf25bf063c77437409589b0c72af5f9c6f0046a623e21a9d75acfc5f297d5",
+      "eng/provenance/records/dokka-is-callable-licence-r1.json": "dfb1b4a3e90ac228e68cd511f00bb453fa04a6da53608959daac9f5b3fa65a4e",
+      "eng/provenance/records/dokka-is-date-object-licence-r1.json": "01b08d069fbf6bf551b1662b4dc811c8a9e6d599d1199c86aa76489f4e5da377",
+      "eng/provenance/records/dokka-is-map-licence-r1.json": "fc618ce317e0b9f8e364e6fc8104a51e1625973a966bf80a8ce13807f55218cf",
+      "eng/provenance/records/dokka-is-number-object-licence-r1.json": "537ea760782b92d74fe22ae09cfefa6356d535c0c4aa825b3d638638d5902a7a",
+      "eng/provenance/records/dokka-is-regex-licence-r1.json": "0952af9265686c7197c6114b9c72bbe29b7eb7295c9cbc489c051adac0f09bb0",
+      "eng/provenance/records/dokka-is-set-licence-r1.json": "55f56ffad059be569e9dbf11bfdfe8b1d6e61a8d1d986f7a0df836bbf86453b0",
+      "eng/provenance/records/dokka-is-shared-array-buffer-licence-r1.json": "5d41bd93547ce25bb39215f216109d2fb76d0c5a0c364978949bf85c5dbfc266",
+      "eng/provenance/records/dokka-is-string-licence-r1.json": "f10aaaa588a18865d210e445da28d06649c4ff2f21334b310cf6e04cf345ec26",
+      "eng/provenance/records/dokka-is-symbol-licence-r1.json": "723daec6ee36ad56b3ad5d308a269ffebcdb75bfc29d62a0535bf1865f8423f2",
+      "eng/provenance/records/dokka-is-weakmap-licence-r1.json": "07decee3936c2377716b19854ec05f35c3cd1e9ab7cc49ca2c7e8f0e9652d398",
+      "eng/provenance/records/dokka-is-weakset-licence-r1.json": "4ef462368f1c4a94cefce0e41d5b230bf4d8034d13ac6f35a9ec6ed3b9033c0f",
+      "eng/provenance/records/dokka-isarray-licence-r1.json": "13337fd2b19586b7602f739bfbb3cf11efffd9fae5106e17edde32c0142f72d1",
+      "eng/provenance/records/dokka-jetbrains-icons-licence-r1.json": "e091fe652dc777057111999a1d8cf30b3546198ef658ded772ef9666cd645e29",
+      "eng/provenance/records/dokka-jetbrains-ring-ui-licence-r1.json": "2f65bfa8807561a1b948ed0169480e0f1bf0763149931571af1b28385ebf3d76",
+      "eng/provenance/records/dokka-math-intrinsics-licence-r1.json": "a94fbca1d4646e5ecf2d86322676e1b9d973ace6d9f04ac87e44aad326b26823",
+      "eng/provenance/records/dokka-memoize-one-licence-r1.json": "9e6db7bc18a7440c68a09b91d45bddae04406e1d50a6b621bf2a87e00abafba6",
+      "eng/provenance/records/dokka-object-assign-licence-r1.json": "1018758cb07635e458fa2e5100b7aacbeebcff79d640a3accfe4d1823292136d",
+      "eng/provenance/records/dokka-object-dot-assign-licence-r1.json": "dc96c41fa16b08bffe15e8459ed97ff90764b71ce1e62f3e27e9dc6b9b57abf0",
+      "eng/provenance/records/dokka-object-inspect-licence-r1.json": "6c2b752bc6cbf46238f4f130c50848586ac5722862d32b7dee6e0474f06b6880",
+      "eng/provenance/records/dokka-object-is-licence-r1.json": "ef52ac07b422cd6926376f8da583f641bfb560d704b8dc492a72001c19a92738",
+      "eng/provenance/records/dokka-object-keys-licence-r1.json": "55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",
+      "eng/provenance/records/dokka-own-licence-r1.json": "e6a8139e1564c5c8ed0bb04190644647f146fb9e7ac13489e518475dd22c9449",
+      "eng/provenance/records/dokka-possible-typed-array-names-licence-r1.json": "2bd1cd266c8e192e8cddde30ebd25ad3576f39ec6234056771b3042d7f2d0486",
+      "eng/provenance/records/dokka-prismjs-licence-r1.json": "eb8eb5a584bd300f6261279254e2a27d12f7ec415b64a93fee8776a5c5e08d6c",
+      "eng/provenance/records/dokka-prop-types-licence-r1.json": "fa8775ecb4676a5c731c85120cd07e3787a25d9387902073c79cdadb008b6265",
+      "eng/provenance/records/dokka-react-dom-licence-r1.json": "9b0b48439b47ffadfb50960f8e8e1e462b9ad8bceba694e7764b2db475923bfa",
+      "eng/provenance/records/dokka-react-licence-r1.json": "1e95a01a8dca133ba848d9a933ed5170a78f9e61028a9e5336a40dec8c8c86fd",
+      "eng/provenance/records/dokka-react-lifecycles-compat-licence-r1.json": "980a643bc3949b3de7f3a1c930b52bb3fa9b3af5e9004a6fb319ded00fc6dd92",
+      "eng/provenance/records/dokka-react-virtualized-licence-r1.json": "b9851059d61a022d0c6d5f473bbf8bc954c21f272b2d932e1a899a5187a22a3c",
+      "eng/provenance/records/dokka-regexp-prototype-flags-licence-r1.json": "ebd4c403a39ebea737d5c39eadfbd23df1c0cae5c0f103acb4b13404af9c89b5",
+      "eng/provenance/records/dokka-safe-regex-test-licence-r1.json": "9e3d5575e3b40b52c5fe3ff92fc8bd45b3466ba853ff8ffac9776c700b6cd8cf",
+      "eng/provenance/records/dokka-scheduler-licence-r1.json": "5082e14c3e28ebadd06e87a0b72beefd559f32d767626ef922ee17a1ba3abc22",
+      "eng/provenance/records/dokka-set-function-length-licence-r1.json": "aad109a8e511621c0d21834ddcf04f66ba0b2b91cbb574ea6a15bfc5d1374f67",
+      "eng/provenance/records/dokka-set-function-name-licence-r1.json": "d0df690b38c8599ea507f2c343ede405ab67158e7ca0720715b13f22689e7156",
+      "eng/provenance/records/dokka-side-channel-licence-r1.json": "179985988673fe24b2837b0cd32e5a5d6dc625ce56c09038af421958f3bb9cd1",
+      "eng/provenance/records/dokka-side-channel-list-licence-r1.json": "317efc443db102c6669b413a61aed8047e567da46fdc1a4c742d443afda5153d",
+      "eng/provenance/records/dokka-side-channel-map-licence-r1.json": "929b196ffd98ac6189e86958139dda63f8c553e66021a23ac52cae534f39b631",
+      "eng/provenance/records/dokka-side-channel-weakmap-licence-r1.json": "ad555cf9891f717861bf0f56d6703b3a5ca659d9db0e5a14ec1ace3ae12f9282",
+      "eng/provenance/records/dokka-sniffr-licence-r1.json": "7c383f9ba83928dd638caa2e3ec6f1f190ff2a54ba65012998608ef246351f3b",
+      "eng/provenance/records/dokka-stop-iteration-iterator-licence-r1.json": "b231f71addf72bf951e90095a3a6b0e86979bb62300f5d5cc79d8485c0f43469",
+      "eng/provenance/records/dokka-style-loader-licence-r1.json": "62d99c05ace2b18b760c9109a983624c302395ac47db50869542e6c66cfc7bd7",
+      "eng/provenance/records/dokka-util-deprecate-licence-r1.json": "ccb2ebe52b970b3b03b6e943c1a1500a33d5b441feb456d0ed8d0540ea3554bd",
+      "eng/provenance/records/dokka-which-boxed-primitive-licence-r1.json": "18ad9e03d27cfe2816725f58ceacf04fbfb7381023fad7a82c498c29dd103291",
+      "eng/provenance/records/dokka-which-collection-licence-r1.json": "60f258f62506034ec8d91900cbccedc782055d9c3c5f61da6b0b1c1fb9dd819d",
+      "eng/provenance/records/dokka-which-typed-array-licence-r1.json": "8351998c7f87386e6e0fcf5145db40852364e1c8152c6ebe2c396d11e7756b6f",
+      "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
+      "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
+      "eng/provenance/records/protobuf-generator-licence-r1.json": "0d7fc75eb1453908b2954c182e895ff5da49c5000f04b5d66d8449f552be1f81",
+      "eng/provenance/retirements/con-40-maven.json": "dfc2d6b1567352e3ecf393178ce434b65aa09b72d06bcb624f96cc61884df73a",
+      "eng/provenance/retirements/con-40-npm.json": "4911dd0c111a74f6953c5d7c9c5bb09fa10959275322a3ac51bde34fea18be23",
+      "eng/provenance/retirements/contracts-client-wp03-00.json": "3dbc212a56e678bea10950909a2ae1ad7fc8f2f3640421d02c8f80d2c22c1126",
+      "global.json": "c39786ab1a147662bbe4db015f900165178875ec4a872ddae53bc0c90771ac34",
+      "package-lock.json": "d44b7ef6159d74205b89abb6a8fada91652c7b3c4f7642685b6e189c6d569284",
+      "package.json": "67d22bf8641404e51f11847c2878e8537e79a0f8e958cb7b893cc2cbb21e7cb3",
+      "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj": "d60341c571cce8fdf90f7a06938ae71af87fbbccafff26f8819ef6a458738e4d",
+      "src/internal/dotnet/ArcForges.Contracts.CloudInternal/packages.lock.json": "4c4e87d606b9b79824286022accc631f2b8ac6689248b213fc9eb54255121cee",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj": "2413de819d392841db75a622a6e348719da93ce3dbb4c3402b5aed6fa277711c",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/packages.lock.json": "2ffa6c7fb3cf873b86775fa67fcce30516bed510d126113933bfef7fbed3e052",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj": "3e9c13b2454b28c55049fa5c2bc1693250f2db0b715dafb337909380b3b8494d",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/packages.lock.json": "4af9f61c399adec188a1e1717c4ba13b2291d4039af5a374d99832cfd9228586",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj": "01fd7df18b072d733a2171860952dea1c774e89f1f9602ece4da3c36eb646f20",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/packages.lock.json": "950f637a1c8b5152e0fdabff441cb2a8802ac50ae8aae0b97a89b4fa1e633b29",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj": "d82efed194d832b5c52695ebbc70841a1b4606ab40d8e4b0d7c7437b0ddb41be",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/packages.lock.json": "2ffa6c7fb3cf873b86775fa67fcce30516bed510d126113933bfef7fbed3e052",
+      "src/internal/ts/ai-internal/package.json": "0bff2cf81a1a98ae3b94b9215e813b97d5ce3048dc09184cab1a7de496a68870",
+      "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj": "315e0898b9276c1fcde34510e2ef6c1fce067d30c462b71fc3ffa89261d9ba1a",
+      "src/public/dotnet/ArcForges.Cli/packages.lock.json": "103777bb279eafe8ebe643afc4fb1c5d7d33f80f5f7d31fa3c796c64474b24f8",
+      "src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj": "f3ef3c30d9ed05a66d771c390a2ca8ba6439922c81480757d84d2e21067efbed",
+      "src/public/dotnet/ArcForges.Contracts.Events/packages.lock.json": "5f4282b8edd354a2197bcc62bf48c640251aa7272bd81b4a51dd340cf28fce45",
+      "src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj": "d87e9fb79689cc245332286e3eee8a045069831144d28ca513805f89b8a7e344",
+      "src/public/dotnet/ArcForges.Contracts.Foundation/packages.lock.json": "fa17fe6057706e36ae0b9370a457536d05d0f3a8f0f72df622881bfc1628337e",
+      "src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj": "986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",
+      "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json": "950f637a1c8b5152e0fdabff441cb2a8802ac50ae8aae0b97a89b4fa1e633b29",
+      "src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj": "169a71dde7093d66d727a966c558ddfefe12cb00c21e01f1b53c4acf5ee12901",
+      "src/public/dotnet/ArcForges.Contracts.Validation/packages.lock.json": "17e9ab54e527b0811319a94b81bbfcb16bd1773fd019ad81bbeffbbe4368508d",
+      "src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj": "f9c35650873d79f50e83a85e29cd51ce2b117a5af72ecfc84a81d554cc67e0fc",
+      "src/public/dotnet/ArcForges.Sdk.Client/packages.lock.json": "2182c09fccd0754761f9160db38c112d496a4ee72047cc052bbcaf2f22351a91",
+      "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj": "61d0ccec8cb02bf34fab51db298e1d74c8b7180f24fc9ae27f9318650a187b7d",
+      "src/public/dotnet/ArcForges.Sdk.Contracts/packages.lock.json": "0490ab15d029c97f1015d0483d419737a7963c4d7be002247d917eac684f74ce",
+      "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj": "7065e2d1b5404380438aa305c5dbfcf000214d15ad0fe232846b7ba7639856c7",
+      "tests/ArchitectureTests/packages.lock.json": "7019b7a06d181c6252a1db00bf8d3ffd9de7ea066a5c0151917de92e2470fe33",
+      "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
+      "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
+      "tests/StructureTests/StructureTests.csproj": "5bca08adfe954e140c6f78371f33c7315307afefeffa9d95c415271775510587",
+      "tests/StructureTests/packages.lock.json": "2246f9ae3ea5a3d1023b6fc53255ba0ac667991d0d002c71c011475349272424",
+      "tests/public/HelloClient/HelloClient.csproj": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a",
+      "tests/public/HelloClient/packages.lock.json": "1592ed0d5c1bc731764993c0629fbc4954673001b4757800f0c7511ac1e462e7",
+      "tests/public/HelloHost/HelloHost.csproj": "c7ac2acb49c079907c4fdbe9a937421d93146f4b87e92546032d7881fadc6035",
+      "tests/public/HelloHost/packages.lock.json": "15c1bd39184b4ee86f3f30e52eb21a6cf1ba7d3d8032a21e49b5af71ea7cca1d",
+      "tests/public/SerializationProbe/SerializationProbe.csproj": "53094aaa51dcf5ad145f69e265b989de4b59fdb60c1444e41563346cc25e85f0",
+      "tests/public/SerializationProbe/packages.lock.json": "e75614decb118410170fdf147349d86607faa7a23b295fb0329ec914f55ee286"
+    },
+    "maintenanceAssessment": "CON.40 unit C6 records the retirement in the provenance, access and inventory records; no dependency changes. eng/check_provenance.py replaces the hard-coded WP03.00 exception with receipt-driven retirements (S47(5)): eng/provenance/retirements/con-40-maven.json retires the three maven-javadoc artifact targets of dokka-documentation-resources-r21 and con-40-npm.json covers the four retired npm identities, both naming reviewer w-deku-20261008-rev-con-40 and decision approved; eng/provenance/files.json no longer registers an artifact record. eng/check_contract_access.mjs keeps every access row of an identity marked retired in eng/contract-packages.json and refuses a new row for a retired identity and the removal or change of a historical row against the reviewed base (S47(4)); eng/policy/contract-access.json marks the seven retired owners, marks the five ContentSandbox PDF RPCs retired (P2-022) and drops the build-input rows of removed Gradle and npm workspace files. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. No published version is unpublished, deprecated or deleted. Independent exact-head review by the named reviewer and all required hosted CI remain mandatory before merge.",
+    "checks": {
+      "compilation": "dotnet build of ArcForges.Contracts.slnx and the StructureTests and ArchitectureTests runs pass locally; pinned generation, pack and hosted Verify remain required at the reviewed head.",
+      "aot-trim": "No runtime library or serializer changes; the serialization/AOT posture and the Native AOT probe are unchanged.",
+      "compatibility": "No schema or descriptor change; the five ContentSandbox PDF RPCs stay declared in arcforges.local.sandbox.v1 and are only marked retired; the compatibility window, binpb pins and reserved numbers are unaffected.",
+      "licence-provenance": "Receipt-driven retirement replaces the hard-coded WP03.00 exception; the javadoc artifact targets leave the active inventory only through the reviewed con-40-maven receipt; check_provenance, check_licences and the contract-access history rule pass and are tested both ways.",
+      "security-sbom": "No coordinate enters or leaves the closure; locked versions, integrity values and licences are unchanged.",
+      "runtime-performance-migration": "Records and gates only; no runtime, migration or performance claim.",
+      "framework-runtime-posture": "The .NET SDK and Node pins are unchanged, so no major-upgrade review is triggered."
+    },
+    "frameworkVersions": {
+      "dotnetSdk": "10.0.400",
+      "node": "24.21.0"
+    },
+    "previousReceipt": "eng/policy/dependency-reviews/con-40-r4.json"
+  },
+  "closure": {
+    "npm:@bufbuild/protobuf@2.15.0": {
+      "integrity": "sha512-DAheWUkVr/SJTWCc+lg9dhY0eN4SaWlf4+bG1KzHeXbnqt0AfB/NX0Z+VunGlM1ki1B4zVvye27MpKh/svySUA==",
+      "licence": "(Apache-2.0 AND BSD-3-Clause)",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@bufbuild/protobuf",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-aix-ppc64@7.0.2": {
+      "integrity": "sha512-MTKKkWB7p/0E9xi1d1tHtZ5PiLkGEMIq88pK2CubZjOsLtYTLqhgIgi6zepFa+9GHZ6h05NMCkQxGKiPXMxXtQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-aix-ppc64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-darwin-arm64@7.0.2": {
+      "integrity": "sha512-gowzar9MwS/aRWp6f3a4KUqzRjAZjOsmGNCM6LcTgXum+dBfgsBVMN+AgvOCCbguXyick6LJhpBszxMebJ8syA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-darwin-arm64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-darwin-x64@7.0.2": {
+      "integrity": "sha512-SZ9xZInqApNlNGc9s0W1VSsktYSOe9cFqNOIqmN1Gs8SmkjKZYFt017G4VwPxASInODuAdbTW7sXiFUf893RgA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-darwin-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-freebsd-arm64@7.0.2": {
+      "integrity": "sha512-W5NH4y/J0plIIS5b2xvTEkU7JFxyqdMAOgf+Ilhl0vHQXKO5dZoxd+C/jEtq56c4F3wk71RB4BMRQ2XdI+bwYQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-freebsd-arm64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-freebsd-x64@7.0.2": {
+      "integrity": "sha512-UMGDx5sTpzNw3WiPebH7l90IWfJggEd+egHt/q6p7/Cm3zqoV7VxkGXt+3DxPIw8CcmvAB0j3sVVfbhX+M4Tpw==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-freebsd-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-arm64@7.0.2": {
+      "integrity": "sha512-Qh4eU4/y3yDjnfjjyPYihMj5/ODIlmt+Bzu17OI+fiSRDW57QmU5SiN63exPRNJPKUzcc1INa1NXdrJ+MqHjUQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-arm64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-arm@7.0.2": {
+      "integrity": "sha512-gffT3xPz9sR7j/YJExkyPntrI0P2EP9XbOyWzth2/Gs0RstK+90RBcO0ncXoXy/beYll1SXw846Nf2zdnEz0QQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-arm",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-loong64@7.0.2": {
+      "integrity": "sha512-uEHck9i8hoAzXPiYRib1O7miOnz23SxIeVl6F4LXox+qov1K35jHcEW6VHKvZI+pyvl7fZEP4MCU5LYvIq1GuQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-loong64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-mips64el@7.0.2": {
+      "integrity": "sha512-R4KvAMnE43W5Qeqb0Ly56O3mWMWIAgsMyz36DCaycd5nbg/9kzm0liw3JocfRqyJY0KPmzFjbswozXyW0DnIYA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-mips64el",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-ppc64@7.0.2": {
+      "integrity": "sha512-DORx5b3sd/4S7eayxm4FQv+A7CrkUIGRaHiwI8oiHTAI1fAPWhF4J0vAlkC8biAlHSVVwxMQ3tjZ2/DVbnQiiA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-ppc64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-riscv64@7.0.2": {
+      "integrity": "sha512-wf0jqEDOjrPRnKwYRyyJDRo11KMbvMFrU+q4zqKyChODBzvlkbhNQfKvLxQCcwTpdDaXSHZTVuh0JoCrKCUMHQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-riscv64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-s390x@7.0.2": {
+      "integrity": "sha512-IkwJc3L7yhytWd/ewjyxNDfOmswCm9GWMJT/ue/dU4aZNbwZeYAetq42VyLmsmSjvoX7z74X6ZaYCtzAr0EuGw==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-s390x",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-x64@7.0.2": {
+      "integrity": "sha512-EYdf2cNg7rgCWJnxCdJ+F3V39O8ihb37eHAu1LK8oAFizgTQbPOK7zHHXbPt8rX24COqODXeI3sIf0fCXG7H/A==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-netbsd-arm64@7.0.2": {
+      "integrity": "sha512-+polYF4MF04aPpO5FTkHran9yUQDSXqy5GiSDKpsll5jy3l3+g9QLhpf39T+ePtefhXLOGrLl0QIjkQP6VnelA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-netbsd-arm64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-netbsd-x64@7.0.2": {
+      "integrity": "sha512-8YIT0EHM/3dq10ZOVF/A7pc/YSMtbcecct4rWtexrnSCHOPcpC2KTLXfTCR6vDpnSiY12heNb1GiN/wu+T/FyA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-netbsd-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-openbsd-arm64@7.0.2": {
+      "integrity": "sha512-APT8+ClYnuYm1u9+kgGXoMj2VzWzcymwh2gNSQVySHfkRDGOTVkoWLjCmOQSaO+PoqQ57B0flRp9SA+7GnnkzQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-openbsd-arm64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-openbsd-x64@7.0.2": {
+      "integrity": "sha512-yX7s+Q0Dln0Dt9tEzZsAjXXR/+ytBM7AlglaqyeMPxQszJ1JhlJdZ6jLA+IzldHtflX81em7lDao1xXu+aRRkg==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-openbsd-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-sunos-x64@7.0.2": {
+      "integrity": "sha512-dLJDGaLZ1D4HPQn62u1n8mBDkJREwMsAkCdkwd4Ieqw+x3TUyTsqY0YiBCtE6H6OzzgGk3iuZ3vFWRS+E8/d1g==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-sunos-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-win32-arm64@7.0.2": {
+      "integrity": "sha512-Gyl1Vy6OsWesLzmq+EP0Fb7b4Nid5232AvcA2SFcdYreldpNtYFFofPjnt62y9hQy7VTaZp65ICJjuAQRaVcIQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-win32-arm64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-win32-x64@7.0.2": {
+      "integrity": "sha512-0BQ3HkAHHlKLSp1qRvf3SUhGpGsDuhB/jgFw75guyqbxJqEaS0Cw/VFO8i2nHglJUzQCRtMMR/IBAKE3ETMC4g==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-win32-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:prettier@3.9.8": {
+      "integrity": "sha512-WRFq3Wn3WId7LLROfMLdH7xaFr2jR62wU8nLO6rQUOLOxNZUviyJQs1M0iIhLexSFy+L+w0ch66wtoO2jRjG0A==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/prettier",
+          "sha256": "3e536db25743ceb5a021559dbc1f31d57112211c62d94f84df34daca5382709c"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:typescript@7.0.2": {
+      "integrity": "sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/typescript",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:arcforges.build.policy@1.0.0-ci.94.1": {
+      "integrity": "PCpeEXikk2m87zhMF6L8tbHe2QrI87mO4Nc5lJBenEDhOePwwV4TkArc6IaM1G11Pm8ojVjurLAIoPW22ozb/A==",
+      "licence": "AGPL-3.0-only",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.94.1/arcforges.build.policy.nuspec",
+          "sha256": "bd85acc0b99828a7e9c52751a9d57059fbaa7130986871a562e37b7f6b971c7c"
+        }
+      ],
+      "scope": "Exact build-only source-link policy engine for the non-packable Contracts ArchitectureTests host; direct reference only, PrivateAssets=all, never a product/runtime or public package dependency."
+    },
+    "nuget:google.protobuf@3.36.1": {
+      "integrity": "77AqPEoaY1ODE+syYBHti0jXiwQq0J/fUr/fRyYhNlc9oKtH5dZZEr/OLKtdKNVG83PRnCYB2r8B80ZrObzOGQ==",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/google.protobuf/3.36.1/google.protobuf.nuspec",
+          "sha256": "d6a4a567ce4889e25d098fd39d13a65ce05c847e8574818edc0d1eee6277eb40"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.aspnetcore.server.clientfactory@2.83.0": {
+      "integrity": "DrX1dE9WJNOsaKDQpD1gQaVE567jMNfhpBuG6P2NvGhirf2HZczfIJtd2d1L+steYh0YZ1q57Sa1ZHuufMPYBw==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore.server.clientfactory/2.83.0/grpc.aspnetcore.server.clientfactory.nuspec",
+          "sha256": "c136c73c16bb696799979b16ec3e8cedb71f9787134697f595c9329367b46006"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.aspnetcore.server@2.83.0": {
+      "integrity": "rWeSaXaSPIIerc82lhHKqmzlp/sgLnG+Zw1c3YEEVp/un+hJKPxJOXWuGUOS2cs3EvcZBZ2tliXsnAg5Mdk2Ew==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore.server/2.83.0/grpc.aspnetcore.server.nuspec",
+          "sha256": "b9a51de789abe619de7ee4bb9ec9f30452c4bca13d514e53ac574a0bb96116e3"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.aspnetcore.web@2.84.0": {
+      "integrity": "xhpKA/nWQbgFLT0Z9sANWU2n9qMcb7l5Sfo7Z7f+7JZxGxGMEKe9kbGn9K8TxJmsDJ9wlxJKp+b40HsQfuMFEQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore.web/2.84.0/grpc.aspnetcore.web.nuspec",
+          "sha256": "9aa433115fb36b18c12cd74b4c1f7f9f0e656500f9a144b115d01c00b020f2d6"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.aspnetcore@2.83.0": {
+      "integrity": "PMoR+paO24EgBjBvfCqrmkurBH+RmfOIYThsUv6sGx6LUH0kxhzQkjtZ44mJxU0IwEw64dCzHhIjAM+CmORp3g==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore/2.83.0/grpc.aspnetcore.nuspec",
+          "sha256": "3852b062a3142127590a43bb41470c956570ca4dd5a65713c4da92a57de1714e"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.net.client@2.84.0": {
+      "integrity": "My6Fms2YCyAbihTBZZ3kLS39iTY2pkMAzGDBTC6XhPOujg70eB07AEJ7tPiW3tZ70bhFzHcc3+d4j3DaIPF3aA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.client/2.84.0/grpc.net.client.nuspec",
+          "sha256": "32a43f3448ab90bb71c946533db4d5135cef4728a3ee29bf88d9a0cbf1e67413"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.core.api@2.84.0": {
+      "integrity": "p2SOMl6q/GZ4/5MLkgboC/z55g4zKUEruRn/g46QgppjQBVnsLZVBU/9VO7n60ll38G3Eo8Zu9b7x+W01GKFVg==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.core.api/2.84.0/grpc.core.api.nuspec",
+          "sha256": "bba00f5d5be8423dd351662e313648b0abd13100ef67d55f6fc29de44c544a96"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.net.clientfactory@2.83.0": {
+      "integrity": "j07orG5YnET3n5+TnczHCQsyWL3a4n/lJlIS88B3Zffylpp0RkcPzLv4ILAwKmOWOBvbBHiytPzAwJ8p7JomEQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.clientfactory/2.83.0/grpc.net.clientfactory.nuspec",
+          "sha256": "ba34068bb1e956e14021209f9576a3fd9c40340f444a7d0c62ddfdef2cf8788b"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.net.common@2.84.0": {
+      "integrity": "DPxm/H8G/lDRrz997wM0M2zN/PGqVeZKDakhBbtABEbv6WIW4HI9g3BvntBQT6ZUROuGacMzfyyF9e5kiTVFfQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.common/2.84.0/grpc.net.common.nuspec",
+          "sha256": "f621aa566e63340b572a4f0bd2b996b934407c77b8cdf121f38578e93ee796cb"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.tools@2.84.0": {
+      "integrity": "SarjdfpQYU/mmdu/fWgSW8kEHQ54jiyG2+I4THu9eubtAud+QJf+1iJdGtoKTJ/ZRaI0qAG+7ttsK2WUTao2OQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.tools/2.84.0/grpc.tools.nuspec",
+          "sha256": "ec22ca632fad79aac17b94fdad74aa17dd999a493b68f6b6e693863737daf2ed"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:microsoft.dotnet.ilcompiler@10.0.11": {
+      "integrity": "yloFUsIQOzspIsn2cDHrbgikKaWHAZspzj0EWxnWJJpFC89IBW64OXgCECsrrnzGWQvy1iLX9r5/R4zBf7Am3g==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.dotnet.ilcompiler/10.0.11/microsoft.dotnet.ilcompiler.nuspec",
+          "sha256": "2c16a1f000bd7a7e5c0864d2b097d5d00afc5d723770751bc6228bd463c6cc56"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:microsoft.extensions.logging.abstractions@8.0.1": {
+      "integrity": "RIFgaqoaINxkM2KTOw72dmilDmTrYA0ns2KW4lDz4gZ2+o6IQ894CzmdL3StM2oh7QQq44nCWiqKqc4qUI9Jmg==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/8.0.1/microsoft.extensions.logging.abstractions.nuspec",
+          "sha256": "7593932df3e935a8e6670efad230c82967bc45ea4065186d9b886670408b95cc"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:microsoft.extensions.dependencyinjection.abstractions@8.0.1": {
+      "integrity": "fGLiCRLMYd00JYpClraLjJTNKLmMJPnqxMaiRzEBIIvevlzxz33mXy39Lkd48hu1G+N21S7QpaO5ZzKsI6FRuA==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/8.0.1/microsoft.extensions.dependencyinjection.abstractions.nuspec",
+          "sha256": "1ed9fd0c77d67cc75208b3268df565762916a992f3e246973430dbd77ede2413"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:microsoft.net.illink.tasks@10.0.11": {
+      "integrity": "IBf7lbovvjGWVWXZX5cJ/cO0WXbId0Zq4BuSeT94mGZuOAP66oMeH9PTBZ9Jpp3Jb6jtK0qm/NyUbPRo1gC/wQ==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.net.illink.tasks/10.0.11/microsoft.net.illink.tasks.nuspec",
+          "sha256": "6c10c93cd2958d71fc46d60c940044071e15b57a75d469d68adf80f0dff57da1"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:runtime.linux-x64.microsoft.dotnet.ilcompiler@10.0.11": {
+      "integrity": "0lJviBev2CvBdrLhMCJ1hmwOKgjbk1ccRy+brEewywtK4TMft1WaVXv112j6OuTQg8ZMbnN/i3KRD3S6o4NJDw==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/runtime.linux-x64.microsoft.dotnet.ilcompiler/10.0.11/runtime.linux-x64.microsoft.dotnet.ilcompiler.nuspec",
+          "sha256": "0d304c7cb54460b35cc188ca792aeb0f81772a6ac85d891e23d98889101aa3a0"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:runtime.win-x64.microsoft.dotnet.ilcompiler@10.0.11": {
+      "integrity": "D6ZKMo3NeTnos7l5S8bMmiPm4LK+y15Q/uduyPw7FX+xKbeWVWdwlcZGkLLPjLvW4ZO6o3ACanq5HsSXJgrt0g==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/runtime.win-x64.microsoft.dotnet.ilcompiler/10.0.11/runtime.win-x64.microsoft.dotnet.ilcompiler.nuspec",
+          "sha256": "e65322f78f21c985eea3b00e9f7cbc413d7b26a997ae861b08ee5265fc49b412"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:arcforges.contracts.foundation@1.0.0-ci.113.1": {
+      "integrity": "k51yFjKnec92FJEfOM3/6YEhnbi1wfO4gztqjlhLumg7USTjVnA7ab7rE4X/H1cDb62Ny4c2ufn8Xi/CtBaZnA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.contracts.foundation/1.0.0-ci.113.1/arcforges.contracts.foundation.nuspec",
+          "sha256": "7726a233f9ce81c4373a2ab9423c33d566b919bb2cb90d2b5577cf844bbbbfc4"
+        }
+      ],
+      "scope": "Exact previously published first-party fixture consumed only by the isolated offline PreviousClient test executable; never a production package dependency."
+    },
+    "nuget:arcforges.contracts.publicapi@1.0.0-ci.113.1": {
+      "integrity": "1ai2jcqdFfKLHahN62N9dqkcSsAEbgK/K5uQi4LDIUFDGaT38/2KJYYykrb/YLO2UyUBpFjxJmTk++A+4mr8Uw==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.contracts.publicapi/1.0.0-ci.113.1/arcforges.contracts.publicapi.nuspec",
+          "sha256": "ff556689167901646fc045bdf691fdd2c8b72b25cb848e9312ff384d0b0e7216"
+        }
+      ],
+      "scope": "Exact previously published first-party fixture consumed only by the isolated offline PreviousClient test executable; never a production package dependency."
+    }
+  }
+}

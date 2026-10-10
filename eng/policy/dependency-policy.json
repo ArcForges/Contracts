@@ -12,7 +12,7 @@
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
     "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
     "eng/contract-packages.json": "c1c6d70bc89e20f33568e262b3e7da4fa79eb624141875b8e79af4ad31997a14",
-    "eng/policy/contract-access.json": "90bb2150fad79e829181edc349c58d8f9ee1e87bf4a30f9c67636f5ca4e4af5c",
+    "eng/policy/contract-access.json": "1faf68f7c8010ab6d29ae7f11c8a0f22087ededca48564786bc66e3e51955cf7",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -173,6 +173,8 @@
     "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
     "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
     "eng/provenance/records/protobuf-generator-licence-r1.json": "0d7fc75eb1453908b2954c182e895ff5da49c5000f04b5d66d8449f552be1f81",
+    "eng/provenance/retirements/con-40-maven.json": "dfc2d6b1567352e3ecf393178ce434b65aa09b72d06bcb624f96cc61884df73a",
+    "eng/provenance/retirements/con-40-npm.json": "4911dd0c111a74f6953c5d7c9c5bb09fa10959275322a3ac51bde34fea18be23",
     "eng/provenance/retirements/contracts-client-wp03-00.json": "3dbc212a56e678bea10950909a2ae1ad7fc8f2f3640421d02c8f80d2c22c1126",
     "global.json": "c39786ab1a147662bbe4db015f900165178875ec4a872ddae53bc0c90771ac34",
     "package-lock.json": "d44b7ef6159d74205b89abb6a8fada91652c7b3c4f7642685b6e189c6d569284",
@@ -719,7 +721,7 @@
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
       "eng/contract-packages.json": "c1c6d70bc89e20f33568e262b3e7da4fa79eb624141875b8e79af4ad31997a14",
-      "eng/policy/contract-access.json": "90bb2150fad79e829181edc349c58d8f9ee1e87bf4a30f9c67636f5ca4e4af5c",
+      "eng/policy/contract-access.json": "1faf68f7c8010ab6d29ae7f11c8a0f22087ededca48564786bc66e3e51955cf7",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -880,6 +882,8 @@
       "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
       "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
       "eng/provenance/records/protobuf-generator-licence-r1.json": "0d7fc75eb1453908b2954c182e895ff5da49c5000f04b5d66d8449f552be1f81",
+      "eng/provenance/retirements/con-40-maven.json": "dfc2d6b1567352e3ecf393178ce434b65aa09b72d06bcb624f96cc61884df73a",
+      "eng/provenance/retirements/con-40-npm.json": "4911dd0c111a74f6953c5d7c9c5bb09fa10959275322a3ac51bde34fea18be23",
       "eng/provenance/retirements/contracts-client-wp03-00.json": "3dbc212a56e678bea10950909a2ae1ad7fc8f2f3640421d02c8f80d2c22c1126",
       "global.json": "c39786ab1a147662bbe4db015f900165178875ec4a872ddae53bc0c90771ac34",
       "package-lock.json": "d44b7ef6159d74205b89abb6a8fada91652c7b3c4f7642685b6e189c6d569284",
@@ -922,21 +926,21 @@
       "tests/public/SerializationProbe/SerializationProbe.csproj": "53094aaa51dcf5ad145f69e265b989de4b59fdb60c1444e41563346cc25e85f0",
       "tests/public/SerializationProbe/packages.lock.json": "e75614decb118410170fdf147349d86607faa7a23b295fb0329ec914f55ee286"
     },
-    "maintenanceAssessment": "CON.40 unit C5 retires the TypeScript generators and packages except @arcforges/ai-internal: the @arcforges/proto, @arcforges/api-client, @arcforges/contract-fixtures and @arcforges/operator-client workspaces, their protobuf-es generation (@bufbuild/protoc-gen-es) and the retired TypeScript consumer tests are removed, and the four npm rows in eng/contract-packages.json are kept and marked retired. package.json keeps only the @arcforges/ai-internal workspace and replaces the retired generator with an exact @bufbuild/protobuf 2.15.0 devDependency for the retained Node contract-access tooling (eng/check_contract_access.mjs); that coordinate, version, integrity and licence were already admitted and are unchanged. package-lock.json was regenerated (npm 12.0.2, --package-lock-only --offline) and a scripted diff limits its change to the removed workspaces, their links, the closure only they and the retired generator reached, the root manifest entry and the dev flag of @bufbuild/protobuf. The eight npm coordinates npm:@bufbuild/protoc-gen-es@2.15.0, npm:@bufbuild/protoplugin@2.15.0, npm:@connectrpc/connect-web@2.2.0, npm:@connectrpc/connect@2.2.0, npm:@typescript/vfs@1.6.4, npm:debug@4.4.3, npm:ms@2.1.3, npm:typescript@5.4.5 leave the admitted closure; every remaining NuGet and npm coordinate, version, integrity value and licence is unchanged and no dependency is added. eng/provenance/records/contract-bindings-con-40-r2.json joins the bound provenance inputs. No published version is unpublished, deprecated or deleted. Independent exact-head review by the named reviewer and all required hosted CI remain mandatory before merge.",
+    "maintenanceAssessment": "CON.40 unit C6 records the retirement in the provenance, access and inventory records; no dependency changes. eng/check_provenance.py replaces the hard-coded WP03.00 exception with receipt-driven retirements (S47(5)): eng/provenance/retirements/con-40-maven.json retires the three maven-javadoc artifact targets of dokka-documentation-resources-r21 and con-40-npm.json covers the four retired npm identities, both naming reviewer w-deku-20261008-rev-con-40 and decision approved; eng/provenance/files.json no longer registers an artifact record. eng/check_contract_access.mjs keeps every access row of an identity marked retired in eng/contract-packages.json and refuses a new row for a retired identity and the removal or change of a historical row against the reviewed base (S47(4)); eng/policy/contract-access.json marks the seven retired owners, marks the five ContentSandbox PDF RPCs retired (P2-022) and drops the build-input rows of removed Gradle and npm workspace files. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. No published version is unpublished, deprecated or deleted. Independent exact-head review by the named reviewer and all required hosted CI remain mandatory before merge.",
     "checks": {
-      "compilation": "dotnet build of ArcForges.Contracts.slnx and the StructureTests and ArchitectureTests runs pass locally; npm run build compiles @arcforges/ai-internal and npm run test:ai-internal passes; pinned generation, pack and hosted Verify remain required at the reviewed head.",
-      "aot-trim": "No runtime library or serializer changes; the existing serialization/AOT posture and the Native AOT probe are unchanged.",
-      "compatibility": "No schema or descriptor change; the generated C# bindings and the @arcforges/ai-internal TypeScript shapes are byte-identical, contracts.binpb keeps its public schema closure, and the compatibility window, binpb pins and reserved numbers are unaffected. Already published npm versions stay immutable and resolvable.",
-      "licence-provenance": "The licence boundary drops the four removed npm workspaces; contract-bindings-con-40-r2 supersedes contract-bindings-con-40-r1 without the removed TypeScript targets; check_provenance and check_licences pass.",
-      "security-sbom": "Only npm coordinates reached solely by the removed workspaces and the retired generator leave the closure; the remaining locked closure, coordinates, versions, integrity values and licences are unchanged.",
-      "runtime-performance-migration": "Removal of retired npm packages only; the C# suites from unit C1 and the CON.16 codec case carry the retired TypeScript consumer cases; no runtime, migration or performance claim.",
+      "compilation": "dotnet build of ArcForges.Contracts.slnx and the StructureTests and ArchitectureTests runs pass locally; pinned generation, pack and hosted Verify remain required at the reviewed head.",
+      "aot-trim": "No runtime library or serializer changes; the serialization/AOT posture and the Native AOT probe are unchanged.",
+      "compatibility": "No schema or descriptor change; the five ContentSandbox PDF RPCs stay declared in arcforges.local.sandbox.v1 and are only marked retired; the compatibility window, binpb pins and reserved numbers are unaffected.",
+      "licence-provenance": "Receipt-driven retirement replaces the hard-coded WP03.00 exception; the javadoc artifact targets leave the active inventory only through the reviewed con-40-maven receipt; check_provenance, check_licences and the contract-access history rule pass and are tested both ways.",
+      "security-sbom": "No coordinate enters or leaves the closure; locked versions, integrity values and licences are unchanged.",
+      "runtime-performance-migration": "Records and gates only; no runtime, migration or performance claim.",
       "framework-runtime-posture": "The .NET SDK and Node pins are unchanged, so no major-upgrade review is triggered."
     },
     "frameworkVersions": {
       "dotnetSdk": "10.0.400",
       "node": "24.21.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-40-r3.json"
+    "previousReceipt": "eng/policy/dependency-reviews/con-40-r4.json"
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/con-40-r4.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/con-40-r5.json"
 }

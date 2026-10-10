@@ -129,6 +129,7 @@
     "eng/policy/dependency-reviews/con-40-r2.json",
     "eng/policy/dependency-reviews/con-40-r3.json",
     "eng/policy/dependency-reviews/con-40-r4.json",
+    "eng/policy/dependency-reviews/con-40-r5.json",
     "eng/policy/dependency-reviews/con17-previous-client-113-1.json",
     "eng/policy/dependency-reviews/dependabot-2026-09-26-grpc-2-84-0.json",
     "eng/policy/dependency-reviews/dependabot-2026-09-26-prettier-3-9-8.json",
@@ -307,6 +308,8 @@
     "eng/provenance/records/gradle-wrapper-9-7-1-r1.json",
     "eng/provenance/records/hello-bindings-r1.json",
     "eng/provenance/records/protobuf-generator-licence-r1.json",
+    "eng/provenance/retirements/con-40-maven.json",
+    "eng/provenance/retirements/con-40-npm.json",
     "eng/provenance/retirements/contracts-client-wp03-00.json",
     "eng/provenance/template.json",
     "eng/publish_tools.py",
@@ -999,5 +1002,5 @@
     "third-party/dokka/which-typed-array-LICENSE.txt": "dokka-which-typed-array-licence-r1",
     "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1"
   },
-  "artifacts": ["dokka-documentation-resources-r21"]
+  "artifacts": []
 }

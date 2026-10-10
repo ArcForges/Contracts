@@ -169,14 +169,6 @@ Copyright (C) 2015 Jordan Harband
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
 
-dokka-documentation-resources-r21
-Source: https://github.com/Kotlin/dokka @ 656ca46fbbd676d872b0bd383042fc12ae7adcdd
-Material licence: Apache-2.0 AND MIT
-Notice scope: documentation
-Copyright 2014-2024 JetBrains s.r.o. and Dokka contributors.
-The 81 actual included npm components, original copyright holders and full licences are enumerated in the immutable profile and retained documentation notices.
-Dokka 2.2.0 API documentation includes its Apache-2.0 frontend and the reviewed Apache/MIT dependency closure. Every documentation companion retains all 81 dependency licence texts and the Dokka licence/NOTICE. The ten embedded OFL fonts and their four font-face declarations are excluded; system font fallbacks remain. No JDK Javadoc GPL resource is used. Public API documentation, navigation and offline search remain available. An Apache-2.0 ArcForges CSS correction makes content links readable in the dark theme. The r19 documentation adds the CON.11 public Application, History, Execution and Event service API pages, including EventService.Poll; its private RunStream projection remains outside public documentation. The r21 documentation adds the CON.25 public ConnectorService client/interface API pages, its records and the four af-segment Simulation records.
-
 dokka-dom-helpers-licence-r1
 Source: https://github.com/react-bootstrap/dom-helpers @ 06310089836557a0affb1eeed65d175aadcb22db
 Material licence: MIT

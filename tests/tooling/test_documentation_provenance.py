@@ -992,7 +992,15 @@ class DocumentationAdmissionTests(unittest.TestCase):
         self.assertEqual(documentation.PROFILE, current_path)
         self.assertEqual(resource_record["id"], "dokka-documentation-resources-r21")
         self.assertEqual(resource_record["supersedes"], previous_record["id"])
-        self.assertEqual(inventory["artifacts"], [resource_record["id"]])
+        # CON.40 retired the three javadoc targets through the reviewed con-40-maven receipt: the r21 record is
+        # the last registration, it is no longer active, and the receipt binds exactly its targets.
+        self.assertEqual(inventory["artifacts"], [])
+        self.assertNotIn(resource_record["id"], inventory["reused"].values())
+        receipt = json.loads((root / "eng/provenance/retirements/con-40-maven.json").read_bytes())
+        self.assertEqual(receipt["previousRecord"], resource_record["id"])
+        self.assertEqual(receipt["artifacts"], [{key: target[key] for key in ("project", "package", "kind")}
+                                                for target in resource_record["artifactTargets"]])
+        self.assertIn("eng/provenance/retirements/con-40-maven.json", inventory["firstParty"])
         for path in (previous_path, current_path,
                      "eng/provenance/records/dokka-documentation-resources-r20.json",
                      "eng/provenance/records/dokka-documentation-resources-r21.json"):
@@ -1245,6 +1253,11 @@ class DocumentationArchiveRetirementTests(unittest.TestCase):
                 "build": {"sourceCommit": "a" * 40, "dirty": False}, "files": []}), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "Maven channel is retired"):
                 packaging_tools.verify_artifacts(directory, contents=False)
+
+    def test_retired_javadoc_targets_admit_no_documentation_profile(self):
+        # With no registered maven-javadoc artifact record, the documentation profile fails closed.
+        with self.assertRaisesRegex(ValueError, "Every documentation package requires one registered artifact record"):
+            documentation.profile()
 
 if __name__ == "__main__":
     unittest.main()
