@@ -144,6 +144,7 @@
     "eng/policy/exceptions.json",
     "eng/policy/licence-boundary.json",
     "eng/policy/product-names.json",
+    "eng/policy/publication-stops/con-40.json",
     "eng/policy/reuse-policy.json",
     "eng/provenance/NOTICE.txt",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json",

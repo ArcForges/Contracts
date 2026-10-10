@@ -1,0 +1,704 @@
+{
+  "schemaVersion": 1,
+  "repository": "Contracts",
+  "licence": "Apache-2.0",
+  "task": "CON.40",
+  "unit": "C8",
+  "authority": "P2-021 Decision 4; coordinator brief S20(f) decisions 2 and 3, S47(9), S47(10), S47(13), S48 and S50(1); CON.40 record outcome and evidence",
+  "rule": "New publication of each identity below stops at the CON.40 head: its catalog row is marked retired, no generator, build, pack or publish step produces it, and the publication tooling refuses it. Publication stops only after the first-party consumers in Cloud, Web and Mobile have migrated and their mains hold no dependency declaration, lock entry, import or install step for the identity (S20(f) decision 2). AI and DesktopPlatform keep their immutable pins. Already published versions stay as published; nothing is unpublished, deprecated or deleted.",
+  "versionScheme": "A main push published NuGet and npm 1.0.0-ci.<run-number>.<run-attempt> and, from commit 2e04759 (2026-09-20) on, Maven 1.0.0-SNAPSHOT; a vX.Y.Z tag on main ancestry would have published X.Y.Z to all three registries (docs/releasing.md and docs/maven-central.md at 330e46b). No vX.Y.Z tag and no GitHub release exists in ArcForges/Contracts (git tag -l and gh release list, 2026-10-10).",
+  "publicationRuns": [
+    {
+      "run": 37388554007,
+      "runNumber": 324,
+      "attempt": 1,
+      "event": "push",
+      "sourceCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+      "sourceOnMain": true,
+      "date": "2026-10-05",
+      "publishers": {
+        "nuget": "success",
+        "npm": "success",
+        "maven": "success"
+      }
+    },
+    {
+      "run": 37537381647,
+      "runNumber": 330,
+      "attempt": 1,
+      "event": "push",
+      "sourceCommit": "8715f6e2462153fac44bccac2dd9e8b55adafc5f",
+      "sourceOnMain": false,
+      "date": "2026-10-06",
+      "publishers": {
+        "nuget": "success",
+        "npm": "success",
+        "maven": "success"
+      }
+    },
+    {
+      "run": 37586762867,
+      "runNumber": 344,
+      "attempt": 1,
+      "event": "push",
+      "sourceCommit": "c990df25dbe721b0df2d8e7aedc28e02468ae3e1",
+      "sourceOnMain": false,
+      "date": "2026-10-07",
+      "publishers": {
+        "nuget": "success",
+        "npm": "success",
+        "maven": "success"
+      }
+    },
+    {
+      "run": 37597754997,
+      "runNumber": 350,
+      "attempt": 1,
+      "event": "push",
+      "sourceCommit": "74c298c90ba56cd9f9e6932c006259c7d0376989",
+      "sourceOnMain": false,
+      "date": "2026-10-07",
+      "publishers": {
+        "nuget": "success",
+        "npm": "success",
+        "maven": "success"
+      }
+    },
+    {
+      "run": 37625317365,
+      "runNumber": 355,
+      "attempt": 1,
+      "event": "push",
+      "sourceCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+      "sourceOnMain": true,
+      "date": "2026-10-07",
+      "publishers": {
+        "nuget": "skipped",
+        "npm": "skipped",
+        "maven": "skipped"
+      }
+    },
+    {
+      "run": 37725260719,
+      "runNumber": 356,
+      "attempt": 1,
+      "event": "workflow_dispatch",
+      "sourceCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+      "sourceOnMain": true,
+      "date": "2026-10-08",
+      "publishers": {
+        "nuget": "skipped",
+        "npm": "skipped",
+        "maven": "skipped"
+      }
+    }
+  ],
+  "publicationRunsSource": "gh run list and gh run view --json jobs for ArcForges/Contracts ci.yml on main, read 2026-10-10; run 356 is the latest main run. No package archive was downloaded and no registry was queried.",
+  "consumerMigration": [
+    {
+      "task": "WEB.40",
+      "ledger": "Plan ledger/tasks/web-40.md, status delivered",
+      "pullRequests": [
+        {
+          "repository": "Web",
+          "number": 35,
+          "mergeCommit": "c8588681da0c25784ab6d6d82165e2903bd62764",
+          "mergedAt": "2026-10-09T14:33:01Z"
+        },
+        {
+          "repository": "Web",
+          "number": 38,
+          "mergeCommit": "049f6a58583c2b88ed03232d7d18bb975c428a95",
+          "mergedAt": "2026-10-09T23:04:33Z"
+        }
+      ],
+      "removed": "the npm Contracts packages of apps/app, apps/site, the root manifest and the lock (Web commit 2a5e17f) and the React and TypeScript apps that imported them; Blazor WebAssembly replaces them"
+    },
+    {
+      "task": "AND.40",
+      "ledger": "Plan ledger/tasks/and-40.md, status delivered",
+      "pullRequests": [
+        {
+          "repository": "Mobile",
+          "number": 24,
+          "mergeCommit": "43ecb25b48cc5b030d4ef40b398aa216470d103d",
+          "mergedAt": "2026-10-09T13:35:49Z"
+        },
+        {
+          "repository": "Mobile",
+          "number": 25,
+          "mergeCommit": "6702e281d1c670e8f74879b3c19ff8a2c97311ba",
+          "mergedAt": "2026-10-09T15:41:24Z"
+        }
+      ],
+      "removed": "the Kotlin, KMP and Gradle application and its io.github.arcforges Maven dependencies (PR B retires them; the MAUI release android-0.1.0-ci.77.1 is published from 6702e281)"
+    },
+    {
+      "task": "CLOUD.84",
+      "ledger": "Plan ledger/tasks/cloud-84.md, status delivered (Plan PR 476, merge 335c20fc15bc3ad5c848c9f591b5e7fe61c8d70d)",
+      "pullRequests": [
+        {
+          "repository": "Cloud",
+          "number": 83,
+          "mergeCommit": "837fb29f2509b1fa7117948dbd48fa9f805bd502",
+          "mergedAt": "2026-10-10T10:31:46Z"
+        },
+        {
+          "repository": "Cloud",
+          "number": 89,
+          "mergeCommit": "c291550f73ba64cb9fa4c15d4ec0e731a27dede8",
+          "mergedAt": "2026-10-10T11:43:45Z"
+        }
+      ],
+      "removed": "the root @arcforges/proto and @arcforges/api-client devDependencies with their closure (c8193f0) and the Kotlin consumer gate; @arcforges/ai-internal is the one npm Contracts dependency"
+    }
+  ],
+  "consumerMigrationSource": "gh pr view for each pull request and git show of the Plan origin/main ledger records at 335c20fc, read 2026-10-10.",
+  "consumerScans": [
+    {
+      "repository": "Cloud",
+      "ref": "origin/main",
+      "commit": "c291550f73ba64cb9fa4c15d4ec0e731a27dede8",
+      "scannedOn": "2026-10-10",
+      "dependencyFiles": [".npmrc", "package-lock.json", "package.json"],
+      "consumerReferences": [],
+      "importShapedStringLiterals": [
+        "tests/ArchitectureTests/AiHarness/HarnessArchitectureFixtures.cs",
+        "tooling/dependency-policy.test.ts"
+      ],
+      "matchingLinesByIdentity": {
+        "@arcforges/proto": 87,
+        "@arcforges/api-client": 59,
+        "@arcforges/contract-fixtures": 1,
+        "@arcforges/operator-client": 0,
+        "io.github.arcforges:contracts-proto": 0,
+        "io.github.arcforges:contracts-connect-client": 2,
+        "io.github.arcforges:contract-fixtures": 0
+      },
+      "residue": [
+        {
+          "class": "binding-history",
+          "rule": "S47(9): consumer-side source-binding records that pin digests of Contracts paths; immutable history, re-pinned only by that repository's completion follow-up",
+          "lines": 3,
+          "files": ["eng/generated/contracts-identity.json"]
+        },
+        {
+          "class": "immutable-records",
+          "rule": "reviewed dependency receipts, provenance records and bound third-party notices; immutable once on main (the Mobile notices are bound by android-resources-r14, an AND.40 completion follow-up, S47(10))",
+          "lines": 104,
+          "files": 51,
+          "directories": ["eng/policy/dependency-reviews/"]
+        },
+        {
+          "class": "documentation",
+          "rule": "prose, retirement notes and historical plans",
+          "lines": 7,
+          "files": [
+            "docs/bootstrap-plan.md",
+            "docs/harness-foundation.md",
+            "docs/harness-proofs.md"
+          ]
+        },
+        {
+          "class": "policy-tooling-text",
+          "rule": "identity name lists, comments and string-literal negative fixtures in policy tools and their tests; no dependency declaration, lock entry, import or install step",
+          "lines": 31,
+          "files": [
+            "tests/ArchitectureTests/AiHarness/HarnessArchitecture.cs",
+            "tests/ArchitectureTests/AiHarness/HarnessArchitectureFixtures.cs",
+            "tests/ArchitectureTests/AiHarness/HarnessArchitectureRules.cs",
+            "tests/ArchitectureTests/AiHarness/NamingGateTests.cs",
+            "tests/ArchitectureTests/ContractConsumptionTests.cs",
+            "tests/ArchitectureTests/RepositoryInventoryTests.cs",
+            "tooling/dependency-policy.test.ts",
+            "tooling/dependency-policy.ts",
+            "tooling/licence-boundary.ts",
+            "tooling/project.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "Web",
+      "ref": "origin/main",
+      "commit": "dd0a5de3e625086189a2e7d0fc3f3f4b70013178",
+      "scannedOn": "2026-10-10",
+      "dependencyFiles": [".npmrc", "package-lock.json", "package.json"],
+      "consumerReferences": [],
+      "importShapedStringLiterals": [
+        "tests/ArcForges.Web.Policy.Tests/Fixtures/PolicyBaseline.cs",
+        "tests/ArcForges.Web.Policy.Tests/Fixtures/PolicyCases.cs",
+        "tooling/dependency-policy.test.ts"
+      ],
+      "matchingLinesByIdentity": {
+        "@arcforges/proto": 778,
+        "@arcforges/api-client": 604,
+        "@arcforges/contract-fixtures": 2,
+        "@arcforges/operator-client": 2,
+        "io.github.arcforges:contracts-proto": 1,
+        "io.github.arcforges:contracts-connect-client": 3,
+        "io.github.arcforges:contract-fixtures": 1
+      },
+      "residue": [
+        {
+          "class": "binding-history",
+          "rule": "S47(9): consumer-side source-binding records that pin digests of Contracts paths; immutable history, re-pinned only by that repository's completion follow-up",
+          "lines": 3,
+          "files": ["eng/contracts/ArcForges.Contracts.PublicApi/1.0.0-ci.287.1/source.json"]
+        },
+        {
+          "class": "immutable-records",
+          "rule": "reviewed dependency receipts, provenance records and bound third-party notices; immutable once on main (the Mobile notices are bound by android-resources-r14, an AND.40 completion follow-up, S47(10))",
+          "lines": 1345,
+          "files": 36,
+          "directories": [
+            "eng/policy/dependency-reviews/",
+            "eng/provenance/profiles/",
+            "eng/provenance/records/"
+          ]
+        },
+        {
+          "class": "documentation",
+          "rule": "prose, retirement notes and historical plans",
+          "lines": 7,
+          "files": [
+            "THIRD_PARTY_NOTICES.md",
+            "docs/bootstrap-plan.md",
+            "docs/cloud-hello-plan.md",
+            "docs/cloud-hello.md",
+            "docs/licence-boundary.md",
+            "docs/prf-08-profile-proof.md",
+            "docs/web-40-react-retirement.md"
+          ]
+        },
+        {
+          "class": "secret-scan-allowlist",
+          "rule": "exact-row gitleaks allowlist entries naming historical node_modules paths",
+          "lines": 6,
+          "files": [".gitleaks.toml"]
+        },
+        {
+          "class": "policy-tooling-text",
+          "rule": "identity name lists, comments and string-literal negative fixtures in policy tools and their tests; no dependency declaration, lock entry, import or install step",
+          "lines": 15,
+          "files": [
+            "tests/ArcForges.Web.Policy.Tests/Fixtures/PolicyBaseline.cs",
+            "tests/ArcForges.Web.Policy.Tests/Fixtures/PolicyCases.cs",
+            "tests/ArcForges.Web.Policy.Tests/Licence/LicencePolicy.cs",
+            "tooling/dependency-policy.test.ts",
+            "tooling/dependency-policy.ts",
+            "tooling/licence-boundary.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "Mobile",
+      "ref": "origin/main",
+      "commit": "6702e281d1c670e8f74879b3c19ff8a2c97311ba",
+      "scannedOn": "2026-10-10",
+      "dependencyFiles": [],
+      "consumerReferences": [],
+      "importShapedStringLiterals": [],
+      "matchingLinesByIdentity": {
+        "@arcforges/proto": 0,
+        "@arcforges/api-client": 0,
+        "@arcforges/contract-fixtures": 0,
+        "@arcforges/operator-client": 0,
+        "io.github.arcforges:contracts-proto": 114,
+        "io.github.arcforges:contracts-connect-client": 58,
+        "io.github.arcforges:contract-fixtures": 0
+      },
+      "residue": [
+        {
+          "class": "binding-history",
+          "rule": "S47(9): consumer-side source-binding records that pin digests of Contracts paths; immutable history, re-pinned only by that repository's completion follow-up",
+          "lines": 3,
+          "files": ["eng/policy/contracts-source.json"]
+        },
+        {
+          "class": "immutable-records",
+          "rule": "reviewed dependency receipts, provenance records and bound third-party notices; immutable once on main (the Mobile notices are bound by android-resources-r14, an AND.40 completion follow-up, S47(10))",
+          "lines": 197,
+          "files": 33,
+          "directories": [
+            "eng/provenance/artifact-profiles/",
+            "eng/provenance/records/",
+            "third-party/notices/"
+          ]
+        },
+        {
+          "class": "documentation",
+          "rule": "prose, retirement notes and historical plans",
+          "lines": 1,
+          "files": ["docs/cloud-hello-plan.md"]
+        }
+      ]
+    }
+  ],
+  "consumerScanMethod": "git fetch of the existing clones under the ArcForges workspace (no checkout or edit), then git grep -n -I -E over the origin/main commit for every spelling of the seven identities; dependencyFiles lists every manifest, lock or registry configuration file in the tree. A consumer is a dependency declaration, lock entry, import or install step (S20(f) decision 2); importShapedStringLiterals lists the files whose import-shaped lines are string literals in policy negative fixtures.",
+  "pinnedConsumers": [
+    {
+      "repository": "AI",
+      "commit": "ec40ec45965a931b9a8d06ca0671eb41e0e51a21",
+      "pins": {
+        "@arcforges/proto": "1.0.0-ci.287.1"
+      },
+      "references": ["package.json:41 dependency", "src/hello.ts:2 import"],
+      "authority": "S20(f) decision 2: out of scope and kept as an immutable pin"
+    },
+    {
+      "repository": "DesktopPlatform",
+      "commit": "c8280488a1203a5c0160bebeba48ae5f20443f9c",
+      "pins": {
+        "@arcforges/proto": "1.0.0-ci.113.1",
+        "@arcforges/contract-fixtures": "1.0.0-ci.113.1"
+      },
+      "references": [
+        "eng/acceptance/foundation/package.json:10-11 dependencies",
+        "eng/acceptance/foundation/roundtrip.ts:7-8 imports",
+        "eng/stage_integration/policy.json:130 and snapshot.json (3 rows) name @arcforges/operator-client as a policy row; no dependency declaration"
+      ],
+      "authority": "S20(f) decision 2 and S47(13): GOV.31 is out of scope, so the operator-client rows stay as the immutable pin"
+    }
+  ],
+  "identities": [
+    {
+      "id": "@arcforges/proto",
+      "kind": "npm",
+      "access": "public",
+      "sourceRoot": "src/public/ts/proto",
+      "retirementReceipt": "eng/provenance/retirements/con-40-npm.json",
+      "lastPublished": {
+        "run": 37597754997,
+        "runNumber": 350,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "74c298c90ba56cd9f9e6932c006259c7d0376989",
+        "sourceOnMain": false,
+        "date": "2026-10-07",
+        "version": "1.0.0-ci.350.1",
+        "channel": "npm registry",
+        "distTag": "latest",
+        "job": 112721199401,
+        "evidence": "gh run view 37597754997: Publish npm success; its job log prints '+ <id>@1.0.0-ci.350.1' with tag latest for each of the five npm packages. Source 74c298c9 was later rolled back from main (not an ancestor of main 330e46bd); the rolled-back package rule of the coordinator brief section 10 applies."
+      },
+      "lastPublishedFromMain": {
+        "run": 37388554007,
+        "runNumber": 324,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+        "sourceOnMain": true,
+        "date": "2026-10-05",
+        "version": "1.0.0-ci.324.1",
+        "channel": "npm registry",
+        "job": 112033077259,
+        "evidence": "Plan ledger gov-16.md (main push 330e46b, run 37388554007, NuGet, npm and Maven publishers success) and and-01.md (1.0.0-ci.324.1 published from Contracts main 330e46bd by run 37388554007); gh run view 37388554007 jobs."
+      },
+      "firstPartyConsumersAtMain": [],
+      "pinnedConsumers": ["AI 1.0.0-ci.287.1", "DesktopPlatform 1.0.0-ci.113.1"],
+      "state": "stopped"
+    },
+    {
+      "id": "@arcforges/api-client",
+      "kind": "npm",
+      "access": "public",
+      "sourceRoot": "src/public/ts/api-client",
+      "retirementReceipt": "eng/provenance/retirements/con-40-npm.json",
+      "lastPublished": {
+        "run": 37597754997,
+        "runNumber": 350,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "74c298c90ba56cd9f9e6932c006259c7d0376989",
+        "sourceOnMain": false,
+        "date": "2026-10-07",
+        "version": "1.0.0-ci.350.1",
+        "channel": "npm registry",
+        "distTag": "latest",
+        "job": 112721199401,
+        "evidence": "gh run view 37597754997: Publish npm success; its job log prints '+ <id>@1.0.0-ci.350.1' with tag latest for each of the five npm packages. Source 74c298c9 was later rolled back from main (not an ancestor of main 330e46bd); the rolled-back package rule of the coordinator brief section 10 applies."
+      },
+      "lastPublishedFromMain": {
+        "run": 37388554007,
+        "runNumber": 324,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+        "sourceOnMain": true,
+        "date": "2026-10-05",
+        "version": "1.0.0-ci.324.1",
+        "channel": "npm registry",
+        "job": 112033077259,
+        "evidence": "Plan ledger gov-16.md (main push 330e46b, run 37388554007, NuGet, npm and Maven publishers success) and and-01.md (1.0.0-ci.324.1 published from Contracts main 330e46bd by run 37388554007); gh run view 37388554007 jobs."
+      },
+      "firstPartyConsumersAtMain": [],
+      "pinnedConsumers": [],
+      "state": "stopped"
+    },
+    {
+      "id": "@arcforges/contract-fixtures",
+      "kind": "npm",
+      "access": "public",
+      "sourceRoot": "src/public/ts/contract-fixtures",
+      "retirementReceipt": "eng/provenance/retirements/con-40-npm.json",
+      "lastPublished": {
+        "run": 37597754997,
+        "runNumber": 350,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "74c298c90ba56cd9f9e6932c006259c7d0376989",
+        "sourceOnMain": false,
+        "date": "2026-10-07",
+        "version": "1.0.0-ci.350.1",
+        "channel": "npm registry",
+        "distTag": "latest",
+        "job": 112721199401,
+        "evidence": "gh run view 37597754997: Publish npm success; its job log prints '+ <id>@1.0.0-ci.350.1' with tag latest for each of the five npm packages. Source 74c298c9 was later rolled back from main (not an ancestor of main 330e46bd); the rolled-back package rule of the coordinator brief section 10 applies."
+      },
+      "lastPublishedFromMain": {
+        "run": 37388554007,
+        "runNumber": 324,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+        "sourceOnMain": true,
+        "date": "2026-10-05",
+        "version": "1.0.0-ci.324.1",
+        "channel": "npm registry",
+        "job": 112033077259,
+        "evidence": "Plan ledger gov-16.md (main push 330e46b, run 37388554007, NuGet, npm and Maven publishers success) and and-01.md (1.0.0-ci.324.1 published from Contracts main 330e46bd by run 37388554007); gh run view 37388554007 jobs."
+      },
+      "firstPartyConsumersAtMain": [],
+      "pinnedConsumers": ["DesktopPlatform 1.0.0-ci.113.1"],
+      "state": "stopped"
+    },
+    {
+      "id": "@arcforges/operator-client",
+      "kind": "npm",
+      "access": "internal",
+      "sourceRoot": "src/internal/ts/operator-client",
+      "retirementReceipt": "eng/provenance/retirements/con-40-npm.json",
+      "lastPublished": {
+        "run": 37597754997,
+        "runNumber": 350,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "74c298c90ba56cd9f9e6932c006259c7d0376989",
+        "sourceOnMain": false,
+        "date": "2026-10-07",
+        "version": "1.0.0-ci.350.1",
+        "channel": "npm registry",
+        "distTag": "latest",
+        "job": 112721199401,
+        "evidence": "gh run view 37597754997: Publish npm success; its job log prints '+ <id>@1.0.0-ci.350.1' with tag latest for each of the five npm packages. Source 74c298c9 was later rolled back from main (not an ancestor of main 330e46bd); the rolled-back package rule of the coordinator brief section 10 applies."
+      },
+      "lastPublishedFromMain": {
+        "run": 37388554007,
+        "runNumber": 324,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+        "sourceOnMain": true,
+        "date": "2026-10-05",
+        "version": "1.0.0-ci.324.1",
+        "channel": "npm registry",
+        "job": 112033077259,
+        "evidence": "Plan ledger gov-16.md (main push 330e46b, run 37388554007, NuGet, npm and Maven publishers success) and and-01.md (1.0.0-ci.324.1 published from Contracts main 330e46bd by run 37388554007); gh run view 37388554007 jobs."
+      },
+      "firstPartyConsumersAtMain": [],
+      "pinnedConsumers": [
+        "DesktopPlatform stage-integration policy rows (no dependency declaration)"
+      ],
+      "state": "stopped"
+    },
+    {
+      "id": "io.github.arcforges:contracts-proto",
+      "kind": "maven",
+      "access": "public",
+      "sourceRoot": "src/public/kotlin/contracts-proto",
+      "retirementReceipt": "eng/provenance/retirements/con-40-maven.json",
+      "lastRelease": {
+        "run": 35542448605,
+        "runNumber": 60,
+        "attempt": 2,
+        "candidateAttempt": 1,
+        "event": "push",
+        "sourceCommit": "ef9e0aa9d90d47ff8355dc38b037fd5860b4476c",
+        "sourceOnMain": true,
+        "date": "2026-09-20",
+        "version": "1.0.0-ci.60.1",
+        "channel": "Maven Central (immutable)",
+        "job": 106166419843,
+        "evidence": "gh run view 35542448605 --attempt 2: Publish Maven Central success; its job log prints 'Verified all candidate identities, metadata and hashes: 1.0.0-ci.60.1' and 'Maven Central: PUBLISHED' (the attempt-1 deployment was retained and completed). docs/releasing.md at ef9e0aa publishes contracts-proto, contracts-client, contracts-connect-client and contract-fixtures at the shared candidate version. Plan ledger adoption/Mobile.md records the consumer pin io.github.arcforges:contracts-connect-client:1.0.0-ci.60.1 from Maven Central. Commit 2e04759 (2026-09-20) then moved main to 1.0.0-SNAPSHOT; no vX.Y.Z tag or GitHub release exists, so no later immutable Maven version was published."
+      },
+      "lastPublished": {
+        "run": 37597754997,
+        "runNumber": 350,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "74c298c90ba56cd9f9e6932c006259c7d0376989",
+        "sourceOnMain": false,
+        "date": "2026-10-07",
+        "version": "1.0.0-SNAPSHOT",
+        "channel": "Sonatype Central snapshots (mutable)",
+        "job": 112721199585,
+        "evidence": "gh run view 37597754997: Publish Maven channel success; its job log runs publish<Module>PublicationToSnapshotsRepository for the three modules and prints 'Sonatype snapshot upload completed'. Source 74c298c9 is not on main."
+      },
+      "lastPublishedFromMain": {
+        "run": 37388554007,
+        "runNumber": 324,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+        "sourceOnMain": true,
+        "date": "2026-10-05",
+        "version": "1.0.0-SNAPSHOT",
+        "channel": "Sonatype Central snapshots (mutable)",
+        "job": 112033077328,
+        "evidence": "Plan ledger gov-16.md (main push 330e46b, Maven channel publisher success); gh run view 37388554007 jobs."
+      },
+      "firstPartyConsumersAtMain": [],
+      "pinnedConsumers": [],
+      "state": "stopped"
+    },
+    {
+      "id": "io.github.arcforges:contracts-connect-client",
+      "kind": "maven",
+      "access": "public",
+      "sourceRoot": "src/public/kotlin/contracts-connect-client",
+      "retirementReceipt": "eng/provenance/retirements/con-40-maven.json",
+      "lastRelease": {
+        "run": 35542448605,
+        "runNumber": 60,
+        "attempt": 2,
+        "candidateAttempt": 1,
+        "event": "push",
+        "sourceCommit": "ef9e0aa9d90d47ff8355dc38b037fd5860b4476c",
+        "sourceOnMain": true,
+        "date": "2026-09-20",
+        "version": "1.0.0-ci.60.1",
+        "channel": "Maven Central (immutable)",
+        "job": 106166419843,
+        "evidence": "gh run view 35542448605 --attempt 2: Publish Maven Central success; its job log prints 'Verified all candidate identities, metadata and hashes: 1.0.0-ci.60.1' and 'Maven Central: PUBLISHED' (the attempt-1 deployment was retained and completed). docs/releasing.md at ef9e0aa publishes contracts-proto, contracts-client, contracts-connect-client and contract-fixtures at the shared candidate version. Plan ledger adoption/Mobile.md records the consumer pin io.github.arcforges:contracts-connect-client:1.0.0-ci.60.1 from Maven Central. Commit 2e04759 (2026-09-20) then moved main to 1.0.0-SNAPSHOT; no vX.Y.Z tag or GitHub release exists, so no later immutable Maven version was published."
+      },
+      "lastPublished": {
+        "run": 37597754997,
+        "runNumber": 350,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "74c298c90ba56cd9f9e6932c006259c7d0376989",
+        "sourceOnMain": false,
+        "date": "2026-10-07",
+        "version": "1.0.0-SNAPSHOT",
+        "channel": "Sonatype Central snapshots (mutable)",
+        "job": 112721199585,
+        "evidence": "gh run view 37597754997: Publish Maven channel success; its job log runs publish<Module>PublicationToSnapshotsRepository for the three modules and prints 'Sonatype snapshot upload completed'. Source 74c298c9 is not on main."
+      },
+      "lastPublishedFromMain": {
+        "run": 37388554007,
+        "runNumber": 324,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+        "sourceOnMain": true,
+        "date": "2026-10-05",
+        "version": "1.0.0-SNAPSHOT",
+        "channel": "Sonatype Central snapshots (mutable)",
+        "job": 112033077328,
+        "evidence": "Plan ledger gov-16.md (main push 330e46b, Maven channel publisher success); gh run view 37388554007 jobs."
+      },
+      "firstPartyConsumersAtMain": [],
+      "pinnedConsumers": [],
+      "state": "stopped"
+    },
+    {
+      "id": "io.github.arcforges:contract-fixtures",
+      "kind": "maven",
+      "access": "public",
+      "sourceRoot": "src/public/kotlin/contract-fixtures",
+      "retirementReceipt": "eng/provenance/retirements/con-40-maven.json",
+      "lastRelease": {
+        "run": 35542448605,
+        "runNumber": 60,
+        "attempt": 2,
+        "candidateAttempt": 1,
+        "event": "push",
+        "sourceCommit": "ef9e0aa9d90d47ff8355dc38b037fd5860b4476c",
+        "sourceOnMain": true,
+        "date": "2026-09-20",
+        "version": "1.0.0-ci.60.1",
+        "channel": "Maven Central (immutable)",
+        "job": 106166419843,
+        "evidence": "gh run view 35542448605 --attempt 2: Publish Maven Central success; its job log prints 'Verified all candidate identities, metadata and hashes: 1.0.0-ci.60.1' and 'Maven Central: PUBLISHED' (the attempt-1 deployment was retained and completed). docs/releasing.md at ef9e0aa publishes contracts-proto, contracts-client, contracts-connect-client and contract-fixtures at the shared candidate version. Plan ledger adoption/Mobile.md records the consumer pin io.github.arcforges:contracts-connect-client:1.0.0-ci.60.1 from Maven Central. Commit 2e04759 (2026-09-20) then moved main to 1.0.0-SNAPSHOT; no vX.Y.Z tag or GitHub release exists, so no later immutable Maven version was published."
+      },
+      "lastPublished": {
+        "run": 37597754997,
+        "runNumber": 350,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "74c298c90ba56cd9f9e6932c006259c7d0376989",
+        "sourceOnMain": false,
+        "date": "2026-10-07",
+        "version": "1.0.0-SNAPSHOT",
+        "channel": "Sonatype Central snapshots (mutable)",
+        "job": 112721199585,
+        "evidence": "gh run view 37597754997: Publish Maven channel success; its job log runs publish<Module>PublicationToSnapshotsRepository for the three modules and prints 'Sonatype snapshot upload completed'. Source 74c298c9 is not on main."
+      },
+      "lastPublishedFromMain": {
+        "run": 37388554007,
+        "runNumber": 324,
+        "attempt": 1,
+        "event": "push",
+        "sourceCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+        "sourceOnMain": true,
+        "date": "2026-10-05",
+        "version": "1.0.0-SNAPSHOT",
+        "channel": "Sonatype Central snapshots (mutable)",
+        "job": 112033077328,
+        "evidence": "Plan ledger gov-16.md (main push 330e46b, Maven channel publisher success); gh run view 37388554007 jobs."
+      },
+      "firstPartyConsumersAtMain": [],
+      "pinnedConsumers": [],
+      "state": "stopped"
+    }
+  ],
+  "retained": [
+    {
+      "id": "@arcforges/ai-internal",
+      "kind": "npm",
+      "state": "publication unchanged: eng/contracts.py NPM_IDS is ('@arcforges/ai-internal',) (S20(f) decision 13)"
+    },
+    {
+      "id": "the twelve NuGet packages of eng/contract-packages.json",
+      "kind": "nuget",
+      "state": "publication unchanged"
+    }
+  ],
+  "stop": {
+    "catalog": "eng/contract-packages.json marks each identity retired with task CON.40 and keeps the row",
+    "generation": "the TypeScript and Kotlin generators and producer sources are removed (C3, C5); eng/contracts.py generates, builds and packs npm for NPM_IDS only",
+    "publication": "eng/publish_tools.py CHANNELS is ('nuget', 'npm'); a maven request raises 'Retired or unknown publication channel' and an npm candidate entry outside NPM_IDS raises 'Retired or unregistered npm identity' before any registry read or upload",
+    "workflow": ".github/workflows/ci.yml has the jobs candidate, verify, publish-nuget and publish-npm; the Maven publication job, setup-java and the Gradle wrapper validation are removed (C4)",
+    "repositoryScan": "git grep at the CON.40 head over .github, eng and the package manifests finds one npm publish call (eng/publish_tools.py, limited to NPM_IDS) and no Maven, Gradle or Sonatype publication step",
+    "receipts": [
+      "eng/provenance/retirements/con-40-npm.json",
+      "eng/provenance/retirements/con-40-maven.json"
+    ],
+    "effectiveFrom": "the first main push after the CON.40 merge; it publishes the NuGet packages and @arcforges/ai-internal only"
+  },
+  "registryActions": {
+    "unpublish": [],
+    "deprecate": [],
+    "delete": [],
+    "distTagChange": []
+  },
+  "statement": "Nothing is unpublished, deprecated or deleted, and no dist-tag is changed. Every published npm version and every Maven Central release stays immutable and resolvable, including the versions pinned by AI and DesktopPlatform. The npm latest tag of each retired npm identity stays on 1.0.0-ci.350.1, which was published from the rolled-back commit 74c298c9; it is not admitted as a first-party pin (brief section 10, rolled-back package rule). 1.0.0-SNAPSHOT is the documented mutable development exception: CON.40 neither uploads nor removes it, and the provider may expire old snapshots (docs/maven-central.md). Any registry change needs explicit user approval.",
+  "review": {
+    "owner": "w-deku-20261010-con-40",
+    "reviewer": "w-deku-20261008-rev-con-40",
+    "reviewedOn": "2026-10-10",
+    "decision": "approved"
+  }
+}
