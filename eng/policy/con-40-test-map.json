@@ -1,0 +1,988 @@
+{
+  "schemaVersion": "con-40-test-map.v1",
+  "license": "Apache-2.0",
+  "task": "CON.40",
+  "unit": "C1",
+  "authority": "P2-021 Decision 4; coordinator brief S20(f) decision 8, S47(1)-(3); CON.40 record validation",
+  "rule": "Every retired TypeScript or Kotlin consumer case maps to the C# case that keeps its negative fixtures. A TypeScript or Kotlin file is removed only after its C# replacement passes (C5 TypeScript, C3 Kotlin). A node entry names the @arcforges/ai-internal assertion that stays in Node. StructureTests checks that every C# anchor exists and that every test() title of a tests/public/*.mjs file still present is mapped.",
+  "retained": [
+    {
+      "path": "tests/public/HelloClient/**",
+      "reason": "C# consumer project; used by eng/contracts.py build --inspect-build and tests/tooling/test_build_identity.py (S47(3))."
+    },
+    {
+      "path": "tests/public/HelloHost/**",
+      "reason": "C# host for the local opt-in consumer run."
+    },
+    {
+      "path": "tests/public/SerializationProbe/**",
+      "reason": "C# Native AOT serialization probe run by eng/contracts.py build."
+    },
+    {
+      "path": "tests/public/ai-internal.test.mjs",
+      "reason": "Node assertions for @arcforges/ai-internal, the retained internal thin-adapter package (unit C2)."
+    }
+  ],
+  "cases": [
+    {
+      "source": "tests/public/catalog.test.mjs",
+      "case": "catalog exports exactly seven unary public operations and closed PAT subset",
+      "csharp": [
+        "tests/StructureTests/CatalogCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#CatalogExport"
+      ],
+      "negativeFixtures": [
+        "fixtures/public/con-13-package-catalog.json patDenied",
+        "eng/operations/con-13.json non-PAT rows"
+      ]
+    },
+    {
+      "source": "tests/public/catalog.test.mjs",
+      "case": "catalog canonical challenge/domain fixtures retain server verification boundary",
+      "csharp": ["tests/StructureTests/CatalogCases.cs#Run"],
+      "negativeFixtures": [
+        "con-13 challenge, domains and versions rows with valid=false",
+        "publisher with a wrong DNS target"
+      ]
+    },
+    {
+      "source": "tests/public/catalog.test.mjs",
+      "case": "catalog independently supplied archive and manifest projection comparisons",
+      "csharp": ["tests/StructureTests/CatalogCases.cs#Run"],
+      "negativeFixtures": [
+        "con-13 integrity rows with valid=false",
+        "missing commandId",
+        "expectedRev 1",
+        "native archive revision",
+        "blob hash mismatch"
+      ]
+    },
+    {
+      "source": "tests/public/catalog.test.mjs",
+      "case": "catalog scalar-count, page, metadata and outcome boundaries",
+      "csharp": ["tests/StructureTests/CatalogCases.cs#Run"],
+      "negativeFixtures": [
+        "257-scalar query",
+        "unpaired surrogate query",
+        "page limit 0 and 101",
+        "search response without outcome"
+      ]
+    },
+    {
+      "source": "tests/public/con-02-descriptors.test.mjs",
+      "case": "independent exact field/enum wire vectors round-trip",
+      "csharp": ["tests/StructureTests/Con02Cases.cs#Run"],
+      "negativeFixtures": ["OperationBinding protocol 99"]
+    },
+    {
+      "source": "tests/public/con-02-descriptors.test.mjs",
+      "case": "canonical SemVer keeps exact build identity and compares unbounded integer precedence",
+      "csharp": ["tests/StructureTests/Con02Cases.cs#Run"],
+      "negativeFixtures": [
+        "con-02 invalidVersions",
+        "124-character build metadata",
+        "key not+key",
+        "con-02 compatibility rows with valid=false"
+      ]
+    },
+    {
+      "source": "tests/public/con-02-descriptors.test.mjs",
+      "case": "descriptor bounds, uniqueness and distinct health/readiness are enforced",
+      "csharp": ["tests/StructureTests/Con02Cases.cs#Run"],
+      "negativeFixtures": [
+        "ContextProvider maxItems 201",
+        "ContextProvider maxBytes 262145",
+        "duplicate feature",
+        "duplicate contract compatibility"
+      ]
+    },
+    {
+      "source": "tests/public/con-02-descriptors.test.mjs",
+      "case": "capability effects and nested context/health dimensions retain their constraints",
+      "csharp": ["tests/StructureTests/Con02Cases.cs#Run"],
+      "negativeFixtures": [
+        "health 99",
+        "context revision 0",
+        "writes on a read capability",
+        "maxContextItems 65"
+      ]
+    },
+    {
+      "source": "tests/public/con-02-descriptors.test.mjs",
+      "case": "encoded reference mismatches refuse before malformed protobuf can be decoded",
+      "csharp": [
+        "tests/StructureTests/Con02Cases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Con02Admission"
+      ],
+      "negativeFixtures": [
+        "seven reference mutations refused as invalid before parsing",
+        "a matching reference over malformed protobuf 0xff refused as malformed"
+      ]
+    },
+    {
+      "source": "tests/public/con-02-descriptors.test.mjs",
+      "case": "async verification reads an owned immutable byte and reference snapshot",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#Con02Admission"],
+      "negativeFixtures": ["bytes and reference mutated after the read"],
+      "note": "The C# EncodedBodyReader is synchronous and copies its inputs; the case asserts the returned message is unaffected by later mutation."
+    },
+    {
+      "source": "tests/public/con-02-descriptors.test.mjs",
+      "case": "exact64MiB large projection passes;64MiB+1 refuses",
+      "csharp": ["tests/StructureTests/Con02Cases.cs#Run"],
+      "negativeFixtures": ["64 MiB + 1 byte refused as tooLarge"]
+    },
+    {
+      "source": "tests/public/con-03-sync-allowlist.test.mjs",
+      "case": "closed Sync client-write allowlist rejects named negative vectors",
+      "csharp": [
+        "tests/StructureTests/Con03Cases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Run"
+      ],
+      "negativeFixtures": [
+        "fixtures/public/con-03-sync-allowlist.json cases with allowed=false",
+        "compatibleUnknownResponse"
+      ],
+      "note": "Con03Cases was not executed by the default StructureTests run; Con40SdkCases.Run now runs it."
+    },
+    {
+      "source": "tests/public/con-03-sync-allowlist.test.mjs",
+      "case": "compatible unknown fields on a known response body survive binary round-trip",
+      "csharp": [
+        "tests/StructureTests/Con03Cases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Run"
+      ],
+      "negativeFixtures": [
+        "fixtures/public/con-03-sync-allowlist.json cases with allowed=false",
+        "compatibleUnknownResponse"
+      ],
+      "note": "Con03Cases was not executed by the default StructureTests run; Con40SdkCases.Run now runs it."
+    },
+    {
+      "source": "tests/public/con-07-identity.test.mjs",
+      "case": "CON.07 generates exactly the three Registry04 identity services and 49 operations",
+      "csharp": ["tests/StructureTests/IdentityCases.cs#Run"],
+      "negativeFixtures": ["reserved request tags 2-9", "reserved response tags 5-9"]
+    },
+    {
+      "source": "tests/public/con-07-identity.test.mjs",
+      "case": "CON.07 operation export carries the exact eight authorization fields for every operation",
+      "csharp": [
+        "tests/StructureTests/IdentityCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Con07"
+      ],
+      "negativeFixtures": [
+        "eng/operations/con-07.json rows",
+        "exact PAT-eligible and R4 lists",
+        "export source path"
+      ]
+    },
+    {
+      "source": "tests/public/con-07-identity.test.mjs",
+      "case": "CON.07 records, enums and oneofs keep their numbered tags and presence",
+      "csharp": ["tests/StructureTests/IdentityCases.cs#Run"],
+      "negativeFixtures": ["DeviceView reserved tags 7, 9 and 11"]
+    },
+    {
+      "source": "tests/public/con-07-identity.test.mjs",
+      "case": "CON.07 Registry04 field oracle pins every number, name, JSON name, type, repetition and presence of all 176 messages",
+      "csharp": ["tests/StructureTests/IdentityCases.cs#Run"],
+      "negativeFixtures": ["fixtures/public/con-07-identity.json fields oracle"]
+    },
+    {
+      "source": "tests/public/con-07-identity.test.mjs",
+      "case": "CON.07 shape vectors are independently checked against generated validators",
+      "csharp": ["tests/StructureTests/IdentityCases.cs#Run"],
+      "negativeFixtures": ["con-07 cases with valid=false"]
+    },
+    {
+      "source": "tests/public/con-07-identity.test.mjs",
+      "case": "CON.07 HTTP exception vectors accept and refuse exactly the declared encodings",
+      "csharp": ["tests/StructureTests/IdentityCases.cs#RunHttpVector"],
+      "negativeFixtures": ["con-07 httpVectors with valid=false and their failure kinds"]
+    },
+    {
+      "source": "tests/public/con-07-identity.test.mjs",
+      "case": "CON.07 form-urlencoded roots keep the specified 16 KiB bound and refuse non-bytes input",
+      "csharp": [
+        "tests/StructureTests/IdentityCases.cs#RunBounds",
+        "tests/StructureTests/Con40SdkCases.cs#Con07"
+      ],
+      "negativeFixtures": [
+        "form above 16 KiB",
+        "raw 0xff byte",
+        "raw newline separators",
+        "incomplete form",
+        "password grant on serialize",
+        "__proto__ form key"
+      ]
+    },
+    {
+      "source": "tests/public/con-07-identity.test.mjs",
+      "case": "CON.07 JSON exception roots keep the strict serializer posture",
+      "csharp": [
+        "tests/StructureTests/IdentityCases.cs#RunBounds",
+        "tests/StructureTests/Con40SdkCases.cs#Con07"
+      ],
+      "negativeFixtures": [
+        "65537-byte document",
+        "__proto__ member",
+        "challenge parsed as a session view",
+        "duplicate property"
+      ]
+    },
+    {
+      "source": "tests/public/con-07-identity.test.mjs",
+      "case": "CON.07 emits exactly the declared closed route tables",
+      "csharp": [
+        "tests/StructureTests/IdentityCases.cs#RunRoutes",
+        "tests/StructureTests/Con40SdkCases.cs#Con07"
+      ],
+      "negativeFixtures": [
+        "browser route returning NativeTokenResponse",
+        "browser logout without cookie clear"
+      ]
+    },
+    {
+      "source": "tests/public/con-07-identity.test.mjs",
+      "case": "CON.07 journeys reference real operations and routes and spend one step-up per sensitive action",
+      "csharp": [
+        "tests/StructureTests/IdentityCases.cs#RunJourneys",
+        "tests/StructureTests/Con40SdkCases.cs#Con07"
+      ],
+      "negativeFixtures": ["a sensitive step without fresh step-up evidence"]
+    },
+    {
+      "source": "tests/public/con-10-chat-task-agent.test.mjs",
+      "case": "CON.10 public chat and task shape vectors are consumed by generated validators",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#Con10"],
+      "negativeFixtures": [
+        "con-10 contractShapeVectors with valid=false (number-encoded instanceEpoch, missing installation)",
+        "con-10 negativeVectors (7)"
+      ]
+    },
+    {
+      "source": "tests/public/con-10-chat-task-agent.test.mjs",
+      "case": "CON.10 publishes exactly the modeled Chat Task and Agent proto method bindings",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#Con10"],
+      "negativeFixtures": ["eng/operations/con-10.json chat.proto rows"]
+    },
+    {
+      "source": "tests/public/con-10-chat-task-agent.test.mjs",
+      "case": "CON.10 exact public approval profile and 14 CF transport rows remain closed",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#Con10"],
+      "negativeFixtures": ["exact approval.decide row", "closed cf.ai.* rows"]
+    },
+    {
+      "source": "tests/public/con-10-chat-task-agent.test.mjs",
+      "case": "14 CF port roots validate, round-trip every union branch, and reject forged or oversized input",
+      "csharp": [],
+      "negativeFixtures": [
+        "fixtures/internal/con-10-ai-internal.json negativeVectors",
+        "overflowing number lexeme",
+        "4097-byte cursor",
+        "unpaired surrogate",
+        "invalid UTF-8"
+      ],
+      "node": "tests/public/ai-internal.test.mjs",
+      "note": "@arcforges/ai-internal assertions stay in Node (S20(f) decision 8)."
+    },
+    {
+      "source": "tests/public/con-11-application-streams.test.mjs",
+      "case": "CON.11 generated RPC catalogues and all independently-authored descriptor vectors match",
+      "csharp": [
+        "tests/StructureTests/Con11ApplicationStreamsCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Con11",
+        "tests/StructureTests/Con40SdkCases.cs#GeneratedClients"
+      ],
+      "negativeFixtures": [
+        "con-11 ownerBoundaryVectors",
+        "cursorByteBoundaryVectors with valid=false"
+      ]
+    },
+    {
+      "source": "tests/public/con-11-application-streams.test.mjs",
+      "case": "CON.11 aggregate and serialized-byte boundary fixtures round-trip at and over their limits",
+      "csharp": ["tests/StructureTests/Con11ApplicationStreamsCases.cs#CheckAggregateBoundaries"],
+      "negativeFixtures": ["con-11 aggregateBoundaryVectors over their limits"]
+    },
+    {
+      "source": "tests/public/con-24-scope-library.test.mjs",
+      "case": "CON.24 operation bindings match the fixture RPCs without generated outputs",
+      "csharp": [
+        "tests/StructureTests/Con24ScopeLibraryCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Con24"
+      ],
+      "negativeFixtures": [
+        "fixtures/public/con-24-scope-library.json refusal and disposition vectors"
+      ]
+    },
+    {
+      "source": "tests/public/con-24-scope-library.test.mjs",
+      "case": "CON.24 generated Scope API and operation authorization match the public fixture",
+      "csharp": [
+        "tests/StructureTests/Con24ScopeLibraryCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Con24"
+      ],
+      "negativeFixtures": [
+        "fixtures/public/con-24-scope-library.json refusal and disposition vectors"
+      ]
+    },
+    {
+      "source": "tests/public/con-24-scope-library.test.mjs",
+      "case": "CON.24 public vectors are consumed exactly once with their independent expected facts",
+      "csharp": [
+        "tests/StructureTests/Con24ScopeLibraryCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Con24"
+      ],
+      "negativeFixtures": [
+        "fixtures/public/con-24-scope-library.json refusal and disposition vectors"
+      ]
+    },
+    {
+      "source": "tests/public/con-25-af-segment.test.mjs",
+      "case": "CON.25 af-segment fixture ids are the exact authorized sets",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#RunAfSegment",
+        "tests/StructureTests/Con40SdkCases.cs#AfSegment"
+      ],
+      "negativeFixtures": ["fixtures/public/con-25-af-segment.json refusals (28)"]
+    },
+    {
+      "source": "tests/public/con-25-af-segment.test.mjs",
+      "case": "CON.25 af-segment ENCODE: every positive vector matches the golden text, length and SHA-256",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#RunAfSegment",
+        "tests/StructureTests/Con40SdkCases.cs#AfSegment"
+      ],
+      "negativeFixtures": ["golden byte comparison"]
+    },
+    {
+      "source": "tests/public/con-25-af-segment.test.mjs",
+      "case": "CON.25 af-segment ENCODE: presence and bit-level facts hold in the golden bytes",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#AssertPresence",
+        "tests/StructureTests/Con40SdkCases.cs#AfSegment"
+      ],
+      "negativeFixtures": ["signed zero collapsed to +0", "lost digital arm"]
+    },
+    {
+      "source": "tests/public/con-25-af-segment.test.mjs",
+      "case": "CON.25 af-segment STRICT READ: every positive text is accepted and re-encodes byte-identically",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#RunAfSegment",
+        "tests/StructureTests/Con40SdkCases.cs#AfSegment"
+      ],
+      "negativeFixtures": ["re-encode comparison"]
+    },
+    {
+      "source": "tests/public/con-25-af-segment.test.mjs",
+      "case": "CON.25 af-segment STRICT READ: every refusal text is refused",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#RunAfSegment",
+        "tests/StructureTests/Con40SdkCases.cs#AfSegment"
+      ],
+      "negativeFixtures": ["con-25-af-segment refusals, each refused for its reason"]
+    },
+    {
+      "source": "tests/public/con-25-af-segment.test.mjs",
+      "case": "CON.25 af-segment reader discrimination: the lexical checks and the re-encode comparison are each load bearing",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#AfSegment"],
+      "negativeFixtures": [
+        "refuse-insignificant-whitespace",
+        "refuse-non-minimal-escape",
+        "refuse-uppercase-escape-digits"
+      ]
+    },
+    {
+      "source": "tests/public/con-25-af-segment.test.mjs",
+      "case": "CON.25 af-segment flipping a refusal to canonical form makes it accepted",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#AfSegment"],
+      "negativeFixtures": ["twelve repaired refusals and the two-arm oneof"]
+    },
+    {
+      "source": "tests/public/con-25-af-segment.test.mjs",
+      "case": "CON.25 af-segment strict parser refuses non-canonical JSON on its own",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#AfSegment"],
+      "negativeFixtures": [
+        "byte order mark",
+        "trailing content",
+        "single quotes",
+        "leading zero",
+        "NaN",
+        "escaped lone surrogate",
+        "invalid escape",
+        "raw control",
+        "unterminated string",
+        "trailing comma",
+        "duplicate member",
+        "startTick as number, null, +0, -0 and 2^64",
+        "nonfinite bit words"
+      ]
+    },
+    {
+      "source": "tests/public/con-25-af-segment.test.mjs",
+      "case": "CON.25 af-segment encoder mutations are caught by the golden bytes",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#AfSegment"],
+      "negativeFixtures": [
+        "unsorted members",
+        "double as decimal text",
+        "escaped non-ASCII",
+        "omitted empty repeated members",
+        "unpaired surrogate",
+        "resource scalar arm",
+        "NaN bit word"
+      ]
+    },
+    {
+      "source": "tests/public/con-25-af-segment.test.mjs",
+      "case": "CON.25 af-segment generated validator rejects invalid built messages",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#RunAfSegment",
+        "tests/StructureTests/Con40SdkCases.cs#AfSegment"
+      ],
+      "negativeFixtures": [
+        "unknown gap kind",
+        "wrong profiles",
+        "zero Id",
+        "missing oneof arm",
+        "NaN and infinite numeric",
+        "missing startTick",
+        "empty event kind",
+        "gap without faultId",
+        "missing ordinal"
+      ]
+    },
+    {
+      "source": "tests/public/con-25-connector.test.mjs",
+      "case": "CON.25 decisions, operation export and authorization facts match the fixture",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#RunConnector",
+        "tests/StructureTests/Con40SdkCases.cs#Con25Connector"
+      ],
+      "negativeFixtures": [
+        "eng/operation-scope-manifest.json toolAllowlist stays empty",
+        "recorded decisions"
+      ]
+    },
+    {
+      "source": "tests/public/con-25-connector.test.mjs",
+      "case": "CON.25 generated ConnectorService descriptor matches the fixture RPCs and tags",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#RunConnector",
+        "tests/StructureTests/Con40SdkCases.cs#Con25Connector"
+      ],
+      "negativeFixtures": ["requests with a real oneof"]
+    },
+    {
+      "source": "tests/public/con-25-connector.test.mjs",
+      "case": "CON.25 record descriptors match the fixture field lists and presence",
+      "csharp": ["tests/StructureTests/Con25Cases.cs#RunConnector"],
+      "negativeFixtures": ["con-25-connector records field lists"]
+    },
+    {
+      "source": "tests/public/con-25-connector.test.mjs",
+      "case": "CON.25 field-list comparison is discriminating",
+      "csharp": ["tests/StructureTests/Con25Cases.cs#ProveParityIsDiscriminating"],
+      "negativeFixtures": ["renamed, retagged, retyped and reordered fields"]
+    },
+    {
+      "source": "tests/public/con-25-connector.test.mjs",
+      "case": "CON.25 the public connector package imports no local schema and keeps the service shape",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#RunConnector",
+        "tests/ArchitectureTests/Sdk/SdkArchitectureTests.cs#SDK-04"
+      ],
+      "negativeFixtures": ["local or internal schema import"]
+    },
+    {
+      "source": "tests/public/con-25-connector.test.mjs",
+      "case": "CON.25 every connector vector is consumed once through the generated shape validators",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#RunConnector",
+        "tests/StructureTests/Con40SdkCases.cs#Con25Connector"
+      ],
+      "negativeFixtures": ["con-25-connector vectors with valid=false (27)"]
+    },
+    {
+      "source": "tests/public/con-25-connector.test.mjs",
+      "case": "CON.25 request vectors depend on RequestMeta and the revoke revision lives in meta.expectedRev",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#RunConnector",
+        "tests/StructureTests/Con40SdkCases.cs#Con25Connector"
+      ],
+      "negativeFixtures": ["revoke request with fields beyond meta and connectionId"]
+    },
+    {
+      "source": "tests/public/con-25-connector.test.mjs",
+      "case": "CON.25 page bound and proof oneof are discriminated by the generated validators",
+      "csharp": ["tests/StructureTests/Con25Cases.cs#RunConnector"],
+      "negativeFixtures": ["list-connections-value-over-page-bound", "proof-no-arm"]
+    },
+    {
+      "source": "tests/public/extension-policy.test.mjs",
+      "case": "length-prefixed SHA256 bucket and allocation boundary vectors",
+      "csharp": ["tests/StructureTests/ExtensionPolicyCases.cs#Run"],
+      "negativeFixtures": [
+        "fixtures/public/con-12-extension-policy.json bucket and allocation vectors"
+      ]
+    },
+    {
+      "source": "tests/public/extension-policy.test.mjs",
+      "case": "extension/policy independent vectors exercise every generated root",
+      "csharp": ["tests/StructureTests/ExtensionPolicyCases.cs#Run"],
+      "negativeFixtures": ["ConfigurationDocument rows outside the private fixture"],
+      "node": "tests/public/ai-internal.test.mjs",
+      "note": "The ConfigurationDocument root is @arcforges/ai-internal and is also asserted in Node."
+    },
+    {
+      "source": "tests/public/extension-policy.test.mjs",
+      "case": "extension/policy codec: ${row.id}",
+      "csharp": ["tests/StructureTests/ExtensionPolicyCases.cs#Check"],
+      "negativeFixtures": ["con-12 codecCases with valid=false"],
+      "node": "tests/public/ai-internal.test.mjs",
+      "note": "ConfigurationDocument rows are also asserted against @arcforges/ai-internal in Node."
+    },
+    {
+      "source": "tests/public/foundation-coverage.mjs",
+      "case": "assertFoundationCoverage (helper)",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#FoundationCoverage"],
+      "negativeFixtures": ["missing record or oneof branch in eng/foundation-inventory.json"]
+    },
+    {
+      "source": "tests/public/foundation-links.test.mjs",
+      "case": "retired product messages cannot reappear in generated public exports",
+      "csharp": [
+        "tests/StructureTests/FoundationLinkCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#FoundationRetirement"
+      ],
+      "negativeFixtures": ["eng/foundation-inventory.json retirement.messages"]
+    },
+    {
+      "source": "tests/public/foundation.test.mjs",
+      "case": "script: CON.09 declarative sync and transfer vectors are exact",
+      "csharp": ["tests/StructureTests/FoundationCases.cs#ValidateSyncTransferVectors"],
+      "negativeFixtures": ["fixtures/public/con-09-sync-transfer.json"]
+    },
+    {
+      "source": "tests/public/foundation.test.mjs",
+      "case": "script: independent semantic fixture cases and every selected record round trip",
+      "csharp": ["tests/StructureTests/FoundationCases.cs#Run"],
+      "negativeFixtures": ["fixtures/public/wp03-01.json cases with valid=false"]
+    },
+    {
+      "source": "tests/public/foundation.test.mjs",
+      "case": "script: inventory coverage including the CON.22 and CON.24 positive cases",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#FoundationCoverage"],
+      "negativeFixtures": ["inventory record or oneof branch without a positive example"]
+    },
+    {
+      "source": "tests/public/foundation.test.mjs",
+      "case": "script: owner bodies, error categories, profile scenarios and wire vectors",
+      "csharp": ["tests/StructureTests/FoundationCases.cs#Run"],
+      "negativeFixtures": ["wp03-01 wireVectors"]
+    },
+    {
+      "source": "tests/public/foundation.test.mjs",
+      "case": "script: unknown read data survives without becoming writable",
+      "csharp": ["tests/StructureTests/FoundationCases.cs#UnknownReadPreservation"],
+      "negativeFixtures": ["future content-origin profile"]
+    },
+    {
+      "source": "tests/public/foundation.test.mjs",
+      "case": "script: independent value-boundary oracles",
+      "csharp": [
+        "tests/StructureTests/FoundationCases.cs#BoundaryValues",
+        "tests/StructureTests/Con40SdkCases.cs#FoundationValues"
+      ],
+      "negativeFixtures": [
+        "zero UUID",
+        "non-canonical integers",
+        "zero Cloud revision",
+        "non-canonical decimals",
+        "cursor over 4096 bytes and unpaired surrogate",
+        "inexact tick conversion",
+        "zero or non-reduced rationals"
+      ],
+      "note": "Textual UUID spellings have no C# parser: the C# identity boundary takes System.Guid, and the zero-UUID refusal is kept."
+    },
+    {
+      "source": "tests/public/foundation.test.mjs",
+      "case": "script: --exchange cross-language foundation round trip",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#FoundationIndependentEncoding"],
+      "negativeFixtures": [
+        "generated bytes that differ from the independent encoder",
+        "wp03-01 wire oracles"
+      ],
+      "note": "Decision 8 (S20(f)): C# verification against the committed independent fixtures replaces the TypeScript oracle; an independent descriptor-driven encoder stands in for the second implementation."
+    },
+    {
+      "source": "tests/public/operator-contract.test.mjs",
+      "case": "CON.14 exports exactly one internal OperatorService with the 31 Registry04 methods",
+      "csharp": ["tests/StructureTests/OperatorCases.cs#Run"],
+      "negativeFixtures": [
+        "fixtures/internal/con-14-operator.json negative and lost-receipt vectors"
+      ]
+    },
+    {
+      "source": "tests/public/operator-contract.test.mjs",
+      "case": "CON.14 request envelopes carry meta, tag-100 context, exact tag-101 proposal refs and the GetCase tag-102 page",
+      "csharp": ["tests/StructureTests/OperatorCases.cs#Run"],
+      "negativeFixtures": [
+        "fixtures/internal/con-14-operator.json negative and lost-receipt vectors"
+      ]
+    },
+    {
+      "source": "tests/public/operator-contract.test.mjs",
+      "case": "CON.14 authorization export, role matrix and Registry04 oracle agree exactly",
+      "csharp": ["tests/StructureTests/OperatorCases.cs#Run"],
+      "negativeFixtures": [
+        "fixtures/internal/con-14-operator.json negative and lost-receipt vectors"
+      ]
+    },
+    {
+      "source": "tests/public/operator-contract.test.mjs",
+      "case": "CON.14 typed mutation protocol binds each variant to its executing operation and distinct approver",
+      "csharp": ["tests/StructureTests/OperatorCases.cs#Run"],
+      "negativeFixtures": [
+        "fixtures/internal/con-14-operator.json negative and lost-receipt vectors"
+      ]
+    },
+    {
+      "source": "tests/public/operator-contract.test.mjs",
+      "case": "CON.14 protocol, negative and lost-receipt vectors stay declarative and complete",
+      "csharp": ["tests/StructureTests/OperatorCases.cs#Run"],
+      "negativeFixtures": [
+        "fixtures/internal/con-14-operator.json negative and lost-receipt vectors"
+      ]
+    },
+    {
+      "source": "tests/public/operator-contract.test.mjs",
+      "case": "CON.14 shape vectors are independently checked against generated validators and binary round trips",
+      "csharp": ["tests/StructureTests/OperatorCases.cs#Run"],
+      "negativeFixtures": [
+        "fixtures/internal/con-14-operator.json negative and lost-receipt vectors"
+      ]
+    },
+    {
+      "source": "tests/public/operator-contract.test.mjs",
+      "case": "CON.14 records, method requests, values and enums equal the Registry04 field tables",
+      "csharp": ["tests/StructureTests/OperatorCases.cs#Run"],
+      "negativeFixtures": [
+        "fixtures/internal/con-14-operator.json negative and lost-receipt vectors"
+      ]
+    },
+    {
+      "source": "tests/public/operator-contract.test.mjs",
+      "case": "CON.14 keeps OperatorService and its records out of the public TypeScript package",
+      "csharp": [
+        "tests/StructureTests/Con40SdkCases.cs#OperatorVisibility",
+        "tests/ArchitectureTests/Sdk/SdkArchitectureTests.cs#SDK-03"
+      ],
+      "negativeFixtures": ["operator symbol in a public catalogue, package or schema"]
+    },
+    {
+      "source": "tests/public/operator-contract.test.mjs",
+      "case": "CON.14 AdjustCredit delta is sint64 ZigZag on the wire",
+      "csharp": [
+        "tests/StructureTests/OperatorCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#OperatorVisibility"
+      ],
+      "negativeFixtures": ["a 10-byte int64 encoding of -1"]
+    },
+    {
+      "source": "tests/public/semantic-hash.test.mjs",
+      "case": "semantic hash: ",
+      "csharp": ["tests/StructureTests/SemanticHashCases.cs#Run"],
+      "negativeFixtures": ["fixtures/public/con-17-compat-hash.json golden vectors"]
+    },
+    {
+      "source": "tests/public/semantic-hash.test.mjs",
+      "case": "semantic refusal: ",
+      "csharp": ["tests/StructureTests/SemanticHashCases.cs#Run"],
+      "negativeFixtures": ["fixtures/public/con-17-compat-hash.json invalid inputs"]
+    },
+    {
+      "source": "tests/public/semantic-hash.test.mjs",
+      "case": "depth and raw surrogate refusal",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#SemanticHash"],
+      "negativeFixtures": ["raw unpaired surrogate", "33-level nesting"]
+    },
+    {
+      "source": "tests/public/semantic-hash.test.mjs",
+      "case": "owner revision changes command semantic identity",
+      "csharp": ["tests/StructureTests/SemanticHashCases.cs#Run"],
+      "negativeFixtures": ["revisionValue 1 versus 2"]
+    },
+    {
+      "source": "tests/public/serialization.test.mjs",
+      "case": "fixed limits match the independent vectors",
+      "csharp": [
+        "tests/public/SerializationProbe/Program.cs#WireLimits",
+        "tests/StructureTests/Con40SdkCases.cs#Serialization"
+      ],
+      "negativeFixtures": ["fixtures/public/wp03-02.json limits"]
+    },
+    {
+      "source": "tests/public/serialization.test.mjs",
+      "case": "bounded binary codec follows every binary vector",
+      "csharp": ["tests/public/SerializationProbe/Program.cs#Binary"],
+      "negativeFixtures": ["wp03-02 binary vectors with tooLarge, tooDeep and malformed outcomes"],
+      "note": "Run by the Native AOT probe in eng/contracts.py build (serialization_probe)."
+    },
+    {
+      "source": "tests/public/serialization.test.mjs",
+      "case": "strict HTTP-exception JSON codecs follow every JSON vector",
+      "csharp": ["tests/public/SerializationProbe/Program.cs#Json"],
+      "negativeFixtures": ["wp03-02 JSON vectors with invalid, malformed and tooLarge outcomes"],
+      "node": "tests/public/ai-internal.test.mjs",
+      "note": "The CommitReceipt vectors are also asserted against @arcforges/ai-internal in Node."
+    },
+    {
+      "source": "tests/public/serialization.test.mjs",
+      "case": "string input applies the same byte bound and text checks",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#Serialization"],
+      "negativeFixtures": ["one byte over 64 KiB", "lone surrogate", "empty object"]
+    },
+    {
+      "source": "tests/public/serialization.test.mjs",
+      "case": "serialization refuses values the closed schema rejects",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#Serialization"],
+      "negativeFixtures": ["negative partNumber", "leading-zero size"],
+      "note": "The typed C# model cannot hold the fractional partNumber; schema-refused typed values are serialized instead."
+    },
+    {
+      "source": "tests/public/serialization.test.mjs",
+      "case": "generated service catalogue lists exactly the authored services",
+      "csharp": [
+        "tests/StructureTests/Con40SdkCases.cs#Serialization",
+        "tests/public/SerializationProbe/Program.cs#catalogues"
+      ],
+      "negativeFixtures": ["wp03-02 services"]
+    },
+    {
+      "source": "tests/public/serialization.test.mjs",
+      "case": "public transport is binary gRPC-Web and refuses codec overrides",
+      "csharp": [
+        "tests/ArchitectureTests/Sdk/SdkArchitectureTests.cs#SDK-01",
+        "tests/ArchitectureTests/Sdk/SdkArchitectureTests.cs#SDK-02"
+      ],
+      "negativeFixtures": [
+        "a JSON marshaller",
+        "an SDK-owned channel or HTTP client",
+        "an endpoint-owning constructor"
+      ]
+    },
+    {
+      "source": "tests/public/simulation.test.mjs",
+      "case": "generated SimulationService catalogue is exactly the independent 13-operation fixture",
+      "csharp": [
+        "tests/StructureTests/SimulationCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#SimulationCatalogue"
+      ],
+      "negativeFixtures": ["con-21 operations"]
+    },
+    {
+      "source": "tests/public/simulation.test.mjs",
+      "case": "profile, run state/extent and AST vectors pass through generated closed shapes",
+      "csharp": ["tests/StructureTests/SimulationCases.cs#Run"],
+      "negativeFixtures": ["fixtures/public/con-21-simulation.json vectors with valid=false"]
+    },
+    {
+      "source": "tests/public/simulation.test.mjs",
+      "case": "Registry04 scalar presence and optionality vectors use generated simulation shapes",
+      "csharp": ["tests/StructureTests/SimulationCases.cs#Run"],
+      "negativeFixtures": ["fixtures/public/con-21-simulation.json vectors with valid=false"]
+    },
+    {
+      "source": "tests/public/simulation.test.mjs",
+      "case": "listRuns page bounds and workspace snapshot declarations are exact",
+      "csharp": ["tests/StructureTests/SimulationCases.cs#Run"],
+      "negativeFixtures": ["fixtures/public/con-21-simulation.json vectors with valid=false"]
+    },
+    {
+      "source": "tests/public/structure.test.mjs",
+      "case": "script: wp03-00 public and internal shape fixtures",
+      "csharp": ["tests/StructureTests/Program.cs#Check"],
+      "negativeFixtures": [
+        "fixtures/public/wp03-00.json and fixtures/internal/wp03-00.json cases with valid=false"
+      ],
+      "node": "tests/public/ai-internal.test.mjs",
+      "note": "The CommitReceipt cases are also asserted against @arcforges/ai-internal in Node."
+    },
+    {
+      "source": "tests/public/support.test.mjs",
+      "case": "CON.22 emits only the six Registry04 public services and exact method maps",
+      "csharp": ["tests/StructureTests/SupportCases.cs#Run"],
+      "negativeFixtures": ["encoded-body arm on a non-read method"]
+    },
+    {
+      "source": "tests/public/support.test.mjs",
+      "case": "CON.22 fixture positives and negatives are independently checked against generated shapes",
+      "csharp": [
+        "tests/StructureTests/SupportCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Support"
+      ],
+      "negativeFixtures": ["con-22 cases with valid=false"]
+    },
+    {
+      "source": "tests/public/support.test.mjs",
+      "case": "CON.22 names, text, keys, repeated messages and policy body retain declared bounds",
+      "csharp": [
+        "tests/StructureTests/SupportCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Support"
+      ],
+      "negativeFixtures": [
+        "257-scalar subject",
+        "131073-byte text",
+        "notification kind 'bad key'",
+        "missing createdAt",
+        "1 MiB + 1 policy body"
+      ]
+    },
+    {
+      "source": "tests/public/wire.test.mjs",
+      "case": "the generated service preserves the public wire identity",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#Wire"],
+      "negativeFixtures": ["service or method renamed"]
+    },
+    {
+      "source": "tests/public/wire.test.mjs",
+      "case": "protobuf roundtrips shared ASCII and Unicode fixtures",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#Wire"],
+      "negativeFixtures": ["fixtures/public/hello.json"]
+    },
+    {
+      "source": "tests/public/wire.test.mjs",
+      "case": "the field number and malformed payload behavior remain explicit",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#Wire"],
+      "negativeFixtures": ["truncated payload 0a 05 41"]
+    },
+    {
+      "source": "tests/public/foundation-types.ts",
+      "case": "script: identity and revision domains never convert into each other",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#ValueDomains"],
+      "negativeFixtures": [
+        "conversion operators between domain types",
+        "a floating-point Cloud revision constructor"
+      ]
+    },
+    {
+      "source": "tests/public/package-consumer.ts",
+      "case": "script: published package consumer over gRPC-Web",
+      "csharp": ["tests/public/HelloClient/Program.cs#Usage"],
+      "negativeFixtures": ["empty name refused with InvalidArgument"],
+      "note": "Installed-package consumers are local opt-in diagnostics (P2-017); the C# HelloClient consumer is kept (S47(3))."
+    },
+    {
+      "source": "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/Con11ApplicationStreamsCases.kt",
+      "case": "verifyPublicRpcCalls",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#GeneratedClients"],
+      "negativeFixtures": ["call kind, path or message type mismatch"]
+    },
+    {
+      "source": "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/Con11ApplicationStreamsCases.kt",
+      "case": "verifyMessageFields, verifyPresenceBoundaries, verifyOwnerBoundaryVectors, verifyCursorBoundaries, verifyUnknownFieldBoundaries, verifyEventPayloads, verifyUnaryOutcomeAlternatives, verifyPollProfile, verifyPublicBoundaries",
+      "csharp": [
+        "tests/StructureTests/Con11ApplicationStreamsCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Con11"
+      ],
+      "negativeFixtures": [
+        "fixtures/public/con-11-application-streams.json and fixtures/internal/con-11-run-stream.json vectors"
+      ]
+    },
+    {
+      "source": "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/Con24ScopeLibraryCases.kt",
+      "case": "run",
+      "csharp": [
+        "tests/StructureTests/Con24ScopeLibraryCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Con24"
+      ],
+      "negativeFixtures": ["con-24 vectors"]
+    },
+    {
+      "source": "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/Con24ScopeLibraryCases.kt",
+      "case": "verifyGeneratedSurface",
+      "csharp": [
+        "tests/StructureTests/Con24ScopeLibraryCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#GeneratedClients"
+      ],
+      "negativeFixtures": ["request wire tags", "Scope client bindings", "closed outcome arms"]
+    },
+    {
+      "source": "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/Con25Cases.kt",
+      "case": "runConnector, verifyGeneratedSurface, validateVector",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#RunConnector",
+        "tests/StructureTests/Con40SdkCases.cs#Con25Connector"
+      ],
+      "negativeFixtures": ["con-25-connector vectors with valid=false"]
+    },
+    {
+      "source": "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/Con25Cases.kt",
+      "case": "verifyRpcRecorder, verifyOutcomes",
+      "csharp": ["tests/StructureTests/Con40SdkCases.cs#Con25ConnectorClient"],
+      "negativeFixtures": ["RPC path or type mismatch", "a second arm on the wire"]
+    },
+    {
+      "source": "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/Con25Cases.kt",
+      "case": "runSegment, verifyEdges, verifyRefusalDiscrimination, strictRead",
+      "csharp": [
+        "tests/StructureTests/Con25Cases.cs#RunAfSegment",
+        "tests/StructureTests/Con40SdkCases.cs#AfSegment"
+      ],
+      "negativeFixtures": ["con-25-af-segment refusals"]
+    },
+    {
+      "source": "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/IdentityCases.kt",
+      "case": "run",
+      "csharp": [
+        "tests/StructureTests/Con40SdkCases.cs#Con07Jvm",
+        "tests/StructureTests/IdentityCases.cs#Run"
+      ],
+      "negativeFixtures": [
+        "recovery challenge carrying method or lacking recoveryMethod",
+        "33-byte challenge",
+        "14- and 129-scalar passwords",
+        "second proof variant"
+      ],
+      "note": "The Kotlin test-local predicates are replaced by the generated C# validator."
+    },
+    {
+      "source": "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/Main.kt",
+      "case": "main: Maven module build identities",
+      "csharp": ["tests/public/HelloClient/Program.cs#--inspect-build"],
+      "negativeFixtures": ["assembly identity differing from expected-build.json"],
+      "note": "The Maven identities retire; the NuGet assembly identities are checked by HelloClient --inspect-build in eng/contracts.py build."
+    },
+    {
+      "source": "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/Main.kt",
+      "case": "main: Connect Hello success and error over gRPC-Web and gRPC",
+      "csharp": ["tests/public/HelloClient/Program.cs#Usage"],
+      "negativeFixtures": ["empty name refused with InvalidArgument"],
+      "note": "Installed-package consumers are local opt-in diagnostics (P2-017); the C# HelloClient consumer is kept."
+    },
+    {
+      "source": "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/SimulationCases.kt",
+      "case": "run",
+      "csharp": [
+        "tests/StructureTests/SimulationCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#GeneratedClients"
+      ],
+      "negativeFixtures": ["con-21 vectors with valid=false"]
+    },
+    {
+      "source": "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/SupportCases.kt",
+      "case": "run",
+      "csharp": [
+        "tests/StructureTests/SupportCases.cs#Run",
+        "tests/StructureTests/Con40SdkCases.cs#Support"
+      ],
+      "negativeFixtures": [
+        "invalid actor and notification keys",
+        "missing timestamps",
+        "over-bound text, subject, messages and body"
+      ]
+    }
+  ]
+}

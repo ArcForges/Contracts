@@ -124,6 +124,7 @@ Con02Cases.Run(root);
 Con11ApplicationStreamsCases.Run(root);
 SupportCases.Run(root);
 OperatorCases.Run(root);
+Con40SdkCases.Run(root);
 return 0;
 
 static bool Proto<T>(JsonElement value, Func<T, bool> validate) where T : IMessage<T>, new()
