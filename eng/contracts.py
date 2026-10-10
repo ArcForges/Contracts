@@ -73,8 +73,6 @@ def restore(update_locks: bool = False) -> None:
     run(NPM, "install" if update_locks else "ci", "--ignore-scripts")
     run("dotnet", "restore", "ArcForges.Contracts.slnx",
         "--force-evaluate" if update_locks else "--locked-mode")
-    from kotlin_tools import restore as restore_kotlin
-    restore_kotlin(update_locks)
 
 
 def grpc_tools() -> Path:
@@ -349,16 +347,14 @@ def build() -> None:
     run("dotnet", ROOT / "tests/public/HelloClient/bin/Release/net10.0/HelloClient.dll",
         "--inspect-build", ARTIFACTS / "expected-build.json", *assemblies)
     structure_tests = ROOT / "tests/StructureTests/bin/Release/net10.0/StructureTests.dll"
-    run("dotnet", structure_tests, ROOT, "--foundation-exchange")
+    # CON.40: the C# suites (StructureTests, including Con40SdkCases) replace the TypeScript and Kotlin
+    # consumer tests and the TypeScript foundation exchange; Node builds and tests only @arcforges/ai-internal.
+    run("dotnet", structure_tests, ROOT)
     run(NPM, "run", "build")
     run(NPM, "test")
-    run("node", ROOT / "tests/public/foundation.test.mjs", "--exchange")
-    run("dotnet", structure_tests, ROOT, "--verify-foundation-exchange")
     compatibility_exchange(structure_tests)
     later_services_exchange(structure_tests)
     serialization_probe()
-    from kotlin_tools import build as build_kotlin
-    build_kotlin()
 
 
 def compatibility_exchange(structure_tests: Path) -> None:
