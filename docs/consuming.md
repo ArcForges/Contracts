@@ -65,6 +65,29 @@ including browser (Blazor WebAssembly) and Android (.NET MAUI) applications, use
 binary gRPC-Web for the public Worker ingress; the application composes that
 transport, its credentials and its lifecycle. The packages create no global channel.
 
+### Operation metadata
+
+`ArcForges.Contracts.PublicApi` carries the public operation rows (authorization,
+risk and binding per operation) as `operations/operation-metadata.v1.json` at the
+package root. Pin the exact version in `Directory.Packages.props` and
+`packages.lock.json`, and read the file from that restored package; never read it
+from a Contracts checkout or source tree. Setting
+`GeneratePathProperty="true"` on the package reference gives MSBuild the restored
+package folder:
+
+```xml
+<ItemGroup>
+  <PackageReference Include="ArcForges.Contracts.PublicApi" GeneratePathProperty="true" />
+</ItemGroup>
+<PropertyGroup>
+  <ArcForgesOperationMetadata>$(PkgArcForges_Contracts_PublicApi)/operations/operation-metadata.v1.json</ArcForgesOperationMetadata>
+</PropertyGroup>
+```
+
+The file is an `operation-metadata.v1` document ordered by `operationId`, and every
+build of a given version carries the same bytes. Updating the pinned version is the
+only way its rows change; review the row differences with the version update.
+
 ## Internal npm package
 
 `@arcforges/ai-internal` is the one retained npm package. It carries the internal
