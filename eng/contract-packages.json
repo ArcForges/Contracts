@@ -354,6 +354,21 @@
       "dependencies": [],
       "descriptor": "contracts.binpb",
       "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "kind": "nuget",
+      "access": "internal",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch",
+      "proto": [],
+      "dependencies": [
+        "ArcForges.Contracts.PublicApi",
+        "ArcForges.Contracts.LocalRpc.Platform",
+        "ArcForges.Contracts.LocalRpc.Scope",
+        "ArcForges.Contracts.LocalRpc.Chat"
+      ],
+      "descriptor": "local-dispatch.binpb",
+      "jsonSchemas": []
     }
   ]
 }

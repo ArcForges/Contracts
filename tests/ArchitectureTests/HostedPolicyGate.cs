@@ -22,6 +22,8 @@ internal static class HostedPolicyGate
         ["src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj"] = ProjectRole.Abstractions,
         ["src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj"] = ProjectRole.Abstractions,
         ["src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj"] = ProjectRole.Shell,
+        // CON.43: generated local-operation adapters over the referenced owned wire types; no proto of its own.
+        ["src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj"] = ProjectRole.Abstractions,
     };
 
     public static void Run(Action<PolicyGateStage> setStage)

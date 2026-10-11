@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <IsAotCompatible>true</IsAotCompatible>
+    <PackageId>ArcForges.Contracts.LocalRpc.Dispatch</PackageId>
+    <Version>1.0.0-ci.0.0</Version>
+    <Description>Internal boundary dispatch adapters: generated local-operation schemas, decoders, result encoders and the closed tool allowlist; no listener, registration or product implementation.</Description>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LicenceBoundary>Apache</LicenceBoundary>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>ArcForges;protobuf;contracts</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj" />
+    <ProjectReference Include="../ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj" />
+    <ProjectReference Include="../ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj" />
+    <ProjectReference Include="../ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="../../../../LICENSE" Pack="true" PackagePath="/" />
+    <None Include="$(ContractMetadataDir)/**/*" Pack="true" PackagePath="/" Condition="'$(ContractMetadataDir)' != ''" />
+  </ItemGroup>
+</Project>

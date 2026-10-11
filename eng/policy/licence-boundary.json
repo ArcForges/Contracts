@@ -21,6 +21,10 @@
       "kind": "msbuild"
     },
     {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj",
+      "kind": "msbuild"
+    },
+    {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj",
       "kind": "msbuild"
     },

@@ -18,5 +18,6 @@
     <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj" />
     <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj" />
     <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj" />
+    <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj" />
   </ItemGroup>
 </Project>

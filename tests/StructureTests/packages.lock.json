@@ -40,6 +40,15 @@
           "Google.Protobuf": "[3.36.1, )"
         }
       },
+      "arcforges.contracts.localrpc.dispatch": {
+        "type": "Project",
+        "dependencies": {
+          "ArcForges.Contracts.LocalRpc.Chat": "[1.0.0-ci.0.0, )",
+          "ArcForges.Contracts.LocalRpc.Platform": "[1.0.0-ci.0.0, )",
+          "ArcForges.Contracts.LocalRpc.Scope": "[1.0.0-ci.0.0, )",
+          "ArcForges.Contracts.PublicApi": "[1.0.0-ci.0.0, )"
+        }
+      },
       "arcforges.contracts.localrpc.platform": {
         "type": "Project",
         "dependencies": {
