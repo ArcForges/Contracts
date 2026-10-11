@@ -357,6 +357,9 @@ def pack(release: str) -> None:
             stage_schemas(nuget_metadata, row)
             operations = stage_operation_metadata(nuget_metadata, row)
             if operations is not None:
+                # The C# consumer case reads the rows exactly as staged, with the StructureTests build() just produced.
+                run("dotnet", ROOT / "tests/StructureTests/bin/Release/net10.0/StructureTests.dll", ROOT,
+                    "--con-41-staged", nuget_metadata / OPERATION_METADATA_PATH)
                 print(operation_evidence(row, operations), flush=True)
             stage_naming(nuget_metadata, row)
             if row["id"] == "ArcForges.Cli":

@@ -500,6 +500,7 @@
     "tests/StructureTests/Con24ScopeLibraryCases.cs",
     "tests/StructureTests/Con25Cases.cs",
     "tests/StructureTests/Con40SdkCases.cs",
+    "tests/StructureTests/Con41OperationMetadataCases.cs",
     "tests/StructureTests/ContentSandboxCases.cs",
     "tests/StructureTests/ExtensionBoundaryCases.cs",
     "tests/StructureTests/ExtensionPolicyCases.cs",

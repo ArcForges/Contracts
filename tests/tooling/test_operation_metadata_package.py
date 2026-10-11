@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -404,6 +405,60 @@ class CandidateTests(unittest.TestCase):
         files["source.json"] = json.dumps(source, indent=2).encode("utf-8")
         self.rewrite("ArcForges.Contracts.Foundation", files)
         self.refused("Operation metadata is packaged only in")
+
+
+class StagedCSharpCaseTests(unittest.TestCase):
+    """The StructureTests --con-41-staged case that pack runs on the staged file, run here on real and tampered bytes."""
+
+    STRUCTURE_TESTS = ROOT / "tests/StructureTests/bin/Release/net10.0/StructureTests.dll"
+
+    @classmethod
+    def setUpClass(cls):
+        if not cls.STRUCTURE_TESTS.is_file():
+            raise AssertionError("Run eng/contracts.py pack first: StructureTests is not built")
+        cls.data, _ = tools.operation_metadata(package_row(PUBLIC_API))
+
+    def run_case(self, data):
+        with tempfile.TemporaryDirectory() as temporary:
+            staged = Path(temporary) / "operation-metadata.v1.json"
+            staged.write_bytes(data)
+            return subprocess.run(["dotnet", str(self.STRUCTURE_TESTS), str(ROOT), "--con-41-staged", str(staged)],
+                                  capture_output=True, text=True, encoding="utf-8", check=False)
+
+    def test_pack_runs_the_case_on_the_staged_file_before_dotnet_pack(self):
+        source = (ROOT / "eng/packaging_tools.py").read_text(encoding="utf-8")
+        body = source[source.index("def pack(release: str)"):]
+        self.assertLess(body.index('"--con-41-staged", nuget_metadata / OPERATION_METADATA_PATH'), body.index('run("dotnet", "pack"'))
+        self.assertIn('args[1] == "--con-41-staged") return Con41OperationMetadataCases.Run(root, Path.GetFullPath(args[2]));',
+                      (ROOT / "tests/StructureTests/Program.cs").read_text(encoding="utf-8"))
+
+    def test_staged_rows_are_accepted_with_the_count_by_service(self):
+        result = self.run_case(self.data)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        rows = json.loads(self.data)["operations"]
+        self.assertIn(f"{len(rows)} rows, one per generated PublicApi method", result.stdout)
+        self.assertIn("sha256 " + hashlib.sha256(self.data).hexdigest(), result.stdout)
+
+    def test_tampered_staged_files_are_refused(self):
+        document = json.loads(self.data)
+        rows = document["operations"]
+        altered = json.loads(json.dumps(rows[0]))
+        altered["idempotency"] = "Q" if altered["idempotency"] != "Q" else "I"
+        cf_internal = next(row for _, row in source_rows() if row.get("surface") == "cf-internal")
+        cases = {
+            "has no row": rows[1:],
+            "differs from its eng/operations source row": [altered, *rows[1:]],
+            "duplicate operationId": [rows[0], *rows],
+            "is not a public row": sorted([*rows, cf_internal], key=lambda row: row["operationId"]),
+        }
+        for reason, tampered in cases.items():
+            with self.subTest(reason=reason):
+                result = self.run_case(serialize({"schemaVersion": document["schemaVersion"], "operations": tampered}))
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(reason, result.stderr)
+        result = self.run_case(self.data.replace(b'"schemaVersion"', b'"schemaVersion": "operation-metadata.v1", "schemaVersion"', 1))
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("staged: invalid JSON", result.stderr)
 
 
 if __name__ == "__main__":
