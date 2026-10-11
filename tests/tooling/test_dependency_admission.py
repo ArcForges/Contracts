@@ -771,7 +771,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 89)
+        self.assertEqual(len(config['allowlists']), 91)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -972,7 +972,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4, 1, 4, 1, 4, 2, 5, 315, 2, 5, 315, 1, 4, 315, 1, 4, 360, 1, 4, 1, 4, 1, 4, 776, 4, 1, 4, 1, 4, 806, 2, 4, 4, 4, 4, 4])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4, 1, 4, 1, 4, 2, 5, 315, 2, 5, 315, 1, 4, 315, 1, 4, 360, 1, 4, 1, 4, 1, 4, 776, 4, 1, 4, 1, 4, 806, 2, 4, 4, 4, 4, 4, 1, 4])
 
         ext02_groups = [row for row in config['allowlists']
                         if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes']
@@ -2366,7 +2366,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con11_secret_scan_allowlists_bind_only_observed_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 89)
+        self.assertEqual(len(config['allowlists']), 91)
         groups = config['allowlists'][67:70]
         expected_descriptions = {
             'CON.11 reviewed dependency policy public input digest',
@@ -2599,7 +2599,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con15_secret_scan_allowlists_bind_only_exact_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 89)
+        self.assertEqual(len(config['allowlists']), 91)
         groups = config['allowlists'][70:72]
         self.assertEqual([row['description'] for row in groups], [
             'CON.15 reviewed dependency policy public input digest',
@@ -2666,7 +2666,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con07_secret_scan_allowlists_bind_only_exact_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 89)
+        self.assertEqual(len(config['allowlists']), 91)
         groups = config['allowlists'][74:77]
         self.assertEqual([row['description'] for row in groups], [
             'CON.07 reviewed dependency policy public input digest',
@@ -2761,7 +2761,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con25_secret_scan_allowlists_bind_only_exact_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 89)
+        self.assertEqual(len(config['allowlists']), 91)
         groups = config['allowlists'][80:83]
         self.assertEqual([row['description'] for row in groups], [
             'CON.25 reviewed dependency policy public input digest',
@@ -2833,7 +2833,7 @@ class DependencyAdmission(unittest.TestCase):
         # S50(3): one exact-path block per file that the full-history generic-api-key scan flags on CON.40
         # history. Every row is one observed "key": "digest" line of a public input digest, and nothing broader.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 89)
+        self.assertEqual(len(config['allowlists']), 91)
         groups = config['allowlists'][83:89]
         policy_path = 'eng/policy/dependency-policy.json'
         access_key = 'eng/policy/contract-access.json'
@@ -2955,9 +2955,95 @@ class DependencyAdmission(unittest.TestCase):
                                      observed_lines)
                 self.assertEqual(observed, set(rows))
 
+    def test_con43_secret_scan_allowlists_bind_only_exact_public_digest_tuples(self):
+        # S31/S44/S50(3) form: one exact-path block per file that the full-history generic-api-key scan flags on
+        # CON.43 history (the commit adding receipt con-43-r1). Every row is one observed "key": "digest" line of a
+        # public input digest, and nothing broader; no existing block changes.
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
+        self.assertEqual(len(config['allowlists']), 91)
+        groups = config['allowlists'][89:91]
+        policy_path = 'eng/policy/dependency-policy.json'
+        receipt_path = 'eng/policy/dependency-reviews/con-43-r1.json'
+        keys = ('eng/policy/contract-access.json',
+                'eng/provenance/records/dokka-combokeys-licence-r1.json',
+                'eng/provenance/records/dokka-object-keys-licence-r1.json',
+                'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj')
+        # The rows are read from the immutable receipt (no digest literal here, so this file adds no scan finding).
+        hashes = json.loads((ROOT / receipt_path).read_text(encoding='utf-8'))['review']['inputHashes']
+        rows = [(key, hashes[key]) for key in keys]
+        expected = [
+            ('CON.43 reviewed dependency policy public input digests', policy_path, rows[:1], (15, 726)),
+            ('CON.43 reviewed immutable dependency receipt r1 public input digests', receipt_path, rows,
+             (19, 83, 152, 205)),
+        ]
+        self.assertEqual([row['description'] for row in groups], [item[0] for item in expected])
+        self.assertEqual(sum(len(item[3]) for item in expected), 6)
+        self.assertEqual(hashlib.sha256(''.join(
+            f'generic-api-key\t{path}\t{key}\t{digest}\n'
+            for _, path, group_rows, _ in expected for key, digest in group_rows).encode('utf-8')).hexdigest(),
+            'de01c364dc3bec35bac8d8f4b9b3792904f11081585ecee3b0aae427877917ea')
+
+        def git_blob(commit, path):
+            return subprocess.check_output(['git', 'show', f'{commit}:{path}'], cwd=ROOT)
+
+        # The adding commit of the immutable receipt is the scanned commit; it requires retained history.
+        commit = subprocess.check_output(['git', 'log', '--diff-filter=A', '--format=%H', '--', receipt_path],
+                                         cwd=ROOT, text=True).split()[-1]
+        self.assertEqual(subprocess.run(['git', 'merge-base', '--is-ancestor', commit, 'HEAD'],
+                                        cwd=ROOT, check=False).returncode, 0)
+        self.assertEqual(git_blob(commit, receipt_path), (ROOT / receipt_path).read_bytes().replace(b'\r\n', b'\n'))
+
+        line_shape = r'\s*"([^"]+)"\s*:\s*"([0-9a-f]{64})",?\s*'
+        for group, (_, path, group_rows, observed_lines) in zip(groups, expected, strict=True):
+            with self.subTest(path=path):
+                self.assertEqual(group['targetRules'], ['generic-api-key'])
+                self.assertEqual(group['condition'], 'AND')
+                self.assertEqual(group['regexTarget'], 'line')
+                self.assertEqual(group['paths'], ['^' + re.escape(path) + '$'])
+                self.assertIsNotNone(re.fullmatch(group['paths'][0], path))
+                for wrong_path in (path + '.backup', 'x/' + path, 'src/secrets.json',
+                                   'eng/policy/dependency-reviews/con-43-r2.json',
+                                   'eng/policy/dependency-reviews/con-40-r5.json', 'eng/policy/con-43-r1.json',
+                                   *(item[1] for item in expected if item[1] != path)):
+                    self.assertIsNone(re.fullmatch(group['paths'][0], wrong_path))
+                self.assertEqual(group_rows, sorted(group_rows))
+                self.assertEqual(group['regexes'], [
+                    rf'(?s)^\s*"{re.escape(key)}":\s*"{digest}",?\s*$' for key, digest in group_rows])
+                for pattern, (key, digest) in zip(group['regexes'], group_rows, strict=True):
+                    other_digest = digest[:-1] + ('1' if digest[-1] == '0' else '0')
+                    self.assertIsNotNone(re.fullmatch(pattern, f'      "{key}": "{digest}",'))
+                    self.assertIsNotNone(re.fullmatch(pattern, f'  "{key}": "{digest}"'))
+                    self.assertIsNone(re.fullmatch(pattern, f'  "{key}": "' + '0' * 64 + '",'))
+                    self.assertIsNone(re.fullmatch(pattern, f'  "{key}": "{other_digest}",'))
+                    self.assertIsNone(re.fullmatch(pattern, f'  "{key}": "{digest.upper()}",'))
+                    self.assertIsNone(re.fullmatch(pattern, f'  "credential": "{digest}",'))
+                    self.assertIsNone(re.fullmatch(pattern, f'  "{key}x": "{digest}",'))
+                    self.assertIsNone(re.fullmatch(pattern, f'  "{key}": "{digest}", "credential": "other"'))
+                blob = git_blob(commit, path)
+                document = json.loads(blob)
+                lines = blob.decode('utf-8').splitlines()
+                observed = set()
+                for line_number in observed_lines:
+                    parsed = re.fullmatch(line_shape, lines[line_number - 1])
+                    self.assertIsNotNone(parsed)
+                    key, digest = parsed.groups()
+                    observed.add((key, digest))
+                    self.assertEqual(sum(re.fullmatch(pattern, lines[line_number - 1]) is not None
+                                         for pattern in group['regexes']), 1)
+                    self.assertEqual(digest, hashlib.sha256(git_blob(commit, key)).hexdigest())
+                    bound = [document['review']['inputHashes'].get(key)]
+                    if path == policy_path:
+                        bound.append(document['inputHashes'].get(key))
+                    self.assertIn(digest, bound)
+                # The block admits no other line of the scanned blob.
+                self.assertEqual([number for number, line in enumerate(lines, start=1)
+                                  if any(re.fullmatch(pattern, line) for pattern in group['regexes'])],
+                                 list(observed_lines))
+                self.assertEqual(observed, set(group_rows))
+
     def test_con17_later_service_receipt_chain_and_secret_scan_allowlist(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 89)
+        self.assertEqual(len(config['allowlists']), 91)
         group = config['allowlists'][77]
         self.assertEqual(group['description'], 'CON.17 reviewed immutable dependency receipt public input digests')
         policy_path = 'eng/policy/dependency-policy.json'
@@ -3027,7 +3113,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con14_secret_scan_allowlists_bind_only_observed_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 89)
+        self.assertEqual(len(config['allowlists']), 91)
         groups = config['allowlists'][72:74]
         by_description = {row['description']: row for row in groups}
         self.assertEqual(len(groups), 2)

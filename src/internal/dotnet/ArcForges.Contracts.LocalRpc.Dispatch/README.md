@@ -34,9 +34,50 @@ the operation-metadata rows of `eng/operations` and the operation-scope gate. Ne
 - `LocalOperationFault` with `LocalOperationFaultKind` and a JSON-pointer path. `ToArcError` maps every fault
   to `validation.invalid_request` (category validation, no retry, did not happen).
 
-Consumers wrap these functions in their own thin adapters (for example the ArcForges.Capabilities decoder
-and encoder delegates, which return a DesktopPlatform type that Contracts does not reference) and pin the
-exact package version.
+Consumers wrap these functions in their own thin adapters and pin the exact package version (see
+`docs/consuming.md`). The ArcForges.Capabilities decoder and encoder delegates return
+`ArcForges.Foundation.Errors.Outcome`, a DesktopPlatform type that Contracts does not reference, so they
+cannot bind to the emitted functions by method group. APP.03 wraps them for `arcscope.annotation.create`.
+
+## Admission source
+
+The allowlist has one admission source: the operation-metadata rows of `eng/operations`, as passed by
+`eng/check_operation_scope.py`. The generator runs that gate and refuses to generate when it fails. It emits
+an allowlist entry only for an eligible row whose `authorization.capability` is its exact operation ID and
+whose actors, by the gate's own rule, reach the agent. The `toolAllowlist` of
+`eng/operation-scope-manifest.json` is not a second source: a key listed there without such a row admits
+nothing, and the list stays empty.
+
+At CON.43 the one admitted row is `IScopeOperations.CreateAnnotation` (S61(2): profile `product-handler`,
+actor kinds human, product-handler and agent, risk R2, per-operation approval). The gate admits it through
+one exception keyed to exactly that row. An eligible operation without a declared profile row also refuses
+generation.
+
+## Fault kinds
+
+| Kind                | Meaning                                                                      |
+| ------------------- | ---------------------------------------------------------------------------- |
+| `UnknownCapability` | the capability key is not in the allowlist (raised by the consumer adapter)  |
+| `SchemaMismatch`    | the arguments or result carry another schema ID                              |
+| `InvalidEnvelope`   | no value, or the envelope fails the platform shape validation                |
+| `MissingMeta`       | no request meta was supplied with the arguments                              |
+| `MissingContext`    | the local call context is missing or invalid                                 |
+| `MissingActor`      | the local call context carries no actor                                      |
+| `WrongKind`         | a value has a different StructuredValue kind than the schema declares        |
+| `ExplicitNull`      | an explicit null where the field allows none                                 |
+| `MissingRequired`   | a required field, or the member of a required oneof, is absent               |
+| `UnknownField`      | a record key that the message does not declare (including `meta`)            |
+| `OutOfRange`        | a value outside its type range or declared bounds (length, pattern, minimum) |
+| `TooManyItems`      | a list or record above its declared maximum or 200 items                     |
+| `TooDeep`           | nesting deeper than 16 levels                                                |
+| `OneofConflict`     | more than one member of a oneof                                              |
+| `InvalidIdentity`   | a foundation `Id` that is not canonical nonzero lowercase UUID text          |
+| `InvalidBytes`      | bytes that are not canonical unpadded base64url text                         |
+| `InvalidEnum`       | an enum name that is unknown or the UNSPECIFIED value                        |
+| `ShapeInvalid`      | the owner shape validation refuses the typed request or result               |
+| `Unrepresentable`   | a typed value the structured value cannot carry (a uint64 above 2^63 - 1)    |
+
+The path is a JSON pointer (RFC 6901) into the structured value; it is empty for the whole value.
 
 ## Value mapping
 
