@@ -12,6 +12,30 @@ SOURCES = {
     'Chat': 'internal/proto/arcforges/local/chat/v1/chat.proto',
     'Scope': 'internal/proto/arcforges/local/scope/v1/scope.proto',
 }
+# CON.43 (S61(2)): independent frozen copy of the one admitted tool-delegation row. It is not read from
+# the checker, so changing the export, the checker or this copy alone fails a test.
+CON43_ADMITTED_TOOL = 'IScopeOperations.CreateAnnotation'
+CON43_ADMITTED_ROW = {
+    'operationId': 'IScopeOperations.CreateAnnotation',
+    'binding': 'ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.CreateAnnotationAsync',
+    'kind': 'in-process',
+    'source': 'src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs',
+    'scope': 'in-process',
+    'surface': 'in-process',
+    'profile': 'product-handler',
+    'sourceRule': 'docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces',
+    'idempotency': 'CC',
+    'authorization': {
+        'capability': 'IScopeOperations.CreateAnnotation',
+        'risk': 'R2',
+        'approval': 'perOperation',
+        'stepUp': False,
+        'localPresence': False,
+        'egress': 'none',
+        'patEligible': False,
+        'actorKinds': ['human', 'product-handler', 'agent'],
+    },
+}
 
 
 def blocks(text, declaration):
@@ -91,8 +115,15 @@ class InprocessContractCases(unittest.TestCase):
         self.assertEqual(indexed['ICapabilityProvider.Invoke']['profile'], 'in-process-invocation')
         for row in rows:
             if row['profile'] == 'product-handler':
+                # CON.43 (S61(2)): the one admitted own-app tool-delegation row, asserted exactly below.
+                if row['operationId'] == CON43_ADMITTED_TOOL:
+                    continue
                 self.assertIsNone(row['authorization']['capability'])
                 self.assertEqual(row['authorization']['actorKinds'], ['human', 'product-handler'])
+        self.assertEqual(indexed[CON43_ADMITTED_TOOL], CON43_ADMITTED_ROW)
+        self.assertEqual(json.dumps(indexed[CON43_ADMITTED_TOOL], sort_keys=True),
+                         json.dumps(CON43_ADMITTED_ROW, sort_keys=True))
+        self.assertEqual(sum(row['profile'] == 'product-handler' for row in rows), 36)
 
     def test_public_values_never_import_private_ports(self):
         for path in (ROOT / 'public/proto').rglob('*.proto'):

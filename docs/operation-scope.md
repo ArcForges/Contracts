@@ -61,6 +61,24 @@ bindings. Tools require explicit oracle allowlisting; human-only decisions remai
 denied even if allowlisted. PATs use the closed catalogue operation set. Operator,
 CF service, customer, helper and provider identities are not interchangeable.
 
+The only product-handler row that reaches a tool actor is CON.43's admitted own-app
+tool delegation (ruling S61(2) in the CON.43 record): the CON.06 row for
+`IScopeOperations.CreateAnnotation` in `eng/operations/con-06.json` has capability
+`IScopeOperations.CreateAnnotation` and actors `human`, `product-handler` and `agent`,
+with profile `product-handler`, class `CC`, risk R2, `perOperation` approval, no
+step-up, no local presence, no egress and no PAT. The checker holds an exact frozen
+copy of that whole row (`CON43_ADMITTED_ROW`, compared in canonical JSON form) and
+waives, for that row only, the three refusals that otherwise apply to a
+product-handler row: profile identity mismatch, capability outside tool binding and
+tool not explicitly admitted. The same shape under any other operation ID, or this row
+with any other capability, actor set or order, risk, approval, profile, idempotency,
+scope, surface, binding, source or source rule, is refused as before. The manifest
+`toolAllowlist` is unchanged and stays empty: CON.43's write scope does not cover the
+manifest or its StructureTests assertion, so under the S62(2) letter reading the
+admission rests on the export row and this keyed exception alone. The matrix reports
+the row as reachable by `agent`, `human` and `product-handler`; the inventory stays
+335 registered, 0 pending and 7 reserved.
+
 The only R4 customer rows are the two exact public CON.07 account commands
 `identity.requestAccountDeletion` and `workspace.requestDataDeletion`: kind
 `proto`, source `public/proto/arcforges/publicapi/v1/identity.proto`, scope

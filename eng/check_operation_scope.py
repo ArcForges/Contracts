@@ -123,6 +123,43 @@ HUMAN_ONLY = {"approval.decide", "IChatOperations.SubmitApproval", "source.creat
               "source.revokeConsent", "source.setPolicy", "source.clearPolicy", "preference.put",
               "connector.beginConnection", "connector.completeConnection", "connector.revokeConnection",
               "support.decideAccess", "device.setRemotePolicy", "device.setTrust", "device.setRemoteEnabled"}
+# CON.43 (S61(2)): the one admitted own-app tool-delegation row. CON.06's product-handler row for
+# IScopeOperations.CreateAnnotation carries its exact operation ID as capability and admits the agent
+# actor beside the human and the product handler, at its unchanged R2 risk and per-operation approval.
+# The exception is keyed to this exact frozen copy of the whole row (every field, compared in canonical
+# JSON form so 0/1 never stand in for false/true). It waives only the three product-handler refusals
+# (profile identity mismatch, capability outside tool binding, tool is not explicitly admitted) for that
+# row. Any other row, or this row with any field changed, stays under the unchanged rules.
+CON43_ADMITTED_TOOL = "IScopeOperations.CreateAnnotation"
+CON43_ADMITTED_ROW = {
+    "operationId": CON43_ADMITTED_TOOL,
+    "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.CreateAnnotationAsync",
+    "kind": "in-process",
+    "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+    "scope": "in-process",
+    "surface": "in-process",
+    "profile": "product-handler",
+    "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+    "idempotency": "CC",
+    "authorization": {
+        "capability": CON43_ADMITTED_TOOL,
+        "risk": "R2",
+        "approval": "perOperation",
+        "stepUp": False,
+        "localPresence": False,
+        "egress": "none",
+        "patEligible": False,
+        "actorKinds": ["human", "product-handler", "agent"],
+    },
+}
+
+
+def canonical_row(row: object) -> str:
+    return json.dumps(row, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+
+
+def con43_admitted_tool_row(row: dict) -> bool:
+    return row.get("operationId") == CON43_ADMITTED_TOOL and canonical_row(row) == canonical_row(CON43_ADMITTED_ROW)
 
 
 def require(value: bool, message: str) -> None:
@@ -338,6 +375,7 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
             and all(isinstance(a, str) and a in ACTORS for a in actors)
             and len(actors) == len(set(actors)), f"{operation}: ambiguous actor kinds")
     tools = set(actors) & TOOL_ACTORS
+    con43_admitted = con43_admitted_tool_row(row)
     profile_actors = {"human-owner": {"human"}, "product-handler": {"human", "product-handler"},
                       "tool-delegation": {"human", "agent", "automation", "extension"},
                       "extension-peer": {"extension-child", "owning-parent"},
@@ -347,7 +385,8 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
                       "launch-bootstrap-only": set(), "human-approval-decision": {"human"},
                       "public-human-approval-decision": {"human"}}
     if row["profile"] in profile_actors:
-        require(set(actors) <= profile_actors[row["profile"]], f"{operation}: profile identity mismatch")
+        require(con43_admitted or set(actors) <= profile_actors[row["profile"]],
+                f"{operation}: profile identity mismatch")
     profile_surfaces = {"human-owner": {"public", "in-process", "http-exception"},
                         "tool-delegation": {"public", "in-process"}, "product-handler": {"in-process"},
                         "extension-peer": {"private-helper"}, "helper-parent": {"private-helper"},
@@ -362,7 +401,7 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
     if row["profile"] == "tool-delegation":
         require(operation in tool_allowlist and auth["capability"] == operation,
                 f"{operation}: tool is not explicitly admitted")
-    require(auth["capability"] is None or derived or row["profile"] == "tool-delegation",
+    require(con43_admitted or auth["capability"] is None or derived or row["profile"] == "tool-delegation",
             f"{operation}: capability outside tool binding")
     if row["surface"] == "public":
         require(row["profile"] in {"human-owner", "tool-delegation", "one-use-auth", "public-human-approval-decision"},
@@ -376,7 +415,7 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
                 f"{operation}: helper boundary mismatch")
     require(not (protected(operation) and (tools or ("actorKinds" in derived and not bootstrap))),
             f"{operation}: human-only tool reachability")
-    require(not tools or (operation in tool_allowlist and auth["capability"] == operation
+    require(con43_admitted or not tools or (operation in tool_allowlist and auth["capability"] == operation
             and row["profile"] == "tool-delegation"), f"{operation}: tool is not explicitly admitted")
     if auth["patEligible"]:
         require(operation in PAT_OPERATIONS and row["surface"] == "public" and not tools,
