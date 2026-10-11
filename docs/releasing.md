@@ -188,6 +188,29 @@ consumer pins keep working. The native-only `contracts-client` was retired from 
 candidates at WP03.00 in the same way. [The Maven guide](maven-central.md) is kept as
 historical evidence only; it is not a setup instruction.
 
+## Operation metadata in PublicApi (CON.41)
+
+Every `ArcForges.Contracts.PublicApi` candidate carries
+`operations/operation-metadata.v1.json`: the public proto rows of the gated
+`eng/operations` exports whose binding names a method in the package's descriptor
+closure, value-identical to their source rows and ordered by `operationId`. No other
+package carries an `operations/` entry.
+
+The package's `source.json` gains `operationSources`, mapping each export file that
+contributes at least one row to the SHA256 of its bytes. Candidate verification
+recomputes the document and those digests from the checkout and refuses a missing
+file, an extra `operations/` entry or `operationSources` in another package, a
+missing, extra or changed digest, a missing, extra or changed row (each named by
+`operationId`) and any byte layout other than the deterministic one. Before
+`dotnet pack`, the StructureTests `--con-41-staged` case reads the staged file and
+requires exactly one row per generated PublicApi service method other than
+the retained Hello migration example, each equal to its source row.
+
+The Build candidate log prints one line for the staged file: the row count, the
+count by service and the SHA256 of `operations/operation-metadata.v1.json`. A main
+push publishes the file inside the PublicApi package with the rest of the
+candidate.
+
 ## 5. Understand the result
 
 - **Build candidate / Verify passed:** generation, code, archive contents and

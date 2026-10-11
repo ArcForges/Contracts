@@ -461,5 +461,50 @@ class StagedCSharpCaseTests(unittest.TestCase):
         self.assertIn("staged: invalid JSON", result.stderr)
 
 
+
+class DocumentationTests(unittest.TestCase):
+    """The packaged README and the release/consumer guides state the shipped path and its bindings."""
+
+    README = ROOT / "src/public/dotnet/ArcForges.Contracts.PublicApi/README.md"
+
+    def text(self, path):
+        """Whitespace-normalised, so prose rewrapping does not change what is asserted."""
+        return " ".join(path.read_text(encoding="utf-8").split())
+
+    def test_package_readme_is_packed_and_states_the_path_rule_and_order(self):
+        project = self.text(self.README.with_name(f"{PUBLIC_API}.csproj"))
+        self.assertIn("<PackageReadmeFile>README.md</PackageReadmeFile>", project)
+        readme = self.text(self.README)
+        for fact in (f"`{tools.OPERATION_METADATA_PATH}`", f"`{tools.OPERATION_SCHEMA_VERSION}`",
+                     "`surface` is `public`", "`kind` is `proto`", "descriptor closure", "value-identical",
+                     "`eng/operations`", "ordinal", "arcforges.hello.v1.HelloService/SayHello"):
+            self.assertIn(fact, readme)
+
+    def test_packaged_readme_is_the_checked_in_readme(self):
+        manifest = json.loads((ARTIFACTS / "packages/manifest.json").read_text(encoding="utf-8"))
+        entry = next(item for item in manifest["files"] if item["id"] == PUBLIC_API)
+        with zipfile.ZipFile(ARTIFACTS / "packages" / entry["name"]) as archive:
+            packaged = archive.read("README.md")
+        self.assertEqual(packaged.replace(b"\r\n", b"\n"), self.README.read_bytes().replace(b"\r\n", b"\n"))
+
+    def test_releasing_guide_states_the_candidate_bindings_and_evidence(self):
+        guide = self.text(ROOT / "docs/releasing.md")
+        for fact in (f"`{tools.OPERATION_METADATA_PATH}`", "`source.json`", "`operationSources`", "SHA256",
+                     "missing, extra or changed row", "count by service", "--con-41-staged"):
+            self.assertIn(fact, guide)
+        evidence = tools.operation_evidence(package_row(PUBLIC_API), b'{"operations": []}')
+        self.assertIn(tools.OPERATION_METADATA_PATH, evidence)
+        self.assertIn("by service", evidence)
+
+    def test_consumer_guide_reads_the_restored_package_by_its_path_property(self):
+        guide = self.text(ROOT / "docs/consuming.md")
+        csharp = guide[guide.index("## C#"):guide.index("## Internal npm package")]
+        self.assertIn(f'<PackageReference Include="{PUBLIC_API}" GeneratePathProperty="true" />', csharp)
+        property_name = "Pkg" + PUBLIC_API.replace(".", "_")
+        self.assertIn(f"$({property_name})/{tools.OPERATION_METADATA_PATH}", csharp)
+        self.assertIn("Pin the exact version", csharp)
+        self.assertIn("never read it from a Contracts checkout or source tree", csharp)
+
+
 if __name__ == "__main__":
     unittest.main()
