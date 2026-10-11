@@ -151,10 +151,13 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
                         if row["id"] == "ArcForges.Cli" else
                         "Third-party dependencies are referenced, not vendored into this package. Installed dependencies supply their original licence and notice files."), ""])
     directory.joinpath("NOTICE").write_text("\n".join(notice) + "\n" + package_notice(), encoding="utf-8")
+    operation_sources = ({"operationSources": operation_metadata(row)[1]}
+                         if row["id"] in OPERATION_PACKAGES else {})
     write_json(directory / "source.json", {
         "repository": "https://github.com/ArcForges/Contracts", "commit": commit,
         "dirty": dirty, "version": release, "contractAccess": row["access"],
         "schemaSources": {path: sha256(ROOT / path) for path in schema_sources(row)},
+        **operation_sources,
         "descriptorSha256": sha256(descriptor_path),
         "dependencyLocks": {"package-lock.json": sha256(ROOT / "package-lock.json"),
                             **{item["sourceRoot"] + "/packages.lock.json": sha256(ROOT / item["sourceRoot"] / "packages.lock.json")
@@ -189,6 +192,143 @@ def verify_naming(files: dict[str, bytes], row: dict) -> None:
                 raise ValueError("Canonical naming scanner or policy missing or changed")
 
 
+# CON.41: the gated public operation-metadata.v1 rows ship in the PublicApi package only, at one fixed path.
+OPERATION_PACKAGES = {"ArcForges.Contracts.PublicApi"}
+OPERATION_METADATA_PATH = "operations/operation-metadata.v1.json"
+OPERATION_SCHEMA_VERSION = "operation-metadata.v1"
+OPERATION_EXPORTS = "eng/operations"
+
+
+def operation_exports(root: Path = ROOT) -> list[tuple[str, str, dict]]:
+    """Return (posix path, sha256, document) for every CON.18 export, in ordinal path order.
+
+    Each file is read once, so the recorded digest is of the exact bytes parsed. Parsing uses the
+    CON.18 gate's own duplicate-key-refusing object hook; this is not a second row validator.
+    """
+    from check_operation_scope import require, unique_object
+    exports = []
+    # Python str ordering is ordinal; Path ordering casefolds on Windows and ext4 order is unsorted.
+    for relative, path in sorted(((path.relative_to(root).as_posix(), path)
+                                  for path in (root / OPERATION_EXPORTS).glob("*.json")), key=lambda item: item[0]):
+        data = path.read_bytes()
+        document = json.loads(data.decode("utf-8"), object_pairs_hook=unique_object)
+        require(isinstance(document, dict), f"object required: {relative}")
+        exports.append((relative, hashlib.sha256(data).hexdigest(), document))
+    return exports
+
+
+def select_operation_rows(exports: list[tuple[str, str, dict]], methods: dict[str, str],
+                          closure_protos: set[str]) -> list[tuple[str, dict]]:
+    """Pure selection: (export path, verbatim row) for every public proto row bound to a closure method.
+
+    A row is staged when its surface is public, its kind is proto and its binding resolves through the
+    gate's authored method map to a proto file in the package's descriptor closure. Rows are returned
+    in ordinal operationId order. Gate-invalid input fails closed instead of being silently skipped.
+    """
+    selected: list[tuple[str, dict]] = []
+    operation_ids: set[str] = set()
+    bindings: set[str] = set()
+    for export_path, _, document in exports:
+        if document.get("schemaVersion") != OPERATION_SCHEMA_VERSION or not isinstance(document.get("operations"), list):
+            raise ValueError(f"Unsupported operation export: {export_path}")
+        for row in document["operations"]:
+            if not isinstance(row, dict):
+                raise ValueError(f"Operation row object required: {export_path}")
+            operation, binding = row.get("operationId"), row.get("binding")
+            if not isinstance(operation, str) or not operation or operation in operation_ids:
+                raise ValueError(f"Missing or duplicate operationId in {export_path}: {operation}")
+            if not isinstance(binding, str) or not binding or binding in bindings:
+                raise ValueError(f"Missing or duplicate operation binding in {export_path}: {binding}")
+            operation_ids.add(operation)
+            bindings.add(binding)
+            if row.get("surface") != "public" or row.get("kind") != "proto":
+                continue
+            proto = methods.get(binding)
+            if proto is None or row.get("source") != proto:
+                raise ValueError(f"{operation}: binding {binding} does not resolve to its authored source")
+            if proto in closure_protos:
+                selected.append((export_path, row))
+    return sorted(selected, key=lambda item: item[1]["operationId"])
+
+
+def operation_metadata(row: dict, root: Path = ROOT) -> tuple[bytes, dict[str, str]]:
+    """The deterministic packaged document and the digest of every contributing export file."""
+    from check_operation_scope import proto_methods
+    exports = operation_exports(root)
+    digests = {path: digest for path, digest, _ in exports}
+    protos = {path for item in closure(row["id"], root) for path in item["proto"]}
+    selected = select_operation_rows(exports, proto_methods(root), protos)
+    document = {"schemaVersion": OPERATION_SCHEMA_VERSION, "operations": [item for _, item in selected]}
+    data = (json.dumps(document, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+    return data, {path: digests[path] for path in sorted({path for path, _ in selected})}
+
+
+def stage_operation_metadata(directory: Path, row: dict) -> bytes | None:
+    """Stage the operation rows beside the schemas; LF bytes, never platform newline translation."""
+    if row["id"] not in OPERATION_PACKAGES:
+        return None
+    data, _ = operation_metadata(row)
+    target = directory / OPERATION_METADATA_PATH
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(data)
+    return data
+
+
+def operation_evidence(row: dict, data: bytes) -> str:
+    services: dict[str, int] = {}
+    for item in json.loads(data)["operations"]:
+        service = item["binding"].split("/")[0]
+        services[service] = services.get(service, 0) + 1
+    counts = ", ".join(f"{service}={services[service]}" for service in sorted(services))
+    return (f"Operation metadata staged in {row['id']} at {OPERATION_METADATA_PATH}: "
+            f"{sum(services.values())} rows across {len(services)} services; "
+            f"sha256 {hashlib.sha256(data).hexdigest()}; by service: {counts}")
+
+
+def verify_operation_metadata(files: dict[str, bytes], source: dict, row: dict) -> None:
+    from check_operation_scope import unique_object
+    entries = sorted(name for name in files if name.startswith("operations/"))
+    if row["id"] not in OPERATION_PACKAGES:
+        if entries or "operationSources" in source:
+            raise ValueError(f"Operation metadata is packaged only in {', '.join(sorted(OPERATION_PACKAGES))}: {row['id']}")
+        return
+    if OPERATION_METADATA_PATH not in files:
+        raise ValueError(f"{row['id']} is missing {OPERATION_METADATA_PATH}")
+    if entries != [OPERATION_METADATA_PATH]:
+        raise ValueError(f"Unexpected operation metadata entries in {row['id']}: {entries}")
+    expected_data, expected_sources = operation_metadata(row)
+    packaged_sources = source.get("operationSources")
+    if not isinstance(packaged_sources, dict):
+        raise ValueError(f"{row['id']} source.json is missing operationSources")
+    for path in sorted(set(expected_sources) | set(packaged_sources)):
+        if path not in packaged_sources:
+            raise ValueError(f"operationSources is missing contributing export: {path}")
+        if path not in expected_sources:
+            raise ValueError(f"operationSources names a non-contributing export: {path}")
+        if packaged_sources[path] != expected_sources[path]:
+            raise ValueError(f"operationSources digest differs for {path}")
+    document = json.loads(files[OPERATION_METADATA_PATH].decode("utf-8"), object_pairs_hook=unique_object)
+    if (not isinstance(document, dict) or set(document) != {"schemaVersion", "operations"}
+            or document["schemaVersion"] != OPERATION_SCHEMA_VERSION or not isinstance(document["operations"], list)
+            or not all(isinstance(item, dict) and isinstance(item.get("operationId"), str) for item in document["operations"])):
+        raise ValueError("Packaged operation metadata is not an operation-metadata.v1 document")
+    packaged: dict[str, dict] = {}
+    for item in document["operations"]:
+        if item["operationId"] in packaged:
+            raise ValueError(f"Duplicate packaged operation row: {item['operationId']}")
+        packaged[item["operationId"]] = item
+    expected = {item["operationId"]: item for item in json.loads(expected_data)["operations"]}
+    missing = sorted(set(expected) - set(packaged))
+    extra = sorted(set(packaged) - set(expected))
+    changed = sorted(operation for operation in set(expected) & set(packaged)
+                     if packaged[operation] != expected[operation] or list(packaged[operation]) != list(expected[operation]))
+    for label, operations in (("missing", missing), ("extra", extra), ("changed", changed)):
+        if operations:
+            raise ValueError(f"Packaged operation rows {label}: {', '.join(operations)}")
+    if files[OPERATION_METADATA_PATH] != expected_data:
+        raise ValueError("Packaged operation metadata differs from the deterministic staged byte layout")
+
+
 def pack(release: str) -> None:
     from dependency_admission import audit
     from release_channels import stable
@@ -215,6 +355,9 @@ def pack(release: str) -> None:
             nuget_metadata = stage / row["id"]
             metadata(nuget_metadata, nuget_graph(release, row), release, commit, dirty)
             stage_schemas(nuget_metadata, row)
+            operations = stage_operation_metadata(nuget_metadata, row)
+            if operations is not None:
+                print(operation_evidence(row, operations), flush=True)
             stage_naming(nuget_metadata, row)
             if row["id"] == "ArcForges.Cli":
                 stage_tool_licences(nuget_metadata, row)
@@ -332,6 +475,7 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
             raise ValueError(f"Source metadata differs in {name}")
         if source.get("contractAccess") != row["access"] or source.get("schemaSources") != {item: sha256(ROOT / item) for item in schema_sources(row)}:
             raise ValueError("Package source ownership or schema inventory differs")
+        verify_operation_metadata(files, source, row)
         if source["descriptorSha256"] != hashlib.sha256(descriptor).hexdigest():
             raise ValueError(f"Schema hash differs in {name}")
         sbom = json.loads(files["sbom.cdx.json"])

@@ -563,6 +563,7 @@
     "tests/tooling/test_licence_boundary.py",
     "tests/tooling/test_naming_policy.py",
     "tests/tooling/test_npm_release_tags.py",
+    "tests/tooling/test_operation_metadata_package.py",
     "tests/tooling/test_operation_scope.py",
     "tests/tooling/test_provenance.py",
     "tests/tooling/test_publication_channels.py",
