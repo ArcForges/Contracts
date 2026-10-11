@@ -48,6 +48,7 @@ internal static class ContractsArchitectureTests
         VerifySerializerMetadataBindings(root);
         VerifyBaselineGate(root);
         VerifyPolicyLayeringAndLicenceFixtures(root);
+        VerifyLocalDispatchBoundary(root);
     }
 
     private static JsonElement HttpRecordSchema(JsonElement document, string model) =>
@@ -479,4 +480,179 @@ internal static class ContractsArchitectureTests
 
     private static string HashNormalized(string path) => Convert.ToHexStringLower(
         SHA256.HashData(Encoding.UTF8.GetBytes(File.ReadAllText(path).Replace("\r\n", "\n", StringComparison.Ordinal))));
+
+    // CON.43 (DP-01, DP-02, DP-06): the boundary dispatch assembly is the only place where the structured value meets
+    // the Scope and Chat typed requests, it uses no reflection, and no production assembly depends on it.
+    internal const string DispatchPackage = "ArcForges.Contracts.LocalRpc.Dispatch";
+    internal const string DispatchProject = "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj";
+    internal static readonly string[] DispatchMeetingPackages =
+        ["ArcForges.Contracts.PublicApi", "ArcForges.Contracts.LocalRpc.Scope", "ArcForges.Contracts.LocalRpc.Chat"];
+
+    private static readonly Regex StructuredValueName = new(@"\b(CapabilityArguments|CapabilityResult|StructuredValue)\b", RegexOptions.CultureInvariant);
+    private static readonly Regex ScopeTypedRequestName = new(@"\bScopeOperationsService[A-Za-z0-9]+Request\b", RegexOptions.CultureInvariant);
+    private static readonly Regex ChatTypedRequestName = new(@"\bChatOperationsService[A-Za-z0-9]+Request\b", RegexOptions.CultureInvariant);
+
+    // Source-level tokens of reflection, runtime code generation and assembly scanning. RegularExpressions and nameof are
+    // not reflective; the patterns are word-bounded so that System.Text.RegularExpressions never matches Expression.
+    internal static readonly (string Name, Regex Pattern)[] ReflectiveSourceTokens =
+    [
+        ("System.Reflection", new Regex(@"\bSystem\s*\.\s*Reflection\b", RegexOptions.CultureInvariant)),
+        ("Google.Protobuf.Reflection", new Regex(@"\bGoogle\s*\.\s*Protobuf\s*\.\s*Reflection\b", RegexOptions.CultureInvariant)),
+        ("MakeGenericType", new Regex(@"\bMakeGeneric(Type|Method)\b", RegexOptions.CultureInvariant)),
+        ("Activator", new Regex(@"\bActivator\b", RegexOptions.CultureInvariant)),
+        ("GetType", new Regex(@"\bGetType\s*\(", RegexOptions.CultureInvariant)),
+        ("typeof", new Regex(@"\btypeof\s*\(", RegexOptions.CultureInvariant)),
+        ("Assembly", new Regex(@"\b(Assembly|AssemblyLoadContext|AssemblyName)\b", RegexOptions.CultureInvariant)),
+        ("System.Runtime.Loader", new Regex(@"\bSystem\s*\.\s*Runtime\s*\.\s*Loader\b", RegexOptions.CultureInvariant)),
+        ("System.Linq.Expressions", new Regex(@"\bSystem\s*\.\s*Linq\s*\.\s*Expressions\b", RegexOptions.CultureInvariant)),
+        ("Expression", new Regex(@"\bExpression\s*[<.]", RegexOptions.CultureInvariant)),
+        ("Emit", new Regex(@"\b(DynamicMethod|ILGenerator|TypeBuilder|AssemblyBuilder|ModuleBuilder)\b", RegexOptions.CultureInvariant)),
+    ];
+
+    private static void VerifyLocalDispatchBoundary(string root)
+    {
+        // (a) No reflective token in any Dispatch source, scanned in ordinal order (never filesystem order).
+        string dispatchDirectory = Path.Combine(root, Path.GetDirectoryName(DispatchProject)!);
+        string[] dispatchSources = ProjectSources(dispatchDirectory);
+        Checks.True(dispatchSources.Length > 0 && dispatchSources.Contains("Generated/Operations/LocalToolAllowlist.g.cs", StringComparer.Ordinal),
+            "The boundary dispatch assembly lost its generated sources.");
+        Checks.SequenceEqual(dispatchSources, OrdinalSourceOrder(Enumerable.Reverse(dispatchSources)),
+            "Dispatch source enumeration is not independent of filesystem order.");
+        Checks.Empty(FindReflectiveSourceTokens(dispatchSources.Select(path => (path, File.ReadAllText(Path.Combine(dispatchDirectory, path))))),
+            "The boundary dispatch assembly uses reflection, runtime code generation or assembly scanning.");
+
+        // (b) Dispatch is the only cataloged package whose closure holds PublicApi, Scope and Chat, and the only src owner
+        // that names the structured value together with both Scope and Chat typed requests.
+        var graph = ReadCatalogGraph(root);
+        Checks.True(graph.ContainsKey(DispatchPackage), "The boundary dispatch package is missing from the contract catalog.");
+        Checks.SequenceEqual(new[] { DispatchPackage }, PackagesJoiningScopeAndChat(graph),
+            "A cataloged package other than the boundary dispatch assembly joins PublicApi, Scope and Chat.");
+        string[] sourceProjects = RepositoryProjects(root, "src");
+        Checks.True(sourceProjects.Contains(DispatchProject, StringComparer.Ordinal), "The boundary dispatch project is missing from src.");
+        var owners = sourceProjects.Select(project =>
+        {
+            string directory = Path.Combine(root, Path.GetDirectoryName(project)!);
+            return (project, ProjectSources(directory).Select(path => File.ReadAllText(Path.Combine(directory, path))));
+        });
+        Checks.SequenceEqual(new[] { DispatchProject }, OwnersJoiningStructuredValueAndTypedRequests(owners),
+            "A src owner other than the boundary dispatch assembly names the structured value with Scope and Chat typed requests.");
+
+        // (c) No cataloged package and no production or build-tool csproj references Dispatch; only test projects may.
+        Checks.Empty(CatalogPackagesReferencingDispatch(graph), "A cataloged package depends on the boundary dispatch assembly.");
+        foreach (string project in sourceProjects.Concat(RepositoryProjects(root, "eng")))
+        {
+            Checks.True(!ReferencesDispatch(File.ReadAllText(Path.Combine(root, project))),
+                "A production or build-tool project references the boundary dispatch assembly.");
+        }
+    }
+
+    internal static bool IsBuildOutput(string relativePath)
+    {
+        string normalized = relativePath.Replace('\\', '/');
+        return normalized.StartsWith("bin/", StringComparison.Ordinal) || normalized.StartsWith("obj/", StringComparison.Ordinal)
+            || normalized.Contains("/bin/", StringComparison.Ordinal) || normalized.Contains("/obj/", StringComparison.Ordinal)
+            || normalized.Contains("node_modules/", StringComparison.Ordinal);
+    }
+
+    // Directory enumeration order is defined by the filesystem (ext4 order is not alphabetical), so every list is put in
+    // ordinal order before it is scanned or compared.
+    internal static string[] OrdinalSourceOrder(IEnumerable<string> relativePaths) =>
+        relativePaths.Select(path => path.Replace('\\', '/')).Order(StringComparer.Ordinal).ToArray();
+
+    internal static string[] ProjectSources(string projectDirectory) =>
+        OrdinalSourceOrder(Directory.EnumerateFiles(projectDirectory, "*.cs", SearchOption.AllDirectories)
+            .Select(path => Path.GetRelativePath(projectDirectory, path).Replace('\\', '/'))
+            .Where(path => !IsBuildOutput(path)));
+
+    private static string[] RepositoryProjects(string root, string top) =>
+        OrdinalSourceOrder(Directory.EnumerateFiles(Path.Combine(root, top), "*.csproj", SearchOption.AllDirectories)
+            .Select(path => Path.GetRelativePath(root, path).Replace('\\', '/'))
+            .Where(path => !IsBuildOutput(path)));
+
+    internal static IReadOnlyList<string> FindReflectiveSourceTokens(IEnumerable<(string Path, string Text)> sources)
+    {
+        var findings = new List<string>();
+        foreach (var (path, text) in sources.OrderBy(source => source.Path, StringComparer.Ordinal))
+        {
+            foreach (var token in ReflectiveSourceTokens)
+            {
+                if (token.Pattern.IsMatch(text)) findings.Add(path + ": " + token.Name);
+            }
+        }
+
+        return findings;
+    }
+
+    private static Dictionary<string, string[]> ReadCatalogGraph(string root)
+    {
+        using var catalog = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "eng/contract-packages.json")));
+        return catalog.RootElement.GetProperty("packages").EnumerateArray().ToDictionary(
+            row => row.GetProperty("id").GetString()!,
+            row => row.GetProperty("dependencies").EnumerateArray().Select(dependency => dependency.GetString()!).ToArray(),
+            StringComparer.Ordinal);
+    }
+
+    /// <summary>The self-inclusive transitive dependency closure; an uncataloged dependency fails closed.</summary>
+    internal static HashSet<string> CatalogClosure(IReadOnlyDictionary<string, string[]> graph, string package)
+    {
+        var closure = new HashSet<string>(StringComparer.Ordinal);
+        var pending = new Stack<string>();
+        pending.Push(package);
+        while (pending.Count != 0)
+        {
+            string current = pending.Pop();
+            if (!closure.Add(current)) continue;
+            if (!graph.TryGetValue(current, out var dependencies))
+            {
+                throw new InvalidOperationException("A catalog dependency is not itself a cataloged package.");
+            }
+
+            foreach (string dependency in dependencies) pending.Push(dependency);
+        }
+
+        return closure;
+    }
+
+    internal static string[] PackagesJoiningScopeAndChat(IReadOnlyDictionary<string, string[]> graph) =>
+        graph.Keys.Where(package => CatalogClosure(graph, package).IsSupersetOf(DispatchMeetingPackages))
+            .Order(StringComparer.Ordinal).ToArray();
+
+    internal static string[] CatalogPackagesReferencingDispatch(IReadOnlyDictionary<string, string[]> graph) =>
+        graph.Where(row => row.Value.Contains(DispatchPackage, StringComparer.OrdinalIgnoreCase))
+            .Select(row => row.Key).Order(StringComparer.Ordinal).ToArray();
+
+    internal static string[] OwnersJoiningStructuredValueAndTypedRequests(IEnumerable<(string Owner, IEnumerable<string> Texts)> owners)
+    {
+        var result = new List<string>();
+        foreach (var (owner, texts) in owners)
+        {
+            bool structured = false, scope = false, chat = false;
+            foreach (string text in texts)
+            {
+                structured |= StructuredValueName.IsMatch(text);
+                scope |= ScopeTypedRequestName.IsMatch(text);
+                chat |= ChatTypedRequestName.IsMatch(text);
+            }
+
+            if (structured && scope && chat) result.Add(owner);
+        }
+
+        return result.Order(StringComparer.Ordinal).ToArray();
+    }
+
+    /// <summary>Whether a project file references the dispatch assembly as a project or as a package.</summary>
+    internal static bool ReferencesDispatch(string projectXml)
+    {
+        var document = XDocument.Parse(projectXml);
+        foreach (var reference in document.Descendants().Where(element => element.Name.LocalName == "ProjectReference"))
+        {
+            string include = (reference.Attribute("Include")?.Value ?? "").Replace('\\', '/').Trim();
+            string target = include[(include.LastIndexOf('/') + 1)..];
+            if (string.Equals(target, DispatchPackage + ".csproj", StringComparison.OrdinalIgnoreCase)) return true;
+        }
+
+        return document.Descendants().Where(element => element.Name.LocalName is "PackageReference" or "PackageVersion")
+            .Any(element => string.Equals((element.Attribute("Include") ?? element.Attribute("Update"))?.Value?.Trim(), DispatchPackage,
+                StringComparison.OrdinalIgnoreCase));
+    }
 }
