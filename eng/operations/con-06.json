@@ -712,14 +712,14 @@
       "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
       "idempotency": "CC",
       "authorization": {
-        "capability": null,
+        "capability": "IScopeOperations.CreateAnnotation",
         "risk": "R2",
         "approval": "perOperation",
         "stepUp": false,
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": ["human", "product-handler"]
+        "actorKinds": ["human", "product-handler", "agent"]
       }
     },
     {

@@ -11,8 +11,8 @@
     "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
     "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
-    "eng/contract-packages.json": "c1c6d70bc89e20f33568e262b3e7da4fa79eb624141875b8e79af4ad31997a14",
-    "eng/policy/contract-access.json": "1faf68f7c8010ab6d29ae7f11c8a0f22087ededca48564786bc66e3e51955cf7",
+    "eng/contract-packages.json": "d60deb719ceca37b3fc46339c868c0672a92817efd202352799f790aa1d00330",
+    "eng/policy/contract-access.json": "8e2333f64e2af563345b27f20c694a2b6c79613caee1347009214cd550bc8e3a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -183,6 +183,8 @@
     "src/internal/dotnet/ArcForges.Contracts.CloudInternal/packages.lock.json": "4c4e87d606b9b79824286022accc631f2b8ac6689248b213fc9eb54255121cee",
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj": "2413de819d392841db75a622a6e348719da93ce3dbb4c3402b5aed6fa277711c",
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/packages.lock.json": "2ffa6c7fb3cf873b86775fa67fcce30516bed510d126113933bfef7fbed3e052",
+    "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj": "872394227d3b0a9f1293311605a8fdc25d40465b51ffff3d5f5d1ce18cd4c8e9",
+    "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/packages.lock.json": "df7bffcf26e988f74315c0d74ef4fd99342d2ba57cb000b8e68758e24119a74a",
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj": "3e9c13b2454b28c55049fa5c2bc1693250f2db0b715dafb337909380b3b8494d",
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/packages.lock.json": "4af9f61c399adec188a1e1717c4ba13b2291d4039af5a374d99832cfd9228586",
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj": "01fd7df18b072d733a2171860952dea1c774e89f1f9602ece4da3c36eb646f20",
@@ -208,8 +210,8 @@
     "tests/ArchitectureTests/packages.lock.json": "7019b7a06d181c6252a1db00bf8d3ffd9de7ea066a5c0151917de92e2470fe33",
     "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
     "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
-    "tests/StructureTests/StructureTests.csproj": "5bca08adfe954e140c6f78371f33c7315307afefeffa9d95c415271775510587",
-    "tests/StructureTests/packages.lock.json": "2246f9ae3ea5a3d1023b6fc53255ba0ac667991d0d002c71c011475349272424",
+    "tests/StructureTests/StructureTests.csproj": "09d82e8a65ae8ebc5cff2906af91d9d7ca09bec050768804e1e3d2d87f6b39c1",
+    "tests/StructureTests/packages.lock.json": "b7c700360fe0301db9ef012db19344890102d3f3cd5fd89468ebf5dea157f553",
     "tests/public/HelloClient/HelloClient.csproj": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a",
     "tests/public/HelloClient/packages.lock.json": "1592ed0d5c1bc731764993c0629fbc4954673001b4757800f0c7511ac1e462e7",
     "tests/public/HelloHost/HelloHost.csproj": "c7ac2acb49c079907c4fdbe9a937421d93146f4b87e92546032d7881fadc6035",
@@ -705,11 +707,11 @@
     "stable": "Deliberate canonical vX.Y.Z on main ancestry; no prerelease dependency closure; Central signatures required. No tag created for validation."
   },
   "review": {
-    "owner": "w-deku-20261010-con-40",
-    "reviewer": "w-deku-20261008-rev-con-40",
+    "owner": "w-deku-20261011-con-43",
+    "reviewer": "w-deku-20261011-rev-con-43",
     "decision": "approved",
-    "reviewedOn": "2026-10-10",
-    "baselineCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+    "reviewedOn": "2026-10-11",
+    "baselineCommit": "5615821917922c7c262b8f43bba1285fa9791444",
     "inputHashes": {
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
@@ -720,8 +722,8 @@
       "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
-      "eng/contract-packages.json": "c1c6d70bc89e20f33568e262b3e7da4fa79eb624141875b8e79af4ad31997a14",
-      "eng/policy/contract-access.json": "1faf68f7c8010ab6d29ae7f11c8a0f22087ededca48564786bc66e3e51955cf7",
+      "eng/contract-packages.json": "d60deb719ceca37b3fc46339c868c0672a92817efd202352799f790aa1d00330",
+      "eng/policy/contract-access.json": "8e2333f64e2af563345b27f20c694a2b6c79613caee1347009214cd550bc8e3a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -892,6 +894,8 @@
       "src/internal/dotnet/ArcForges.Contracts.CloudInternal/packages.lock.json": "4c4e87d606b9b79824286022accc631f2b8ac6689248b213fc9eb54255121cee",
       "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj": "2413de819d392841db75a622a6e348719da93ce3dbb4c3402b5aed6fa277711c",
       "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/packages.lock.json": "2ffa6c7fb3cf873b86775fa67fcce30516bed510d126113933bfef7fbed3e052",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj": "872394227d3b0a9f1293311605a8fdc25d40465b51ffff3d5f5d1ce18cd4c8e9",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/packages.lock.json": "df7bffcf26e988f74315c0d74ef4fd99342d2ba57cb000b8e68758e24119a74a",
       "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj": "3e9c13b2454b28c55049fa5c2bc1693250f2db0b715dafb337909380b3b8494d",
       "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/packages.lock.json": "4af9f61c399adec188a1e1717c4ba13b2291d4039af5a374d99832cfd9228586",
       "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj": "01fd7df18b072d733a2171860952dea1c774e89f1f9602ece4da3c36eb646f20",
@@ -917,8 +921,8 @@
       "tests/ArchitectureTests/packages.lock.json": "7019b7a06d181c6252a1db00bf8d3ffd9de7ea066a5c0151917de92e2470fe33",
       "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
       "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
-      "tests/StructureTests/StructureTests.csproj": "5bca08adfe954e140c6f78371f33c7315307afefeffa9d95c415271775510587",
-      "tests/StructureTests/packages.lock.json": "2246f9ae3ea5a3d1023b6fc53255ba0ac667991d0d002c71c011475349272424",
+      "tests/StructureTests/StructureTests.csproj": "09d82e8a65ae8ebc5cff2906af91d9d7ca09bec050768804e1e3d2d87f6b39c1",
+      "tests/StructureTests/packages.lock.json": "b7c700360fe0301db9ef012db19344890102d3f3cd5fd89468ebf5dea157f553",
       "tests/public/HelloClient/HelloClient.csproj": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a",
       "tests/public/HelloClient/packages.lock.json": "1592ed0d5c1bc731764993c0629fbc4954673001b4757800f0c7511ac1e462e7",
       "tests/public/HelloHost/HelloHost.csproj": "c7ac2acb49c079907c4fdbe9a937421d93146f4b87e92546032d7881fadc6035",
@@ -926,21 +930,21 @@
       "tests/public/SerializationProbe/SerializationProbe.csproj": "53094aaa51dcf5ad145f69e265b989de4b59fdb60c1444e41563346cc25e85f0",
       "tests/public/SerializationProbe/packages.lock.json": "e75614decb118410170fdf147349d86607faa7a23b295fb0329ec914f55ee286"
     },
-    "maintenanceAssessment": "CON.40 unit C6 records the retirement in the provenance, access and inventory records; no dependency changes. eng/check_provenance.py replaces the hard-coded WP03.00 exception with receipt-driven retirements (S47(5)): eng/provenance/retirements/con-40-maven.json retires the three maven-javadoc artifact targets of dokka-documentation-resources-r21 and con-40-npm.json covers the four retired npm identities, both naming reviewer w-deku-20261008-rev-con-40 and decision approved; eng/provenance/files.json no longer registers an artifact record. eng/check_contract_access.mjs keeps every access row of an identity marked retired in eng/contract-packages.json and refuses a new row for a retired identity and the removal or change of a historical row against the reviewed base (S47(4)); eng/policy/contract-access.json marks the seven retired owners, marks the five ContentSandbox PDF RPCs retired (P2-022) and drops the build-input rows of removed Gradle and npm workspace files. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. No published version is unpublished, deprecated or deleted. Independent exact-head review by the named reviewer and all required hosted CI remain mandatory before merge.",
+    "maintenanceAssessment": "CON.43 adds the internal boundary dispatch package ArcForges.Contracts.LocalRpc.Dispatch (new package identity authorised by S61(1)) with ProjectReferences to exactly ArcForges.Contracts.PublicApi, ArcForges.Contracts.LocalRpc.Platform, ArcForges.Contracts.LocalRpc.Scope and ArcForges.Contracts.LocalRpc.Chat and no PackageReference; its generated sources come from the first-party emitter eng/local_operations.py. This receipt binds only the new project's csproj and packages.lock.json (Microsoft.NET.ILLink.Tasks direct from IsAotCompatible as in every packable project, the first-party Project entries, Google.Protobuf and Grpc.Core.Api central-transitive at their existing pins), the refreshed tests/StructureTests/StructureTests.csproj and tests/StructureTests/packages.lock.json (one ArcForges.Contracts.LocalRpc.Dispatch Project entry, the S61(1) lock realisation), the appended eng/contract-packages.json row and the eng/policy/contract-access.json rows of the new package. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. Independent exact-head review by the named reviewer and all required hosted CI remain mandatory before merge.",
     "checks": {
-      "compilation": "dotnet build of ArcForges.Contracts.slnx and the StructureTests and ArchitectureTests runs pass locally; pinned generation, pack and hosted Verify remain required at the reviewed head.",
-      "aot-trim": "No runtime library or serializer changes; the serialization/AOT posture and the Native AOT probe are unchanged.",
-      "compatibility": "No schema or descriptor change; the five ContentSandbox PDF RPCs stay declared in arcforges.local.sandbox.v1 and are only marked retired; the compatibility window, binpb pins and reserved numbers are unaffected.",
-      "licence-provenance": "Receipt-driven retirement replaces the hard-coded WP03.00 exception; the javadoc artifact targets leave the active inventory only through the reviewed con-40-maven receipt; check_provenance, check_licences and the contract-access history rule pass and are tested both ways.",
+      "compilation": "dotnet build of ArcForges.Contracts.slnx (including the new package with TreatWarningsAsErrors and the AOT/trim analyzers) and the StructureTests and ArchitectureTests runs pass locally; pinned generation, pack and hosted Verify remain required at the reviewed head.",
+      "aot-trim": "The new package is IsAotCompatible and uses no reflection, runtime registry or dynamic code (DP-06, check_serialization); its Native AOT execution in the product host is APP.03's proof and is not claimed here.",
+      "compatibility": "No schema, descriptor or wire change; the package adds generated adapters over the existing Scope, Chat, Platform and PublicApi records, and the compatibility window and binpb pins are unaffected.",
+      "licence-provenance": "Every new file is first-party Apache-2.0 output of the first-party emitter, classified in eng/provenance/files.json with its licence-boundary and contract-access rows; no third-party generator or material is added.",
       "security-sbom": "No coordinate enters or leaves the closure; locked versions, integrity values and licences are unchanged.",
-      "runtime-performance-migration": "Records and gates only; no runtime, migration or performance claim.",
+      "runtime-performance-migration": "Generated static adapters only; no runtime host, migration or performance claim.",
       "framework-runtime-posture": "The .NET SDK and Node pins are unchanged, so no major-upgrade review is triggered."
     },
     "frameworkVersions": {
       "dotnetSdk": "10.0.400",
       "node": "24.21.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-40-r4.json"
+    "previousReceipt": "eng/policy/dependency-reviews/con-40-r5.json"
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/con-40-r5.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/con-43-r1.json"
 }

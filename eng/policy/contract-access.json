@@ -8169,6 +8169,11 @@
       "sourceRoot": "src/public/kotlin/contract-fixtures",
       "access": "public",
       "retired": "CON.40"
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal"
     }
   ],
   "distribution": [
@@ -9903,6 +9908,230 @@
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
       "sha256": "5205fea0c55735aca481b2f61fee21a80128555a8e4c54f83a969e2db42f13bf",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ChatAppendUserMessageOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ChatAppendUserMessageOperation"],
+      "sha256": "28195119555190c5848903534a384b9cecb136baf83104efa28a4496b70810dd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ChatCreateConversationOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ChatCreateConversationOperation"],
+      "sha256": "330800d5417f80757a4bc93502752d7ddd60fb91020aa2d0073f7285af42c494",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ChatGetConversationOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ChatGetConversationOperation"],
+      "sha256": "f39914ce61e98608d0303164efe0c479d643caea6f798865db58b45d273196f5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ChatListConversationsOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ChatListConversationsOperation"],
+      "sha256": "6b13d9c921a7a749b8005908a35a8b38c51f16e6d42fcc34d4e4b8e617540be5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ChatOpenArtifactOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ChatOpenArtifactOperation"],
+      "sha256": "7e338997365a0fb3941c7887206e0f80fc125da2bfed238bbc9c7f4f9f0e6563",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ChatStartAgentTurnOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ChatStartAgentTurnOperation"],
+      "sha256": "c273e75f303f2fc2e9762e47c4883ac49f38cbcf74aa0107af85644fc2667b8b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/LocalMessageCodecs.ArcforgesFoundationV1.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["LocalMessageCodecs"],
+      "sha256": "c11963ed360bd638c2636f36ca3ea4b24a0f8dd45aff190c522bfbfb18d1e4fa",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/LocalMessageCodecs.ArcforgesLocalChatV1.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["LocalMessageCodecs"],
+      "sha256": "a405d2ac114ad8b408945786ddaf1c19b8e5642ed4742d706bb41755852e5270",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/LocalMessageCodecs.ArcforgesLocalPlatformV1.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["LocalMessageCodecs"],
+      "sha256": "0f8fccc138da8c7d013c2b8aaac0a03d2a13dddc5dd7bb503df4b10b51600ed1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/LocalMessageCodecs.ArcforgesLocalScopeV1.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["LocalMessageCodecs"],
+      "sha256": "7267aff4a208ea5483bd3ddfea28051e04331881ca1f7562ba1db9e70102949d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/LocalMessageCodecs.ArcforgesPublicapiV1.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["LocalMessageCodecs"],
+      "sha256": "f06b9fc5d02067bf656ea2198c80d78dde6584e3c9ed6e97c188e4e76203fe59",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/LocalOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["LocalOperation", "LocalOperationCatalog"],
+      "sha256": "2be14509adc96c6bba40bd49678f11beb190dd1e037d92bdb42befad707c354b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/LocalOperationFault.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["LocalOperationFaultKind", "LocalOperationFault"],
+      "sha256": "f4645de0ae678a2404b5bf44b19945b58da37eb56973a25c5e5e9ac19ef0e442",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/LocalToolAllowlist.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["LocalToolAllowlist"],
+      "sha256": "ea36722bdd31ec93a98e7f6cfd31bb8b8539d75e96baa7c3cd9a0544ed0592dd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/LocalValueCodec.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["LocalValueCodec"],
+      "sha256": "9d110dca8652ecd208a6f2ddd858a21a2fa49c423ef09d360417b22655739f8c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeCompareSessionsOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeCompareSessionsOperation"],
+      "sha256": "478eb9cec6b5f010631aba6164d1484d4c0446708294291623b0018b46c6e674",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeCreateAnnotationOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeCreateAnnotationOperation"],
+      "sha256": "7537872db1b80bb368e8fa7d284665ae6580e8068ca2ea2a9a7309142956d658",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeCreateFindingOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeCreateFindingOperation"],
+      "sha256": "6d6c14f67ea9a996b61ddba3d67772d7644475d7f114a4c25f1df75db2b6b348",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeGenerateReportOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeGenerateReportOperation"],
+      "sha256": "d02755d1baf12c87fb367bea066d1f44bce430bd40a0d21a820d00b9fa9f76d6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeGetConfigurationSnapshotOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeGetConfigurationSnapshotOperation"],
+      "sha256": "45d5964e1cf4f4ed97662426c2a9a1b2a35f1bbe6fc66a1e297e34b6a354eee6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeGetSessionOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeGetSessionOperation"],
+      "sha256": "d9c9b69d9cba0410e723aa40712bdcff40345052a91e8d97d665829ff743b419",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeGetStructuredContextOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeGetStructuredContextOperation"],
+      "sha256": "114e7ea897e04bb5a237f83d4bd9e7679f1735ce59634461f141ab7bf0cd821e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeListCapturesOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeListCapturesOperation"],
+      "sha256": "cf8e0959851079bff898e5b72bcb18f42fe1ae8b33a8aa80744ac1b80bd1a542",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeListSessionsOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeListSessionsOperation"],
+      "sha256": "f21b6015b109c20ea96cc183fa1bda234ad357626fc9e64c09c13a3ef34e8188",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeRunAnalysisOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeRunAnalysisOperation"],
+      "sha256": "3c122316d1871139ed07e771b073bdd8ef4cb24a557d3eb3f49ce40a8e6498b9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeRunMeasurementOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeRunMeasurementOperation"],
+      "sha256": "fee501a8d7db898622c5c19677933a89b72f1755e418e013c1284b346d46699b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeStartCaptureOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeStartCaptureOperation"],
+      "sha256": "9ff8eb588b3677a902a788ec7ec9bcff933d2f6945419862c8469c06b3ebd9fd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/Generated/Operations/ScopeStopCaptureOperation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "access": "internal",
+      "types": ["ScopeStopCaptureOperation"],
+      "sha256": "7c5fdc35db33cfa013e370e7779fdca11d615ce96166fc2252d65156673eab4e",
       "kind": "generated"
     },
     {
@@ -38333,7 +38562,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "c1c6d70bc89e20f33568e262b3e7da4fa79eb624141875b8e79af4ad31997a14"
+      "sha256": "d60deb719ceca37b3fc46339c868c0672a92817efd202352799f790aa1d00330"
     },
     {
       "path": "internal/ai-http/v1/configuration.schema.json",
@@ -38554,6 +38783,14 @@
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/packages.lock.json",
       "sha256": "2ffa6c7fb3cf873b86775fa67fcce30516bed510d126113933bfef7fbed3e052"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj",
+      "sha256": "872394227d3b0a9f1293311605a8fdc25d40465b51ffff3d5f5d1ce18cd4c8e9"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/packages.lock.json",
+      "sha256": "df7bffcf26e988f74315c0d74ef4fd99342d2ba57cb000b8e68758e24119a74a"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj",

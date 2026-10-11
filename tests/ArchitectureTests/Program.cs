@@ -34,6 +34,7 @@ namespace ArcForges.Contracts.ArchitectureTests
         BindWireTypes,
         EvaluateSharedPolicy,
         ValidatePolicyResults,
+        ValidateDispatchSymbols,
     }
 
     internal static class Program

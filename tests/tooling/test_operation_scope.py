@@ -957,6 +957,161 @@ class OperationScopeTests(unittest.TestCase):
                                             'rpc SayHello(Req) returns(Res); }')
         self.fails("unclassified registered method", [])
 
+    # CON.43 (S61(2)): the one admitted own-app tool-delegation row, tested both ways. The expected row is
+    # an independent frozen copy, not read from the checker constant.
+    def con43_admitted_row(self):
+        return {
+            'operationId': 'IScopeOperations.CreateAnnotation',
+            'binding': 'ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.CreateAnnotationAsync',
+            'kind': 'in-process',
+            'source': 'src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs',
+            'scope': 'in-process',
+            'surface': 'in-process',
+            'profile': 'product-handler',
+            'sourceRule': 'docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces',
+            'idempotency': 'CC',
+            'authorization': {
+                'capability': 'IScopeOperations.CreateAnnotation',
+                'risk': 'R2',
+                'approval': 'perOperation',
+                'stepUp': False,
+                'localPresence': False,
+                'egress': 'none',
+                'patEligible': False,
+                'actorKinds': ['human', 'product-handler', 'agent'],
+            },
+        }
+
+    def con43_create_finding_row(self):
+        row = self.con43_admitted_row()
+        row.update(operationId='IScopeOperations.CreateFinding',
+                   binding='ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.CreateFindingAsync')
+        row['authorization']['capability'] = 'IScopeOperations.CreateFinding'
+        return row
+
+    def test_con43_checker_row_is_the_independent_frozen_row(self):
+        self.assertEqual(gate.CON43_ADMITTED_TOOL, 'IScopeOperations.CreateAnnotation')
+        self.assertEqual(json.dumps(gate.CON43_ADMITTED_ROW, sort_keys=True),
+                         json.dumps(self.con43_admitted_row(), sort_keys=True))
+        exported = [row for row in gate.load(ROOT / 'eng/operations/con-06.json')['operations']
+                    if row['operationId'] == 'IScopeOperations.CreateAnnotation']
+        self.assertEqual([json.dumps(row, sort_keys=True) for row in exported],
+                         [json.dumps(self.con43_admitted_row(), sort_keys=True)])
+
+    def test_con43_admitted_row_passes_without_manifest_allowlisting(self):
+        row = self.con43_admitted_row()
+        self.assertTrue(gate.con43_admitted_tool_row(row))
+        self.assertEqual(gate.authorization(row, set()), (['agent', 'human', 'product-handler'], []))
+
+    def test_con43_same_shape_under_another_operation_is_refused(self):
+        rows = gate.load(ROOT / 'eng/operations/con-06.json')['operations']
+        others = [row for row in rows if row['profile'] == 'product-handler'
+                  and row['operationId'] != 'IScopeOperations.CreateAnnotation']
+        self.assertEqual(len(others), 35)
+        for base in others:
+            hostile = copy.deepcopy(base)
+            hostile['authorization'].update(capability=base['operationId'],
+                                            actorKinds=['human', 'product-handler', 'agent'])
+            for allowlist in (set(), {base['operationId']}):
+                with self.subTest(operation=base['operationId'], allowlist=sorted(allowlist)):
+                    self.assertFalse(gate.con43_admitted_tool_row(hostile))
+                    with self.assertRaisesRegex(ValueError, 'profile identity mismatch'):
+                        gate.authorization(hostile, allowlist)
+        # The admitted shape with its identity moved to CreateFinding, binding and capability included.
+        with self.assertRaisesRegex(ValueError, 'profile identity mismatch'):
+            gate.authorization(self.con43_create_finding_row(), {'IScopeOperations.CreateFinding'})
+        renamed = self.con43_admitted_row()
+        renamed['operationId'] = 'IScopeOperations.CreateFinding'
+        with self.assertRaisesRegex(ValueError, 'capability is not the exact operation ID'):
+            gate.authorization(renamed, set())
+
+    def test_con43_admitted_row_with_any_other_field_value_is_refused(self):
+        mutations = [
+            ('binding', 'ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.CreateFindingAsync'),
+            ('kind', 'proto'),
+            ('source', 'src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/Generated/InprocessPorts.g.cs'),
+            ('source', 'internal/proto/arcforges/local/scope/v1/scope.proto'),
+            ('scope', 'private-helper'), ('scope', 'assistant'),
+            ('surface', 'public'), ('surface', 'private-helper'),
+            ('profile', 'tool-delegation'), ('profile', 'human-owner'), ('profile', 'in-process-invocation'),
+            ('sourceRule', 'docs/architecture/contracts/02-local-rpc-operations.md#closed-in-process-authorization-profiles'),
+            ('idempotency', 'NI'), ('idempotency', 'IW'), ('idempotency', 'Q'),
+            ('delegation', {'intersectOriginalActor': True, 'requireCurrentGrant': True,
+                            'denyHumanOnly': True, 'requireRegisteredProductHandler': True}),
+            ('launchRoles', ['owning-parent']),
+        ]
+        authorization_mutations = [
+            ('capability', None), ('capability', 'IScopeOperations.CreateFinding'),
+            ('capability', 'iscopeoperations.createannotation'),
+            ('capability', {'from': 'admittedCapability.operationId'}),
+            ('risk', 'R1'), ('risk', 'R3'), ('risk', 'R2+'),
+            ('approval', 'none'), ('approval', 'perPlanStep'), ('approval', 'foregroundProposal'),
+            ('stepUp', True), ('stepUp', 0), ('localPresence', True), ('localPresence', 0),
+            ('egress', 'ownedContent'), ('patEligible', True), ('patEligible', 0),
+            ('actorKinds', ['human', 'product-handler']), ('actorKinds', ['human', 'agent', 'product-handler']),
+            ('actorKinds', ['agent', 'human', 'product-handler']), ('actorKinds', ['human', 'agent']),
+            ('actorKinds', ['agent']), ('actorKinds', ['human', 'product-handler', 'agent', 'automation']),
+            ('actorKinds', ['human', 'product-handler', 'agent', 'extension']),
+            ('actorKinds', ['human', 'product-handler', 'agent', 'agent']),
+            ('actorKinds', ['human', 'product-handler', 'automation']),
+            ('actorKinds', {'from': 'admittedCapability.actorKinds'}),
+        ]
+        cases = []
+        for field, value in mutations:
+            hostile = self.con43_admitted_row(); hostile[field] = value
+            cases.append((field, value, hostile))
+        for field, value in authorization_mutations:
+            hostile = self.con43_admitted_row(); hostile['authorization'][field] = value
+            cases.append(('authorization.' + field, value, hostile))
+        for field in ('authorization', 'idempotency', 'sourceRule'):
+            hostile = self.con43_admitted_row(); hostile.pop(field)
+            cases.append(('missing ' + field, None, hostile))
+        hostile = self.con43_admitted_row(); hostile['authorization'].pop('egress')
+        cases.append(('missing authorization.egress', None, hostile))
+        for name, value, hostile in cases:
+            with self.subTest(field=name, value=value):
+                self.assertFalse(gate.con43_admitted_tool_row(hostile))
+                for allowlist in (set(), {'IScopeOperations.CreateAnnotation'}):
+                    with self.assertRaises((ValueError, KeyError, TypeError)):
+                        gate.authorization(hostile, allowlist)
+
+    def con43_install(self, rows):
+        source = self.root / self.con43_admitted_row()['source']
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('// generated in-process ports\n')
+        for operation in sorted({row['operationId'] for row in rows if row is not self.row}):
+            self.manifest['operations'].append({'operationId': operation, 'scope': 'in-process'})
+        self.write(rows)
+
+    def test_con43_audit_admits_exactly_the_one_row_and_refuses_a_second(self):
+        self.con43_install([self.row, self.con43_admitted_row()])
+        result = gate.audit(self.root, self.manifest)
+        row = next(r for r in result['operations'] if r['operationId'] == 'IScopeOperations.CreateAnnotation')
+        self.assertEqual((row['status'], row['reachableActors'], row['derivedFields']),
+                         ('registered', ['agent', 'human', 'product-handler'], []))
+        self.assertEqual(self.manifest['toolAllowlist'], [])
+        self.manifest['operations'] = self.manifest['operations'][:3]
+        self.con43_install([self.row, self.con43_admitted_row(), self.con43_create_finding_row()])
+        with self.assertRaisesRegex(ValueError, 'IScopeOperations.CreateFinding: profile identity mismatch'):
+            gate.audit(self.root, self.manifest)
+
+    def test_con43_real_audit_keeps_inventory_and_empty_manifest_allowlist(self):
+        result = gate.audit(ROOT)
+        self.assertEqual((result['registered'], result['pending'], result['reserved'],
+                          len(result['operations'])), (335, 0, 7, 342))
+        manifest = gate.load(ROOT / 'eng/operation-scope-manifest.json')
+        self.assertEqual(manifest['toolAllowlist'], [])
+        row = next(r for r in result['operations'] if r['operationId'] == 'IScopeOperations.CreateAnnotation')
+        self.assertEqual((row['profile'], row['reachableActors'], row['derivedFields'], row['metadataSource']),
+                         ('product-handler', ['agent', 'human', 'product-handler'], [], 'eng/operations/con-06.json'))
+        self.assertEqual((row['authorization']['capability'], row['authorization']['risk'],
+                          row['authorization']['approval']),
+                         ('IScopeOperations.CreateAnnotation', 'R2', 'perOperation'))
+        # The only row outside the tool-delegation profile that reaches a tool actor is the admitted one.
+        reached = sorted(r['operationId'] for r in result['operations'] if r['status'] == 'registered'
+                         and set(r['reachableActors']) & gate.TOOL_ACTORS and r['profile'] != 'tool-delegation')
+        self.assertEqual(reached, ['IScopeOperations.CreateAnnotation'])
+
 
 if __name__ == "__main__":
     unittest.main()

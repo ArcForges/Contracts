@@ -41,6 +41,157 @@ internal static class ArchitectureFixtureTests
         CompilationFailureCodesAreSpecificAndFailClosed();
         WireSchemaOwnershipIsExactAndFailsClosed();
         HostAgplClosureMustBeExactlyBuildPolicy();
+        LocalDispatchBoundaryRulesFailClosed();
+    }
+
+    // CON.43: each boundary-dispatch architecture row is proven to fail on a fixture that violates it.
+    private static void LocalDispatchBoundaryRulesFailClosed()
+    {
+        // Filesystem order: enumeration order is not alphabetical on ext4, and ordinal order is not culture order.
+        string[] ordinal = ["A.g.cs", "B/x.g.cs", "Generated/Operations/LocalOperation.g.cs", "a.g.cs", "b.g.cs"];
+        foreach (string[] permutation in new[]
+        {
+            new[] { "b.g.cs", "Generated\\Operations\\LocalOperation.g.cs", "a.g.cs", "B/x.g.cs", "A.g.cs" },
+            Enumerable.Reverse(ordinal).ToArray(),
+            new[] { "a.g.cs", "A.g.cs", "b.g.cs", "B/x.g.cs", "Generated/Operations/LocalOperation.g.cs" },
+        })
+        {
+            Checks.SequenceEqual(ordinal, ContractsArchitectureTests.OrdinalSourceOrder(permutation),
+                "Dispatch source order depends on filesystem enumeration order.");
+        }
+
+        Checks.True(!ordinal.SequenceEqual(ordinal.Order(StringComparer.OrdinalIgnoreCase)),
+            "The filesystem-order fixture no longer distinguishes ordinal from case-insensitive order.");
+        Checks.True(ContractsArchitectureTests.IsBuildOutput("obj/Release/net10.0/Example.AssemblyInfo.cs")
+            && ContractsArchitectureTests.IsBuildOutput("bin\\Release\\Example.cs")
+            && !ContractsArchitectureTests.IsBuildOutput("Generated/Operations/LocalOperation.g.cs"),
+            "SDK build output is not separated from Dispatch sources.");
+
+        // (a) Source tokens: the generated idioms pass, and each reflective token fails.
+        const string allowed = "static class C { static bool M(string v) => global::System.Text.RegularExpressions.Regex.IsMatch(v, \"^a$\", "
+            + "global::System.Text.RegularExpressions.RegexOptions.NonBacktracking) && nameof(M).Length == 1; "
+            + "static int K(string? key) => key switch { \"IScopeOperations.CreateAnnotation\" => 1, _ => 0 }; }";
+        Checks.Empty(ContractsArchitectureTests.FindReflectiveSourceTokens([("allowed.g.cs", allowed)]),
+            "An allowed dispatch source triggered the no-reflection row.");
+        var banned = new (string Token, string Source)[]
+        {
+            ("System.Reflection", "using System.Reflection; class C { }"),
+            ("Google.Protobuf.Reflection", "class C { object? D => global::Google.Protobuf.Reflection.FileDescriptor.FromGeneratedCode(null, null); }"),
+            ("MakeGenericType", "class C { object M(System.Type t) => t.MakeGenericType(t); }"),
+            ("Activator", "class C { object? M() => System.Activator.CreateInstance(\"a\", \"b\"); }"),
+            ("GetType", "class C { object? M() => System.Type.GetType(\"Example\"); }"),
+            ("GetType", "class C { object M(object v) => v.GetType(); }"),
+            ("typeof", "class C { object M() => typeof(string); }"),
+            ("Assembly", "class C { object M() => System.AppDomain.CurrentDomain.GetAssemblies()[0].GetName(); static object N() => Assembly.Load(\"x\"); }"),
+            ("System.Runtime.Loader", "class C { object M() => System.Runtime.Loader.AssemblyLoadContext.Default; }"),
+            ("System.Linq.Expressions", "using System.Linq.Expressions; class C { }"),
+            ("Expression", "class C { object M() => Expression.Constant(1); }"),
+            ("Emit", "class C { object M() => new DynamicMethod(\"m\", null, null); }"),
+        };
+        foreach (var (token, source) in banned)
+        {
+            Checks.True(ContractsArchitectureTests.FindReflectiveSourceTokens([("banned.g.cs", source)])
+                .Contains("banned.g.cs: " + token, StringComparer.Ordinal), $"A dispatch source using {token} passed the no-reflection row.");
+        }
+
+        // (b) Closure: only the dispatch package may join PublicApi, Scope and Chat.
+        const string dispatch = ContractsArchitectureTests.DispatchPackage;
+        const string foundation = "ArcForges.Contracts.Foundation", publicApi = "ArcForges.Contracts.PublicApi",
+            platform = "ArcForges.Contracts.LocalRpc.Platform", scope = "ArcForges.Contracts.LocalRpc.Scope",
+            chat = "ArcForges.Contracts.LocalRpc.Chat";
+        Dictionary<string, string[]> Graph(params (string Id, string[] Dependencies)[] extra)
+        {
+            var graph = new Dictionary<string, string[]>(StringComparer.Ordinal)
+            {
+                [foundation] = [],
+                [publicApi] = [foundation],
+                [platform] = [foundation, publicApi],
+                [scope] = [foundation, publicApi, platform],
+                [chat] = [foundation, publicApi, platform],
+                [dispatch] = [publicApi, platform, scope, chat],
+            };
+            foreach (var (id, dependencies) in extra) graph[id] = dependencies;
+            return graph;
+        }
+
+        Checks.SequenceEqual(new[] { dispatch }, ContractsArchitectureTests.PackagesJoiningScopeAndChat(Graph()),
+            "The exact catalog shape did not name the dispatch package as the only join.");
+        Checks.True(!ContractsArchitectureTests.PackagesJoiningScopeAndChat(Graph((scope, [foundation, publicApi, platform, chat])))
+            .SequenceEqual([dispatch]), "A Scope package that references Chat passed the single-join row.");
+        Checks.True(!ContractsArchitectureTests.PackagesJoiningScopeAndChat(Graph(("Example.Consumer", [dispatch])))
+            .SequenceEqual([dispatch]), "A package whose closure includes the dispatch package passed the single-join row.");
+        Checks.True(!ContractsArchitectureTests.PackagesJoiningScopeAndChat(Graph(("Example.Bridge", [scope, chat])))
+            .SequenceEqual([dispatch]), "A second bridge package over Scope and Chat passed the single-join row.");
+        Checks.SequenceEqual(new[] { dispatch, "Example.Cycle" }, ContractsArchitectureTests.PackagesJoiningScopeAndChat(
+            Graph(("Example.Cycle", [dispatch, "Example.Cycle"]))), "A self-referencing catalog row was not evaluated.");
+        bool missingFailed = false;
+        try
+        {
+            _ = ContractsArchitectureTests.PackagesJoiningScopeAndChat(Graph(("Example.Dangling", ["Example.Unlisted"])));
+        }
+        catch (InvalidOperationException)
+        {
+            missingFailed = true;
+        }
+
+        Checks.True(missingFailed, "An uncataloged dependency did not fail the closure row closed.");
+
+        // (b) Owners: only the dispatch owner names the structured value with Scope and Chat typed requests.
+        const string scopeRequest = "global::ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceCreateAnnotationRequest r;";
+        const string chatRequest = "global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageRequest c;";
+        const string structured = "global::ArcForges.Contracts.PublicApi.V1.CapabilityArguments a;";
+        (string, IEnumerable<string>) Owner(string name, params string[] texts) => (name, texts);
+        Checks.SequenceEqual(new[] { "dispatch" }, ContractsArchitectureTests.OwnersJoiningStructuredValueAndTypedRequests(
+            [Owner("chat", chatRequest, "StructuredValue v;"), Owner("dispatch", scopeRequest, chatRequest, structured), Owner("scope", scopeRequest)]),
+            "The exact owner set did not name the dispatch owner as the only join.");
+        Checks.SequenceEqual(new[] { "chat", "dispatch" }, ContractsArchitectureTests.OwnersJoiningStructuredValueAndTypedRequests(
+            [Owner("chat", chatRequest, "StructuredValue v;", scopeRequest), Owner("dispatch", scopeRequest, chatRequest, structured)]),
+            "A product-operation owner naming the structured value with Scope and Chat requests passed the single-owner row.");
+        Checks.Empty(ContractsArchitectureTests.OwnersJoiningStructuredValueAndTypedRequests([Owner("dispatch", scopeRequest, chatRequest)]),
+            "An owner without the structured value was counted as a join.");
+        Checks.SequenceEqual(new[] { "split" }, ContractsArchitectureTests.OwnersJoiningStructuredValueAndTypedRequests(
+            [Owner("split", scopeRequest, chatRequest + " CapabilityResult r;")]), "A join split across one owner's files was not counted.");
+
+        // (c) References: no cataloged package and no production csproj may reference the dispatch assembly.
+        Checks.Empty(ContractsArchitectureTests.CatalogPackagesReferencingDispatch(Graph()), "The exact catalog reported a dispatch consumer.");
+        Checks.SequenceEqual(new[] { scope }, ContractsArchitectureTests.CatalogPackagesReferencingDispatch(
+            Graph((scope, [foundation, publicApi, platform, dispatch]))), "A cataloged package depending on Dispatch passed the reference row.");
+        const string projectReference = "<Project><ItemGroup><ProjectReference Include=\"..\\ArcForges.Contracts.LocalRpc.Dispatch\\ArcForges.Contracts.LocalRpc.Dispatch.csproj\" /></ItemGroup></Project>";
+        const string packageReference = "<Project><ItemGroup><PackageReference Include=\"arcforges.contracts.localrpc.dispatch\" /></ItemGroup></Project>";
+        const string sibling = "<Project><ItemGroup><ProjectReference Include=\"../ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj\" />"
+            + "<ProjectReference Include=\"../ArcForges.Contracts.LocalRpc.DispatchTools/ArcForges.Contracts.LocalRpc.DispatchTools.csproj\" /></ItemGroup></Project>";
+        Checks.True(ContractsArchitectureTests.ReferencesDispatch(projectReference), "A Dispatch project reference passed the reference row.");
+        Checks.True(ContractsArchitectureTests.ReferencesDispatch(packageReference), "A Dispatch package reference passed the reference row.");
+        Checks.True(!ContractsArchitectureTests.ReferencesDispatch(sibling), "A non-Dispatch project reference was reported as Dispatch.");
+
+        // Hosted semantic row: the compiled-symbol scan sees reflection that no source token names.
+        Checks.Empty(HostedPolicyGate.FindReflectiveSymbols(FixtureCompiler.Compile("DispatchAllowed",
+                new Dictionary<string, string> { ["allowed.cs"] = allowed })),
+            "An allowed dispatch compilation triggered the semantic no-reflection row.");
+        Checks.Empty(HostedPolicyGate.FindReflectiveSymbols(FixtureCompiler.Compile("DispatchAssemblyMetadata",
+                new Dictionary<string, string> { ["AssemblyInfo.cs"] = "using System; using System.Reflection; [assembly: AssemblyCompany(\"ArcForges\")] [assembly: AssemblyMetadata(\"k\", \"v\")]" })),
+            "SDK assembly metadata attributes triggered the semantic no-reflection row.");
+        var semantic = new (string Name, string Source)[]
+        {
+            ("assembly scanning", "class C { int M() => System.AppDomain.CurrentDomain.GetAssemblies().Length; }"),
+            ("alias", "using R = System.Reflection.BindingFlags; class C { int M() => (int)R.Public; }"),
+            ("imported", "using System.Reflection; class C { int M() => (int)BindingFlags.Public; }"),
+            ("inferred", "class C { int M(object o) { var t = o.GetType(); return t.Name.Length; } }"),
+            ("typeof", "class C { string M() => typeof(C).Name; }"),
+            ("generic", "class C { object M() => typeof(System.Collections.Generic.List<>).MakeGenericType(typeof(int)); }"),
+            ("activator", "class C { object? M() => System.Activator.CreateInstance(typeof(C)); }"),
+            ("expression", "class C { object M() => System.Linq.Expressions.Expression.Constant(1); }"),
+            ("emit", "class C { object M() => new System.Reflection.Emit.DynamicMethod(\"m\", typeof(void), System.Type.EmptyTypes); }"),
+            ("protobuf descriptor", "namespace Google.Protobuf.Reflection { public sealed class MessageDescriptor { public string Name => \"m\"; } } "
+                + "class Message { public static Google.Protobuf.Reflection.MessageDescriptor Descriptor => new(); } class C { int M() => Message.Descriptor.Name.Length; }"),
+            ("loader", "class C { object M() => System.Runtime.Loader.AssemblyLoadContext.Default; }"),
+        };
+        foreach (var (name, source) in semantic)
+        {
+            Checks.True(HostedPolicyGate.FindReflectiveSymbols(FixtureCompiler.Compile("DispatchBanned",
+                    new Dictionary<string, string> { ["banned.cs"] = source })).Count != 0,
+                $"A compiled dispatch fixture using {name} passed the semantic no-reflection row.");
+        }
     }
 
     private static void HostAgplClosureMustBeExactlyBuildPolicy()

@@ -22,6 +22,8 @@ internal static class HostedPolicyGate
         ["src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj"] = ProjectRole.Abstractions,
         ["src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj"] = ProjectRole.Abstractions,
         ["src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj"] = ProjectRole.Shell,
+        // CON.43: generated local-operation adapters over the referenced owned wire types; no proto of its own.
+        ["src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj"] = ProjectRole.Abstractions,
     };
 
     public static void Run(Action<PolicyGateStage> setStage)
@@ -65,6 +67,9 @@ internal static class HostedPolicyGate
 
         setStage(PolicyGateStage.ValidateSerializationClosure);
         VerifySerializationClosure(root, projects, compilations);
+
+        setStage(PolicyGateStage.ValidateDispatchSymbols);
+        VerifyDispatchSymbols(root, projects, compilations);
 
         setStage(PolicyGateStage.ReadDependencyPolicy);
         var dependency = ReadDependencyPolicy(root);
@@ -432,6 +437,115 @@ internal static class HostedPolicyGate
 
     private static string HashNormalized(string path) => Convert.ToHexStringLower(
         SHA256.HashData(Encoding.UTF8.GetBytes(File.ReadAllText(path).Replace("\r\n", "\n", StringComparison.Ordinal))));
+
+    // CON.43 (DP-06): the compiled boundary dispatch assembly binds no reflective symbol. The source-token row of the local
+    // suite cannot see a reflective API reached through an alias, an inferred type or a returned value; this row can.
+    private static readonly string[] ReflectiveNamespaces =
+        ["System.Reflection", "Google.Protobuf.Reflection", "System.Linq.Expressions", "System.Runtime.Loader"];
+
+    private static readonly string[] ReflectiveTypes = ["System.Type", "System.Activator", "System.RuntimeTypeHandle"];
+
+    private static void VerifyDispatchSymbols(string root, IReadOnlyList<ProjectFacts> projects,
+        IReadOnlyDictionary<string, CSharpCompilation> compilations)
+    {
+        var project = projects.Single(project => project.Classification.Path == ContractsArchitectureTests.DispatchProject);
+        Checks.True(project.Classification.Production, "The boundary dispatch assembly is not classified as production code.");
+        if (!compilations.TryGetValue(project.Classification.Path, out var compilation))
+        {
+            throw new InvalidOperationException("The boundary dispatch assembly has no compiled symbols to validate.");
+        }
+
+        string directory = Path.GetFullPath(Path.Combine(root, Path.GetDirectoryName(ContractsArchitectureTests.DispatchProject)!));
+        string[] onDisk = ContractsArchitectureTests.ProjectSources(directory);
+        string[] compiled = ContractsArchitectureTests.OrdinalSourceOrder(compilation.SyntaxTrees
+            .Select(tree => Path.GetRelativePath(directory, Path.GetFullPath(tree.FilePath)).Replace('\\', '/'))
+            .Where(path => !path.StartsWith("../", StringComparison.Ordinal) && !Path.IsPathRooted(path)
+                && !ContractsArchitectureTests.IsBuildOutput(path)));
+        Checks.True(onDisk.Length > 0, "The boundary dispatch assembly has no sources.");
+        Checks.SequenceEqual(onDisk, compiled, "The compiled boundary dispatch sources differ from its source tree.");
+        Checks.Empty(FindReflectiveSymbols(compilation), "The compiled boundary dispatch assembly binds a reflective symbol.");
+    }
+
+    /// <summary>
+    /// Every symbol and type bound in the compilation, in ordinal file order. Only using directives (which bind nothing by
+    /// themselves; every use is still scanned) and assembly-level attribute lists are skipped: the SDK stamps assembly
+    /// metadata with System.Reflection attribute types, which is not runtime reflection.
+    /// </summary>
+    internal static IReadOnlyList<string> FindReflectiveSymbols(Compilation compilation)
+    {
+        var findings = new List<string>();
+        foreach (var tree in compilation.SyntaxTrees.OrderBy(tree => tree.FilePath, StringComparer.Ordinal))
+        {
+            var model = compilation.GetSemanticModel(tree);
+            foreach (var node in tree.GetRoot().DescendantNodes(child => child is not (UsingDirectiveSyntax or AttributeListSyntax
+                { Target.Identifier.ValueText: "assembly" or "module" })))
+            {
+                if (node is not ExpressionSyntax expression) continue;
+                var symbolInfo = model.GetSymbolInfo(expression);
+                var typeInfo = model.GetTypeInfo(expression);
+                bool reflective = IsReflectiveSymbol(symbolInfo.Symbol)
+                    || symbolInfo.CandidateSymbols.Any(IsReflectiveSymbol)
+                    || IsReflectiveType(typeInfo.Type) || IsReflectiveType(typeInfo.ConvertedType);
+                if (reflective)
+                {
+                    findings.Add(tree.FilePath + ":" + expression.GetLocation().GetLineSpan().StartLinePosition.Line + ": "
+                        + (symbolInfo.Symbol?.ToDisplayString() ?? typeInfo.Type?.ToDisplayString() ?? expression.Kind().ToString()));
+                }
+            }
+        }
+
+        return findings.Distinct(StringComparer.Ordinal).ToArray();
+    }
+
+    private static bool IsReflectiveSymbol(ISymbol? symbol)
+    {
+        switch (symbol)
+        {
+            case null:
+                return false;
+            case INamespaceSymbol ns:
+                return IsReflectiveNamespace(ns.ToDisplayString());
+            case ITypeSymbol type:
+                return IsReflectiveType(type);
+            case IMethodSymbol method when method.Name is "MakeGenericType" or "MakeGenericMethod":
+                return true;
+            case IMethodSymbol method when method.Name == "GetType"
+                && method.ContainingType?.SpecialType == SpecialType.System_Object:
+                return true;
+            case IAliasSymbol alias:
+                return IsReflectiveSymbol(alias.Target);
+            default:
+                return IsReflectiveType(symbol.ContainingType)
+                    || (symbol is IMethodSymbol invoked && (IsReflectiveType(invoked.ReturnType)
+                        || invoked.Parameters.Any(parameter => IsReflectiveType(parameter.Type))))
+                    || (symbol is IPropertySymbol property && IsReflectiveType(property.Type))
+                    || (symbol is IFieldSymbol field && IsReflectiveType(field.Type));
+        }
+    }
+
+    private static bool IsReflectiveType(ITypeSymbol? type)
+    {
+        switch (type)
+        {
+            case null:
+                return false;
+            case IArrayTypeSymbol array:
+                return IsReflectiveType(array.ElementType);
+            case IPointerTypeSymbol pointer:
+                return IsReflectiveType(pointer.PointedAtType);
+            case INamedTypeSymbol named:
+                string name = named.OriginalDefinition.ToDisplayString();
+                string ns = named.ContainingNamespace?.ToDisplayString() ?? "";
+                return ReflectiveTypes.Contains(name, StringComparer.Ordinal) || IsReflectiveNamespace(ns)
+                    || named.TypeArguments.Any(IsReflectiveType)
+                    || (named.ContainingType is not null && IsReflectiveType(named.ContainingType));
+            default:
+                return false;
+        }
+    }
+
+    private static bool IsReflectiveNamespace(string ns) => ReflectiveNamespaces.Any(banned =>
+        ns == banned || ns.StartsWith(banned + ".", StringComparison.Ordinal));
 
     private static string Git(string root, params string[] args)
     {

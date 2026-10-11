@@ -283,6 +283,8 @@ def generate(check: bool = False) -> None:
         generate_values(check)
         from con06_inprocess import generate as generate_inprocess
         generate_inprocess(check)
+        from local_operations import generate as generate_local_operations
+        generate_local_operations(check)
     print("Generated bindings match the authored proto." if check
           else "Generated C#, the @arcforges/ai-internal TypeScript shapes and the descriptor sets.")
 
