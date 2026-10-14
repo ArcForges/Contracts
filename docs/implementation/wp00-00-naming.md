@@ -3,7 +3,7 @@
 > Historical plan/evidence. Current execution follows [AGENTS.md](../../AGENTS.md) and Design P2-017;
 > hosted runtime/consumer gates and repeated public-byte checks below are superseded, not instructions to repeat them.
 
-The authoritative design is [P2-015 and the naming policy](https://github.com/ArcForges/ArcForges-Design/blob/4382eec97e45f8abcc81fdcb28221e907f44ddde/docs/architecture/28-product-naming-policy.md), merged in [Design PR13](https://github.com/ArcForges/ArcForges-Design/pull/13) and refined by [Design PR14](https://github.com/ArcForges/ArcForges-Design/pull/14).
+The authoritative design is [P2-015 and the naming policy](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/4382eec97e45f8abcc81fdcb28221e907f44ddde/docs/architecture/28-product-naming-policy.md), merged in [Design PR13](https://github.com/ArcForges/ArcForges-Design-Parallel/pull/13) and refined by [Design PR14](https://github.com/ArcForges/ArcForges-Design-Parallel/pull/14).
 
 The bounded plan maps the current product/feature identities, historical dispositions,
 provider roles and association reservations into one Apache-2.0 policy file. Contracts
@@ -26,7 +26,7 @@ source-policy tests, not product or provider runtime evidence.
 
 CI runs the naming scan and retains its JSON receipt, then the existing tooling test
 suite, package/consumer and security gates. This record was written before its CI and main
-publication ran; WP00 is accepted in the Design [WP00 stage acceptance](https://github.com/ArcForges/ArcForges-Design/blob/7e56614ced01a12c84eb2047071d14399249ee90/docs/assurance/wp00-stage-acceptance.md). WP02/WP05 own continuing
+publication ran; WP00 is accepted in the Design [WP00 stage acceptance](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/7e56614ced01a12c84eb2047071d14399249ee90/docs/assurance/wp00-stage-acceptance.md). WP02/WP05 own continuing
 family-wide build enforcement. WP30 owns the already selected Android prerelease
 identity migration; WP33/WP36/WP53 own real native association/installer behavior.
 

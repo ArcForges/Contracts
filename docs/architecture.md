@@ -7,12 +7,12 @@ validation shapes. `eng/contract-packages.json` holds 20 package rows: the 13 ac
 outputs (12 NuGet packages and the internal npm package `@arcforges/ai-internal`) and
 seven rows that CON.40 retired from new publication (four npm and three Maven), kept
 and marked `retired`. The initial source slices are fixed by the
-[WP03.00 structure profile](https://github.com/ArcForges/ArcForges-Design/blob/26f15ebf6278e8cd42c2b2396e82c326513e1078/docs/assurance/wp03-00-contract-structure-profile.md).
-The [WP03.01 foundation profile](https://github.com/ArcForges/ArcForges-Design/blob/5e202ff10f3c218d9e159029579ca535c641169b/docs/assurance/wp03-01-foundation-contract-profile.md)
+[WP03.00 structure profile](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/26f15ebf6278e8cd42c2b2396e82c326513e1078/docs/assurance/wp03-00-contract-structure-profile.md).
+The [WP03.01 foundation profile](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/5e202ff10f3c218d9e159029579ca535c641169b/docs/assurance/wp03-01-foundation-contract-profile.md)
 adds the complete selected foundation, Scope measurement and recursive
 owner-body message closure. [This step's evidence record](wp03-01-foundation.md)
 separates implemented source from validation and publication status. The
-[WP03.02 serialization posture profile](https://github.com/ArcForges/ArcForges-Design/blob/212825003ed712200e585445301473233404f597/docs/assurance/wp03-02-serialization-posture-profile.md)
+[WP03.02 serialization posture profile](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/212825003ed712200e585445301473233404f597/docs/assurance/wp03-02-serialization-posture-profile.md)
 fixes the codec, limit, registration and AOT rules below. The remaining
 production operation catalogue and later semantic gates are not complete.
 

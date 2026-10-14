@@ -328,7 +328,7 @@ uploads used OIDC with signed provenance. The Maven job completed its actual
 15-file SNAPSHOT upload. The GitHub `npm` environment's `NPM_BOOTSTRAP_TOKEN`
 secret was then deleted and confirmed absent. Revocation of the original token
 in the npm account was not observed and is not claimed. These are the recorded
-[WP03.00 completion observations](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/assurance/wp03-00-implementation-evidence.md),
+[WP03.00 completion observations](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/64173614f2c41543bfff8f6df8d5a9e41207eb0a/docs/assurance/wp03-00-implementation-evidence.md),
 not a verification-only publication or a current credential inspection.
 
 Acceptance uses the expected source identity and successful build/publication

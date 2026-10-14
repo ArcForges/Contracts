@@ -1,13 +1,13 @@
 # WP03.02 serialization posture: implementation and evidence
 
-Accepted: the Design [WP03.02 completion receipt](https://github.com/ArcForges/ArcForges-Design/blob/7e56614ced01a12c84eb2047071d14399249ee90/docs/assurance/wp03-02-implementation-evidence.md)
+Accepted: the Design [WP03.02 completion receipt](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/7e56614ced01a12c84eb2047071d14399249ee90/docs/assurance/wp03-02-implementation-evidence.md)
 records the merged source, required CI and normal publication. The pre-merge status below is historical.
 
 Status: pre-merge implementation record. Source and targeted local validation are
 complete. Applicable PR CI, merge and normal publication remain required acceptance
 gates; this record does not establish a released WP03.02 candidate.
 
-Authority: the [WP03.02 serialization posture profile](https://github.com/ArcForges/ArcForges-Design/blob/212825003ed712200e585445301473233404f597/docs/assurance/wp03-02-serialization-posture-profile.md),
+Authority: the [WP03.02 serialization posture profile](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/212825003ed712200e585445301473233404f597/docs/assurance/wp03-02-serialization-posture-profile.md),
 registry04 §8 and P2-017. The accepted upstream Contracts source is
 `4b8134eaf8a4174922d6378da003ed390b85a94a` (NuGet/npm `1.0.0-ci.89.1`, Maven
 `1.0.0-SNAPSHOT`). No package identity, downstream pin or third-party runtime
