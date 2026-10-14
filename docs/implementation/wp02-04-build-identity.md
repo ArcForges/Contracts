@@ -1,6 +1,6 @@
 # WP02.04 build identity and independent version axes
 
-The accepted [Design profile](https://github.com/ArcForges/ArcForges-Design/blob/257f77ce8d476a4efd8746fc0b7e4e6358c32a67/docs/assurance/wp02-04-version-identity-profile.md)
+The accepted [Design profile](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/257f77ce8d476a4efd8746fc0b7e4e6358c32a67/docs/assurance/wp02-04-version-identity-profile.md)
 governs this Apache-2.0 implementation. Contracts implements its own tooling;
 it does not import DesktopPlatform build policy or its AGPL implementation.
 

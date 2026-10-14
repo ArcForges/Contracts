@@ -3,7 +3,7 @@
 > Historical plan/evidence. Current execution follows [AGENTS.md](../../AGENTS.md) and Design P2-017;
 > hosted runtime/consumer gates and repeated public-byte checks below are superseded, not instructions to repeat them.
 
-The accepted [declaration profile](https://github.com/ArcForges/ArcForges-Design/blob/6ba885ad38dd71de532c74d7b69f439d01d19a0a/docs/architecture/01-solution-and-project-layout.md#41-project-declaration-and-verification-profile)
+The accepted [declaration profile](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/6ba885ad38dd71de532c74d7b69f439d01d19a0a/docs/architecture/01-solution-and-project-layout.md#41-project-declaration-and-verification-profile)
 assigns all Contracts source, tools, fixtures and public/internal contracts to
 Apache-2.0 / Apache. `eng/policy/licence-boundary.json` enumerates 15 current
 project/build manifests, including the signing-only and isolated consumer builds.

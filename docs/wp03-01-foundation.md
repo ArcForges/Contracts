@@ -1,6 +1,6 @@
 # WP03.01 foundation contracts: implementation and evidence
 
-Accepted: the Design [WP03.01 completion receipt](https://github.com/ArcForges/ArcForges-Design/blob/7e56614ced01a12c84eb2047071d14399249ee90/docs/assurance/wp03-01-implementation-evidence.md)
+Accepted: the Design [WP03.01 completion receipt](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/7e56614ced01a12c84eb2047071d14399249ee90/docs/assurance/wp03-01-implementation-evidence.md)
 records the merged source, required CI and normal publication. The pre-merge status below is historical.
 
 Status: pre-merge implementation record. Source, targeted local validation and
@@ -8,7 +8,7 @@ independent provenance review are complete. Applicable PR CI, merge and normal
 publication remain required acceptance gates. This record does not establish a
 released WP03.01 candidate or acceptance of later product behavior.
 
-Authority: the [WP03.01 implementation profile](https://github.com/ArcForges/ArcForges-Design/blob/5e202ff10f3c218d9e159029579ca535c641169b/docs/assurance/wp03-01-foundation-contract-profile.md),
+Authority: the [WP03.01 implementation profile](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/5e202ff10f3c218d9e159029579ca535c641169b/docs/assurance/wp03-01-foundation-contract-profile.md),
 registry04, annex10 and P2-017. The accepted upstream Contracts source is
 `30ddcad2bcb3634e089abb5e29d6c9ce05d38386`; its WP03.00 publication remains
 historical evidence. This contribution does not upgrade downstream consumer pins.

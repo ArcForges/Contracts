@@ -9,14 +9,23 @@ is the only first-party SDK channel for business clients (CON.40, P2-021 Decisio
 Consumers install versioned packages; they do not clone this repository, run protoc,
 use Git submodules or depend on sibling source.
 
+**Flagship role:** Contracts is an active repository of the ArcForges flagship
+([AD-0001](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/decisions/AD-0001-flagship-pivot.md)).
+It adds the node, fleet, peer and relay contracts and packages, additive `publicapi.v1`
+changes and the `ArcForges.Cli` command rename, and reuses the foundation, identity,
+entitlement, commerce, support, notification, data, device and operator contracts
+([architecture 01 §5](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/architecture/01-system-overview.md#5-repository-and-project-map),
+[reuse classification](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/reuse/inventory-and-classification.md#1-contracts)).
+Work is scheduled in the [ArcForges/Plan delivery graph](https://github.com/ArcForges/Plan/blob/main/delivery-graph.json)
+and delivered serially under its [execution policy](https://github.com/ArcForges/Plan/blob/main/execution-policy.md).
+
 **Current scope:** WP03.00–WP03.02 are accepted. WP03.00 establishes source-bearing
 contract boundaries with selected complete Foundation/error, event, private product/helper,
 operator and extension records, HTTP definitions, validators and an offline inventory CLI;
 [WP03.01](docs/wp03-01-foundation.md) adds the foundation value records and
 [WP03.02](docs/wp03-02-serialization.md) the generated-only serialization posture. Hello
-compatibility remains. Capability and resource descriptors (WP03.03), the complete business
-operation registries and the package-level gates are open delivery tasks in the
-[contracts lane](https://github.com/ArcForges/ArcForges-Design-B/blob/f8dff2d0144c7db020d35711d606334639dd078b/docs/planning/delivery/lanes/contracts.md). The exact producer inventory is
+compatibility remains. Further contract work comes only from the Plan delivery graph; the
+historical P2-018 contracts lane is not resumed. The exact producer inventory is
 [`eng/contract-packages.json`](eng/contract-packages.json).
 
 | Package family                                                           | Contents                                                                                          |
