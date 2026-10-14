@@ -31,13 +31,13 @@ snapshots; `generate --check` rejects stale snapshots without writing them.
 Edit shards, never author the aggregate snapshots directly. A layout-only split
 preserves their effective content and bytes.
 
-The current holder of Plan's `roles/integration-contracts` is the single Contracts
-integration owner. Authors append only their domain entries to
+Delivery is serial under the ArcForges/Plan execution policy (see [AGENTS.md](AGENTS.md));
+the integration-owner role and its claims are retired. Authors append only their domain entries to
 `eng/contract-packages.json` and `eng/foundation-inventory.json`; preserve existing
 identities, ownership, wire reservations and historical baselines. Request shared
-source changes through its designated author. The integration owner serially
-merges independently reviewed CON.* heads after applicable checks pass and waits
-for normal main publication before the next merge. The next author rebases onto
+source changes through its designated author. The coordinator merges one
+independently reviewed task head at a time after applicable checks pass and waits
+for normal main publication before the next merge. The next task rebases onto
 that main, regenerates bindings and inventories with pinned tools, and obtains
 review of the updated head. Never hand-merge generated output or create a second
 publication solely for validation.
