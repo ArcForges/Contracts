@@ -1,0 +1,853 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.peer.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/peers.proto";
+import "arcforges/node/v1/tasks.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Peer.V1";
+option java_package = "io.github.arcforges.contracts.peer.v1";
+option java_multiple_files = true;
+option java_outer_classname = "PeerProto";
+
+// Node-to-node protocol (internal): handshake, pairing, status, placement, transfer and the WSL guest link
+// (architecture 09 and 03 section 6; AD-0008; SM-PAIRING, SM-REMOTE-ATTEMPT, SM-GUEST-LINK).
+// Transport: gRPC over HTTP/2 with TLS 1.3 and mutual certificates on TCP 47820 (LAN), or over the
+// `arcforges bridge wsl` byte stream (GuestLinkService only). Origin class of callers: PEER, HOST or GUEST.
+
+// Protocol and identity exchange after the TLS handshake.
+service PeerHandshakeService {
+  // Exchange identities, protocol ranges and features. Incompatible ranges are reported, not failed silently (R-LAN-009).
+  // auth: PEER: any TLS client certificate (pairing not required)
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/incompatible_version, AUTHENTICATION/unauthenticated
+  // locality: peer
+  rpc Hello(PeerHandshakeServiceHelloRequest) returns (PeerHandshakeServiceHelloResponse);
+}
+
+message PeerHandshakeServiceHelloRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  PeerHello hello = 10 [json_name = "hello"]; // validate: required
+}
+message PeerHandshakeServiceHelloResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerHandshakeServiceHelloValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerHandshakeServiceHelloValue {
+  PeerHello hello = 10 [json_name = "hello"];
+  optional bool compatible = 11 [json_name = "compatible"];
+  optional uint32 negotiated_protocol = 12 [json_name = "negotiatedProtocol"];
+  optional arcforges.node.v1.PeerTrust trust = 13 [json_name = "trust"]; // as seen by the responder
+}
+
+// Local-confirmation pairing over a TLS session with unverified self-signed certificates (09 section 3.2).
+service PairingService {
+  // Ask the responder's user to pair. Returns immediately; the initiator then waits with AwaitResponse.
+  // auth: PEER: any TLS client; rate limit 5 failed attempts per peer per hour
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: RESOURCE/rate_limited, STATE/peer_blocked, STATE/invalid_state
+  // locality: peer
+  // state: SM-PAIRING (responder): (none) -> INCOMING
+  rpc RequestPairing(PairingServiceRequestPairingRequest) returns (PairingServiceRequestPairingResponse);
+
+  // Bounded wait for the responder user's accept or reject.
+  // auth: the requesting TLS session only
+  // idempotency: read
+  // deadline: wait_ms + 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/expired
+  // locality: peer
+  rpc AwaitResponse(PairingServiceAwaitResponseRequest) returns (PairingServiceAwaitResponseResponse);
+
+  // Initiator sends commit = SHA-256(nonce_A || fp_A). Each side checks that the claimed fingerprints equal the certificates presented in this TLS session.
+  // auth: the requesting TLS session only
+  // idempotency: natural: one commitment per pairing
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, STATE/expired
+  // locality: peer
+  // state: SM-PAIRING: EXCHANGING
+  rpc Commit(PairingServiceCommitRequest) returns (PairingServiceCommitResponse);
+
+  // Initiator reveals nonce_A and fp_A; the responder verifies the commitment and both compute the SAS.
+  // auth: the requesting TLS session only
+  // idempotency: natural
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/sas_mismatch, STATE/expired
+  // locality: peer
+  // state: SM-PAIRING: EXCHANGING -> AWAITING_CONFIRMATION
+  rpc Reveal(PairingServiceRevealRequest) returns (PairingServiceRevealResponse);
+
+  // Deliver this side's user decision about the digits.
+  // auth: the requesting TLS session only
+  // idempotency: natural
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/expired, STATE/invalid_state
+  // locality: peer
+  rpc Confirm(PairingServiceConfirmRequest) returns (PairingServiceConfirmResponse);
+
+  // Bounded wait for the responder user's confirmation.
+  // auth: the requesting TLS session only
+  // idempotency: read
+  // deadline: wait_ms + 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/expired
+  // locality: peer
+  // state: SM-PAIRING: CONFIRMED_LOCALLY -> PAIRED | MISMATCH
+  rpc AwaitConfirmation(PairingServiceAwaitConfirmationRequest) returns (PairingServiceAwaitConfirmationResponse);
+
+  // Abort a pairing from either side.
+  // auth: the requesting TLS session only
+  // idempotency: natural
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: peer
+  // state: SM-PAIRING: * -> CANCELLED
+  rpc Abort(PairingServiceAbortRequest) returns (PairingServiceAbortResponse);
+}
+
+message PairingServiceRequestPairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string initiator_name = 10 [json_name = "initiatorName"]; // validate: 1..64 chars
+  optional string initiator_fingerprint = 11 [json_name = "initiatorFingerprint"]; // validate: SHA-256 hex of the presented certificate
+}
+message PairingServiceRequestPairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PairingServiceRequestPairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PairingServiceRequestPairingValue {
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"];
+}
+
+message PairingServiceAwaitResponseRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: required
+  optional uint64 wait_ms = 11 [json_name = "waitMs"]; // validate: 0..55,000
+}
+message PairingServiceAwaitResponseResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PairingServiceAwaitResponseValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PairingServiceAwaitResponseValue {
+  optional arcforges.node.v1.PairingState state = 10 [json_name = "state"];
+}
+
+message PairingServiceCommitRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: accepted pairing
+  optional bytes commitment = 11 [json_name = "commitment"]; // validate: 32 bytes
+}
+message PairingServiceCommitResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PairingServiceCommitValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PairingServiceCommitValue {
+  optional bytes nonce_b = 10 [json_name = "nonceB"]; // 32 random bytes
+  optional string fingerprint_b = 11 [json_name = "fingerprintB"];
+}
+
+message PairingServiceRevealRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: required
+  optional bytes nonce_a = 11 [json_name = "nonceA"]; // validate: 32 bytes
+  optional string fingerprint_a = 12 [json_name = "fingerprintA"]; // validate: matches the TLS client certificate
+}
+message PairingServiceRevealResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PairingServiceRevealValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PairingServiceRevealValue {
+  optional bool commitment_valid = 10 [json_name = "commitmentValid"];
+}
+
+message PairingServiceConfirmRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: required
+  optional bool digits_match = 11 [json_name = "digitsMatch"];
+}
+message PairingServiceConfirmResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PairingServiceConfirmValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PairingServiceConfirmValue {
+  optional arcforges.node.v1.PairingState state = 10 [json_name = "state"];
+}
+
+message PairingServiceAwaitConfirmationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: required
+  optional uint64 wait_ms = 11 [json_name = "waitMs"]; // validate: 0..55,000
+}
+message PairingServiceAwaitConfirmationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PairingServiceAwaitConfirmationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PairingServiceAwaitConfirmationValue {
+  optional arcforges.node.v1.PairingState state = 10 [json_name = "state"];
+  optional bool responder_confirmed = 11 [json_name = "responderConfirmed"];
+}
+
+message PairingServiceAbortRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: required
+  optional string reason = 11 [json_name = "reason"]; // validate: <= 200 chars
+}
+message PairingServiceAbortResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PairingServiceAbortValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PairingServiceAbortValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+// Status of a paired peer (D0/D1 data only; R-LAN-004).
+service PeerStatusService {
+  // Current status summary.
+  // auth: PEER: paired (PINNED)
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: AUTHORIZATION/peer_policy_denied
+  // locality: peer
+  rpc GetStatus(PeerStatusServiceGetStatusRequest) returns (PeerStatusServiceGetStatusResponse);
+
+  // Stream status summaries on change, at most every interval.
+  // auth: PEER: paired
+  // idempotency: read
+  // deadline: none; heartbeat 15 s
+  // stream: server: PeerStatusServiceWatchStatusFrame
+  // errors: AUTHORIZATION/peer_policy_denied
+  // locality: peer
+  rpc WatchStatus(PeerStatusServiceWatchStatusRequest) returns (stream PeerStatusServiceWatchStatusFrame);
+}
+
+message PeerStatusServiceGetStatusRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message PeerStatusServiceGetStatusResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerStatusServiceGetStatusValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerStatusServiceGetStatusValue {
+  arcforges.node.v1.PeerStatusSummary status = 10 [json_name = "status"];
+}
+
+message PeerStatusServiceWatchStatusRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional uint64 interval_ms = 10 [json_name = "intervalMs"]; // validate: 1,000..60,000; default 5,000
+}
+message PeerStatusServiceWatchStatusFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  arcforges.node.v1.StreamPosition position = 2 [json_name = "position"];
+  reserved 3 to 9;
+  oneof frame {
+    arcforges.node.v1.StreamReset reset = 10 [json_name = "reset"];
+    arcforges.node.v1.Heartbeat heartbeat = 11 [json_name = "heartbeat"];
+    arcforges.foundation.v1.ArcError error = 12 [json_name = "error"];
+    arcforges.node.v1.PeerStatusSummary status = 20 [json_name = "status"];
+  }
+}
+
+// Offers, remote attempts, leases and results (09 section 5).
+service PlacementService {
+  // Ask the executor for an offer. A positive offer reserves budget until accept_by.
+  // auth: PEER: paired; executor policy accept_from
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: AUTHORIZATION/peer_policy_denied, RESOURCE/queue_full
+  // locality: peer
+  rpc RequestOffer(PlacementServiceRequestOfferRequest) returns (PlacementServiceRequestOfferResponse);
+
+  // Accept an offer and create a remote attempt with a 5-minute lease.
+  // auth: PEER: paired; same as RequestOffer
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/expired, STATE/not_found, AUTHORIZATION/peer_policy_denied, AUTHORIZATION/command_pattern_denied, VALIDATION/invalid_argument
+  // locality: peer
+  // state: SM-REMOTE-ATTEMPT: (none) -> RESERVED -> RECEIVING_INPUTS
+  rpc AcceptOffer(PlacementServiceAcceptOfferRequest) returns (PlacementServiceAcceptOfferResponse);
+
+  // Release an offer's reservation.
+  // auth: PEER: paired; the requesting origin
+  // idempotency: natural
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: peer
+  rpc DeclineOffer(PlacementServiceDeclineOfferRequest) returns (PlacementServiceDeclineOfferResponse);
+
+  // Stream state, output, segments, usage and the final result from a cursor.
+  // auth: PEER: the origin of the attempt
+  // idempotency: read
+  // deadline: none; heartbeat 15 s
+  // stream: server: PlacementServiceWatchRemoteAttemptFrame; resumable by cursor
+  // errors: STATE/not_found
+  // locality: peer
+  rpc WatchRemoteAttempt(PlacementServiceWatchRemoteAttemptRequest) returns (stream PlacementServiceWatchRemoteAttemptFrame);
+
+  // Renew the lease (every 60 s while the origin is connected).
+  // auth: PEER: the origin
+  // idempotency: natural
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state
+  // locality: peer
+  rpc RenewAttemptLease(PlacementServiceRenewAttemptLeaseRequest) returns (PlacementServiceRenewAttemptLeaseResponse);
+
+  // Cancel through the executor's cancellation sequence.
+  // auth: PEER: the origin
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: peer
+  // state: SM-REMOTE-ATTEMPT: * -> CANCELLED
+  rpc CancelRemoteAttempt(PlacementServiceCancelRemoteAttemptRequest) returns (PlacementServiceCancelRemoteAttemptResponse);
+
+  // Free the remote workspace and results after the origin has collected them.
+  // auth: PEER: the origin
+  // idempotency: natural
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state
+  // locality: peer
+  // state: SM-REMOTE-ATTEMPT: FINISHED|RETAINED -> RELEASED
+  rpc ReleaseRemoteAttempt(PlacementServiceReleaseRemoteAttemptRequest) returns (PlacementServiceReleaseRemoteAttemptResponse);
+}
+
+message PlacementServiceRequestOfferRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  TaskSummaryForOffer summary = 10 [json_name = "summary"]; // validate: required
+  arcforges.foundation.v1.Id origin_task_id = 11 [json_name = "originTaskId"]; // validate: required
+}
+message PlacementServiceRequestOfferResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PlacementServiceRequestOfferValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PlacementServiceRequestOfferValue {
+  Offer offer = 10 [json_name = "offer"];
+}
+
+message PlacementServiceAcceptOfferRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id offer_id = 10 [json_name = "offerId"]; // validate: unexpired offer from this executor
+  arcforges.foundation.v1.Id origin_attempt_id = 11 [json_name = "originAttemptId"]; // validate: required
+  arcforges.node.v1.TaskSpec spec = 12 [json_name = "spec"]; // validate: required; working_directory relative to the remote workspace; environment set entries only
+  optional string input_manifest_digest = 13 [json_name = "inputManifestDigest"]; // validate: SHA-256 hex
+  optional string origin_workspace_key = 14 [json_name = "originWorkspaceKey"]; // validate: origin workspace ID (base32)
+}
+message PlacementServiceAcceptOfferResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PlacementServiceAcceptOfferValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PlacementServiceAcceptOfferValue {
+  RemoteAttempt attempt = 10 [json_name = "attempt"];
+}
+
+message PlacementServiceDeclineOfferRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id offer_id = 10 [json_name = "offerId"]; // validate: required
+}
+message PlacementServiceDeclineOfferResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PlacementServiceDeclineOfferValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PlacementServiceDeclineOfferValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message PlacementServiceWatchRemoteAttemptRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id remote_attempt_id = 10 [json_name = "remoteAttemptId"]; // validate: required
+  optional string cursor = 11 [json_name = "cursor"]; // validate: from a previous frame; empty = from the start
+}
+message PlacementServiceWatchRemoteAttemptFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  arcforges.node.v1.StreamPosition position = 2 [json_name = "position"];
+  reserved 3 to 9;
+  oneof frame {
+    arcforges.node.v1.StreamReset reset = 10 [json_name = "reset"];
+    arcforges.node.v1.Heartbeat heartbeat = 11 [json_name = "heartbeat"];
+    arcforges.foundation.v1.ArcError error = 12 [json_name = "error"];
+    RemoteAttemptUpdate update = 20 [json_name = "update"];
+    arcforges.node.v1.OutputChunk output = 21 [json_name = "output"];
+    arcforges.node.v1.TimelineSegment segment = 22 [json_name = "segment"];
+    RemoteAttempt completed = 23 [json_name = "completed"];
+  }
+}
+
+message PlacementServiceRenewAttemptLeaseRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id remote_attempt_id = 10 [json_name = "remoteAttemptId"]; // validate: required
+}
+message PlacementServiceRenewAttemptLeaseResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PlacementServiceRenewAttemptLeaseValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PlacementServiceRenewAttemptLeaseValue {
+  arcforges.foundation.v1.Instant lease_expires_at = 10 [json_name = "leaseExpiresAt"];
+}
+
+message PlacementServiceCancelRemoteAttemptRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id remote_attempt_id = 10 [json_name = "remoteAttemptId"]; // validate: required
+  optional string reason = 11 [json_name = "reason"]; // validate: <= 500 chars
+}
+message PlacementServiceCancelRemoteAttemptResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PlacementServiceCancelRemoteAttemptValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PlacementServiceCancelRemoteAttemptValue {
+  RemoteAttempt attempt = 10 [json_name = "attempt"];
+}
+
+message PlacementServiceReleaseRemoteAttemptRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id remote_attempt_id = 10 [json_name = "remoteAttemptId"]; // validate: FINISHED or RETAINED
+}
+message PlacementServiceReleaseRemoteAttemptResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PlacementServiceReleaseRemoteAttemptValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PlacementServiceReleaseRemoteAttemptValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+// Content-addressed manifests and blobs. Executor pulls inputs from the origin; origin pulls outputs from the executor (09 section 6).
+service TransferService {
+  // Read a manifest page.
+  // auth: PEER: party of an active remote attempt; data_out policy (source or outputs)
+  // idempotency: read
+  // deadline: 30 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/peer_policy_denied, RESOURCE/too_large
+  // locality: peer
+  rpc GetManifest(TransferServiceGetManifestRequest) returns (TransferServiceGetManifestResponse);
+
+  // Stream one blob in 4 MiB chunks from an offset; the receiver verifies SHA-256.
+  // auth: PEER: as GetManifest
+  // idempotency: read
+  // deadline: none; heartbeat 15 s; 10 min idle
+  // stream: server: TransferServiceDownloadBlobFrame
+  // errors: STATE/not_found, AUTHORIZATION/peer_policy_denied
+  // locality: peer
+  rpc DownloadBlob(TransferServiceDownloadBlobRequest) returns (stream TransferServiceDownloadBlobFrame);
+}
+
+message TransferServiceGetManifestRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string manifest_digest = 10 [json_name = "manifestDigest"]; // validate: SHA-256 hex of a manifest this node published for the caller
+  optional uint32 page_index = 11 [json_name = "pageIndex"];
+}
+message TransferServiceGetManifestResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TransferServiceGetManifestValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TransferServiceGetManifestValue {
+  repeated ManifestEntry entries = 10 [json_name = "entries"]; // <= 10,000 per page
+  optional bool last_page = 11 [json_name = "lastPage"];
+  optional uint64 total_entries = 12 [json_name = "totalEntries"];
+}
+
+message TransferServiceDownloadBlobRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string sha256 = 10 [json_name = "sha256"]; // validate: referenced by a manifest published for the caller
+  optional uint64 offset = 11 [json_name = "offset"];
+}
+message TransferServiceDownloadBlobFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  arcforges.node.v1.StreamPosition position = 2 [json_name = "position"];
+  reserved 3 to 9;
+  oneof frame {
+    arcforges.node.v1.StreamReset reset = 10 [json_name = "reset"];
+    arcforges.node.v1.Heartbeat heartbeat = 11 [json_name = "heartbeat"];
+    arcforges.foundation.v1.ArcError error = 12 [json_name = "error"];
+    bytes chunk = 20 [json_name = "chunk"];
+  }
+}
+
+// Host-to-guest link over the WSL bridge. Served by the guest node; called by the host (03 section 6).
+service GuestLinkService {
+  // Open the link. The guest streams its hello, grant requests, releases and usage reports for the life of the link.
+  // auth: HOST: bridge connection (same uid by SO_PEERCRED) plus link token
+  // idempotency: read
+  // deadline: none; heartbeat 10 s; link lost after 30 s silence
+  // stream: server: GuestLinkServiceOpenLinkFrame
+  // errors: AUTHENTICATION/unauthenticated, VALIDATION/incompatible_version
+  // locality: guest
+  // state: SM-GUEST-LINK: CONNECTING -> LINKED
+  rpc OpenLink(GuestLinkServiceOpenLinkRequest) returns (stream GuestLinkServiceOpenLinkFrame);
+
+  // The host's admission decision for a grant request.
+  // auth: HOST: the linked host
+  // idempotency: natural: one answer per request
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/link_down
+  // locality: guest
+  rpc AnswerGrant(GuestLinkServiceAnswerGrantRequest) returns (GuestLinkServiceAnswerGrantResponse);
+
+  // The host preempts a granted attempt (pressure or policy); the guest stops it per its preemption rules.
+  // auth: HOST: the linked host
+  // idempotency: natural
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: guest
+  rpc RevokeGrant(GuestLinkServiceRevokeGrantRequest) returns (GuestLinkServiceRevokeGrantResponse);
+
+  // The host pushes the guest's allocation. The guest applies the slice limits before answering, so the answer acknowledges the allocation (03 section 6).
+  // auth: HOST: the linked host
+  // idempotency: natural: latest values win
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/link_down
+  // locality: guest
+  rpc SetGuestBudget(GuestLinkServiceSetGuestBudgetRequest) returns (GuestLinkServiceSetGuestBudgetResponse);
+
+  // Guest capabilities, queue and versions.
+  // auth: HOST: the linked host
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: guest
+  rpc GetGuestStatus(GuestLinkServiceGetGuestStatusRequest) returns (GuestLinkServiceGetGuestStatusResponse);
+}
+
+message GuestLinkServiceOpenLinkRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id host_node_id = 10 [json_name = "hostNodeId"]; // validate: pinned at first link; a change needs confirmation in the guest
+  optional bytes link_token = 11 [json_name = "linkToken"]; // validate: 32 bytes; matches the stored token after the first link
+  optional string host_version = 12 [json_name = "hostVersion"]; // validate: SemVer
+  optional uint32 protocol = 13 [json_name = "protocol"];
+}
+message GuestLinkServiceOpenLinkFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  arcforges.node.v1.StreamPosition position = 2 [json_name = "position"];
+  reserved 3 to 9;
+  oneof frame {
+    arcforges.node.v1.StreamReset reset = 10 [json_name = "reset"];
+    arcforges.node.v1.Heartbeat heartbeat = 11 [json_name = "heartbeat"];
+    arcforges.foundation.v1.ArcError error = 12 [json_name = "error"];
+    GuestHello hello = 20 [json_name = "hello"];
+    GrantRequest grant_request = 21 [json_name = "grantRequest"];
+    GrantRelease grant_release = 22 [json_name = "grantRelease"];
+    GuestUsageReport usage = 23 [json_name = "usage"];
+  }
+}
+
+message GuestLinkServiceAnswerGrantRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id request_id = 10 [json_name = "requestId"]; // validate: an open request
+  optional GrantDecision decision = 11 [json_name = "decision"]; // validate: required
+  arcforges.foundation.v1.Id grant_id = 12 [json_name = "grantId"]; // validate: GRANTED only
+  arcforges.node.v1.ResourceDemand granted = 13 [json_name = "granted"]; // validate: GRANTED only
+  optional string reason = 14 [json_name = "reason"]; // validate: <= 200 chars
+}
+message GuestLinkServiceAnswerGrantResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    GuestLinkServiceAnswerGrantValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message GuestLinkServiceAnswerGrantValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message GuestLinkServiceRevokeGrantRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id grant_id = 10 [json_name = "grantId"]; // validate: required
+  optional string reason = 11 [json_name = "reason"]; // validate: <= 200 chars
+}
+message GuestLinkServiceRevokeGrantResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    GuestLinkServiceRevokeGrantValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message GuestLinkServiceRevokeGrantValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message GuestLinkServiceSetGuestBudgetRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional uint32 cpu_quota_millicores = 10 [json_name = "cpuQuotaMillicores"]; // validate: 100..guest capacity
+  optional uint64 mem_high_bytes = 11 [json_name = "memHighBytes"]; // validate: <= mem_max_bytes
+  optional uint64 mem_max_bytes = 12 [json_name = "memMaxBytes"]; // validate: <= guest MemTotal
+  optional uint32 tasks_max = 13 [json_name = "tasksMax"]; // validate: 64..32768
+  arcforges.foundation.v1.Instant lease_until = 14 [json_name = "leaseUntil"]; // validate: now + 30 s..10 min; renewed every 30 s while linked
+  optional uint32 standalone_cpu_millicores = 15 [json_name = "standaloneCpuMillicores"]; // validate: <= cpu_quota_millicores of this push; admission limit after the lease lapses
+  optional uint64 standalone_mem_bytes = 16 [json_name = "standaloneMemBytes"]; // validate: <= mem_high_bytes of this push; admission limit after the lease lapses
+  optional uint64 allocation_seq = 17 [json_name = "allocationSeq"]; // validate: strictly increasing per link
+}
+message GuestLinkServiceSetGuestBudgetResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    GuestLinkServiceSetGuestBudgetValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message GuestLinkServiceSetGuestBudgetValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  optional uint64 applied_seq = 11 [json_name = "appliedSeq"]; // the allocation now in force on the guest
+}
+
+message GuestLinkServiceGetGuestStatusRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message GuestLinkServiceGetGuestStatusResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    GuestLinkServiceGetGuestStatusValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message GuestLinkServiceGetGuestStatusValue {
+  arcforges.node.v1.PeerStatusSummary status = 10 [json_name = "status"];
+}
+
+enum OfferDecision {
+  OFFER_DECISION_UNSPECIFIED = 0;
+  OFFER_DECISION_OFFERED = 1;
+  OFFER_DECISION_DECLINED = 2;
+}
+
+// SM-REMOTE-ATTEMPT states (executor side; mirrored by the origin).
+enum RemoteAttemptState {
+  REMOTE_ATTEMPT_STATE_UNSPECIFIED = 0;
+  REMOTE_ATTEMPT_STATE_RESERVED = 1;
+  REMOTE_ATTEMPT_STATE_RECEIVING_INPUTS = 2;
+  REMOTE_ATTEMPT_STATE_QUEUED = 3;
+  REMOTE_ATTEMPT_STATE_RUNNING = 4;
+  REMOTE_ATTEMPT_STATE_FINISHED = 5;
+  REMOTE_ATTEMPT_STATE_RETAINED = 6; // origin silent beyond the lease; results kept 7 days
+  REMOTE_ATTEMPT_STATE_RELEASED = 7;
+  REMOTE_ATTEMPT_STATE_CANCELLED = 8;
+  REMOTE_ATTEMPT_STATE_PREEMPTED = 9;
+}
+
+enum GrantDecision {
+  GRANT_DECISION_UNSPECIFIED = 0;
+  GRANT_DECISION_GRANTED = 1;
+  GRANT_DECISION_DENIED = 2;
+}
+
+message PeerHello {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"]; // validate: required; equals the certificate SAN node ID
+  optional string name = 2 [json_name = "name"]; // validate: 1..64 chars
+  optional string version = 3 [json_name = "version"];
+  optional uint32 protocol_min = 4 [json_name = "protocolMin"]; // validate: >= 1
+  optional uint32 protocol_max = 5 [json_name = "protocolMax"]; // validate: >= protocol_min
+  repeated string features = 6 [json_name = "features"];
+  optional arcforges.node.v1.OsFamily os = 7 [json_name = "os"];
+  optional arcforges.node.v1.CpuArchitecture arch = 8 [json_name = "arch"];
+  optional string account_hint = 9 [json_name = "accountHint"]; // reserved for account hints (roadmap RM-01): always "-" in release 1, so unpaired nodes learn nothing about the account
+  optional double cpu_class = 10 [json_name = "cpuClass"];
+}
+
+message TaskSummaryForOffer {
+  optional string title = 1 [json_name = "title"]; // sanitized per data_out
+  optional string tool = 2 [json_name = "tool"];
+  optional string operation = 3 [json_name = "operation"];
+  arcforges.node.v1.ResourceDemand demand = 4 [json_name = "demand"];
+  optional arcforges.node.v1.Priority priority = 5 [json_name = "priority"];
+  repeated string required_toolchains = 6 [json_name = "requiredToolchains"];
+  optional arcforges.node.v1.OsFamily os = 7 [json_name = "os"];
+  optional arcforges.node.v1.CpuArchitecture arch = 8 [json_name = "arch"];
+  map<string, string> required_labels = 9 [json_name = "requiredLabels"];
+  optional uint64 input_bytes_estimate = 10 [json_name = "inputBytesEstimate"];
+  repeated string cache_kinds = 11 [json_name = "cacheKinds"];
+  optional string command_fingerprint = 12 [json_name = "commandFingerprint"]; // normalized, redacted
+}
+
+message Offer {
+  arcforges.foundation.v1.Id offer_id = 1 [json_name = "offerId"];
+  optional OfferDecision decision = 2 [json_name = "decision"];
+  optional string decline_reason = 3 [json_name = "declineReason"];
+  arcforges.foundation.v1.Instant accept_by = 4 [json_name = "acceptBy"]; // 30 s
+  optional uint64 queue_eta_ms = 5 [json_name = "queueEtaMs"];
+  arcforges.node.v1.ResourceDemand reservation = 6 [json_name = "reservation"];
+  repeated string missing_toolchains = 7 [json_name = "missingToolchains"];
+  optional double cache_warmth = 8 [json_name = "cacheWarmth"]; // 0..1
+  optional double est_duration_seconds = 9 [json_name = "estDurationSeconds"];
+}
+
+message RemoteAttempt {
+  arcforges.foundation.v1.Id remote_attempt_id = 1 [json_name = "remoteAttemptId"];
+  optional RemoteAttemptState state = 2 [json_name = "state"];
+  arcforges.foundation.v1.Instant lease_expires_at = 3 [json_name = "leaseExpiresAt"];
+  arcforges.foundation.v1.Id origin_node_id = 4 [json_name = "originNodeId"];
+  arcforges.foundation.v1.Id origin_attempt_id = 5 [json_name = "originAttemptId"];
+  optional string remote_workspace = 6 [json_name = "remoteWorkspace"];
+  arcforges.node.v1.AttemptResult result = 7 [json_name = "result"];
+  optional string output_manifest_digest = 8 [json_name = "outputManifestDigest"];
+  repeated KeyValueRewrite environment_rewrites = 9 [json_name = "environmentRewrites"];
+  optional uint32 workspace_slot = 10 [json_name = "workspaceSlot"]; // the leased slot of the origin workspace (09 section 6)
+}
+
+message KeyValueRewrite {
+  optional string name = 1 [json_name = "name"];
+  optional string original = 2 [json_name = "original"];
+  optional string rewritten = 3 [json_name = "rewritten"];
+}
+
+message ManifestEntry {
+  optional string path = 1 [json_name = "path"]; // workspace-relative, forward slashes
+  optional uint32 mode = 2 [json_name = "mode"]; // POSIX mode bits; executable bit honoured on Linux
+  optional uint64 size_bytes = 3 [json_name = "sizeBytes"];
+  optional string sha256 = 4 [json_name = "sha256"];
+}
+
+message RemoteAttemptUpdate {
+  optional RemoteAttemptState state = 1 [json_name = "state"];
+  optional arcforges.node.v1.AttemptState attempt_state = 2 [json_name = "attemptState"];
+  optional string category = 3 [json_name = "category"];
+  arcforges.node.v1.ResourceUsage usage = 4 [json_name = "usage"];
+}
+
+message GuestHello {
+  arcforges.foundation.v1.Id guest_node_id = 1 [json_name = "guestNodeId"];
+  optional string distro = 2 [json_name = "distro"];
+  optional string version = 3 [json_name = "version"];
+  arcforges.node.v1.CapabilityReport capabilities = 4 [json_name = "capabilities"];
+  optional uint32 capacity_cpu_millicores = 5 [json_name = "capacityCpuMillicores"];
+  optional uint64 capacity_mem_bytes = 6 [json_name = "capacityMemBytes"];
+  arcforges.foundation.v1.Id pinned_host_node_id = 7 [json_name = "pinnedHostNodeId"];
+  optional uint64 applied_seq = 8 [json_name = "appliedSeq"]; // the allocation the guest applies now (03 section 6); the host adds it to the reservation if it is larger
+  optional uint32 applied_cpu_millicores = 9 [json_name = "appliedCpuMillicores"];
+  optional uint64 applied_mem_high_bytes = 10 [json_name = "appliedMemHighBytes"];
+  optional uint64 applied_mem_max_bytes = 11 [json_name = "appliedMemMaxBytes"];
+  optional bool new_distro_boot = 12 [json_name = "newDistroBoot"]; // the guest started without its runtime-directory marker: a new boot of its distribution (03 section 6)
+}
+
+message GrantRequest {
+  arcforges.foundation.v1.Id request_id = 1 [json_name = "requestId"];
+  arcforges.foundation.v1.Id attempt_id = 2 [json_name = "attemptId"];
+  arcforges.node.v1.ResourceDemand demand = 3 [json_name = "demand"];
+  optional arcforges.node.v1.Priority priority = 4 [json_name = "priority"];
+  optional string pool = 5 [json_name = "pool"];
+  arcforges.node.v1.ActorRef owner = 6 [json_name = "owner"];
+  optional string title = 7 [json_name = "title"];
+  optional bool already_running = 8 [json_name = "alreadyRunning"]; // the guest admitted this attempt while the link was lost; the host accounts it at once and covers it in the next allocation (03 section 6)
+}
+
+message GrantRelease {
+  arcforges.foundation.v1.Id grant_id = 1 [json_name = "grantId"];
+  arcforges.node.v1.ResourceUsage final_usage = 2 [json_name = "finalUsage"];
+}
+
+message GuestUsageReport {
+  optional uint32 managed_cpu_millicores = 1 [json_name = "managedCpuMillicores"];
+  optional uint64 managed_mem_bytes = 2 [json_name = "managedMemBytes"];
+  optional uint32 running_attempts = 3 [json_name = "runningAttempts"];
+  optional uint32 queued_tasks = 4 [json_name = "queuedTasks"];
+  optional arcforges.node.v1.PressureLevel pressure = 5 [json_name = "pressure"];
+}

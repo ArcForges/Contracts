@@ -1,0 +1,404 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/policy.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeWorkspacesProto";
+
+// Workspaces and node-managed git worktrees (architecture 06 section 3; SM-WORKTREE).
+
+// Register workspaces and manage node-owned git worktrees.
+service WorkspaceService {
+  // Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id; registering the same root returns the existing workspace
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument
+  // locality: node
+  rpc RegisterWorkspace(WorkspaceServiceRegisterWorkspaceRequest) returns (WorkspaceServiceRegisterWorkspaceResponse);
+
+  // Forget a registered workspace. Files are never touched.
+  // auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/in_use, AUTHORIZATION/approval_required
+  // locality: node
+  rpc UnregisterWorkspace(WorkspaceServiceUnregisterWorkspaceRequest) returns (WorkspaceServiceUnregisterWorkspaceResponse);
+
+  // List workspaces.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListWorkspaces(WorkspaceServiceListWorkspacesRequest) returns (WorkspaceServiceListWorkspacesResponse);
+
+  // Read one workspace with a fresh git status summary.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetWorkspace(WorkspaceServiceGetWorkspaceRequest) returns (WorkspaceServiceGetWorkspaceResponse);
+
+  // Create a node-managed git worktree as a node job (SM-WORKTREE).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s (job continues)
+  // stream: none
+  // errors: STATE/not_found, CONFLICT/already_exists, VALIDATION/invalid_argument, RESOURCE/quota_exceeded, RESOURCE/disk_space
+  // locality: node
+  // state: SM-WORKTREE: (none) -> CREATING -> ACTIVE | FAILED
+  rpc CreateWorktree(WorkspaceServiceCreateWorktreeRequest) returns (WorkspaceServiceCreateWorktreeResponse);
+
+  // Inventory a managed worktree before removal: changes to archive, intent-to-add paths, ignored files that would need a decision, and anything that blocks archiving (06 section 3).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 30 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc PlanWorktreeRemoval(WorkspaceServicePlanWorktreeRemovalRequest) returns (WorkspaceServicePlanWorktreeRemovalResponse);
+
+  // Remove a managed worktree. A dirty worktree is refused unless archive_changes is set (approval needed); the archive is verified before anything is removed (06 section 3).
+  // auth: HUMAN=A SCRIPT=A AGENT=A (clean) / P (archive) REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s (job continues)
+  // stream: none
+  // errors: STATE/not_found, STATE/in_use, STATE/dirty_worktree, STATE/invalid_state, VALIDATION/invalid_argument, CONFLICT/digest_mismatch, AUTHORIZATION/approval_required
+  // locality: node
+  // state: SM-WORKTREE: ACTIVE|IDLE -> REMOVING -> REMOVED (clean); ACTIVE|IDLE -> ARCHIVING -> REMOVING -> REMOVED (archive_changes)
+  rpc RemoveWorktree(WorkspaceServiceRemoveWorktreeRequest) returns (WorkspaceServiceRemoveWorktreeResponse);
+
+  // List verified archives of removed worktrees (retention 90 days).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListWorktreeArchives(WorkspaceServiceListWorktreeArchivesRequest) returns (WorkspaceServiceListWorktreeArchivesResponse);
+
+  // Re-create a worktree from a verified archive: branch at the archived HEAD, staged state and working-tree state restored (06 section 3).
+  // auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s (job continues)
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, CONFLICT/already_exists
+  // locality: node
+  // state: SM-WORKTREE: (none) -> CREATING -> ACTIVE | FAILED
+  rpc RestoreWorktree(WorkspaceServiceRestoreWorktreeRequest) returns (WorkspaceServiceRestoreWorktreeResponse);
+
+  // Rename a workspace, or set its routing mode or concurrency mode override (a policy revision for routing).
+  // auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/approval_required
+  // locality: node
+  rpc UpdateWorkspaceSettings(WorkspaceServiceUpdateWorkspaceSettingsRequest) returns (WorkspaceServiceUpdateWorkspaceSettingsResponse);
+}
+
+message WorkspaceServiceRegisterWorkspaceRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string path = 10 [json_name = "path"]; // validate: absolute existing directory
+  optional string name = 11 [json_name = "name"]; // validate: <= 100 chars; default directory name
+}
+message WorkspaceServiceRegisterWorkspaceResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceRegisterWorkspaceValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message WorkspaceServiceRegisterWorkspaceValue {
+  Workspace workspace = 10 [json_name = "workspace"];
+}
+
+message WorkspaceServiceUnregisterWorkspaceRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id workspace_id = 10 [json_name = "workspaceId"]; // validate: REGISTERED kind
+}
+message WorkspaceServiceUnregisterWorkspaceResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceUnregisterWorkspaceValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message WorkspaceServiceUnregisterWorkspaceValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message WorkspaceServiceListWorkspacesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated WorkspaceKind kinds = 10 [json_name = "kinds"]; // validate: unique values; empty = all
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"]; // validate: limit 1..500
+}
+message WorkspaceServiceListWorkspacesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceListWorkspacesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message WorkspaceServiceListWorkspacesValue {
+  repeated Workspace workspaces = 10 [json_name = "workspaces"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message WorkspaceServiceGetWorkspaceRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id workspace_id = 10 [json_name = "workspaceId"]; // validate: required
+}
+message WorkspaceServiceGetWorkspaceResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceGetWorkspaceValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message WorkspaceServiceGetWorkspaceValue {
+  Workspace workspace = 10 [json_name = "workspace"];
+}
+
+message WorkspaceServiceCreateWorktreeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id base_workspace_id = 10 [json_name = "baseWorkspaceId"]; // validate: REGISTERED git workspace
+  optional string branch = 11 [json_name = "branch"]; // validate: git ref name rules; default af/<owner-short>/<name>; one worktree per branch
+  optional string base_ref = 12 [json_name = "baseRef"]; // validate: existing ref; default the base workspace HEAD
+  optional string name = 13 [json_name = "name"]; // validate: ^[a-z0-9][a-z0-9-]{0,47}$
+  arcforges.foundation.v1.Id session_id = 14 [json_name = "sessionId"]; // validate: optional owner session
+}
+message WorkspaceServiceCreateWorktreeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceCreateWorktreeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message WorkspaceServiceCreateWorktreeValue {
+  Workspace workspace = 10 [json_name = "workspace"]; // state CREATING
+  JobView job = 11 [json_name = "job"];
+}
+
+message WorkspaceServicePlanWorktreeRemovalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id workspace_id = 10 [json_name = "workspaceId"]; // validate: MANAGED_WORKTREE
+}
+message WorkspaceServicePlanWorktreeRemovalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServicePlanWorktreeRemovalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message WorkspaceServicePlanWorktreeRemovalValue {
+  WorktreeRemovalPlan plan = 10 [json_name = "plan"];
+}
+
+message WorkspaceServiceRemoveWorktreeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id workspace_id = 10 [json_name = "workspaceId"]; // validate: MANAGED_WORKTREE
+  optional bool archive_changes = 11 [json_name = "archiveChanges"];
+  optional IgnoredFilesDecision ignored_files = 12 [json_name = "ignoredFiles"]; // validate: required when the removal plan lists ignored files; DISCARD_CONFIRMED from HUMAN callers only
+  optional bytes ignored_list_digest = 13 [json_name = "ignoredListDigest"]; // validate: required with ignored_files; equals the current plan's digest
+}
+message WorkspaceServiceRemoveWorktreeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceRemoveWorktreeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message WorkspaceServiceRemoveWorktreeValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  JobView job = 11 [json_name = "job"];
+  optional string archive_path = 12 [json_name = "archivePath"]; // the bundle file
+  WorktreeArchive archive = 13 [json_name = "archive"]; // when archive_changes is set
+}
+
+message WorkspaceServiceListWorktreeArchivesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id base_workspace_id = 10 [json_name = "baseWorkspaceId"]; // validate: optional filter
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"]; // validate: page size 1..100
+}
+message WorkspaceServiceListWorktreeArchivesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceListWorktreeArchivesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message WorkspaceServiceListWorktreeArchivesValue {
+  repeated WorktreeArchive archives = 10 [json_name = "archives"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message WorkspaceServiceRestoreWorktreeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id archive_id = 10 [json_name = "archiveId"]; // validate: required; VERIFIED
+  optional string branch = 11 [json_name = "branch"]; // validate: optional new branch name; default: the archived branch if it is free and still points at the archived HEAD, else <branch>-restored
+}
+message WorkspaceServiceRestoreWorktreeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceRestoreWorktreeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message WorkspaceServiceRestoreWorktreeValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  JobView job = 11 [json_name = "job"];
+  arcforges.foundation.v1.Id workspace_id = 12 [json_name = "workspaceId"];
+}
+
+message WorkspaceServiceUpdateWorkspaceSettingsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id workspace_id = 10 [json_name = "workspaceId"]; // validate: required
+  optional string name = 11 [json_name = "name"]; // validate: <= 100 chars
+  optional RoutingMode routing_mode = 12 [json_name = "routingMode"]; // validate: UNSPECIFIED = inherit
+  optional WorkspaceConcurrency concurrency_mode = 13 [json_name = "concurrencyMode"]; // validate: UNSPECIFIED = inherit
+}
+message WorkspaceServiceUpdateWorkspaceSettingsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceUpdateWorkspaceSettingsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message WorkspaceServiceUpdateWorkspaceSettingsValue {
+  Workspace workspace = 10 [json_name = "workspace"];
+}
+
+enum WorkspaceKind {
+  WORKSPACE_KIND_UNSPECIFIED = 0;
+  WORKSPACE_KIND_REGISTERED = 1;
+  WORKSPACE_KIND_MANAGED_WORKTREE = 2;
+  WORKSPACE_KIND_REMOTE = 3;
+}
+
+// SM-WORKTREE states (REGISTERED workspaces are always ACTIVE).
+enum WorkspaceState {
+  WORKSPACE_STATE_UNSPECIFIED = 0;
+  WORKSPACE_STATE_CREATING = 1;
+  WORKSPACE_STATE_ACTIVE = 2;
+  WORKSPACE_STATE_IDLE = 3;
+  WORKSPACE_STATE_REMOVING = 4;
+  WORKSPACE_STATE_REMOVED = 5;
+  WORKSPACE_STATE_FAILED = 6;
+  WORKSPACE_STATE_ARCHIVING = 7; // snapshot, bundle and restore verification before removing a dirty worktree
+}
+
+enum WorkspaceConcurrency {
+  WORKSPACE_CONCURRENCY_UNSPECIFIED = 0; // inherit: ADAPTER_KEYS
+  WORKSPACE_CONCURRENCY_ADAPTER_KEYS = 1; // adapters' and callers' exclusive keys apply
+  WORKSPACE_CONCURRENCY_SERIAL = 2; // every managed task of the workspace takes ws:<workspace> exclusively
+  WORKSPACE_CONCURRENCY_SHARED = 3; // only caller-supplied keys apply
+}
+
+// A verified snapshot of a dirty worktree (06 section 3).
+message WorktreeArchive {
+  arcforges.foundation.v1.Id archive_id = 1 [json_name = "archiveId"];
+  arcforges.foundation.v1.Id workspace_id = 2 [json_name = "workspaceId"];
+  optional string branch = 3 [json_name = "branch"];
+  optional string head_commit = 4 [json_name = "headCommit"];
+  optional string index_commit = 5 [json_name = "indexCommit"]; // the staged state
+  optional string worktree_commit = 6 [json_name = "worktreeCommit"]; // tracked and untracked (not ignored) working-tree state
+  optional string bundle_path = 7 [json_name = "bundlePath"];
+  optional string ignored_archive_path = 8 [json_name = "ignoredArchivePath"]; // optional archive of ignored files the user chose to keep
+  optional uint32 file_count = 9 [json_name = "fileCount"];
+  optional uint64 size_bytes = 10 [json_name = "sizeBytes"];
+  arcforges.foundation.v1.Instant verified_at = 11 [json_name = "verifiedAt"];
+  arcforges.foundation.v1.Instant expires_at = 12 [json_name = "expiresAt"];
+  repeated string intent_to_add_paths = 13 [json_name = "intentToAddPaths"]; // paths staged with git add -N, re-applied on restore
+  optional string raw_archive_path = 14 [json_name = "rawArchivePath"]; // files kept byte for byte: bytes that do not survive the repository's filters, and LFS content
+  optional IgnoredFilesDecision ignored_files = 15 [json_name = "ignoredFiles"];
+}
+
+enum IgnoredFilesDecision {
+  IGNORED_FILES_DECISION_UNSPECIFIED = 0; // no ignored files outside regenerable output
+  IGNORED_FILES_DECISION_INCLUDE = 1; // archived beside the bundle
+  IGNORED_FILES_DECISION_DISCARD_CONFIRMED = 2; // HUMAN only: the listed files may be lost
+}
+
+// What removing a worktree would archive or lose (06 section 3).
+message WorktreeRemovalPlan {
+  optional bool dirty = 1 [json_name = "dirty"];
+  optional uint32 staged = 2 [json_name = "staged"];
+  optional uint32 unstaged = 3 [json_name = "unstaged"];
+  optional uint32 untracked = 4 [json_name = "untracked"];
+  repeated string intent_to_add_paths = 5 [json_name = "intentToAddPaths"];
+  repeated string ignored_paths = 6 [json_name = "ignoredPaths"]; // ignored files outside regenerable output, at most 1,000
+  optional bool ignored_truncated = 7 [json_name = "ignoredTruncated"];
+  optional bytes ignored_list_digest = 8 [json_name = "ignoredListDigest"]; // SHA-256 over the sorted full list
+  repeated string blocking = 9 [json_name = "blocking"]; // reasons the worktree cannot be archived: unmerged entries, submodules or nested repositories with their own changes
+}
+
+message GitStatusSummary {
+  optional string branch = 1 [json_name = "branch"];
+  optional string head = 2 [json_name = "head"]; // commit SHA
+  optional bool dirty = 3 [json_name = "dirty"];
+  optional uint32 modified_files = 4 [json_name = "modifiedFiles"];
+  optional uint32 untracked_files = 5 [json_name = "untrackedFiles"];
+  optional uint32 ahead = 6 [json_name = "ahead"];
+  optional uint32 behind = 7 [json_name = "behind"];
+  optional bool merged_into_base = 8 [json_name = "mergedIntoBase"];
+  optional bool upstream_deleted = 9 [json_name = "upstreamDeleted"];
+  optional bool locked = 10 [json_name = "locked"];
+}
+
+message Workspace {
+  arcforges.foundation.v1.Id workspace_id = 1 [json_name = "workspaceId"];
+  optional WorkspaceKind kind = 2 [json_name = "kind"];
+  optional WorkspaceState state = 3 [json_name = "state"];
+  optional string name = 4 [json_name = "name"];
+  optional string root_path = 5 [json_name = "rootPath"];
+  optional string repository_identity = 6 [json_name = "repositoryIdentity"]; // hash of the common git dir plus remote URL hashes
+  arcforges.foundation.v1.Id base_workspace_id = 7 [json_name = "baseWorkspaceId"]; // MANAGED_WORKTREE
+  optional string base_ref = 8 [json_name = "baseRef"];
+  ActorRef owner = 9 [json_name = "owner"];
+  GitStatusSummary git = 10 [json_name = "git"];
+  optional RoutingMode routing_mode = 11 [json_name = "routingMode"]; // effective
+  arcforges.foundation.v1.Instant created_at = 12 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant last_used_at = 13 [json_name = "lastUsedAt"];
+  optional uint32 active_tasks = 14 [json_name = "activeTasks"];
+  optional uint32 live_sessions = 15 [json_name = "liveSessions"];
+  arcforges.foundation.v1.Id origin_node_id = 16 [json_name = "originNodeId"]; // REMOTE
+  optional uint64 size_bytes = 17 [json_name = "sizeBytes"];
+  optional WorkspaceConcurrency concurrency_mode = 18 [json_name = "concurrencyMode"]; // effective
+  optional uint32 remote_slot = 19 [json_name = "remoteSlot"]; // REMOTE only: slot number under the origin workspace
+  arcforges.foundation.v1.Id leased_by_attempt_id = 20 [json_name = "leasedByAttemptId"]; // REMOTE only: the remote attempt holding the slot
+}

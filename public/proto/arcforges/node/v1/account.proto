@@ -1,0 +1,369 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeAccountProto";
+
+// The node's link to an ArcForges account: sign-in flows, phone pairing, entitlements and the cloud link
+// (architecture 10 sections 3.1-3.4 and 3.8; SM-SIGN-IN, SM-DEVICE-AUTH, SM-PHONE-PAIRING, SM-RELAY).
+// The node talks to arcforges.fleet.v1 on behalf of these calls; local clients never hold node credentials.
+
+// Account link, sign-in, phone pairing, entitlement and cloud link.
+service AccountService {
+  // Account, entitlement, enrollment and relay state.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetAccountStatus(AccountServiceGetAccountStatusRequest) returns (AccountServiceGetAccountStatusResponse);
+
+  // Start a browser (PKCE loopback) or device-code sign-in. The node completes it itself.
+  // auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id; one active flow at a time (returns it)
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/invalid_state, STATE/cloud_unreachable, RESOURCE/rate_limited, AUTHORIZATION/permission_denied
+  // locality: node -> cloud
+  // state: SM-SIGN-IN: (none) -> PENDING
+  rpc BeginSignIn(AccountServiceBeginSignInRequest) returns (AccountServiceBeginSignInResponse);
+
+  // Read the state of a sign-in flow.
+  // auth: HUMAN=A SCRIPT=A AGENT=D REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetSignInFlow(AccountServiceGetSignInFlowRequest) returns (AccountServiceGetSignInFlowResponse);
+
+  // Cancel an active sign-in flow.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state
+  // locality: node
+  // state: SM-SIGN-IN: PENDING -> CANCELLED
+  rpc CancelSignIn(AccountServiceCancelSignInRequest) returns (AccountServiceCancelSignInResponse);
+
+  // Sign the node out: revoke its credential in the cloud when reachable, delete local credentials, stop the relay.
+  // auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/not_signed_in
+  // locality: node -> cloud
+  rpc SignOut(AccountServiceSignOutRequest) returns (AccountServiceSignOutResponse);
+
+  // Create a QR pairing for signing a phone in as this account (10 section 3.3).
+  // auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/not_signed_in, STATE/cloud_unreachable, RESOURCE/rate_limited
+  // locality: node -> cloud
+  // state: SM-PHONE-PAIRING: (none) -> WAITING_FOR_SCAN
+  rpc CreatePhonePairing(AccountServiceCreatePhonePairingRequest) returns (AccountServiceCreatePhonePairingResponse);
+
+  // Read a phone pairing, including the claiming phone's model once scanned.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node -> cloud
+  rpc GetPhonePairing(AccountServiceGetPhonePairingRequest) returns (AccountServiceGetPhonePairingResponse);
+
+  // Allow or deny the phone that scanned the code.
+  // auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, STATE/expired
+  // locality: node -> cloud
+  // state: SM-PHONE-PAIRING: AWAITING_CONFIRMATION -> CONFIRMED | DENIED
+  rpc ConfirmPhonePairing(AccountServiceConfirmPhonePairingRequest) returns (AccountServiceConfirmPhonePairingResponse);
+
+  // Turn the cloud link (relay, push events, entitlement refresh) on or off for this node.
+  // auth: HUMAN=A SCRIPT=P AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_signed_in, ENTITLEMENT/feature_not_entitled, AUTHORIZATION/approval_required
+  // locality: node
+  rpc SetCloudLink(AccountServiceSetCloudLinkRequest) returns (AccountServiceSetCloudLinkResponse);
+
+  // Refresh the signed entitlement token now.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/not_signed_in, STATE/cloud_unreachable
+  // locality: node -> cloud
+  rpc RefreshEntitlement(AccountServiceRefreshEntitlementRequest) returns (AccountServiceRefreshEntitlementResponse);
+}
+
+message AccountServiceGetAccountStatusRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message AccountServiceGetAccountStatusResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AccountServiceGetAccountStatusValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message AccountServiceGetAccountStatusValue {
+  AccountStatus status = 10 [json_name = "status"];
+}
+
+message AccountServiceBeginSignInRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional SignInMethod method = 10 [json_name = "method"]; // validate: default BROWSER; DEVICE_CODE when no browser is available
+}
+message AccountServiceBeginSignInResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AccountServiceBeginSignInValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message AccountServiceBeginSignInValue {
+  SignInFlow flow = 10 [json_name = "flow"];
+}
+
+message AccountServiceGetSignInFlowRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"]; // validate: required
+}
+message AccountServiceGetSignInFlowResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AccountServiceGetSignInFlowValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message AccountServiceGetSignInFlowValue {
+  SignInFlow flow = 10 [json_name = "flow"];
+}
+
+message AccountServiceCancelSignInRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"]; // validate: required
+}
+message AccountServiceCancelSignInResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AccountServiceCancelSignInValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message AccountServiceCancelSignInValue {
+  SignInFlow flow = 10 [json_name = "flow"];
+}
+
+message AccountServiceSignOutRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional bool revoke_remote = 10 [json_name = "revokeRemote"]; // validate: default true
+}
+message AccountServiceSignOutResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AccountServiceSignOutValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message AccountServiceSignOutValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message AccountServiceCreatePhonePairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message AccountServiceCreatePhonePairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AccountServiceCreatePhonePairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message AccountServiceCreatePhonePairingValue {
+  PhonePairing pairing = 10 [json_name = "pairing"];
+}
+
+message AccountServiceGetPhonePairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: required
+}
+message AccountServiceGetPhonePairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AccountServiceGetPhonePairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message AccountServiceGetPhonePairingValue {
+  PhonePairing pairing = 10 [json_name = "pairing"];
+}
+
+message AccountServiceConfirmPhonePairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: AWAITING_CONFIRMATION
+  optional bool approve = 11 [json_name = "approve"];
+}
+message AccountServiceConfirmPhonePairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AccountServiceConfirmPhonePairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message AccountServiceConfirmPhonePairingValue {
+  PhonePairing pairing = 10 [json_name = "pairing"];
+}
+
+message AccountServiceSetCloudLinkRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional bool enabled = 10 [json_name = "enabled"];
+}
+message AccountServiceSetCloudLinkResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AccountServiceSetCloudLinkValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message AccountServiceSetCloudLinkValue {
+  AccountStatus status = 10 [json_name = "status"];
+}
+
+message AccountServiceRefreshEntitlementRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message AccountServiceRefreshEntitlementResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AccountServiceRefreshEntitlementValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message AccountServiceRefreshEntitlementValue {
+  EntitlementSummary entitlement = 10 [json_name = "entitlement"];
+}
+
+enum SignInMethod {
+  SIGN_IN_METHOD_UNSPECIFIED = 0;
+  SIGN_IN_METHOD_BROWSER = 1;
+  SIGN_IN_METHOD_DEVICE_CODE = 2;
+}
+
+// SM-SIGN-IN and SM-DEVICE-AUTH states as seen by the node.
+enum SignInFlowState {
+  SIGN_IN_FLOW_STATE_UNSPECIFIED = 0;
+  SIGN_IN_FLOW_STATE_PENDING = 1;
+  SIGN_IN_FLOW_STATE_COMPLETING = 2;
+  SIGN_IN_FLOW_STATE_SIGNED_IN = 3;
+  SIGN_IN_FLOW_STATE_DENIED = 4;
+  SIGN_IN_FLOW_STATE_EXPIRED = 5;
+  SIGN_IN_FLOW_STATE_FAILED = 6;
+  SIGN_IN_FLOW_STATE_CANCELLED = 7;
+}
+
+// SM-RELAY states.
+enum RelayState {
+  RELAY_STATE_UNSPECIFIED = 0;
+  RELAY_STATE_DISABLED = 1;
+  RELAY_STATE_CONNECTING = 2;
+  RELAY_STATE_CONNECTED = 3;
+  RELAY_STATE_BACKOFF = 4;
+  RELAY_STATE_REFUSED = 5; // entitlement, plan limit, kill switch or unsupported version
+}
+
+// SM-PHONE-PAIRING states as seen by the node.
+enum PhonePairingState {
+  PHONE_PAIRING_STATE_UNSPECIFIED = 0;
+  PHONE_PAIRING_STATE_WAITING_FOR_SCAN = 1;
+  PHONE_PAIRING_STATE_AWAITING_CONFIRMATION = 2;
+  PHONE_PAIRING_STATE_CONFIRMED = 3;
+  PHONE_PAIRING_STATE_DENIED = 4;
+  PHONE_PAIRING_STATE_EXPIRED = 5;
+  PHONE_PAIRING_STATE_COMPLETED = 6;
+}
+
+message SignInFlow {
+  arcforges.foundation.v1.Id flow_id = 1 [json_name = "flowId"];
+  optional SignInMethod method = 2 [json_name = "method"];
+  optional SignInFlowState state = 3 [json_name = "state"];
+  optional string authorize_url = 4 [json_name = "authorizeUrl"]; // BROWSER
+  optional string user_code = 5 [json_name = "userCode"]; // DEVICE_CODE; 8 characters
+  optional string verification_uri = 6 [json_name = "verificationUri"];
+  optional string verification_uri_complete = 7 [json_name = "verificationUriComplete"];
+  optional string qr_payload = 8 [json_name = "qrPayload"]; // verification_uri_complete encoded for QR
+  arcforges.foundation.v1.Instant expires_at = 9 [json_name = "expiresAt"];
+  optional uint64 poll_interval_ms = 10 [json_name = "pollIntervalMs"];
+  arcforges.foundation.v1.ArcError error = 11 [json_name = "error"];
+  optional bool fell_back_to_device_code = 12 [json_name = "fellBackToDeviceCode"]; // loopback port unavailable
+}
+
+message EntitlementSummary {
+  optional string plan = 1 [json_name = "plan"];
+  repeated string features = 2 [json_name = "features"];
+  arcforges.foundation.v1.Instant not_after = 3 [json_name = "notAfter"];
+  arcforges.foundation.v1.Instant refreshed_at = 4 [json_name = "refreshedAt"];
+  optional bool offline_grace = 5 [json_name = "offlineGrace"];
+}
+
+message AccountStatus {
+  optional bool signed_in = 1 [json_name = "signedIn"];
+  optional string account_display_name = 2 [json_name = "accountDisplayName"];
+  optional string account_email_masked = 3 [json_name = "accountEmailMasked"];
+  EntitlementSummary entitlement = 4 [json_name = "entitlement"];
+  optional bool node_enrolled = 5 [json_name = "nodeEnrolled"];
+  arcforges.foundation.v1.Instant node_certificate_expires_at = 6 [json_name = "nodeCertificateExpiresAt"]; // account-based LAN trust (roadmap RM-01); absent in release 1
+  optional RelayState relay = 7 [json_name = "relay"];
+  optional string relay_reason = 8 [json_name = "relayReason"];
+  optional bool cloud_link_enabled = 9 [json_name = "cloudLinkEnabled"];
+  optional bool cloud_reachable = 10 [json_name = "cloudReachable"];
+  arcforges.foundation.v1.Instant last_contact_at = 11 [json_name = "lastContactAt"];
+  repeated string warnings = 12 [json_name = "warnings"]; // e.g. weaker credential storage on Linux without a secret service
+  optional bool credential_in_os_store = 13 [json_name = "credentialInOsStore"];
+}
+
+message PhonePairing {
+  arcforges.foundation.v1.Id pairing_id = 1 [json_name = "pairingId"];
+  optional PhonePairingState state = 2 [json_name = "state"];
+  optional string qr_payload = 3 [json_name = "qrPayload"]; // arcforges://pair?i=<id>&s=<secret>; present only while WAITING_FOR_SCAN
+  arcforges.foundation.v1.Instant expires_at = 4 [json_name = "expiresAt"];
+  optional string phone_model = 5 [json_name = "phoneModel"];
+  optional string phone_os = 6 [json_name = "phoneOs"];
+  arcforges.foundation.v1.Instant claimed_at = 7 [json_name = "claimedAt"];
+}

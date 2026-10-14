@@ -152,7 +152,9 @@ internal static class Con40SdkCases
             Require(fixtureMethods.TryGetProperty(service, out var methods) && methods.GetArrayLength() == count, "serialization: CON.11 method count " + service);
         string[] expectedServices = ["arcforges.hello.v1.HelloService", "arcforges.events.v1.ExecutionService", "arcforges.events.v1.EventService",
             "arcforges.catalog.v1.CatalogService", .. con08.Keys, "arcforges.publicapi.v1.ApplicationService", "arcforges.publicapi.v1.HistoryService",
-            "arcforges.publicapi.v1.IdentityService", "arcforges.publicapi.v1.WorkspaceService", "arcforges.publicapi.v1.DeviceService"];
+            "arcforges.publicapi.v1.IdentityService", "arcforges.publicapi.v1.WorkspaceService", "arcforges.publicapi.v1.DeviceService",
+            // AF-CON-01: the additive flagship service in the reused package.
+            "arcforges.publicapi.v1.SupportAccessService"];
         var actual = ArcForges.Contracts.PublicApi.ContractServices.All.Concat(ArcForges.Contracts.Events.ContractServices.All).ToArray();
         Require(actual.Select(service => service.FullName).Order(StringComparer.Ordinal).SequenceEqual(expectedServices.Order(StringComparer.Ordinal), StringComparer.Ordinal),
             "serialization: generated public catalogues list exactly the authored services");

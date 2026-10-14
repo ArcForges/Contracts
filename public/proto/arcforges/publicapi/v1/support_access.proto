@@ -1,0 +1,88 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.publicapi.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+
+option csharp_namespace = "ArcForges.Contracts.PublicApi.V1";
+option java_package = "io.github.arcforges.contracts.publicapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "SupportAccessProto";
+
+// Support access requests as seen by the account owner (web W-25; architecture 14 section 1).
+// Additive to the reused public package arcforges.publicapi.v1 (Contracts main b774c322): a new service in a new
+// file, so SupportService is unchanged. An operator's OperatorService.RequestAccess creates the request; the owner
+// reads it here and decides with the reused SupportService.DecideAccess(access_id, proposal_hash, approve).
+// AF-SUP-01 adopts this file into Contracts and implements it.
+
+// Support access requests for the signed-in account (web W-25).
+service SupportAccessService {
+  // List the account's support access requests: pending first, then those decided in the last 30 days.
+  // auth: account session
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, VALIDATION/invalid_cursor
+  // locality: cloud
+  rpc ListAccessRequests(SupportAccessServiceListAccessRequestsRequest) returns (SupportAccessServiceListAccessRequestsResponse);
+
+  // Read one support access request, including the proposal hash needed to decide it.
+  // auth: account session
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: cloud
+  rpc GetAccessRequest(SupportAccessServiceGetAccessRequestRequest) returns (SupportAccessServiceGetAccessRequestResponse);
+}
+
+message SupportAccessServiceListAccessRequestsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id case_id = 10 [json_name = "caseId"]; // validate: optional filter; a case of the caller's account
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"]; // validate: page size 1..50; default 20
+}
+message SupportAccessServiceListAccessRequestsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SupportAccessServiceListAccessRequestsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SupportAccessServiceListAccessRequestsValue {
+  repeated SupportAccessRequestView requests = 10 [json_name = "requests"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message SupportAccessServiceGetAccessRequestRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id access_id = 10 [json_name = "accessId"]; // validate: required; a request of the caller's account
+}
+message SupportAccessServiceGetAccessRequestResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SupportAccessServiceGetAccessRequestValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SupportAccessServiceGetAccessRequestValue {
+  SupportAccessRequestView request = 10 [json_name = "request"];
+}
+
+message SupportAccessRequestView {
+  arcforges.foundation.v1.Id access_id = 1 [json_name = "accessId"];
+  arcforges.foundation.v1.Id case_id = 2 [json_name = "caseId"];
+  optional string requester_display = 3 [json_name = "requesterDisplay"]; // "ArcForges support" plus the operator's first name; never an e-mail address
+  optional string purpose = 4 [json_name = "purpose"];
+  repeated arcforges.foundation.v1.AggregateRef resources = 5 [json_name = "resources"]; // for example kind "support.bundle"
+  arcforges.foundation.v1.Instant requested_at = 6 [json_name = "requestedAt"];
+  arcforges.foundation.v1.Instant until = 7 [json_name = "until"]; // end of access if allowed; at most 24 h after the decision
+  optional string state = 8 [json_name = "state"]; // pending | allowed | denied | ended | expired
+  optional string proposal_hash = 9 [json_name = "proposalHash"]; // SHA-256 of the canonical proposal; passed back to SupportService.DecideAccess
+  arcforges.foundation.v1.Instant decided_at = 10 [json_name = "decidedAt"];
+}

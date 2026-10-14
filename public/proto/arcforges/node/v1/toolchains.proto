@@ -1,0 +1,193 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/caches.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/tasks.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeToolchainsProto";
+
+// Toolchain detection and adapter manifests (architecture 05 sections 1-3).
+
+// Detected toolchains, adapter manifests and invocation previews.
+service ToolchainService {
+  // List detected toolchains.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument
+  // locality: node
+  rpc ListToolchains(ToolchainServiceListToolchainsRequest) returns (ToolchainServiceListToolchainsResponse);
+
+  // Rescan toolchains now.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id; one detection at a time
+  // deadline: 5 s (job continues)
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc DetectToolchains(ToolchainServiceDetectToolchainsRequest) returns (ToolchainServiceDetectToolchainsResponse);
+
+  // Adapter manifests with every guarantee stated (R-TOOL-004).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc ListAdapters(ToolchainServiceListAdaptersRequest) returns (ToolchainServiceListAdaptersResponse);
+
+  // Classify a command without running it: adapter, estimate, environment and argument edits, cache bindings.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, VALIDATION/program_not_found, VALIDATION/path_not_found
+  // locality: node
+  rpc PreviewInvocation(ToolchainServicePreviewInvocationRequest) returns (ToolchainServicePreviewInvocationResponse);
+}
+
+message ToolchainServiceListToolchainsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated string kinds = 10 [json_name = "kinds"]; // validate: known kinds
+}
+message ToolchainServiceListToolchainsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ToolchainServiceListToolchainsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ToolchainServiceListToolchainsValue {
+  repeated Toolchain toolchains = 10 [json_name = "toolchains"];
+}
+
+message ToolchainServiceDetectToolchainsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message ToolchainServiceDetectToolchainsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ToolchainServiceDetectToolchainsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ToolchainServiceDetectToolchainsValue {
+  JobView job = 10 [json_name = "job"];
+}
+
+message ToolchainServiceListAdaptersRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message ToolchainServiceListAdaptersResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ToolchainServiceListAdaptersValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ToolchainServiceListAdaptersValue {
+  repeated AdapterManifest adapters = 10 [json_name = "adapters"];
+}
+
+message ToolchainServicePreviewInvocationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  CommandSpec command = 10 [json_name = "command"]; // validate: required
+  optional string working_directory = 11 [json_name = "workingDirectory"]; // validate: absolute existing directory
+  map<string, string> environment = 12 [json_name = "environment"]; // validate: <= 4096 entries
+}
+message ToolchainServicePreviewInvocationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ToolchainServicePreviewInvocationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ToolchainServicePreviewInvocationValue {
+  InvocationPreview preview = 10 [json_name = "preview"];
+}
+
+enum Guarantee {
+  GUARANTEE_UNSPECIFIED = 0;
+  GUARANTEE_HONORED = 1;
+  GUARANTEE_BEST_EFFORT = 2;
+}
+
+enum EnvironmentEditMode {
+  ENVIRONMENT_EDIT_MODE_UNSPECIFIED = 0;
+  ENVIRONMENT_EDIT_MODE_SET = 1;
+  ENVIRONMENT_EDIT_MODE_PREPEND_PATH = 2;
+}
+
+message Toolchain {
+  optional string kind = 1 [json_name = "kind"]; // dotnet-sdk, msbuild-vs, msvc, rust, cmake, ninja, make, clang, gcc, node, npm, pnpm, yarn, python, pip, git, sccache, ccache
+  optional string version = 2 [json_name = "version"];
+  optional string path = 3 [json_name = "path"];
+  map<string, string> identity = 4 [json_name = "identity"]; // e.g. host triple, workloads, VS instance ID
+  arcforges.foundation.v1.Instant detected_at = 5 [json_name = "detectedAt"];
+  optional bool missing = 6 [json_name = "missing"]; // referenced by a task but not found
+}
+
+message EnvironmentEdit {
+  optional string name = 1 [json_name = "name"];
+  optional string value = 2 [json_name = "value"];
+  optional EnvironmentEditMode mode = 3 [json_name = "mode"];
+  optional Guarantee guarantee = 4 [json_name = "guarantee"];
+  optional string source = 5 [json_name = "source"]; // documentation reference, e.g. V-T01
+}
+
+message ArgumentEdit {
+  optional string argument = 1 [json_name = "argument"];
+  optional string purpose = 2 [json_name = "purpose"]; // concurrency only
+  optional bool skipped_caller_set = 3 [json_name = "skippedCallerSet"];
+}
+
+message CacheBinding {
+  optional string cache_kind = 1 [json_name = "cacheKind"];
+  optional CacheAccess access = 2 [json_name = "access"];
+}
+
+message AdapterManifest {
+  optional string adapter = 1 [json_name = "adapter"]; // dotnet, cargo, cpp, node, python, git, generic
+  optional string version = 2 [json_name = "version"];
+  repeated string tools = 3 [json_name = "tools"];
+  repeated string operations = 4 [json_name = "operations"];
+  repeated EnvironmentEdit environment_edits = 5 [json_name = "environmentEdits"];
+  repeated ArgumentEdit argument_edits = 6 [json_name = "argumentEdits"];
+  repeated CacheBinding cache_bindings = 7 [json_name = "cacheBindings"];
+  repeated string shared_services = 8 [json_name = "sharedServices"];
+  optional string notes = 9 [json_name = "notes"];
+}
+
+message InvocationPreview {
+  optional string adapter = 1 [json_name = "adapter"];
+  optional string tool = 2 [json_name = "tool"];
+  optional string operation = 3 [json_name = "operation"];
+  optional SideEffectClass side_effect_proposal = 4 [json_name = "sideEffectProposal"];
+  optional bool assert_class = 5 [json_name = "assertClass"];
+  optional bool pausable_default = 6 [json_name = "pausableDefault"];
+  optional bool preemptible_default = 7 [json_name = "preemptibleDefault"];
+  ResourceDemand estimate = 8 [json_name = "estimate"];
+  repeated EnvironmentEdit environment_edits = 9 [json_name = "environmentEdits"];
+  repeated ArgumentEdit argument_edits = 10 [json_name = "argumentEdits"];
+  repeated CacheBinding cache_bindings = 11 [json_name = "cacheBindings"];
+  repeated string phase_hints = 12 [json_name = "phaseHints"];
+  optional uint32 tool_parallelism = 13 [json_name = "toolParallelism"];
+  optional string resolved_program = 14 [json_name = "resolvedProgram"];
+}

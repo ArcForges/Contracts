@@ -1,0 +1,411 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/policy.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeSessionsProto";
+
+// AI client sessions, hook events, routing decisions, probes and coverage (architecture 08; AD-0007; SM-SESSION).
+// Client-asserted data is labelled as such; the node verifies process identities only.
+
+// Hook intake, routing, sessions, coverage and probes.
+service SessionService {
+  // Record a client hook event and return the client's expected decision. Latency target p95 <= 50 ms end to end (15).
+  // auth: HOOK client kind only (any origin class AGENT); REMOTE=-
+  // idempotency: natural: (client_session_id, kind, tool_use_id) deduplicated for 10 min
+  // deadline: 2 s (hook fails open on timeout)
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/node_stopping
+  // locality: node
+  // state: SM-SESSION: (none) -> ACTIVE on SessionStart; ACTIVE -> ENDED on SessionEnd
+  rpc ReportHookEvent(SessionServiceReportHookEventRequest) returns (SessionServiceReportHookEventResponse);
+
+  // Routing decision for a shell command (08 section 4.1). Also used by the Desktop to preview routing.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 2 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument
+  // locality: node
+  rpc ClassifyCommand(SessionServiceClassifyCommandRequest) returns (SessionServiceClassifyCommandResponse);
+
+  // List sessions, active first.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (own session detail) REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListSessions(SessionServiceListSessionsRequest) returns (SessionServiceListSessionsResponse);
+
+  // Read one session.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetSession(SessionServiceGetSessionRequest) returns (SessionServiceGetSessionResponse);
+
+  // Observed coverage facts for a session, never presented as completeness (R-AI-007).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetSessionCoverage(SessionServiceGetSessionCoverageRequest) returns (SessionServiceGetSessionCoverageResponse);
+
+  // The release coverage statement: the operations this release manages, the gaps it reports and the journeys that verify them (product definition section 9). D-14, `arcforges coverage` and the MCP session_coverage tool show it (R-AI-011).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetReleaseScope(SessionServiceGetReleaseScopeRequest) returns (SessionServiceGetReleaseScopeResponse);
+
+  // End a session; services with stop_with_session stop.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (own session) REMOTE=-
+  // idempotency: command_id; ending an ended session succeeds
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied
+  // locality: node
+  // state: SM-SESSION: ACTIVE|IDLE -> ENDED
+  rpc EndSession(SessionServiceEndSessionRequest) returns (SessionServiceEndSessionResponse);
+
+  // Called by `arcforges probe` from inside an AI client's command environment (A-A01).
+  // auth: PROBE client kind with a valid token REMOTE=-
+  // idempotency: natural: token single use
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/expired, STATE/not_found
+  // locality: node
+  rpc ReportProbe(SessionServiceReportProbeRequest) returns (SessionServiceReportProbeResponse);
+}
+
+message SessionServiceReportHookEventRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  HookEvent event = 10 [json_name = "event"]; // validate: required
+}
+message SessionServiceReportHookEventResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SessionServiceReportHookEventValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SessionServiceReportHookEventValue {
+  RoutingDecision routing = 10 [json_name = "routing"]; // PreToolUse only
+  arcforges.foundation.v1.Id session_id = 11 [json_name = "sessionId"];
+  repeated string env_lines = 12 [json_name = "envLines"]; // SessionStart (Claude Code CLAUDE_ENV_FILE), e.g. ARCFORGES_SESSION=<id>
+  optional string additional_context = 13 [json_name = "additionalContext"]; // SessionStart guidance when enabled by policy
+}
+
+message SessionServiceClassifyCommandRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"]; // validate: optional
+  optional string agent_id = 11 [json_name = "agentId"]; // validate: <= 128 chars
+  optional string command = 12 [json_name = "command"]; // validate: required; <= 1 MiB
+  optional string cwd = 13 [json_name = "cwd"]; // validate: absolute path
+  optional string shell = 14 [json_name = "shell"]; // validate: bash | sh | pwsh | powershell | cmd
+  optional AiClient client = 15 [json_name = "client"];
+  optional uint64 tool_timeout_ms = 16 [json_name = "toolTimeoutMs"]; // validate: 0 = client default
+  optional string permission_mode = 17 [json_name = "permissionMode"]; // validate: <= 64 chars (client-asserted)
+}
+message SessionServiceClassifyCommandResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SessionServiceClassifyCommandValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SessionServiceClassifyCommandValue {
+  RoutingDecision routing = 10 [json_name = "routing"];
+}
+
+message SessionServiceListSessionsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated SessionState states = 10 [json_name = "states"]; // validate: unique values; empty = all
+  optional AiClient client = 11 [json_name = "client"];
+  arcforges.foundation.v1.Id workspace_id = 12 [json_name = "workspaceId"]; // validate: optional existing workspace
+  arcforges.foundation.v1.PageRequest page = 13 [json_name = "page"]; // validate: limit 1..500
+}
+message SessionServiceListSessionsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SessionServiceListSessionsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SessionServiceListSessionsValue {
+  repeated Session sessions = 10 [json_name = "sessions"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message SessionServiceGetSessionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"]; // validate: required
+}
+message SessionServiceGetSessionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SessionServiceGetSessionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SessionServiceGetSessionValue {
+  Session session = 10 [json_name = "session"];
+}
+
+message SessionServiceGetSessionCoverageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"]; // validate: required
+}
+message SessionServiceGetSessionCoverageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SessionServiceGetSessionCoverageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SessionServiceGetSessionCoverageValue {
+  SessionCoverage coverage = 10 [json_name = "coverage"];
+}
+
+message SessionServiceGetReleaseScopeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message SessionServiceGetReleaseScopeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SessionServiceGetReleaseScopeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SessionServiceGetReleaseScopeValue {
+  optional string release = 10 [json_name = "release"]; // the node's release version
+  repeated ReleaseScopeEntry entries = 11 [json_name = "entries"]; // the rows of product definition section 9, in order
+}
+
+message SessionServiceEndSessionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"]; // validate: required
+  optional string reason = 11 [json_name = "reason"]; // validate: <= 200 chars
+}
+message SessionServiceEndSessionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SessionServiceEndSessionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SessionServiceEndSessionValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message SessionServiceReportProbeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string probe_token = 10 [json_name = "probeToken"]; // validate: issued by IntegrationService.StartProbe; single use; unexpired
+  ProbeObservation observation = 11 [json_name = "observation"]; // validate: required
+}
+message SessionServiceReportProbeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SessionServiceReportProbeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SessionServiceReportProbeValue {
+  optional ProbeResult result = 10 [json_name = "result"];
+}
+
+enum AiClient {
+  AI_CLIENT_UNSPECIFIED = 0;
+  AI_CLIENT_CLAUDE_CODE = 1;
+  AI_CLIENT_CODEX = 2;
+  AI_CLIENT_OTHER_MCP = 3;
+}
+
+enum HookEventKind {
+  HOOK_EVENT_KIND_UNSPECIFIED = 0;
+  HOOK_EVENT_KIND_SESSION_START = 1;
+  HOOK_EVENT_KIND_SESSION_END = 2;
+  HOOK_EVENT_KIND_SUBAGENT_START = 3;
+  HOOK_EVENT_KIND_SUBAGENT_STOP = 4;
+  HOOK_EVENT_KIND_PRE_TOOL_USE = 5;
+  HOOK_EVENT_KIND_POST_TOOL_USE = 6;
+  HOOK_EVENT_KIND_STOP = 7;
+  // WorktreeCreate/WorktreeRemove are never configured: in Claude Code they replace git worktree
+  // creation and removal (architecture 08 section 3.1).
+}
+
+enum RoutingDecisionKind {
+  ROUTING_DECISION_KIND_UNSPECIFIED = 0;
+  ROUTING_DECISION_KIND_ALLOW_UNCHANGED = 1;
+  ROUTING_DECISION_KIND_REWRITE = 2;
+  ROUTING_DECISION_KIND_DENY_WITH_GUIDANCE = 3;
+}
+
+enum SessionSource {
+  SESSION_SOURCE_UNSPECIFIED = 0;
+  SESSION_SOURCE_HOOKS = 1;
+  SESSION_SOURCE_MCP_ONLY = 2;
+}
+
+// SM-SESSION states.
+enum SessionState {
+  SESSION_STATE_UNSPECIFIED = 0;
+  SESSION_STATE_ACTIVE = 1;
+  SESSION_STATE_IDLE = 2;
+  SESSION_STATE_ENDED = 3;
+}
+
+enum ProbeResult {
+  PROBE_RESULT_UNSPECIFIED = 0;
+  PROBE_RESULT_PASS = 1;
+  PROBE_RESULT_FAIL_CONNECT = 2;
+  PROBE_RESULT_FAIL_NOT_FOUND = 3;
+  PROBE_RESULT_PENDING = 4;
+  PROBE_RESULT_EXPIRED = 5;
+}
+
+message HookEvent {
+  optional AiClient client = 1 [json_name = "client"]; // validate: required
+  optional HookEventKind kind = 2 [json_name = "kind"]; // validate: required
+  optional string raw_event_name = 3 [json_name = "rawEventName"]; // validate: <= 64 chars
+  optional string client_session_id = 4 [json_name = "clientSessionId"]; // validate: <= 128 chars; required except for PreToolUse fallbacks
+  optional string agent_id = 5 [json_name = "agentId"]; // validate: <= 128 chars
+  optional string agent_type = 6 [json_name = "agentType"]; // validate: <= 128 chars
+  optional string cwd = 7 [json_name = "cwd"]; // validate: absolute path
+  optional string transcript_path = 8 [json_name = "transcriptPath"]; // validate: stored as a pointer only; never read
+  optional string model = 9 [json_name = "model"]; // validate: <= 128 chars (client-asserted)
+  optional string source = 10 [json_name = "source"]; // startup | resume | clear | compact (client-asserted)
+  optional string tool_name = 11 [json_name = "toolName"]; // validate: <= 128 chars
+  optional string tool_use_id = 12 [json_name = "toolUseId"]; // validate: <= 128 chars
+  optional string command = 13 [json_name = "command"]; // validate: shell tools only; <= 1 MiB
+  optional uint64 tool_timeout_ms = 14 [json_name = "toolTimeoutMs"]; // validate: PreToolUse only; the client's timeout for the command (Claude Code Bash default 120,000)
+  optional int32 tool_exit_code = 15 [json_name = "toolExitCode"];
+  ProcessIdentity hook_process = 16 [json_name = "hookProcess"]; // validate: required; verified
+  ProcessIdentity agent_process = 17 [json_name = "agentProcess"]; // validate: the nearest client-executable ancestor of the hook process; verified by the node
+  optional string client_version = 18 [json_name = "clientVersion"]; // validate: <= 64 chars
+  optional string permission_mode = 19 [json_name = "permissionMode"]; // validate: <= 64 chars
+  optional string shell = 20 [json_name = "shell"]; // validate: bash | sh | pwsh | powershell | cmd
+}
+
+message RoutingDecision {
+  optional RoutingDecisionKind decision = 1 [json_name = "decision"];
+  optional string rewritten_command = 2 [json_name = "rewrittenCommand"];
+  optional string reason = 3 [json_name = "reason"];
+  optional string matched_pattern = 4 [json_name = "matchedPattern"];
+  optional RoutingMode mode = 5 [json_name = "mode"];
+  optional ProbeResult probe = 6 [json_name = "probe"];
+  optional ClientPermission client_permission = 7 [json_name = "clientPermission"]; // REWRITE only
+  optional uint64 expected_duration_ms = 8 [json_name = "expectedDurationMs"]; // from operational memory, when known
+}
+
+message Subagent {
+  optional string agent_id = 1 [json_name = "agentId"];
+  optional string agent_type = 2 [json_name = "agentType"];
+  arcforges.foundation.v1.Instant started_at = 3 [json_name = "startedAt"];
+  arcforges.foundation.v1.Instant stopped_at = 4 [json_name = "stoppedAt"];
+}
+
+message ClientEventRecord {
+  optional HookEventKind kind = 1 [json_name = "kind"];
+  arcforges.foundation.v1.Instant at = 2 [json_name = "at"];
+  optional string detail = 3 [json_name = "detail"];
+}
+
+message Session {
+  arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
+  optional AiClient client = 2 [json_name = "client"];
+  optional string client_name = 3 [json_name = "clientName"];
+  optional string client_version = 4 [json_name = "clientVersion"];
+  optional string client_session_id = 5 [json_name = "clientSessionId"];
+  optional SessionSource source = 6 [json_name = "source"];
+  optional SessionState state = 7 [json_name = "state"];
+  optional string cwd = 8 [json_name = "cwd"];
+  arcforges.foundation.v1.Id workspace_id = 9 [json_name = "workspaceId"];
+  ProcessIdentity agent_root = 10 [json_name = "agentRoot"];
+  optional string transcript_path = 11 [json_name = "transcriptPath"];
+  optional string model = 12 [json_name = "model"];
+  arcforges.foundation.v1.Instant started_at = 13 [json_name = "startedAt"];
+  arcforges.foundation.v1.Instant last_activity_at = 14 [json_name = "lastActivityAt"];
+  arcforges.foundation.v1.Instant ended_at = 15 [json_name = "endedAt"];
+  optional string end_reason = 16 [json_name = "endReason"];
+  repeated Subagent subagents = 17 [json_name = "subagents"];
+  optional RoutingMode routing_mode = 18 [json_name = "routingMode"];
+  optional uint32 managed_tasks = 19 [json_name = "managedTasks"];
+  optional uint32 bypassed_commands = 20 [json_name = "bypassedCommands"];
+}
+
+message HookCount {
+  optional HookEventKind kind = 1 [json_name = "kind"];
+  optional uint32 count = 2 [json_name = "count"];
+  optional uint32 failed = 3 [json_name = "failed"];
+}
+
+message SessionCoverage {
+  arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
+  optional bool mcp_connected = 2 [json_name = "mcpConnected"];
+  repeated HookCount hooks = 3 [json_name = "hooks"];
+  optional bool rewrite_active = 4 [json_name = "rewriteActive"];
+  optional ProbeResult probe = 5 [json_name = "probe"];
+  optional uint32 managed_task_count = 6 [json_name = "managedTaskCount"];
+  optional uint64 managed_cpu_ms = 7 [json_name = "managedCpuMs"];
+  optional uint64 managed_wall_ms = 8 [json_name = "managedWallMs"];
+  optional uint32 bypassed_command_count = 9 [json_name = "bypassedCommandCount"];
+  optional uint32 bypassed_process_count = 10 [json_name = "bypassedProcessCount"];
+  optional uint64 bypassed_cpu_ms = 11 [json_name = "bypassedCpuMs"];
+  optional uint64 bypassed_mem_peak_bytes = 12 [json_name = "bypassedMemPeakBytes"];
+  optional uint32 unattributed_heavy_count = 13 [json_name = "unattributedHeavyCount"];
+  optional uint64 unattributed_heavy_cpu_ms = 14 [json_name = "unattributedHeavyCpuMs"];
+  repeated string unknowns = 15 [json_name = "unknowns"]; // e.g. "subagent attribution of MCP work", "model state (never available)"
+  repeated ClientEventRecord client_events = 16 [json_name = "clientEvents"];
+  optional uint32 route_failed = 17 [json_name = "routeFailed"];
+  optional uint32 managed_share_permille = 18 [json_name = "managedSharePermille"]; // managed CPU-seconds x 1000 / (managed + bypassed + attributed unmanaged)
+  optional uint32 handoffs = 19 [json_name = "handoffs"]; // rewritten runs that handed off before the client's timeout
+  optional uint32 joined = 20 [json_name = "joined"]; // submissions that joined an existing task
+}
+
+// One row of the release coverage statement (product definition section 9; R-AI-011).
+message ReleaseScopeEntry {
+  optional string operation = 1 [json_name = "operation"]; // e.g. "Commands and their subprocesses"
+  optional string managed = 2 [json_name = "managed"]; // what this release manages and through which routes
+  optional string gaps = 3 [json_name = "gaps"]; // what is reported as a gap instead
+  repeated string verified_by = 4 [json_name = "verifiedBy"]; // journey IDs, e.g. "J-02"
+}
+
+message ProbeObservation {
+  optional bool connected = 1 [json_name = "connected"];
+  optional int32 errno = 2 [json_name = "errno"];
+  repeated KeyValue environment_markers = 3 [json_name = "environmentMarkers"]; // sandbox indicators observed by `arcforges probe`
+  optional string os = 4 [json_name = "os"];
+  optional string wsl_distro = 5 [json_name = "wslDistro"];
+}

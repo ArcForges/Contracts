@@ -3,8 +3,9 @@
 ## Authored source and generated output
 
 The authored proto trees, JSON schemas and constraint sidecars own the wire and
-validation shapes. `eng/contract-packages.json` holds 20 package rows: the 13 active
-outputs (12 NuGet packages and the internal npm package `@arcforges/ai-internal`) and
+validation shapes. `eng/contract-packages.json` holds 25 package rows: the 18 active
+outputs (17 NuGet packages, including the CON.43 Dispatch package and the four AF-CON-01
+flagship packages, and the internal npm package `@arcforges/ai-internal`) and
 seven rows that CON.40 retired from new publication (four npm and three Maven), kept
 and marked `retired`. The initial source slices are fixed by the
 [WP03.00 structure profile](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/26f15ebf6278e8cd42c2b2396e82c326513e1078/docs/assurance/wp03-00-contract-structure-profile.md).
@@ -17,6 +18,18 @@ fixes the codec, limit, registration and AOT rules below. The remaining
 production operation catalogue and later semantic gates are not complete.
 
 Each NuGet project owns real generated contracts or validation/client/tool code.
+The flagship packages (AF-CON-01) hold the ArcForges-Design specification protos,
+adopted byte for byte and recorded with their digests and schema digest in
+`eng/flagship-contracts.json`: public `Node` (`arcforges.node.v1`) and `Fleet`
+(`arcforges.fleet.v1`), internal `Peer` (`arcforges.peer.v1`) and `Relay`
+(`arcforges.relay.v1`), plus one additive file each in PublicApi (`support_access.proto`)
+and CloudInternal (`operator_read.proto`). Their shape checks are generated into their
+own packages (`<Package>.Shapes`), so the retained Validation package keeps its
+dependency closure. Their methods are classified by the design annotation block on each
+RPC rather than by the manifest11 operation oracle; `eng/check_operation_scope.py`
+requires the complete block and catalogued error codes
+(`fixtures/public/af-con-01-error-catalogue.json`), and
+`eng/compatibility/flagship-window.json` holds their wire-compatibility baselines.
 Foundation and Events are reusable public contracts. The four LocalRpc owners
 (Platform, Sandbox, Chat and Scope) and CloudInternal have explicit
 internal access boundaries. All authored packages remain Apache-2.0; access and
@@ -99,7 +112,8 @@ schema. Every project disables reflection-based System.Text.Json.
 all locks, runtime-selected well-known proto types, reflection/discovery APIs in
 production source, handwritten wire records outside generated owners, missing strict
 JSON options and stale service catalogues. The test-only
-`tests/public/SerializationProbe` roots all 13 C# libraries, publishes with Native AOT
+`tests/public/SerializationProbe` roots 15 C# contract libraries (including the four
+AF-CON-01 flagship packages), publishes with Native AOT
 (analysis warnings are errors) and runs the independent
 [`wp03-02.json`](../fixtures/public/wp03-02.json) vectors. The C# cases mapped in
 `eng/policy/con-40-test-map.json` replace the retired TypeScript suite over the same

@@ -265,8 +265,11 @@ class IdentityHttpExceptions(unittest.TestCase):
     def test_package_registration_adds_no_identity_and_owns_every_new_input(self):
         catalog = {row["id"]: row for row in load("eng/contract-packages.json")["packages"]}
         # CON.43 (S61(1)) appends the one authorised boundary dispatch identity; this registration added none.
-        self.assertEqual(len(catalog), 21)
-        self.assertEqual(list(catalog)[-1], "ArcForges.Contracts.LocalRpc.Dispatch")
+        # AF-CON-01 then appends the four flagship design packages, in this order, after it.
+        self.assertEqual(len(catalog), 25)
+        self.assertEqual(list(catalog)[-5:], ["ArcForges.Contracts.LocalRpc.Dispatch", "ArcForges.Contracts.Node",
+                                              "ArcForges.Contracts.Fleet", "ArcForges.Contracts.Peer",
+                                              "ArcForges.Contracts.Relay"])
         identity = "public/proto/arcforges/publicapi/v1/identity.proto"
         owners = sorted(pid for pid, row in catalog.items() if identity in row["proto"])
         self.assertEqual(owners, ["@arcforges/proto", "ArcForges.Contracts.PublicApi", "io.github.arcforges:contracts-connect-client", "io.github.arcforges:contracts-proto"])

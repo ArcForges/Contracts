@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.publicapi.v1.SupportAccessRequestView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SupportAccessRequestView",
+      "fields": {
+        "accessId": {},
+        "caseId": {},
+        "requesterDisplay": {},
+        "purpose": {},
+        "resources": {},
+        "requestedAt": {},
+        "until": {},
+        "state": {},
+        "proposalHash": {},
+        "decidedAt": {}
+      }
+    },
+    "arcforges.publicapi.v1.SupportAccessServiceGetAccessRequestRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SupportAccessServiceGetAccessRequestRequest",
+      "fields": {
+        "meta": {},
+        "accessId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SupportAccessServiceGetAccessRequestResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SupportAccessServiceGetAccessRequestResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.publicapi.v1.SupportAccessServiceGetAccessRequestValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SupportAccessServiceGetAccessRequestValue",
+      "fields": {
+        "request": {}
+      }
+    },
+    "arcforges.publicapi.v1.SupportAccessServiceListAccessRequestsRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SupportAccessServiceListAccessRequestsRequest",
+      "fields": {
+        "meta": {},
+        "caseId": {},
+        "page": {}
+      }
+    },
+    "arcforges.publicapi.v1.SupportAccessServiceListAccessRequestsResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SupportAccessServiceListAccessRequestsResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.publicapi.v1.SupportAccessServiceListAccessRequestsValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SupportAccessServiceListAccessRequestsValue",
+      "fields": {
+        "requests": {},
+        "page": {}
+      }
+    }
+  }
+}

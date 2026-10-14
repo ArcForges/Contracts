@@ -1,0 +1,246 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.relay.v1.CommandDeliver": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.CommandDeliver",
+      "fields": {
+        "nodeId": {},
+        "command": {},
+        "expiresAt": {}
+      }
+    },
+    "arcforges.relay.v1.CommandResultForward": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.CommandResultForward",
+      "fields": {
+        "nodeId": {},
+        "result": {}
+      }
+    },
+    "arcforges.relay.v1.CommandUndeliverable": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.CommandUndeliverable",
+      "fields": {
+        "commandId": {},
+        "reason": {}
+      }
+    },
+    "arcforges.relay.v1.DemandSignal": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.DemandSignal",
+      "fields": {
+        "intervalMs": {},
+        "durationMs": {},
+        "detail": {}
+      }
+    },
+    "arcforges.relay.v1.EntitlementChanged": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.EntitlementChanged",
+      "fields": {
+        "entitlementVersion": {}
+      }
+    },
+    "arcforges.relay.v1.EventBatch": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.EventBatch",
+      "fields": {
+        "events": {}
+      }
+    },
+    "arcforges.relay.v1.EventBatchForward": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.EventBatchForward",
+      "fields": {
+        "nodeId": {},
+        "batch": {}
+      }
+    },
+    "arcforges.relay.v1.GrantRefresh": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.GrantRefresh",
+      "fields": {
+        "grant": {}
+      }
+    },
+    "arcforges.relay.v1.HostEnvelope": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.HostEnvelope",
+      "fields": {
+        "envelopeVersion": {},
+        "accountId": {},
+        "events": {},
+        "deliver": {},
+        "result": {},
+        "presence": {},
+        "usage": {},
+        "killSwitches": {},
+        "undeliverable": {}
+      }
+    },
+    "arcforges.relay.v1.KillSwitchUpdate": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.KillSwitchUpdate",
+      "fields": {
+        "liveStreaming": {},
+        "newConnections": {},
+        "commands": {}
+      }
+    },
+    "arcforges.relay.v1.NodeCursor": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.NodeCursor",
+      "fields": {
+        "nodeId": {},
+        "generation": {},
+        "seq": {}
+      }
+    },
+    "arcforges.relay.v1.NodeHello": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.NodeHello",
+      "fields": {
+        "nodeId": {},
+        "version": {},
+        "generation": {},
+        "lastSeq": {}
+      }
+    },
+    "arcforges.relay.v1.OutputTail": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.OutputTail",
+      "fields": {
+        "nodeId": {},
+        "taskId": {},
+        "commandId": {},
+        "data": {},
+        "truncated": {}
+      }
+    },
+    "arcforges.relay.v1.PresenceChange": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.PresenceChange",
+      "fields": {
+        "nodeId": {},
+        "state": {},
+        "at": {}
+      }
+    },
+    "arcforges.relay.v1.PushEvent": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.PushEvent",
+      "fields": {
+        "kind": {},
+        "subjectId": {},
+        "title": {},
+        "severity": {},
+        "at": {},
+        "dedupKey": {}
+      }
+    },
+    "arcforges.relay.v1.RelayAck": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.RelayAck",
+      "fields": {
+        "throughSeq": {}
+      }
+    },
+    "arcforges.relay.v1.RelayClose": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.RelayClose",
+      "fields": {
+        "code": {},
+        "reason": {}
+      }
+    },
+    "arcforges.relay.v1.RelayFrame": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.RelayFrame",
+      "fields": {
+        "frameVersion": {},
+        "frameSeq": {},
+        "nodeHello": {},
+        "summary": {},
+        "delta": {},
+        "snapshot": {},
+        "demand": {},
+        "command": {},
+        "commandResult": {},
+        "events": {},
+        "tokenRefresh": {},
+        "entitlementChanged": {},
+        "close": {},
+        "ack": {},
+        "outputTail": {}
+      }
+    },
+    "arcforges.relay.v1.RelayLimits": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.RelayLimits",
+      "fields": {
+        "summaryFramesPerMinute": {},
+        "deltaFramesPerMinute": {},
+        "bytesPerDay": {},
+        "snapshotMaxBytes": {},
+        "viewersMax": {},
+        "commandsPerHour": {}
+      }
+    },
+    "arcforges.relay.v1.RelayTokenClaims": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.RelayTokenClaims",
+      "fields": {
+        "aud": {},
+        "accountId": {},
+        "nodeId": {},
+        "issuedAt": {},
+        "expiresAt": {},
+        "kindsAllowed": {},
+        "limits": {},
+        "kid": {}
+      }
+    },
+    "arcforges.relay.v1.TokenRefresh": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.TokenRefresh",
+      "fields": {
+        "token": {}
+      }
+    },
+    "arcforges.relay.v1.UsageReport": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.UsageReport",
+      "fields": {
+        "periodStart": {},
+        "framesIn": {},
+        "framesOut": {},
+        "bytesIn": {},
+        "bytesOut": {},
+        "wakes": {},
+        "viewersPeak": {}
+      }
+    },
+    "arcforges.relay.v1.ViewerFrame": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.ViewerFrame",
+      "fields": {
+        "frameVersion": {},
+        "resume": {},
+        "grantRefresh": {},
+        "snapshot": {},
+        "delta": {},
+        "presence": {},
+        "reset": {},
+        "commandUpdate": {},
+        "close": {},
+        "outputTail": {}
+      }
+    },
+    "arcforges.relay.v1.ViewerGrantClaims": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.ViewerGrantClaims",
+      "fields": {
+        "aud": {},
+        "accountId": {},
+        "nodeIds": {},
+        "detail": {},
+        "issuedAt": {},
+        "expiresAt": {},
+        "limits": {},
+        "viewerSessionId": {},
+        "kid": {}
+      }
+    },
+    "arcforges.relay.v1.ViewerReset": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.ViewerReset",
+      "fields": {
+        "nodeId": {},
+        "reason": {}
+      }
+    },
+    "arcforges.relay.v1.ViewerResume": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.ViewerResume",
+      "fields": {
+        "cursors": {}
+      }
+    }
+  }
+}

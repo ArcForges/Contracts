@@ -27,6 +27,10 @@
     <ProjectReference Include="../../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj" />
     <ProjectReference Include="../../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj" />
     <ProjectReference Include="../../../src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj" />
+    <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.Node/ArcForges.Contracts.Node.csproj" />
+    <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.Fleet/ArcForges.Contracts.Fleet.csproj" />
+    <ProjectReference Include="../../../src/internal/dotnet/ArcForges.Contracts.Peer/ArcForges.Contracts.Peer.csproj" />
+    <ProjectReference Include="../../../src/internal/dotnet/ArcForges.Contracts.Relay/ArcForges.Contracts.Relay.csproj" />
   </ItemGroup>
   <ItemGroup>
     <!-- Root every library so the AOT compiler analyzes all of its code, not only probe-reachable paths. -->
@@ -41,5 +45,9 @@
     <TrimmerRootAssembly Include="ArcForges.Contracts.LocalRpc.Chat" />
     <TrimmerRootAssembly Include="ArcForges.Contracts.LocalRpc.Scope" />
     <TrimmerRootAssembly Include="ArcForges.Contracts.CloudInternal" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.Node" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.Fleet" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.Peer" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.Relay" />
   </ItemGroup>
 </Project>

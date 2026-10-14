@@ -1,0 +1,317 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/policy.proto";
+import "arcforges/node/v1/sessions.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeIntegrationsProto";
+
+// AI client integration planning, consent-based configuration writes, probes and snippets
+// (architecture 08 sections 4.2 and 6; AD-0007; SM-INTEGRATION).
+
+// Plan, apply and remove AI client configuration; probes; snippets.
+service IntegrationService {
+  // Detected AI clients and their integration state, probes and conflicts.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc ListClients(IntegrationServiceListClientsRequest) returns (IntegrationServiceListClientsResponse);
+
+  // Compute the exact file changes for installing ArcForges into a client. Nothing is written.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 15 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/not_found, VALIDATION/path_not_found
+  // locality: node
+  rpc PlanIntegration(IntegrationServicePlanIntegrationRequest) returns (IntegrationServicePlanIntegrationResponse);
+
+  // Compute the changes that remove what ArcForges wrote earlier (recorded writes only).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc PlanRemoval(IntegrationServicePlanRemovalRequest) returns (IntegrationServicePlanRemovalResponse);
+
+  // Apply a plan exactly as shown (R-AI-008). Unrelated settings are preserved; writes are recorded for removal.
+  // auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 30 s
+  // stream: none
+  // errors: STATE/not_found, STATE/plan_expired, CONFLICT/digest_mismatch, CONFLICT/revision_conflict, EXECUTION/integration_write_failed, AUTHORIZATION/permission_denied
+  // locality: node
+  // state: SM-INTEGRATION: NOT_CONFIGURED|PARTIAL -> CONFIGURED; CONFIGURED -> NOT_CONFIGURED (removal)
+  rpc ApplyIntegration(IntegrationServiceApplyIntegrationRequest) returns (IntegrationServiceApplyIntegrationResponse);
+
+  // Issue a probe token and the instruction the user runs inside the client (08 section 4.2).
+  // auth: HUMAN=A SCRIPT=A AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument
+  // locality: node
+  rpc StartProbe(IntegrationServiceStartProbeRequest) returns (IntegrationServiceStartProbeResponse);
+
+  // Probe results per client and environment.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc ListProbeResults(IntegrationServiceListProbeResultsRequest) returns (IntegrationServiceListProbeResultsResponse);
+
+  // The optional project-instruction snippet (never written automatically).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetInstructionSnippet(IntegrationServiceGetInstructionSnippetRequest) returns (IntegrationServiceGetInstructionSnippetResponse);
+}
+
+message IntegrationServiceListClientsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message IntegrationServiceListClientsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IntegrationServiceListClientsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message IntegrationServiceListClientsValue {
+  repeated ClientIntegration clients = 10 [json_name = "clients"];
+}
+
+message IntegrationServicePlanIntegrationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional AiClient client = 10 [json_name = "client"]; // validate: CLAUDE_CODE or CODEX
+  optional IntegrationScope scope = 11 [json_name = "scope"]; // validate: required
+  optional string project_path = 12 [json_name = "projectPath"]; // validate: PROJECT or LOCAL scope; absolute directory
+  repeated IntegrationComponent components = 13 [json_name = "components"]; // validate: non-empty
+  optional RoutingMode routing_mode = 14 [json_name = "routingMode"]; // validate: REWRITE only with a passing probe; default OBSERVE
+}
+message IntegrationServicePlanIntegrationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IntegrationServicePlanIntegrationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message IntegrationServicePlanIntegrationValue {
+  IntegrationPlan plan = 10 [json_name = "plan"];
+}
+
+message IntegrationServicePlanRemovalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional AiClient client = 10 [json_name = "client"]; // validate: required
+  optional IntegrationScope scope = 11 [json_name = "scope"]; // validate: required
+  optional string project_path = 12 [json_name = "projectPath"]; // validate: PROJECT or LOCAL scope; absolute directory
+}
+message IntegrationServicePlanRemovalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IntegrationServicePlanRemovalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message IntegrationServicePlanRemovalValue {
+  IntegrationPlan plan = 10 [json_name = "plan"];
+}
+
+message IntegrationServiceApplyIntegrationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id plan_id = 10 [json_name = "planId"]; // validate: unexpired plan
+  optional string plan_digest = 11 [json_name = "planDigest"]; // validate: equals the plan digest
+}
+message IntegrationServiceApplyIntegrationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IntegrationServiceApplyIntegrationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message IntegrationServiceApplyIntegrationValue {
+  ClientIntegration integration = 10 [json_name = "integration"];
+  repeated FileChange applied = 11 [json_name = "applied"];
+}
+
+message IntegrationServiceStartProbeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional AiClient client = 10 [json_name = "client"]; // validate: required
+}
+message IntegrationServiceStartProbeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IntegrationServiceStartProbeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message IntegrationServiceStartProbeValue {
+  ProbeTicket ticket = 10 [json_name = "ticket"];
+}
+
+message IntegrationServiceListProbeResultsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional AiClient client = 10 [json_name = "client"];
+}
+message IntegrationServiceListProbeResultsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IntegrationServiceListProbeResultsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message IntegrationServiceListProbeResultsValue {
+  repeated ProbeRecord probes = 10 [json_name = "probes"];
+}
+
+message IntegrationServiceGetInstructionSnippetRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional AiClient client = 10 [json_name = "client"];
+}
+message IntegrationServiceGetInstructionSnippetResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IntegrationServiceGetInstructionSnippetValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message IntegrationServiceGetInstructionSnippetValue {
+  optional string snippet = 10 [json_name = "snippet"];
+}
+
+enum IntegrationScope {
+  INTEGRATION_SCOPE_UNSPECIFIED = 0;
+  INTEGRATION_SCOPE_USER = 1;
+  INTEGRATION_SCOPE_PROJECT = 2;
+  INTEGRATION_SCOPE_LOCAL = 3;
+}
+
+enum IntegrationComponent {
+  INTEGRATION_COMPONENT_UNSPECIFIED = 0;
+  INTEGRATION_COMPONENT_MCP_SERVER = 1;
+  INTEGRATION_COMPONENT_HOOKS = 2;
+}
+
+// SM-INTEGRATION states.
+enum IntegrationState {
+  INTEGRATION_STATE_UNSPECIFIED = 0;
+  INTEGRATION_STATE_CLIENT_NOT_FOUND = 1;
+  INTEGRATION_STATE_NOT_CONFIGURED = 2;
+  INTEGRATION_STATE_CONFIGURED = 3;
+  INTEGRATION_STATE_PARTIAL = 4;
+  INTEGRATION_STATE_DEGRADED = 5;
+}
+
+enum ConflictKind {
+  CONFLICT_KIND_UNSPECIFIED = 0;
+  CONFLICT_KIND_HOOKS_DISABLED = 1;
+  CONFLICT_KIND_HOOKS_UNTRUSTED = 2;
+  CONFLICT_KIND_SANDBOX_DENIES_IPC = 3;
+  CONFLICT_KIND_INSTRUCTIONS_PRESCRIBE_OTHER = 4;
+  CONFLICT_KIND_NAME_TAKEN = 5;
+  CONFLICT_KIND_EXISTING_HOOKS = 6;
+  CONFLICT_KIND_MANAGED_SETTINGS = 7;
+}
+
+enum FileAction {
+  FILE_ACTION_UNSPECIFIED = 0;
+  FILE_ACTION_CREATE = 1;
+  FILE_ACTION_MODIFY = 2;
+  FILE_ACTION_DELETE = 3;
+}
+
+enum PlanKind {
+  PLAN_KIND_UNSPECIFIED = 0;
+  PLAN_KIND_INSTALL = 1;
+  PLAN_KIND_REMOVE = 2;
+}
+
+message IntegrationConflict {
+  optional ConflictKind kind = 1 [json_name = "kind"];
+  optional string detail = 2 [json_name = "detail"];
+  optional string consequence = 3 [json_name = "consequence"];
+  optional string source_path = 4 [json_name = "sourcePath"];
+}
+
+message ProbeRecord {
+  optional AiClient client = 1 [json_name = "client"];
+  optional string environment = 2 [json_name = "environment"]; // e.g. "windows/git-bash", "wsl:Debian", "codex-sandbox:workspace-write"
+  optional ProbeResult result = 3 [json_name = "result"];
+  arcforges.foundation.v1.Instant at = 4 [json_name = "at"];
+  optional string client_version = 5 [json_name = "clientVersion"];
+}
+
+message ClientIntegration {
+  optional AiClient client = 1 [json_name = "client"];
+  optional bool detected = 2 [json_name = "detected"];
+  optional string version = 3 [json_name = "version"];
+  repeated string config_paths = 4 [json_name = "configPaths"];
+  optional IntegrationState state = 5 [json_name = "state"];
+  repeated IntegrationComponent components = 6 [json_name = "components"];
+  optional IntegrationScope scope = 7 [json_name = "scope"];
+  optional RoutingMode routing_mode = 8 [json_name = "routingMode"];
+  repeated ProbeRecord probes = 9 [json_name = "probes"];
+  repeated IntegrationConflict conflicts = 10 [json_name = "conflicts"];
+  arcforges.foundation.v1.Instant checked_at = 11 [json_name = "checkedAt"];
+  optional string server_name = 12 [json_name = "serverName"]; // "arcforges" or "arcforges-node" on a name conflict
+}
+
+message FileChange {
+  optional string path = 1 [json_name = "path"];
+  optional FileAction action = 2 [json_name = "action"];
+  optional string before_sha256 = 3 [json_name = "beforeSha256"];
+  optional string after_sha256 = 4 [json_name = "afterSha256"];
+  optional string diff = 5 [json_name = "diff"]; // unified diff text
+  optional string backup_path = 6 [json_name = "backupPath"];
+}
+
+message IntegrationPlan {
+  arcforges.foundation.v1.Id plan_id = 1 [json_name = "planId"];
+  optional PlanKind kind = 2 [json_name = "kind"];
+  optional AiClient client = 3 [json_name = "client"];
+  optional IntegrationScope scope = 4 [json_name = "scope"];
+  optional string project_path = 5 [json_name = "projectPath"];
+  repeated IntegrationComponent components = 6 [json_name = "components"];
+  optional RoutingMode routing_mode = 7 [json_name = "routingMode"];
+  repeated FileChange changes = 8 [json_name = "changes"];
+  repeated IntegrationConflict conflicts = 9 [json_name = "conflicts"];
+  repeated string manual_steps = 10 [json_name = "manualSteps"]; // e.g. "Run /hooks in Codex and trust ArcForges hooks"
+  optional string digest = 11 [json_name = "digest"];
+  arcforges.foundation.v1.Instant expires_at = 12 [json_name = "expiresAt"]; // 30 min
+}
+
+message ProbeTicket {
+  optional string probe_token = 1 [json_name = "probeToken"];
+  optional string instructions = 2 [json_name = "instructions"]; // the prompt the user runs inside the client
+  arcforges.foundation.v1.Instant expires_at = 3 [json_name = "expiresAt"]; // 15 min
+}

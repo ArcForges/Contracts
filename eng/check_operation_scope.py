@@ -274,6 +274,85 @@ def private_service_projections(root: Path, methods: dict[str, str], bindings: s
              "rpcVectorId": CON11_PRIVATE_RUN_STREAM["rpcVector"]["id"]}]
 
 
+# AF-CON-01: the adopted flagship design protos (ArcForges-Design docs/contracts/proto) classify every
+# method by its design annotation block (docs/contracts/README.md section 4), not by the superseded
+# manifest11 oracle, which has no rows for them. The record pins each adopted file's exact bytes.
+FLAGSHIP_RECORD = "eng/flagship-contracts.json"
+FLAGSHIP_REQUIRED_KEYS = ("auth", "idempotency", "deadline", "stream", "errors", "locality")
+FLAGSHIP_OPTIONAL_KEYS = ("state",)
+FLAGSHIP_NO_ERRORS = "none (implicit codes only)"
+
+
+def flagship_annotations(text: str, path: str) -> dict[str, dict]:
+    """Return {service/method: annotations} from the comment block directly above each rpc."""
+    lines = text.splitlines()
+    package = re.search(r"^package\s+([\w.]+)\s*;", text, re.M)
+    require(package is not None, f"flagship schema without package: {path}")
+    result, service = {}, None
+    for index, line in enumerate(lines):
+        opened = re.match(r"\s*service\s+(\w+)\s*\{", line)
+        if opened:
+            service = opened.group(1)
+        method = re.match(r"\s*rpc\s+(\w+)\s*\(", line)
+        if not method:
+            continue
+        require(service is not None, f"flagship rpc outside a service: {path}: {method.group(1)}")
+        block, at = [], index - 1
+        while at >= 0 and lines[at].strip().startswith("//"):
+            block.insert(0, lines[at].strip()[2:].strip())
+            at -= 1
+        annotations: dict[str, str] = {}
+        for entry in block:
+            key = re.match(r"([a-z]+):\s*(.*)$", entry)
+            if key and key.group(1) in FLAGSHIP_REQUIRED_KEYS + FLAGSHIP_OPTIONAL_KEYS:
+                require(key.group(1) not in annotations,
+                        f"duplicate flagship annotation {key.group(1)}: {path}: {method.group(1)}")
+                require(bool(key.group(2).strip()), f"empty flagship annotation {key.group(1)}: {path}: {method.group(1)}")
+                annotations[key.group(1)] = key.group(2).strip()
+        missing = [key for key in FLAGSHIP_REQUIRED_KEYS if key not in annotations]
+        require(not missing, f"flagship method lacks design annotations {missing}: {path}: {method.group(1)}")
+        binding = f"{package.group(1)}.{service}/{method.group(1)}"
+        require(binding not in result, f"ambiguous duplicate flagship method: {binding}")
+        result[binding] = annotations
+    return result
+
+
+def flagship_methods(root: Path, methods: dict[str, str]) -> list[dict]:
+    """Validate the adopted flagship files and report their methods with their design annotations."""
+    path = root / FLAGSHIP_RECORD
+    if not path.is_file():
+        return []
+    record = load(path)
+    require(record.get("schemaVersion") == "flagship-contracts.v1", "unsupported flagship contract record")
+    catalogue = load(source_path(root, record.get("errorCatalogue")))
+    require(catalogue.get("schemaVersion") == "af-con-01-error-catalogue.v1", "unsupported flagship error catalogue")
+    codes = {f"{row['category']}/{row['code']}" for row in catalogue.get("codes", [])}
+    require(bool(codes), "empty flagship error catalogue")
+    files = record.get("files")
+    require(isinstance(files, list) and bool(files), "flagship file list required")
+    result, seen = [], set()
+    for row in files:
+        require(isinstance(row, dict) and set(row) == {"design", "path", "package", "sha256"},
+                "flagship file row requires exactly design, path, package and sha256")
+        source = row["path"]
+        require(source not in seen, f"flagship file listed twice: {source}")
+        seen.add(source)
+        data = source_path(root, source).read_bytes()
+        require(hashlib.sha256(data).hexdigest() == row["sha256"],
+                f"adopted flagship schema differs from its reviewed record: {source}")
+        annotated = flagship_annotations(data.decode("utf-8"), source)
+        declared = {binding for binding, owner in methods.items() if owner == source}
+        require(set(annotated) == declared, f"flagship annotation inventory differs from declared methods: {source}")
+        for binding, annotations in sorted(annotated.items()):
+            named = annotations["errors"]
+            if named != FLAGSHIP_NO_ERRORS:
+                for code in (item.strip() for item in named.split(",")):
+                    require(code in codes, f"{binding}: error code missing from the catalogue: {code}")
+            result.append({"binding": binding, "source": source, "package": row["package"],
+                           "annotations": annotations})
+    return result
+
+
 def public_imports(root: Path) -> None:
     # The existing compiled package-access gate also enforces dependency closure.
     for path in sorted((root / "public/proto").rglob("*.proto")):
@@ -561,12 +640,16 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
                                    "metadataSource": path.relative_to(root).as_posix()}
     private_projections = private_service_projections(root, methods, bindings)
     private_projection_bindings = {projection["binding"] for projection in private_projections}
+    flagship = flagship_methods(root, methods)
+    flagship_bindings = {method["binding"] for method in flagship}
+    require(not flagship_bindings & bindings, "flagship design method must not have a manifest11 operation export: "
+            + ", ".join(sorted(flagship_bindings & bindings)))
     examples = []
     for binding, source in methods.items():
         if EXAMPLES.get(binding) == source:
             require(binding not in bindings, f"migration example exported as production: {binding}")
             examples.append(binding)
-        elif binding in private_projection_bindings:
+        elif binding in private_projection_bindings or binding in flagship_bindings:
             continue
         else:
             require(binding in bindings, f"unclassified registered method: {binding}")
@@ -579,6 +662,7 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
             "registered": len(exported), "pending": sum(r["status"] == "pending" for r in matrix),
             "reserved": sum(r["status"] == "reserved" for r in matrix), "migrationExamples": sorted(examples),
             "operations": matrix, "privateServiceProjections": private_projections,
+            "flagshipMethods": flagship,
             "coverage": "offline metadata policy only; no runtime authorization acceptance"}
 
 
@@ -599,7 +683,8 @@ def main() -> int:
         if args.report:
             args.report.parent.mkdir(parents=True, exist_ok=True)
             args.report.write_text(output, encoding="utf-8")
-        print(f"Operation scope passed: {report['registered']} registered, {report['pending']} pending, {report['reserved']} reserved")
+        print(f"Operation scope passed: {report['registered']} registered, {report['pending']} pending, {report['reserved']} reserved, "
+              f"{len(report['flagshipMethods'])} flagship design methods")
         return 0
     except (ValueError, KeyError, TypeError, OSError) as error:
         print(f"Operation scope failed: {error}", file=sys.stderr)

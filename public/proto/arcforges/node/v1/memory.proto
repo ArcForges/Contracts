@@ -1,0 +1,214 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/tasks.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeMemoryProto";
+
+// Operational memory facts (architecture 07 section 3). Facts hold normalized, redacted fingerprints only.
+
+// Inspect, query and forget operational memory facts (R-MEM-003).
+service MemoryService {
+  // List facts.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListFacts(MemoryServiceListFactsRequest) returns (MemoryServiceListFactsResponse);
+
+  // Read one fact.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetFact(MemoryServiceGetFactRequest) returns (MemoryServiceGetFactResponse);
+
+  // Facts relevant to a command in a working directory, with the estimate admission would use (MCP memory_query).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument
+  // locality: node
+  rpc QueryFacts(MemoryServiceQueryFactsRequest) returns (MemoryServiceQueryFactsResponse);
+
+  // Delete one fact or every fact under a scope prefix.
+  // auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, AUTHORIZATION/approval_required
+  // locality: node
+  rpc ForgetFacts(MemoryServiceForgetFactsRequest) returns (MemoryServiceForgetFactsResponse);
+}
+
+message MemoryServiceListFactsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  FactFilter filter = 10 [json_name = "filter"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"]; // validate: limit 1..500
+}
+message MemoryServiceListFactsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    MemoryServiceListFactsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message MemoryServiceListFactsValue {
+  repeated Fact facts = 10 [json_name = "facts"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message MemoryServiceGetFactRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id fact_id = 10 [json_name = "factId"]; // validate: required
+}
+message MemoryServiceGetFactResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    MemoryServiceGetFactValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message MemoryServiceGetFactValue {
+  Fact fact = 10 [json_name = "fact"];
+}
+
+message MemoryServiceQueryFactsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  CommandSpec command = 10 [json_name = "command"]; // validate: required
+  optional string working_directory = 11 [json_name = "workingDirectory"]; // validate: absolute path
+}
+message MemoryServiceQueryFactsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    MemoryServiceQueryFactsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message MemoryServiceQueryFactsValue {
+  repeated Fact facts = 10 [json_name = "facts"];
+  ResourceDemand estimate = 11 [json_name = "estimate"];
+  optional string command_fingerprint = 12 [json_name = "commandFingerprint"];
+}
+
+message MemoryServiceForgetFactsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated arcforges.foundation.v1.Id fact_ids = 10 [json_name = "factIds"]; // validate: <= 1000; or a scope prefix
+  FactScope scope_prefix = 11 [json_name = "scopePrefix"];
+}
+message MemoryServiceForgetFactsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    MemoryServiceForgetFactsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message MemoryServiceForgetFactsValue {
+  optional uint32 forgotten = 10 [json_name = "forgotten"];
+}
+
+enum FactKind {
+  FACT_KIND_UNSPECIFIED = 0;
+  FACT_KIND_DURATION = 1;
+  FACT_KIND_PEAK_MEMORY = 2;
+  FACT_KIND_CPU_PROFILE = 3;
+  FACT_KIND_PHASE_PROFILE = 4;
+  FACT_KIND_FAILURE_SIGNATURE = 5;
+  FACT_KIND_CACHE_BEHAVIOR = 6;
+}
+
+enum FactState {
+  FACT_STATE_UNSPECIFIED = 0;
+  FACT_STATE_ACTIVE = 1;
+  FACT_STATE_STALE = 2;
+  FACT_STATE_SUPERSEDED = 3;
+}
+
+message FactScope {
+  optional string project_id = 1 [json_name = "projectId"];
+  optional string environment = 2 [json_name = "environment"];
+  optional string toolchain = 3 [json_name = "toolchain"];
+  optional string command_fingerprint = 4 [json_name = "commandFingerprint"];
+  optional string input_key = 5 [json_name = "inputKey"];
+}
+
+message DistributionStats {
+  optional uint32 count = 1 [json_name = "count"];
+  optional double mean = 2 [json_name = "mean"];
+  optional double p50 = 3 [json_name = "p50"];
+  optional double p90 = 4 [json_name = "p90"];
+  optional double min = 5 [json_name = "min"];
+  optional double max = 6 [json_name = "max"];
+}
+
+message PhaseShare {
+  optional string category = 1 [json_name = "category"];
+  optional double share = 2 [json_name = "share"];
+}
+
+message FailureSignature {
+  optional string pattern = 1 [json_name = "pattern"];
+  optional string classification = 2 [json_name = "classification"]; // transient | corrupt-cache | oom | user-error
+  optional uint32 count = 3 [json_name = "count"];
+}
+
+message Fact {
+  arcforges.foundation.v1.Id fact_id = 1 [json_name = "factId"];
+  optional FactKind kind = 2 [json_name = "kind"];
+  FactScope scope = 3 [json_name = "scope"];
+  optional FactState state = 4 [json_name = "state"];
+  optional Confidence confidence = 5 [json_name = "confidence"];
+  optional uint32 observations = 6 [json_name = "observations"];
+  oneof value {
+    DistributionStats duration_seconds = 10 [json_name = "durationSeconds"];
+    DistributionStats peak_memory_bytes = 11 [json_name = "peakMemoryBytes"];
+    DistributionStats cpu_millicores = 12 [json_name = "cpuMillicores"];
+    PhaseProfile phase_profile = 13 [json_name = "phaseProfile"];
+    FailureSignatureSet failure_signatures = 14 [json_name = "failureSignatures"];
+    CacheBehavior cache_behavior = 15 [json_name = "cacheBehavior"];
+  }
+  arcforges.foundation.v1.Instant first_observed = 20 [json_name = "firstObserved"];
+  arcforges.foundation.v1.Instant last_observed = 21 [json_name = "lastObserved"];
+  arcforges.foundation.v1.Id superseded_by = 22 [json_name = "supersededBy"];
+}
+
+message PhaseProfile {
+  repeated PhaseShare shares = 1 [json_name = "shares"];
+}
+
+message FailureSignatureSet {
+  repeated FailureSignature signatures = 1 [json_name = "signatures"];
+}
+
+message CacheBehavior {
+  optional string cache_kind = 1 [json_name = "cacheKind"];
+  optional double hit_rate = 2 [json_name = "hitRate"];
+}
+
+message FactFilter {
+  repeated FactKind kinds = 1 [json_name = "kinds"];
+  repeated FactState states = 2 [json_name = "states"];
+  optional string project_id = 3 [json_name = "projectId"];
+  optional string command_fingerprint_prefix = 4 [json_name = "commandFingerprintPrefix"];
+}

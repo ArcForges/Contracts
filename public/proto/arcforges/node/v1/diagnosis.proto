@@ -1,0 +1,424 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/caches.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/policy.proto";
+import "arcforges/node/v1/sessions.proto";
+import "arcforges/node/v1/storage.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeDiagnosisProto";
+
+// Findings, remedies, doctor, reports and exports (architecture 07; SM-FINDING).
+
+// Findings, remedies, doctor, reports and record exports.
+service DiagnosisService {
+  // List findings, most severe and newest first.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListFindings(DiagnosisServiceListFindingsRequest) returns (DiagnosisServiceListFindingsResponse);
+
+  // Read one finding.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetFinding(DiagnosisServiceGetFindingRequest) returns (DiagnosisServiceGetFindingResponse);
+
+  // Mark a finding as seen.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state
+  // locality: node
+  // state: SM-FINDING: OPEN -> ACKNOWLEDGED
+  rpc AcknowledgeFinding(DiagnosisServiceAcknowledgeFindingRequest) returns (DiagnosisServiceAcknowledgeFindingResponse);
+
+  // Mute a finding (and its future recurrences for the same subject) until a time.
+  // auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/approval_required
+  // locality: node
+  // state: SM-FINDING: OPEN|ACKNOWLEDGED -> MUTED
+  rpc MuteFinding(DiagnosisServiceMuteFindingRequest) returns (DiagnosisServiceMuteFindingResponse);
+
+  // Run one of a finding's actions through the same public operation a user would run; journaled with the finding as provenance.
+  // auth: per action mode and the underlying operation's permission; AGENT=P; REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, AUTHORIZATION/approval_required, AUTHORIZATION/permission_denied
+  // locality: node
+  rpc ApplyRemedy(DiagnosisServiceApplyRemedyRequest) returns (DiagnosisServiceApplyRemedyResponse);
+
+  // Run doctor checks (07 section 2.4).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 60 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc RunDoctor(DiagnosisServiceRunDoctorRequest) returns (DiagnosisServiceRunDoctorResponse);
+
+  // Build a report.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 30 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/not_found
+  // locality: node
+  rpc GetReport(DiagnosisServiceGetReportRequest) returns (DiagnosisServiceGetReportResponse);
+
+  // Export records as JSON Lines (one record type per line, node.v1 JSON mapping) into records/exports.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (own session scope) REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s (job continues)
+  // stream: none
+  // errors: VALIDATION/invalid_argument, RESOURCE/quota_exceeded, RESOURCE/disk_space
+  // locality: node
+  rpc ExportRecords(DiagnosisServiceExportRecordsRequest) returns (DiagnosisServiceExportRecordsResponse);
+}
+
+message DiagnosisServiceListFindingsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  FindingFilter filter = 10 [json_name = "filter"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"]; // validate: limit 1..500
+}
+message DiagnosisServiceListFindingsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DiagnosisServiceListFindingsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message DiagnosisServiceListFindingsValue {
+  repeated Finding findings = 10 [json_name = "findings"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message DiagnosisServiceGetFindingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id finding_id = 10 [json_name = "findingId"]; // validate: required
+}
+message DiagnosisServiceGetFindingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DiagnosisServiceGetFindingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message DiagnosisServiceGetFindingValue {
+  Finding finding = 10 [json_name = "finding"];
+}
+
+message DiagnosisServiceAcknowledgeFindingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id finding_id = 10 [json_name = "findingId"]; // validate: OPEN finding
+}
+message DiagnosisServiceAcknowledgeFindingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DiagnosisServiceAcknowledgeFindingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message DiagnosisServiceAcknowledgeFindingValue {
+  Finding finding = 10 [json_name = "finding"];
+}
+
+message DiagnosisServiceMuteFindingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id finding_id = 10 [json_name = "findingId"]; // validate: required
+  arcforges.foundation.v1.Instant until = 11 [json_name = "until"]; // validate: <= 90 days ahead; absent = 7 days
+}
+message DiagnosisServiceMuteFindingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DiagnosisServiceMuteFindingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message DiagnosisServiceMuteFindingValue {
+  Finding finding = 10 [json_name = "finding"];
+}
+
+message DiagnosisServiceApplyRemedyRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id finding_id = 10 [json_name = "findingId"]; // validate: required
+  optional string action_id = 11 [json_name = "actionId"]; // validate: an action of the finding
+}
+message DiagnosisServiceApplyRemedyResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DiagnosisServiceApplyRemedyValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message DiagnosisServiceApplyRemedyValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  optional string result = 11 [json_name = "result"];
+}
+
+message DiagnosisServiceRunDoctorRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated string areas = 10 [json_name = "areas"]; // validate: empty = all
+}
+message DiagnosisServiceRunDoctorResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DiagnosisServiceRunDoctorValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message DiagnosisServiceRunDoctorValue {
+  repeated DoctorCheck checks = 10 [json_name = "checks"];
+  optional CheckStatus overall = 11 [json_name = "overall"];
+}
+
+message DiagnosisServiceGetReportRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional ReportKind kind = 10 [json_name = "kind"]; // validate: required
+  arcforges.foundation.v1.TimeRangeUtc period = 11 [json_name = "period"]; // validate: WASTE, CACHE, CAPACITY; <= 90 days; default last 7 days
+  arcforges.foundation.v1.Id session_id = 12 [json_name = "sessionId"]; // validate: SESSION only
+}
+message DiagnosisServiceGetReportResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DiagnosisServiceGetReportValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message DiagnosisServiceGetReportValue {
+  Report report = 10 [json_name = "report"];
+}
+
+message DiagnosisServiceExportRecordsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.TimeRangeUtc period = 10 [json_name = "period"]; // validate: <= 365 days
+  repeated ExportRecordType types = 11 [json_name = "types"]; // validate: empty = all
+  repeated arcforges.foundation.v1.Id task_ids = 12 [json_name = "taskIds"]; // validate: <= 10,000
+  arcforges.foundation.v1.Id session_id = 13 [json_name = "sessionId"]; // validate: optional existing session
+  optional bool include_output = 14 [json_name = "includeOutput"]; // validate: default false
+}
+message DiagnosisServiceExportRecordsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DiagnosisServiceExportRecordsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message DiagnosisServiceExportRecordsValue {
+  JobView job = 10 [json_name = "job"];
+  optional string file_path = 11 [json_name = "filePath"];
+}
+
+enum FindingKind {
+  FINDING_KIND_UNSPECIFIED = 0;
+  FINDING_KIND_STALL = 1;
+  FINDING_KIND_QUEUE_STARVATION = 2;
+  FINDING_KIND_OVERSUBSCRIBED = 3;
+  FINDING_KIND_MEMORY_PRESSURE = 4;
+  FINDING_KIND_OOM_KILLED = 5;
+  FINDING_KIND_REPEATED_WORK = 6;
+  FINDING_KIND_STALE_WORK = 7;
+  FINDING_KIND_PER_TASK_RESTORE = 8;
+  FINDING_KIND_CACHE_MISS_STORM = 9;
+  FINDING_KIND_CACHE_CORRUPT = 10;
+  FINDING_KIND_DISK_PRESSURE = 11;
+  FINDING_KIND_QUOTA_EXCEEDED = 12;
+  FINDING_KIND_UNMANAGED_HEAVY = 13;
+  FINDING_KIND_BYPASSED_COMMAND = 14;
+  FINDING_KIND_ESCAPED_PROCESS = 15;
+  FINDING_KIND_TERMINATION_INCOMPLETE = 16;
+  FINDING_KIND_DEAD_EXECUTION = 17;
+  FINDING_KIND_SERVICE_UNREADY = 18;
+  FINDING_KIND_ENFORCEMENT_DEGRADED = 19;
+  FINDING_KIND_INTEGRATION_DEGRADED = 20;
+  FINDING_KIND_GUEST_LINK_LOST = 21;
+  FINDING_KIND_PEER_UNREACHABLE = 22;
+  FINDING_KIND_UPDATE_FAILED = 23;
+  FINDING_KIND_LEFTOVER_PROCESSES = 24;
+  FINDING_KIND_TASK_INFEASIBLE = 25; // request exceeds the managed share even on an idle machine
+  FINDING_KIND_OUTPUT_CONFLICT = 26; // remote outputs staged because local files changed
+  FINDING_KIND_GUARD_LOST = 27; // attempts ran without a disk guard while the node was down (06 section 5)
+  FINDING_KIND_ENDPOINT_COLLISION = 28; // a foreign listener on the sccache port of an attempt that did not use sccache (05 section 5)
+}
+
+// SM-FINDING states.
+enum FindingState {
+  FINDING_STATE_UNSPECIFIED = 0;
+  FINDING_STATE_OPEN = 1;
+  FINDING_STATE_ACKNOWLEDGED = 2;
+  FINDING_STATE_RESOLVED = 3;
+  FINDING_STATE_AUTO_RESOLVED = 4;
+  FINDING_STATE_MUTED = 5;
+}
+
+enum ReportKind {
+  REPORT_KIND_UNSPECIFIED = 0;
+  REPORT_KIND_SESSION = 1;
+  REPORT_KIND_WASTE = 2;
+  REPORT_KIND_CACHE = 3;
+  REPORT_KIND_DISK = 4;
+  REPORT_KIND_CAPACITY = 5;
+}
+
+enum CheckStatus {
+  CHECK_STATUS_UNSPECIFIED = 0;
+  CHECK_STATUS_PASS = 1;
+  CHECK_STATUS_WARN = 2;
+  CHECK_STATUS_FAIL = 3;
+  CHECK_STATUS_SKIPPED = 4;
+}
+
+enum ExportRecordType {
+  EXPORT_RECORD_TYPE_UNSPECIFIED = 0;
+  EXPORT_RECORD_TYPE_TASKS = 1;
+  EXPORT_RECORD_TYPE_ATTEMPTS = 2;
+  EXPORT_RECORD_TYPE_SEGMENTS = 3;
+  EXPORT_RECORD_TYPE_SAMPLES = 4;
+  EXPORT_RECORD_TYPE_PROCESSES = 5;
+  EXPORT_RECORD_TYPE_FINDINGS = 6;
+  EXPORT_RECORD_TYPE_SESSIONS = 7;
+  EXPORT_RECORD_TYPE_FACTS = 8;
+}
+
+message RemedyAction {
+  optional string action_id = 1 [json_name = "actionId"]; // e.g. "cancel", "retry", "terminate", "cleanup_plan", "notify"
+  optional string label = 2 [json_name = "label"];
+  optional ActionMode mode = 3 [json_name = "mode"];
+  optional RiskClass risk = 4 [json_name = "risk"];
+  optional string operation = 5 [json_name = "operation"]; // the public operation it runs, e.g. "TaskService.CancelTask"
+}
+
+message Finding {
+  arcforges.foundation.v1.Id finding_id = 1 [json_name = "findingId"];
+  optional FindingKind kind = 2 [json_name = "kind"];
+  optional Severity severity = 3 [json_name = "severity"];
+  optional FindingState state = 4 [json_name = "state"];
+  arcforges.foundation.v1.AggregateRef subject = 5 [json_name = "subject"]; // kind: task | attempt | session | node | cache | workspace | peer | guest | volume
+  optional string title = 6 [json_name = "title"];
+  optional string explanation = 7 [json_name = "explanation"];
+  repeated KeyValue evidence = 8 [json_name = "evidence"];
+  arcforges.foundation.v1.Instant first_seen = 9 [json_name = "firstSeen"];
+  arcforges.foundation.v1.Instant last_seen = 10 [json_name = "lastSeen"];
+  optional uint32 occurrences = 11 [json_name = "occurrences"];
+  repeated RemedyAction actions = 12 [json_name = "actions"];
+  arcforges.foundation.v1.Instant resolved_at = 13 [json_name = "resolvedAt"];
+  arcforges.foundation.v1.Instant muted_until = 14 [json_name = "mutedUntil"];
+  arcforges.foundation.v1.Revision revision = 15 [json_name = "revision"];
+}
+
+message FindingFilter {
+  repeated FindingState states = 1 [json_name = "states"];
+  repeated FindingKind kinds = 2 [json_name = "kinds"];
+  optional Severity min_severity = 3 [json_name = "minSeverity"];
+  arcforges.foundation.v1.AggregateRef subject = 4 [json_name = "subject"];
+}
+
+message DoctorCheck {
+  optional string check_id = 1 [json_name = "checkId"]; // e.g. "node.store", "enforcement.memory", "guest.debian.systemd"
+  optional string area = 2 [json_name = "area"];
+  optional CheckStatus status = 3 [json_name = "status"];
+  optional string summary = 4 [json_name = "summary"];
+  optional string remedy = 5 [json_name = "remedy"];
+  repeated KeyValue details = 6 [json_name = "details"];
+}
+
+message CategoryTime {
+  optional string category = 1 [json_name = "category"];
+  optional uint64 duration_ms = 2 [json_name = "durationMs"];
+  optional uint32 task_count = 3 [json_name = "taskCount"];
+}
+
+message Contributor {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
+  optional string title = 2 [json_name = "title"];
+  optional string category = 3 [json_name = "category"];
+  optional uint64 duration_ms = 4 [json_name = "durationMs"];
+}
+
+message SessionReport {
+  Session session = 1 [json_name = "session"];
+  SessionCoverage coverage = 2 [json_name = "coverage"];
+  optional uint32 tasks_total = 3 [json_name = "tasksTotal"];
+  optional uint32 tasks_failed = 4 [json_name = "tasksFailed"];
+  optional uint32 retries = 5 [json_name = "retries"];
+  optional uint32 repeats = 6 [json_name = "repeats"];
+  optional uint32 stale = 7 [json_name = "stale"];
+  repeated CategoryTime time_by_category = 8 [json_name = "timeByCategory"];
+}
+
+message WasteReport {
+  arcforges.foundation.v1.TimeRangeUtc period = 1 [json_name = "period"];
+  repeated CategoryTime time_by_category = 2 [json_name = "timeByCategory"];
+  optional uint64 admission_wait_ms = 3 [json_name = "admissionWaitMs"];
+  optional uint64 execution_ms = 4 [json_name = "executionMs"];
+  optional uint64 idle_no_progress_ms = 5 [json_name = "idleNoProgressMs"];
+  optional uint32 repeat_count = 6 [json_name = "repeatCount"];
+  optional uint64 repeat_ms = 7 [json_name = "repeatMs"];
+  optional uint32 stale_count = 8 [json_name = "staleCount"];
+  optional uint32 per_task_restore_count = 9 [json_name = "perTaskRestoreCount"];
+  repeated Contributor top_contributors = 10 [json_name = "topContributors"];
+}
+
+message CapacityReport {
+  arcforges.foundation.v1.TimeRangeUtc period = 1 [json_name = "period"];
+  optional uint32 mean_budget_cpu_millicores = 2 [json_name = "meanBudgetCpuMillicores"];
+  optional uint64 mean_budget_mem_bytes = 3 [json_name = "meanBudgetMemBytes"];
+  optional double managed_cpu_utilisation = 4 [json_name = "managedCpuUtilisation"];
+  repeated CategoryTime time_by_pressure_level = 5 [json_name = "timeByPressureLevel"]; // category = level name
+  optional uint32 admissions = 6 [json_name = "admissions"];
+  optional uint32 admissions_delayed = 7 [json_name = "admissionsDelayed"];
+  optional uint64 mean_admission_wait_ms = 8 [json_name = "meanAdmissionWaitMs"];
+  optional uint32 preemptions = 9 [json_name = "preemptions"];
+}
+
+message DiskReport {
+  repeated RootUsage roots = 1 [json_name = "roots"];
+  StorageAnalysis latest_analysis = 2 [json_name = "latestAnalysis"];
+}
+
+message Report {
+  optional ReportKind kind = 1 [json_name = "kind"];
+  arcforges.foundation.v1.Instant generated_at = 2 [json_name = "generatedAt"];
+  oneof body {
+    SessionReport session = 10 [json_name = "session"];
+    WasteReport waste = 11 [json_name = "waste"];
+    CacheReport cache = 12 [json_name = "cache"];
+    DiskReport disk = 13 [json_name = "disk"];
+    CapacityReport capacity = 14 [json_name = "capacity"];
+  }
+}

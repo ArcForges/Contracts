@@ -1,0 +1,340 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/tasks.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeQueueProto";
+
+// Pools, queue inspection and admission explanation (architecture 03 section 4).
+// Pool definitions are part of the policy document; pool mutations create policy revisions.
+
+// Queue and pool inspection and control.
+service QueueService {
+  // Snapshot of pools, queued entries in admission order, and the budget summary.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetQueue(QueueServiceGetQueueRequest) returns (QueueServiceGetQueueResponse);
+
+  // Explain why a task waits and what would admit it.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc ExplainTask(QueueServiceExplainTaskRequest) returns (QueueServiceExplainTaskResponse);
+
+  // List pools with configuration and live counts.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc ListPools(QueueServiceListPoolsRequest) returns (QueueServiceListPoolsResponse);
+
+  // Create a pool (a policy revision).
+  // auth: HUMAN=A SCRIPT=P AGENT=P REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, CONFLICT/already_exists, CONFLICT/revision_conflict, AUTHORIZATION/approval_required
+  // locality: node
+  rpc CreatePool(QueueServiceCreatePoolRequest) returns (QueueServiceCreatePoolResponse);
+
+  // Change a pool's weight, parallelism or default priority (a policy revision).
+  // auth: HUMAN=A SCRIPT=P AGENT=P REMOTE=-
+  // idempotency: command_id; meta.expected_rev = policy revision
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/revision_conflict, AUTHORIZATION/approval_required
+  // locality: node
+  rpc UpdatePool(QueueServiceUpdatePoolRequest) returns (QueueServiceUpdatePoolResponse);
+
+  // Delete an empty, non-built-in pool (a policy revision).
+  // auth: HUMAN=A SCRIPT=P AGENT=P REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/in_use, CONFLICT/revision_conflict, AUTHORIZATION/approval_required
+  // locality: node
+  rpc DeletePool(QueueServiceDeletePoolRequest) returns (QueueServiceDeletePoolResponse);
+
+  // Stop admitting tasks from one pool or all pools. Running tasks continue.
+  // auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=low
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/approval_required
+  // locality: node
+  rpc PausePool(QueueServicePausePoolRequest) returns (QueueServicePausePoolResponse);
+
+  // Resume admission for one pool or all pools.
+  // auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=low
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/approval_required
+  // locality: node
+  rpc ResumePool(QueueServiceResumePoolRequest) returns (QueueServiceResumePoolResponse);
+
+  // Restrict or disable parallel execution for a scope (R-EXE-013). Creates a policy revision.
+  // auth: HUMAN=A SCRIPT=P AGENT=P (own session: A when lowering) REMOTE=high
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/not_found, AUTHORIZATION/approval_required
+  // locality: node
+  rpc SetParallelism(QueueServiceSetParallelismRequest) returns (QueueServiceSetParallelismResponse);
+}
+
+message QueueServiceGetQueueRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string pool = 10 [json_name = "pool"]; // validate: optional existing pool
+}
+message QueueServiceGetQueueResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    QueueServiceGetQueueValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message QueueServiceGetQueueValue {
+  repeated Pool pools = 10 [json_name = "pools"];
+  repeated QueueEntry entries = 11 [json_name = "entries"];
+  BudgetSummary budget = 12 [json_name = "budget"];
+}
+
+message QueueServiceExplainTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required
+}
+message QueueServiceExplainTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    QueueServiceExplainTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message QueueServiceExplainTaskValue {
+  AdmissionExplanation explanation = 10 [json_name = "explanation"];
+}
+
+message QueueServiceListPoolsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message QueueServiceListPoolsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    QueueServiceListPoolsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message QueueServiceListPoolsValue {
+  repeated Pool pools = 10 [json_name = "pools"];
+}
+
+message QueueServiceCreatePoolRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string name = 10 [json_name = "name"]; // validate: ^[a-z][a-z0-9-]{0,31}$; unique
+  optional uint32 weight = 11 [json_name = "weight"]; // validate: 1..100; default 1
+  optional ParallelismMode max_parallel_mode = 12 [json_name = "maxParallelMode"]; // validate: default AUTO
+  optional uint32 max_parallel_fixed = 13 [json_name = "maxParallelFixed"]; // validate: FIXED only; 1..256
+  optional Priority default_priority = 14 [json_name = "defaultPriority"]; // validate: not INTERACTIVE
+}
+message QueueServiceCreatePoolResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    QueueServiceCreatePoolValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message QueueServiceCreatePoolValue {
+  Pool pool = 10 [json_name = "pool"];
+  arcforges.foundation.v1.Revision policy_revision = 11 [json_name = "policyRevision"];
+}
+
+message QueueServiceUpdatePoolRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string name = 10 [json_name = "name"]; // validate: existing pool
+  optional uint32 weight = 11 [json_name = "weight"]; // validate: 1..100
+  optional ParallelismMode max_parallel_mode = 12 [json_name = "maxParallelMode"];
+  optional uint32 max_parallel_fixed = 13 [json_name = "maxParallelFixed"]; // validate: FIXED only; 1..256
+  optional Priority default_priority = 14 [json_name = "defaultPriority"]; // validate: not INTERACTIVE
+}
+message QueueServiceUpdatePoolResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    QueueServiceUpdatePoolValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message QueueServiceUpdatePoolValue {
+  Pool pool = 10 [json_name = "pool"];
+  arcforges.foundation.v1.Revision policy_revision = 11 [json_name = "policyRevision"];
+}
+
+message QueueServiceDeletePoolRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string name = 10 [json_name = "name"]; // validate: existing, not built in, no queued or running tasks
+}
+message QueueServiceDeletePoolResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    QueueServiceDeletePoolValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message QueueServiceDeletePoolValue {
+  arcforges.foundation.v1.Revision policy_revision = 10 [json_name = "policyRevision"];
+}
+
+message QueueServicePausePoolRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string pool = 10 [json_name = "pool"]; // validate: existing pool, or empty with all = true
+  optional bool all = 11 [json_name = "all"];
+}
+message QueueServicePausePoolResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    QueueServicePausePoolValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message QueueServicePausePoolValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message QueueServiceResumePoolRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string pool = 10 [json_name = "pool"]; // validate: existing pool, or empty with all = true
+  optional bool all = 11 [json_name = "all"];
+}
+message QueueServiceResumePoolResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    QueueServiceResumePoolValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message QueueServiceResumePoolValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message QueueServiceSetParallelismRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional ParallelismScope scope = 10 [json_name = "scope"]; // validate: required
+  optional string target = 11 [json_name = "target"]; // validate: pool name, workspace ID (base32) or session ID (base32); empty for GLOBAL
+  optional ParallelismMode mode = 12 [json_name = "mode"]; // validate: required
+  optional uint32 fixed = 13 [json_name = "fixed"]; // validate: FIXED only; 1..256
+}
+message QueueServiceSetParallelismResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    QueueServiceSetParallelismValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message QueueServiceSetParallelismValue {
+  arcforges.foundation.v1.Revision policy_revision = 10 [json_name = "policyRevision"];
+}
+
+enum ParallelismMode {
+  PARALLELISM_MODE_UNSPECIFIED = 0;
+  PARALLELISM_MODE_AUTO = 1;
+  PARALLELISM_MODE_FIXED = 2;
+  PARALLELISM_MODE_DISABLED = 3; // equivalent to FIXED 1
+}
+
+enum ParallelismScope {
+  PARALLELISM_SCOPE_UNSPECIFIED = 0;
+  PARALLELISM_SCOPE_GLOBAL = 1;
+  PARALLELISM_SCOPE_POOL = 2;
+  PARALLELISM_SCOPE_WORKSPACE = 3;
+  PARALLELISM_SCOPE_SESSION = 4;
+}
+
+message Pool {
+  optional string name = 1 [json_name = "name"];
+  optional bool built_in = 2 [json_name = "builtIn"];
+  optional uint32 weight = 3 [json_name = "weight"];
+  optional ParallelismMode max_parallel_mode = 4 [json_name = "maxParallelMode"];
+  optional uint32 max_parallel_fixed = 5 [json_name = "maxParallelFixed"];
+  optional uint32 effective_max_parallel = 6 [json_name = "effectiveMaxParallel"];
+  optional Priority default_priority = 7 [json_name = "defaultPriority"];
+  optional bool paused = 8 [json_name = "paused"];
+  optional uint32 running = 9 [json_name = "running"];
+  optional uint32 queued = 10 [json_name = "queued"];
+}
+
+message QueueEntry {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
+  optional string title = 2 [json_name = "title"];
+  optional string pool = 3 [json_name = "pool"];
+  optional Priority effective_priority = 4 [json_name = "effectivePriority"];
+  ActorRef owner = 5 [json_name = "owner"];
+  QueueInfo queue = 6 [json_name = "queue"];
+  ResourceDemand request = 7 [json_name = "request"];
+  optional bool reserved_for_large = 8 [json_name = "reservedForLarge"];
+  optional bool aged = 9 [json_name = "aged"];
+}
+
+message BudgetSummary {
+  optional uint32 budget_cpu_millicores = 1 [json_name = "budgetCpuMillicores"];
+  optional uint64 budget_mem_bytes = 2 [json_name = "budgetMemBytes"];
+  optional uint32 cpu_load_millicores = 3 [json_name = "cpuLoadMillicores"]; // sum of running demand
+  optional uint32 cpu_limit_millicores = 4 [json_name = "cpuLimitMillicores"]; // overcommit x budget
+  optional uint64 accounted_mem_bytes = 5 [json_name = "accountedMemBytes"]; // running + outstanding guest grants
+  optional uint32 global_running = 6 [json_name = "globalRunning"];
+  optional uint32 global_max_running = 7 [json_name = "globalMaxRunning"];
+  optional PressureLevel pressure = 8 [json_name = "pressure"];
+}
+
+message AdmissionExplanation {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
+  optional TaskState state = 2 [json_name = "state"];
+  optional string blocking_reason = 3 [json_name = "blockingReason"]; // values as QueueInfo.blocking_reason
+  optional string text = 4 [json_name = "text"]; // human-readable explanation
+  ResourceDemand request = 5 [json_name = "request"];
+  optional uint64 available_mem_bytes = 6 [json_name = "availableMemBytes"];
+  optional uint32 available_cpu_millicores = 7 [json_name = "availableCpuMillicores"];
+  optional uint32 pool_running = 8 [json_name = "poolRunning"];
+  optional uint32 pool_max_parallel = 9 [json_name = "poolMaxParallel"];
+  optional uint32 position = 10 [json_name = "position"];
+  arcforges.foundation.v1.Instant eta = 11 [json_name = "eta"];
+  arcforges.foundation.v1.Instant ages_at = 12 [json_name = "agesAt"]; // when aging raises the class
+  optional bool large_reservation_active = 13 [json_name = "largeReservationActive"];
+  repeated arcforges.foundation.v1.Id waiting_on_tasks = 14 [json_name = "waitingOnTasks"]; // dependencies, or the holders of conflicting exclusive keys
+  repeated string blocking_keys = 15 [json_name = "blockingKeys"]; // exclusive keys held by running tasks
+  optional string feasibility = 16 [json_name = "feasibility"]; // FEASIBLE | EXCEEDS_BUDGET | EXCEEDS_CAPACITY (03 section 4)
+}

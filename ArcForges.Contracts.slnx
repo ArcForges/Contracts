@@ -25,6 +25,10 @@
   <Project Path="src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj" />
   <Project Path="src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj" />
   <Project Path="src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj" />
+  <Project Path="src/public/dotnet/ArcForges.Contracts.Node/ArcForges.Contracts.Node.csproj" />
+  <Project Path="src/public/dotnet/ArcForges.Contracts.Fleet/ArcForges.Contracts.Fleet.csproj" />
+  <Project Path="src/internal/dotnet/ArcForges.Contracts.Peer/ArcForges.Contracts.Peer.csproj" />
+  <Project Path="src/internal/dotnet/ArcForges.Contracts.Relay/ArcForges.Contracts.Relay.csproj" />
   <Project Path="tests/StructureTests/StructureTests.csproj" />
   <Project Path="tests/StructureTests/PreviousClient/PreviousClient.csproj" />
 </Solution>

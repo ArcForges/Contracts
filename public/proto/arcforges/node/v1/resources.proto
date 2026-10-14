@@ -1,0 +1,400 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/tasks.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeResourcesProto";
+
+// Observation, budgets, processes, adoption and WSL guest links (architecture 03; AD-0005).
+
+// Resource observation, process views, adoption and guest links.
+service ResourceService {
+  // Current capacity, reserves, unmanaged load, budgets, managed usage, pressure, volumes, guests and capabilities.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetResourceSnapshot(ResourceServiceGetResourceSnapshotRequest) returns (ResourceServiceGetResourceSnapshotResponse);
+
+  // Stream resource snapshots at the requested interval.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: none; heartbeat 15 s
+  // stream: server: ResourceServiceWatchResourcesFrame
+  // errors: VALIDATION/invalid_argument
+  // locality: node
+  rpc WatchResources(ResourceServiceWatchResourcesRequest) returns (stream ResourceServiceWatchResourcesFrame);
+
+  // List classified processes (managed, adopted, escaped, bypassed, unmanaged, guest VM).
+  // auth: HUMAN=A SCRIPT=A AGENT=A (own session detail) REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument
+  // locality: node
+  rpc ListProcesses(ResourceServiceListProcessesRequest) returns (ResourceServiceListProcessesResponse);
+
+  // Read stored samples for charts (03 section 1 retention).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/not_found
+  // locality: node
+  rpc GetSamples(ResourceServiceGetSamplesRequest) returns (ResourceServiceGetSamplesResponse);
+
+  // Place an existing same-user process under management (04 section 10). Creates an ADOPTED task.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, EXECUTION/adopt_not_permitted, AUTHORIZATION/permission_denied, CONFLICT/already_exists
+  // locality: node
+  rpc AdoptProcess(ResourceServiceAdoptProcessRequest) returns (ResourceServiceAdoptProcessResponse);
+
+  // Terminate a same-user process that the node manages or classified as ESCAPED, BYPASSED or leftover. Never unrelated processes.
+  // auth: HUMAN=A SCRIPT=P AGENT=P REMOTE=-
+  // idempotency: command_id; a process already gone returns HAPPENED with detail
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required
+  // locality: node
+  rpc TerminateProcess(ResourceServiceTerminateProcessRequest) returns (ResourceServiceTerminateProcessResponse);
+
+  // Host: guest links per WSL distribution. Guest: its host link.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc ListGuestLinks(ResourceServiceListGuestLinksRequest) returns (ResourceServiceListGuestLinksResponse);
+
+  // Enable, disable or re-link the guest node of a WSL distribution (host only).
+  // auth: HUMAN=A SCRIPT=A AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 30 s
+  // stream: none
+  // errors: STATE/not_found, STATE/link_down, EXECUTION/operation_failed
+  // locality: node (host)
+  rpc SetGuestLink(ResourceServiceSetGuestLinkRequest) returns (ResourceServiceSetGuestLinkResponse);
+
+  // Read the host this guest node has pinned, and the last link refused because it came from a different host (guest only; 09 section 9).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/invalid_state
+  // locality: node (guest)
+  rpc GetHostLink(ResourceServiceGetHostLinkRequest) returns (ResourceServiceGetHostLinkResponse);
+
+  // Accept the host whose link was last refused: its next link is pinned as on first use (guest only; 09 section 9).
+  // auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/invalid_state, VALIDATION/invalid_argument
+  // locality: node (guest)
+  rpc TrustHost(ResourceServiceTrustHostRequest) returns (ResourceServiceTrustHostResponse);
+}
+
+message ResourceServiceGetResourceSnapshotRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message ResourceServiceGetResourceSnapshotResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceGetResourceSnapshotValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ResourceServiceGetResourceSnapshotValue {
+  ResourceSnapshot snapshot = 10 [json_name = "snapshot"];
+}
+
+message ResourceServiceWatchResourcesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional uint64 interval_ms = 10 [json_name = "intervalMs"]; // validate: 1,000..60,000; default 5,000
+}
+message ResourceServiceWatchResourcesFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  StreamPosition position = 2 [json_name = "position"];
+  reserved 3 to 9;
+  oneof frame {
+    StreamReset reset = 10 [json_name = "reset"];
+    Heartbeat heartbeat = 11 [json_name = "heartbeat"];
+    arcforges.foundation.v1.ArcError error = 12 [json_name = "error"];
+    ResourceSnapshot snapshot = 20 [json_name = "snapshot"];
+  }
+}
+
+message ResourceServiceListProcessesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  ProcessFilter filter = 10 [json_name = "filter"];
+}
+message ResourceServiceListProcessesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceListProcessesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ResourceServiceListProcessesValue {
+  repeated ProcessView processes = 10 [json_name = "processes"];
+}
+
+message ResourceServiceGetSamplesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional SampleScope scope = 10 [json_name = "scope"]; // validate: required
+  arcforges.foundation.v1.Id attempt_id = 11 [json_name = "attemptId"]; // validate: ATTEMPT scope only
+  arcforges.foundation.v1.TimeRangeUtc range = 12 [json_name = "range"]; // validate: <= 30 days
+  optional uint32 max_points = 13 [json_name = "maxPoints"]; // validate: 10..10,000; default 1,000
+}
+message ResourceServiceGetSamplesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceGetSamplesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ResourceServiceGetSamplesValue {
+  repeated ResourceSample samples = 10 [json_name = "samples"];
+  optional uint64 resolution_ms = 11 [json_name = "resolutionMs"];
+}
+
+message ResourceServiceAdoptProcessRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  ProcessIdentity process = 10 [json_name = "process"]; // validate: required; same user; not already managed
+  optional string title = 11 [json_name = "title"]; // validate: <= 200 chars
+  optional string pool = 12 [json_name = "pool"]; // validate: existing pool; default "default"
+}
+message ResourceServiceAdoptProcessResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceAdoptProcessValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ResourceServiceAdoptProcessValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  arcforges.foundation.v1.Id task_id = 11 [json_name = "taskId"];
+  optional uint32 adopted_children = 12 [json_name = "adoptedChildren"];
+  optional uint32 failed_children = 13 [json_name = "failedChildren"];
+}
+
+message ResourceServiceTerminateProcessRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  ProcessIdentity process = 10 [json_name = "process"]; // validate: required
+  optional string reason = 11 [json_name = "reason"]; // validate: <= 500 chars
+  arcforges.foundation.v1.Id finding_id = 12 [json_name = "findingId"]; // validate: optional provenance
+}
+message ResourceServiceTerminateProcessResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceTerminateProcessValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ResourceServiceTerminateProcessValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message ResourceServiceListGuestLinksRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message ResourceServiceListGuestLinksResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceListGuestLinksValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ResourceServiceListGuestLinksValue {
+  repeated GuestLinkView links = 10 [json_name = "links"];
+}
+
+message ResourceServiceSetGuestLinkRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string distro = 10 [json_name = "distro"]; // validate: an installed WSL2 distribution
+  optional bool enabled = 11 [json_name = "enabled"];
+  optional bool relink_now = 12 [json_name = "relinkNow"];
+}
+message ResourceServiceSetGuestLinkResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceSetGuestLinkValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ResourceServiceSetGuestLinkValue {
+  GuestLinkView link = 10 [json_name = "link"];
+}
+
+message ResourceServiceGetHostLinkRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message ResourceServiceGetHostLinkResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceGetHostLinkValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ResourceServiceGetHostLinkValue {
+  arcforges.foundation.v1.Id host_node_id = 10 [json_name = "hostNodeId"]; // absent before the first link
+  arcforges.foundation.v1.Instant pinned_at = 11 [json_name = "pinnedAt"];
+  arcforges.foundation.v1.Instant last_seen = 12 [json_name = "lastSeen"];
+  arcforges.foundation.v1.Id refused_host_node_id = 13 [json_name = "refusedHostNodeId"]; // absent when no link was refused
+  arcforges.foundation.v1.Instant refused_at = 14 [json_name = "refusedAt"];
+}
+
+message ResourceServiceTrustHostRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id host_node_id = 10 [json_name = "hostNodeId"]; // validate: required; equals refused_host_node_id
+}
+message ResourceServiceTrustHostResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceTrustHostValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ResourceServiceTrustHostValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+enum GuestLinkState {
+  GUEST_LINK_STATE_UNSPECIFIED = 0;
+  GUEST_LINK_STATE_DISCOVERED = 1;
+  GUEST_LINK_STATE_CONNECTING = 2;
+  GUEST_LINK_STATE_LINKED = 3;
+  GUEST_LINK_STATE_DEGRADED = 4;
+  GUEST_LINK_STATE_LOST = 5;
+  GUEST_LINK_STATE_NOT_INSTALLED = 6;
+  GUEST_LINK_STATE_DISABLED = 7;
+}
+
+enum SampleScope {
+  SAMPLE_SCOPE_UNSPECIFIED = 0;
+  SAMPLE_SCOPE_MACHINE = 1;
+  SAMPLE_SCOPE_MANAGED = 2;
+  SAMPLE_SCOPE_ATTEMPT = 3;
+}
+
+message PressureDetail {
+  optional double cpu_some_avg10 = 1 [json_name = "cpuSomeAvg10"];
+  optional double memory_some_avg10 = 2 [json_name = "memorySomeAvg10"];
+  optional double memory_full_avg10 = 3 [json_name = "memoryFullAvg10"];
+  optional double io_some_avg10 = 4 [json_name = "ioSomeAvg10"];
+  optional bool available = 5 [json_name = "available"]; // false on Windows
+}
+
+message VolumeUsage {
+  optional string mount = 1 [json_name = "mount"];
+  optional uint64 total_bytes = 2 [json_name = "totalBytes"];
+  optional uint64 free_bytes = 3 [json_name = "freeBytes"];
+  repeated string managed_roots = 4 [json_name = "managedRoots"];
+  optional DiskPressureLevel level = 5 [json_name = "level"];
+}
+
+message GuestConsumer {
+  arcforges.foundation.v1.Id guest_node_id = 1 [json_name = "guestNodeId"];
+  optional string distro = 2 [json_name = "distro"];
+  optional uint32 vm_cpu_millicores = 3 [json_name = "vmCpuMillicores"];
+  optional uint64 vm_mem_bytes = 4 [json_name = "vmMemBytes"];
+  optional uint32 guest_managed_cpu_millicores = 5 [json_name = "guestManagedCpuMillicores"];
+  optional uint64 guest_managed_mem_bytes = 6 [json_name = "guestManagedMemBytes"];
+  optional uint32 guest_other_cpu_millicores = 7 [json_name = "guestOtherCpuMillicores"];
+  optional uint64 guest_other_mem_bytes = 8 [json_name = "guestOtherMemBytes"];
+  optional uint32 outstanding_grants = 9 [json_name = "outstandingGrants"];
+}
+
+message ResourceSnapshot {
+  arcforges.foundation.v1.Instant at = 1 [json_name = "at"];
+  optional uint32 capacity_cpu_millicores = 2 [json_name = "capacityCpuMillicores"];
+  optional uint64 capacity_mem_bytes = 3 [json_name = "capacityMemBytes"];
+  optional uint32 reserve_cpu_millicores = 4 [json_name = "reserveCpuMillicores"];
+  optional uint64 reserve_mem_bytes = 5 [json_name = "reserveMemBytes"];
+  optional uint32 unmanaged_cpu_millicores = 6 [json_name = "unmanagedCpuMillicores"]; // smoothed U_cpu
+  optional uint64 unmanaged_mem_bytes = 7 [json_name = "unmanagedMemBytes"]; // smoothed U_mem
+  optional uint32 budget_cpu_millicores = 8 [json_name = "budgetCpuMillicores"];
+  optional uint64 budget_mem_bytes = 9 [json_name = "budgetMemBytes"];
+  ResourceUsage managed = 10 [json_name = "managed"];
+  ResourceUsage node_self = 11 [json_name = "nodeSelf"];
+  optional uint64 available_mem_bytes = 12 [json_name = "availableMemBytes"];
+  optional PressureLevel pressure = 13 [json_name = "pressure"];
+  PressureDetail pressure_detail = 14 [json_name = "pressureDetail"];
+  repeated VolumeUsage volumes = 15 [json_name = "volumes"];
+  repeated GuestConsumer guests = 16 [json_name = "guests"];
+  CapabilityReport capabilities = 17 [json_name = "capabilities"];
+  optional uint32 running_attempts = 18 [json_name = "runningAttempts"];
+  optional uint32 queued_tasks = 19 [json_name = "queuedTasks"];
+}
+
+message ProcessView {
+  ProcessIdentity process = 1 [json_name = "process"];
+  optional uint32 parent_pid = 2 [json_name = "parentPid"];
+  optional ProcessLabel label = 3 [json_name = "label"];
+  ResourceUsage usage = 4 [json_name = "usage"];
+  optional string executable = 5 [json_name = "executable"];
+  optional string command_summary = 6 [json_name = "commandSummary"]; // redacted
+  arcforges.foundation.v1.Id task_id = 7 [json_name = "taskId"];
+  arcforges.foundation.v1.Id attempt_id = 8 [json_name = "attemptId"];
+  arcforges.foundation.v1.Id session_id = 9 [json_name = "sessionId"]; // attribution by ancestry
+  optional bool crosses_vm_boundary = 10 [json_name = "crossesVmBoundary"];
+}
+
+message ProcessFilter {
+  repeated ProcessLabel labels = 1 [json_name = "labels"];
+  arcforges.foundation.v1.Id session_id = 2 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id task_id = 3 [json_name = "taskId"];
+  optional uint32 top_n = 4 [json_name = "topN"]; // validate: 1..500; default 50; by CPU then memory
+}
+
+message GuestLinkView {
+  arcforges.foundation.v1.Id guest_node_id = 1 [json_name = "guestNodeId"];
+  optional string distro = 2 [json_name = "distro"];
+  optional GuestLinkState state = 3 [json_name = "state"];
+  optional string reason = 4 [json_name = "reason"];
+  optional string guest_version = 5 [json_name = "guestVersion"];
+  CapabilityReport guest_capabilities = 6 [json_name = "guestCapabilities"];
+  arcforges.foundation.v1.Instant linked_at = 7 [json_name = "linkedAt"];
+  arcforges.foundation.v1.Instant last_heartbeat = 8 [json_name = "lastHeartbeat"];
+  optional bool admission_coordinated = 9 [json_name = "admissionCoordinated"];
+  optional uint32 acked_cpu_millicores = 10 [json_name = "ackedCpuMillicores"]; // the allocation the guest last acknowledged (03 section 6)
+  optional uint64 acked_mem_high_bytes = 11 [json_name = "ackedMemHighBytes"];
+  optional uint32 reserved_cpu_millicores = 12 [json_name = "reservedCpuMillicores"]; // what the host keeps reserved for the guest, also while the link is lost
+  optional uint64 reserved_mem_high_bytes = 13 [json_name = "reservedMemHighBytes"];
+  arcforges.foundation.v1.Instant lease_until = 14 [json_name = "leaseUntil"];
+  optional uint32 standalone_cpu_millicores = 15 [json_name = "standaloneCpuMillicores"]; // the guest's admission limit after the lease lapses
+  optional uint64 standalone_mem_bytes = 16 [json_name = "standaloneMemBytes"];
+}

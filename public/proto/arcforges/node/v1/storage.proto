@@ -1,0 +1,542 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/policy.proto";
+import "arcforges/node/v1/resources.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeStorageProto";
+
+// Managed storage, disk analysis and two-phase bounded cleanup (architecture 06; SM-CLEANUP-PLAN).
+// No API deletes a path that is not an item of a validated plan. No wildcard or recursive-delete parameter exists.
+
+// Managed roots, analysis, cleanup plans, quarantine and relocation.
+service StorageService {
+  // Usage and quota per managed sub-root and free space per volume.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetStorageSummary(StorageServiceGetStorageSummaryRequest) returns (StorageServiceGetStorageSummaryResponse);
+
+  // List ownership records (architecture 06 section 2).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListManagedDirectories(StorageServiceListManagedDirectoriesRequest) returns (StorageServiceListManagedDirectoriesResponse);
+
+  // Pin or unpin a managed directory against cleanup and retention.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc SetDirectoryPinned(StorageServiceSetDirectoryPinnedRequest) returns (StorageServiceSetDirectoryPinnedResponse);
+
+  // Start a bounded disk analysis job (architecture 06 section 6).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id; one running analysis per scope (returns it)
+  // deadline: 5 s (job continues)
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/not_found
+  // locality: node
+  rpc AnalyzeStorage(StorageServiceAnalyzeStorageRequest) returns (StorageServiceAnalyzeStorageResponse);
+
+  // Read an analysis and its items.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetStorageAnalysis(StorageServiceGetStorageAnalysisRequest) returns (StorageServiceGetStorageAnalysisResponse);
+
+  // Create a cleanup plan from an analysis selection or rules. Nothing is acted on during planning.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id
+  // deadline: 30 s
+  // stream: none
+  // errors: STATE/not_found, VALIDATION/invalid_argument, RESOURCE/too_large
+  // locality: node
+  // state: SM-CLEANUP-PLAN: (none) -> PLANNED
+  rpc PlanCleanup(StorageServicePlanCleanupRequest) returns (StorageServicePlanCleanupResponse);
+
+  // Add a path outside managed roots to this plan only. Needs a separate confirmation.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 30 s
+  // stream: none
+  // errors: STATE/not_found, STATE/plan_expired, VALIDATION/path_not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument
+  // locality: node
+  rpc AddExternalPath(StorageServiceAddExternalPathRequest) returns (StorageServiceAddExternalPathResponse);
+
+  // Read a cleanup plan with per-item outcomes.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetCleanupPlan(StorageServiceGetCleanupPlanRequest) returns (StorageServiceGetCleanupPlanResponse);
+
+  // Execute selected items of a plan after re-validating each (architecture 06 section 7).
+  // auth: HUMAN=A SCRIPT=P AGENT=P (A for low risk if cleanup.agent_execute=LOW_RISK_ONLY) REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s (job continues)
+  // stream: none
+  // errors: STATE/not_found, STATE/plan_expired, CONFLICT/digest_mismatch, AUTHORIZATION/approval_required
+  // locality: node
+  // state: SM-CLEANUP-PLAN: PLANNED -> AWAITING_APPROVAL | EXECUTING -> COMPLETED | PARTIAL
+  rpc ExecuteCleanup(StorageServiceExecuteCleanupRequest) returns (StorageServiceExecuteCleanupResponse);
+
+  // Cancel a plan that has not started executing.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (own) REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state
+  // locality: node
+  // state: SM-CLEANUP-PLAN: PLANNED|AWAITING_APPROVAL -> CANCELLED
+  rpc CancelCleanupPlan(StorageServiceCancelCleanupPlanRequest) returns (StorageServiceCancelCleanupPlanResponse);
+
+  // List quarantined items awaiting purge.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListQuarantine(StorageServiceListQuarantineRequest) returns (StorageServiceListQuarantineResponse);
+
+  // Move a quarantined item back to its original path.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id
+  // deadline: 30 s
+  // stream: none
+  // errors: STATE/not_found, CONFLICT/already_exists, EXECUTION/operation_failed
+  // locality: node
+  rpc RestoreQuarantine(StorageServiceRestoreQuarantineRequest) returns (StorageServiceRestoreQuarantineResponse);
+
+  // Relocate a managed sub-root (copy, verify, switch; the old location is quarantined). Refused while attempts use it.
+  // auth: HUMAN=A SCRIPT=P AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s (job continues)
+  // stream: none
+  // errors: STATE/in_use, VALIDATION/invalid_argument, RESOURCE/disk_space, AUTHORIZATION/permission_denied
+  // locality: node
+  rpc UpdateRoot(StorageServiceUpdateRootRequest) returns (StorageServiceUpdateRootResponse);
+}
+
+message StorageServiceGetStorageSummaryRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message StorageServiceGetStorageSummaryResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServiceGetStorageSummaryValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServiceGetStorageSummaryValue {
+  repeated RootUsage roots = 10 [json_name = "roots"];
+  repeated VolumeUsage volumes = 11 [json_name = "volumes"];
+}
+
+message StorageServiceListManagedDirectoriesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string root_class = 10 [json_name = "rootClass"]; // validate: a managed root class; empty = all
+  repeated DirectoryState states = 11 [json_name = "states"]; // validate: unique values; empty = all
+  arcforges.foundation.v1.PageRequest page = 12 [json_name = "page"]; // validate: limit 1..1000
+}
+message StorageServiceListManagedDirectoriesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServiceListManagedDirectoriesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServiceListManagedDirectoriesValue {
+  repeated ManagedDirectory directories = 10 [json_name = "directories"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message StorageServiceSetDirectoryPinnedRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id directory_id = 10 [json_name = "directoryId"]; // validate: required
+  optional bool pinned = 11 [json_name = "pinned"];
+}
+message StorageServiceSetDirectoryPinnedResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServiceSetDirectoryPinnedValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServiceSetDirectoryPinnedValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message StorageServiceAnalyzeStorageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated string root_classes = 10 [json_name = "rootClasses"]; // validate: empty = all managed roots
+  repeated arcforges.foundation.v1.Id workspace_ids = 11 [json_name = "workspaceIds"]; // validate: registered workspaces to scan for regenerable outputs
+  optional bool include_duplicate_caches = 12 [json_name = "includeDuplicateCaches"];
+}
+message StorageServiceAnalyzeStorageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServiceAnalyzeStorageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServiceAnalyzeStorageValue {
+  arcforges.foundation.v1.Id analysis_id = 10 [json_name = "analysisId"];
+  JobView job = 11 [json_name = "job"];
+}
+
+message StorageServiceGetStorageAnalysisRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id analysis_id = 10 [json_name = "analysisId"]; // validate: required
+}
+message StorageServiceGetStorageAnalysisResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServiceGetStorageAnalysisValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServiceGetStorageAnalysisValue {
+  StorageAnalysis analysis = 10 [json_name = "analysis"];
+}
+
+message StorageServicePlanCleanupRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id analysis_id = 10 [json_name = "analysisId"]; // validate: completed analysis, unless rules are given
+  repeated arcforges.foundation.v1.Id item_ids = 11 [json_name = "itemIds"]; // validate: items of the analysis; <= 10,000
+  CleanupRules rules = 12 [json_name = "rules"];
+}
+message StorageServicePlanCleanupResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServicePlanCleanupValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServicePlanCleanupValue {
+  CleanupPlan plan = 10 [json_name = "plan"];
+}
+
+message StorageServiceAddExternalPathRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id plan_id = 10 [json_name = "planId"]; // validate: PLANNED plan
+  optional string path = 11 [json_name = "path"]; // validate: absolute existing path; not a volume root, home directory, system directory or the ArcForges installation
+  optional bool confirmed = 12 [json_name = "confirmed"]; // validate: must be true (the surface showed the confirmation)
+}
+message StorageServiceAddExternalPathResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServiceAddExternalPathValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServiceAddExternalPathValue {
+  CleanupPlan plan = 10 [json_name = "plan"];
+}
+
+message StorageServiceGetCleanupPlanRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id plan_id = 10 [json_name = "planId"]; // validate: required
+}
+message StorageServiceGetCleanupPlanResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServiceGetCleanupPlanValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServiceGetCleanupPlanValue {
+  CleanupPlan plan = 10 [json_name = "plan"];
+}
+
+message StorageServiceExecuteCleanupRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id plan_id = 10 [json_name = "planId"]; // validate: PLANNED, not expired
+  optional string plan_digest = 11 [json_name = "planDigest"]; // validate: equals the plan digest
+  repeated arcforges.foundation.v1.Id item_ids = 12 [json_name = "itemIds"]; // validate: items of the plan; empty = all
+}
+message StorageServiceExecuteCleanupResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServiceExecuteCleanupValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServiceExecuteCleanupValue {
+  CleanupPlan plan = 10 [json_name = "plan"];
+  JobView job = 11 [json_name = "job"];
+}
+
+message StorageServiceCancelCleanupPlanRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id plan_id = 10 [json_name = "planId"]; // validate: PLANNED or AWAITING_APPROVAL
+}
+message StorageServiceCancelCleanupPlanResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServiceCancelCleanupPlanValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServiceCancelCleanupPlanValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message StorageServiceListQuarantineRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"]; // validate: limit 1..1000
+}
+message StorageServiceListQuarantineResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServiceListQuarantineValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServiceListQuarantineValue {
+  repeated QuarantineEntry entries = 10 [json_name = "entries"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message StorageServiceRestoreQuarantineRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id plan_id = 10 [json_name = "planId"]; // validate: required
+  arcforges.foundation.v1.Id item_id = 11 [json_name = "itemId"]; // validate: quarantined item not yet purged
+}
+message StorageServiceRestoreQuarantineResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServiceRestoreQuarantineValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServiceRestoreQuarantineValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message StorageServiceUpdateRootRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string root_class = 10 [json_name = "rootClass"]; // validate: work | tmp | cache | out | logs | records | downloads | staging
+  optional string new_path = 11 [json_name = "newPath"]; // validate: absolute; empty or new directory; enough free space
+}
+message StorageServiceUpdateRootResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StorageServiceUpdateRootValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StorageServiceUpdateRootValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  JobView job = 11 [json_name = "job"];
+}
+
+enum OwnerKind {
+  OWNER_KIND_UNSPECIFIED = 0;
+  OWNER_KIND_ATTEMPT = 1;
+  OWNER_KIND_TASK = 2;
+  OWNER_KIND_WORKSPACE = 3;
+  OWNER_KIND_CACHE = 4;
+  OWNER_KIND_NODE = 5;
+  OWNER_KIND_PLAN = 6;
+  OWNER_KIND_TRANSFER = 7;
+}
+
+enum DirectoryState {
+  DIRECTORY_STATE_UNSPECIFIED = 0;
+  DIRECTORY_STATE_ACTIVE = 1;
+  DIRECTORY_STATE_IDLE = 2;
+  DIRECTORY_STATE_CANDIDATE = 3;
+  DIRECTORY_STATE_QUARANTINED = 4;
+  DIRECTORY_STATE_REMOVED = 5;
+}
+
+enum StorageItemClass {
+  STORAGE_ITEM_CLASS_UNSPECIFIED = 0;
+  STORAGE_ITEM_CLASS_USAGE = 1;
+  STORAGE_ITEM_CLASS_REGENERABLE_OUTPUT = 2;
+  STORAGE_ITEM_CLASS_ABANDONED_WORKTREE = 3;
+  STORAGE_ITEM_CLASS_IDLE_DIRTY_WORKTREE = 4;
+  STORAGE_ITEM_CLASS_DUPLICATE_CACHE = 5;
+  STORAGE_ITEM_CLASS_PER_TASK_RESTORE = 6;
+  STORAGE_ITEM_CLASS_CACHE_TRIM = 7;
+  STORAGE_ITEM_CLASS_RETENTION = 8;
+  STORAGE_ITEM_CLASS_QUARANTINE = 9;
+  STORAGE_ITEM_CLASS_UNTRACKED = 10;
+}
+
+enum CleanupAction {
+  CLEANUP_ACTION_UNSPECIFIED = 0;
+  CLEANUP_ACTION_QUARANTINE = 1;
+  CLEANUP_ACTION_GIT_WORKTREE_REMOVE = 2;
+  CLEANUP_ACTION_TOOL_CLEAN = 3;
+  CLEANUP_ACTION_ARCHIVE_THEN_REMOVE = 4;
+  CLEANUP_ACTION_DIRECT_DELETE = 5;
+  CLEANUP_ACTION_REPORT_ONLY = 6;
+}
+
+// SM-CLEANUP-PLAN states.
+enum CleanupPlanState {
+  CLEANUP_PLAN_STATE_UNSPECIFIED = 0;
+  CLEANUP_PLAN_STATE_PLANNED = 1;
+  CLEANUP_PLAN_STATE_AWAITING_APPROVAL = 2;
+  CLEANUP_PLAN_STATE_EXECUTING = 3;
+  CLEANUP_PLAN_STATE_COMPLETED = 4;
+  CLEANUP_PLAN_STATE_PARTIAL = 5;
+  CLEANUP_PLAN_STATE_EXPIRED = 6;
+  CLEANUP_PLAN_STATE_CANCELLED = 7;
+}
+
+enum CleanupItemOutcome {
+  CLEANUP_ITEM_OUTCOME_UNSPECIFIED = 0;
+  CLEANUP_ITEM_OUTCOME_PENDING = 1;
+  CLEANUP_ITEM_OUTCOME_DONE = 2;
+  CLEANUP_ITEM_OUTCOME_IN_USE = 3;
+  CLEANUP_ITEM_OUTCOME_CHANGED = 4; // fingerprint changed since planning
+  CLEANUP_ITEM_OUTCOME_REFERENCED = 5;
+  CLEANUP_ITEM_OUTCOME_NOT_ALLOWED = 6;
+  CLEANUP_ITEM_OUTCOME_FAILED = 7;
+  CLEANUP_ITEM_OUTCOME_SKIPPED = 8;
+}
+
+message RootUsage {
+  optional string root_class = 1 [json_name = "rootClass"];
+  optional string path = 2 [json_name = "path"];
+  optional uint64 size_bytes = 3 [json_name = "sizeBytes"];
+  optional uint64 quota_bytes = 4 [json_name = "quotaBytes"];
+  optional QuotaKind quota_kind = 5 [json_name = "quotaKind"];
+  arcforges.foundation.v1.Instant measured_at = 6 [json_name = "measuredAt"];
+}
+
+message ManagedDirectory {
+  arcforges.foundation.v1.Id directory_id = 1 [json_name = "directoryId"];
+  optional OwnerKind owner_kind = 2 [json_name = "ownerKind"];
+  arcforges.foundation.v1.Id owner_id = 3 [json_name = "ownerId"];
+  optional string root_class = 4 [json_name = "rootClass"];
+  optional string relative_path = 5 [json_name = "relativePath"];
+  arcforges.foundation.v1.Instant created_at = 6 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant last_used_at = 7 [json_name = "lastUsedAt"];
+  optional bool pinned = 8 [json_name = "pinned"];
+  optional uint64 size_bytes = 9 [json_name = "sizeBytes"];
+  arcforges.foundation.v1.Instant size_measured_at = 10 [json_name = "sizeMeasuredAt"];
+  optional DirectoryState state = 11 [json_name = "state"];
+}
+
+message StorageItem {
+  arcforges.foundation.v1.Id item_id = 1 [json_name = "itemId"];
+  optional StorageItemClass item_class = 2 [json_name = "itemClass"];
+  optional string path = 3 [json_name = "path"];
+  optional uint64 size_bytes = 4 [json_name = "sizeBytes"];
+  optional RiskClass risk = 5 [json_name = "risk"];
+  optional string reason = 6 [json_name = "reason"];
+  optional CleanupAction suggested_action = 7 [json_name = "suggestedAction"];
+  arcforges.foundation.v1.Id workspace_id = 8 [json_name = "workspaceId"];
+  optional string cache_kind = 9 [json_name = "cacheKind"];
+}
+
+message StorageAnalysis {
+  arcforges.foundation.v1.Id analysis_id = 1 [json_name = "analysisId"];
+  JobView job = 2 [json_name = "job"];
+  repeated StorageItem items = 3 [json_name = "items"];
+  optional bool truncated = 4 [json_name = "truncated"];
+  optional string truncation_reason = 5 [json_name = "truncationReason"];
+  arcforges.foundation.v1.Instant completed_at = 6 [json_name = "completedAt"];
+  optional uint64 reclaimable_low_risk_bytes = 7 [json_name = "reclaimableLowRiskBytes"];
+}
+
+message CleanupFingerprint {
+  optional sint64 mtime_unix_seconds = 1 [json_name = "mtimeUnixSeconds"];
+  optional uint64 size_bytes = 2 [json_name = "sizeBytes"];
+  optional string owner_state = 3 [json_name = "ownerState"];
+}
+
+message CleanupItem {
+  arcforges.foundation.v1.Id item_id = 1 [json_name = "itemId"];
+  optional string path = 2 [json_name = "path"];
+  optional uint64 size_bytes = 3 [json_name = "sizeBytes"];
+  optional StorageItemClass item_class = 4 [json_name = "itemClass"];
+  optional string reason = 5 [json_name = "reason"];
+  optional RiskClass risk = 6 [json_name = "risk"];
+  optional CleanupAction action = 7 [json_name = "action"];
+  CleanupFingerprint fingerprint = 8 [json_name = "fingerprint"];
+  optional bool external = 9 [json_name = "external"]; // added with AddExternalPath
+  optional CleanupItemOutcome outcome = 10 [json_name = "outcome"];
+  optional string outcome_detail = 11 [json_name = "outcomeDetail"];
+}
+
+message CleanupPlan {
+  arcforges.foundation.v1.Id plan_id = 1 [json_name = "planId"];
+  optional CleanupPlanState state = 2 [json_name = "state"];
+  repeated CleanupItem items = 3 [json_name = "items"];
+  optional string digest = 4 [json_name = "digest"];
+  arcforges.foundation.v1.Instant created_at = 5 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"]; // 60 min after creation
+  optional uint64 total_bytes = 7 [json_name = "totalBytes"];
+  ActorRef planned_by = 8 [json_name = "plannedBy"];
+  arcforges.foundation.v1.Id approval_id = 9 [json_name = "approvalId"];
+  arcforges.foundation.v1.Id source_analysis_id = 10 [json_name = "sourceAnalysisId"];
+}
+
+message CleanupRules {
+  repeated StorageItemClass classes = 1 [json_name = "classes"];
+  optional RiskClass max_risk = 2 [json_name = "maxRisk"];
+  optional uint64 min_size_bytes = 3 [json_name = "minSizeBytes"];
+  arcforges.foundation.v1.Id workspace_id = 4 [json_name = "workspaceId"];
+}
+
+message QuarantineEntry {
+  arcforges.foundation.v1.Id plan_id = 1 [json_name = "planId"];
+  arcforges.foundation.v1.Id item_id = 2 [json_name = "itemId"];
+  optional string original_path = 3 [json_name = "originalPath"];
+  optional uint64 size_bytes = 4 [json_name = "sizeBytes"];
+  arcforges.foundation.v1.Instant quarantined_at = 5 [json_name = "quarantinedAt"];
+  arcforges.foundation.v1.Instant purge_at = 6 [json_name = "purgeAt"];
+}

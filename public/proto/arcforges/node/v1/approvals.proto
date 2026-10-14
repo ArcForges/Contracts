@@ -1,0 +1,166 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeApprovalsProto";
+
+// Approvals for operations the permission matrix or remedy policy marks APPROVAL (SM-APPROVAL).
+// An approval captures the original request; on approval the node executes it with the original command_id.
+
+// List, decide and withdraw approvals.
+service ApprovalService {
+  // List approvals, pending first.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (own requests) REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListApprovals(ApprovalServiceListApprovalsRequest) returns (ApprovalServiceListApprovalsResponse);
+
+  // Read one approval, including the outcome after execution.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (own requests) REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetApproval(ApprovalServiceGetApprovalRequest) returns (ApprovalServiceGetApprovalResponse);
+
+  // Approve or deny. Approvers must be HUMAN, or REMOTE with step-up when remote.allow_approvals is true (R-SEC-002).
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high (policy remote.allow_approvals and cloud step-up)
+  // idempotency: command_id; a second decision returns the first
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, STATE/expired, AUTHORIZATION/permission_denied
+  // locality: node
+  // state: SM-APPROVAL: PENDING -> APPROVED -> EXECUTED | FAILED; PENDING -> DENIED
+  rpc DecideApproval(ApprovalServiceDecideApprovalRequest) returns (ApprovalServiceDecideApprovalResponse);
+
+  // Withdraw a pending approval request (requester or HUMAN).
+  // auth: requester or HUMAN REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, AUTHORIZATION/permission_denied
+  // locality: node
+  // state: SM-APPROVAL: PENDING -> CANCELLED
+  rpc CancelApproval(ApprovalServiceCancelApprovalRequest) returns (ApprovalServiceCancelApprovalResponse);
+}
+
+message ApprovalServiceListApprovalsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated ApprovalState states = 10 [json_name = "states"]; // validate: unique values; empty = all
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"]; // validate: limit 1..500
+}
+message ApprovalServiceListApprovalsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ApprovalServiceListApprovalsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ApprovalServiceListApprovalsValue {
+  repeated Approval approvals = 10 [json_name = "approvals"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message ApprovalServiceGetApprovalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id approval_id = 10 [json_name = "approvalId"]; // validate: required
+}
+message ApprovalServiceGetApprovalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ApprovalServiceGetApprovalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ApprovalServiceGetApprovalValue {
+  Approval approval = 10 [json_name = "approval"];
+}
+
+message ApprovalServiceDecideApprovalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id approval_id = 10 [json_name = "approvalId"]; // validate: PENDING approval
+  optional ApprovalDecisionKind decision = 11 [json_name = "decision"]; // validate: required
+  optional string comment = 12 [json_name = "comment"]; // validate: <= 500 chars
+}
+message ApprovalServiceDecideApprovalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ApprovalServiceDecideApprovalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ApprovalServiceDecideApprovalValue {
+  Approval approval = 10 [json_name = "approval"];
+}
+
+message ApprovalServiceCancelApprovalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id approval_id = 10 [json_name = "approvalId"]; // validate: PENDING approval
+}
+message ApprovalServiceCancelApprovalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ApprovalServiceCancelApprovalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ApprovalServiceCancelApprovalValue {
+  Approval approval = 10 [json_name = "approval"];
+}
+
+enum ApprovalState {
+  APPROVAL_STATE_UNSPECIFIED = 0;
+  APPROVAL_STATE_PENDING = 1;
+  APPROVAL_STATE_APPROVED = 2;
+  APPROVAL_STATE_DENIED = 3;
+  APPROVAL_STATE_EXPIRED = 4;
+  APPROVAL_STATE_CANCELLED = 5;
+  APPROVAL_STATE_EXECUTED = 6;
+  APPROVAL_STATE_FAILED = 7;
+}
+
+enum ApprovalDecisionKind {
+  APPROVAL_DECISION_KIND_UNSPECIFIED = 0;
+  APPROVAL_DECISION_KIND_APPROVE = 1;
+  APPROVAL_DECISION_KIND_DENY = 2;
+}
+
+message Approval {
+  arcforges.foundation.v1.Id approval_id = 1 [json_name = "approvalId"];
+  optional ApprovalState state = 2 [json_name = "state"];
+  optional string operation = 3 [json_name = "operation"]; // e.g. "TaskService.CancelTask"
+  optional string summary = 4 [json_name = "summary"];
+  repeated KeyValue details = 5 [json_name = "details"];
+  optional RiskClass risk = 6 [json_name = "risk"];
+  ActorRef requester = 7 [json_name = "requester"];
+  arcforges.foundation.v1.Instant created_at = 8 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant expires_at = 9 [json_name = "expiresAt"];
+  ActorRef decided_by = 10 [json_name = "decidedBy"];
+  arcforges.foundation.v1.Instant decided_at = 11 [json_name = "decidedAt"];
+  optional string comment = 12 [json_name = "comment"];
+  arcforges.foundation.v1.Id finding_id = 13 [json_name = "findingId"];
+  arcforges.foundation.v1.Receipt outcome = 14 [json_name = "outcome"];
+  arcforges.foundation.v1.ArcError outcome_error = 15 [json_name = "outcomeError"];
+  optional string request_digest = 16 [json_name = "requestDigest"];
+  arcforges.foundation.v1.Id command_id = 17 [json_name = "commandId"];
+}

@@ -1,0 +1,214 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.relay.v1;
+
+import "arcforges/fleet/v1/fleet.proto";
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Relay.V1";
+option java_package = "io.github.arcforges.contracts.relay.v1";
+option java_multiple_files = true;
+option java_outer_classname = "RelayProto";
+
+// Relay frames (internal): node <-> FleetHub Durable Object (RelayFrame over WebSocket /v1/node),
+// viewer <-> FleetHub (ViewerFrame over WebSocket /v1/view), and FleetHub <-> C# host (HostEnvelope).
+// The Durable Object reads only frame headers and token claims; payloads are opaque to it (AD-0009 section 2).
+
+message RelayLimits {
+  optional uint32 summary_frames_per_minute = 1 [json_name = "summaryFramesPerMinute"]; // default 30
+  optional uint32 delta_frames_per_minute = 2 [json_name = "deltaFramesPerMinute"]; // default 60 while demanded
+  optional uint64 bytes_per_day = 3 [json_name = "bytesPerDay"]; // default 500 MiB per account
+  optional uint32 snapshot_max_bytes = 4 [json_name = "snapshotMaxBytes"]; // default 256 KiB
+  optional uint32 viewers_max = 5 [json_name = "viewersMax"]; // default 5
+  optional uint32 commands_per_hour = 6 [json_name = "commandsPerHour"]; // default 120
+}
+
+// Claims of the node token (HMAC-SHA256; aud "relay.node"; 15 minutes).
+message RelayTokenClaims {
+  optional string aud = 1 [json_name = "aud"];
+  arcforges.foundation.v1.Id account_id = 2 [json_name = "accountId"];
+  arcforges.foundation.v1.Id node_id = 3 [json_name = "nodeId"];
+  arcforges.foundation.v1.Instant issued_at = 4 [json_name = "issuedAt"];
+  arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"];
+  repeated string kinds_allowed = 6 [json_name = "kindsAllowed"];
+  RelayLimits limits = 7 [json_name = "limits"];
+  optional string kid = 8 [json_name = "kid"];
+}
+
+// Claims of the viewer grant (HMAC-SHA256; aud "relay.view"; 10 minutes).
+message ViewerGrantClaims {
+  optional string aud = 1 [json_name = "aud"];
+  arcforges.foundation.v1.Id account_id = 2 [json_name = "accountId"];
+  repeated arcforges.foundation.v1.Id node_ids = 3 [json_name = "nodeIds"];
+  optional arcforges.fleet.v1.DetailLevel detail = 4 [json_name = "detail"];
+  arcforges.foundation.v1.Instant issued_at = 5 [json_name = "issuedAt"];
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"];
+  RelayLimits limits = 7 [json_name = "limits"];
+  arcforges.foundation.v1.Id viewer_session_id = 8 [json_name = "viewerSessionId"];
+  optional string kid = 9 [json_name = "kid"];
+}
+
+message NodeHello {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  optional string version = 2 [json_name = "version"];
+  optional uint64 generation = 3 [json_name = "generation"];
+  optional uint64 last_seq = 4 [json_name = "lastSeq"];
+}
+
+message DemandSignal {
+  optional uint32 interval_ms = 1 [json_name = "intervalMs"]; // >= 2,000
+  optional uint32 duration_ms = 2 [json_name = "durationMs"]; // <= 600,000; renewed while watched
+  optional arcforges.fleet.v1.DetailLevel detail = 3 [json_name = "detail"];
+}
+
+message PushEvent {
+  optional string kind = 1 [json_name = "kind"]; // node.task_failed | node.task_finished | node.approval_needed | node.finding
+  arcforges.foundation.v1.Id subject_id = 2 [json_name = "subjectId"];
+  optional string title = 3 [json_name = "title"];
+  optional arcforges.node.v1.Severity severity = 4 [json_name = "severity"];
+  arcforges.foundation.v1.Instant at = 5 [json_name = "at"];
+  optional string dedup_key = 6 [json_name = "dedupKey"];
+}
+
+message EventBatch {
+  repeated PushEvent events = 1 [json_name = "events"]; // <= 50 per batch
+}
+
+message TokenRefresh {
+  optional string token = 1 [json_name = "token"];
+}
+
+message EntitlementChanged {
+  optional int64 entitlement_version = 1 [json_name = "entitlementVersion"];
+}
+
+message RelayClose {
+  optional uint32 code = 1 [json_name = "code"]; // 4401 token expired, 4403 refused, 4408 idle, 4429 rate limited, 4503 kill switch
+  optional string reason = 2 [json_name = "reason"];
+}
+
+message RelayAck {
+  optional uint64 through_seq = 1 [json_name = "throughSeq"];
+}
+
+message OutputTail {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  arcforges.foundation.v1.Id task_id = 2 [json_name = "taskId"];
+  arcforges.foundation.v1.Id command_id = 3 [json_name = "commandId"];
+  optional bytes data = 4 [json_name = "data"];
+  optional bool truncated = 5 [json_name = "truncated"];
+}
+
+message RelayFrame {
+  optional uint32 frame_version = 1 [json_name = "frameVersion"]; // 1
+  optional uint64 frame_seq = 2 [json_name = "frameSeq"]; // per connection and direction
+  oneof frame {
+    NodeHello node_hello = 10 [json_name = "nodeHello"]; // node -> DO
+    arcforges.fleet.v1.StatusSummary summary = 11 [json_name = "summary"]; // node -> DO
+    arcforges.fleet.v1.StatusDelta delta = 12 [json_name = "delta"]; // node -> DO
+    arcforges.fleet.v1.NodeSnapshot snapshot = 13 [json_name = "snapshot"]; // node -> DO
+    DemandSignal demand = 14 [json_name = "demand"]; // DO -> node
+    arcforges.fleet.v1.SignedBlob command = 15 [json_name = "command"]; // DO -> node; payload NodeCommand
+    arcforges.fleet.v1.SignedBlob command_result = 16 [json_name = "commandResult"]; // node -> DO; payload NodeCommandResult
+    EventBatch events = 17 [json_name = "events"]; // node -> DO
+    TokenRefresh token_refresh = 18 [json_name = "tokenRefresh"]; // node -> DO
+    EntitlementChanged entitlement_changed = 19 [json_name = "entitlementChanged"]; // DO -> node
+    RelayClose close = 20 [json_name = "close"]; // either direction
+    RelayAck ack = 21 [json_name = "ack"]; // either direction
+    OutputTail output_tail = 22 [json_name = "outputTail"]; // node -> DO
+  }
+}
+
+message NodeCursor {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  optional uint64 generation = 2 [json_name = "generation"];
+  optional uint64 seq = 3 [json_name = "seq"];
+}
+
+message ViewerResume {
+  repeated NodeCursor cursors = 1 [json_name = "cursors"];
+}
+
+message GrantRefresh {
+  optional string grant = 1 [json_name = "grant"];
+}
+
+message ViewerReset {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  optional string reason = 2 [json_name = "reason"];
+}
+
+message ViewerFrame {
+  optional uint32 frame_version = 1 [json_name = "frameVersion"]; // 1
+  oneof frame {
+    ViewerResume resume = 10 [json_name = "resume"]; // viewer -> DO
+    GrantRefresh grant_refresh = 11 [json_name = "grantRefresh"]; // viewer -> DO
+    arcforges.fleet.v1.NodeSnapshot snapshot = 12 [json_name = "snapshot"]; // DO -> viewer
+    arcforges.fleet.v1.StatusDelta delta = 13 [json_name = "delta"]; // DO -> viewer
+    arcforges.fleet.v1.NodePresence presence = 14 [json_name = "presence"]; // DO -> viewer
+    ViewerReset reset = 15 [json_name = "reset"]; // DO -> viewer
+    arcforges.fleet.v1.RemoteCommandView command_update = 16 [json_name = "commandUpdate"]; // DO -> viewer
+    RelayClose close = 17 [json_name = "close"]; // DO -> viewer
+    OutputTail output_tail = 18 [json_name = "outputTail"]; // DO -> viewer
+  }
+}
+
+message CommandDeliver {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  arcforges.fleet.v1.SignedBlob command = 2 [json_name = "command"];
+  arcforges.foundation.v1.Instant expires_at = 3 [json_name = "expiresAt"];
+}
+
+message CommandResultForward {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  arcforges.fleet.v1.SignedBlob result = 2 [json_name = "result"];
+}
+
+message CommandUndeliverable {
+  arcforges.foundation.v1.Id command_id = 1 [json_name = "commandId"];
+  optional string reason = 2 [json_name = "reason"]; // node_offline | expired | queue_full
+}
+
+message EventBatchForward {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  EventBatch batch = 2 [json_name = "batch"];
+}
+
+message PresenceChange {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  optional arcforges.fleet.v1.NodeOnlineState state = 2 [json_name = "state"];
+  arcforges.foundation.v1.Instant at = 3 [json_name = "at"];
+}
+
+message UsageReport {
+  arcforges.foundation.v1.Instant period_start = 1 [json_name = "periodStart"];
+  optional uint32 frames_in = 2 [json_name = "framesIn"];
+  optional uint32 frames_out = 3 [json_name = "framesOut"];
+  optional uint64 bytes_in = 4 [json_name = "bytesIn"];
+  optional uint64 bytes_out = 5 [json_name = "bytesOut"];
+  optional uint32 wakes = 6 [json_name = "wakes"];
+  optional uint32 viewers_peak = 7 [json_name = "viewersPeak"];
+}
+
+message KillSwitchUpdate {
+  optional bool live_streaming = 1 [json_name = "liveStreaming"];
+  optional bool new_connections = 2 [json_name = "newConnections"];
+  optional bool commands = 3 [json_name = "commands"];
+}
+
+message HostEnvelope {
+  optional uint32 envelope_version = 1 [json_name = "envelopeVersion"]; // 1
+  arcforges.foundation.v1.Id account_id = 2 [json_name = "accountId"];
+  oneof body {
+    EventBatchForward events = 10 [json_name = "events"]; // DO -> C#
+    CommandDeliver deliver = 11 [json_name = "deliver"]; // C# -> DO
+    CommandResultForward result = 12 [json_name = "result"]; // DO -> C#
+    PresenceChange presence = 13 [json_name = "presence"]; // DO -> C#
+    UsageReport usage = 14 [json_name = "usage"]; // DO -> C#
+    KillSwitchUpdate kill_switches = 15 [json_name = "killSwitches"]; // C# -> DO
+    CommandUndeliverable undeliverable = 16 [json_name = "undeliverable"]; // DO -> C#
+  }
+}

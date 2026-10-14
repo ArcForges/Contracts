@@ -848,7 +848,8 @@
         "arcforges.publicapi.v1.HistoryService",
         "arcforges.publicapi.v1.IdentityService",
         "arcforges.publicapi.v1.WorkspaceService",
-        "arcforges.publicapi.v1.DeviceService"
+        "arcforges.publicapi.v1.DeviceService",
+        "arcforges.publicapi.v1.SupportAccessService"
       ],
       "ArcForges.Contracts.Events": [
         "arcforges.events.v1.ExecutionService",
@@ -856,9 +857,44 @@
       ],
       "ArcForges.Contracts.CloudInternal": [
         "arcforges.operator.v1.OperatorService",
-        "arcforges.cf.v1.RunStreamService"
+        "arcforges.cf.v1.RunStreamService",
+        "arcforges.operator.v1.OperatorReadService"
       ],
-      "ArcForges.Sdk.Contracts": ["arcforges.extensions.v1.ExtensionHostService"]
+      "ArcForges.Sdk.Contracts": ["arcforges.extensions.v1.ExtensionHostService"],
+      "ArcForges.Contracts.Node": [
+        "arcforges.node.v1.AccountService",
+        "arcforges.node.v1.ApprovalService",
+        "arcforges.node.v1.CacheService",
+        "arcforges.node.v1.DiagnosisService",
+        "arcforges.node.v1.NodeEventService",
+        "arcforges.node.v1.IntegrationService",
+        "arcforges.node.v1.MemoryService",
+        "arcforges.node.v1.NodeService",
+        "arcforges.node.v1.PeerService",
+        "arcforges.node.v1.PolicyService",
+        "arcforges.node.v1.QueueService",
+        "arcforges.node.v1.ResourceService",
+        "arcforges.node.v1.SessionService",
+        "arcforges.node.v1.StorageService",
+        "arcforges.node.v1.SupportService",
+        "arcforges.node.v1.TaskService",
+        "arcforges.node.v1.ToolchainService",
+        "arcforges.node.v1.UpdateService",
+        "arcforges.node.v1.WorkspaceService"
+      ],
+      "ArcForges.Contracts.Fleet": [
+        "arcforges.fleet.v1.NodeEnrollmentService",
+        "arcforges.fleet.v1.FleetService",
+        "arcforges.fleet.v1.StoreBillingService"
+      ],
+      "ArcForges.Contracts.Peer": [
+        "arcforges.peer.v1.PeerHandshakeService",
+        "arcforges.peer.v1.PairingService",
+        "arcforges.peer.v1.PeerStatusService",
+        "arcforges.peer.v1.PlacementService",
+        "arcforges.peer.v1.TransferService",
+        "arcforges.peer.v1.GuestLinkService"
+      ]
     },
     "typescript": {
       "@arcforges/proto": [
@@ -1172,6 +1208,289 @@
         "/arcforges.operator.v1.OperatorService/SetCaseState",
         "/arcforges.operator.v1.OperatorService/ReviewCatalogSubmission",
         "/arcforges.operator.v1.OperatorService/RevokeCatalogVersion"
+      ],
+      "arcforges.node.v1.AccountService": [
+        "/arcforges.node.v1.AccountService/GetAccountStatus",
+        "/arcforges.node.v1.AccountService/BeginSignIn",
+        "/arcforges.node.v1.AccountService/GetSignInFlow",
+        "/arcforges.node.v1.AccountService/CancelSignIn",
+        "/arcforges.node.v1.AccountService/SignOut",
+        "/arcforges.node.v1.AccountService/CreatePhonePairing",
+        "/arcforges.node.v1.AccountService/GetPhonePairing",
+        "/arcforges.node.v1.AccountService/ConfirmPhonePairing",
+        "/arcforges.node.v1.AccountService/SetCloudLink",
+        "/arcforges.node.v1.AccountService/RefreshEntitlement"
+      ],
+      "arcforges.node.v1.ApprovalService": [
+        "/arcforges.node.v1.ApprovalService/ListApprovals",
+        "/arcforges.node.v1.ApprovalService/GetApproval",
+        "/arcforges.node.v1.ApprovalService/DecideApproval",
+        "/arcforges.node.v1.ApprovalService/CancelApproval"
+      ],
+      "arcforges.node.v1.CacheService": [
+        "/arcforges.node.v1.CacheService/ListCaches",
+        "/arcforges.node.v1.CacheService/GetCacheReport",
+        "/arcforges.node.v1.CacheService/UpdateCacheSettings",
+        "/arcforges.node.v1.CacheService/VerifyCache"
+      ],
+      "arcforges.node.v1.DiagnosisService": [
+        "/arcforges.node.v1.DiagnosisService/ListFindings",
+        "/arcforges.node.v1.DiagnosisService/GetFinding",
+        "/arcforges.node.v1.DiagnosisService/AcknowledgeFinding",
+        "/arcforges.node.v1.DiagnosisService/MuteFinding",
+        "/arcforges.node.v1.DiagnosisService/ApplyRemedy",
+        "/arcforges.node.v1.DiagnosisService/RunDoctor",
+        "/arcforges.node.v1.DiagnosisService/GetReport",
+        "/arcforges.node.v1.DiagnosisService/ExportRecords"
+      ],
+      "arcforges.node.v1.NodeEventService": [
+        "/arcforges.node.v1.NodeEventService/Subscribe",
+        "/arcforges.node.v1.NodeEventService/ListEvents"
+      ],
+      "arcforges.node.v1.IntegrationService": [
+        "/arcforges.node.v1.IntegrationService/ListClients",
+        "/arcforges.node.v1.IntegrationService/PlanIntegration",
+        "/arcforges.node.v1.IntegrationService/PlanRemoval",
+        "/arcforges.node.v1.IntegrationService/ApplyIntegration",
+        "/arcforges.node.v1.IntegrationService/StartProbe",
+        "/arcforges.node.v1.IntegrationService/ListProbeResults",
+        "/arcforges.node.v1.IntegrationService/GetInstructionSnippet"
+      ],
+      "arcforges.node.v1.MemoryService": [
+        "/arcforges.node.v1.MemoryService/ListFacts",
+        "/arcforges.node.v1.MemoryService/GetFact",
+        "/arcforges.node.v1.MemoryService/QueryFacts",
+        "/arcforges.node.v1.MemoryService/ForgetFacts"
+      ],
+      "arcforges.node.v1.NodeService": [
+        "/arcforges.node.v1.NodeService/Hello",
+        "/arcforges.node.v1.NodeService/GetNodeInfo",
+        "/arcforges.node.v1.NodeService/GetHealth",
+        "/arcforges.node.v1.NodeService/GetCapabilities",
+        "/arcforges.node.v1.NodeService/RenameNode",
+        "/arcforges.node.v1.NodeService/GetNodeSettings",
+        "/arcforges.node.v1.NodeService/UpdateNodeSettings",
+        "/arcforges.node.v1.NodeService/StopNode",
+        "/arcforges.node.v1.NodeService/WipeNode",
+        "/arcforges.node.v1.NodeService/GetJob",
+        "/arcforges.node.v1.NodeService/ListJobs",
+        "/arcforges.node.v1.NodeService/CancelJob",
+        "/arcforges.node.v1.NodeService/ListNotifications",
+        "/arcforges.node.v1.NodeService/MarkNotificationsRead"
+      ],
+      "arcforges.node.v1.PeerService": [
+        "/arcforges.node.v1.PeerService/GetLanStatus",
+        "/arcforges.node.v1.PeerService/SetLanEnabled",
+        "/arcforges.node.v1.PeerService/ListPeers",
+        "/arcforges.node.v1.PeerService/GetPeer",
+        "/arcforges.node.v1.PeerService/AddPeerAddress",
+        "/arcforges.node.v1.PeerService/BeginPairing",
+        "/arcforges.node.v1.PeerService/RespondToPairing",
+        "/arcforges.node.v1.PeerService/GetPairing",
+        "/arcforges.node.v1.PeerService/ConfirmPairing",
+        "/arcforges.node.v1.PeerService/CancelPairing",
+        "/arcforges.node.v1.PeerService/UpdatePeerPolicy",
+        "/arcforges.node.v1.PeerService/RemovePeer"
+      ],
+      "arcforges.node.v1.PolicyService": [
+        "/arcforges.node.v1.PolicyService/GetPolicy",
+        "/arcforges.node.v1.PolicyService/GetDefaultPolicy",
+        "/arcforges.node.v1.PolicyService/ValidatePolicy",
+        "/arcforges.node.v1.PolicyService/UpdatePolicy",
+        "/arcforges.node.v1.PolicyService/ListPolicyRevisions",
+        "/arcforges.node.v1.PolicyService/RestorePolicyRevision",
+        "/arcforges.node.v1.PolicyService/ExplainPermission"
+      ],
+      "arcforges.node.v1.QueueService": [
+        "/arcforges.node.v1.QueueService/GetQueue",
+        "/arcforges.node.v1.QueueService/ExplainTask",
+        "/arcforges.node.v1.QueueService/ListPools",
+        "/arcforges.node.v1.QueueService/CreatePool",
+        "/arcforges.node.v1.QueueService/UpdatePool",
+        "/arcforges.node.v1.QueueService/DeletePool",
+        "/arcforges.node.v1.QueueService/PausePool",
+        "/arcforges.node.v1.QueueService/ResumePool",
+        "/arcforges.node.v1.QueueService/SetParallelism"
+      ],
+      "arcforges.node.v1.ResourceService": [
+        "/arcforges.node.v1.ResourceService/GetResourceSnapshot",
+        "/arcforges.node.v1.ResourceService/WatchResources",
+        "/arcforges.node.v1.ResourceService/ListProcesses",
+        "/arcforges.node.v1.ResourceService/GetSamples",
+        "/arcforges.node.v1.ResourceService/AdoptProcess",
+        "/arcforges.node.v1.ResourceService/TerminateProcess",
+        "/arcforges.node.v1.ResourceService/ListGuestLinks",
+        "/arcforges.node.v1.ResourceService/SetGuestLink",
+        "/arcforges.node.v1.ResourceService/GetHostLink",
+        "/arcforges.node.v1.ResourceService/TrustHost"
+      ],
+      "arcforges.node.v1.SessionService": [
+        "/arcforges.node.v1.SessionService/ReportHookEvent",
+        "/arcforges.node.v1.SessionService/ClassifyCommand",
+        "/arcforges.node.v1.SessionService/ListSessions",
+        "/arcforges.node.v1.SessionService/GetSession",
+        "/arcforges.node.v1.SessionService/GetSessionCoverage",
+        "/arcforges.node.v1.SessionService/GetReleaseScope",
+        "/arcforges.node.v1.SessionService/EndSession",
+        "/arcforges.node.v1.SessionService/ReportProbe"
+      ],
+      "arcforges.node.v1.StorageService": [
+        "/arcforges.node.v1.StorageService/GetStorageSummary",
+        "/arcforges.node.v1.StorageService/ListManagedDirectories",
+        "/arcforges.node.v1.StorageService/SetDirectoryPinned",
+        "/arcforges.node.v1.StorageService/AnalyzeStorage",
+        "/arcforges.node.v1.StorageService/GetStorageAnalysis",
+        "/arcforges.node.v1.StorageService/PlanCleanup",
+        "/arcforges.node.v1.StorageService/AddExternalPath",
+        "/arcforges.node.v1.StorageService/GetCleanupPlan",
+        "/arcforges.node.v1.StorageService/ExecuteCleanup",
+        "/arcforges.node.v1.StorageService/CancelCleanupPlan",
+        "/arcforges.node.v1.StorageService/ListQuarantine",
+        "/arcforges.node.v1.StorageService/RestoreQuarantine",
+        "/arcforges.node.v1.StorageService/UpdateRoot"
+      ],
+      "arcforges.node.v1.SupportService": [
+        "/arcforges.node.v1.SupportService/CreateSupportBundle",
+        "/arcforges.node.v1.SupportService/GetSupportBundle",
+        "/arcforges.node.v1.SupportService/ListSupportBundles",
+        "/arcforges.node.v1.SupportService/UploadSupportBundle",
+        "/arcforges.node.v1.SupportService/DeleteSupportBundle"
+      ],
+      "arcforges.node.v1.TaskService": [
+        "/arcforges.node.v1.TaskService/SubmitTask",
+        "/arcforges.node.v1.TaskService/GetTask",
+        "/arcforges.node.v1.TaskService/ListTasks",
+        "/arcforges.node.v1.TaskService/WaitTask",
+        "/arcforges.node.v1.TaskService/AttachTask",
+        "/arcforges.node.v1.TaskService/WriteTaskInput",
+        "/arcforges.node.v1.TaskService/CloseTaskInput",
+        "/arcforges.node.v1.TaskService/ReleaseCallerBinding",
+        "/arcforges.node.v1.TaskService/CancelTask",
+        "/arcforges.node.v1.TaskService/RetryTask",
+        "/arcforges.node.v1.TaskService/SetTaskPriority",
+        "/arcforges.node.v1.TaskService/PauseTask",
+        "/arcforges.node.v1.TaskService/ResumeTask",
+        "/arcforges.node.v1.TaskService/PinTask",
+        "/arcforges.node.v1.TaskService/PurgeTaskRecord",
+        "/arcforges.node.v1.TaskService/ReadTaskOutput",
+        "/arcforges.node.v1.TaskService/WatchTaskOutput",
+        "/arcforges.node.v1.TaskService/GetAttempt",
+        "/arcforges.node.v1.TaskService/ListAttempts",
+        "/arcforges.node.v1.TaskService/GetTimeline"
+      ],
+      "arcforges.node.v1.ToolchainService": [
+        "/arcforges.node.v1.ToolchainService/ListToolchains",
+        "/arcforges.node.v1.ToolchainService/DetectToolchains",
+        "/arcforges.node.v1.ToolchainService/ListAdapters",
+        "/arcforges.node.v1.ToolchainService/PreviewInvocation"
+      ],
+      "arcforges.node.v1.UpdateService": [
+        "/arcforges.node.v1.UpdateService/GetUpdateStatus",
+        "/arcforges.node.v1.UpdateService/CheckNow",
+        "/arcforges.node.v1.UpdateService/ApplyNow",
+        "/arcforges.node.v1.UpdateService/Postpone",
+        "/arcforges.node.v1.UpdateService/Rollback"
+      ],
+      "arcforges.node.v1.WorkspaceService": [
+        "/arcforges.node.v1.WorkspaceService/RegisterWorkspace",
+        "/arcforges.node.v1.WorkspaceService/UnregisterWorkspace",
+        "/arcforges.node.v1.WorkspaceService/ListWorkspaces",
+        "/arcforges.node.v1.WorkspaceService/GetWorkspace",
+        "/arcforges.node.v1.WorkspaceService/CreateWorktree",
+        "/arcforges.node.v1.WorkspaceService/PlanWorktreeRemoval",
+        "/arcforges.node.v1.WorkspaceService/RemoveWorktree",
+        "/arcforges.node.v1.WorkspaceService/ListWorktreeArchives",
+        "/arcforges.node.v1.WorkspaceService/RestoreWorktree",
+        "/arcforges.node.v1.WorkspaceService/UpdateWorkspaceSettings"
+      ],
+      "arcforges.fleet.v1.NodeEnrollmentService": [
+        "/arcforges.fleet.v1.NodeEnrollmentService/BeginNodeSignIn",
+        "/arcforges.fleet.v1.NodeEnrollmentService/GetNodeSignInFlow",
+        "/arcforges.fleet.v1.NodeEnrollmentService/ApproveNodeSignIn",
+        "/arcforges.fleet.v1.NodeEnrollmentService/CompleteNodeSignIn",
+        "/arcforges.fleet.v1.NodeEnrollmentService/StartDeviceAuthorization",
+        "/arcforges.fleet.v1.NodeEnrollmentService/PollDeviceAuthorization",
+        "/arcforges.fleet.v1.NodeEnrollmentService/LookupDeviceCode",
+        "/arcforges.fleet.v1.NodeEnrollmentService/ApproveDeviceCode",
+        "/arcforges.fleet.v1.NodeEnrollmentService/RefreshNodeSession",
+        "/arcforges.fleet.v1.NodeEnrollmentService/ReportNodeInfo",
+        "/arcforges.fleet.v1.NodeEnrollmentService/CreatePhonePairing",
+        "/arcforges.fleet.v1.NodeEnrollmentService/ClaimPhonePairing",
+        "/arcforges.fleet.v1.NodeEnrollmentService/GetPhonePairing",
+        "/arcforges.fleet.v1.NodeEnrollmentService/ConfirmPhonePairing",
+        "/arcforges.fleet.v1.NodeEnrollmentService/PollPhonePairing",
+        "/arcforges.fleet.v1.NodeEnrollmentService/IssueNodeCertificate",
+        "/arcforges.fleet.v1.NodeEnrollmentService/GetLanHints",
+        "/arcforges.fleet.v1.NodeEnrollmentService/ReportLanEndpoints",
+        "/arcforges.fleet.v1.NodeEnrollmentService/RefreshEntitlementToken",
+        "/arcforges.fleet.v1.NodeEnrollmentService/GetEntitlementKeys",
+        "/arcforges.fleet.v1.NodeEnrollmentService/BeginSupportUpload",
+        "/arcforges.fleet.v1.NodeEnrollmentService/CompleteSupportUpload"
+      ],
+      "arcforges.fleet.v1.FleetService": [
+        "/arcforges.fleet.v1.FleetService/ListNodes",
+        "/arcforges.fleet.v1.FleetService/GetNode",
+        "/arcforges.fleet.v1.FleetService/RenameNode",
+        "/arcforges.fleet.v1.FleetService/RevokeNode",
+        "/arcforges.fleet.v1.FleetService/IssueRelayToken",
+        "/arcforges.fleet.v1.FleetService/OpenFleetWatch",
+        "/arcforges.fleet.v1.FleetService/WatchFleet",
+        "/arcforges.fleet.v1.FleetService/SendNodeCommand",
+        "/arcforges.fleet.v1.FleetService/GetNodeCommand",
+        "/arcforges.fleet.v1.FleetService/ListNodeCommands",
+        "/arcforges.fleet.v1.FleetService/GetPushPreferences",
+        "/arcforges.fleet.v1.FleetService/UpdatePushPreferences",
+        "/arcforges.fleet.v1.FleetService/CancelNodeCommand"
+      ],
+      "arcforges.fleet.v1.StoreBillingService": [
+        "/arcforges.fleet.v1.StoreBillingService/GetPlayAccountReference",
+        "/arcforges.fleet.v1.StoreBillingService/SubmitPlayPurchase",
+        "/arcforges.fleet.v1.StoreBillingService/RestorePlayPurchases",
+        "/arcforges.fleet.v1.StoreBillingService/ConfirmPurchaseLink",
+        "/arcforges.fleet.v1.StoreBillingService/GetBillingStatus"
+      ],
+      "arcforges.peer.v1.PeerHandshakeService": ["/arcforges.peer.v1.PeerHandshakeService/Hello"],
+      "arcforges.peer.v1.PairingService": [
+        "/arcforges.peer.v1.PairingService/RequestPairing",
+        "/arcforges.peer.v1.PairingService/AwaitResponse",
+        "/arcforges.peer.v1.PairingService/Commit",
+        "/arcforges.peer.v1.PairingService/Reveal",
+        "/arcforges.peer.v1.PairingService/Confirm",
+        "/arcforges.peer.v1.PairingService/AwaitConfirmation",
+        "/arcforges.peer.v1.PairingService/Abort"
+      ],
+      "arcforges.peer.v1.PeerStatusService": [
+        "/arcforges.peer.v1.PeerStatusService/GetStatus",
+        "/arcforges.peer.v1.PeerStatusService/WatchStatus"
+      ],
+      "arcforges.peer.v1.PlacementService": [
+        "/arcforges.peer.v1.PlacementService/RequestOffer",
+        "/arcforges.peer.v1.PlacementService/AcceptOffer",
+        "/arcforges.peer.v1.PlacementService/DeclineOffer",
+        "/arcforges.peer.v1.PlacementService/WatchRemoteAttempt",
+        "/arcforges.peer.v1.PlacementService/RenewAttemptLease",
+        "/arcforges.peer.v1.PlacementService/CancelRemoteAttempt",
+        "/arcforges.peer.v1.PlacementService/ReleaseRemoteAttempt"
+      ],
+      "arcforges.peer.v1.TransferService": [
+        "/arcforges.peer.v1.TransferService/GetManifest",
+        "/arcforges.peer.v1.TransferService/DownloadBlob"
+      ],
+      "arcforges.peer.v1.GuestLinkService": [
+        "/arcforges.peer.v1.GuestLinkService/OpenLink",
+        "/arcforges.peer.v1.GuestLinkService/AnswerGrant",
+        "/arcforges.peer.v1.GuestLinkService/RevokeGrant",
+        "/arcforges.peer.v1.GuestLinkService/SetGuestBudget",
+        "/arcforges.peer.v1.GuestLinkService/GetGuestStatus"
+      ],
+      "arcforges.publicapi.v1.SupportAccessService": [
+        "/arcforges.publicapi.v1.SupportAccessService/ListAccessRequests",
+        "/arcforges.publicapi.v1.SupportAccessService/GetAccessRequest"
+      ],
+      "arcforges.operator.v1.OperatorReadService": [
+        "/arcforges.operator.v1.OperatorReadService/ListAuditEvents",
+        "/arcforges.operator.v1.OperatorReadService/GetOperatingBudgets",
+        "/arcforges.operator.v1.OperatorReadService/GetMonthlyReport"
       ]
     }
   }
