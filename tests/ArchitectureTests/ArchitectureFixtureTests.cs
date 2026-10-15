@@ -42,6 +42,31 @@ internal static class ArchitectureFixtureTests
         WireSchemaOwnershipIsExactAndFailsClosed();
         HostAgplClosureMustBeExactlyBuildPolicy();
         LocalDispatchBoundaryRulesFailClosed();
+        SdkRuleFailureIsRecordedWithoutExiting();
+    }
+
+    // AF-CON-01: a failing SDK rule is reported with its fixed rule code and recorded for Main to return 1; the module
+    // initializer never exits the process itself (Environment.Exit there can block process shutdown instead).
+    private static void SdkRuleFailureIsRecordedWithoutExiting()
+    {
+        string root = Path.Combine(Path.GetTempPath(), "arcforges-sdk-fixture-" + Guid.NewGuid().ToString("N"));
+        try
+        {
+            Directory.CreateDirectory(Path.Combine(root, "src/public/dotnet/Fixture"));
+            File.WriteAllText(Path.Combine(root, "src/public/dotnet/Fixture/Bad.cs"), "var json = JsonFormatter.Default.Format(message);");
+            var output = new StringWriter();
+            var error = new StringWriter();
+            Checks.Equal("SDK-01", Sdk.SdkArchitectureTests.Evaluate(root, output, error), "A failing SDK rule was not recorded.");
+            Checks.Equal("", output.ToString(), "A failing SDK rule reported success.");
+            Checks.Equal("Contracts SDK architecture policy failed closed at rule SDK-01." + Environment.NewLine, error.ToString(),
+                "SDK failure diagnostics must contain only the fixed rule code.");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+
+        Checks.True(Sdk.SdkArchitectureTests.FailedRule is null, "The SDK rules of this repository failed at module load.");
     }
 
     // CON.43: each boundary-dispatch architecture row is proven to fail on a fixture that violates it.

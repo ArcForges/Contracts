@@ -1,0 +1,212 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.operator.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+
+option csharp_namespace = "ArcForges.Contracts.CloudInternal.Operator.V1";
+option java_package = "io.github.arcforges.contracts.operator.v1";
+option java_multiple_files = true;
+option java_outer_classname = "OperatorReadProto";
+
+// Operator reads for audit and cost control (web W-66 and W-67; architecture 14 sections 1 and 7).
+// Additive to the reused internal package arcforges.operator.v1 (Contracts main b774c322): a new service in a new
+// file, so OperatorService is unchanged. AF-OPS-01 adopts this file into Contracts and implements it.
+// Callers hold an operator session with step-up. Every read is itself recorded as an audit event.
+
+// Operator reads for audit and cost control (web W-66, W-67).
+service OperatorReadService {
+  // List audit events newest first. The hash chain is verified across the returned page.
+  // auth: operator session with step-up
+  // idempotency: read (the read itself is audited)
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, VALIDATION/invalid_cursor, AUTHORIZATION/permission_denied
+  // locality: cloud
+  rpc ListAuditEvents(OperatorReadServiceListAuditEventsRequest) returns (OperatorReadServiceListAuditEventsResponse);
+
+  // Read the daily operating budgets of one UTC day: ceiling, use, open reservations and threshold state per dimension.
+  // auth: operator session with step-up
+  // idempotency: read (the read itself is audited)
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+  // locality: cloud
+  rpc GetOperatingBudgets(OperatorReadServiceGetOperatingBudgetsRequest) returns (OperatorReadServiceGetOperatingBudgetsResponse);
+
+  // Compute the monthly unit-economics report from budget use and subscriptions (architecture 14 section 7.5).
+  // auth: operator session with step-up
+  // idempotency: read (the read itself is audited)
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+  // locality: cloud
+  rpc GetMonthlyReport(OperatorReadServiceGetMonthlyReportRequest) returns (OperatorReadServiceGetMonthlyReportResponse);
+}
+
+message OperatorReadServiceListAuditEventsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  OperatorReadContext context = 10 [json_name = "context"]; // validate: required
+  arcforges.foundation.v1.TimeRangeUtc range = 11 [json_name = "range"]; // validate: required; at most 31 days; inside the 1-year retention
+  optional string event_type_prefix = 12 [json_name = "eventTypePrefix"]; // validate: <= 128 chars of [A-Za-z0-9._:/-]
+  optional string actor_ref = 13 [json_name = "actorRef"]; // validate: <= 128 chars
+  optional string target_ref_kind = 14 [json_name = "targetRefKind"]; // validate: <= 128 chars; set together with target_ref_id
+  arcforges.foundation.v1.Id target_ref_id = 15 [json_name = "targetRefId"]; // validate: set together with target_ref_kind
+  arcforges.foundation.v1.PageRequest page = 16 [json_name = "page"]; // validate: page size 1..200; default 50
+}
+message OperatorReadServiceListAuditEventsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorReadServiceListAuditEventsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message OperatorReadServiceListAuditEventsValue {
+  repeated AuditEventView events = 10 [json_name = "events"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+  optional bool chain_verified = 12 [json_name = "chainVerified"]; // previous_hash links are intact across the returned events
+}
+
+message OperatorReadServiceGetOperatingBudgetsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  OperatorReadContext context = 10 [json_name = "context"]; // validate: required
+  arcforges.foundation.v1.Instant day = 11 [json_name = "day"]; // validate: the start of a UTC day within the last 90 days; default today
+}
+message OperatorReadServiceGetOperatingBudgetsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorReadServiceGetOperatingBudgetsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message OperatorReadServiceGetOperatingBudgetsValue {
+  repeated OperatingBudgetView budgets = 10 [json_name = "budgets"];
+  arcforges.foundation.v1.Instant evaluated_at = 11 [json_name = "evaluatedAt"];
+  ResidualExposure residual = 12 [json_name = "residual"];
+  optional bool essential_only = 13 [json_name = "essentialOnly"]; // the essential-only kill switch is active
+  ReconciliationStatus reconciliation = 14 [json_name = "reconciliation"];
+}
+
+message OperatorReadServiceGetMonthlyReportRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  OperatorReadContext context = 10 [json_name = "context"]; // validate: required
+  arcforges.foundation.v1.Instant month = 11 [json_name = "month"]; // validate: the start of a UTC month within the last 13 months; default the current month
+}
+message OperatorReadServiceGetMonthlyReportResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorReadServiceGetMonthlyReportValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message OperatorReadServiceGetMonthlyReportValue {
+  MonthlyReport report = 10 [json_name = "report"];
+}
+
+// Values of the D1 enum platform.operating_dimension: 1..7 exist at Cloud main 92ba1dc9; 8..19 are added
+// by AF-PLAT-01 (data/cloud-store section 3). Architecture 14 section 7.1 maps each Cloudflare billing
+// dimension to one of these, and says whether it is measured or estimated.
+enum OperatingDimension {
+  OPERATING_DIMENSION_UNSPECIFIED = 0;
+  OPERATING_DIMENSION_VECTORS = 1;
+  OPERATING_DIMENSION_NAMESPACES = 2;
+  OPERATING_DIMENSION_R2_BYTES = 3;
+  OPERATING_DIMENSION_R2_OBJECTS = 4;
+  OPERATING_DIMENSION_R2_CLASS_A = 5;
+  OPERATING_DIMENSION_R2_CLASS_B = 6;
+  OPERATING_DIMENSION_SERVED_BYTES = 7;
+  OPERATING_DIMENSION_CONTAINER_CPU_SECONDS = 8;
+  OPERATING_DIMENSION_DO_REQUESTS = 9;
+  OPERATING_DIMENSION_D1_ROWS_READ = 10;
+  OPERATING_DIMENSION_D1_ROWS_WRITTEN = 11;
+  OPERATING_DIMENSION_PUSH_SENDS = 12;
+  OPERATING_DIMENSION_CONTAINER_INSTANCE_SECONDS = 13; // provisioned memory and disk accrue while an instance runs
+  OPERATING_DIMENSION_DO_DURATION_GB_SECONDS = 14; // estimated from awake wall time x 128 MB
+  OPERATING_DIMENSION_WORKER_REQUESTS = 15;
+  OPERATING_DIMENSION_DO_ROWS_WRITTEN = 16;
+  OPERATING_DIMENSION_EGRESS_BYTES = 17; // container egress
+  OPERATING_DIMENSION_QUEUE_OPERATIONS = 18;
+  OPERATING_DIMENSION_EMAILS_SENT = 19; // counted by the Identity e-mail adapter
+}
+
+enum BudgetThresholdState {
+  BUDGET_THRESHOLD_STATE_UNSPECIFIED = 0;
+  BUDGET_THRESHOLD_STATE_NORMAL = 1;
+  BUDGET_THRESHOLD_STATE_ALERT = 2; // used + held >= 80 % of the ceiling
+  BUDGET_THRESHOLD_STATE_EXHAUSTED = 3; // >= 100 %: the degradation ladder step for the dimension applies (architecture 14 section 7.3)
+}
+
+message OperatorReadContext {
+  optional string purpose = 1 [json_name = "purpose"]; // validate: 1..200 chars; recorded in the audit event of the read
+  arcforges.foundation.v1.Id case_id = 2 [json_name = "caseId"]; // validate: an existing support case when set
+}
+
+message AuditEventView {
+  arcforges.foundation.v1.Id event_id = 1 [json_name = "eventId"];
+  arcforges.foundation.v1.Instant occurred_at = 2 [json_name = "occurredAt"];
+  optional string actor_ref = 3 [json_name = "actorRef"]; // operator:<id>, user:<id>, node:<id> or system:<job>
+  optional string event_type = 4 [json_name = "eventType"];
+  optional string reason = 5 [json_name = "reason"];
+  arcforges.foundation.v1.Id correlation_id = 6 [json_name = "correlationId"];
+  arcforges.foundation.v1.Id command_id = 7 [json_name = "commandId"];
+  optional string target_ref_kind = 8 [json_name = "targetRefKind"];
+  arcforges.foundation.v1.Id target_ref_id = 9 [json_name = "targetRefId"];
+  optional string payload_json = 10 [json_name = "payloadJson"]; // redacted: personal data minimised; never command lines or output
+  optional bytes event_hash = 11 [json_name = "eventHash"]; // SHA-256 chain link (audit_audit_event.event_hash)
+}
+
+message OperatingBudgetView {
+  optional OperatingDimension dimension = 1 [json_name = "dimension"];
+  arcforges.foundation.v1.Instant period_start = 2 [json_name = "periodStart"]; // start of the UTC day
+  optional uint64 ceiling = 3 [json_name = "ceiling"];
+  optional uint64 used = 4 [json_name = "used"];
+  optional uint64 held = 5 [json_name = "held"]; // open reservations
+  optional uint32 used_permille = 6 [json_name = "usedPermille"]; // (used + held) x 1000 / ceiling; 1000 when the ceiling is 0
+  optional BudgetThresholdState threshold = 7 [json_name = "threshold"];
+  optional bool estimated = 8 [json_name = "estimated"]; // true for dimensions the host estimates rather than measures
+}
+
+// What still costs money while the service runs in essential-only mode (architecture 14 section 7.4).
+message ResidualExposure {
+  optional uint64 container_bound_micros = 1 [json_name = "containerBoundMicros"]; // max_instances x instance type x 24 h
+  optional uint64 storage_at_rest_micros = 2 [json_name = "storageAtRestMicros"]; // D1, R2 and Durable Object storage, per day
+  optional uint64 essential_requests_micros = 3 [json_name = "essentialRequestsMicros"]; // sign-in, entitlement refresh, webhooks and operator calls at their rate limits
+  optional uint64 total_daily_micros = 4 [json_name = "totalDailyMicros"];
+  optional uint64 worker_requests_micros = 5 [json_name = "workerRequestsMicros"]; // requests the Worker still answers or refuses in essential-only mode, at the edge rate limits
+}
+
+// Daily comparison of metered values with provider billing data (architecture 14 section 7.5).
+message ReconciliationStatus {
+  optional string state = 1 [json_name = "state"]; // OFF (no read token, H-21) | OK | DIVERGED
+  arcforges.foundation.v1.Instant last_run_at = 2 [json_name = "lastRunAt"];
+  repeated OperatingDimension diverged = 3 [json_name = "diverged"]; // dimensions more than 20 % apart
+}
+
+message MonthlyDimensionTotal {
+  optional OperatingDimension dimension = 1 [json_name = "dimension"];
+  optional uint64 used = 2 [json_name = "used"];
+  optional uint64 ceiling_sum = 3 [json_name = "ceilingSum"];
+  optional uint64 estimated_cost_micros = 4 [json_name = "estimatedCostMicros"]; // used x the configured unit price (configuration ops.unit_prices), USD micros
+}
+
+message MonthlyReport {
+  arcforges.foundation.v1.Instant month_start = 1 [json_name = "monthStart"]; // start of the UTC month
+  optional uint32 days_covered = 2 [json_name = "daysCovered"];
+  optional bool partial = 3 [json_name = "partial"]; // the month is not over
+  repeated MonthlyDimensionTotal totals = 4 [json_name = "totals"];
+  optional uint64 estimated_total_cost_micros = 5 [json_name = "estimatedTotalCostMicros"];
+  optional uint64 monthly_ceiling_micros = 6 [json_name = "monthlyCeilingMicros"]; // configuration ops.monthly_ceiling (product-owner input H-09)
+  optional uint32 active_pro_accounts = 7 [json_name = "activeProAccounts"]; // accounts with a granted pro entitlement on any day of the month
+  optional uint32 relay_connected_nodes = 8 [json_name = "relayConnectedNodes"]; // distinct nodes connected to the relay at least once in the month
+  optional uint64 cost_per_pro_account_micros = 9 [json_name = "costPerProAccountMicros"];
+  optional uint64 cost_per_relay_node_micros = 10 [json_name = "costPerRelayNodeMicros"];
+  optional uint64 free_tier_cost_micros = 11 [json_name = "freeTierCostMicros"]; // cost attributed to accounts without pro (metered reservations by account)
+}

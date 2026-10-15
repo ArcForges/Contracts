@@ -1,0 +1,276 @@
+{
+  "schemaVersion": "flagship-contracts.v1",
+  "license": "Apache-2.0",
+  "task": "AF-CON-01",
+  "design": {
+    "repository": "ArcForges/ArcForges-Design",
+    "commit": "78f0f5a4bb614c184e51da9a2d3030595f4f5976",
+    "protoRoot": "docs/contracts/proto",
+    "conventions": "docs/contracts/README.md",
+    "annotations": "docs/contracts/README.md#4-method-annotations",
+    "errors": "docs/contracts/errors.md"
+  },
+  "adoption": "Byte-identical copies of the design specification protos, placed per docs/contracts/README.md (node and fleet public; peer and relay internal; the additive publicapi.v1 and operator.v1 files in their reused packages). Within v1 every later change is additive only and reviewed against the wire-compatibility baselines in eng/compatibility/flagship-window.json.",
+  "methodAnnotations": {
+    "required": ["auth", "idempotency", "deadline", "stream", "errors", "locality"],
+    "optional": ["state"]
+  },
+  "errorCatalogue": "fixtures/public/af-con-01-error-catalogue.json",
+  "files": [
+    {
+      "design": "arcforges/fleet/v1/fleet.proto",
+      "path": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "package": "ArcForges.Contracts.Fleet",
+      "sha256": "6b4339ef3e80674718e0ab69465323f6fb78c24086e14ff6386211bc7eecaceb"
+    },
+    {
+      "design": "arcforges/node/v1/account.proto",
+      "path": "public/proto/arcforges/node/v1/account.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "76c2529ab03c225517c16158b5281099db19fab6cd107c37a6fda565653a1b3a"
+    },
+    {
+      "design": "arcforges/node/v1/approvals.proto",
+      "path": "public/proto/arcforges/node/v1/approvals.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "5448a511883290e61764ee0edf123f05ea5103ad7463803b1966c7c8e71c16c8"
+    },
+    {
+      "design": "arcforges/node/v1/caches.proto",
+      "path": "public/proto/arcforges/node/v1/caches.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "891bcf89496a429c78cc33c2c5accb06e7124e85eb3ba2e50889863a4f94f791"
+    },
+    {
+      "design": "arcforges/node/v1/common.proto",
+      "path": "public/proto/arcforges/node/v1/common.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "df5171b69f34c97810f15a3b41f4c97a2e1ffe8aa817283efc671751231da53c"
+    },
+    {
+      "design": "arcforges/node/v1/diagnosis.proto",
+      "path": "public/proto/arcforges/node/v1/diagnosis.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "8e244d1f2abfc3a5171b49a2e822d501fa47865ea186d84ba56f2010d7f4e22a"
+    },
+    {
+      "design": "arcforges/node/v1/events.proto",
+      "path": "public/proto/arcforges/node/v1/events.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "32fb764f18be77725eff4d31bb105a94a36bc41abcbdd01987efe7d0f519a6ad"
+    },
+    {
+      "design": "arcforges/node/v1/integrations.proto",
+      "path": "public/proto/arcforges/node/v1/integrations.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "eae1d1834db7226b5e0a262438a17cb953db74e81015d59e2749ce0262b8e98f"
+    },
+    {
+      "design": "arcforges/node/v1/memory.proto",
+      "path": "public/proto/arcforges/node/v1/memory.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "3703101a71b689d13190a8acf7fb9cd7b315f38975a518bc37b53bb6681273fd"
+    },
+    {
+      "design": "arcforges/node/v1/node.proto",
+      "path": "public/proto/arcforges/node/v1/node.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "18e1efb556ca1b527f488778fced7e88b131f5d9a32b8ae92c28b6852e65d560"
+    },
+    {
+      "design": "arcforges/node/v1/peers.proto",
+      "path": "public/proto/arcforges/node/v1/peers.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "4dbd240850d35076df4793fa45fcc8af83e6a09ed435b239b70dc5c5468296e9"
+    },
+    {
+      "design": "arcforges/node/v1/policy.proto",
+      "path": "public/proto/arcforges/node/v1/policy.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "1106b057b91955f50fb4581037fa7fc0d2504ae6696b8682cef1a201bc0c1602"
+    },
+    {
+      "design": "arcforges/node/v1/queue.proto",
+      "path": "public/proto/arcforges/node/v1/queue.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "5bd0faa45fe80a691c727ac6c0a1d3d8254c6141dd7a611ddba822efa3b9fda3"
+    },
+    {
+      "design": "arcforges/node/v1/resources.proto",
+      "path": "public/proto/arcforges/node/v1/resources.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "b53a6f882a0d2d9684862a83b21e176548836b63567dfc82c2065f928bf55e7a"
+    },
+    {
+      "design": "arcforges/node/v1/sessions.proto",
+      "path": "public/proto/arcforges/node/v1/sessions.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "fb8cfb55a82f293d593bd3b1fa35338adb976deeb43bb582b7aaae4e9b24c86c"
+    },
+    {
+      "design": "arcforges/node/v1/storage.proto",
+      "path": "public/proto/arcforges/node/v1/storage.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "7370d0b19c92712d108a5b9f80a692caf8c41a6f17a88f50ec925a8044cdd78d"
+    },
+    {
+      "design": "arcforges/node/v1/support.proto",
+      "path": "public/proto/arcforges/node/v1/support.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "367accae9e3cff62cfd4e2153c190be5a9a3753205a2092484c18470ec388ba6"
+    },
+    {
+      "design": "arcforges/node/v1/tasks.proto",
+      "path": "public/proto/arcforges/node/v1/tasks.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "8f81407e23fdc7771bb2e415e1197555b65a3075596c9825983d18b80f5157b5"
+    },
+    {
+      "design": "arcforges/node/v1/toolchains.proto",
+      "path": "public/proto/arcforges/node/v1/toolchains.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "ac2d6e1fee531da75a6acb0ec6dc101f61b11a96c18843de1e847821a1e2766c"
+    },
+    {
+      "design": "arcforges/node/v1/updates.proto",
+      "path": "public/proto/arcforges/node/v1/updates.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "f5e1d1bbe199d2bd2897c6adcfbb490606d1ae992f546b1d2dbd8e6034383931"
+    },
+    {
+      "design": "arcforges/node/v1/workspaces.proto",
+      "path": "public/proto/arcforges/node/v1/workspaces.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "08255cf7108ee19628057bd145b0bab7551683fa6e97bf99a71e389778d3a4d0"
+    },
+    {
+      "design": "arcforges/operator/v1/operator_read.proto",
+      "path": "internal/proto/arcforges/operator/v1/operator_read.proto",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "sha256": "d8e91cef0922462c876a6f449d256f98e816681de5a3e32fa196d2cdfaf525e5"
+    },
+    {
+      "design": "arcforges/peer/v1/peer.proto",
+      "path": "internal/proto/arcforges/peer/v1/peer.proto",
+      "package": "ArcForges.Contracts.Peer",
+      "sha256": "e338d0e1ce9884bd11f0d4cad6b85c1849d091870afb4ad51a3d6a9c7eacee6b"
+    },
+    {
+      "design": "arcforges/publicapi/v1/support_access.proto",
+      "path": "public/proto/arcforges/publicapi/v1/support_access.proto",
+      "package": "ArcForges.Contracts.PublicApi",
+      "sha256": "b188129f2d2e9a8583aee609521187b5f871e67cbb368630d693c64ff853581f"
+    },
+    {
+      "design": "arcforges/relay/v1/relay.proto",
+      "path": "internal/proto/arcforges/relay/v1/relay.proto",
+      "package": "ArcForges.Contracts.Relay",
+      "sha256": "444dd24d9eac8f97fc681466b2671afe037376e4784ceecd278d0e6a1b3c9456"
+    }
+  ],
+  "schemaDigest": {
+    "combined": "d2dbbcca05a198492a550a1eaf553355d56ec7f8cf6abcd00ac9d9903d2d696c",
+    "files": [
+      {
+        "file": "arcforges/fleet/v1/fleet.proto",
+        "sha256": "6af96fda6d74c6a367966fa11074ad8c5a697e536db7725ed10464bc1a07f5d4"
+      },
+      {
+        "file": "arcforges/node/v1/account.proto",
+        "sha256": "6b908a711855dbeaa74e2fc006b0dfd2967faff363a06f71f792d10339d67d17"
+      },
+      {
+        "file": "arcforges/node/v1/approvals.proto",
+        "sha256": "1553ac932ac15a3998c57aea9be0fed278cd12c0d615d2185063aaa374f4ee0d"
+      },
+      {
+        "file": "arcforges/node/v1/caches.proto",
+        "sha256": "36aa37b94ffebde40cda00c4562963e526bb1d7ccfb0a9c8345827bcf0e284fa"
+      },
+      {
+        "file": "arcforges/node/v1/common.proto",
+        "sha256": "6313962272c9910ee68099047d13468a6eb9ec1a6a0a104e0279d2f80f685667"
+      },
+      {
+        "file": "arcforges/node/v1/diagnosis.proto",
+        "sha256": "bd15d44be5c4b679a7adbf84408ce047c7cd30c98d1d719317dd6657e890be49"
+      },
+      {
+        "file": "arcforges/node/v1/events.proto",
+        "sha256": "26445aaa0753f9c4d528541d10d72d3f44e7c0596e09494224f411451c73ef9f"
+      },
+      {
+        "file": "arcforges/node/v1/integrations.proto",
+        "sha256": "8463e98913fb9241c67fd9abc4d5eb2ac71122a96171e1fe98f157fa8ef88a6e"
+      },
+      {
+        "file": "arcforges/node/v1/memory.proto",
+        "sha256": "fce1ec17ffa03f9d6742558fe6db5a9224f0e19158da99ea12631531dcb03e77"
+      },
+      {
+        "file": "arcforges/node/v1/node.proto",
+        "sha256": "0476145c3150dc3309a2a8fb23ffba3984b742d2fef6d7476afb2247165f6bb8"
+      },
+      {
+        "file": "arcforges/node/v1/peers.proto",
+        "sha256": "6d5e5f0f551d583ba63c78c61ee70ef2eb6e1c7a6f14b364fca0113e903d794b"
+      },
+      {
+        "file": "arcforges/node/v1/policy.proto",
+        "sha256": "3640be8ed39a55b49dfb6c69817fb19bc57f49c0ec5f7b3d9fb43c54474e4db7"
+      },
+      {
+        "file": "arcforges/node/v1/queue.proto",
+        "sha256": "1be84cff875386f89e38933e3a2591190d74c8de74af080bccc9fff592704929"
+      },
+      {
+        "file": "arcforges/node/v1/resources.proto",
+        "sha256": "83248596ff57b707cf50ac7fc6c34fe6bfb907b9ae5d7099324f8efec942c7ac"
+      },
+      {
+        "file": "arcforges/node/v1/sessions.proto",
+        "sha256": "ed05aa77a2019421b08806f13c819462374cfd5e1404e67cf1ab9dc4100366be"
+      },
+      {
+        "file": "arcforges/node/v1/storage.proto",
+        "sha256": "cd0a640a9e533233ad4da977ee4ef0574a4b1fb2db62266b440d2e80e2301596"
+      },
+      {
+        "file": "arcforges/node/v1/support.proto",
+        "sha256": "3038068910473ffef839a9568f61f78acec892a0e20d69748dbfde434e270a07"
+      },
+      {
+        "file": "arcforges/node/v1/tasks.proto",
+        "sha256": "02be05b43e22b508ae7ae907aae04a3ce4498c939df989cc2293f47911ef4d23"
+      },
+      {
+        "file": "arcforges/node/v1/toolchains.proto",
+        "sha256": "07311bf5ea6666a2199c764255dfcf8590fe798080eac3138b313fb1d068a16c"
+      },
+      {
+        "file": "arcforges/node/v1/updates.proto",
+        "sha256": "1695d59d55455c50576f29e0b8906538f5e8ea0bf0a0a28b97ed8477ccd3fe03"
+      },
+      {
+        "file": "arcforges/node/v1/workspaces.proto",
+        "sha256": "a052c1c7ea25bc4fd4b651157fc60e95bade61980871aac57c14726a4f1e1b90"
+      },
+      {
+        "file": "arcforges/operator/v1/operator_read.proto",
+        "sha256": "9fdd92d44538e369364d43bd8f2d6a29da5b47365c8c98b789b93cd7f2c2c600"
+      },
+      {
+        "file": "arcforges/peer/v1/peer.proto",
+        "sha256": "333632a506ea142c5d2ddb2f3ad20024f706ee590220c6f9dda21794f2a36fa8"
+      },
+      {
+        "file": "arcforges/publicapi/v1/support_access.proto",
+        "sha256": "5c250a5d020eab77fde0b6eb9a9121f28f8c62db6c7f4e7312573ed2c387479c"
+      },
+      {
+        "file": "arcforges/relay/v1/relay.proto",
+        "sha256": "67db015762612908e35b780cb61cf10645beb83648726223e3e0e3b17ae1d612"
+      }
+    ]
+  }
+}

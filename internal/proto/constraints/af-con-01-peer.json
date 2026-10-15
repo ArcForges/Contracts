@@ -1,0 +1,709 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.peer.v1.GrantRelease": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GrantRelease",
+      "fields": {
+        "grantId": {},
+        "finalUsage": {}
+      }
+    },
+    "arcforges.peer.v1.GrantRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GrantRequest",
+      "fields": {
+        "requestId": {},
+        "attemptId": {},
+        "demand": {},
+        "priority": {},
+        "pool": {},
+        "owner": {},
+        "title": {},
+        "alreadyRunning": {}
+      }
+    },
+    "arcforges.peer.v1.GuestHello": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestHello",
+      "fields": {
+        "guestNodeId": {},
+        "distro": {},
+        "version": {},
+        "capabilities": {},
+        "capacityCpuMillicores": {},
+        "capacityMemBytes": {},
+        "pinnedHostNodeId": {},
+        "appliedSeq": {},
+        "appliedCpuMillicores": {},
+        "appliedMemHighBytes": {},
+        "appliedMemMaxBytes": {},
+        "newDistroBoot": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceAnswerGrantRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceAnswerGrantRequest",
+      "fields": {
+        "meta": {},
+        "requestId": {},
+        "decision": {
+          "required": true
+        },
+        "grantId": {},
+        "granted": {},
+        "reason": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceAnswerGrantResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceAnswerGrantResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceAnswerGrantValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceAnswerGrantValue",
+      "fields": {
+        "receipt": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceGetGuestStatusRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceGetGuestStatusRequest",
+      "fields": {
+        "meta": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceGetGuestStatusResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceGetGuestStatusResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceGetGuestStatusValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceGetGuestStatusValue",
+      "fields": {
+        "status": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceOpenLinkFrame": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceOpenLinkFrame",
+      "fields": {
+        "meta": {},
+        "position": {},
+        "reset": {},
+        "heartbeat": {},
+        "error": {},
+        "hello": {},
+        "grantRequest": {},
+        "grantRelease": {},
+        "usage": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceOpenLinkRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceOpenLinkRequest",
+      "fields": {
+        "meta": {},
+        "hostNodeId": {},
+        "linkToken": {},
+        "hostVersion": {},
+        "protocol": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceRevokeGrantRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceRevokeGrantRequest",
+      "fields": {
+        "meta": {},
+        "grantId": {
+          "required": true
+        },
+        "reason": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceRevokeGrantResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceRevokeGrantResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceRevokeGrantValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceRevokeGrantValue",
+      "fields": {
+        "receipt": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceSetGuestBudgetRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceSetGuestBudgetRequest",
+      "fields": {
+        "meta": {},
+        "cpuQuotaMillicores": {},
+        "memHighBytes": {},
+        "memMaxBytes": {},
+        "tasksMax": {},
+        "leaseUntil": {},
+        "standaloneCpuMillicores": {},
+        "standaloneMemBytes": {},
+        "allocationSeq": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceSetGuestBudgetResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceSetGuestBudgetResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.GuestLinkServiceSetGuestBudgetValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestLinkServiceSetGuestBudgetValue",
+      "fields": {
+        "receipt": {},
+        "appliedSeq": {}
+      }
+    },
+    "arcforges.peer.v1.GuestUsageReport": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.GuestUsageReport",
+      "fields": {
+        "managedCpuMillicores": {},
+        "managedMemBytes": {},
+        "runningAttempts": {},
+        "queuedTasks": {},
+        "pressure": {}
+      }
+    },
+    "arcforges.peer.v1.KeyValueRewrite": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.KeyValueRewrite",
+      "fields": {
+        "name": {},
+        "original": {},
+        "rewritten": {}
+      }
+    },
+    "arcforges.peer.v1.ManifestEntry": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.ManifestEntry",
+      "fields": {
+        "path": {},
+        "mode": {},
+        "sizeBytes": {},
+        "sha256": {}
+      }
+    },
+    "arcforges.peer.v1.Offer": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.Offer",
+      "fields": {
+        "offerId": {},
+        "decision": {},
+        "declineReason": {},
+        "acceptBy": {},
+        "queueEtaMs": {},
+        "reservation": {},
+        "missingToolchains": {},
+        "cacheWarmth": {},
+        "estDurationSeconds": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceAbortRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceAbortRequest",
+      "fields": {
+        "meta": {},
+        "pairingId": {
+          "required": true
+        },
+        "reason": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceAbortResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceAbortResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceAbortValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceAbortValue",
+      "fields": {
+        "receipt": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceAwaitConfirmationRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceAwaitConfirmationRequest",
+      "fields": {
+        "meta": {},
+        "pairingId": {
+          "required": true
+        },
+        "waitMs": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceAwaitConfirmationResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceAwaitConfirmationResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceAwaitConfirmationValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceAwaitConfirmationValue",
+      "fields": {
+        "state": {},
+        "responderConfirmed": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceAwaitResponseRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceAwaitResponseRequest",
+      "fields": {
+        "meta": {},
+        "pairingId": {
+          "required": true
+        },
+        "waitMs": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceAwaitResponseResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceAwaitResponseResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceAwaitResponseValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceAwaitResponseValue",
+      "fields": {
+        "state": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceCommitRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceCommitRequest",
+      "fields": {
+        "meta": {},
+        "pairingId": {},
+        "commitment": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceCommitResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceCommitResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceCommitValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceCommitValue",
+      "fields": {
+        "nonceB": {},
+        "fingerprintB": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceConfirmRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceConfirmRequest",
+      "fields": {
+        "meta": {},
+        "pairingId": {
+          "required": true
+        },
+        "digitsMatch": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceConfirmResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceConfirmResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceConfirmValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceConfirmValue",
+      "fields": {
+        "state": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceRequestPairingRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceRequestPairingRequest",
+      "fields": {
+        "meta": {},
+        "initiatorName": {},
+        "initiatorFingerprint": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceRequestPairingResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceRequestPairingResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceRequestPairingValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceRequestPairingValue",
+      "fields": {
+        "pairingId": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceRevealRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceRevealRequest",
+      "fields": {
+        "meta": {},
+        "pairingId": {
+          "required": true
+        },
+        "nonceA": {},
+        "fingerprintA": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceRevealResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceRevealResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PairingServiceRevealValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PairingServiceRevealValue",
+      "fields": {
+        "commitmentValid": {}
+      }
+    },
+    "arcforges.peer.v1.PeerHandshakeServiceHelloRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PeerHandshakeServiceHelloRequest",
+      "fields": {
+        "meta": {},
+        "hello": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.peer.v1.PeerHandshakeServiceHelloResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PeerHandshakeServiceHelloResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PeerHandshakeServiceHelloValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PeerHandshakeServiceHelloValue",
+      "fields": {
+        "hello": {},
+        "compatible": {},
+        "negotiatedProtocol": {},
+        "trust": {}
+      }
+    },
+    "arcforges.peer.v1.PeerHello": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PeerHello",
+      "fields": {
+        "nodeId": {
+          "required": true
+        },
+        "name": {},
+        "version": {},
+        "protocolMin": {},
+        "protocolMax": {},
+        "features": {},
+        "os": {},
+        "arch": {},
+        "accountHint": {},
+        "cpuClass": {}
+      }
+    },
+    "arcforges.peer.v1.PeerStatusServiceGetStatusRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PeerStatusServiceGetStatusRequest",
+      "fields": {
+        "meta": {}
+      }
+    },
+    "arcforges.peer.v1.PeerStatusServiceGetStatusResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PeerStatusServiceGetStatusResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PeerStatusServiceGetStatusValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PeerStatusServiceGetStatusValue",
+      "fields": {
+        "status": {}
+      }
+    },
+    "arcforges.peer.v1.PeerStatusServiceWatchStatusFrame": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PeerStatusServiceWatchStatusFrame",
+      "fields": {
+        "meta": {},
+        "position": {},
+        "reset": {},
+        "heartbeat": {},
+        "error": {},
+        "status": {}
+      }
+    },
+    "arcforges.peer.v1.PeerStatusServiceWatchStatusRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PeerStatusServiceWatchStatusRequest",
+      "fields": {
+        "meta": {},
+        "intervalMs": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceAcceptOfferRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceAcceptOfferRequest",
+      "fields": {
+        "meta": {},
+        "offerId": {},
+        "originAttemptId": {
+          "required": true
+        },
+        "spec": {
+          "required": true
+        },
+        "inputManifestDigest": {},
+        "originWorkspaceKey": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceAcceptOfferResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceAcceptOfferResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceAcceptOfferValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceAcceptOfferValue",
+      "fields": {
+        "attempt": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceCancelRemoteAttemptRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceCancelRemoteAttemptRequest",
+      "fields": {
+        "meta": {},
+        "remoteAttemptId": {
+          "required": true
+        },
+        "reason": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceCancelRemoteAttemptResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceCancelRemoteAttemptResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceCancelRemoteAttemptValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceCancelRemoteAttemptValue",
+      "fields": {
+        "attempt": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceDeclineOfferRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceDeclineOfferRequest",
+      "fields": {
+        "meta": {},
+        "offerId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceDeclineOfferResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceDeclineOfferResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceDeclineOfferValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceDeclineOfferValue",
+      "fields": {
+        "receipt": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceReleaseRemoteAttemptRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceReleaseRemoteAttemptRequest",
+      "fields": {
+        "meta": {},
+        "remoteAttemptId": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceReleaseRemoteAttemptResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceReleaseRemoteAttemptResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceReleaseRemoteAttemptValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceReleaseRemoteAttemptValue",
+      "fields": {
+        "receipt": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceRenewAttemptLeaseRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceRenewAttemptLeaseRequest",
+      "fields": {
+        "meta": {},
+        "remoteAttemptId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceRenewAttemptLeaseResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceRenewAttemptLeaseResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceRenewAttemptLeaseValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceRenewAttemptLeaseValue",
+      "fields": {
+        "leaseExpiresAt": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceRequestOfferRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceRequestOfferRequest",
+      "fields": {
+        "meta": {},
+        "summary": {
+          "required": true
+        },
+        "originTaskId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceRequestOfferResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceRequestOfferResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceRequestOfferValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceRequestOfferValue",
+      "fields": {
+        "offer": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceWatchRemoteAttemptFrame": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceWatchRemoteAttemptFrame",
+      "fields": {
+        "meta": {},
+        "position": {},
+        "reset": {},
+        "heartbeat": {},
+        "error": {},
+        "update": {},
+        "output": {},
+        "segment": {},
+        "completed": {}
+      }
+    },
+    "arcforges.peer.v1.PlacementServiceWatchRemoteAttemptRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.PlacementServiceWatchRemoteAttemptRequest",
+      "fields": {
+        "meta": {},
+        "remoteAttemptId": {
+          "required": true
+        },
+        "cursor": {}
+      }
+    },
+    "arcforges.peer.v1.RemoteAttempt": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.RemoteAttempt",
+      "fields": {
+        "remoteAttemptId": {},
+        "state": {},
+        "leaseExpiresAt": {},
+        "originNodeId": {},
+        "originAttemptId": {},
+        "remoteWorkspace": {},
+        "result": {},
+        "outputManifestDigest": {},
+        "environmentRewrites": {},
+        "workspaceSlot": {}
+      }
+    },
+    "arcforges.peer.v1.RemoteAttemptUpdate": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.RemoteAttemptUpdate",
+      "fields": {
+        "state": {},
+        "attemptState": {},
+        "category": {},
+        "usage": {}
+      }
+    },
+    "arcforges.peer.v1.TaskSummaryForOffer": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.TaskSummaryForOffer",
+      "fields": {
+        "title": {},
+        "tool": {},
+        "operation": {},
+        "demand": {},
+        "priority": {},
+        "requiredToolchains": {},
+        "os": {},
+        "arch": {},
+        "inputBytesEstimate": {},
+        "cacheKinds": {},
+        "commandFingerprint": {}
+      }
+    },
+    "arcforges.peer.v1.TransferServiceDownloadBlobFrame": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.TransferServiceDownloadBlobFrame",
+      "fields": {
+        "meta": {},
+        "position": {},
+        "reset": {},
+        "heartbeat": {},
+        "error": {},
+        "chunk": {}
+      }
+    },
+    "arcforges.peer.v1.TransferServiceDownloadBlobRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.TransferServiceDownloadBlobRequest",
+      "fields": {
+        "meta": {},
+        "sha256": {},
+        "offset": {}
+      }
+    },
+    "arcforges.peer.v1.TransferServiceGetManifestRequest": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.TransferServiceGetManifestRequest",
+      "fields": {
+        "meta": {},
+        "manifestDigest": {},
+        "pageIndex": {}
+      }
+    },
+    "arcforges.peer.v1.TransferServiceGetManifestResponse": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.TransferServiceGetManifestResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.peer.v1.TransferServiceGetManifestValue": {
+      "csharpType": "ArcForges.Contracts.Peer.V1.TransferServiceGetManifestValue",
+      "fields": {
+        "entries": {},
+        "lastPage": {},
+        "totalEntries": {}
+      }
+    }
+  }
+}

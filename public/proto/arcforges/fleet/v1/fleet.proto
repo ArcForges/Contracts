@@ -1,0 +1,1649 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.fleet.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/diagnosis.proto";
+import "arcforges/node/v1/node.proto";
+import "arcforges/node/v1/policy.proto";
+import "arcforges/node/v1/queue.proto";
+import "arcforges/node/v1/sessions.proto";
+import "arcforges/node/v1/tasks.proto";
+import "arcforges/node/v1/updates.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Fleet.V1";
+option java_package = "io.github.arcforges.contracts.fleet.v1";
+option java_multiple_files = true;
+option java_outer_classname = "FleetProto";
+
+// Cloud API for nodes, viewers and stores (public; binary gRPC-Web through the Worker ingress to the C# host).
+// Architecture 10; decisions AD-0009, AD-0010, AD-0011. State machines: SM-SIGN-IN, SM-DEVICE-AUTH,
+// SM-PHONE-PAIRING, SM-RELAY, SM-REMOTE-COMMAND, SM-SUBSCRIPTION.
+// Caller credentials: `account` session (web, Android, reused Identity), `node` credential (enrolled node),
+// or none (only where stated). Step-up is the reused Identity step-up (passkey or recent authentication).
+
+// Node sign-in (browser and device code), phone pairing, credentials, certificates, LAN hints and entitlement tokens.
+service NodeEnrollmentService {
+  // Start a PKCE loopback sign-in for a node (10 section 3.1).
+  // auth: none (rate limited per IP and per node ID)
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+  // locality: cloud
+  // state: SM-SIGN-IN: (none) -> PENDING
+  rpc BeginNodeSignIn(NodeEnrollmentServiceBeginNodeSignInRequest) returns (NodeEnrollmentServiceBeginNodeSignInResponse);
+
+  // Web consent page: show which node asks to connect.
+  // auth: account session
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/expired
+  // locality: cloud
+  rpc GetNodeSignInFlow(NodeEnrollmentServiceGetNodeSignInFlowRequest) returns (NodeEnrollmentServiceGetNodeSignInFlowResponse);
+
+  // Web consent decision. On approval returns the loopback redirect with a one-use code.
+  // auth: account session
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, STATE/expired, STATE/invalid_state, ENTITLEMENT/plan_limit_reached
+  // locality: cloud
+  // state: SM-SIGN-IN: PENDING -> APPROVED | DENIED
+  rpc ApproveNodeSignIn(NodeEnrollmentServiceApproveNodeSignInRequest) returns (NodeEnrollmentServiceApproveNodeSignInResponse);
+
+  // Exchange the code and verifier for node credentials; registers the NODE installation.
+  // auth: none (flow-bound proof)
+  // idempotency: natural: code single use; reuse revokes the flow
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+  // locality: cloud
+  // state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
+  rpc CompleteNodeSignIn(NodeEnrollmentServiceCompleteNodeSignInRequest) returns (NodeEnrollmentServiceCompleteNodeSignInResponse);
+
+  // Start a device-code sign-in for headless nodes (10 section 3.2).
+  // auth: none (rate limited)
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+  // locality: cloud
+  // state: SM-DEVICE-AUTH: (none) -> PENDING
+  rpc StartDeviceAuthorization(NodeEnrollmentServiceStartDeviceAuthorizationRequest) returns (NodeEnrollmentServiceStartDeviceAuthorizationResponse);
+
+  // Poll at the given interval. APPROVED returns credentials.
+  // auth: none (device_code proof)
+  // idempotency: natural
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, RESOURCE/rate_limited
+  // locality: cloud
+  // state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
+  rpc PollDeviceAuthorization(NodeEnrollmentServicePollDeviceAuthorizationRequest) returns (NodeEnrollmentServicePollDeviceAuthorizationResponse);
+
+  // Web /activate: show the node behind a user code (5 entry attempts per code).
+  // auth: account session
+  // idempotency: read (counts an attempt)
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited
+  // locality: cloud
+  rpc LookupDeviceCode(NodeEnrollmentServiceLookupDeviceCodeRequest) returns (NodeEnrollmentServiceLookupDeviceCodeResponse);
+
+  // Web /activate decision.
+  // auth: account session
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/code_invalid, STATE/expired, ENTITLEMENT/plan_limit_reached
+  // locality: cloud
+  rpc ApproveDeviceCode(NodeEnrollmentServiceApproveDeviceCodeRequest) returns (NodeEnrollmentServiceApproveDeviceCodeResponse);
+
+  // Rotate the node refresh token and obtain an access token.
+  // auth: node refresh token
+  // idempotency: natural: rotation with reuse detection (reuse revokes the credential)
+  // deadline: 10 s
+  // stream: none
+  // errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked
+  // locality: cloud
+  rpc RefreshNodeSession(NodeEnrollmentServiceRefreshNodeSessionRequest) returns (NodeEnrollmentServiceRefreshNodeSessionResponse);
+
+  // Update the registry after a version, name or role change.
+  // auth: node credential
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+  // locality: cloud
+  rpc ReportNodeInfo(NodeEnrollmentServiceReportNodeInfoRequest) returns (NodeEnrollmentServiceReportNodeInfoResponse);
+
+  // Create a QR pairing so a phone can sign in as this account (10 section 3.3).
+  // auth: node credential
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: AUTHENTICATION/unauthenticated, RESOURCE/rate_limited
+  // locality: cloud
+  // state: SM-PHONE-PAIRING: (none) -> WAITING_FOR_SCAN
+  rpc CreatePhonePairing(NodeEnrollmentServiceCreatePhonePairingRequest) returns (NodeEnrollmentServiceCreatePhonePairingResponse);
+
+  // Called by the phone after scanning. A wrong secret consumes the pairing.
+  // auth: none (secret proof)
+  // idempotency: natural: single claim
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, STATE/expired, STATE/invalid_state, RESOURCE/rate_limited
+  // locality: cloud
+  // state: SM-PHONE-PAIRING: WAITING_FOR_SCAN -> AWAITING_CONFIRMATION | CONSUMED
+  rpc ClaimPhonePairing(NodeEnrollmentServiceClaimPhonePairingRequest) returns (NodeEnrollmentServiceClaimPhonePairingResponse);
+
+  // The pairing node reads the state and the claiming phone's details.
+  // auth: node credential
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: cloud
+  rpc GetPhonePairing(NodeEnrollmentServiceGetPhonePairingRequest) returns (NodeEnrollmentServiceGetPhonePairingResponse);
+
+  // The desktop user's decision, relayed by the node.
+  // auth: node credential (HUMAN decision on the node)
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, STATE/expired
+  // locality: cloud
+  // state: SM-PHONE-PAIRING: AWAITING_CONFIRMATION -> CONFIRMED | DENIED
+  rpc ConfirmPhonePairing(NodeEnrollmentServiceConfirmPhonePairingRequest) returns (NodeEnrollmentServiceConfirmPhonePairingResponse);
+
+  // The phone polls; CONFIRMED returns its session credentials once.
+  // auth: none (claim token proof)
+  // idempotency: natural
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, STATE/expired, RESOURCE/rate_limited
+  // locality: cloud
+  // state: SM-PHONE-PAIRING: CONFIRMED -> COMPLETED
+  rpc PollPhonePairing(NodeEnrollmentServicePollPhonePairingRequest) returns (NodeEnrollmentServicePollPhonePairingResponse);
+
+  // Deferred (roadmap RM-01): issue or renew a 30-day account certificate for account-based LAN trust. Not served in release 1.
+  // auth: node credential (deferred feature, roadmap RM-01)
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, AUTHENTICATION/credential_revoked
+  // locality: cloud
+  rpc IssueNodeCertificate(NodeEnrollmentServiceIssueNodeCertificateRequest) returns (NodeEnrollmentServiceIssueNodeCertificateResponse);
+
+  // Deferred (roadmap RM-01): same-account nodes' last LAN endpoints and fingerprints. Not served in release 1.
+  // auth: node credential (deferred feature, roadmap RM-01)
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: cloud
+  rpc GetLanHints(NodeEnrollmentServiceGetLanHintsRequest) returns (NodeEnrollmentServiceGetLanHintsResponse);
+
+  // Deferred (roadmap RM-01): report this node's LAN endpoints and fingerprint for hints. Not served in release 1.
+  // auth: node credential
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument
+  // locality: cloud
+  rpc ReportLanEndpoints(NodeEnrollmentServiceReportLanEndpointsRequest) returns (NodeEnrollmentServiceReportLanEndpointsResponse);
+
+  // Signed entitlement token (refreshed every 24 h while online; 14-day validity).
+  // auth: node credential
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: AUTHENTICATION/credential_revoked, AUTHENTICATION/token_expired
+  // locality: cloud
+  rpc RefreshEntitlementToken(NodeEnrollmentServiceRefreshEntitlementTokenRequest) returns (NodeEnrollmentServiceRefreshEntitlementTokenResponse);
+
+  // Current public keys for entitlement tokens and command signatures.
+  // auth: none
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: cloud
+  rpc GetEntitlementKeys(NodeEnrollmentServiceGetEntitlementKeysRequest) returns (NodeEnrollmentServiceGetEntitlementKeysResponse);
+
+  // Reserve a consented support-bundle upload for a case of the node's account. Returns a short-lived R2 upload URL bound to the size and SHA-256 (architecture 10 section 3.11).
+  // auth: node credential; plan limit on support uploads per day
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, RESOURCE/rate_limited, RESOURCE/too_large, RESOURCE/kill_switch_active, VALIDATION/invalid_argument
+  // locality: cloud
+  rpc BeginSupportUpload(NodeEnrollmentServiceBeginSupportUploadRequest) returns (NodeEnrollmentServiceBeginSupportUploadResponse);
+
+  // Confirm an upload: the host verifies the object's size and SHA-256 in R2, then attaches it to the case as a message with a diagnostic reference (expires after 30 days).
+  // auth: node credential
+  // idempotency: natural: completing a completed upload returns the same message
+  // deadline: 20 s
+  // stream: none
+  // errors: STATE/not_found, STATE/expired, STATE/invalid_state
+  // locality: cloud
+  rpc CompleteSupportUpload(NodeEnrollmentServiceCompleteSupportUploadRequest) returns (NodeEnrollmentServiceCompleteSupportUploadResponse);
+}
+
+message NodeEnrollmentServiceBeginNodeSignInRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string code_challenge = 10 [json_name = "codeChallenge"]; // validate: base64url SHA-256, 43 chars
+  optional string redirect_uri = 11 [json_name = "redirectUri"]; // validate: http://127.0.0.1:<port>/callback or http://[::1]:<port>/callback
+  EnrollingNodeInfo node = 12 [json_name = "node"]; // validate: required
+}
+message NodeEnrollmentServiceBeginNodeSignInResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceBeginNodeSignInValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceBeginNodeSignInValue {
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
+  optional string authorize_url = 11 [json_name = "authorizeUrl"]; // https://arcforges.com/connect?flow=<id>
+  arcforges.foundation.v1.Instant expires_at = 12 [json_name = "expiresAt"]; // 10 minutes
+}
+
+message NodeEnrollmentServiceGetNodeSignInFlowRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"]; // validate: required
+}
+message NodeEnrollmentServiceGetNodeSignInFlowResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceGetNodeSignInFlowValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceGetNodeSignInFlowValue {
+  NodeSignInFlowView flow = 10 [json_name = "flow"];
+}
+
+message NodeEnrollmentServiceApproveNodeSignInRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"]; // validate: PENDING
+  optional bool approve = 11 [json_name = "approve"];
+}
+message NodeEnrollmentServiceApproveNodeSignInResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceApproveNodeSignInValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceApproveNodeSignInValue {
+  optional string redirect_url = 10 [json_name = "redirectUrl"]; // loopback URI with code and state
+  NodeSignInFlowView flow = 11 [json_name = "flow"];
+}
+
+message NodeEnrollmentServiceCompleteNodeSignInRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"]; // validate: APPROVED
+  optional string code = 11 [json_name = "code"]; // validate: one use
+  optional string code_verifier = 12 [json_name = "codeVerifier"]; // validate: 43..128 chars; matches the challenge
+  optional bytes csr = 13 [json_name = "csr"]; // validate: optional; PKCS#10 DER, P-256, SAN URI arcforges:node:<node_id>; reserved for account-based LAN trust (roadmap RM-01) and ignored in release 1
+}
+message NodeEnrollmentServiceCompleteNodeSignInResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceCompleteNodeSignInValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceCompleteNodeSignInValue {
+  NodeCredentials credentials = 10 [json_name = "credentials"];
+}
+
+message NodeEnrollmentServiceStartDeviceAuthorizationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  EnrollingNodeInfo node = 10 [json_name = "node"]; // validate: required
+}
+message NodeEnrollmentServiceStartDeviceAuthorizationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceStartDeviceAuthorizationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceStartDeviceAuthorizationValue {
+  DeviceAuthorization authorization = 10 [json_name = "authorization"];
+}
+
+message NodeEnrollmentServicePollDeviceAuthorizationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string device_code = 10 [json_name = "deviceCode"]; // validate: required
+  optional bytes csr = 11 [json_name = "csr"]; // validate: optional; as in CompleteNodeSignIn (reserved for roadmap RM-01)
+}
+message NodeEnrollmentServicePollDeviceAuthorizationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServicePollDeviceAuthorizationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServicePollDeviceAuthorizationValue {
+  optional DeviceAuthorizationState state = 10 [json_name = "state"];
+  optional uint64 interval_ms = 11 [json_name = "intervalMs"];
+  NodeCredentials credentials = 12 [json_name = "credentials"]; // APPROVED only
+}
+
+message NodeEnrollmentServiceLookupDeviceCodeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string user_code = 10 [json_name = "userCode"]; // validate: 8 characters from the code alphabet; separators ignored
+}
+message NodeEnrollmentServiceLookupDeviceCodeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceLookupDeviceCodeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceLookupDeviceCodeValue {
+  EnrollingNodeInfo node = 10 [json_name = "node"];
+}
+
+message NodeEnrollmentServiceApproveDeviceCodeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string user_code = 10 [json_name = "userCode"]; // validate: as LookupDeviceCode
+  optional bool approve = 11 [json_name = "approve"];
+}
+message NodeEnrollmentServiceApproveDeviceCodeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceApproveDeviceCodeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceApproveDeviceCodeValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message NodeEnrollmentServiceRefreshNodeSessionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string refresh_token = 10 [json_name = "refreshToken"]; // validate: required
+}
+message NodeEnrollmentServiceRefreshNodeSessionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceRefreshNodeSessionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceRefreshNodeSessionValue {
+  optional string refresh_token = 10 [json_name = "refreshToken"];
+  optional string access_token = 11 [json_name = "accessToken"];
+  arcforges.foundation.v1.Instant access_expires_at = 12 [json_name = "accessExpiresAt"];
+}
+
+message NodeEnrollmentServiceReportNodeInfoRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  EnrollingNodeInfo node = 10 [json_name = "node"]; // validate: node_id must match the credential
+}
+message NodeEnrollmentServiceReportNodeInfoResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceReportNodeInfoValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceReportNodeInfoValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message NodeEnrollmentServiceCreatePhonePairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message NodeEnrollmentServiceCreatePhonePairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceCreatePhonePairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceCreatePhonePairingValue {
+  PhonePairingTicket ticket = 10 [json_name = "ticket"];
+}
+
+message NodeEnrollmentServiceClaimPhonePairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: required
+  optional string secret = 11 [json_name = "secret"]; // validate: required
+  PhoneInstallationInfo phone = 12 [json_name = "phone"]; // validate: required
+}
+message NodeEnrollmentServiceClaimPhonePairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceClaimPhonePairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceClaimPhonePairingValue {
+  PhonePairingView pairing = 10 [json_name = "pairing"];
+  optional string claim_token = 11 [json_name = "claimToken"]; // for PollPhonePairing
+}
+
+message NodeEnrollmentServiceGetPhonePairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: created by this node
+}
+message NodeEnrollmentServiceGetPhonePairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceGetPhonePairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceGetPhonePairingValue {
+  PhonePairingView pairing = 10 [json_name = "pairing"];
+}
+
+message NodeEnrollmentServiceConfirmPhonePairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: AWAITING_CONFIRMATION
+  optional bool approve = 11 [json_name = "approve"];
+}
+message NodeEnrollmentServiceConfirmPhonePairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceConfirmPhonePairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceConfirmPhonePairingValue {
+  PhonePairingView pairing = 10 [json_name = "pairing"];
+}
+
+message NodeEnrollmentServicePollPhonePairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: required
+  optional string claim_token = 11 [json_name = "claimToken"]; // validate: from ClaimPhonePairing
+}
+message NodeEnrollmentServicePollPhonePairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServicePollPhonePairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServicePollPhonePairingValue {
+  PhonePairingView pairing = 10 [json_name = "pairing"];
+  MobileSessionCredentials credentials = 11 [json_name = "credentials"]; // CONFIRMED only, scope LIMITED; the pairing becomes COMPLETED
+}
+
+message NodeEnrollmentServiceIssueNodeCertificateRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional bytes csr = 10 [json_name = "csr"]; // validate: PKCS#10 DER, P-256, SAN as enrolled
+}
+message NodeEnrollmentServiceIssueNodeCertificateResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceIssueNodeCertificateValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceIssueNodeCertificateValue {
+  repeated bytes certificate_chain = 10 [json_name = "certificateChain"];
+}
+
+message NodeEnrollmentServiceGetLanHintsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message NodeEnrollmentServiceGetLanHintsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceGetLanHintsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceGetLanHintsValue {
+  repeated LanHint hints = 10 [json_name = "hints"];
+}
+
+message NodeEnrollmentServiceReportLanEndpointsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated string endpoints = 10 [json_name = "endpoints"]; // validate: <= 8 host:port entries
+  optional string fingerprint = 11 [json_name = "fingerprint"]; // validate: SHA-256 hex
+}
+message NodeEnrollmentServiceReportLanEndpointsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceReportLanEndpointsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceReportLanEndpointsValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message NodeEnrollmentServiceRefreshEntitlementTokenRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message NodeEnrollmentServiceRefreshEntitlementTokenResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceRefreshEntitlementTokenValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceRefreshEntitlementTokenValue {
+  SignedBlob entitlement_token = 10 [json_name = "entitlementToken"];
+}
+
+message NodeEnrollmentServiceGetEntitlementKeysRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message NodeEnrollmentServiceGetEntitlementKeysResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceGetEntitlementKeysValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceGetEntitlementKeysValue {
+  repeated PublicKey entitlement_keys = 10 [json_name = "entitlementKeys"];
+  repeated PublicKey command_keys = 11 [json_name = "commandKeys"];
+}
+
+message NodeEnrollmentServiceBeginSupportUploadRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string case_reference = 10 [json_name = "caseReference"]; // validate: a case of the account, or empty with new_case_subject
+  optional string new_case_subject = 11 [json_name = "newCaseSubject"]; // validate: 1..200 chars when case_reference is empty; creates the case
+  optional string file_name = 12 [json_name = "fileName"]; // validate: 1..128 chars of [A-Za-z0-9._-]
+  optional uint64 size_bytes = 13 [json_name = "sizeBytes"]; // validate: 1 byte..100 MiB
+  optional string sha256 = 14 [json_name = "sha256"]; // validate: 64 lowercase hex characters
+}
+message NodeEnrollmentServiceBeginSupportUploadResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceBeginSupportUploadValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceBeginSupportUploadValue {
+  arcforges.foundation.v1.Id upload_id = 10 [json_name = "uploadId"];
+  arcforges.foundation.v1.Id case_id = 11 [json_name = "caseId"];
+  optional string upload_url = 12 [json_name = "uploadUrl"]; // R2 presigned PUT, valid 15 minutes, requires the declared length and x-amz-checksum-sha256
+  arcforges.foundation.v1.Instant expires_at = 13 [json_name = "expiresAt"];
+}
+
+message NodeEnrollmentServiceCompleteSupportUploadRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id upload_id = 10 [json_name = "uploadId"]; // validate: required; issued to this node
+}
+message NodeEnrollmentServiceCompleteSupportUploadResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceCompleteSupportUploadValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceCompleteSupportUploadValue {
+  arcforges.foundation.v1.Id case_id = 10 [json_name = "caseId"];
+  arcforges.foundation.v1.Id message_id = 11 [json_name = "messageId"];
+  arcforges.foundation.v1.Instant object_expires_at = 12 [json_name = "objectExpiresAt"];
+}
+
+// Node registry, relay tokens, viewer grants, live fleet state and remote commands.
+service FleetService {
+  // List the account's nodes with cached status summaries.
+  // auth: account session
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: cloud
+  rpc ListNodes(FleetServiceListNodesRequest) returns (FleetServiceListNodesResponse);
+
+  // Read one node with its recent remote commands.
+  // auth: account session
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: cloud
+  rpc GetNode(FleetServiceGetNodeRequest) returns (FleetServiceGetNodeResponse);
+
+  // Rename a node in the registry (the node adopts the name on next contact).
+  // auth: account session
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, VALIDATION/invalid_argument
+  // locality: cloud
+  rpc RenameNode(FleetServiceRenameNodeRequest) returns (FleetServiceRenameNodeResponse);
+
+  // Revoke a node: credential, certificates and relay tokens. The node learns it through the relay or its next call.
+  // auth: account session with step-up
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, AUTHENTICATION/step_up_required
+  // locality: cloud
+  rpc RevokeNode(FleetServiceRevokeNodeRequest) returns (FleetServiceRevokeNodeResponse);
+
+  // Relay token for the node uplink (10 section 3.4).
+  // auth: node credential; plan relay node limit
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: ENTITLEMENT/feature_not_entitled, ENTITLEMENT/plan_limit_reached, RESOURCE/kill_switch_active, AUTHENTICATION/credential_revoked, VALIDATION/incompatible_version
+  // locality: cloud
+  // state: SM-RELAY: CONNECTING
+  rpc IssueRelayToken(FleetServiceIssueRelayTokenRequest) returns (FleetServiceIssueRelayTokenResponse);
+
+  // Viewer grant for the relay WebSocket (10 section 3.5).
+  // auth: account session; entitlement remote.view; concurrent viewer limit
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: ENTITLEMENT/feature_not_entitled, ENTITLEMENT/plan_limit_reached, RESOURCE/kill_switch_active
+  // locality: cloud
+  rpc OpenFleetWatch(FleetServiceOpenFleetWatchRequest) returns (FleetServiceOpenFleetWatchResponse);
+
+  // gRPC-Web streaming fallback for viewers that cannot use WebSockets (10-minute lifetime cap).
+  // auth: account session; entitlement remote.view
+  // idempotency: read
+  // deadline: 10 min lifetime; heartbeat 15 s
+  // stream: server (gRPC-Web text): FleetServiceWatchFleetFrame
+  // errors: ENTITLEMENT/feature_not_entitled, RESOURCE/kill_switch_active
+  // locality: cloud
+  rpc WatchFleet(FleetServiceWatchFleetRequest) returns (stream FleetServiceWatchFleetFrame);
+
+  // Send a command to a node through the relay (AD-0009 section 5).
+  // auth: account session; entitlement remote.control; step-up for MEDIUM and HIGH
+  // idempotency: command_id (meta.command_id becomes the NodeCommand ID)
+  // deadline: 10 s
+  // stream: none
+  // errors: ENTITLEMENT/feature_not_entitled, AUTHENTICATION/step_up_required, RESOURCE/rate_limited, RESOURCE/kill_switch_active, STATE/not_found, VALIDATION/invalid_argument
+  // locality: cloud -> relay -> node
+  // state: SM-REMOTE-COMMAND: (none) -> ACCEPTED -> DELIVERED -> SUCCEEDED | FAILED | REJECTED_BY_NODE; ACCEPTED|DELIVERED -> EXPIRED
+  rpc SendNodeCommand(FleetServiceSendNodeCommandRequest) returns (FleetServiceSendNodeCommandResponse);
+
+  // Read a remote command.
+  // auth: account session
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: cloud
+  rpc GetNodeCommand(FleetServiceGetNodeCommandRequest) returns (FleetServiceGetNodeCommandResponse);
+
+  // List remote commands for a node, newest first.
+  // auth: account session
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, VALIDATION/invalid_cursor
+  // locality: cloud
+  rpc ListNodeCommands(FleetServiceListNodeCommandsRequest) returns (FleetServiceListNodeCommandsResponse);
+
+  // Push notification preferences per kind and node.
+  // auth: account session
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: cloud
+  rpc GetPushPreferences(FleetServiceGetPushPreferencesRequest) returns (FleetServiceGetPushPreferencesResponse);
+
+  // Replace push preferences (meta.expected_rev = preferences revision).
+  // auth: account session; entitlement push
+  // idempotency: command_id; expected_rev
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, CONFLICT/revision_conflict, ENTITLEMENT/feature_not_entitled
+  // locality: cloud
+  rpc UpdatePushPreferences(FleetServiceUpdatePushPreferencesRequest) returns (FleetServiceUpdatePushPreferencesResponse);
+
+  // Cancel a command that has not been delivered.
+  // auth: account session
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state
+  // locality: cloud
+  // state: SM-REMOTE-COMMAND: ACCEPTED -> CANCELLED
+  rpc CancelNodeCommand(FleetServiceCancelNodeCommandRequest) returns (FleetServiceCancelNodeCommandResponse);
+}
+
+message FleetServiceListNodesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message FleetServiceListNodesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceListNodesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceListNodesValue {
+  repeated FleetNode nodes = 10 [json_name = "nodes"];
+}
+
+message FleetServiceGetNodeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: the account's node
+}
+message FleetServiceGetNodeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceGetNodeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceGetNodeValue {
+  FleetNode node = 10 [json_name = "node"];
+  repeated RemoteCommandView recent_commands = 11 [json_name = "recentCommands"];
+}
+
+message FleetServiceRenameNodeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  optional string name = 11 [json_name = "name"]; // validate: 1..64 chars
+}
+message FleetServiceRenameNodeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceRenameNodeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceRenameNodeValue {
+  FleetNode node = 10 [json_name = "node"];
+}
+
+message FleetServiceRevokeNodeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+}
+message FleetServiceRevokeNodeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceRevokeNodeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceRevokeNodeValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message FleetServiceIssueRelayTokenRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message FleetServiceIssueRelayTokenResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceIssueRelayTokenValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceIssueRelayTokenValue {
+  RelayTokenGrant grant = 10 [json_name = "grant"];
+}
+
+message FleetServiceOpenFleetWatchRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated arcforges.foundation.v1.Id node_ids = 10 [json_name = "nodeIds"]; // validate: the account's nodes; empty = all
+  optional DetailLevel detail = 11 [json_name = "detail"]; // validate: default SUMMARY
+}
+message FleetServiceOpenFleetWatchResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceOpenFleetWatchValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceOpenFleetWatchValue {
+  ViewerGrant grant = 10 [json_name = "grant"];
+}
+
+message FleetServiceWatchFleetRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated arcforges.foundation.v1.Id node_ids = 10 [json_name = "nodeIds"]; // validate: the account's nodes; empty = all
+  optional DetailLevel detail = 11 [json_name = "detail"];
+  repeated NodeCursorInput cursors = 12 [json_name = "cursors"]; // validate: <= 100; one per node
+}
+message FleetServiceWatchFleetFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  arcforges.node.v1.StreamPosition position = 2 [json_name = "position"];
+  reserved 3 to 9;
+  oneof frame {
+    arcforges.node.v1.StreamReset reset = 10 [json_name = "reset"];
+    arcforges.node.v1.Heartbeat heartbeat = 11 [json_name = "heartbeat"];
+    arcforges.foundation.v1.ArcError error = 12 [json_name = "error"];
+    NodeSnapshot snapshot = 20 [json_name = "snapshot"];
+    StatusDelta delta = 21 [json_name = "delta"];
+    NodePresence presence = 22 [json_name = "presence"];
+    RemoteCommandView command_update = 23 [json_name = "commandUpdate"];
+  }
+}
+
+message FleetServiceSendNodeCommandRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: the account's node
+  NodeCommandBody body = 11 [json_name = "body"]; // validate: required; per-kind rules
+}
+message FleetServiceSendNodeCommandResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceSendNodeCommandValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceSendNodeCommandValue {
+  RemoteCommandView command = 10 [json_name = "command"];
+}
+
+message FleetServiceGetNodeCommandRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id command_id = 10 [json_name = "commandId"]; // validate: required
+}
+message FleetServiceGetNodeCommandResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceGetNodeCommandValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceGetNodeCommandValue {
+  RemoteCommandView command = 10 [json_name = "command"];
+}
+
+message FleetServiceListNodeCommandsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"]; // validate: limit 1..200
+}
+message FleetServiceListNodeCommandsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceListNodeCommandsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceListNodeCommandsValue {
+  repeated RemoteCommandView commands = 10 [json_name = "commands"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message FleetServiceGetPushPreferencesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message FleetServiceGetPushPreferencesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceGetPushPreferencesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceGetPushPreferencesValue {
+  PushPreferences preferences = 10 [json_name = "preferences"];
+}
+
+message FleetServiceUpdatePushPreferencesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated PushPreference preferences = 10 [json_name = "preferences"]; // validate: <= 200 entries; known kinds; the account's nodes
+}
+message FleetServiceUpdatePushPreferencesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceUpdatePushPreferencesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceUpdatePushPreferencesValue {
+  PushPreferences preferences = 10 [json_name = "preferences"];
+}
+
+message FleetServiceCancelNodeCommandRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id command_id = 10 [json_name = "commandId"]; // validate: ACCEPTED
+}
+message FleetServiceCancelNodeCommandResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceCancelNodeCommandValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceCancelNodeCommandValue {
+  RemoteCommandView command = 10 [json_name = "command"];
+}
+
+// Google Play purchase linking, restore and the combined billing status (AD-0010 section 3).
+service StoreBillingService {
+  // Opaque reference to pass as obfuscatedAccountId when launching a purchase.
+  // auth: account session (Android)
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: cloud
+  rpc GetPlayAccountReference(StoreBillingServiceGetPlayAccountReferenceRequest) returns (StoreBillingServiceGetPlayAccountReferenceResponse);
+
+  // Verify a purchase with subscriptionsv2, link it, grant, and acknowledge server-side.
+  // auth: account session (Android)
+  // idempotency: natural: per purchase token
+  // deadline: 20 s
+  // stream: none
+  // errors: VALIDATION/purchase_invalid, CONFLICT/purchase_already_linked, AUTHORIZATION/account_mismatch, STATE/purchase_pending, EXECUTION/provider_error, RESOURCE/overloaded
+  // locality: cloud -> Google Play
+  // state: SM-SUBSCRIPTION: (none) -> ACTIVE | PENDING
+  rpc SubmitPlayPurchase(StoreBillingServiceSubmitPlayPurchaseRequest) returns (StoreBillingServiceSubmitPlayPurchaseResponse);
+
+  // Resubmit existing purchases. Purchases without an account reference return NEEDS_CONFIRMATION.
+  // auth: account session (Android)
+  // idempotency: natural: per purchase token
+  // deadline: 30 s
+  // stream: none
+  // errors: VALIDATION/purchase_invalid, EXECUTION/provider_error
+  // locality: cloud -> Google Play
+  rpc RestorePlayPurchases(StoreBillingServiceRestorePlayPurchasesRequest) returns (StoreBillingServiceRestorePlayPurchasesResponse);
+
+  // Link a purchase made outside the app after the user's explicit confirmation.
+  // auth: account session (Android) with step-up
+  // idempotency: natural
+  // deadline: 20 s
+  // stream: none
+  // errors: STATE/not_found, CONFLICT/purchase_already_linked, AUTHENTICATION/step_up_required
+  // locality: cloud
+  rpc ConfirmPurchaseLink(StoreBillingServiceConfirmPurchaseLinkRequest) returns (StoreBillingServiceConfirmPurchaseLinkResponse);
+
+  // Subscriptions from all sources, the effective plan and duplicate warnings.
+  // auth: account session
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: cloud
+  rpc GetBillingStatus(StoreBillingServiceGetBillingStatusRequest) returns (StoreBillingServiceGetBillingStatusResponse);
+}
+
+message StoreBillingServiceGetPlayAccountReferenceRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message StoreBillingServiceGetPlayAccountReferenceResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StoreBillingServiceGetPlayAccountReferenceValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StoreBillingServiceGetPlayAccountReferenceValue {
+  optional string obfuscated_account_id = 10 [json_name = "obfuscatedAccountId"]; // <= 64 chars, stable per account
+}
+
+message StoreBillingServiceSubmitPlayPurchaseRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  PlayPurchaseInput purchase = 10 [json_name = "purchase"]; // validate: required
+}
+message StoreBillingServiceSubmitPlayPurchaseResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StoreBillingServiceSubmitPlayPurchaseValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StoreBillingServiceSubmitPlayPurchaseValue {
+  PlayPurchaseResult result = 10 [json_name = "result"];
+}
+
+message StoreBillingServiceRestorePlayPurchasesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated PlayPurchaseInput purchases = 10 [json_name = "purchases"]; // validate: 1..20
+}
+message StoreBillingServiceRestorePlayPurchasesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StoreBillingServiceRestorePlayPurchasesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StoreBillingServiceRestorePlayPurchasesValue {
+  repeated PlayPurchaseResult results = 10 [json_name = "results"];
+}
+
+message StoreBillingServiceConfirmPurchaseLinkRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string purchase_token = 10 [json_name = "purchaseToken"]; // validate: a NEEDS_CONFIRMATION purchase seen by RestorePlayPurchases
+}
+message StoreBillingServiceConfirmPurchaseLinkResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StoreBillingServiceConfirmPurchaseLinkValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StoreBillingServiceConfirmPurchaseLinkValue {
+  PlayPurchaseResult result = 10 [json_name = "result"];
+}
+
+message StoreBillingServiceGetBillingStatusRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message StoreBillingServiceGetBillingStatusResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    StoreBillingServiceGetBillingStatusValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message StoreBillingServiceGetBillingStatusValue {
+  BillingStatus status = 10 [json_name = "status"];
+}
+
+enum NodeOnlineState {
+  NODE_ONLINE_STATE_UNSPECIFIED = 0;
+  NODE_ONLINE_STATE_ONLINE = 1;
+  NODE_ONLINE_STATE_OFFLINE = 2;
+  NODE_ONLINE_STATE_NEVER_CONNECTED = 3;
+  NODE_ONLINE_STATE_REVOKED = 4;
+}
+
+enum DetailLevel {
+  DETAIL_LEVEL_UNSPECIFIED = 0;
+  DETAIL_LEVEL_SUMMARY = 1;
+  DETAIL_LEVEL_FULL = 2;
+}
+
+// SM-REMOTE-COMMAND states.
+enum RemoteCommandState {
+  REMOTE_COMMAND_STATE_UNSPECIFIED = 0;
+  REMOTE_COMMAND_STATE_ACCEPTED = 1;
+  REMOTE_COMMAND_STATE_DELIVERED = 2;
+  REMOTE_COMMAND_STATE_SUCCEEDED = 3;
+  REMOTE_COMMAND_STATE_FAILED = 4;
+  REMOTE_COMMAND_STATE_REJECTED_BY_NODE = 5;
+  REMOTE_COMMAND_STATE_EXPIRED = 6;
+  REMOTE_COMMAND_STATE_CANCELLED = 7;
+}
+
+// SM-DEVICE-AUTH states. SLOW_DOWN is a poll response only, never a stored state.
+enum DeviceAuthorizationState {
+  DEVICE_AUTHORIZATION_STATE_UNSPECIFIED = 0;
+  DEVICE_AUTHORIZATION_STATE_PENDING = 1;
+  DEVICE_AUTHORIZATION_STATE_SLOW_DOWN = 2;
+  DEVICE_AUTHORIZATION_STATE_APPROVED = 3;
+  DEVICE_AUTHORIZATION_STATE_DENIED = 4;
+  DEVICE_AUTHORIZATION_STATE_EXPIRED = 5;
+  DEVICE_AUTHORIZATION_STATE_COMPLETED = 6; // credentials already delivered
+}
+
+// SM-SIGN-IN states (cloud side).
+enum NodeSignInState {
+  NODE_SIGN_IN_STATE_UNSPECIFIED = 0;
+  NODE_SIGN_IN_STATE_PENDING = 1;
+  NODE_SIGN_IN_STATE_APPROVED = 2;
+  NODE_SIGN_IN_STATE_COMPLETED = 3;
+  NODE_SIGN_IN_STATE_DENIED = 4;
+  NODE_SIGN_IN_STATE_EXPIRED = 5;
+  NODE_SIGN_IN_STATE_REVOKED = 6; // code reuse detected
+}
+
+// SM-PHONE-PAIRING states (cloud side).
+enum PhonePairingCloudState {
+  PHONE_PAIRING_CLOUD_STATE_UNSPECIFIED = 0;
+  PHONE_PAIRING_CLOUD_STATE_WAITING_FOR_SCAN = 1;
+  PHONE_PAIRING_CLOUD_STATE_AWAITING_CONFIRMATION = 2;
+  PHONE_PAIRING_CLOUD_STATE_CONFIRMED = 3;
+  PHONE_PAIRING_CLOUD_STATE_DENIED = 4;
+  PHONE_PAIRING_CLOUD_STATE_EXPIRED = 5;
+  PHONE_PAIRING_CLOUD_STATE_COMPLETED = 6;
+  PHONE_PAIRING_CLOUD_STATE_CONSUMED = 7; // wrong secret presented
+}
+
+enum SubscriptionSource {
+  SUBSCRIPTION_SOURCE_UNSPECIFIED = 0;
+  SUBSCRIPTION_SOURCE_PADDLE = 1;
+  SUBSCRIPTION_SOURCE_GOOGLE_PLAY = 2;
+  SUBSCRIPTION_SOURCE_OPERATOR_GRANT = 3;
+}
+
+// SM-SUBSCRIPTION states (normalized across sources; architecture 14 section 3).
+enum SubscriptionState {
+  SUBSCRIPTION_STATE_UNSPECIFIED = 0;
+  SUBSCRIPTION_STATE_ACTIVE = 1;
+  SUBSCRIPTION_STATE_TRIALING = 2;
+  SUBSCRIPTION_STATE_PAYMENT_ISSUE = 3; // Paddle past_due, Play grace period
+  SUBSCRIPTION_STATE_ON_HOLD = 4;
+  SUBSCRIPTION_STATE_PAUSED = 5;
+  SUBSCRIPTION_STATE_CANCELED_ACTIVE = 6; // ends at period end
+  SUBSCRIPTION_STATE_EXPIRED = 7;
+  SUBSCRIPTION_STATE_PENDING = 8;
+  SUBSCRIPTION_STATE_REVOKED = 9; // refund, chargeback, voided purchase
+}
+
+enum PlayLinkState {
+  PLAY_LINK_STATE_UNSPECIFIED = 0;
+  PLAY_LINK_STATE_LINKED = 1;
+  PLAY_LINK_STATE_NEEDS_CONFIRMATION = 2;
+  PLAY_LINK_STATE_LINKED_TO_OTHER_ACCOUNT = 3;
+  PLAY_LINK_STATE_INVALID = 4;
+  PLAY_LINK_STATE_PENDING_PAYMENT = 5;
+}
+
+message EnrollingNodeInfo {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"]; // validate: required; 16 bytes
+  optional string name = 2 [json_name = "name"]; // validate: 1..64 chars
+  optional arcforges.node.v1.OsFamily os = 3 [json_name = "os"]; // validate: required
+  optional arcforges.node.v1.CpuArchitecture arch = 4 [json_name = "arch"]; // validate: required
+  optional string version = 5 [json_name = "version"]; // validate: SemVer
+  optional arcforges.node.v1.NodeRole role = 6 [json_name = "role"];
+  arcforges.foundation.v1.Id host_node_id = 7 [json_name = "hostNodeId"]; // validate: GUEST only
+}
+
+message AccountSummary {
+  arcforges.foundation.v1.Id account_id = 1 [json_name = "accountId"];
+  optional string display_name = 2 [json_name = "displayName"];
+  optional string email_masked = 3 [json_name = "emailMasked"];
+  optional string plan = 4 [json_name = "plan"];
+}
+
+message PublicKey {
+  optional string kid = 1 [json_name = "kid"];
+  optional string algorithm = 2 [json_name = "algorithm"]; // "ES256" (ECDSA P-256 with SHA-256)
+  optional bytes key = 3 [json_name = "key"];
+  arcforges.foundation.v1.Instant not_before = 4 [json_name = "notBefore"];
+  arcforges.foundation.v1.Instant not_after = 5 [json_name = "notAfter"];
+}
+
+// A detached-signature container: payload is a serialized message, signature covers payload bytes.
+message SignedBlob {
+  optional bytes payload = 1 [json_name = "payload"];
+  optional bytes signature = 2 [json_name = "signature"]; // IEEE P1363 r||s (64 bytes)
+  optional string kid = 3 [json_name = "kid"];
+  optional string algorithm = 4 [json_name = "algorithm"]; // "ES256" for cloud keys and node keys
+}
+
+// Payload of the entitlement token (SignedBlob, ES256).
+message EntitlementClaims {
+  arcforges.foundation.v1.Id account_id = 1 [json_name = "accountId"];
+  arcforges.foundation.v1.Id node_id = 2 [json_name = "nodeId"];
+  optional string plan = 3 [json_name = "plan"];
+  repeated string features = 4 [json_name = "features"];
+  arcforges.foundation.v1.Instant issued_at = 5 [json_name = "issuedAt"];
+  arcforges.foundation.v1.Instant not_after = 6 [json_name = "notAfter"]; // issued_at + 14 days
+  repeated arcforges.foundation.v1.Id revoked_nodes = 7 [json_name = "revokedNodes"]; // <= 256, delta since the node's last token; for account-based LAN trust (roadmap RM-01), empty in release 1
+  optional int64 entitlement_version = 8 [json_name = "entitlementVersion"];
+}
+
+message NodeCredentials {
+  optional string refresh_token = 1 [json_name = "refreshToken"]; // scope node; 90-day sliding; stored in the OS secret store
+  optional string access_token = 2 [json_name = "accessToken"]; // 15 minutes
+  arcforges.foundation.v1.Instant access_expires_at = 3 [json_name = "accessExpiresAt"];
+  AccountSummary account = 4 [json_name = "account"];
+  SignedBlob entitlement_token = 5 [json_name = "entitlementToken"];
+  repeated bytes node_certificate_chain = 6 [json_name = "nodeCertificateChain"]; // DER; account-based LAN trust (roadmap RM-01): absent in release 1
+  repeated PublicKey command_keys = 7 [json_name = "commandKeys"];
+  repeated PublicKey entitlement_keys = 8 [json_name = "entitlementKeys"];
+  arcforges.foundation.v1.Id installation_id = 9 [json_name = "installationId"];
+}
+
+enum MobileSessionScope {
+  MOBILE_SESSION_SCOPE_UNSPECIFIED = 0;
+  MOBILE_SESSION_SCOPE_LIMITED = 1; // fleet view, push registration, low-risk commands; obtained by QR pairing
+  MOBILE_SESSION_SCOPE_ACCOUNT = 2; // full account session after a step-up on the phone (passkey or e-mail code)
+}
+
+message MobileSessionCredentials {
+  optional string refresh_token = 1 [json_name = "refreshToken"]; // Identity native-bearer session; product arcforges-mobile
+  optional string access_token = 2 [json_name = "accessToken"];
+  arcforges.foundation.v1.Instant access_expires_at = 3 [json_name = "accessExpiresAt"];
+  AccountSummary account = 4 [json_name = "account"];
+  arcforges.foundation.v1.Id installation_id = 5 [json_name = "installationId"];
+  optional MobileSessionScope scope = 6 [json_name = "scope"];
+}
+
+message NodeSignInFlowView {
+  arcforges.foundation.v1.Id flow_id = 1 [json_name = "flowId"];
+  EnrollingNodeInfo node = 2 [json_name = "node"];
+  optional NodeSignInState state = 3 [json_name = "state"];
+  arcforges.foundation.v1.Instant created_at = 4 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"];
+}
+
+message DeviceAuthorization {
+  optional string device_code = 1 [json_name = "deviceCode"]; // 32 bytes base64url; node-held secret
+  optional string user_code = 2 [json_name = "userCode"]; // 8 characters from BCDFGHJKLMNPQRSTVWXZ, shown as XXXX-XXXX
+  optional string verification_uri = 3 [json_name = "verificationUri"]; // https://arcforges.com/activate
+  optional string verification_uri_complete = 4 [json_name = "verificationUriComplete"];
+  optional uint64 interval_ms = 5 [json_name = "intervalMs"]; // 5,000; grows by 5,000 on SLOW_DOWN
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"]; // 600 s
+}
+
+message PhoneInstallationInfo {
+  arcforges.foundation.v1.Id installation_id = 1 [json_name = "installationId"]; // validate: generated by the app at first start
+  optional string model = 2 [json_name = "model"]; // validate: <= 64 chars
+  optional string os_version = 3 [json_name = "osVersion"]; // validate: <= 32 chars
+  optional string app_version = 4 [json_name = "appVersion"]; // validate: SemVer
+}
+
+message PhonePairingTicket {
+  arcforges.foundation.v1.Id pairing_id = 1 [json_name = "pairingId"];
+  optional string secret = 2 [json_name = "secret"]; // 32 random bytes base32
+  optional string qr_payload = 3 [json_name = "qrPayload"]; // arcforges://pair?i=<pairing_id>&s=<secret>
+  arcforges.foundation.v1.Instant expires_at = 4 [json_name = "expiresAt"]; // 120 s
+}
+
+message PhonePairingView {
+  arcforges.foundation.v1.Id pairing_id = 1 [json_name = "pairingId"];
+  optional PhonePairingCloudState state = 2 [json_name = "state"];
+  PhoneInstallationInfo phone = 3 [json_name = "phone"];
+  arcforges.foundation.v1.Instant expires_at = 4 [json_name = "expiresAt"];
+}
+
+message LanHint {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  optional string name = 2 [json_name = "name"];
+  repeated string endpoints = 3 [json_name = "endpoints"]; // host:port last reported by the node
+  optional string fingerprint = 4 [json_name = "fingerprint"];
+  arcforges.foundation.v1.Instant reported_at = 5 [json_name = "reportedAt"];
+}
+
+// Bounded node status for the relay and viewers (<= 4 KiB serialized; D1 data only).
+message StatusSummary {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  optional uint64 generation = 2 [json_name = "generation"];
+  optional uint64 seq = 3 [json_name = "seq"];
+  arcforges.foundation.v1.Instant at = 4 [json_name = "at"];
+  optional arcforges.node.v1.NodeLifecycleState state = 5 [json_name = "state"];
+  optional string version = 6 [json_name = "version"];
+  optional uint32 running = 7 [json_name = "running"];
+  optional uint32 queued = 8 [json_name = "queued"];
+  optional uint32 budget_cpu_millicores = 9 [json_name = "budgetCpuMillicores"];
+  optional uint64 budget_mem_bytes = 10 [json_name = "budgetMemBytes"];
+  optional uint32 cpu_used_percent = 11 [json_name = "cpuUsedPercent"];
+  optional uint32 mem_used_percent = 12 [json_name = "memUsedPercent"];
+  optional arcforges.node.v1.PressureLevel pressure = 13 [json_name = "pressure"];
+  optional uint32 findings_warning = 14 [json_name = "findingsWarning"];
+  optional uint32 findings_error = 15 [json_name = "findingsError"];
+  optional uint32 approvals_pending = 16 [json_name = "approvalsPending"];
+  optional arcforges.node.v1.CpuControl cpu_control = 17 [json_name = "cpuControl"];
+  optional arcforges.node.v1.MemoryControl memory_control = 18 [json_name = "memoryControl"];
+  optional arcforges.node.v1.UpdateState update_state = 19 [json_name = "updateState"];
+  optional string name = 20 [json_name = "name"];
+  optional uint64 disk_free_bytes = 21 [json_name = "diskFreeBytes"]; // the data-root volume
+  optional uint64 disk_total_bytes = 22 [json_name = "diskTotalBytes"];
+  optional arcforges.node.v1.DiskPressureLevel disk_level = 23 [json_name = "diskLevel"]; // worst level of the volumes holding managed roots
+  optional uint64 managed_storage_bytes = 24 [json_name = "managedStorageBytes"]; // sum of the managed roots
+  optional uint32 sessions_active = 25 [json_name = "sessionsActive"];
+  optional uint32 subagents_active = 26 [json_name = "subagentsActive"];
+}
+
+message TaskSummary {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
+  optional string title = 2 [json_name = "title"];
+  optional arcforges.node.v1.TaskState state = 3 [json_name = "state"];
+  optional string pool = 4 [json_name = "pool"];
+  optional arcforges.node.v1.Priority priority = 5 [json_name = "priority"];
+  arcforges.foundation.v1.Instant started_at = 6 [json_name = "startedAt"];
+  arcforges.foundation.v1.Instant finished_at = 7 [json_name = "finishedAt"];
+  optional string category = 8 [json_name = "category"];
+  optional arcforges.node.v1.Origin owner_origin = 9 [json_name = "ownerOrigin"];
+  optional string client = 10 [json_name = "client"]; // claude-code | codex | cli | desktop
+  optional int32 exit_code = 11 [json_name = "exitCode"];
+  optional uint32 progress_percent = 12 [json_name = "progressPercent"];
+  arcforges.foundation.v1.Id session_id = 13 [json_name = "sessionId"]; // owner session, when there is one
+  optional string subagent = 14 [json_name = "subagent"]; // agent type when attribution is known; absent = none or unknown (see attribution)
+  optional arcforges.node.v1.TerminationReason termination_reason = 15 [json_name = "terminationReason"];
+  repeated CategoryShare timeline = 16 [json_name = "timeline"]; // up to 6 categories with the most time
+  optional uint32 queue_position = 17 [json_name = "queuePosition"];
+  optional string blocking_reason = 18 [json_name = "blockingReason"]; // values as node.v1.QueueInfo.blocking_reason
+  arcforges.foundation.v1.Instant eta = 19 [json_name = "eta"];
+  optional uint64 elapsed_ms = 20 [json_name = "elapsedMs"];
+  optional string attribution = 21 [json_name = "attribution"]; // KNOWN | NONE | UNKNOWN (for example MCP work of a subagent)
+}
+
+message CategoryShare {
+  optional string category = 1 [json_name = "category"]; // timeline category (07 section 1)
+  optional uint64 seconds = 2 [json_name = "seconds"];
+}
+
+message FindingSummary {
+  arcforges.foundation.v1.Id finding_id = 1 [json_name = "findingId"];
+  optional string kind = 2 [json_name = "kind"];
+  optional arcforges.node.v1.Severity severity = 3 [json_name = "severity"];
+  optional string title = 4 [json_name = "title"];
+  optional string subject_kind = 5 [json_name = "subjectKind"];
+  optional arcforges.node.v1.FindingState state = 6 [json_name = "state"];
+}
+
+message ApprovalSummary {
+  arcforges.foundation.v1.Id approval_id = 1 [json_name = "approvalId"];
+  optional string operation = 2 [json_name = "operation"];
+  optional string summary = 3 [json_name = "summary"];
+  optional arcforges.node.v1.RiskClass risk = 4 [json_name = "risk"];
+  arcforges.foundation.v1.Instant created_at = 5 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"];
+  optional arcforges.node.v1.Origin requester_origin = 7 [json_name = "requesterOrigin"];
+}
+
+message SessionSummary {
+  arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
+  optional string client = 2 [json_name = "client"];
+  optional arcforges.node.v1.SessionState state = 3 [json_name = "state"];
+  optional uint32 managed_tasks = 4 [json_name = "managedTasks"];
+  optional uint32 bypassed_commands = 5 [json_name = "bypassedCommands"];
+  optional string workspace_name = 6 [json_name = "workspaceName"]; // the repository or folder name only, never a path
+  optional uint32 subagents_active = 7 [json_name = "subagentsActive"];
+  repeated SubagentSummary subagents = 8 [json_name = "subagents"]; // FULL detail only
+  optional string last_event_kind = 9 [json_name = "lastEventKind"]; // the last client-reported event, for example "PreToolUse"
+  arcforges.foundation.v1.Instant last_event_at = 10 [json_name = "lastEventAt"];
+  optional bool mcp_connected = 11 [json_name = "mcpConnected"];
+  optional arcforges.node.v1.RoutingMode routing_mode = 12 [json_name = "routingMode"]; // effective
+  optional uint32 managed_share_permille = 13 [json_name = "managedSharePermille"]; // as node.v1.SessionCoverage
+  repeated string unknowns = 14 [json_name = "unknowns"]; // what this client cannot report, for example "model state (never available)"
+}
+
+message SubagentSummary {
+  optional string agent_type = 1 [json_name = "agentType"];
+  optional string state = 2 [json_name = "state"]; // RUNNING | STOPPED (client-reported)
+  arcforges.foundation.v1.Instant started_at = 3 [json_name = "startedAt"];
+  optional uint32 managed_tasks = 4 [json_name = "managedTasks"]; // tasks attributed to this subagent; MCP work of subagents is attributed to the session
+}
+
+message StatusDelta {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  optional uint64 generation = 2 [json_name = "generation"];
+  optional uint64 seq = 3 [json_name = "seq"];
+  arcforges.foundation.v1.Instant at = 4 [json_name = "at"];
+  StatusSummary summary = 5 [json_name = "summary"];
+  repeated TaskSummary upserted_tasks = 6 [json_name = "upsertedTasks"];
+  repeated arcforges.foundation.v1.Id removed_task_ids = 7 [json_name = "removedTaskIds"];
+  repeated FindingSummary findings = 8 [json_name = "findings"];
+  repeated ApprovalSummary approvals = 9 [json_name = "approvals"];
+  repeated SessionSummary sessions = 10 [json_name = "sessions"];
+}
+
+message NodeSnapshot {
+  StatusSummary summary = 1 [json_name = "summary"];
+  repeated TaskSummary tasks = 2 [json_name = "tasks"]; // active plus the 50 most recent
+  repeated FindingSummary findings = 3 [json_name = "findings"]; // open
+  repeated ApprovalSummary approvals = 4 [json_name = "approvals"]; // pending
+  repeated SessionSummary sessions = 5 [json_name = "sessions"]; // active
+}
+
+message FleetNode {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  optional string name = 2 [json_name = "name"];
+  optional arcforges.node.v1.OsFamily os = 3 [json_name = "os"];
+  optional arcforges.node.v1.CpuArchitecture arch = 4 [json_name = "arch"];
+  optional string version = 5 [json_name = "version"];
+  optional arcforges.node.v1.NodeRole role = 6 [json_name = "role"];
+  arcforges.foundation.v1.Id host_node_id = 7 [json_name = "hostNodeId"];
+  optional NodeOnlineState online = 8 [json_name = "online"];
+  arcforges.foundation.v1.Instant last_seen_at = 9 [json_name = "lastSeenAt"];
+  arcforges.foundation.v1.Instant enrolled_at = 10 [json_name = "enrolledAt"];
+  StatusSummary summary = 11 [json_name = "summary"]; // cached by the relay; absent when never connected
+  optional bool relay_enabled = 12 [json_name = "relayEnabled"];
+  arcforges.foundation.v1.Id device_id = 13 [json_name = "deviceId"]; // the node's own device record (publicapi.v1.DeviceService)
+}
+
+// Commands a viewer may send to a node (AD-0009 section 5). Risk is fixed per kind.
+message NodeCommandBody {
+  oneof kind {
+    RefreshStatusCommand refresh = 1 [json_name = "refresh"]; // LOW
+    PauseQueueCommand pause_queue = 2 [json_name = "pauseQueue"]; // LOW
+    ResumeQueueCommand resume_queue = 3 [json_name = "resumeQueue"]; // LOW
+    CancelTaskCommand cancel_task = 4 [json_name = "cancelTask"]; // MEDIUM
+    SetPriorityCommand set_priority = 5 [json_name = "setPriority"]; // MEDIUM
+    RunTaskCommand run_task = 6 [json_name = "runTask"]; // HIGH
+    DecideApprovalCommand decide_approval = 7 [json_name = "decideApproval"]; // HIGH; node policy remote.allow_approvals
+    ReadOutputTailCommand read_output_tail = 8 [json_name = "readOutputTail"]; // LOW; node privacy policy remote_output_tail
+    ApplyUpdateCommand apply_update = 9 [json_name = "applyUpdate"]; // HIGH
+    SetParallelismCommand set_parallelism = 10 [json_name = "setParallelism"]; // HIGH
+    StopNodeCommand stop_node = 11 [json_name = "stopNode"]; // HIGH
+  }
+}
+
+message RefreshStatusCommand {
+  optional DetailLevel detail = 1 [json_name = "detail"];
+}
+
+message PauseQueueCommand {
+  optional string pool = 1 [json_name = "pool"]; // validate: empty = all pools
+}
+
+message ResumeQueueCommand {
+  optional string pool = 1 [json_name = "pool"]; // validate: empty = all pools
+}
+
+message CancelTaskCommand {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"]; // validate: required
+  optional string reason = 2 [json_name = "reason"]; // validate: <= 200 chars
+}
+
+message SetPriorityCommand {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"]; // validate: required
+  optional arcforges.node.v1.Priority priority = 2 [json_name = "priority"]; // validate: not INTERACTIVE
+}
+
+message RunTaskCommand {
+  arcforges.node.v1.TaskSpec spec = 1 [json_name = "spec"]; // validate: argv form only; working_directory inside a registered workspace; inherit = NODE
+}
+
+message DecideApprovalCommand {
+  arcforges.foundation.v1.Id approval_id = 1 [json_name = "approvalId"]; // validate: required
+  optional bool approve = 2 [json_name = "approve"];
+  optional string comment = 3 [json_name = "comment"]; // validate: <= 500 chars
+}
+
+message ReadOutputTailCommand {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"]; // validate: required
+  optional uint32 max_bytes = 2 [json_name = "maxBytes"]; // validate: 1..65,536; default 16,384
+}
+
+message ApplyUpdateCommand {
+  optional string expected_version = 1 [json_name = "expectedVersion"]; // validate: the staged version shown to the user
+}
+
+message SetParallelismCommand {
+  optional arcforges.node.v1.ParallelismScope scope = 1 [json_name = "scope"];
+  optional string target = 2 [json_name = "target"];
+  optional arcforges.node.v1.ParallelismMode mode = 3 [json_name = "mode"];
+  optional uint32 fixed = 4 [json_name = "fixed"];
+}
+
+message StopNodeCommand {
+  optional bool cancel_running = 1 [json_name = "cancelRunning"];
+}
+
+// Payload of the signed command envelope (SignedBlob, ES256, cloud command key).
+message NodeCommand {
+  arcforges.foundation.v1.Id command_id = 1 [json_name = "commandId"];
+  arcforges.foundation.v1.Id account_id = 2 [json_name = "accountId"];
+  arcforges.foundation.v1.Id node_id = 3 [json_name = "nodeId"];
+  arcforges.foundation.v1.Instant issued_at = 4 [json_name = "issuedAt"];
+  arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"]; // <= issued_at + 5 min
+  optional arcforges.node.v1.RiskClass risk = 6 [json_name = "risk"];
+  arcforges.foundation.v1.Id actor_user_id = 7 [json_name = "actorUserId"];
+  arcforges.foundation.v1.Instant step_up_at = 8 [json_name = "stepUpAt"];
+  optional string actor_device = 9 [json_name = "actorDevice"];
+  NodeCommandBody body = 10 [json_name = "body"];
+}
+
+// Payload of the signed result (SignedBlob, ES256, node key).
+message NodeCommandResult {
+  arcforges.foundation.v1.Id command_id = 1 [json_name = "commandId"];
+  arcforges.foundation.v1.Id node_id = 2 [json_name = "nodeId"];
+  arcforges.foundation.v1.Instant executed_at = 3 [json_name = "executedAt"];
+  oneof outcome {
+    arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+    arcforges.foundation.v1.ArcError error = 11 [json_name = "error"];
+  }
+  optional bytes output_tail_sha256 = 20 [json_name = "outputTailSha256"]; // ReadOutputTail only; the tail travels in relay OutputTail frames and is never stored
+  optional string detail = 21 [json_name = "detail"];
+  optional uint32 output_tail_bytes = 22 [json_name = "outputTailBytes"];
+}
+
+message RemoteCommandView {
+  arcforges.foundation.v1.Id command_id = 1 [json_name = "commandId"];
+  arcforges.foundation.v1.Id node_id = 2 [json_name = "nodeId"];
+  optional string kind = 3 [json_name = "kind"];
+  optional arcforges.node.v1.RiskClass risk = 4 [json_name = "risk"];
+  optional RemoteCommandState state = 5 [json_name = "state"];
+  arcforges.foundation.v1.Instant created_at = 6 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant expires_at = 7 [json_name = "expiresAt"];
+  arcforges.foundation.v1.Instant delivered_at = 8 [json_name = "deliveredAt"];
+  arcforges.foundation.v1.Instant completed_at = 9 [json_name = "completedAt"];
+  NodeCommandResult result = 10 [json_name = "result"];
+  optional string actor_display = 11 [json_name = "actorDisplay"];
+}
+
+message RelayTokenGrant {
+  optional string token = 1 [json_name = "token"]; // base64url(claims).base64url(mac)
+  arcforges.foundation.v1.Instant expires_at = 2 [json_name = "expiresAt"]; // 15 minutes
+  optional string relay_url = 3 [json_name = "relayUrl"]; // wss://relay.arcforges.com/v1/node
+}
+
+message ViewerGrant {
+  optional string grant = 1 [json_name = "grant"]; // base64url(claims).base64url(mac)
+  arcforges.foundation.v1.Instant expires_at = 2 [json_name = "expiresAt"]; // 10 minutes
+  optional string ws_url = 3 [json_name = "wsUrl"]; // wss://relay.arcforges.com/v1/view
+}
+
+message NodePresence {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  optional NodeOnlineState state = 2 [json_name = "state"];
+  arcforges.foundation.v1.Instant at = 3 [json_name = "at"];
+}
+
+message PushPreference {
+  optional string kind = 1 [json_name = "kind"]; // validate: node.task_failed | node.task_finished | node.approval_needed | node.offline | node.finding
+  arcforges.foundation.v1.Id node_id = 2 [json_name = "nodeId"]; // absent = all nodes
+  optional bool enabled = 3 [json_name = "enabled"];
+}
+
+message PushPreferences {
+  repeated PushPreference preferences = 1 [json_name = "preferences"]; // validate: <= 200 entries
+  optional uint32 daily_limit = 2 [json_name = "dailyLimit"]; // read-only plan limit (default 50)
+  arcforges.foundation.v1.Revision revision = 3 [json_name = "revision"];
+}
+
+message PlayPurchaseInput {
+  optional string purchase_token = 1 [json_name = "purchaseToken"]; // validate: required; <= 4096 chars
+  optional string product_id = 2 [json_name = "productId"]; // validate: "arcforges.pro"
+  optional string base_plan_id = 3 [json_name = "basePlanId"]; // validate: monthly | annual
+  optional string package_name = 4 [json_name = "packageName"]; // validate: the app's package
+  optional string order_id = 5 [json_name = "orderId"];
+}
+
+message SubscriptionView {
+  optional SubscriptionSource source = 1 [json_name = "source"];
+  optional string plan = 2 [json_name = "plan"];
+  optional SubscriptionState state = 3 [json_name = "state"];
+  arcforges.foundation.v1.Instant renews_at = 4 [json_name = "renewsAt"];
+  arcforges.foundation.v1.Instant ends_at = 5 [json_name = "endsAt"];
+  optional string manage_url = 6 [json_name = "manageUrl"]; // Paddle customer portal or Google Play subscription center
+  optional bool payment_issue = 7 [json_name = "paymentIssue"];
+}
+
+message PlayPurchaseResult {
+  optional string purchase_token_hash = 1 [json_name = "purchaseTokenHash"];
+  optional PlayLinkState link_state = 2 [json_name = "linkState"];
+  SubscriptionView subscription = 3 [json_name = "subscription"];
+  optional bool acknowledged = 4 [json_name = "acknowledged"];
+}
+
+message BillingStatus {
+  repeated SubscriptionView subscriptions = 1 [json_name = "subscriptions"];
+  optional string effective_plan = 2 [json_name = "effectivePlan"];
+  repeated string features = 3 [json_name = "features"];
+  optional bool duplicate_warning = 4 [json_name = "duplicateWarning"];
+  optional bool sales_open = 5 [json_name = "salesOpen"];
+}
+
+message NodeCursorInput {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  optional uint64 generation = 2 [json_name = "generation"];
+  optional uint64 seq = 3 [json_name = "seq"];
+}

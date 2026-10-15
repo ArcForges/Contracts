@@ -1,0 +1,327 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeCommonProto";
+
+// Shared types of the local node API (arcforges.node.v1).
+// Units: CPU in millicores (1000 = one logical processor fully busy); memory and sizes in bytes;
+// durations in milliseconds (`_ms`). Times are arcforges.foundation.v1.Instant.
+// Identifiers are arcforges.foundation.v1.Id (16-byte UUIDv7) unless stated otherwise.
+
+// The caller class, derived by the node from the connection and process ancestry.
+// Never caller-asserted ([11-security-privacy] section 1).
+enum Origin {
+  ORIGIN_UNSPECIFIED = 0;
+  ORIGIN_HUMAN = 1;
+  ORIGIN_SCRIPT = 2;
+  ORIGIN_AGENT = 3;
+  ORIGIN_REMOTE = 4;
+  ORIGIN_PEER = 5;
+  ORIGIN_GUEST = 6;
+  ORIGIN_HOST = 7;
+  ORIGIN_NODE = 8;
+}
+
+enum ClientKind {
+  CLIENT_KIND_UNSPECIFIED = 0;
+  CLIENT_KIND_CLI = 1;
+  CLIENT_KIND_DESKTOP = 2;
+  CLIENT_KIND_MCP_ADAPTER = 3;
+  CLIENT_KIND_HOOK = 4;
+  CLIENT_KIND_SUPERVISOR = 5;
+  CLIENT_KIND_PROBE = 6;
+  CLIENT_KIND_TEST = 7;
+}
+
+enum OsFamily {
+  OS_FAMILY_UNSPECIFIED = 0;
+  OS_FAMILY_WINDOWS = 1;
+  OS_FAMILY_LINUX = 2;
+}
+
+enum CpuArchitecture {
+  CPU_ARCHITECTURE_UNSPECIFIED = 0;
+  CPU_ARCHITECTURE_X64 = 1;
+  CPU_ARCHITECTURE_ARM64 = 2;
+}
+
+// HOST: a Windows node or a bare-metal Linux node. GUEST: a WSL2 distribution node linked to a host.
+enum NodeRole {
+  NODE_ROLE_UNSPECIFIED = 0;
+  NODE_ROLE_HOST = 1;
+  NODE_ROLE_GUEST = 2;
+}
+
+// Strict order: INTERACTIVE > HIGH > NORMAL > LOW > BACKGROUND (03 section 4).
+enum Priority {
+  PRIORITY_UNSPECIFIED = 0;
+  PRIORITY_INTERACTIVE = 1;
+  PRIORITY_HIGH = 2;
+  PRIORITY_NORMAL = 3;
+  PRIORITY_LOW = 4;
+  PRIORITY_BACKGROUND = 5;
+}
+
+enum EstimateSource {
+  ESTIMATE_SOURCE_UNSPECIFIED = 0;
+  ESTIMATE_SOURCE_HINT = 1;
+  ESTIMATE_SOURCE_MEMORY = 2;
+  ESTIMATE_SOURCE_ADAPTER = 3;
+  ESTIMATE_SOURCE_DEFAULT = 4;
+  ESTIMATE_SOURCE_LIGHT = 5; // a rewrite-all routed command no adapter classifies and no fact describes (architecture 08 section 4.1)
+}
+
+enum Severity {
+  SEVERITY_UNSPECIFIED = 0;
+  SEVERITY_INFO = 1;
+  SEVERITY_WARNING = 2;
+  SEVERITY_ERROR = 3;
+}
+
+enum Confidence {
+  CONFIDENCE_UNSPECIFIED = 0;
+  CONFIDENCE_LOW = 1;
+  CONFIDENCE_MEDIUM = 2;
+  CONFIDENCE_HIGH = 3;
+}
+
+enum RiskClass {
+  RISK_CLASS_UNSPECIFIED = 0;
+  RISK_CLASS_LOW = 1;
+  RISK_CLASS_MEDIUM = 2;
+  RISK_CLASS_HIGH = 3;
+}
+
+// Permission matrix values ([11-security-privacy] section 1).
+enum PermissionDecision {
+  PERMISSION_DECISION_UNSPECIFIED = 0;
+  PERMISSION_DECISION_ALLOW = 1;
+  PERMISSION_DECISION_APPROVAL = 2;
+  PERMISSION_DECISION_DENY = 3;
+  PERMISSION_DECISION_REMOTE_POLICY = 4;
+}
+
+enum PressureLevel {
+  PRESSURE_LEVEL_UNSPECIFIED = 0;
+  PRESSURE_LEVEL_NORMAL = 1;
+  PRESSURE_LEVEL_TIGHT = 2;
+  PRESSURE_LEVEL_PRESSURE = 3;
+  PRESSURE_LEVEL_CRITICAL = 4;
+}
+
+// Free-space level of a volume that holds managed roots (06 section 5).
+enum DiskPressureLevel {
+  DISK_PRESSURE_LEVEL_UNSPECIFIED = 0;
+  DISK_PRESSURE_LEVEL_NORMAL = 1;
+  DISK_PRESSURE_LEVEL_LOW = 2; // free < max(min_free_bytes, min(5 %, low_free_cap_bytes)): no new writers on the volume
+  DISK_PRESSURE_LEVEL_CRITICAL = 3; // free < critical_free_bytes: writers paused or terminated by policy
+}
+
+// Process classification (03 section 9).
+enum ProcessLabel {
+  PROCESS_LABEL_UNSPECIFIED = 0;
+  PROCESS_LABEL_MANAGED = 1;
+  PROCESS_LABEL_ADOPTED = 2;
+  PROCESS_LABEL_ESCAPED = 3;
+  PROCESS_LABEL_BYPASSED = 4;
+  PROCESS_LABEL_UNMANAGED = 5;
+  PROCESS_LABEL_GUEST_VM = 6;
+  PROCESS_LABEL_SHARED_SERVICE = 7; // reserved: release 1 runs no compiler service shared between attempts (05 section 5)
+  PROCESS_LABEL_NODE_SELF = 8;
+}
+
+enum EnforcedResource {
+  ENFORCED_RESOURCE_UNSPECIFIED = 0;
+  ENFORCED_RESOURCE_CPU = 1;
+  ENFORCED_RESOURCE_MEMORY = 2;
+  ENFORCED_RESOURCE_PIDS = 3;
+}
+
+enum CpuControl {
+  CPU_CONTROL_UNSPECIFIED = 0;
+  CPU_CONTROL_ENFORCED_SHARE_AND_CAP = 1;
+  CPU_CONTROL_ENFORCED_SHARE = 2;
+  CPU_CONTROL_OBSERVE_ONLY = 3;
+}
+
+enum MemoryControl {
+  MEMORY_CONTROL_UNSPECIFIED = 0;
+  MEMORY_CONTROL_ENFORCED_SOFT_AND_HARD = 1;
+  MEMORY_CONTROL_ENFORCED_COMMIT = 2;
+  MEMORY_CONTROL_OBSERVE_ONLY = 3;
+}
+
+enum ProcessCountControl {
+  PROCESS_COUNT_CONTROL_UNSPECIFIED = 0;
+  PROCESS_COUNT_CONTROL_ENFORCED = 1;
+  PROCESS_COUNT_CONTROL_OBSERVE_ONLY = 2;
+}
+
+enum IoControl {
+  IO_CONTROL_UNSPECIFIED = 0;
+  IO_CONTROL_OBSERVE_ONLY = 1;
+  IO_CONTROL_ENFORCED = 2;
+}
+
+enum PauseSupport {
+  PAUSE_SUPPORT_UNSPECIFIED = 0;
+  PAUSE_SUPPORT_SUPPORTED = 1;
+  PAUSE_SUPPORT_UNSUPPORTED = 2;
+}
+
+enum KillTreeGuarantee {
+  KILL_TREE_GUARANTEE_UNSPECIFIED = 0;
+  KILL_TREE_GUARANTEE_GUARANTEED = 1;
+  KILL_TREE_GUARANTEE_BEST_EFFORT = 2;
+}
+
+enum AdoptSupport {
+  ADOPT_SUPPORT_UNSPECIFIED = 0;
+  ADOPT_SUPPORT_SUPPORTED = 1;
+  ADOPT_SUPPORT_LIMITED = 2;
+  ADOPT_SUPPORT_UNSUPPORTED = 3;
+}
+
+// Long-running node operations (analysis, worktree creation, detection, export, bundles, verification).
+enum JobKind {
+  JOB_KIND_UNSPECIFIED = 0;
+  JOB_KIND_STORAGE_ANALYSIS = 1;
+  JOB_KIND_CLEANUP_EXECUTION = 2;
+  JOB_KIND_ROOT_RELOCATION = 3;
+  JOB_KIND_WORKTREE_CREATE = 4;
+  JOB_KIND_WORKTREE_REMOVE = 5;
+  JOB_KIND_TOOLCHAIN_DETECTION = 6;
+  JOB_KIND_CACHE_VERIFY = 7;
+  JOB_KIND_RECORD_EXPORT = 8;
+  JOB_KIND_SUPPORT_BUNDLE = 9;
+  JOB_KIND_DOCTOR = 10;
+  JOB_KIND_UPDATE_DOWNLOAD = 11;
+  JOB_KIND_INTEGRATION_APPLY = 12;
+}
+
+enum JobState {
+  JOB_STATE_UNSPECIFIED = 0;
+  JOB_STATE_PENDING = 1;
+  JOB_STATE_RUNNING = 2;
+  JOB_STATE_SUCCEEDED = 3;
+  JOB_STATE_FAILED = 4;
+  JOB_STATE_CANCELLED = 5;
+}
+
+message ResourceDemand {
+  optional uint32 cpu_millicores = 1 [json_name = "cpuMillicores"]; // validate: 1..1,024,000; clamped to policy maximum
+  optional uint64 mem_expected_bytes = 2 [json_name = "memExpectedBytes"]; // validate: 1 MiB..policy max_task_memory
+  optional uint64 mem_ceiling_bytes = 3 [json_name = "memCeilingBytes"]; // validate: >= mem_expected_bytes; <= policy max_task_memory
+  optional EstimateSource source = 4 [json_name = "source"]; // output only
+}
+
+message ResourceUsage {
+  optional uint32 cpu_millicores = 1 [json_name = "cpuMillicores"];
+  optional uint64 cpu_time_ms = 2 [json_name = "cpuTimeMs"];
+  optional uint64 mem_bytes = 3 [json_name = "memBytes"];
+  optional uint64 mem_peak_bytes = 4 [json_name = "memPeakBytes"];
+  optional uint32 process_count = 5 [json_name = "processCount"];
+  optional uint64 io_read_bytes = 6 [json_name = "ioReadBytes"];
+  optional uint64 io_write_bytes = 7 [json_name = "ioWriteBytes"];
+}
+
+// Process identity is (pid, start_time), never pid alone (03 section 1).
+message ProcessIdentity {
+  optional uint32 pid = 1 [json_name = "pid"]; // validate: > 0
+  arcforges.foundation.v1.Instant start_time = 2 [json_name = "startTime"]; // validate: required
+  optional string image_name = 3 [json_name = "imageName"]; // output only
+}
+
+message NodeRef {
+  arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
+  optional string name = 2 [json_name = "name"];
+  optional NodeRole role = 3 [json_name = "role"];
+  arcforges.foundation.v1.Id host_node_id = 4 [json_name = "hostNodeId"];
+  optional OsFamily os = 5 [json_name = "os"];
+  optional CpuArchitecture arch = 6 [json_name = "arch"];
+}
+
+// Who did something. Filled by the node.
+message ActorRef {
+  optional Origin origin = 1 [json_name = "origin"];
+  optional ClientKind client_kind = 2 [json_name = "clientKind"];
+  arcforges.foundation.v1.Id session_id = 3 [json_name = "sessionId"];
+  optional string agent_id = 4 [json_name = "agentId"];
+  optional string os_user = 5 [json_name = "osUser"];
+  arcforges.foundation.v1.Id peer_node_id = 6 [json_name = "peerNodeId"];
+  arcforges.foundation.v1.Id remote_command_id = 7 [json_name = "remoteCommandId"];
+  optional string client_name = 8 [json_name = "clientName"];
+}
+
+// Shape reused from arcforges.events.v1.StreamPosition (cursor, sequence, generation).
+message StreamPosition {
+  optional string cursor = 1 [json_name = "cursor"];
+  optional uint64 sequence = 2 [json_name = "sequence"];
+  optional uint64 generation = 3 [json_name = "generation"];
+}
+
+message StreamReset {
+  optional string reason = 1 [json_name = "reason"];
+  optional bool snapshot_follows = 2 [json_name = "snapshotFollows"];
+}
+
+message Heartbeat {
+  arcforges.foundation.v1.Instant at = 1 [json_name = "at"];
+}
+
+message KeyValue {
+  optional string name = 1 [json_name = "name"];
+  optional string value = 2 [json_name = "value"];
+  optional bool redacted = 3 [json_name = "redacted"]; // true when the value is withheld (secret-shaped name or privacy policy)
+}
+
+message CapabilityReport {
+  optional CpuControl cpu = 1 [json_name = "cpu"];
+  optional string cpu_reason = 2 [json_name = "cpuReason"];
+  optional MemoryControl memory = 3 [json_name = "memory"];
+  optional string memory_reason = 4 [json_name = "memoryReason"];
+  optional ProcessCountControl pids = 5 [json_name = "pids"];
+  optional string pids_reason = 6 [json_name = "pidsReason"];
+  optional IoControl io = 7 [json_name = "io"];
+  optional string io_reason = 8 [json_name = "ioReason"];
+  optional PauseSupport pause = 9 [json_name = "pause"];
+  optional string pause_reason = 10 [json_name = "pauseReason"];
+  optional KillTreeGuarantee kill_tree = 11 [json_name = "killTree"];
+  optional string kill_tree_reason = 12 [json_name = "killTreeReason"];
+  optional AdoptSupport adopt = 13 [json_name = "adopt"];
+  optional string adopt_reason = 14 [json_name = "adoptReason"];
+  optional bool restart_survival = 15 [json_name = "restartSurvival"];
+  optional string restart_survival_reason = 16 [json_name = "restartSurvivalReason"];
+  arcforges.foundation.v1.Instant evaluated_at = 17 [json_name = "evaluatedAt"];
+  repeated KeyValue platform_facts = 18 [json_name = "platformFacts"]; // e.g. systemd version, cgroup controllers, job nesting
+}
+
+message JobView {
+  arcforges.foundation.v1.Id job_id = 1 [json_name = "jobId"];
+  optional JobKind kind = 2 [json_name = "kind"];
+  optional JobState state = 3 [json_name = "state"];
+  optional uint32 progress_percent = 4 [json_name = "progressPercent"];
+  optional string progress_text = 5 [json_name = "progressText"];
+  arcforges.foundation.v1.Id task_id = 6 [json_name = "taskId"]; // when the job runs as a managed attempt
+  ActorRef requested_by = 7 [json_name = "requestedBy"];
+  arcforges.foundation.v1.Instant created_at = 8 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant finished_at = 9 [json_name = "finishedAt"];
+  arcforges.foundation.v1.ArcError error = 10 [json_name = "error"];
+  arcforges.foundation.v1.AggregateRef result = 11 [json_name = "result"]; // e.g. kind "storage_analysis"
+}
+
+// An operation that needs approval returns AUTHORIZATION/approval_required with
+// details.state.resource = {kind: "approval", id}. The approval captures the request and,
+// when approved, the node executes it with the same command_id (11 section 1).
+message ApprovalHandle {
+  arcforges.foundation.v1.Id approval_id = 1 [json_name = "approvalId"];
+  arcforges.foundation.v1.Instant expires_at = 2 [json_name = "expiresAt"];
+}

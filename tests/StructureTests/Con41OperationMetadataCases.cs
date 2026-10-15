@@ -23,7 +23,8 @@ internal static class Con41OperationMetadataCases
     {
         var staged = File.ReadAllBytes(stagedPath);
         var sources = LoadSources(SourcePaths(root));
-        var generated = GeneratedMethods(ArcForges.Contracts.PublicApi.ContractServices.All);
+        var flagship = FlagshipFiles(root);
+        var generated = GeneratedMethods(ArcForges.Contracts.PublicApi.ContractServices.All, flagship);
 
         using var document = Parse(staged);
         var rows = Validate(document.RootElement, sources, generated);
@@ -39,17 +40,35 @@ internal static class Con41OperationMetadataCases
         }
         var counts = string.Join(", ", byService.Select(item => item.Key + "=" + item.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)));
         Console.WriteLine($"CON.41 staged operation metadata: {rows.Count} rows, one per generated PublicApi method across {byService.Count} services " +
-            $"(migration example {MigrationExample} has no row), each deep-equal to its eng/operations source row; " +
+            $"(migration example {MigrationExample} and the {flagship.Count} flagship design file(s) have no row), each deep-equal to its eng/operations source row; " +
             $"sha256 {Convert.ToHexStringLower(SHA256.HashData(staged))}; by service: {counts}");
         return 0;
     }
 
-    /// <summary>The generated method set, service.FullName/method.Name, minus exactly the retained migration example.</summary>
-    private static SortedSet<string> GeneratedMethods(IReadOnlyList<ServiceDescriptor> services)
+    /// <summary>
+    /// AF-CON-01: the adopted flagship design files (eng/flagship-contracts.json). Their methods are classified by
+    /// their design annotation blocks, not by manifest11 operation rows (eng/check_operation_scope.py), so they have
+    /// no row. Only files of this exact record are excluded; an absent record excludes nothing.
+    /// </summary>
+    private static IReadOnlySet<string> FlagshipFiles(string root)
+    {
+        var path = Path.Combine(root, "eng", "flagship-contracts.json");
+        var files = new SortedSet<string>(StringComparer.Ordinal);
+        if (!File.Exists(path)) return files;
+        using var record = JsonDocument.Parse(File.ReadAllBytes(path), Strict);
+        foreach (var file in record.RootElement.GetProperty("files").EnumerateArray())
+            Require(files.Add(file.GetProperty("design").GetString()!), "flagship: duplicate design file");
+        return files;
+    }
+
+    /// <summary>The generated method set, service.FullName/method.Name, minus exactly the retained migration example
+    /// and the methods of services declared in a flagship design file.</summary>
+    private static SortedSet<string> GeneratedMethods(IReadOnlyList<ServiceDescriptor> services, IReadOnlySet<string> flagship)
     {
         var methods = new SortedSet<string>(StringComparer.Ordinal);
         foreach (var service in services)
         {
+            if (flagship.Contains(service.File.Name)) continue;
             foreach (var method in service.Methods)
             {
                 Require(methods.Add(service.FullName + "/" + method.Name), "generated: duplicate method " + service.FullName + "/" + method.Name);

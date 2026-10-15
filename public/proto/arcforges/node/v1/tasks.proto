@@ -1,0 +1,1081 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeTasksProto";
+
+// Tasks, attempts, output and control (architecture 04; decisions AD-0006; state machines SM-TASK, SM-ATTEMPT).
+// A task is the user-visible unit of work; each execution try is an attempt.
+
+// Task submission, inspection, waiting, attachment, output and control.
+// Every mutating call is idempotent by meta.command_id (AD-0004).
+service TaskService {
+  // Submit a task. It is persisted before the receipt returns (AD-0006 section 1).
+  // auth: HUMAN=A SCRIPT=A AGENT=A (allowed_command_patterns) REMOTE=high
+  // idempotency: command_id; 24 h; same payload digest required
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, VALIDATION/unsafe_batch_argument, VALIDATION/unsupported_shell, VALIDATION/path_not_found, VALIDATION/program_not_found, VALIDATION/invalid_dependency, VALIDATION/inputs_required, AUTHORIZATION/permission_denied, AUTHORIZATION/command_pattern_denied, AUTHORIZATION/approval_required, CONFLICT/command_id_reused, RESOURCE/queue_full, RESOURCE/disk_space, RESOURCE/enforcement_unavailable, STATE/node_stopping
+  // locality: node
+  // state: SM-TASK: (none) -> QUEUED | WAITING_DEPENDENCY | PLACING
+  rpc SubmitTask(TaskServiceSubmitTaskRequest) returns (TaskServiceSubmitTaskResponse);
+
+  // Read one task.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (FULL only for own session) REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied
+  // locality: node
+  rpc GetTask(TaskServiceGetTaskRequest) returns (TaskServiceGetTaskResponse);
+
+  // List tasks, newest first.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (others' tasks as summary) REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListTasks(TaskServiceListTasksRequest) returns (TaskServiceListTasksResponse);
+
+  // Wait up to wait_ms for a target state. Returns the task either way (bounded wait for MCP, 08 section 2.2).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: wait_ms + 5 s
+  // stream: none
+  // errors: STATE/not_found, VALIDATION/invalid_argument
+  // locality: node
+  rpc WaitTask(TaskServiceWaitTaskRequest) returns (TaskServiceWaitTaskResponse);
+
+  // Stream state, output, progress, readiness and the final result. The first frame carries an attach_id for stdin. Detaching never affects the task.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (own session) REMOTE=-
+  // idempotency: read
+  // deadline: none; heartbeat 15 s; idle client limit 10 min without reads
+  // stream: server: TaskServiceAttachTaskFrame; ends after the result frame of a terminal task
+  // errors: STATE/not_found, STATE/invalid_state, AUTHORIZATION/permission_denied
+  // locality: node
+  rpc AttachTask(TaskServiceAttachTaskRequest) returns (stream TaskServiceAttachTaskFrame);
+
+  // Write stdin bytes for an attached STREAM-stdin task.
+  // auth: the attached caller only REMOTE=-
+  // idempotency: offset-based
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_attached, STATE/invalid_state, CONFLICT/revision_conflict
+  // locality: node
+  rpc WriteTaskInput(TaskServiceWriteTaskInputRequest) returns (TaskServiceWriteTaskInputResponse);
+
+  // Close stdin of an attached STREAM-stdin task.
+  // auth: the attached caller only REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_attached
+  // locality: node
+  rpc CloseTaskInput(TaskServiceCloseTaskInputRequest) returns (TaskServiceCloseTaskInputResponse);
+
+  // Detach a task from its submitting caller: cancel_when_caller_gone no longer applies (hand-off before an AI client's tool timeout; 08 section 4.1).
+  // auth: the submitting caller, or HUMAN; REMOTE=-
+  // idempotency: natural: releasing twice succeeds
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied
+  // locality: node
+  rpc ReleaseCallerBinding(TaskServiceReleaseCallerBindingRequest) returns (TaskServiceReleaseCallerBindingResponse);
+
+  // Cancel a queued or running task through the cancellation sequence (04 section 6).
+  // auth: own: HUMAN=A SCRIPT=A AGENT=A REMOTE=medium; others: HUMAN=A SCRIPT=P AGENT=P REMOTE=medium
+  // idempotency: command_id; cancelling a terminal task returns its state
+  // deadline: 10 s (returns after the request is recorded; the sequence continues)
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/approval_required, AUTHORIZATION/permission_denied
+  // locality: node
+  // state: SM-TASK: QUEUED|WAITING_DEPENDENCY|PLACING|RETRY_WAIT -> CANCELLED; RUNNING|PAUSED -> (attempt STOPPING) -> CANCELLED
+  rpc CancelTask(TaskServiceCancelTaskRequest) returns (TaskServiceCancelTaskResponse);
+
+  // Start a new attempt for a terminal task (manual retry; AD-0006 section 4 rules shown as warnings).
+  // auth: own: HUMAN=A SCRIPT=A AGENT=A (SIDE_EFFECTING or UNKNOWN: P) REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, STATE/secrets_unavailable, AUTHORIZATION/approval_required
+  // locality: node
+  // state: SM-TASK: FAILED|CANCELLED|LOST -> QUEUED
+  rpc RetryTask(TaskServiceRetryTaskRequest) returns (TaskServiceRetryTaskResponse);
+
+  // Change priority or pool of a queued task, or priority (CPU weight) of a running one.
+  // auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=medium
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, AUTHORIZATION/approval_required, VALIDATION/invalid_argument
+  // locality: node
+  rpc SetTaskPriority(TaskServiceSetTaskPriorityRequest) returns (TaskServiceSetTaskPriorityResponse);
+
+  // Freeze a running pausable task (Linux only; Windows reports pause unsupported).
+  // auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+  // idempotency: command_id; pausing a paused task succeeds
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/pause_unsupported, STATE/invalid_state, STATE/not_found, AUTHORIZATION/approval_required
+  // locality: node
+  // state: SM-ATTEMPT: RUNNING -> PAUSING -> PAUSED
+  rpc PauseTask(TaskServicePauseTaskRequest) returns (TaskServicePauseTaskResponse);
+
+  // Thaw a paused task.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/invalid_state, STATE/not_found
+  // locality: node
+  // state: SM-ATTEMPT: PAUSED -> RUNNING
+  rpc ResumeTask(TaskServiceResumeTaskRequest) returns (TaskServiceResumeTaskResponse);
+
+  // Pin or unpin a task's records and output against retention.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (own) REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc PinTask(TaskServicePinTaskRequest) returns (TaskServicePinTaskResponse);
+
+  // Delete a terminal task's output and detailed records for privacy. Summary counters remain.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 30 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, AUTHORIZATION/permission_denied
+  // locality: node
+  rpc PurgeTaskRecord(TaskServicePurgeTaskRecordRequest) returns (TaskServicePurgeTaskRecordResponse);
+
+  // Read captured output bytes with their index records.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (own session) REMOTE=low (privacy policy decides)
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+  // locality: node
+  rpc ReadTaskOutput(TaskServiceReadTaskOutputRequest) returns (TaskServiceReadTaskOutputResponse);
+
+  // Stream new output chunks after an optional backfill.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (own session) REMOTE=-
+  // idempotency: read
+  // deadline: none; heartbeat 15 s
+  // stream: server: TaskServiceWatchTaskOutputFrame; ends after the result frame
+  // errors: STATE/not_found
+  // locality: node
+  rpc WatchTaskOutput(TaskServiceWatchTaskOutputRequest) returns (stream TaskServiceWatchTaskOutputFrame);
+
+  // Read one attempt.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetAttempt(TaskServiceGetAttemptRequest) returns (TaskServiceGetAttemptResponse);
+
+  // List the attempts of a task, oldest first.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc ListAttempts(TaskServiceListAttemptsRequest) returns (TaskServiceListAttemptsResponse);
+
+  // Read an attempt's timeline: segments, samples, phases, process records and finding links (07 section 1).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetTimeline(TaskServiceGetTimelineRequest) returns (TaskServiceGetTimelineResponse);
+}
+
+message TaskServiceSubmitTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  TaskSpec spec = 10 [json_name = "spec"]; // validate: required; see TaskSpec
+  arcforges.foundation.v1.Id session_id = 11 [json_name = "sessionId"]; // validate: optional; must be an active session whose agent root is an ancestor of the caller
+  optional string agent_id = 12 [json_name = "agentId"]; // validate: <= 128 chars; requires session_id
+  ProcessIdentity caller_process = 13 [json_name = "callerProcess"]; // validate: the calling process; verified by the node
+  optional bool cancel_when_caller_gone = 14 [json_name = "cancelWhenCallerGone"]; // validate: cancel when the submitting client's connection and all its attach streams are gone for 5 s before the task finishes, unless ReleaseCallerBinding ran first (hook-rewritten runs); a joined submission binds its caller the same way
+  optional bool join_existing = 15 [json_name = "joinExisting"]; // validate: return a task of the same session that has not started (QUEUED, WAITING_DEPENDENCY or PLACING) with the same command digest (program and arguments, or the shell string), working directory, environment digest and stdin, instead of a duplicate (08 section 4.1)
+}
+message TaskServiceSubmitTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceSubmitTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceSubmitTaskValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  arcforges.foundation.v1.Id task_id = 11 [json_name = "taskId"];
+  optional TaskState state = 12 [json_name = "state"];
+  QueueInfo queue = 13 [json_name = "queue"];
+  repeated string warnings = 14 [json_name = "warnings"]; // e.g. unenforced execution, routed parallelism
+  optional bool joined = 15 [json_name = "joined"]; // join_existing matched an existing task; task_id is that task
+}
+
+message TaskServiceGetTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required
+  optional TaskDetail detail = 11 [json_name = "detail"]; // validate: default SUMMARY
+}
+message TaskServiceGetTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceGetTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceGetTaskValue {
+  ManagedTask task = 10 [json_name = "task"];
+}
+
+message TaskServiceListTasksRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  TaskFilter filter = 10 [json_name = "filter"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"]; // validate: limit 1..500, default 100
+}
+message TaskServiceListTasksResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceListTasksValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceListTasksValue {
+  repeated ManagedTask tasks = 10 [json_name = "tasks"]; // SUMMARY view
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message TaskServiceWaitTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required
+  optional WaitTarget target = 11 [json_name = "target"]; // validate: default TERMINAL
+  optional uint64 wait_ms = 12 [json_name = "waitMs"]; // validate: 0..55,000
+  optional uint32 tail_bytes = 13 [json_name = "tailBytes"]; // validate: 0..65,536; merged output tail to include
+}
+message TaskServiceWaitTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceWaitTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceWaitTaskValue {
+  ManagedTask task = 10 [json_name = "task"];
+  optional bool reached = 11 [json_name = "reached"];
+  optional bytes tail = 12 [json_name = "tail"];
+  optional bool tail_truncated = 13 [json_name = "tailTruncated"];
+}
+
+message TaskServiceAttachTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required
+  optional uint64 stdout_from_offset = 11 [json_name = "stdoutFromOffset"];
+  optional uint64 stderr_from_offset = 12 [json_name = "stderrFromOffset"];
+  optional bool want_stdin = 13 [json_name = "wantStdin"]; // validate: task stdin mode STREAM; one stdin writer at a time
+}
+message TaskServiceAttachTaskFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  StreamPosition position = 2 [json_name = "position"];
+  reserved 3 to 9;
+  oneof frame {
+    StreamReset reset = 10 [json_name = "reset"];
+    Heartbeat heartbeat = 11 [json_name = "heartbeat"];
+    arcforges.foundation.v1.ArcError error = 12 [json_name = "error"];
+    TaskAttachStarted started = 20 [json_name = "started"];
+    ManagedTask task = 21 [json_name = "task"];
+    OutputChunk output = 22 [json_name = "output"];
+    TaskProgressUpdate progress = 23 [json_name = "progress"];
+    AttemptResult result = 24 [json_name = "result"];
+  }
+}
+
+message TaskServiceWriteTaskInputRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required
+  arcforges.foundation.v1.Id attach_id = 11 [json_name = "attachId"]; // validate: the caller's current attach
+  optional bytes data = 12 [json_name = "data"]; // validate: 1 byte..64 KiB
+  optional uint64 offset = 13 [json_name = "offset"]; // validate: equals bytes already accepted (ordered, deduplicated writes)
+}
+message TaskServiceWriteTaskInputResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceWriteTaskInputValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceWriteTaskInputValue {
+  optional uint64 accepted_through = 10 [json_name = "acceptedThrough"];
+}
+
+message TaskServiceCloseTaskInputRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required
+  arcforges.foundation.v1.Id attach_id = 11 [json_name = "attachId"]; // validate: the caller's current attach
+}
+message TaskServiceCloseTaskInputResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceCloseTaskInputValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceCloseTaskInputValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message TaskServiceReleaseCallerBindingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required; submitted by the caller's session or client
+}
+message TaskServiceReleaseCallerBindingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceReleaseCallerBindingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceReleaseCallerBindingValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  optional TaskState state = 11 [json_name = "state"];
+}
+
+message TaskServiceCancelTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required
+  optional string reason = 11 [json_name = "reason"]; // validate: <= 500 chars
+  optional uint64 grace_ms = 12 [json_name = "graceMs"]; // validate: optional override 0..300 s
+}
+message TaskServiceCancelTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceCancelTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceCancelTaskValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  optional TaskState state = 11 [json_name = "state"];
+}
+
+message TaskServiceRetryTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: terminal task
+  optional string reason = 11 [json_name = "reason"]; // validate: <= 500 chars
+  ResourceDemand override_demand = 12 [json_name = "overrideDemand"]; // validate: optional larger memory grant after OOM
+}
+message TaskServiceRetryTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceRetryTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceRetryTaskValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  optional TaskState state = 11 [json_name = "state"];
+  repeated string warnings = 12 [json_name = "warnings"];
+}
+
+message TaskServiceSetTaskPriorityRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required
+  optional Priority priority = 11 [json_name = "priority"]; // validate: INTERACTIVE rules as in TaskSpec
+  optional string pool = 12 [json_name = "pool"]; // validate: queued tasks only; existing pool
+}
+message TaskServiceSetTaskPriorityResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceSetTaskPriorityValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceSetTaskPriorityValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  QueueInfo queue = 11 [json_name = "queue"];
+}
+
+message TaskServicePauseTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required
+}
+message TaskServicePauseTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServicePauseTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServicePauseTaskValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  optional TaskState state = 11 [json_name = "state"];
+}
+
+message TaskServiceResumeTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required
+}
+message TaskServiceResumeTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceResumeTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceResumeTaskValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  optional TaskState state = 11 [json_name = "state"];
+}
+
+message TaskServicePinTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required
+  optional bool pinned = 11 [json_name = "pinned"];
+}
+message TaskServicePinTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServicePinTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServicePinTaskValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message TaskServicePurgeTaskRecordRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: terminal task
+}
+message TaskServicePurgeTaskRecordResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServicePurgeTaskRecordValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServicePurgeTaskRecordValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message TaskServiceReadTaskOutputRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id attempt_id = 10 [json_name = "attemptId"]; // validate: required
+  optional OutputStream stream = 11 [json_name = "stream"]; // validate: default MERGED
+  optional uint64 from_offset = 12 [json_name = "fromOffset"]; // MERGED: offset in the merged index order
+  optional uint32 max_bytes = 13 [json_name = "maxBytes"]; // validate: 1..4 MiB; default 256 KiB
+}
+message TaskServiceReadTaskOutputResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceReadTaskOutputValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceReadTaskOutputValue {
+  optional bytes data = 10 [json_name = "data"];
+  repeated OutputIndexRecord index = 11 [json_name = "index"];
+  optional uint64 next_offset = 12 [json_name = "nextOffset"];
+  optional bool eof = 13 [json_name = "eof"]; // attempt finished and no more bytes
+  optional bool truncated_by_retention = 14 [json_name = "truncatedByRetention"];
+}
+
+message TaskServiceWatchTaskOutputRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id attempt_id = 10 [json_name = "attemptId"]; // validate: required
+  optional OutputStream stream = 11 [json_name = "stream"]; // validate: default MERGED
+  optional uint64 from_offset = 12 [json_name = "fromOffset"];
+}
+message TaskServiceWatchTaskOutputFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  StreamPosition position = 2 [json_name = "position"];
+  reserved 3 to 9;
+  oneof frame {
+    StreamReset reset = 10 [json_name = "reset"];
+    Heartbeat heartbeat = 11 [json_name = "heartbeat"];
+    arcforges.foundation.v1.ArcError error = 12 [json_name = "error"];
+    OutputChunk output = 20 [json_name = "output"];
+    AttemptResult result = 21 [json_name = "result"]; // final frame
+  }
+}
+
+message TaskServiceGetAttemptRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id attempt_id = 10 [json_name = "attemptId"]; // validate: required
+}
+message TaskServiceGetAttemptResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceGetAttemptValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceGetAttemptValue {
+  Attempt attempt = 10 [json_name = "attempt"];
+}
+
+message TaskServiceListAttemptsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"]; // validate: required
+}
+message TaskServiceListAttemptsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceListAttemptsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceListAttemptsValue {
+  repeated Attempt attempts = 10 [json_name = "attempts"];
+}
+
+message TaskServiceGetTimelineRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id attempt_id = 10 [json_name = "attemptId"]; // validate: required
+  optional bool include_samples = 11 [json_name = "includeSamples"];
+  optional bool include_processes = 12 [json_name = "includeProcesses"];
+}
+message TaskServiceGetTimelineResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceGetTimelineValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message TaskServiceGetTimelineValue {
+  Timeline timeline = 10 [json_name = "timeline"];
+}
+
+enum ShellKind {
+  SHELL_KIND_UNSPECIFIED = 0;
+  SHELL_KIND_CMD = 1;
+  SHELL_KIND_POWERSHELL = 2;
+  SHELL_KIND_PWSH = 3;
+  SHELL_KIND_BASH = 4;
+  SHELL_KIND_SH = 5;
+  SHELL_KIND_SYSTEM_DEFAULT = 6;
+}
+
+enum EnvironmentInherit {
+  ENVIRONMENT_INHERIT_UNSPECIFIED = 0;
+  ENVIRONMENT_INHERIT_NONE = 1;
+  ENVIRONMENT_INHERIT_CALLER = 2;
+  ENVIRONMENT_INHERIT_NODE = 3;
+}
+
+enum StdinMode {
+  STDIN_MODE_UNSPECIFIED = 0;
+  STDIN_MODE_NONE = 1;
+  STDIN_MODE_BYTES = 2;
+  STDIN_MODE_FILE = 3;
+  STDIN_MODE_STREAM = 4;
+}
+
+enum TaskKind {
+  TASK_KIND_UNSPECIFIED = 0;
+  TASK_KIND_COMMAND = 1;
+  TASK_KIND_SERVICE = 2;
+  TASK_KIND_ADOPTED = 3; // set by the node only
+  TASK_KIND_REMOTE = 4; // executor-side representation of a placed attempt; set by the node only
+  TASK_KIND_NODE_JOB = 5; // node jobs that run as managed attempts; set by the node only
+}
+
+enum SideEffectClass {
+  SIDE_EFFECT_CLASS_UNSPECIFIED = 0;
+  SIDE_EFFECT_CLASS_PURE = 1;
+  SIDE_EFFECT_CLASS_IDEMPOTENT = 2;
+  SIDE_EFFECT_CLASS_SIDE_EFFECTING = 3;
+  SIDE_EFFECT_CLASS_UNKNOWN = 4;
+}
+
+enum DependencyCondition {
+  DEPENDENCY_CONDITION_UNSPECIFIED = 0;
+  DEPENDENCY_CONDITION_SUCCEEDED = 1;
+  DEPENDENCY_CONDITION_FINISHED = 2;
+  DEPENDENCY_CONDITION_READY = 3; // service readiness
+}
+
+enum PlacementMode {
+  PLACEMENT_MODE_UNSPECIFIED = 0;
+  PLACEMENT_MODE_LOCAL_ONLY = 1;
+  PLACEMENT_MODE_ANY = 2;
+  PLACEMENT_MODE_SPECIFIC_NODE = 3;
+}
+
+enum OutputConflict {
+  OUTPUT_CONFLICT_UNSPECIFIED = 0;
+  OUTPUT_CONFLICT_OVERWRITE = 1;
+  OUTPUT_CONFLICT_SKIP_EXISTING = 2;
+  OUTPUT_CONFLICT_FAIL = 3; // apply nothing when any target changed since submission
+  OUTPUT_CONFLICT_STAGE = 4; // default: replace files unchanged since submission; stage changed ones and report OUTPUT_CONFLICT
+}
+
+// How a task uses its workspace (03 section 4, exclusive keys).
+enum WorkspaceAccess {
+  WORKSPACE_ACCESS_UNSPECIFIED = 0; // adapter default
+  WORKSPACE_ACCESS_SHARED = 1; // may run beside other tasks of the workspace unless an exclusive key conflicts
+  WORKSPACE_ACCESS_EXCLUSIVE = 2; // runs alone among managed tasks of the workspace
+}
+
+// Who established a task's side-effect class (AD-0006 section 4).
+enum SideEffectSource {
+  SIDE_EFFECT_SOURCE_UNSPECIFIED = 0;
+  SIDE_EFFECT_SOURCE_DEFAULT = 1; // UNKNOWN by default
+  SIDE_EFFECT_SOURCE_CALLER = 2; // HUMAN or SCRIPT caller; AGENT only when policy accepts agent assertions
+  SIDE_EFFECT_SOURCE_POLICY = 3; // a retry_safety rule
+  SIDE_EFFECT_SOURCE_ADAPTER = 4; // an adapter assertion it can verify (for example --ignore-scripts)
+}
+
+enum LeaseExpiryAction {
+  LEASE_EXPIRY_ACTION_UNSPECIFIED = 0;
+  LEASE_EXPIRY_ACTION_FINISH_AND_RETAIN = 1;
+  LEASE_EXPIRY_ACTION_CANCEL = 2;
+}
+
+enum OutputCapture {
+  OUTPUT_CAPTURE_UNSPECIFIED = 0;
+  OUTPUT_CAPTURE_FILES = 1;
+  OUTPUT_CAPTURE_DISCARD = 2;
+}
+
+// SM-TASK states.
+enum TaskState {
+  TASK_STATE_UNSPECIFIED = 0;
+  TASK_STATE_QUEUED = 1;
+  TASK_STATE_WAITING_DEPENDENCY = 2;
+  TASK_STATE_PLACING = 3;
+  TASK_STATE_RUNNING = 4;
+  TASK_STATE_PAUSED = 5;
+  TASK_STATE_RETRY_WAIT = 6;
+  TASK_STATE_SUCCEEDED = 7;
+  TASK_STATE_FAILED = 8;
+  TASK_STATE_CANCELLED = 9;
+  TASK_STATE_LOST = 10;
+}
+
+// SM-ATTEMPT states.
+enum AttemptState {
+  ATTEMPT_STATE_UNSPECIFIED = 0;
+  ATTEMPT_STATE_CREATED = 1;
+  ATTEMPT_STATE_TRANSFERRING = 2;
+  ATTEMPT_STATE_STARTING = 3;
+  ATTEMPT_STATE_RUNNING = 4;
+  ATTEMPT_STATE_PAUSING = 5;
+  ATTEMPT_STATE_PAUSED = 6;
+  ATTEMPT_STATE_STOPPING = 7;
+  ATTEMPT_STATE_FINALIZING = 8;
+  ATTEMPT_STATE_FINISHED = 9;
+}
+
+enum AttemptKind {
+  ATTEMPT_KIND_UNSPECIFIED = 0;
+  ATTEMPT_KIND_LOCAL = 1;
+  ATTEMPT_KIND_REMOTE = 2; // origin-side mirror of an attempt executing on a peer
+  ATTEMPT_KIND_CACHE_RESTORE = 3; // result-cache hit; never an execution (AD-0006 section 8); roadmap RM-04, not produced in release 1
+  ATTEMPT_KIND_ADOPTED = 4;
+}
+
+enum TerminationReason {
+  TERMINATION_REASON_UNSPECIFIED = 0;
+  TERMINATION_REASON_EXITED = 1;
+  TERMINATION_REASON_CANCELLED = 2;
+  TERMINATION_REASON_TIMED_OUT = 3;
+  TERMINATION_REASON_CPU_TIME_EXCEEDED = 4;
+  TERMINATION_REASON_OOM_KILLED = 5;
+  TERMINATION_REASON_MEMORY_LIMIT = 6;
+  TERMINATION_REASON_PREEMPTED = 7;
+  TERMINATION_REASON_LOST = 8;
+  TERMINATION_REASON_SPAWN_FAILED = 9;
+  TERMINATION_REASON_NODE_SHUTDOWN = 10;
+  TERMINATION_REASON_POLICY_DENIED = 11;
+  TERMINATION_REASON_TERMINATION_INCOMPLETE = 12;
+  TERMINATION_REASON_CACHE_RESTORED = 13; // roadmap RM-04, not produced in release 1
+  TERMINATION_REASON_OUTPUT_LIMIT = 14; // captured output exceeded storage.max_attempt_output_bytes (06 section 5)
+  TERMINATION_REASON_DISK_LIMIT = 15; // per-attempt tmp limit or critical free space on a written volume (06 section 5)
+  TERMINATION_REASON_ENDPOINT_TAKEN = 16; // another process listened on the attempt's own sccache endpoint, or took the cache store's port (05 section 5)
+}
+
+enum OutputStream {
+  OUTPUT_STREAM_UNSPECIFIED = 0;
+  OUTPUT_STREAM_STDOUT = 1;
+  OUTPUT_STREAM_STDERR = 2;
+  OUTPUT_STREAM_MERGED = 3;
+}
+
+enum TaskDetail {
+  TASK_DETAIL_UNSPECIFIED = 0;
+  TASK_DETAIL_SUMMARY = 1;
+  TASK_DETAIL_FULL = 2;
+}
+
+enum WaitTarget {
+  WAIT_TARGET_UNSPECIFIED = 0;
+  WAIT_TARGET_TERMINAL = 1;
+  WAIT_TARGET_STARTED = 2;
+  WAIT_TARGET_READY = 3;
+}
+
+message ArgvCommand {
+  repeated string argv = 1 [json_name = "argv"]; // validate: 1..4096 elements; total <= 1 MiB; argv[0] non-empty
+}
+
+message ShellCommand {
+  optional ShellKind kind = 1 [json_name = "kind"]; // validate: required
+  optional string script = 2 [json_name = "script"]; // validate: 1 byte..1 MiB
+  optional string shell_path = 3 [json_name = "shellPath"]; // validate: absolute path if set
+}
+
+message CommandSpec {
+  oneof form {
+    ArgvCommand argv = 1 [json_name = "argv"];
+    ShellCommand shell = 2 [json_name = "shell"];
+  }
+}
+
+message EnvironmentSpec {
+  optional EnvironmentInherit inherit = 1 [json_name = "inherit"]; // validate: default CALLER for CLI/MCP, NODE otherwise
+  map<string, string> set = 2 [json_name = "set"]; // validate: <= 4096 entries; names non-empty, no '=' (Windows: no leading '='); total <= 1 MiB
+  repeated string unset = 3 [json_name = "unset"]; // validate: <= 4096 names
+  map<string, string> caller_environment = 4 [json_name = "callerEnvironment"]; // validate: required when inherit = CALLER; <= 4096 entries; <= 1 MiB
+}
+
+message StdinSpec {
+  optional StdinMode mode = 1 [json_name = "mode"]; // validate: default NONE
+  optional bytes data = 2 [json_name = "data"]; // validate: BYTES only; <= 1 MiB
+  optional string file_path = 3 [json_name = "filePath"]; // validate: FILE only; absolute; readable by the node user
+}
+
+message ReadinessCondition {
+  oneof condition {
+    string output_regex = 1 [json_name = "outputRegex"]; // validate: RE2-compatible subset; <= 1024 chars
+    uint32 tcp_listen_port = 2 [json_name = "tcpListenPort"]; // validate: 1..65535; 127.0.0.1 or ::1
+    string file_exists = 3 [json_name = "fileExists"]; // validate: absolute path
+  }
+  optional uint64 readiness_timeout_ms = 4 [json_name = "readinessTimeoutMs"]; // validate: 1 s..1 h; default 120 s
+}
+
+message RetrySpec {
+  optional uint32 max_attempts = 1 [json_name = "maxAttempts"]; // validate: 1..5; effective only per AD-0006 section 4
+  optional uint64 initial_backoff_ms = 2 [json_name = "initialBackoffMs"]; // validate: default 5 s
+  optional uint64 max_backoff_ms = 3 [json_name = "maxBackoffMs"]; // validate: default 60 s
+}
+
+message Dependency {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"]; // validate: must exist on this node; no cycles
+  optional DependencyCondition condition = 2 [json_name = "condition"]; // validate: default SUCCEEDED
+}
+
+message InputSelection {
+  repeated string include = 1 [json_name = "include"]; // validate: <= 256 globs, workspace-relative
+  repeated string exclude = 2 [json_name = "exclude"]; // validate: <= 256 globs
+}
+
+message PlacementSpec {
+  optional PlacementMode mode = 1 [json_name = "mode"]; // validate: default LOCAL_ONLY
+  arcforges.foundation.v1.Id node_id = 2 [json_name = "nodeId"]; // validate: SPECIFIC_NODE only; a paired peer or this node
+  repeated string required_toolchains = 3 [json_name = "requiredToolchains"]; // validate: <= 16 toolchain kinds, e.g. "dotnet-sdk>=10.0"
+  optional OsFamily os = 4 [json_name = "os"];
+  optional CpuArchitecture arch = 5 [json_name = "arch"];
+  map<string, string> required_labels = 6 [json_name = "requiredLabels"]; // validate: <= 16 entries
+  InputSelection inputs = 7 [json_name = "inputs"]; // validate: required for ANY or remote SPECIFIC_NODE
+  repeated string declared_outputs = 8 [json_name = "declaredOutputs"]; // validate: <= 256 workspace-relative paths or globs
+  optional OutputConflict output_conflict = 9 [json_name = "outputConflict"]; // validate: default STAGE; OVERWRITE only from HUMAN or SCRIPT callers
+  optional LeaseExpiryAction lease_expiry_action = 10 [json_name = "leaseExpiryAction"]; // validate: default FINISH_AND_RETAIN
+}
+
+message ResourceSpec {
+  ResourceDemand hint = 1 [json_name = "hint"];
+  repeated EnforcedResource require_enforcement = 2 [json_name = "requireEnforcement"]; // validate: unique values
+  optional bool preemptible = 3 [json_name = "preemptible"]; // validate: default by adapter; false otherwise
+  optional bool pausable = 4 [json_name = "pausable"]; // validate: default by adapter; false otherwise
+  optional bool kill_with_node = 5 [json_name = "killWithNode"]; // validate: default false
+  reserved 6; // every attempt except kill_with_node runs under a holder (04 section 3)
+  reserved "survive_restart_exit_code";
+  optional uint64 cancel_grace_ms = 7 [json_name = "cancelGraceMs"]; // validate: 0..300 s; default 10 s
+  optional string stop_signal = 8 [json_name = "stopSignal"]; // validate: Linux only; one of SIGTERM, SIGINT, SIGHUP, SIGQUIT; default SIGTERM
+}
+
+message OutputSpec {
+  optional OutputCapture capture = 1 [json_name = "capture"]; // validate: default FILES
+  optional uint32 retention_days = 2 [json_name = "retentionDays"]; // validate: 1..365; default policy
+  optional bool pin = 3 [json_name = "pin"];
+}
+
+message ResultCacheSpec {
+  optional bool enabled = 1 [json_name = "enabled"]; // validate: only with side_effect = PURE
+  repeated string input_globs = 2 [json_name = "inputGlobs"]; // validate: required when enabled; <= 256
+  repeated string output_paths = 3 [json_name = "outputPaths"]; // validate: required when enabled; <= 256
+  repeated string environment_names = 4 [json_name = "environmentNames"]; // validate: <= 64 names included in the action key
+}
+
+// The submitted specification. Field rules: architecture 04 section 1.
+message TaskSpec {
+  CommandSpec command = 1 [json_name = "command"]; // validate: required; exactly one form
+  optional string working_directory = 2 [json_name = "workingDirectory"]; // validate: absolute, existing directory on the executing node
+  EnvironmentSpec environment = 3 [json_name = "environment"];
+  StdinSpec stdin = 4 [json_name = "stdin"];
+  optional uint64 timeout_ms = 5 [json_name = "timeoutMs"]; // validate: 1 s..30 days; none by default for SERVICE
+  optional uint64 cpu_time_limit_ms = 6 [json_name = "cpuTimeLimitMs"]; // validate: >= 1 s if set
+  optional Priority priority = 7 [json_name = "priority"]; // validate: default NORMAL; INTERACTIVE only from HUMAN origin or a session grant
+  optional string pool = 8 [json_name = "pool"]; // validate: existing pool; default "default" ("agents" for agent sessions)
+  optional TaskKind kind = 9 [json_name = "kind"]; // validate: COMMAND or SERVICE from callers
+  ReadinessCondition readiness = 10 [json_name = "readiness"]; // validate: SERVICE only
+  optional SideEffectClass side_effect = 11 [json_name = "sideEffect"]; // validate: default UNKNOWN; PURE only from the caller or an asserting adapter
+  RetrySpec retry = 12 [json_name = "retry"];
+  repeated Dependency depends_on = 13 [json_name = "dependsOn"]; // validate: <= 64
+  PlacementSpec placement = 14 [json_name = "placement"];
+  ResourceSpec resources = 15 [json_name = "resources"];
+  map<string, string> labels = 16 [json_name = "labels"]; // validate: <= 32; keys <= 64 chars, values <= 256 chars
+  optional string title = 17 [json_name = "title"]; // validate: <= 200 chars; default: redacted command summary
+  arcforges.foundation.v1.Id workspace_id = 18 [json_name = "workspaceId"]; // validate: optional; else longest-prefix match
+  OutputSpec output = 19 [json_name = "output"];
+  ResultCacheSpec result_cache = 20 [json_name = "resultCache"];
+  optional bool stop_with_session = 21 [json_name = "stopWithSession"]; // validate: SERVICE only; default true for agent-owned services
+  optional bool detach = 22 [json_name = "detach"]; // validate: SERVICE only; keeps the service after its session ends
+  ConcurrencySpec concurrency = 23 [json_name = "concurrency"]; // validate: optional; adapter keys are added (03 section 4)
+}
+
+message ConcurrencySpec {
+  repeated string exclusive_keys = 1 [json_name = "exclusiveKeys"]; // validate: <= 16 keys of <= 200 chars: ws:<workspace>[/<relative dir>][:<purpose>], tool:<name>:<scope>, or name:<text>
+  optional WorkspaceAccess access = 2 [json_name = "access"]; // validate: default from the adapter, else SHARED
+  repeated string shared_keys = 3 [json_name = "sharedKeys"]; // validate: <= 16 keys, same syntax; readers: conflict only with exclusive holders of an overlapping key (03 section 4)
+}
+
+// Applying a remote attempt's declared outputs on the origin (09 section 6).
+message OutputApplyResult {
+  optional uint32 applied = 1 [json_name = "applied"];
+  optional uint32 conflicted = 2 [json_name = "conflicted"]; // changed locally since submission
+  optional uint32 skipped = 3 [json_name = "skipped"];
+  optional string staged_path = 4 [json_name = "stagedPath"]; // where conflicting files were written instead (out/<workspace>/<task>/<attempt>/conflicts)
+}
+
+message AttemptResult {
+  optional int32 exit_code = 1 [json_name = "exitCode"];
+  optional int32 signal = 2 [json_name = "signal"]; // Linux signal number when signalled
+  optional bool core_dumped = 3 [json_name = "coreDumped"];
+  optional uint32 windows_status = 4 [json_name = "windowsStatus"]; // NTSTATUS when the exit code is an exception code >= 0xC0000000
+  optional TerminationReason termination_reason = 5 [json_name = "terminationReason"];
+  optional arcforges.foundation.v1.EffectCertainty effect = 6 [json_name = "effect"];
+  optional string detail = 7 [json_name = "detail"]; // human-readable summary
+  optional uint32 leftover_processes_terminated = 8 [json_name = "leftoverProcessesTerminated"];
+  repeated string leftover_images = 9 [json_name = "leftoverImages"];
+  OutputApplyResult outputs = 10 [json_name = "outputs"]; // remote attempts with declared outputs
+}
+
+message Attempt {
+  arcforges.foundation.v1.Id attempt_id = 1 [json_name = "attemptId"];
+  arcforges.foundation.v1.Id task_id = 2 [json_name = "taskId"];
+  optional uint32 number = 3 [json_name = "number"]; // 1-based
+  optional AttemptKind kind = 4 [json_name = "kind"];
+  optional AttemptState state = 5 [json_name = "state"];
+  NodeRef executor = 6 [json_name = "executor"]; // this node or a peer
+  ResourceDemand request = 7 [json_name = "request"];
+  ResourceUsage usage = 8 [json_name = "usage"];
+  arcforges.foundation.v1.Instant created_at = 9 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant started_at = 10 [json_name = "startedAt"];
+  arcforges.foundation.v1.Instant finished_at = 11 [json_name = "finishedAt"];
+  AttemptResult result = 12 [json_name = "result"];
+  optional bool unenforced = 13 [json_name = "unenforced"];
+  optional bool node_gap = 14 [json_name = "nodeGap"]; // recovered across a node restart
+  optional bool repeat = 15 [json_name = "repeat"]; // REPEAT flag (07 section 1.3)
+  optional bool stale = 16 [json_name = "stale"]; // STALE flag
+  optional string tool = 17 [json_name = "tool"]; // adapter tool, e.g. "dotnet"
+  optional string operation = 18 [json_name = "operation"]; // e.g. "dotnet.build"
+  optional uint32 tool_parallelism = 19 [json_name = "toolParallelism"]; // tool-level setting applied (never called a limit)
+  arcforges.foundation.v1.Id remote_attempt_id = 20 [json_name = "remoteAttemptId"]; // REMOTE kind: executor-side ID
+  arcforges.foundation.v1.Revision revision = 21 [json_name = "revision"];
+  repeated CacheUsage cache_usage = 22 [json_name = "cacheUsage"]; // one entry per cache binding (07 section 1.5)
+  optional uint64 downloaded_bytes = 23 [json_name = "downloadedBytes"]; // the sum of tool-reported download sizes of its cache bindings; present only when every download-cache binding reported one, never a partial sum; cache growth is never counted as downloads (07 section 1.5)
+  optional string limit_enforced_by = 24 [json_name = "limitEnforcedBy"]; // NODE | GUARD: who stopped the attempt for OUTPUT_LIMIT or DISK_LIMIT; GUARD while the node was down (06 section 5)
+  optional bool guard_lost = 25 [json_name = "guardLost"]; // the attempt ran without a disk guard for part of the time the node was down (06 section 5)
+}
+
+// What one attempt did with one managed cache (07 section 1.5).
+message CacheUsage {
+  arcforges.foundation.v1.Id cache_id = 1 [json_name = "cacheId"];
+  optional string kind = 2 [json_name = "kind"]; // nuget | npm | pnpm | cargo | pip | sccache | ccache | fastbuild | cas
+  optional uint64 bytes_added = 3 [json_name = "bytesAdded"]; // COUNTED: bytes the attempt wrote to a store the node serves; SOLE_BINDER: node-measured growth, the bytes of files born or grown during the attempt's binding interval by the file system's birth and change times; absent otherwise
+  optional uint64 hits = 4 [json_name = "hits"]; // the attempt's own tool counters: its per-attempt sccache server, or ccache's per-attempt statistics log; absent when the tool reports none
+  optional uint64 misses = 5 [json_name = "misses"];
+  optional uint32 packages_installed = 6 [json_name = "packagesInstalled"]; // restores: packages downloaded or extracted, parsed from the attempt's own output
+  optional uint32 packages_reused = 7 [json_name = "packagesReused"]; // restores: packages already in the cache
+  optional string attribution = 8 [json_name = "attribution"]; // of bytes_added only: COUNTED (writes the node served and counted for this attempt, exact: the sccache store) | SOLE_BINDER (no other managed binder during the interval; writers outside ArcForges are not excluded) | SHARED (see window_id) | UNKNOWN (not measured)
+  arcforges.foundation.v1.Id window_id = 9 [json_name = "windowId"]; // SHARED only: the window whose totals are recorded once when it closes
+  arcforges.foundation.v1.Instant baseline_at = 10 [json_name = "baselineAt"]; // deprecated (2026-10-13): unused; growth is attributed by file times, not against a baseline
+  optional uint64 downloaded_bytes = 11 [json_name = "downloadedBytes"]; // tool-reported download size for this binding (Cargo, pip); absent when the tool does not report sizes
+  arcforges.foundation.v1.Instant measured_at = 12 [json_name = "measuredAt"]; // the walk that finalized bytes_added; absent while provisional
+  optional uint64 cache_writes = 13 [json_name = "cacheWrites"]; // tool-reported new entries written by this attempt (sccache)
+  optional string counters_source = 14 [json_name = "countersSource"]; // e.g. sccache-server, ccache-stats-log, adapter-output; empty when the tool reports no counters
+  optional uint64 peer_filled_bytes = 15 [json_name = "peerFilledBytes"]; // bytes fetched from LAN peers into the node's store for this attempt's reads (05 section 5)
+}
+
+message QueueInfo {
+  optional uint32 position = 1 [json_name = "position"]; // 1-based within the pool order
+  optional string blocking_reason = 2 [json_name = "blockingReason"]; // budget_memory, budget_cpu, exceeds_budget, exceeds_capacity, exclusive_key, pool_limit, global_limit, dependency, large_task_reserved, guest_grant, approval, disk_space, sccache_port
+  arcforges.foundation.v1.Instant eta = 3 [json_name = "eta"]; // estimate, absent when unknown
+  optional uint64 waited_ms = 4 [json_name = "waitedMs"];
+}
+
+// Named ManagedTask (not Task) to avoid clashing with System.Threading.Tasks.Task in C#.
+message ManagedTask {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
+  optional TaskState state = 2 [json_name = "state"];
+  optional string state_reason = 3 [json_name = "stateReason"];
+  TaskSpec spec = 4 [json_name = "spec"]; // FULL view only; secret-shaped environment values are omitted
+  ActorRef owner = 5 [json_name = "owner"];
+  arcforges.foundation.v1.Id workspace_id = 6 [json_name = "workspaceId"];
+  optional string pool = 7 [json_name = "pool"];
+  optional Priority effective_priority = 8 [json_name = "effectivePriority"];
+  optional string title = 9 [json_name = "title"];
+  arcforges.foundation.v1.Instant created_at = 10 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant started_at = 11 [json_name = "startedAt"];
+  arcforges.foundation.v1.Instant finished_at = 12 [json_name = "finishedAt"];
+  Attempt current_attempt = 13 [json_name = "currentAttempt"];
+  optional uint32 attempt_count = 14 [json_name = "attemptCount"];
+  QueueInfo queue = 15 [json_name = "queue"]; // while queued
+  optional uint32 open_findings = 16 [json_name = "openFindings"];
+  optional bool pinned = 17 [json_name = "pinned"];
+  optional bool ready = 18 [json_name = "ready"]; // SERVICE readiness
+  map<string, string> labels = 19 [json_name = "labels"];
+  arcforges.foundation.v1.Revision revision = 20 [json_name = "revision"];
+  optional string command_summary = 21 [json_name = "commandSummary"]; // redacted one-line summary
+  optional SideEffectClass side_effect = 22 [json_name = "sideEffect"]; // effective class
+  optional SideEffectSource side_effect_source = 23 [json_name = "sideEffectSource"];
+  optional SideEffectClass side_effect_suggestion = 24 [json_name = "sideEffectSuggestion"]; // the adapter's suggestion when it could not assert one
+  repeated string exclusive_keys = 25 [json_name = "exclusiveKeys"]; // effective keys, including adapter keys
+  repeated string shared_keys = 26 [json_name = "sharedKeys"]; // effective shared (reader) keys
+}
+
+message TaskFilter {
+  repeated TaskState states = 1 [json_name = "states"];
+  arcforges.foundation.v1.Id session_id = 2 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id workspace_id = 3 [json_name = "workspaceId"];
+  optional string pool = 4 [json_name = "pool"];
+  map<string, string> labels = 5 [json_name = "labels"];
+  arcforges.foundation.v1.Instant created_after = 6 [json_name = "createdAfter"];
+  arcforges.foundation.v1.Instant created_before = 7 [json_name = "createdBefore"];
+  optional string text = 8 [json_name = "text"]; // validate: <= 200 chars; matches title and command summary
+  optional bool only_mine = 9 [json_name = "onlyMine"]; // tasks owned by the caller's session or client user
+}
+
+message OutputIndexRecord {
+  optional OutputStream stream = 1 [json_name = "stream"];
+  optional uint64 offset = 2 [json_name = "offset"];
+  optional uint32 length = 3 [json_name = "length"];
+  optional sint64 unix_nanos = 4 [json_name = "unixNanos"];
+  optional bool approximate_time = 5 [json_name = "approximateTime"];
+}
+
+message OutputChunk {
+  arcforges.foundation.v1.Id attempt_id = 1 [json_name = "attemptId"];
+  optional OutputStream stream = 2 [json_name = "stream"];
+  optional uint64 offset = 3 [json_name = "offset"];
+  optional bytes data = 4 [json_name = "data"]; // <= 64 KiB per frame
+  optional sint64 unix_nanos = 5 [json_name = "unixNanos"];
+}
+
+message TimelineSegment {
+  optional string category = 1 [json_name = "category"]; // 07 section 1.1 category names
+  arcforges.foundation.v1.Instant start = 2 [json_name = "start"];
+  arcforges.foundation.v1.Instant end = 3 [json_name = "end"];
+  optional Confidence confidence = 4 [json_name = "confidence"];
+  optional string evidence = 5 [json_name = "evidence"];
+}
+
+message ResourceSample {
+  arcforges.foundation.v1.Instant at = 1 [json_name = "at"];
+  ResourceUsage usage = 2 [json_name = "usage"];
+}
+
+message ProcessRecord {
+  ProcessIdentity process = 1 [json_name = "process"];
+  optional uint32 parent_pid = 2 [json_name = "parentPid"];
+  optional string executable = 3 [json_name = "executable"];
+  repeated string arguments = 4 [json_name = "arguments"]; // redacted
+  arcforges.foundation.v1.Instant first_seen = 5 [json_name = "firstSeen"];
+  arcforges.foundation.v1.Instant last_seen = 6 [json_name = "lastSeen"];
+  optional uint64 mem_peak_bytes = 7 [json_name = "memPeakBytes"];
+  optional ProcessLabel label = 8 [json_name = "label"];
+}
+
+message PhaseEvent {
+  optional string phase = 1 [json_name = "phase"];
+  arcforges.foundation.v1.Instant at = 2 [json_name = "at"];
+  optional string source = 3 [json_name = "source"]; // adapter marker or process rule
+}
+
+message Timeline {
+  arcforges.foundation.v1.Id attempt_id = 1 [json_name = "attemptId"];
+  repeated TimelineSegment segments = 2 [json_name = "segments"];
+  repeated ResourceSample samples = 3 [json_name = "samples"];
+  repeated PhaseEvent phases = 4 [json_name = "phases"];
+  repeated ProcessRecord processes = 5 [json_name = "processes"];
+  repeated arcforges.foundation.v1.Id finding_ids = 6 [json_name = "findingIds"];
+  optional bool samples_downsampled = 7 [json_name = "samplesDownsampled"];
+}
+
+message TaskAttachStarted {
+  arcforges.foundation.v1.Id attach_id = 1 [json_name = "attachId"];
+  optional bool stdin_granted = 2 [json_name = "stdinGranted"];
+}
+
+message TaskProgressUpdate {
+  optional string phase = 1 [json_name = "phase"];
+  optional string category = 2 [json_name = "category"];
+  optional uint32 percent = 3 [json_name = "percent"]; // only when a tool reports it
+  optional string text = 4 [json_name = "text"];
+}

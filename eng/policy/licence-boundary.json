@@ -37,6 +37,14 @@
       "kind": "msbuild"
     },
     {
+      "path": "src/internal/dotnet/ArcForges.Contracts.Peer/ArcForges.Contracts.Peer.csproj",
+      "kind": "msbuild"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.Relay/ArcForges.Contracts.Relay.csproj",
+      "kind": "msbuild"
+    },
+    {
       "path": "src/internal/ts/ai-internal/package.json",
       "kind": "npm"
     },
@@ -49,7 +57,15 @@
       "kind": "msbuild"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.Fleet/ArcForges.Contracts.Fleet.csproj",
+      "kind": "msbuild"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj",
+      "kind": "msbuild"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Node/ArcForges.Contracts.Node.csproj",
       "kind": "msbuild"
     },
     {

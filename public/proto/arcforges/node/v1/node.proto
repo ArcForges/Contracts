@@ -1,0 +1,500 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/diagnosis.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeNodeProto";
+
+// Node identity, handshake, health, lifecycle and generic jobs (architecture 02; SM-NODE).
+
+// Handshake, node information, health, lifecycle and jobs.
+service NodeService {
+  // Client handshake: contract compatibility, origin assignment and session correlation (02 section 3; 08 section 3.2).
+  // auth: any same-user connection REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/incompatible_version, VALIDATION/invalid_argument, STATE/node_stopping
+  // locality: node
+  rpc Hello(NodeServiceHelloRequest) returns (NodeServiceHelloResponse);
+
+  // Read node identity, version, state and summary capabilities.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetNodeInfo(NodeServiceGetNodeInfoRequest) returns (NodeServiceGetNodeInfoResponse);
+
+  // Liveness details and local metrics.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetHealth(NodeServiceGetHealthRequest) returns (NodeServiceGetHealthResponse);
+
+  // The capability report with reasons and platform facts (03 section 8).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 30 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetCapabilities(NodeServiceGetCapabilitiesRequest) returns (NodeServiceGetCapabilitiesResponse);
+
+  // Change the node's display name.
+  // auth: HUMAN=A SCRIPT=A AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument
+  // locality: node
+  rpc RenameNode(NodeServiceRenameNodeRequest) returns (NodeServiceRenameNodeResponse);
+
+  // Read node.json settings.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetNodeSettings(NodeServiceGetNodeSettingsRequest) returns (NodeServiceGetNodeSettingsResponse);
+
+  // Change node.json settings (meta.expected_rev = settings revision).
+  // auth: HUMAN=A SCRIPT=P AGENT=D REMOTE=-
+  // idempotency: command_id; expected_rev
+  // deadline: 5 s
+  // stream: none
+  // errors: CONFLICT/revision_conflict, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required
+  // locality: node
+  rpc UpdateNodeSettings(NodeServiceUpdateNodeSettingsRequest) returns (NodeServiceUpdateNodeSettingsResponse);
+
+  // Stop the node. Running executions continue unless cancel_running (or kill_with_node tasks).
+  // auth: HUMAN=A SCRIPT=A AGENT=D REMOTE=high
+  // idempotency: command_id
+  // deadline: 10 s (returns when the stop is recorded; the node then stops within timeout_ms)
+  // stream: none
+  // errors: AUTHORIZATION/permission_denied, STATE/update_in_progress
+  // locality: node
+  // state: SM-NODE: READY|DEGRADED -> STOPPING
+  rpc StopNode(NodeServiceStopNodeRequest) returns (NodeServiceStopNodeResponse);
+
+  // Delete local data by scope. ALL also removes identity and credentials (account data deletion, R-OPS-004).
+  // auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s (job continues)
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/in_use, AUTHORIZATION/permission_denied
+  // locality: node
+  rpc WipeNode(NodeServiceWipeNodeRequest) returns (NodeServiceWipeNodeResponse);
+
+  // Read a node job.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetJob(NodeServiceGetJobRequest) returns (NodeServiceGetJobResponse);
+
+  // List recent and running node jobs.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListJobs(NodeServiceListJobsRequest) returns (NodeServiceListJobsResponse);
+
+  // Cancel a pending or running node job where the job kind allows it.
+  // auth: requester or HUMAN; REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state
+  // locality: node
+  rpc CancelJob(NodeServiceCancelJobRequest) returns (NodeServiceCancelJobResponse);
+
+  // List the node's notification centre, newest first (Desktop D-21). New entries also arrive as NodeEvent.notification on topic NOTIFICATIONS.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListNotifications(NodeServiceListNotificationsRequest) returns (NodeServiceListNotificationsResponse);
+
+  // Mark notification centre entries read: the listed IDs, or every entry created up to a time.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: natural: marking read twice succeeds
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument
+  // locality: node
+  rpc MarkNotificationsRead(NodeServiceMarkNotificationsReadRequest) returns (NodeServiceMarkNotificationsReadResponse);
+}
+
+message NodeServiceHelloRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  ClientHello hello = 10 [json_name = "hello"]; // validate: required
+}
+message NodeServiceHelloResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceHelloValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceHelloValue {
+  NodeInfo node = 10 [json_name = "node"];
+  optional Origin assigned_origin = 11 [json_name = "assignedOrigin"];
+  arcforges.foundation.v1.Id session_id = 12 [json_name = "sessionId"]; // when correlated to an agent session
+  repeated string warnings = 13 [json_name = "warnings"]; // e.g. version skew within the contract major
+}
+
+message NodeServiceGetNodeInfoRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message NodeServiceGetNodeInfoResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceGetNodeInfoValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceGetNodeInfoValue {
+  NodeInfo node = 10 [json_name = "node"];
+}
+
+message NodeServiceGetHealthRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message NodeServiceGetHealthResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceGetHealthValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceGetHealthValue {
+  optional NodeLifecycleState state = 10 [json_name = "state"];
+  repeated DoctorCheck checks = 11 [json_name = "checks"]; // quick checks only
+  repeated HealthMetric metrics = 12 [json_name = "metrics"];
+}
+
+message NodeServiceGetCapabilitiesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional bool reevaluate = 10 [json_name = "reevaluate"]; // runs the enforcement self-test again
+}
+message NodeServiceGetCapabilitiesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceGetCapabilitiesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceGetCapabilitiesValue {
+  CapabilityReport capabilities = 10 [json_name = "capabilities"];
+}
+
+message NodeServiceRenameNodeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string name = 10 [json_name = "name"]; // validate: 1..64 chars; printable
+}
+message NodeServiceRenameNodeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceRenameNodeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceRenameNodeValue {
+  NodeInfo node = 10 [json_name = "node"];
+}
+
+message NodeServiceGetNodeSettingsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message NodeServiceGetNodeSettingsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceGetNodeSettingsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceGetNodeSettingsValue {
+  NodeSettings settings = 10 [json_name = "settings"];
+}
+
+message NodeServiceUpdateNodeSettingsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional LogLevel log_level = 10 [json_name = "logLevel"]; // validate: UNSPECIFIED = unchanged
+  optional bool telemetry_opt_in = 11 [json_name = "telemetryOptIn"]; // validate: HUMAN only
+}
+message NodeServiceUpdateNodeSettingsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceUpdateNodeSettingsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceUpdateNodeSettingsValue {
+  NodeSettings settings = 10 [json_name = "settings"];
+  optional bool restart_required = 11 [json_name = "restartRequired"];
+}
+
+message NodeServiceStopNodeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string reason = 10 [json_name = "reason"]; // validate: <= 200 chars
+  optional bool cancel_running = 11 [json_name = "cancelRunning"];
+  optional uint64 timeout_ms = 12 [json_name = "timeoutMs"]; // validate: 0..600 s; default 60 s
+}
+message NodeServiceStopNodeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceStopNodeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceStopNodeValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message NodeServiceWipeNodeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional WipeScope scope = 10 [json_name = "scope"]; // validate: required
+  optional string confirmation = 11 [json_name = "confirmation"]; // validate: must equal the node name shown to the user
+}
+message NodeServiceWipeNodeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceWipeNodeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceWipeNodeValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  JobView job = 11 [json_name = "job"];
+}
+
+message NodeServiceGetJobRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id job_id = 10 [json_name = "jobId"]; // validate: required
+}
+message NodeServiceGetJobResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceGetJobValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceGetJobValue {
+  JobView job = 10 [json_name = "job"];
+}
+
+message NodeServiceListJobsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated JobState states = 10 [json_name = "states"]; // validate: unique values; empty = all
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"]; // validate: limit 1..500
+}
+message NodeServiceListJobsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceListJobsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceListJobsValue {
+  repeated JobView jobs = 10 [json_name = "jobs"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message NodeServiceCancelJobRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id job_id = 10 [json_name = "jobId"]; // validate: required
+}
+message NodeServiceCancelJobResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceCancelJobValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceCancelJobValue {
+  JobView job = 10 [json_name = "job"];
+}
+
+message NodeServiceListNotificationsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional bool unread_only = 10 [json_name = "unreadOnly"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"]; // validate: page size 1..200; default 50
+}
+message NodeServiceListNotificationsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceListNotificationsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceListNotificationsValue {
+  repeated NodeNotification notifications = 10 [json_name = "notifications"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+  optional uint32 unread_count = 12 [json_name = "unreadCount"];
+}
+
+message NodeServiceMarkNotificationsReadRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated arcforges.foundation.v1.Id notification_ids = 10 [json_name = "notificationIds"]; // validate: <= 500; empty means all entries up to up_to
+  arcforges.foundation.v1.Instant up_to = 11 [json_name = "upTo"]; // validate: required when notification_ids is empty
+}
+message NodeServiceMarkNotificationsReadResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceMarkNotificationsReadValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeServiceMarkNotificationsReadValue {
+  optional uint32 unread_count = 10 [json_name = "unreadCount"];
+}
+
+// One entry of the node's notification centre (node-store table notification; retention: the last 500).
+message NodeNotification {
+  arcforges.foundation.v1.Id notification_id = 1 [json_name = "notificationId"];
+  optional string kind = 2 [json_name = "kind"]; // task_failed | task_finished | approval_needed | finding | update | node
+  optional Severity severity = 3 [json_name = "severity"];
+  optional string title = 4 [json_name = "title"];
+  optional string body = 5 [json_name = "body"];
+  optional string link = 6 [json_name = "link"]; // arcforges:// deep link to the subject
+  arcforges.foundation.v1.Instant created_at = 7 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant read_at = 8 [json_name = "readAt"]; // absent while unread
+}
+
+// SM-NODE states.
+enum NodeLifecycleState {
+  NODE_LIFECYCLE_STATE_UNSPECIFIED = 0;
+  NODE_LIFECYCLE_STATE_STARTING = 1;
+  NODE_LIFECYCLE_STATE_RECOVERING = 2;
+  NODE_LIFECYCLE_STATE_READY = 3;
+  NODE_LIFECYCLE_STATE_DEGRADED = 4;
+  NODE_LIFECYCLE_STATE_STOPPING = 5;
+  NODE_LIFECYCLE_STATE_UPDATING = 6;
+}
+
+enum Edition {
+  EDITION_UNSPECIFIED = 0;
+  EDITION_FREE = 1;
+  EDITION_PRO = 2;
+}
+
+enum MetricKind {
+  METRIC_KIND_UNSPECIFIED = 0;
+  METRIC_KIND_COUNTER = 1;
+  METRIC_KIND_GAUGE = 2;
+  METRIC_KIND_HISTOGRAM = 3;
+}
+
+enum WipeScope {
+  WIPE_SCOPE_UNSPECIFIED = 0;
+  WIPE_SCOPE_RECORDS = 1; // records, logs, facts, exports
+  WIPE_SCOPE_CACHES = 2;
+  WIPE_SCOPE_ALL = 3; // everything in the data root, including identity and credentials
+}
+
+message ClientHello {
+  optional ClientKind client_kind = 1 [json_name = "clientKind"]; // validate: required
+  optional string client_version = 2 [json_name = "clientVersion"]; // validate: SemVer
+  optional uint32 contract_major = 3 [json_name = "contractMajor"]; // validate: required
+  optional uint32 contract_minor = 4 [json_name = "contractMinor"];
+  repeated string features = 5 [json_name = "features"]; // validate: <= 64
+  ProcessIdentity process = 6 [json_name = "process"]; // validate: required; verified against the connection's peer process
+  ProcessIdentity parent_process = 7 [json_name = "parentProcess"]; // validate: verified when present
+  optional string mcp_client_name = 8 [json_name = "mcpClientName"]; // validate: MCP adapter only; client-asserted
+  optional string mcp_client_version = 9 [json_name = "mcpClientVersion"];
+  optional bool interactive_terminal = 10 [json_name = "interactiveTerminal"];
+  repeated string ci_markers = 11 [json_name = "ciMarkers"]; // e.g. CI, GITHUB_ACTIONS present
+}
+
+message NodeInfo {
+  NodeRef node = 1 [json_name = "node"];
+  optional string version = 2 [json_name = "version"];
+  optional uint32 contract_major = 3 [json_name = "contractMajor"];
+  optional uint32 contract_minor = 4 [json_name = "contractMinor"];
+  repeated string features = 5 [json_name = "features"];
+  optional string data_root = 6 [json_name = "dataRoot"];
+  optional string endpoint = 7 [json_name = "endpoint"];
+  arcforges.foundation.v1.Instant started_at = 8 [json_name = "startedAt"];
+  optional uint64 store_bytes = 9 [json_name = "storeBytes"];
+  CapabilityReport capabilities = 10 [json_name = "capabilities"];
+  optional string update_channel = 11 [json_name = "updateChannel"];
+  optional bool account_linked = 12 [json_name = "accountLinked"];
+  optional bool lan_enabled = 13 [json_name = "lanEnabled"];
+  optional uint32 guest_links = 14 [json_name = "guestLinks"];
+  optional Edition edition = 15 [json_name = "edition"];
+  optional NodeLifecycleState state = 16 [json_name = "state"];
+}
+
+enum LogLevel {
+  LOG_LEVEL_UNSPECIFIED = 0;
+  LOG_LEVEL_ERROR = 1;
+  LOG_LEVEL_WARNING = 2;
+  LOG_LEVEL_INFO = 3;
+  LOG_LEVEL_DEBUG = 4;
+}
+
+// node.json values that the node owns (architecture 02 section 4). Policy values live in PolicyDocument.
+message NodeSettings {
+  optional string data_root = 1 [json_name = "dataRoot"]; // read-only here; relocation uses StorageService.UpdateRoot
+  optional LogLevel log_level = 2 [json_name = "logLevel"]; // default INFO
+  optional bool telemetry_opt_in = 3 [json_name = "telemetryOptIn"]; // default false (R-OPS-003)
+  optional string config_path = 4 [json_name = "configPath"]; // read-only
+  arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];
+}
+
+message HealthMetric {
+  optional string name = 1 [json_name = "name"];
+  optional MetricKind kind = 2 [json_name = "kind"];
+  optional double value = 3 [json_name = "value"];
+  map<string, string> labels = 4 [json_name = "labels"];
+  optional double p50 = 5 [json_name = "p50"];
+  optional double p95 = 6 [json_name = "p95"];
+}

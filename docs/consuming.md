@@ -146,6 +146,34 @@ each of its four Contracts dependencies to that same exact version in
 Running the decoder in the Native AOT product host is APP.03's acceptance. It is
 blocked on APP.03 and not proven in Contracts.
 
+## Flagship contracts (C#)
+
+AF-CON-01 adopts the ArcForges-Design specification protos unchanged, recorded with their
+digests in [`eng/flagship-contracts.json`](../eng/flagship-contracts.json):
+
+| Package                     | Access   | Contents                                                                          |
+| --------------------------- | -------- | --------------------------------------------------------------------------------- |
+| `ArcForges.Contracts.Node`  | public   | `arcforges.node.v1`: 20 files, 19 services (the local node API)                   |
+| `ArcForges.Contracts.Fleet` | public   | `arcforges.fleet.v1`: 3 services (the cloud fleet API); depends on Node           |
+| `ArcForges.Contracts.Peer`  | internal | `arcforges.peer.v1`: 6 services (node to node and host to guest); depends on Node |
+| `ArcForges.Contracts.Relay` | internal | `arcforges.relay.v1`: relay frames, messages only; depends on Node and Fleet      |
+
+The reused packages gain one additive file each, with their existing namespaces:
+`ArcForges.Contracts.PublicApi` carries `SupportAccessService` (`support_access.proto`)
+and the internal `ArcForges.Contracts.CloudInternal` carries `OperatorReadService`
+(`operator_read.proto`). Their other services are unchanged.
+
+Flagship code imports `ArcForges.Contracts.Node.V1` (and Fleet, Peer and Relay), never
+the retained `publicapi.v1` task, workspace, policy or approval services, whose simple
+names repeat with different fully qualified names (design reuse map, conflict C-04).
+Each RPC carries its design annotation block (`auth`, `idempotency`, `deadline`,
+`stream`, `errors`, `locality`, optional `state`); error codes are listed in
+[`fixtures/public/af-con-01-error-catalogue.json`](../fixtures/public/af-con-01-error-catalogue.json),
+copied from the design error catalogue. Within `v1`, changes are additive only, and
+[`eng/compatibility/flagship-window.json`](../eng/compatibility/flagship-window.json)
+holds the baselines the wire-compatibility gate compares every later change with.
+Pin every Contracts package of one candidate to the same exact version.
+
 ## Internal npm package
 
 `@arcforges/ai-internal` is the one retained npm package. It carries the internal

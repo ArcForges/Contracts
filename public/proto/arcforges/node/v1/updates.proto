@@ -1,0 +1,179 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeUpdatesProto";
+
+// Node-driven updates (architecture 13 section 5; AD-0012; SM-UPDATE).
+
+// Update status and control.
+service UpdateService {
+  // Current version, channel, state and available version.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetUpdateStatus(UpdateServiceGetUpdateStatusRequest) returns (UpdateServiceGetUpdateStatusResponse);
+
+  // Check the channel manifest now (and download when policy mode is AUTO).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id
+  // deadline: 30 s
+  // stream: none
+  // errors: STATE/managed_externally, STATE/update_in_progress, STATE/cloud_unreachable, AUTHENTICATION/signature_invalid
+  // locality: node -> releases
+  rpc CheckNow(UpdateServiceCheckNowRequest) returns (UpdateServiceCheckNowResponse);
+
+  // Switch to the staged version now (restart; executions survive).
+  // auth: HUMAN=A SCRIPT=A AGENT=D REMOTE=high
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/invalid_state, STATE/managed_externally
+  // locality: node
+  // state: SM-UPDATE: STAGED|PENDING_RESTART -> SWITCHING
+  rpc ApplyNow(UpdateServiceApplyNowRequest) returns (UpdateServiceApplyNowResponse);
+
+  // Postpone a pending restart.
+  // auth: HUMAN=A SCRIPT=A AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/invalid_state, VALIDATION/invalid_argument
+  // locality: node
+  rpc Postpone(UpdateServicePostponeRequest) returns (UpdateServicePostponeResponse);
+
+  // Return to the previous version and mark the current one bad.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/invalid_state, STATE/managed_externally
+  // locality: node
+  // state: SM-UPDATE: IDLE -> SWITCHING (rollback)
+  rpc Rollback(UpdateServiceRollbackRequest) returns (UpdateServiceRollbackResponse);
+}
+
+message UpdateServiceGetUpdateStatusRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message UpdateServiceGetUpdateStatusResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    UpdateServiceGetUpdateStatusValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message UpdateServiceGetUpdateStatusValue {
+  UpdateStatus status = 10 [json_name = "status"];
+}
+
+message UpdateServiceCheckNowRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message UpdateServiceCheckNowResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    UpdateServiceCheckNowValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message UpdateServiceCheckNowValue {
+  UpdateStatus status = 10 [json_name = "status"];
+}
+
+message UpdateServiceApplyNowRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message UpdateServiceApplyNowResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    UpdateServiceApplyNowValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message UpdateServiceApplyNowValue {
+  UpdateStatus status = 10 [json_name = "status"];
+}
+
+message UpdateServicePostponeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional uint64 delay_ms = 10 [json_name = "delayMs"]; // validate: 5 min..7 days
+}
+message UpdateServicePostponeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    UpdateServicePostponeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message UpdateServicePostponeValue {
+  UpdateStatus status = 10 [json_name = "status"];
+}
+
+message UpdateServiceRollbackRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string reason = 10 [json_name = "reason"]; // validate: <= 200 chars
+}
+message UpdateServiceRollbackResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    UpdateServiceRollbackValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message UpdateServiceRollbackValue {
+  UpdateStatus status = 10 [json_name = "status"];
+}
+
+// SM-UPDATE states.
+enum UpdateState {
+  UPDATE_STATE_UNSPECIFIED = 0;
+  UPDATE_STATE_IDLE = 1;
+  UPDATE_STATE_CHECKING = 2;
+  UPDATE_STATE_DOWNLOADING = 3;
+  UPDATE_STATE_STAGED = 4;
+  UPDATE_STATE_PENDING_RESTART = 5;
+  UPDATE_STATE_SWITCHING = 6;
+  UPDATE_STATE_VERIFYING = 7;
+  UPDATE_STATE_ROLLED_BACK = 8;
+  UPDATE_STATE_FAILED = 9;
+  UPDATE_STATE_MANAGED_EXTERNALLY = 10;
+}
+
+message UpdateStatus {
+  optional string current_version = 1 [json_name = "currentVersion"];
+  optional string channel = 2 [json_name = "channel"];
+  optional UpdateState state = 3 [json_name = "state"];
+  optional string available_version = 4 [json_name = "availableVersion"];
+  optional string notes_url = 5 [json_name = "notesUrl"];
+  optional string staged_version = 6 [json_name = "stagedVersion"];
+  optional string previous_version = 7 [json_name = "previousVersion"];
+  arcforges.foundation.v1.Instant last_check_at = 8 [json_name = "lastCheckAt"];
+  arcforges.foundation.v1.Instant next_check_at = 9 [json_name = "nextCheckAt"];
+  arcforges.foundation.v1.Instant restart_at = 10 [json_name = "restartAt"];
+  arcforges.foundation.v1.ArcError last_error = 11 [json_name = "lastError"];
+  repeated string bad_versions = 12 [json_name = "badVersions"];
+  optional bool current_revoked = 13 [json_name = "currentRevoked"];
+  optional bool below_min_supported = 14 [json_name = "belowMinSupported"];
+  optional uint32 download_percent = 15 [json_name = "downloadPercent"];
+}

@@ -857,6 +857,75 @@ def verify_later_exchange(root: Path, directory: Path) -> dict:
             "byteIdentical": identical, "errorCount": len(errors), "errors": errors[:ERROR_REPORT_LIMIT]}
 
 
+FLAGSHIP_WINDOW = "eng/compatibility/flagship-window.json"
+FLAGSHIP_RECORD = "eng/flagship-contracts.json"
+
+
+def flagship_window(root: Path) -> dict:
+    """AF-CON-01: the adoption baselines of the flagship design contracts. Each baseline is the compiled
+    descriptor of one adopted package (or one additive file with its imports) as first published; every
+    adopted design file must be covered by exactly one baseline."""
+    from check_foundation import safe_path
+    window = json.loads((root / FLAGSHIP_WINDOW).read_text(encoding="utf-8"))
+    exact(window, "schemaVersion license contractMajor task design baselines coverage", "flagship window")
+    if (window["schemaVersion"] != "contract-compatibility-flagship.v1" or window["license"] != "Apache-2.0"
+            or window["contractMajor"] != 1 or window["task"] != "AF-CON-01"):
+        raise ValueError("Unsupported flagship compatibility window")
+    record = json.loads((root / FLAGSHIP_RECORD).read_text(encoding="utf-8"))
+    adopted = {row["design"] for row in record["files"]}
+    covered: list[str] = []
+    if not isinstance(window["baselines"], list) or not window["baselines"]:
+        raise ValueError("The flagship window has no baseline")
+    for baseline in window["baselines"]:
+        exact(baseline, "package adopted baseline sha256 current files", "flagship baseline")
+        digest_of(baseline["sha256"], baseline["baseline"])
+        safe_path(root, baseline["baseline"])
+        safe_path(root, baseline["current"])
+        if not isinstance(baseline["adopted"], list) or not baseline["adopted"]:
+            raise ValueError("Flagship baseline adopts no file: " + baseline["baseline"])
+        covered.extend(baseline["adopted"])
+        for entry in baseline["files"]:
+            exact(entry, "file services messages enums", "flagship baseline file")
+        if not set(baseline["adopted"]) <= {entry["file"] for entry in baseline["files"]}:
+            raise ValueError("Flagship baseline does not contain its adopted files: " + baseline["baseline"])
+    if len(covered) != len(set(covered)) or set(covered) != adopted:
+        raise ValueError("Every adopted flagship file must be covered by exactly one baseline: "
+                         + ", ".join(sorted(set(covered) ^ adopted)))
+    return window
+
+
+def check_flagship(root: Path, current_descriptors: dict | None = None) -> dict:
+    """Compare every flagship baseline with the current descriptor of its package: definitions are
+    additive only, and the offline reference-codec exchange runs in both directions."""
+    from check_foundation import safe_path
+    window = flagship_window(root)
+    errors, runs, results = [], [], []
+    for baseline in window["baselines"]:
+        raw = safe_path(root, baseline["baseline"]).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != baseline["sha256"]:
+            raise ValueError("Flagship baseline descriptor changed: " + baseline["baseline"])
+        pinned = descriptor(raw)
+        path = (current_descriptors or {}).get(baseline["current"]) or safe_path(root, baseline["current"])
+        current = descriptor(Path(path).read_bytes())
+        label = Path(baseline["baseline"]).stem
+        problems = [error.replace("later-services: ", "flagship: ") for error in
+                    later_accounting_errors({"candidate": label, "files": baseline["files"]}, pinned)]
+        problems.extend(f"flagship: {label}: {problem}" for problem in compare(pinned, current))
+        for direction, writer, reader, required, strict in (
+                (PREVIOUS_TO_CURRENT, pinned, current, set(pinned["messages"]), True),
+                (CURRENT_TO_MINIMUM, current, pinned, None, False)):
+            summary, failures = exchange(writer, reader, f"{direction} {label}", required, strict)
+            runs.append({**summary, "direction": direction, "baseline": label})
+            problems.extend("flagship: " + failure for failure in failures)
+        errors.extend(problems)
+        results.append({"baseline": label, "package": baseline["package"], "adopted": len(baseline["adopted"]),
+                        "pinnedDefinitions": {key: len(value) for key, value in pinned.items()},
+                        "currentDefinitions": {key: len(value) for key, value in current.items()},
+                        "errors": len(problems)})
+    return {"baselines": results, "exchange": runs, "coverage": window["coverage"],
+            "errorCount": len(errors), "errors": errors[:ERROR_REPORT_LIMIT]}
+
+
 def check_window(root: Path) -> dict:
     from check_foundation import check, safe_path
     # This verifies the exact CON.23 retirement exceptions before using them.
@@ -885,9 +954,13 @@ def check_window(root: Path) -> dict:
                         "errors": problems})
     later = check_later_services(root)
     errors.extend(later["errors"])
+    # The flagship adoption record makes its baselines mandatory; small isolated test roots have neither.
+    flagship = check_flagship(root) if (root / FLAGSHIP_RECORD).is_file() else None
+    if flagship is not None:
+        errors.extend(flagship["errors"])
     return {"schemaVersion": "contract-compatibility-report.v1", "previousVersion": window["previousVersion"],
             "minimumVersion": window["minimumVersion"], "coverage": window["coverage"], "descriptors": results,
-            "laterServices": later, "errors": errors}
+            "laterServices": later, "flagship": flagship, "errors": errors}
 
 
 def main() -> int:

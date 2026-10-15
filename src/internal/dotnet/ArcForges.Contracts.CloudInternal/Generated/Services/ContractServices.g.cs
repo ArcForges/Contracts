@@ -12,5 +12,6 @@ public static class ContractServices
     [
         global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorService.Descriptor,
         global::ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamService.Descriptor,
+        global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadService.Descriptor,
     ];
 }

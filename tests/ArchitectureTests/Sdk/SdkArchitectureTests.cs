@@ -23,27 +23,40 @@ internal static class SdkArchitectureTests
         @"^grpc::Marshallers\.Create\(__Helper_SerializeMessage, context => __Helper_DeserializeMessage\(context, global::[A-Za-z0-9_.]+\.Parser\)\)$",
         RegexOptions.CultureInvariant, TimeSpan.FromSeconds(5));
     private static readonly Regex PublicConstructor = new(@"public\s+(?<type>[A-Z]\w*)\s*\((?<parameters>[^)]*)\)", RegexOptions.CultureInvariant, TimeSpan.FromSeconds(5));
+    private static readonly Regex ProtoComment = new(@"""(?:\\.|[^""\\])*""|'(?:\\.|[^'\\])*'|//[^\n]*|/\*[\s\S]*?\*/", RegexOptions.CultureInvariant, TimeSpan.FromSeconds(5));
     private static readonly Regex PublicClass = new(@"public\s+(?:sealed\s+|static\s+|abstract\s+|partial\s+)*class\s+(?<type>[A-Z]\w*)", RegexOptions.CultureInvariant, TimeSpan.FromSeconds(5));
+
+    /// <summary>The rule at which the SDK rules failed when the module loaded, or null when they passed.</summary>
+    internal static string? FailedRule { get; private set; }
 
     /// <summary>
     /// Self-registration: the architecture host has a fixed entry point, so these rules run when the host module
-    /// loads, before Main. A violation prints only the rule identifier and exits non-zero, like the host's own
-    /// fail-closed stage report, and never echoes source text or environment values.
+    /// loads, before Main. A violation prints only the rule identifier and records it; Main then exits non-zero
+    /// before any other stage, like the host's own fail-closed stage report, and never echoes source text or
+    /// environment values. The initializer itself never calls Environment.Exit: process shutdown from inside a
+    /// module initializer can block on the runtime's own initialization and hang instead of exiting.
     /// </summary>
     [ModuleInitializer]
     internal static void Register()
     {
+        FailedRule = Evaluate(RepositoryRoot.Find(), Console.Out, Console.Error);
+    }
+
+    /// <summary>Runs the rules and reports the outcome; returns the failing rule, or null when every rule passed.</summary>
+    internal static string? Evaluate(string root, TextWriter output, TextWriter error)
+    {
         var rule = "SDK-00";
         try
         {
-            Run(RepositoryRoot.Find(), next => rule = next);
-            Console.WriteLine("Contracts SDK architecture rules SDK-01 to SDK-04 passed with their negative fixtures.");
+            Run(root, next => rule = next);
+            output.WriteLine("Contracts SDK architecture rules SDK-01 to SDK-04 passed with their negative fixtures.");
+            return null;
         }
         catch (Exception exception)
         {
             _ = exception;
-            Console.Error.WriteLine($"Contracts SDK architecture policy failed closed at rule {rule}.");
-            Environment.Exit(1);
+            error.WriteLine($"Contracts SDK architecture policy failed closed at rule {rule}.");
+            return rule;
         }
     }
 
@@ -66,8 +79,12 @@ internal static class SdkArchitectureTests
         foreach (var file in clientSources) Require(CallerOwnedTransport(file.Text), "caller-owned transport in " + file.Path);
 
         setRule("SDK-03");
-        foreach (var file in publicSources.Concat(Sources(root, "public/proto", "*.proto")).Concat(Sources(root, "public/proto", "*.json")))
+        // AF-CON-01: schema comments are prose, not surface. A public proto is checked on its declarations
+        // (comments removed, string literals such as import paths kept); C# sources and JSON stay whole-text.
+        foreach (var file in publicSources.Concat(Sources(root, "public/proto", "*.json")))
             Require(!MentionsOperator(file.Text), "no operator surface in " + file.Path);
+        foreach (var file in Sources(root, "public/proto", "*.proto"))
+            Require(!MentionsOperator(ProtoDeclarations(file.Text)), "no operator surface in " + file.Path);
         var operatorOwners = Sources(root, "src", "OperatorGrpc.cs").Select(source => source.Path).ToArray();
         Require(operatorOwners.SequenceEqual(["src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Proto/OperatorGrpc.cs"]), "OperatorService is generated only in CloudInternal");
 
@@ -107,6 +124,11 @@ internal static class SdkArchitectureTests
 
     internal static bool MentionsOperator(string text) => OperatorSymbols.Any(symbol => text.Contains(symbol, StringComparison.Ordinal));
 
+    // Removes // and /* */ comments from proto text; string literals are lexed together so that comment markers
+    // inside them are kept and a quoted path can never hide a declaration.
+    internal static string ProtoDeclarations(string text) =>
+        ProtoComment.Replace(text, match => match.Value.StartsWith('"') || match.Value.StartsWith('\'') ? match.Value : " ");
+
     internal static bool ImportsInternal(string text) => InternalNamespaces.Any(symbol => text.Contains(symbol, StringComparison.Ordinal));
 
     private static void SelfTest()
@@ -136,6 +158,10 @@ internal static class SdkArchitectureTests
 
         Require(MentionsOperator("namespace ArcForges.Contracts.CloudInternal.Operator.V1;") && MentionsOperator("service OperatorService {")
             && !MentionsOperator("service ConnectorService {"), "operator detection both ways");
+        Require(!MentionsOperator(ProtoDeclarations("// An operator's OperatorService.RequestAccess creates the request.\n/* arcforges.operator */\nservice SupportAccessService {"))
+            && MentionsOperator(ProtoDeclarations("// support\nservice OperatorService {"))
+            && MentionsOperator(ProtoDeclarations("  arcforges.operator.v1.OperatorAccess access = 10; // x"))
+            && MentionsOperator(ProtoDeclarations("option x = \"//\"; message OperatorCallContext {")), "proto operator detection ignores comments only");
         Require(ImportsInternal("using ArcForges.Contracts.LocalRpc.Platform.V1;") && ImportsInternal("import \"arcforges/local/platform/v1/platform.proto\";")
             && !ImportsInternal("import \"arcforges/foundation/v1/foundation.proto\";"), "internal import detection both ways");
     }

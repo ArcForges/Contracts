@@ -1,0 +1,812 @@
+{
+  "schemaVersion": "contract-compatibility-flagship.v1",
+  "license": "Apache-2.0",
+  "contractMajor": 1,
+  "task": "AF-CON-01",
+  "design": {
+    "repository": "ArcForges/ArcForges-Design",
+    "commit": "78f0f5a4bb614c184e51da9a2d3030595f4f5976",
+    "rule": "docs/contracts/README.md#7-compatibility"
+  },
+  "baselines": [
+    {
+      "package": "ArcForges.Contracts.Node",
+      "adopted": [
+        "arcforges/node/v1/account.proto",
+        "arcforges/node/v1/approvals.proto",
+        "arcforges/node/v1/caches.proto",
+        "arcforges/node/v1/common.proto",
+        "arcforges/node/v1/diagnosis.proto",
+        "arcforges/node/v1/events.proto",
+        "arcforges/node/v1/integrations.proto",
+        "arcforges/node/v1/memory.proto",
+        "arcforges/node/v1/node.proto",
+        "arcforges/node/v1/peers.proto",
+        "arcforges/node/v1/policy.proto",
+        "arcforges/node/v1/queue.proto",
+        "arcforges/node/v1/resources.proto",
+        "arcforges/node/v1/sessions.proto",
+        "arcforges/node/v1/storage.proto",
+        "arcforges/node/v1/support.proto",
+        "arcforges/node/v1/tasks.proto",
+        "arcforges/node/v1/toolchains.proto",
+        "arcforges/node/v1/updates.proto",
+        "arcforges/node/v1/workspaces.proto"
+      ],
+      "baseline": "eng/compatibility/node-af-con-01.binpb",
+      "sha256": "deb1501f5dabd85ccfe5ce031794a079f1629dc69a245f79a7532edba44a979e",
+      "current": "artifacts/node.binpb",
+      "files": [
+        {
+          "file": "arcforges/foundation/v1/foundation.proto",
+          "services": {},
+          "messages": 44,
+          "enums": 9
+        },
+        {
+          "file": "arcforges/node/v1/account.proto",
+          "services": {
+            "arcforges.node.v1.AccountService": 10
+          },
+          "messages": 34,
+          "enums": 4
+        },
+        {
+          "file": "arcforges/node/v1/common.proto",
+          "services": {},
+          "messages": 12,
+          "enums": 24
+        },
+        {
+          "file": "arcforges/node/v1/approvals.proto",
+          "services": {
+            "arcforges.node.v1.ApprovalService": 4
+          },
+          "messages": 13,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/caches.proto",
+          "services": {
+            "arcforges.node.v1.CacheService": 4
+          },
+          "messages": 17,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/tasks.proto",
+          "services": {
+            "arcforges.node.v1.TaskService": 20
+          },
+          "messages": 95,
+          "enums": 19
+        },
+        {
+          "file": "arcforges/node/v1/toolchains.proto",
+          "services": {
+            "arcforges.node.v1.ToolchainService": 4
+          },
+          "messages": 20,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/peers.proto",
+          "services": {
+            "arcforges.node.v1.PeerService": 12
+          },
+          "messages": 42,
+          "enums": 5
+        },
+        {
+          "file": "arcforges/node/v1/queue.proto",
+          "services": {
+            "arcforges.node.v1.QueueService": 9
+          },
+          "messages": 31,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/policy.proto",
+          "services": {
+            "arcforges.node.v1.PolicyService": 7
+          },
+          "messages": 51,
+          "enums": 9
+        },
+        {
+          "file": "arcforges/node/v1/sessions.proto",
+          "services": {
+            "arcforges.node.v1.SessionService": 8
+          },
+          "messages": 33,
+          "enums": 6
+        },
+        {
+          "file": "arcforges/node/v1/resources.proto",
+          "services": {
+            "arcforges.node.v1.ResourceService": 10
+          },
+          "messages": 36,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/storage.proto",
+          "services": {
+            "arcforges.node.v1.StorageService": 13
+          },
+          "messages": 48,
+          "enums": 6
+        },
+        {
+          "file": "arcforges/node/v1/diagnosis.proto",
+          "services": {
+            "arcforges.node.v1.DiagnosisService": 8
+          },
+          "messages": 35,
+          "enums": 5
+        },
+        {
+          "file": "arcforges/node/v1/integrations.proto",
+          "services": {
+            "arcforges.node.v1.IntegrationService": 7
+          },
+          "messages": 27,
+          "enums": 6
+        },
+        {
+          "file": "arcforges/node/v1/node.proto",
+          "services": {
+            "arcforges.node.v1.NodeService": 14
+          },
+          "messages": 48,
+          "enums": 5
+        },
+        {
+          "file": "arcforges/node/v1/support.proto",
+          "services": {
+            "arcforges.node.v1.SupportService": 5
+          },
+          "messages": 18,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/updates.proto",
+          "services": {
+            "arcforges.node.v1.UpdateService": 5
+          },
+          "messages": 16,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/workspaces.proto",
+          "services": {
+            "arcforges.node.v1.WorkspaceService": 10
+          },
+          "messages": 34,
+          "enums": 4
+        },
+        {
+          "file": "arcforges/node/v1/events.proto",
+          "services": {
+            "arcforges.node.v1.NodeEventService": 2
+          },
+          "messages": 11,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/memory.proto",
+          "services": {
+            "arcforges.node.v1.MemoryService": 4
+          },
+          "messages": 21,
+          "enums": 2
+        }
+      ]
+    },
+    {
+      "package": "ArcForges.Contracts.Fleet",
+      "adopted": ["arcforges/fleet/v1/fleet.proto"],
+      "baseline": "eng/compatibility/fleet-af-con-01.binpb",
+      "sha256": "aaed478b927b30ef3ff4fcbb07ba555b4f6dcb234e1bf95b04c7a03e9b7fe573",
+      "current": "artifacts/fleet.binpb",
+      "files": [
+        {
+          "file": "arcforges/foundation/v1/foundation.proto",
+          "services": {},
+          "messages": 44,
+          "enums": 9
+        },
+        {
+          "file": "arcforges/node/v1/common.proto",
+          "services": {},
+          "messages": 12,
+          "enums": 24
+        },
+        {
+          "file": "arcforges/node/v1/caches.proto",
+          "services": {
+            "arcforges.node.v1.CacheService": 4
+          },
+          "messages": 17,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/tasks.proto",
+          "services": {
+            "arcforges.node.v1.TaskService": 20
+          },
+          "messages": 95,
+          "enums": 19
+        },
+        {
+          "file": "arcforges/node/v1/toolchains.proto",
+          "services": {
+            "arcforges.node.v1.ToolchainService": 4
+          },
+          "messages": 20,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/peers.proto",
+          "services": {
+            "arcforges.node.v1.PeerService": 12
+          },
+          "messages": 42,
+          "enums": 5
+        },
+        {
+          "file": "arcforges/node/v1/queue.proto",
+          "services": {
+            "arcforges.node.v1.QueueService": 9
+          },
+          "messages": 31,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/policy.proto",
+          "services": {
+            "arcforges.node.v1.PolicyService": 7
+          },
+          "messages": 51,
+          "enums": 9
+        },
+        {
+          "file": "arcforges/node/v1/sessions.proto",
+          "services": {
+            "arcforges.node.v1.SessionService": 8
+          },
+          "messages": 33,
+          "enums": 6
+        },
+        {
+          "file": "arcforges/node/v1/resources.proto",
+          "services": {
+            "arcforges.node.v1.ResourceService": 10
+          },
+          "messages": 36,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/storage.proto",
+          "services": {
+            "arcforges.node.v1.StorageService": 13
+          },
+          "messages": 48,
+          "enums": 6
+        },
+        {
+          "file": "arcforges/node/v1/diagnosis.proto",
+          "services": {
+            "arcforges.node.v1.DiagnosisService": 8
+          },
+          "messages": 35,
+          "enums": 5
+        },
+        {
+          "file": "arcforges/node/v1/node.proto",
+          "services": {
+            "arcforges.node.v1.NodeService": 14
+          },
+          "messages": 48,
+          "enums": 5
+        },
+        {
+          "file": "arcforges/node/v1/updates.proto",
+          "services": {
+            "arcforges.node.v1.UpdateService": 5
+          },
+          "messages": 16,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/fleet/v1/fleet.proto",
+          "services": {
+            "arcforges.fleet.v1.FleetService": 13,
+            "arcforges.fleet.v1.NodeEnrollmentService": 22,
+            "arcforges.fleet.v1.StoreBillingService": 5
+          },
+          "messages": 167,
+          "enums": 10
+        },
+        {
+          "file": "arcforges/node/v1/account.proto",
+          "services": {
+            "arcforges.node.v1.AccountService": 10
+          },
+          "messages": 34,
+          "enums": 4
+        },
+        {
+          "file": "arcforges/node/v1/approvals.proto",
+          "services": {
+            "arcforges.node.v1.ApprovalService": 4
+          },
+          "messages": 13,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/integrations.proto",
+          "services": {
+            "arcforges.node.v1.IntegrationService": 7
+          },
+          "messages": 27,
+          "enums": 6
+        },
+        {
+          "file": "arcforges/node/v1/support.proto",
+          "services": {
+            "arcforges.node.v1.SupportService": 5
+          },
+          "messages": 18,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/workspaces.proto",
+          "services": {
+            "arcforges.node.v1.WorkspaceService": 10
+          },
+          "messages": 34,
+          "enums": 4
+        },
+        {
+          "file": "arcforges/node/v1/events.proto",
+          "services": {
+            "arcforges.node.v1.NodeEventService": 2
+          },
+          "messages": 11,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/memory.proto",
+          "services": {
+            "arcforges.node.v1.MemoryService": 4
+          },
+          "messages": 21,
+          "enums": 2
+        }
+      ]
+    },
+    {
+      "package": "ArcForges.Contracts.Peer",
+      "adopted": ["arcforges/peer/v1/peer.proto"],
+      "baseline": "eng/compatibility/peer-af-con-01.binpb",
+      "sha256": "8f2b796572379c233c6f6dc15f109ed104b79b25930abd5ae5489b4c078b1741",
+      "current": "artifacts/peer.binpb",
+      "files": [
+        {
+          "file": "arcforges/foundation/v1/foundation.proto",
+          "services": {},
+          "messages": 44,
+          "enums": 9
+        },
+        {
+          "file": "arcforges/node/v1/common.proto",
+          "services": {},
+          "messages": 12,
+          "enums": 24
+        },
+        {
+          "file": "arcforges/node/v1/caches.proto",
+          "services": {
+            "arcforges.node.v1.CacheService": 4
+          },
+          "messages": 17,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/tasks.proto",
+          "services": {
+            "arcforges.node.v1.TaskService": 20
+          },
+          "messages": 95,
+          "enums": 19
+        },
+        {
+          "file": "arcforges/node/v1/toolchains.proto",
+          "services": {
+            "arcforges.node.v1.ToolchainService": 4
+          },
+          "messages": 20,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/peers.proto",
+          "services": {
+            "arcforges.node.v1.PeerService": 12
+          },
+          "messages": 42,
+          "enums": 5
+        },
+        {
+          "file": "arcforges/peer/v1/peer.proto",
+          "services": {
+            "arcforges.peer.v1.GuestLinkService": 5,
+            "arcforges.peer.v1.PairingService": 7,
+            "arcforges.peer.v1.PeerHandshakeService": 1,
+            "arcforges.peer.v1.PeerStatusService": 2,
+            "arcforges.peer.v1.PlacementService": 7,
+            "arcforges.peer.v1.TransferService": 2
+          },
+          "messages": 80,
+          "enums": 3
+        },
+        {
+          "file": "arcforges/node/v1/account.proto",
+          "services": {
+            "arcforges.node.v1.AccountService": 10
+          },
+          "messages": 34,
+          "enums": 4
+        },
+        {
+          "file": "arcforges/node/v1/approvals.proto",
+          "services": {
+            "arcforges.node.v1.ApprovalService": 4
+          },
+          "messages": 13,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/queue.proto",
+          "services": {
+            "arcforges.node.v1.QueueService": 9
+          },
+          "messages": 31,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/policy.proto",
+          "services": {
+            "arcforges.node.v1.PolicyService": 7
+          },
+          "messages": 51,
+          "enums": 9
+        },
+        {
+          "file": "arcforges/node/v1/sessions.proto",
+          "services": {
+            "arcforges.node.v1.SessionService": 8
+          },
+          "messages": 33,
+          "enums": 6
+        },
+        {
+          "file": "arcforges/node/v1/resources.proto",
+          "services": {
+            "arcforges.node.v1.ResourceService": 10
+          },
+          "messages": 36,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/storage.proto",
+          "services": {
+            "arcforges.node.v1.StorageService": 13
+          },
+          "messages": 48,
+          "enums": 6
+        },
+        {
+          "file": "arcforges/node/v1/diagnosis.proto",
+          "services": {
+            "arcforges.node.v1.DiagnosisService": 8
+          },
+          "messages": 35,
+          "enums": 5
+        },
+        {
+          "file": "arcforges/node/v1/integrations.proto",
+          "services": {
+            "arcforges.node.v1.IntegrationService": 7
+          },
+          "messages": 27,
+          "enums": 6
+        },
+        {
+          "file": "arcforges/node/v1/node.proto",
+          "services": {
+            "arcforges.node.v1.NodeService": 14
+          },
+          "messages": 48,
+          "enums": 5
+        },
+        {
+          "file": "arcforges/node/v1/support.proto",
+          "services": {
+            "arcforges.node.v1.SupportService": 5
+          },
+          "messages": 18,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/updates.proto",
+          "services": {
+            "arcforges.node.v1.UpdateService": 5
+          },
+          "messages": 16,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/workspaces.proto",
+          "services": {
+            "arcforges.node.v1.WorkspaceService": 10
+          },
+          "messages": 34,
+          "enums": 4
+        },
+        {
+          "file": "arcforges/node/v1/events.proto",
+          "services": {
+            "arcforges.node.v1.NodeEventService": 2
+          },
+          "messages": 11,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/memory.proto",
+          "services": {
+            "arcforges.node.v1.MemoryService": 4
+          },
+          "messages": 21,
+          "enums": 2
+        }
+      ]
+    },
+    {
+      "package": "ArcForges.Contracts.Relay",
+      "adopted": ["arcforges/relay/v1/relay.proto"],
+      "baseline": "eng/compatibility/relay-af-con-01.binpb",
+      "sha256": "239155aa82443344f10275bfa7962d9f6c21055bbc4afd3a5b10132dee532201",
+      "current": "artifacts/relay.binpb",
+      "files": [
+        {
+          "file": "arcforges/foundation/v1/foundation.proto",
+          "services": {},
+          "messages": 44,
+          "enums": 9
+        },
+        {
+          "file": "arcforges/node/v1/common.proto",
+          "services": {},
+          "messages": 12,
+          "enums": 24
+        },
+        {
+          "file": "arcforges/node/v1/caches.proto",
+          "services": {
+            "arcforges.node.v1.CacheService": 4
+          },
+          "messages": 17,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/tasks.proto",
+          "services": {
+            "arcforges.node.v1.TaskService": 20
+          },
+          "messages": 95,
+          "enums": 19
+        },
+        {
+          "file": "arcforges/node/v1/toolchains.proto",
+          "services": {
+            "arcforges.node.v1.ToolchainService": 4
+          },
+          "messages": 20,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/peers.proto",
+          "services": {
+            "arcforges.node.v1.PeerService": 12
+          },
+          "messages": 42,
+          "enums": 5
+        },
+        {
+          "file": "arcforges/node/v1/queue.proto",
+          "services": {
+            "arcforges.node.v1.QueueService": 9
+          },
+          "messages": 31,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/policy.proto",
+          "services": {
+            "arcforges.node.v1.PolicyService": 7
+          },
+          "messages": 51,
+          "enums": 9
+        },
+        {
+          "file": "arcforges/node/v1/sessions.proto",
+          "services": {
+            "arcforges.node.v1.SessionService": 8
+          },
+          "messages": 33,
+          "enums": 6
+        },
+        {
+          "file": "arcforges/node/v1/resources.proto",
+          "services": {
+            "arcforges.node.v1.ResourceService": 10
+          },
+          "messages": 36,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/storage.proto",
+          "services": {
+            "arcforges.node.v1.StorageService": 13
+          },
+          "messages": 48,
+          "enums": 6
+        },
+        {
+          "file": "arcforges/node/v1/diagnosis.proto",
+          "services": {
+            "arcforges.node.v1.DiagnosisService": 8
+          },
+          "messages": 35,
+          "enums": 5
+        },
+        {
+          "file": "arcforges/node/v1/node.proto",
+          "services": {
+            "arcforges.node.v1.NodeService": 14
+          },
+          "messages": 48,
+          "enums": 5
+        },
+        {
+          "file": "arcforges/node/v1/updates.proto",
+          "services": {
+            "arcforges.node.v1.UpdateService": 5
+          },
+          "messages": 16,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/fleet/v1/fleet.proto",
+          "services": {
+            "arcforges.fleet.v1.FleetService": 13,
+            "arcforges.fleet.v1.NodeEnrollmentService": 22,
+            "arcforges.fleet.v1.StoreBillingService": 5
+          },
+          "messages": 167,
+          "enums": 10
+        },
+        {
+          "file": "arcforges/relay/v1/relay.proto",
+          "services": {},
+          "messages": 26,
+          "enums": 0
+        },
+        {
+          "file": "arcforges/node/v1/account.proto",
+          "services": {
+            "arcforges.node.v1.AccountService": 10
+          },
+          "messages": 34,
+          "enums": 4
+        },
+        {
+          "file": "arcforges/node/v1/approvals.proto",
+          "services": {
+            "arcforges.node.v1.ApprovalService": 4
+          },
+          "messages": 13,
+          "enums": 2
+        },
+        {
+          "file": "arcforges/node/v1/integrations.proto",
+          "services": {
+            "arcforges.node.v1.IntegrationService": 7
+          },
+          "messages": 27,
+          "enums": 6
+        },
+        {
+          "file": "arcforges/node/v1/support.proto",
+          "services": {
+            "arcforges.node.v1.SupportService": 5
+          },
+          "messages": 18,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/workspaces.proto",
+          "services": {
+            "arcforges.node.v1.WorkspaceService": 10
+          },
+          "messages": 34,
+          "enums": 4
+        },
+        {
+          "file": "arcforges/node/v1/events.proto",
+          "services": {
+            "arcforges.node.v1.NodeEventService": 2
+          },
+          "messages": 11,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/node/v1/memory.proto",
+          "services": {
+            "arcforges.node.v1.MemoryService": 4
+          },
+          "messages": 21,
+          "enums": 2
+        }
+      ]
+    },
+    {
+      "package": "ArcForges.Contracts.PublicApi",
+      "adopted": ["arcforges/publicapi/v1/support_access.proto"],
+      "baseline": "eng/compatibility/support-access-af-con-01.binpb",
+      "sha256": "39f0b04285fb07cbc7c0b94c8153c3b6d58a872692c1b979d479435c16d63335",
+      "current": "artifacts/public-api.binpb",
+      "files": [
+        {
+          "file": "arcforges/foundation/v1/foundation.proto",
+          "services": {},
+          "messages": 44,
+          "enums": 9
+        },
+        {
+          "file": "arcforges/publicapi/v1/support_access.proto",
+          "services": {
+            "arcforges.publicapi.v1.SupportAccessService": 2
+          },
+          "messages": 7,
+          "enums": 0
+        }
+      ]
+    },
+    {
+      "package": "ArcForges.Contracts.CloudInternal",
+      "adopted": ["arcforges/operator/v1/operator_read.proto"],
+      "baseline": "eng/compatibility/operator-read-af-con-01.binpb",
+      "sha256": "d1977b8aefec543279a9e557c198741d6612c5f37931c6bf3631d00e327df260",
+      "current": "artifacts/operator.binpb",
+      "files": [
+        {
+          "file": "arcforges/foundation/v1/foundation.proto",
+          "services": {},
+          "messages": 44,
+          "enums": 9
+        },
+        {
+          "file": "arcforges/operator/v1/operator_read.proto",
+          "services": {
+            "arcforges.operator.v1.OperatorReadService": 3
+          },
+          "messages": 16,
+          "enums": 2
+        }
+      ]
+    }
+  ],
+  "coverage": "Adoption baselines of the flagship design contracts (AF-CON-01): the compiled descriptor of each new package (Node, Fleet, Peer, Relay) and of each additive file in a reused package (publicapi.v1 support_access.proto, operator.v1 operator_read.proto) with its imports, compiled by the pinned protoc from the byte-identical adopted schemas that the merge of AF-CON-01 publishes as the first flagship cohort. Each is compared with the current descriptor of its package: pinned definitions, tags, types, presence, oneofs, enum numbers and RPC shapes must survive (additive change only, design README section 7), and the offline reference codec writes every message and oneof arm in both directions. Not covered: the generated C# codec exchange, installed packages and live services."
+}

@@ -1,0 +1,510 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/peers.proto";
+import "arcforges/node/v1/queue.proto";
+import "arcforges/node/v1/tasks.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodePolicyProto";
+
+// The revisioned behavioural policy of a node (stored as policy_document; data/node-store).
+// Defaults are stated per field. Changes are revisioned; agents need approval (11 section 1).
+
+// Read, validate and change the node policy.
+service PolicyService {
+  // Read the current policy document and revision.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetPolicy(PolicyServiceGetPolicyRequest) returns (PolicyServiceGetPolicyResponse);
+
+  // Read the default policy document for this node (for reset and comparison).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetDefaultPolicy(PolicyServiceGetDefaultPolicyRequest) returns (PolicyServiceGetDefaultPolicyResponse);
+
+  // Validate a candidate document without applying it.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_policy
+  // locality: node
+  rpc ValidatePolicy(PolicyServiceValidatePolicyRequest) returns (PolicyServiceValidatePolicyResponse);
+
+  // Replace the policy document. meta.expected_rev must equal the current revision.
+  // auth: HUMAN=A SCRIPT=P AGENT=P REMOTE=-
+  // idempotency: command_id; expected_rev
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_policy, CONFLICT/revision_conflict, AUTHORIZATION/approval_required, AUTHORIZATION/permission_denied
+  // locality: node
+  rpc UpdatePolicy(PolicyServiceUpdatePolicyRequest) returns (PolicyServiceUpdatePolicyResponse);
+
+  // List policy revisions, newest first.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListPolicyRevisions(PolicyServiceListPolicyRevisionsRequest) returns (PolicyServiceListPolicyRevisionsResponse);
+
+  // Create a new revision equal to an earlier one.
+  // auth: HUMAN=A SCRIPT=P AGENT=P REMOTE=-
+  // idempotency: command_id; expected_rev
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, CONFLICT/revision_conflict, AUTHORIZATION/approval_required
+  // locality: node
+  rpc RestorePolicyRevision(PolicyServiceRestorePolicyRevisionRequest) returns (PolicyServiceRestorePolicyRevisionResponse);
+
+  // Explain the permission decision for an operation and origin, with its source (matrix default or override).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument
+  // locality: node
+  rpc ExplainPermission(PolicyServiceExplainPermissionRequest) returns (PolicyServiceExplainPermissionResponse);
+}
+
+message PolicyServiceGetPolicyRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message PolicyServiceGetPolicyResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PolicyServiceGetPolicyValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PolicyServiceGetPolicyValue {
+  PolicyDocument document = 10 [json_name = "document"];
+  PolicyRevision revision = 11 [json_name = "revision"];
+}
+
+message PolicyServiceGetDefaultPolicyRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message PolicyServiceGetDefaultPolicyResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PolicyServiceGetDefaultPolicyValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PolicyServiceGetDefaultPolicyValue {
+  PolicyDocument document = 10 [json_name = "document"];
+}
+
+message PolicyServiceValidatePolicyRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  PolicyDocument document = 10 [json_name = "document"]; // validate: required
+}
+message PolicyServiceValidatePolicyResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PolicyServiceValidatePolicyValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PolicyServiceValidatePolicyValue {
+  optional bool valid = 10 [json_name = "valid"];
+  repeated PolicyIssue issues = 11 [json_name = "issues"];
+}
+
+message PolicyServiceUpdatePolicyRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  PolicyDocument document = 10 [json_name = "document"]; // validate: required; must validate without ERROR issues
+  optional string comment = 11 [json_name = "comment"]; // validate: <= 500 chars
+}
+message PolicyServiceUpdatePolicyResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PolicyServiceUpdatePolicyValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PolicyServiceUpdatePolicyValue {
+  PolicyRevision revision = 10 [json_name = "revision"];
+  repeated PolicyIssue warnings = 11 [json_name = "warnings"];
+}
+
+message PolicyServiceListPolicyRevisionsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"]; // validate: limit 1..200
+}
+message PolicyServiceListPolicyRevisionsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PolicyServiceListPolicyRevisionsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PolicyServiceListPolicyRevisionsValue {
+  repeated PolicyRevision revisions = 10 [json_name = "revisions"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message PolicyServiceRestorePolicyRevisionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Revision revision = 10 [json_name = "revision"]; // validate: existing revision
+  optional string comment = 11 [json_name = "comment"]; // validate: <= 500 chars
+}
+message PolicyServiceRestorePolicyRevisionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PolicyServiceRestorePolicyRevisionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PolicyServiceRestorePolicyRevisionValue {
+  PolicyRevision revision = 10 [json_name = "revision"];
+}
+
+message PolicyServiceExplainPermissionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string operation = 10 [json_name = "operation"]; // validate: known operation name
+  optional Origin origin = 11 [json_name = "origin"]; // validate: required
+}
+message PolicyServiceExplainPermissionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PolicyServiceExplainPermissionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PolicyServiceExplainPermissionValue {
+  optional PermissionDecision decision = 10 [json_name = "decision"];
+  optional string source = 11 [json_name = "source"];
+  optional RiskClass remote_risk = 12 [json_name = "remoteRisk"];
+}
+
+enum RoutingMode {
+  ROUTING_MODE_UNSPECIFIED = 0;
+  ROUTING_MODE_OBSERVE = 1;
+  ROUTING_MODE_GUIDE = 2;
+  ROUTING_MODE_REWRITE = 3; // heavy patterns only
+  ROUTING_MODE_REWRITE_ALL = 4; // every shell command except passthrough patterns (08 section 4.1)
+}
+
+enum ClientPermission {
+  CLIENT_PERMISSION_UNSPECIFIED = 0;
+  CLIENT_PERMISSION_ASK = 1; // the client shows the rewritten command and the user confirms
+  CLIENT_PERMISSION_ALLOW = 2; // pre-approves; only by explicit HUMAN policy or under bypassPermissions
+}
+
+// What happens when a running attempt crosses a monitored disk limit (06 section 5).
+enum DiskLimitAction {
+  DISK_LIMIT_ACTION_UNSPECIFIED = 0;
+  DISK_LIMIT_ACTION_TERMINATE = 1; // the cancellation sequence with OUTPUT_LIMIT or DISK_LIMIT
+  DISK_LIMIT_ACTION_NOTIFY = 2; // a finding only
+}
+
+enum ActionMode {
+  ACTION_MODE_UNSPECIFIED = 0;
+  ACTION_MODE_AUTO = 1;
+  ACTION_MODE_APPROVAL = 2;
+  ACTION_MODE_NOTIFY_ONLY = 3;
+}
+
+enum QuotaKind {
+  QUOTA_KIND_UNSPECIFIED = 0;
+  QUOTA_KIND_HARD = 1;
+  QUOTA_KIND_WARN = 2;
+}
+
+enum AgentCleanupMode {
+  AGENT_CLEANUP_MODE_UNSPECIFIED = 0;
+  AGENT_CLEANUP_MODE_APPROVAL = 1;
+  AGENT_CLEANUP_MODE_LOW_RISK_ONLY = 2;
+}
+
+enum UpdateMode {
+  UPDATE_MODE_UNSPECIFIED = 0;
+  UPDATE_MODE_AUTO = 1;
+  UPDATE_MODE_NOTIFY = 2;
+  UPDATE_MODE_MANUAL = 3;
+}
+
+enum MeteredBehavior {
+  METERED_BEHAVIOR_UNSPECIFIED = 0;
+  METERED_BEHAVIOR_DEFER = 1;
+  METERED_BEHAVIOR_ALLOW = 2;
+}
+
+message PressureThresholds {
+  optional double tight_available_fraction = 1 [json_name = "tightAvailableFraction"]; // default 0.10
+  optional double pressure_available_fraction = 2 [json_name = "pressureAvailableFraction"]; // default 0.05
+  optional double critical_available_fraction = 3 [json_name = "criticalAvailableFraction"]; // default 0.02
+  optional double memory_psi_some_avg10 = 4 [json_name = "memoryPsiSomeAvg10"]; // default 20 (Linux)
+  optional bool freeze_on_pressure = 5 [json_name = "freezeOnPressure"]; // default true
+  optional bool cancel_on_critical = 6 [json_name = "cancelOnCritical"]; // default true (preemptible attempts only)
+}
+
+message ResourcePolicy {
+  optional uint32 reserve_cpu_fixed_millicores = 1 [json_name = "reserveCpuFixedMillicores"]; // validate: 0..64,000; default 1,000
+  optional double reserve_cpu_fraction = 2 [json_name = "reserveCpuFraction"]; // validate: 0..0.9; default 0.10
+  optional uint64 reserve_mem_fixed_bytes = 3 [json_name = "reserveMemFixedBytes"]; // validate: default 2 GiB
+  optional double reserve_mem_fraction = 4 [json_name = "reserveMemFraction"]; // validate: 0..0.9; default 0.10
+  optional uint32 min_managed_cpu_millicores = 5 [json_name = "minManagedCpuMillicores"]; // validate: >= 100; default 1,000
+  optional double overcommit_cpu = 6 [json_name = "overcommitCpu"]; // validate: 1.0..4.0; default 1.5
+  optional double overcommit_mem = 7 [json_name = "overcommitMem"]; // fixed 1.0; read-only
+  optional double smoothing_alpha_up = 8 [json_name = "smoothingAlphaUp"]; // validate: 0.05..1; default 0.5
+  optional double smoothing_alpha_down = 9 [json_name = "smoothingAlphaDown"]; // validate: 0.01..1; default 0.1
+  optional uint32 global_max_running = 10 [json_name = "globalMaxRunning"]; // validate: 0 = auto (min(64, 2 x C_cpu/1000))
+  optional uint64 starvation_bound_ms = 11 [json_name = "starvationBoundMs"]; // validate: >= 60 s; default 10 min
+  optional uint64 large_task_bypass_ms = 12 [json_name = "largeTaskBypassMs"]; // validate: >= 10 s; default 2 min
+  optional uint64 max_task_memory_bytes = 13 [json_name = "maxTaskMemoryBytes"]; // validate: default C_mem - R_mem
+  optional bool allow_unenforced = 14 [json_name = "allowUnenforced"]; // default true on OBSERVE_ONLY nodes
+  optional double commit_factor = 15 [json_name = "commitFactor"]; // validate: 1.0..4.0; default 1.5 (Windows)
+  PressureThresholds pressure = 16 [json_name = "pressure"];
+  optional uint64 swap_allowance_bytes = 17 [json_name = "swapAllowanceBytes"]; // validate: default 0; Linux slice MemorySwapMax (03 section 5)
+  optional uint64 large_task_reservation_max_ms = 18 [json_name = "largeTaskReservationMaxMs"]; // validate: >= 60 s; default 30 min; a reservation then lapses (03 section 4)
+  optional double guest_standalone_fraction = 19 [json_name = "guestStandaloneFraction"]; // validate: 0.05..0.5; default 0.25 of the host budget, kept for a guest whose link is down (03 section 6)
+}
+
+message PoolPolicy {
+  optional string name = 1 [json_name = "name"];
+  optional uint32 weight = 2 [json_name = "weight"];
+  optional ParallelismMode max_parallel_mode = 3 [json_name = "maxParallelMode"];
+  optional uint32 max_parallel_fixed = 4 [json_name = "maxParallelFixed"];
+  optional Priority default_priority = 5 [json_name = "defaultPriority"];
+  optional bool built_in = 6 [json_name = "builtIn"]; // output only
+}
+
+message ParallelismRule {
+  optional ParallelismScope scope = 1 [json_name = "scope"];
+  optional string target = 2 [json_name = "target"];
+  optional ParallelismMode mode = 3 [json_name = "mode"];
+  optional uint32 fixed = 4 [json_name = "fixed"];
+}
+
+message PermissionOverride {
+  optional string operation = 1 [json_name = "operation"]; // validate: an operation name from the permission matrix, e.g. "task.cancel_others"
+  optional Origin origin = 2 [json_name = "origin"]; // validate: SCRIPT, AGENT or REMOTE (HUMAN rows are fixed)
+  optional PermissionDecision decision = 3 [json_name = "decision"];
+}
+
+message AgentPolicy {
+  repeated string allowed_command_patterns = 1 [json_name = "allowedCommandPatterns"]; // validate: <= 256 regexes; default [".*"]
+  optional bool allow_interactive_priority = 2 [json_name = "allowInteractivePriority"]; // default false
+  optional string default_pool = 3 [json_name = "defaultPool"]; // default "agents"
+  optional uint32 max_running_per_session = 4 [json_name = "maxRunningPerSession"]; // 0 = no extra cap
+}
+
+message HeavyPattern {
+  optional string tool = 1 [json_name = "tool"];
+  optional string pattern = 2 [json_name = "pattern"]; // validate: RE2 subset; <= 512 chars
+  optional bool enabled = 3 [json_name = "enabled"];
+}
+
+message RoutingOverride {
+  arcforges.foundation.v1.Id workspace_id = 1 [json_name = "workspaceId"];
+  optional string client = 2 [json_name = "client"]; // "claude-code" | "codex"; empty = all
+  optional RoutingMode mode = 3 [json_name = "mode"];
+}
+
+message RoutingPolicy {
+  optional RoutingMode default_mode = 1 [json_name = "defaultMode"]; // default OBSERVE
+  repeated RoutingOverride overrides = 2 [json_name = "overrides"];
+  repeated HeavyPattern heavy_patterns = 3 [json_name = "heavyPatterns"]; // defaults in architecture 08 section 4.1
+  optional uint32 bypass_cpu_threshold_millicores = 4 [json_name = "bypassCpuThresholdMillicores"]; // default 1,000 for 10 s
+  optional uint64 bypass_mem_threshold_bytes = 5 [json_name = "bypassMemThresholdBytes"]; // default 1 GiB
+  optional ClientPermission rewrite_permission = 6 [json_name = "rewritePermission"]; // default ASK; ALLOW is HUMAN-only and pre-approves routed commands
+  optional bool guide_when_longer_than_client_timeout = 7 [json_name = "guideWhenLongerThanClientTimeout"]; // default true: expected duration > client timeout -> DENY_WITH_GUIDANCE to MCP run
+  repeated string passthrough_patterns = 8 [json_name = "passthroughPatterns"]; // REWRITE_ALL only: commands left unchanged; defaults in architecture 08 section 4.1
+  optional uint32 handoff_margin_ms = 9 [json_name = "handoffMarginMs"]; // default 15,000: a rewritten run hands off this long before the client's tool timeout
+  optional bool join_existing_rewrites = 10 [json_name = "joinExistingRewrites"]; // default true: rewritten runs join an identical task of the same session (08 section 4.1)
+  optional uint32 light_cpu_millicores = 11 [json_name = "lightCpuMillicores"]; // default 250: estimate for routed commands no adapter or fact describes
+  optional uint64 light_mem_bytes = 12 [json_name = "lightMemBytes"]; // default 128 MiB
+}
+
+message ActionRule {
+  optional string finding_kind = 1 [json_name = "findingKind"];
+  optional string action = 2 [json_name = "action"];
+  optional ActionMode mode = 3 [json_name = "mode"];
+}
+
+message DiagnosisPolicy {
+  optional uint64 check_interval_ms = 1 [json_name = "checkIntervalMs"]; // default 15 s
+  optional uint64 stall_threshold_ms = 2 [json_name = "stallThresholdMs"]; // default 5 min
+  optional uint64 idle_threshold_ms = 3 [json_name = "idleThresholdMs"]; // default 60 s
+  repeated ActionRule actions = 4 [json_name = "actions"]; // default table: architecture 07 section 2.2
+}
+
+message RootQuota {
+  optional string root_class = 1 [json_name = "rootClass"]; // store | work | tmp | cache | out | logs | records | downloads | staging
+  optional uint64 quota_bytes = 2 [json_name = "quotaBytes"];
+  optional QuotaKind kind = 3 [json_name = "kind"];
+}
+
+message StoragePolicy {
+  repeated RootQuota quotas = 1 [json_name = "quotas"]; // defaults: architecture 06 section 1
+  optional uint32 log_retention_days = 2 [json_name = "logRetentionDays"]; // default 14
+  optional uint64 log_retention_bytes = 3 [json_name = "logRetentionBytes"]; // default 5 GiB
+  optional uint32 record_retention_days = 4 [json_name = "recordRetentionDays"]; // default 90
+  optional bool keep_failed_tmp = 5 [json_name = "keepFailedTmp"]; // default true
+  optional uint32 keep_failed_tmp_hours = 6 [json_name = "keepFailedTmpHours"]; // default 24
+  optional bool auto_register_workspaces = 7 [json_name = "autoRegisterWorkspaces"]; // default true
+  optional uint64 min_free_bytes = 8 [json_name = "minFreeBytes"]; // default 1 GiB
+  map<string, string> quarantine_roots = 9 [json_name = "quarantineRoots"]; // volume -> directory on that volume for quarantining items outside managed roots
+  optional uint32 secret_retention_hours = 10 [json_name = "secretRetentionHours"]; // default 24: sealed secret environment values kept after a terminal state for manual retry
+  optional uint64 max_attempt_output_bytes = 11 [json_name = "maxAttemptOutputBytes"]; // default 2 GiB (stdout + stderr per attempt); checked by the tailer every 100 ms
+  optional uint64 max_attempt_tmp_bytes = 12 [json_name = "maxAttemptTmpBytes"]; // default 20 GiB per attempt; checked every 15 s
+  optional uint64 critical_free_bytes = 13 [json_name = "criticalFreeBytes"]; // default 512 MiB per volume holding managed roots
+  optional DiskLimitAction disk_limit_action = 14 [json_name = "diskLimitAction"]; // default TERMINATE
+  optional uint64 low_free_cap_bytes = 15 [json_name = "lowFreeCapBytes"]; // default 20 GiB: the LOW threshold is max(min_free_bytes, min(5 % of the volume, this cap))
+  optional uint32 guard_takeover_ms = 16 [json_name = "guardTakeoverMs"]; // 2000..60000, default 5000: attempt guards enforce the runtime disk limits while the node's heartbeat has not changed for this long, on the guard's monotonic clock (06 section 5)
+  optional uint64 max_attempt_tmp_entries = 17 [json_name = "maxAttemptTmpEntries"]; // default 1,000,000: entries a pass over an attempt's temporary directory reads; beyond that the attempt counts as over its limit (06 section 5)
+}
+
+message CleanupPolicy {
+  optional AgentCleanupMode agent_execute = 1 [json_name = "agentExecute"]; // default APPROVAL
+  optional uint32 quarantine_hours = 2 [json_name = "quarantineHours"]; // default 24
+  optional uint32 abandoned_worktree_days = 3 [json_name = "abandonedWorktreeDays"]; // default 14
+}
+
+message CacheQuota {
+  optional string kind = 1 [json_name = "kind"];
+  optional uint64 quota_bytes = 2 [json_name = "quotaBytes"];
+}
+
+message CachePolicy {
+  repeated CacheQuota quotas = 1 [json_name = "quotas"]; // defaults: architecture 05 section 4
+  optional bool dotnet_shared_build_servers = 2 [json_name = "dotnetSharedBuildServers"]; // reserved (roadmap RM-13): policy validation refuses true in release 1, because a shared compiler server runs one attempt's compiles in another attempt's container (05 section 5)
+  optional bool redirect_tool_caches = 3 [json_name = "redirectToolCaches"]; // default true
+  optional uint32 usage_scan_budget_ms = 4 [json_name = "usageScanBudgetMs"]; // default 2000: background budget for measuring each attempt's cache growth (07 section 1.5); a measurement that would exceed it is skipped
+  optional uint32 sccache_port_first = 5 [json_name = "sccachePortFirst"]; // default: a 400-port slice of 20000..31999 chosen by a hash of the user's ID; first loopback port for attempts' sccache servers and the node's cache store; validate: 1024 <= first < last <= 65535, at least 64 ports and more ports than the effective global_max_running, outside the OS ephemeral ranges (05 section 5)
+  optional uint32 sccache_port_last = 6 [json_name = "sccachePortLast"]; // default: first + 399
+}
+
+message PrivacyPolicy {
+  repeated string secret_name_patterns = 1 [json_name = "secretNamePatterns"]; // defaults: architecture 04 section 2
+  optional bool remote_command_lines = 2 [json_name = "remoteCommandLines"]; // default false
+  optional bool remote_output_tail = 3 [json_name = "remoteOutputTail"]; // default false
+  optional bool peer_command_lines = 4 [json_name = "peerCommandLines"]; // default false
+}
+
+message RemoteControlPolicy {
+  optional bool enabled = 1 [json_name = "enabled"]; // default false
+  optional RiskClass max_risk = 2 [json_name = "maxRisk"]; // default LOW; HIGH only when set explicitly
+  optional bool allow_approvals = 3 [json_name = "allowApprovals"]; // default false
+}
+
+message TimeWindow {
+  optional uint32 days_mask = 1 [json_name = "daysMask"]; // bit 0 = Monday
+  optional uint32 start_minute = 2 [json_name = "startMinute"]; // 0..1439 local time
+  optional uint32 end_minute = 3 [json_name = "endMinute"]; // 1..1440
+}
+
+message UpdatePolicy {
+  optional UpdateMode mode = 1 [json_name = "mode"]; // default AUTO
+  optional string channel = 2 [json_name = "channel"]; // stable | beta | dev; default stable
+  repeated TimeWindow windows = 3 [json_name = "windows"]; // empty = any time
+  optional MeteredBehavior metered = 4 [json_name = "metered"]; // default DEFER
+}
+
+message LanPolicy {
+  optional bool enabled = 1 [json_name = "enabled"]; // default false
+  optional uint32 port = 2 [json_name = "port"]; // default 47820
+  optional bool advertise = 3 [json_name = "advertise"]; // default true while enabled; only on trusted networks (09 section 2)
+  PeerPolicy default_peer_policy = 4 [json_name = "defaultPeerPolicy"]; // status only
+  optional bool advertise_account_hint = 5 [json_name = "advertiseAccountHint"]; // default false: adds the acct TXT record; account hints are roadmap RM-01 and have no effect in release 1
+  optional uint32 max_workspace_slots = 6 [json_name = "maxWorkspaceSlots"]; // default 2: remote workspace slots per origin workspace (09 section 6)
+}
+
+enum ResultCacheMode {
+  RESULT_CACHE_MODE_UNSPECIFIED = 0;
+  RESULT_CACHE_MODE_OFF = 1; // default
+  RESULT_CACHE_MODE_OBSERVE = 2; // compute action keys and record would-be hits; never restore
+  RESULT_CACHE_MODE_RESTORE = 3; // restore hits for PURE tasks as CACHE_RESTORE attempts; roadmap RM-04: policy validation refuses it in release 1
+}
+
+message ResultCachePolicy {
+  optional ResultCacheMode default_mode = 1 [json_name = "defaultMode"]; // default OFF
+  map<string, ResultCacheMode> workspace_modes = 2 [json_name = "workspaceModes"]; // workspace ID -> mode; overrides default_mode
+}
+
+// Who may declare a command safe to retry automatically (AD-0006 section 4).
+message RetrySafetyRule {
+  optional string pattern = 1 [json_name = "pattern"]; // command pattern, as heavy patterns
+  arcforges.foundation.v1.Id workspace_id = 2 [json_name = "workspaceId"]; // empty = every workspace
+  optional SideEffectClass side_effect = 3 [json_name = "sideEffect"]; // PURE or IDEMPOTENT
+}
+
+message RetrySafetyPolicy {
+  repeated RetrySafetyRule rules = 1 [json_name = "rules"]; // HUMAN-edited
+  optional bool accept_agent_assertions = 2 [json_name = "acceptAgentAssertions"]; // default false: an AGENT's PURE or IDEMPOTENT becomes UNKNOWN with a warning
+}
+
+message ApprovalPolicy {
+  optional uint64 default_ttl_ms = 1 [json_name = "defaultTtlMs"]; // default 24 h
+  optional bool notify_desktop = 2 [json_name = "notifyDesktop"]; // default true
+  optional bool notify_push = 3 [json_name = "notifyPush"]; // default true when remote access is on
+}
+
+message PolicyDocument {
+  ResourcePolicy resources = 1 [json_name = "resources"];
+  repeated PoolPolicy pools = 2 [json_name = "pools"];
+  repeated ParallelismRule parallelism = 3 [json_name = "parallelism"];
+  repeated PermissionOverride permissions = 4 [json_name = "permissions"];
+  AgentPolicy agents = 5 [json_name = "agents"];
+  RoutingPolicy routing = 6 [json_name = "routing"];
+  DiagnosisPolicy diagnosis = 7 [json_name = "diagnosis"];
+  StoragePolicy storage = 8 [json_name = "storage"];
+  CleanupPolicy cleanup = 9 [json_name = "cleanup"];
+  CachePolicy caches = 10 [json_name = "caches"];
+  PrivacyPolicy privacy = 11 [json_name = "privacy"];
+  RemoteControlPolicy remote = 12 [json_name = "remote"];
+  UpdatePolicy updates = 13 [json_name = "updates"];
+  LanPolicy lan = 14 [json_name = "lan"];
+  ApprovalPolicy approvals = 15 [json_name = "approvals"];
+  ResultCachePolicy result_cache = 16 [json_name = "resultCache"]; // architecture 04 section 11
+  RetrySafetyPolicy retry_safety = 17 [json_name = "retrySafety"];
+}
+
+message PolicyRevision {
+  arcforges.foundation.v1.Revision revision = 1 [json_name = "revision"];
+  arcforges.foundation.v1.Instant created_at = 2 [json_name = "createdAt"];
+  ActorRef actor = 3 [json_name = "actor"];
+  optional string comment = 4 [json_name = "comment"];
+  optional string digest = 5 [json_name = "digest"]; // SHA-256 of the canonical binary document
+  arcforges.foundation.v1.Id approval_id = 6 [json_name = "approvalId"];
+}
+
+message PolicyIssue {
+  optional string path = 1 [json_name = "path"]; // e.g. "pools[2].weight"
+  optional Severity severity = 2 [json_name = "severity"];
+  optional string message = 3 [json_name = "message"];
+}

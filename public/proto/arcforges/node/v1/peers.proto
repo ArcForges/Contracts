@@ -1,0 +1,473 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/toolchains.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodePeersProto";
+
+// Local management of LAN features: listener, peers, pairing and per-peer policy
+// (architecture 09; AD-0008; SM-PAIRING). Peer-to-peer traffic uses arcforges.peer.v1.
+// Remote attempts executing on this node appear as TaskService tasks of kind REMOTE (R-LAN-008).
+
+// LAN listener, peers, pairing and per-peer policy.
+service PeerService {
+  // Listener, certificate and discovery state. LAN features are free (AD-0015).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc GetLanStatus(PeerServiceGetLanStatusRequest) returns (PeerServiceGetLanStatusResponse);
+
+  // Turn LAN features on or off, optionally changing the port and advertisement (a policy revision).
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 15 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, EXECUTION/operation_failed, AUTHORIZATION/permission_denied
+  // locality: node
+  rpc SetLanEnabled(PeerServiceSetLanEnabledRequest) returns (PeerServiceSetLanEnabledResponse);
+
+  // List discovered and paired peers.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc ListPeers(PeerServiceListPeersRequest) returns (PeerServiceListPeersResponse);
+
+  // Read one peer with its live status summary.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetPeer(PeerServiceGetPeerRequest) returns (PeerServiceGetPeerResponse);
+
+  // Add a peer by address when discovery is unavailable. The peer stays untrusted until paired.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 15 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/peer_unreachable, STATE/peer_incompatible
+  // locality: node -> peer
+  rpc AddPeerAddress(PeerServiceAddPeerAddressRequest) returns (PeerServiceAddPeerAddressResponse);
+
+  // Start local-confirmation pairing with a discovered peer (09 section 3.2).
+  // auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, STATE/peer_unreachable, RESOURCE/rate_limited
+  // locality: node -> peer
+  // state: SM-PAIRING: (none) -> REQUESTED
+  rpc BeginPairing(PeerServiceBeginPairingRequest) returns (PeerServiceBeginPairingResponse);
+
+  // Accept or reject an incoming pairing request.
+  // auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, STATE/expired
+  // locality: node
+  // state: SM-PAIRING: INCOMING -> EXCHANGING | REJECTED
+  rpc RespondToPairing(PeerServiceRespondToPairingRequest) returns (PeerServiceRespondToPairingResponse);
+
+  // Read a pairing, including the SAS while awaiting confirmation.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetPairing(PeerServiceGetPairingRequest) returns (PeerServiceGetPairingResponse);
+
+  // Confirm that both screens show the same six digits, or report a mismatch.
+  // auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state, STATE/expired, STATE/sas_mismatch
+  // locality: node -> peer
+  // state: SM-PAIRING: AWAITING_CONFIRMATION -> CONFIRMED_LOCALLY -> PAIRED | MISMATCH
+  rpc ConfirmPairing(PeerServiceConfirmPairingRequest) returns (PeerServiceConfirmPairingResponse);
+
+  // Abort a pairing in progress.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, STATE/invalid_state
+  // locality: node
+  // state: SM-PAIRING: * -> CANCELLED
+  rpc CancelPairing(PeerServiceCancelPairingRequest) returns (PeerServiceCancelPairingResponse);
+
+  // Change this node's policy toward a paired peer (meta.expected_rev = peer revision).
+  // auth: HUMAN=A SCRIPT=P AGENT=D REMOTE=-
+  // idempotency: command_id; expected_rev
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, CONFLICT/revision_conflict, VALIDATION/invalid_argument, AUTHORIZATION/approval_required
+  // locality: node -> peer
+  rpc UpdatePeerPolicy(PeerServiceUpdatePeerPolicyRequest) returns (PeerServiceUpdatePeerPolicyResponse);
+
+  // Unpin and forget a peer; notifies it when reachable. Running remote attempts follow their lease rules.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node -> peer
+  rpc RemovePeer(PeerServiceRemovePeerRequest) returns (PeerServiceRemovePeerResponse);
+}
+
+message PeerServiceGetLanStatusRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message PeerServiceGetLanStatusResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerServiceGetLanStatusValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerServiceGetLanStatusValue {
+  LanStatus status = 10 [json_name = "status"];
+}
+
+message PeerServiceSetLanEnabledRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional bool enabled = 10 [json_name = "enabled"];
+  optional uint32 port = 11 [json_name = "port"]; // validate: 1024..65535; default 47820
+  optional bool advertise = 12 [json_name = "advertise"];
+}
+message PeerServiceSetLanEnabledResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerServiceSetLanEnabledValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerServiceSetLanEnabledValue {
+  LanStatus status = 10 [json_name = "status"];
+}
+
+message PeerServiceListPeersRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated PeerState states = 10 [json_name = "states"]; // validate: unique values; empty = all
+}
+message PeerServiceListPeersResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerServiceListPeersValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerServiceListPeersValue {
+  repeated Peer peers = 10 [json_name = "peers"];
+}
+
+message PeerServiceGetPeerRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id peer_node_id = 10 [json_name = "peerNodeId"]; // validate: required
+}
+message PeerServiceGetPeerResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerServiceGetPeerValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerServiceGetPeerValue {
+  Peer peer = 10 [json_name = "peer"];
+}
+
+message PeerServiceAddPeerAddressRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string host = 10 [json_name = "host"]; // validate: hostname or IP literal
+  optional uint32 port = 11 [json_name = "port"]; // validate: 1..65535; default 47820
+}
+message PeerServiceAddPeerAddressResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerServiceAddPeerAddressValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerServiceAddPeerAddressValue {
+  Peer peer = 10 [json_name = "peer"];
+}
+
+message PeerServiceBeginPairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id peer_node_id = 10 [json_name = "peerNodeId"]; // validate: DISCOVERED or OFFLINE-unpaired peer
+}
+message PeerServiceBeginPairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerServiceBeginPairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerServiceBeginPairingValue {
+  Pairing pairing = 10 [json_name = "pairing"];
+}
+
+message PeerServiceRespondToPairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: INCOMING
+  optional bool accept = 11 [json_name = "accept"];
+}
+message PeerServiceRespondToPairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerServiceRespondToPairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerServiceRespondToPairingValue {
+  Pairing pairing = 10 [json_name = "pairing"];
+}
+
+message PeerServiceGetPairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: required
+}
+message PeerServiceGetPairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerServiceGetPairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerServiceGetPairingValue {
+  Pairing pairing = 10 [json_name = "pairing"];
+}
+
+message PeerServiceConfirmPairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: AWAITING_CONFIRMATION
+  optional bool digits_match = 11 [json_name = "digitsMatch"];
+}
+message PeerServiceConfirmPairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerServiceConfirmPairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerServiceConfirmPairingValue {
+  Pairing pairing = 10 [json_name = "pairing"];
+}
+
+message PeerServiceCancelPairingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id pairing_id = 10 [json_name = "pairingId"]; // validate: not terminal
+}
+message PeerServiceCancelPairingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerServiceCancelPairingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerServiceCancelPairingValue {
+  Pairing pairing = 10 [json_name = "pairing"];
+}
+
+message PeerServiceUpdatePeerPolicyRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id peer_node_id = 10 [json_name = "peerNodeId"]; // validate: PAIRED peer
+  PeerPolicy policy = 11 [json_name = "policy"]; // validate: required
+}
+message PeerServiceUpdatePeerPolicyResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerServiceUpdatePeerPolicyValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerServiceUpdatePeerPolicyValue {
+  Peer peer = 10 [json_name = "peer"];
+}
+
+message PeerServiceRemovePeerRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id peer_node_id = 10 [json_name = "peerNodeId"]; // validate: required
+  optional bool block = 11 [json_name = "block"]; // validate: keep blocking re-pairing from this node identity
+}
+message PeerServiceRemovePeerResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PeerServiceRemovePeerValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message PeerServiceRemovePeerValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+enum PeerState {
+  PEER_STATE_UNSPECIFIED = 0;
+  PEER_STATE_DISCOVERED = 1;
+  PEER_STATE_PAIRING = 2;
+  PEER_STATE_PAIRED = 3;
+  PEER_STATE_INCOMPATIBLE = 4;
+  PEER_STATE_OFFLINE = 5;
+  PEER_STATE_BLOCKED = 6;
+  PEER_STATE_REMOVED = 7;
+}
+
+enum PeerTrust {
+  PEER_TRUST_UNSPECIFIED = 0;
+  PEER_TRUST_NONE = 1;
+  PEER_TRUST_PINNED = 2;
+  PEER_TRUST_ACCOUNT = 3; // account-based trust (roadmap RM-01); not used in release 1
+}
+
+enum PairingRole {
+  PAIRING_ROLE_UNSPECIFIED = 0;
+  PAIRING_ROLE_INITIATOR = 1;
+  PAIRING_ROLE_RESPONDER = 2;
+}
+
+// SM-PAIRING states.
+enum PairingState {
+  PAIRING_STATE_UNSPECIFIED = 0;
+  PAIRING_STATE_REQUESTED = 1;
+  PAIRING_STATE_INCOMING = 2;
+  PAIRING_STATE_EXCHANGING = 3;
+  PAIRING_STATE_AWAITING_CONFIRMATION = 4;
+  PAIRING_STATE_CONFIRMED_LOCALLY = 5;
+  PAIRING_STATE_PAIRED = 6;
+  PAIRING_STATE_REJECTED = 7;
+  PAIRING_STATE_MISMATCH = 8;
+  PAIRING_STATE_EXPIRED = 9;
+  PAIRING_STATE_CANCELLED = 10;
+  PAIRING_STATE_BLOCKED = 11;
+}
+
+enum ListenerState {
+  LISTENER_STATE_UNSPECIFIED = 0;
+  LISTENER_STATE_OFF = 1;
+  LISTENER_STATE_LISTENING = 2;
+  LISTENER_STATE_ERROR = 3;
+}
+
+message DataOut {
+  optional bool source = 1 [json_name = "source"];
+  optional bool outputs = 2 [json_name = "outputs"];
+  optional bool logs = 3 [json_name = "logs"];
+}
+
+// Defaults for a new pairing: status only (everything false or empty).
+message PeerPolicy {
+  optional bool allow_place_to = 1 [json_name = "allowPlaceTo"];
+  optional bool accept_from = 2 [json_name = "acceptFrom"];
+  optional bool cache_read = 3 [json_name = "cacheRead"];
+  optional bool cache_write = 4 [json_name = "cacheWrite"];
+  optional double max_cpu_share = 5 [json_name = "maxCpuShare"]; // validate: 0..1; offered to that peer, set by this node
+  optional double max_mem_share = 6 [json_name = "maxMemShare"]; // validate: 0..1
+  repeated string allowed_toolchains = 7 [json_name = "allowedToolchains"]; // validate: <= 32
+  repeated string allowed_command_patterns = 8 [json_name = "allowedCommandPatterns"]; // validate: <= 64 regexes
+  optional bool require_approval = 9 [json_name = "requireApproval"];
+  DataOut data_out = 10 [json_name = "dataOut"];
+  optional uint64 cache_quota_bytes = 11 [json_name = "cacheQuotaBytes"]; // validate: per-peer quota when cache_write
+}
+
+message PeerStatusSummary {
+  CapabilityReport capabilities = 1 [json_name = "capabilities"];
+  repeated Toolchain toolchains = 2 [json_name = "toolchains"];
+  optional uint32 budget_cpu_millicores = 3 [json_name = "budgetCpuMillicores"];
+  optional uint64 budget_mem_bytes = 4 [json_name = "budgetMemBytes"];
+  optional uint32 queue_length = 5 [json_name = "queueLength"];
+  optional uint32 running = 6 [json_name = "running"];
+  optional double cpu_class = 7 [json_name = "cpuClass"]; // relative benchmark score exchanged at pairing
+  optional string version = 8 [json_name = "version"];
+  optional uint32 protocol_min = 9 [json_name = "protocolMin"];
+  optional uint32 protocol_max = 10 [json_name = "protocolMax"];
+  optional uint32 rtt_ms = 11 [json_name = "rttMs"];
+  optional uint64 throughput_bytes_per_second = 12 [json_name = "throughputBytesPerSecond"]; // EWMA of past transfers
+  arcforges.foundation.v1.Instant last_seen = 13 [json_name = "lastSeen"];
+  optional OsFamily os = 14 [json_name = "os"];
+  optional CpuArchitecture arch = 15 [json_name = "arch"];
+}
+
+message Peer {
+  arcforges.foundation.v1.Id peer_node_id = 1 [json_name = "peerNodeId"];
+  optional string name = 2 [json_name = "name"];
+  repeated string addresses = 3 [json_name = "addresses"];
+  optional PeerState state = 4 [json_name = "state"];
+  optional PeerTrust trust = 5 [json_name = "trust"];
+  optional string fingerprint = 6 [json_name = "fingerprint"]; // SHA-256 of the certificate, hex
+  optional bool same_account = 7 [json_name = "sameAccount"]; // account-based trust (roadmap RM-01); always false in release 1
+  PeerPolicy policy = 8 [json_name = "policy"]; // this node's policy toward the peer
+  PeerPolicy offered = 9 [json_name = "offered"]; // what the peer offers this node (read-only)
+  PeerStatusSummary status = 10 [json_name = "status"];
+  arcforges.foundation.v1.Instant paired_at = 11 [json_name = "pairedAt"];
+  optional string incompatibility = 12 [json_name = "incompatibility"];
+  arcforges.foundation.v1.Revision revision = 13 [json_name = "revision"];
+  optional bool manually_added = 14 [json_name = "manuallyAdded"];
+}
+
+message Pairing {
+  arcforges.foundation.v1.Id pairing_id = 1 [json_name = "pairingId"];
+  arcforges.foundation.v1.Id peer_node_id = 2 [json_name = "peerNodeId"];
+  optional string peer_name = 3 [json_name = "peerName"];
+  optional PairingRole role = 4 [json_name = "role"];
+  optional PairingState state = 5 [json_name = "state"];
+  optional string sas = 6 [json_name = "sas"]; // six digits; present only in AWAITING_CONFIRMATION and CONFIRMED_LOCALLY
+  arcforges.foundation.v1.Instant expires_at = 7 [json_name = "expiresAt"]; // 120 s from start
+  optional string failure_reason = 8 [json_name = "failureReason"];
+  optional uint32 attempts_remaining = 9 [json_name = "attemptsRemaining"]; // of 5 per peer per hour
+}
+
+message LanStatus {
+  optional bool enabled = 1 [json_name = "enabled"];
+  optional ListenerState listener = 2 [json_name = "listener"];
+  optional uint32 port = 3 [json_name = "port"];
+  repeated string addresses = 4 [json_name = "addresses"];
+  optional bool advertise = 5 [json_name = "advertise"];
+  optional bool dns_sd_available = 6 [json_name = "dnsSdAvailable"];
+  optional string certificate_fingerprint = 7 [json_name = "certificateFingerprint"];
+  arcforges.foundation.v1.Instant account_certificate_expires_at = 8 [json_name = "accountCertificateExpiresAt"]; // account-based LAN trust (roadmap RM-01); absent in release 1
+  optional bool entitled_placement = 9 [json_name = "entitledPlacement"]; // deprecated (AD-0015): always true; LAN features are free and never gated
+  optional bool entitled_accept = 10 [json_name = "entitledAccept"]; // deprecated (AD-0015): always true
+  optional bool entitled_cache = 11 [json_name = "entitledCache"]; // deprecated (AD-0015): always true
+  optional string error = 12 [json_name = "error"];
+}

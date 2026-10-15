@@ -1,0 +1,183 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeCachesProto";
+
+// Cache registry, effectiveness and maintenance (architecture 05 sections 4-7).
+// Trimming and clearing go through StorageService cleanup plans (class CACHE_TRIM).
+
+// Cache registry, settings, reports and verification.
+service CacheService {
+  // List registered caches.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc ListCaches(CacheServiceListCachesRequest) returns (CacheServiceListCachesResponse);
+
+  // Effectiveness, duplicate copies and per-task restores for a period (R-CACHE-008).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 15 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument
+  // locality: node
+  rpc GetCacheReport(CacheServiceGetCacheReportRequest) returns (CacheServiceGetCacheReportResponse);
+
+  // Change a cache's quota or LAN sharing (a policy revision).
+  // auth: HUMAN=A SCRIPT=P AGENT=P REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found, VALIDATION/invalid_argument, AUTHORIZATION/approval_required
+  // locality: node
+  rpc UpdateCacheSettings(CacheServiceUpdateCacheSettingsRequest) returns (CacheServiceUpdateCacheSettingsResponse);
+
+  // Verify a cache under a maintenance lease (bounded to 10 minutes; waits for bound tasks to finish).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id; one verification per cache at a time
+  // deadline: 5 s (job continues)
+  // stream: none
+  // errors: STATE/not_found, STATE/in_use
+  // locality: node
+  rpc VerifyCache(CacheServiceVerifyCacheRequest) returns (CacheServiceVerifyCacheResponse);
+}
+
+message CacheServiceListCachesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message CacheServiceListCachesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CacheServiceListCachesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message CacheServiceListCachesValue {
+  repeated CacheInstance caches = 10 [json_name = "caches"];
+}
+
+message CacheServiceGetCacheReportRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.TimeRangeUtc period = 10 [json_name = "period"]; // validate: <= 90 days; default last 7 days
+}
+message CacheServiceGetCacheReportResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CacheServiceGetCacheReportValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message CacheServiceGetCacheReportValue {
+  CacheReport report = 10 [json_name = "report"];
+}
+
+message CacheServiceUpdateCacheSettingsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id cache_id = 10 [json_name = "cacheId"]; // validate: required
+  optional uint64 quota_bytes = 11 [json_name = "quotaBytes"]; // validate: >= 1 GiB
+  optional bool lan_shared = 12 [json_name = "lanShared"]; // validate: sccache, ccache and cas only; free (no entitlement); peers still need a policy that allows cache access
+}
+message CacheServiceUpdateCacheSettingsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CacheServiceUpdateCacheSettingsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message CacheServiceUpdateCacheSettingsValue {
+  CacheInstance cache = 10 [json_name = "cache"];
+}
+
+message CacheServiceVerifyCacheRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id cache_id = 10 [json_name = "cacheId"]; // validate: required
+}
+message CacheServiceVerifyCacheResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CacheServiceVerifyCacheValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message CacheServiceVerifyCacheValue {
+  JobView job = 10 [json_name = "job"];
+}
+
+enum CacheAccess {
+  CACHE_ACCESS_UNSPECIFIED = 0;
+  CACHE_ACCESS_READ = 1;
+  CACHE_ACCESS_READ_WRITE = 2;
+}
+
+message CacheInstance {
+  arcforges.foundation.v1.Id cache_id = 1 [json_name = "cacheId"];
+  optional string kind = 2 [json_name = "kind"]; // nuget.packages, nuget.http, nuget.scratch, sccache, ccache, npm, pip, cargo.registry, cas
+  optional string path = 3 [json_name = "path"];
+  optional string compat_key = 4 [json_name = "compatKey"];
+  optional uint64 size_bytes = 5 [json_name = "sizeBytes"];
+  optional uint64 quota_bytes = 6 [json_name = "quotaBytes"];
+  optional bool observed_only = 7 [json_name = "observedOnly"]; // e.g. cargo.registry
+  optional bool lan_shared = 8 [json_name = "lanShared"];
+  optional bool maintenance_lease_held = 9 [json_name = "maintenanceLeaseHeld"];
+  arcforges.foundation.v1.Instant last_maintenance_at = 10 [json_name = "lastMaintenanceAt"];
+}
+
+message CacheEffectiveness {
+  arcforges.foundation.v1.Id cache_id = 1 [json_name = "cacheId"];
+  optional uint64 hits = 2 [json_name = "hits"];
+  optional uint64 misses = 3 [json_name = "misses"];
+  optional uint64 hit_bytes = 4 [json_name = "hitBytes"];
+  optional uint64 written_bytes = 5 [json_name = "writtenBytes"];
+  optional uint32 restores_reused = 6 [json_name = "restoresReused"]; // NuGet packages reused
+  optional uint32 restores_installed = 7 [json_name = "restoresInstalled"]; // NuGet packages installed
+  optional string source = 8 [json_name = "source"]; // e.g. "sccache --show-stats"
+  optional uint64 added_bytes = 9 [json_name = "addedBytes"]; // growth in the period, every byte counted once: the store's first writes and peer fills, walked growth of attempts and windows, and unattributed growth (07 section 1.5)
+  optional uint64 removed_bytes = 10 [json_name = "removedBytes"]; // files that disappeared between walks, and evictions from the store's ledger
+  optional uint64 unattributed_added_bytes = 11 [json_name = "unattributedAddedBytes"]; // files born while no managed attempt bound the cache
+  optional uint32 shared_windows = 12 [json_name = "sharedWindows"]; // windows of shared use in the period
+  optional uint64 peer_filled_bytes = 13 [json_name = "peerFilledBytes"]; // entries fetched from LAN peers into the node's store (05 section 5)
+}
+
+message DuplicateCacheCopy {
+  optional string path = 1 [json_name = "path"];
+  optional string kind = 2 [json_name = "kind"];
+  optional uint64 size_bytes = 3 [json_name = "sizeBytes"];
+  optional uint64 overlap_bytes = 4 [json_name = "overlapBytes"];
+  optional double overlap_fraction = 5 [json_name = "overlapFraction"];
+}
+
+message PerTaskRestore {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
+  optional string override_path = 2 [json_name = "overridePath"];
+  optional uint64 size_bytes = 3 [json_name = "sizeBytes"];
+}
+
+message CacheReport {
+  arcforges.foundation.v1.TimeRangeUtc period = 1 [json_name = "period"];
+  repeated CacheEffectiveness effectiveness = 2 [json_name = "effectiveness"];
+  repeated DuplicateCacheCopy duplicates = 3 [json_name = "duplicates"];
+  repeated PerTaskRestore per_task_restores = 4 [json_name = "perTaskRestores"];
+  optional uint64 reclaimable_bytes = 5 [json_name = "reclaimableBytes"];
+  optional uint64 result_cache_observations = 6 [json_name = "resultCacheObservations"]; // OBSERVE mode: action keys recorded in the period (04 section 11)
+  optional uint64 result_cache_would_hits = 7 [json_name = "resultCacheWouldHits"]; // observations whose key and output digest matched an earlier success (the evidence for roadmap RM-04)
+}

@@ -42,6 +42,8 @@ namespace ArcForges.Contracts.ArchitectureTests
         public static int Main(string[] args)
         {
             PolicyGateStage stage = PolicyGateStage.ValidateArguments;
+            // The SDK rules ran in their module initializer and already reported a failure; stop before any other stage.
+            if (Sdk.SdkArchitectureTests.FailedRule is not null) return 1;
             try
             {
                 if (args.Length > 1 || (args.Length == 1 && args[0] != "--hosted"))

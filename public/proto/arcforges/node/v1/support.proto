@@ -1,0 +1,191 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeSupportProto";
+
+// Local, redacted support bundles and consented upload (architecture 11 section 5; R-OPS-005).
+
+// Create, inspect, upload and delete support bundles.
+service SupportService {
+  // Build a redacted bundle locally. Nothing leaves the node.
+  // auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s (job continues)
+  // stream: none
+  // errors: VALIDATION/invalid_argument, RESOURCE/disk_space, AUTHORIZATION/approval_required
+  // locality: node
+  rpc CreateSupportBundle(SupportServiceCreateSupportBundleRequest) returns (SupportServiceCreateSupportBundleResponse);
+
+  // Read a bundle and its file list for review.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc GetSupportBundle(SupportServiceGetSupportBundleRequest) returns (SupportServiceGetSupportBundleResponse);
+
+  // List local bundles.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: none (implicit codes only)
+  // locality: node
+  rpc ListSupportBundles(SupportServiceListSupportBundlesRequest) returns (SupportServiceListSupportBundlesResponse);
+
+  // Upload a reviewed bundle to a support case with explicit consent.
+  // auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s (upload continues)
+  // stream: none
+  // errors: STATE/not_found, STATE/not_signed_in, RESOURCE/rate_limited, RESOURCE/too_large, VALIDATION/invalid_argument
+  // locality: node -> cloud
+  rpc UploadSupportBundle(SupportServiceUploadSupportBundleRequest) returns (SupportServiceUploadSupportBundleResponse);
+
+  // Delete a local bundle.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: command_id
+  // deadline: 5 s
+  // stream: none
+  // errors: STATE/not_found
+  // locality: node
+  rpc DeleteSupportBundle(SupportServiceDeleteSupportBundleRequest) returns (SupportServiceDeleteSupportBundleResponse);
+}
+
+message SupportServiceCreateSupportBundleRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  BundleContents contents = 10 [json_name = "contents"];
+}
+message SupportServiceCreateSupportBundleResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SupportServiceCreateSupportBundleValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SupportServiceCreateSupportBundleValue {
+  SupportBundle bundle = 10 [json_name = "bundle"];
+  JobView job = 11 [json_name = "job"];
+}
+
+message SupportServiceGetSupportBundleRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id bundle_id = 10 [json_name = "bundleId"]; // validate: required
+}
+message SupportServiceGetSupportBundleResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SupportServiceGetSupportBundleValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SupportServiceGetSupportBundleValue {
+  SupportBundle bundle = 10 [json_name = "bundle"];
+}
+
+message SupportServiceListSupportBundlesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message SupportServiceListSupportBundlesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SupportServiceListSupportBundlesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SupportServiceListSupportBundlesValue {
+  repeated SupportBundle bundles = 10 [json_name = "bundles"];
+}
+
+message SupportServiceUploadSupportBundleRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id bundle_id = 10 [json_name = "bundleId"]; // validate: READY
+  optional bool consent = 11 [json_name = "consent"]; // validate: must be true (the surface showed the file list)
+  optional string case_reference = 12 [json_name = "caseReference"]; // validate: an existing case of the account, or empty with new_case_subject
+  optional string new_case_subject = 13 [json_name = "newCaseSubject"]; // validate: <= 200 chars
+}
+message SupportServiceUploadSupportBundleResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SupportServiceUploadSupportBundleValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SupportServiceUploadSupportBundleValue {
+  SupportBundle bundle = 10 [json_name = "bundle"];
+}
+
+message SupportServiceDeleteSupportBundleRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id bundle_id = 10 [json_name = "bundleId"]; // validate: required
+}
+message SupportServiceDeleteSupportBundleResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SupportServiceDeleteSupportBundleValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message SupportServiceDeleteSupportBundleValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+enum BundleState {
+  BUNDLE_STATE_UNSPECIFIED = 0;
+  BUNDLE_STATE_BUILDING = 1;
+  BUNDLE_STATE_READY = 2;
+  BUNDLE_STATE_UPLOADING = 3;
+  BUNDLE_STATE_UPLOADED = 4;
+  BUNDLE_STATE_FAILED = 5;
+  BUNDLE_STATE_DELETED = 6;
+}
+
+message BundleContents {
+  optional bool node_logs = 1 [json_name = "nodeLogs"]; // default true
+  optional uint32 record_days = 2 [json_name = "recordDays"]; // validate: 0..30; default 7
+  optional bool policies = 3 [json_name = "policies"]; // default true
+  optional bool findings = 4 [json_name = "findings"]; // default true
+  optional bool capability_report = 5 [json_name = "capabilityReport"]; // default true
+  repeated arcforges.foundation.v1.Id task_ids = 6 [json_name = "taskIds"]; // validate: <= 50
+  optional bool include_output = 7 [json_name = "includeOutput"]; // default false
+}
+
+message BundleFile {
+  optional string path = 1 [json_name = "path"];
+  optional uint64 size_bytes = 2 [json_name = "sizeBytes"];
+  optional string kind = 3 [json_name = "kind"];
+  optional uint32 redactions = 4 [json_name = "redactions"];
+}
+
+message SupportBundle {
+  arcforges.foundation.v1.Id bundle_id = 1 [json_name = "bundleId"];
+  optional BundleState state = 2 [json_name = "state"];
+  arcforges.foundation.v1.Instant created_at = 3 [json_name = "createdAt"];
+  optional string file_path = 4 [json_name = "filePath"];
+  optional uint64 size_bytes = 5 [json_name = "sizeBytes"];
+  repeated BundleFile files = 6 [json_name = "files"];
+  optional string redaction_summary = 7 [json_name = "redactionSummary"];
+  optional string case_reference = 8 [json_name = "caseReference"];
+  arcforges.foundation.v1.Instant uploaded_at = 9 [json_name = "uploadedAt"];
+  arcforges.foundation.v1.Instant expires_at = 10 [json_name = "expiresAt"]; // local retention 30 days
+}

@@ -70,6 +70,10 @@ var catalogues = new Dictionary<string, IReadOnlyList<ServiceDescriptor>>(String
     ["ArcForges.Sdk.Contracts"] = ArcForges.Sdk.Contracts.ContractServices.All,
     ["ArcForges.Contracts.LocalRpc.Platform"] = ArcForges.Contracts.LocalRpc.Platform.ContractServices.All,
     ["ArcForges.Contracts.LocalRpc.Sandbox"] = ArcForges.Contracts.LocalRpc.Sandbox.ContractServices.All,
+    // AF-CON-01: the adopted flagship packages (Relay declares messages only).
+    ["ArcForges.Contracts.Node"] = ArcForges.Contracts.Node.ContractServices.All,
+    ["ArcForges.Contracts.Fleet"] = ArcForges.Contracts.Fleet.ContractServices.All,
+    ["ArcForges.Contracts.Peer"] = ArcForges.Contracts.Peer.ContractServices.All,
 };
 foreach (var package in services.GetProperty("csharp").EnumerateObject())
 {
@@ -133,6 +137,37 @@ ArcForges.Contracts.Events.V1.ExecutionService.BindService(binder, new Execution
 ArcForges.Contracts.Events.V1.EventService.BindService(binder, new EventEndpoint());
 ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamService.BindService(binder, new RunStreamEndpoint());
 ArcForges.Contracts.CloudInternal.Operator.V1.OperatorService.BindService(binder, new OperatorEndpoint());
+// AF-CON-01: every flagship service, in the order of the fixture's method list.
+ArcForges.Contracts.Node.V1.AccountService.BindService(binder, new FlagshipNodeAccountEndpoint());
+ArcForges.Contracts.Node.V1.ApprovalService.BindService(binder, new FlagshipNodeApprovalEndpoint());
+ArcForges.Contracts.Node.V1.CacheService.BindService(binder, new FlagshipNodeCacheEndpoint());
+ArcForges.Contracts.Node.V1.DiagnosisService.BindService(binder, new FlagshipNodeDiagnosisEndpoint());
+ArcForges.Contracts.Node.V1.NodeEventService.BindService(binder, new FlagshipNodeNodeEventEndpoint());
+ArcForges.Contracts.Node.V1.IntegrationService.BindService(binder, new FlagshipNodeIntegrationEndpoint());
+ArcForges.Contracts.Node.V1.MemoryService.BindService(binder, new FlagshipNodeMemoryEndpoint());
+ArcForges.Contracts.Node.V1.NodeService.BindService(binder, new FlagshipNodeNodeEndpoint());
+ArcForges.Contracts.Node.V1.PeerService.BindService(binder, new FlagshipNodePeerEndpoint());
+ArcForges.Contracts.Node.V1.PolicyService.BindService(binder, new FlagshipNodePolicyEndpoint());
+ArcForges.Contracts.Node.V1.QueueService.BindService(binder, new FlagshipNodeQueueEndpoint());
+ArcForges.Contracts.Node.V1.ResourceService.BindService(binder, new FlagshipNodeResourceEndpoint());
+ArcForges.Contracts.Node.V1.SessionService.BindService(binder, new FlagshipNodeSessionEndpoint());
+ArcForges.Contracts.Node.V1.StorageService.BindService(binder, new FlagshipNodeStorageEndpoint());
+ArcForges.Contracts.Node.V1.SupportService.BindService(binder, new FlagshipNodeSupportEndpoint());
+ArcForges.Contracts.Node.V1.TaskService.BindService(binder, new FlagshipNodeTaskEndpoint());
+ArcForges.Contracts.Node.V1.ToolchainService.BindService(binder, new FlagshipNodeToolchainEndpoint());
+ArcForges.Contracts.Node.V1.UpdateService.BindService(binder, new FlagshipNodeUpdateEndpoint());
+ArcForges.Contracts.Node.V1.WorkspaceService.BindService(binder, new FlagshipNodeWorkspaceEndpoint());
+ArcForges.Contracts.Fleet.V1.NodeEnrollmentService.BindService(binder, new FlagshipFleetNodeEnrollmentEndpoint());
+ArcForges.Contracts.Fleet.V1.FleetService.BindService(binder, new FlagshipFleetFleetEndpoint());
+ArcForges.Contracts.Fleet.V1.StoreBillingService.BindService(binder, new FlagshipFleetStoreBillingEndpoint());
+ArcForges.Contracts.Peer.V1.PeerHandshakeService.BindService(binder, new FlagshipPeerPeerHandshakeEndpoint());
+ArcForges.Contracts.Peer.V1.PairingService.BindService(binder, new FlagshipPeerPairingEndpoint());
+ArcForges.Contracts.Peer.V1.PeerStatusService.BindService(binder, new FlagshipPeerPeerStatusEndpoint());
+ArcForges.Contracts.Peer.V1.PlacementService.BindService(binder, new FlagshipPeerPlacementEndpoint());
+ArcForges.Contracts.Peer.V1.TransferService.BindService(binder, new FlagshipPeerTransferEndpoint());
+ArcForges.Contracts.Peer.V1.GuestLinkService.BindService(binder, new FlagshipPeerGuestLinkEndpoint());
+ArcForges.Contracts.PublicApi.V1.SupportAccessService.BindService(binder, new FlagshipPublicApiSupportAccessEndpoint());
+ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadService.BindService(binder, new FlagshipOperatorOperatorReadEndpoint());
 var expectedMethods = services.GetProperty("methods").EnumerateObject()
     .SelectMany(service => service.Value.EnumerateArray().Select(value => value.GetString()!)).ToArray();
 Require(binder.Methods.SequenceEqual(expectedMethods), "bound methods " + string.Join(",", binder.Methods));
@@ -163,6 +198,32 @@ FileDescriptor[] files =
     ArcForges.Contracts.PublicApi.V1.ApplicationReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.IdentityReflection.Descriptor,
     ArcForges.Contracts.CloudInternal.Cf.V1.StreamReflection.Descriptor,
+    // AF-CON-01: the adopted flagship schemas.
+    ArcForges.Contracts.Node.V1.AccountReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.ApprovalsReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.CachesReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.CommonReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.DiagnosisReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.EventsReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.IntegrationsReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.MemoryReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.NodeReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.PeersReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.QueueReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.ResourcesReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.SessionsReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.StorageReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.SupportReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.TasksReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.ToolchainsReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.UpdatesReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.WorkspacesReflection.Descriptor,
+    ArcForges.Contracts.Fleet.V1.FleetReflection.Descriptor,
+    ArcForges.Contracts.Peer.V1.PeerReflection.Descriptor,
+    ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.SupportAccessReflection.Descriptor,
+    ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadReflection.Descriptor,
 ];
 var serviceCount = 0;
 foreach (var file in files)
@@ -417,3 +478,63 @@ internal sealed class EventEndpoint : ArcForges.Contracts.Events.V1.EventService
 internal sealed class RunStreamEndpoint : ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamService.RunStreamServiceBase;
 
 internal sealed class OperatorEndpoint : ArcForges.Contracts.CloudInternal.Operator.V1.OperatorService.OperatorServiceBase;
+
+internal sealed class FlagshipNodeAccountEndpoint : ArcForges.Contracts.Node.V1.AccountService.AccountServiceBase;
+
+internal sealed class FlagshipNodeApprovalEndpoint : ArcForges.Contracts.Node.V1.ApprovalService.ApprovalServiceBase;
+
+internal sealed class FlagshipNodeCacheEndpoint : ArcForges.Contracts.Node.V1.CacheService.CacheServiceBase;
+
+internal sealed class FlagshipNodeDiagnosisEndpoint : ArcForges.Contracts.Node.V1.DiagnosisService.DiagnosisServiceBase;
+
+internal sealed class FlagshipNodeNodeEventEndpoint : ArcForges.Contracts.Node.V1.NodeEventService.NodeEventServiceBase;
+
+internal sealed class FlagshipNodeIntegrationEndpoint : ArcForges.Contracts.Node.V1.IntegrationService.IntegrationServiceBase;
+
+internal sealed class FlagshipNodeMemoryEndpoint : ArcForges.Contracts.Node.V1.MemoryService.MemoryServiceBase;
+
+internal sealed class FlagshipNodeNodeEndpoint : ArcForges.Contracts.Node.V1.NodeService.NodeServiceBase;
+
+internal sealed class FlagshipNodePeerEndpoint : ArcForges.Contracts.Node.V1.PeerService.PeerServiceBase;
+
+internal sealed class FlagshipNodePolicyEndpoint : ArcForges.Contracts.Node.V1.PolicyService.PolicyServiceBase;
+
+internal sealed class FlagshipNodeQueueEndpoint : ArcForges.Contracts.Node.V1.QueueService.QueueServiceBase;
+
+internal sealed class FlagshipNodeResourceEndpoint : ArcForges.Contracts.Node.V1.ResourceService.ResourceServiceBase;
+
+internal sealed class FlagshipNodeSessionEndpoint : ArcForges.Contracts.Node.V1.SessionService.SessionServiceBase;
+
+internal sealed class FlagshipNodeStorageEndpoint : ArcForges.Contracts.Node.V1.StorageService.StorageServiceBase;
+
+internal sealed class FlagshipNodeSupportEndpoint : ArcForges.Contracts.Node.V1.SupportService.SupportServiceBase;
+
+internal sealed class FlagshipNodeTaskEndpoint : ArcForges.Contracts.Node.V1.TaskService.TaskServiceBase;
+
+internal sealed class FlagshipNodeToolchainEndpoint : ArcForges.Contracts.Node.V1.ToolchainService.ToolchainServiceBase;
+
+internal sealed class FlagshipNodeUpdateEndpoint : ArcForges.Contracts.Node.V1.UpdateService.UpdateServiceBase;
+
+internal sealed class FlagshipNodeWorkspaceEndpoint : ArcForges.Contracts.Node.V1.WorkspaceService.WorkspaceServiceBase;
+
+internal sealed class FlagshipFleetNodeEnrollmentEndpoint : ArcForges.Contracts.Fleet.V1.NodeEnrollmentService.NodeEnrollmentServiceBase;
+
+internal sealed class FlagshipFleetFleetEndpoint : ArcForges.Contracts.Fleet.V1.FleetService.FleetServiceBase;
+
+internal sealed class FlagshipFleetStoreBillingEndpoint : ArcForges.Contracts.Fleet.V1.StoreBillingService.StoreBillingServiceBase;
+
+internal sealed class FlagshipPeerPeerHandshakeEndpoint : ArcForges.Contracts.Peer.V1.PeerHandshakeService.PeerHandshakeServiceBase;
+
+internal sealed class FlagshipPeerPairingEndpoint : ArcForges.Contracts.Peer.V1.PairingService.PairingServiceBase;
+
+internal sealed class FlagshipPeerPeerStatusEndpoint : ArcForges.Contracts.Peer.V1.PeerStatusService.PeerStatusServiceBase;
+
+internal sealed class FlagshipPeerPlacementEndpoint : ArcForges.Contracts.Peer.V1.PlacementService.PlacementServiceBase;
+
+internal sealed class FlagshipPeerTransferEndpoint : ArcForges.Contracts.Peer.V1.TransferService.TransferServiceBase;
+
+internal sealed class FlagshipPeerGuestLinkEndpoint : ArcForges.Contracts.Peer.V1.GuestLinkService.GuestLinkServiceBase;
+
+internal sealed class FlagshipPublicApiSupportAccessEndpoint : ArcForges.Contracts.PublicApi.V1.SupportAccessService.SupportAccessServiceBase;
+
+internal sealed class FlagshipOperatorOperatorReadEndpoint : ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadService.OperatorReadServiceBase;

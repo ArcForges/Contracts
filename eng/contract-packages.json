@@ -32,7 +32,8 @@
         "public/proto/arcforges/publicapi/v1/scope.proto",
         "public/proto/arcforges/publicapi/v1/connector.proto",
         "public/proto/arcforges/publicapi/v1/application.proto",
-        "public/proto/arcforges/publicapi/v1/identity.proto"
+        "public/proto/arcforges/publicapi/v1/identity.proto",
+        "public/proto/arcforges/publicapi/v1/support_access.proto"
       ],
       "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "public-api.binpb",
@@ -166,7 +167,8 @@
       "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.CloudInternal",
       "proto": [
         "internal/proto/arcforges/operator/v1/operator.proto",
-        "internal/proto/arcforges/cf/v1/stream.proto"
+        "internal/proto/arcforges/cf/v1/stream.proto",
+        "internal/proto/arcforges/operator/v1/operator_read.proto"
       ],
       "dependencies": [
         "ArcForges.Contracts.Foundation",
@@ -368,6 +370,71 @@
         "ArcForges.Contracts.LocalRpc.Chat"
       ],
       "descriptor": "local-dispatch.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.Node",
+      "kind": "nuget",
+      "access": "public",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.Node",
+      "proto": [
+        "public/proto/arcforges/node/v1/account.proto",
+        "public/proto/arcforges/node/v1/approvals.proto",
+        "public/proto/arcforges/node/v1/caches.proto",
+        "public/proto/arcforges/node/v1/common.proto",
+        "public/proto/arcforges/node/v1/diagnosis.proto",
+        "public/proto/arcforges/node/v1/events.proto",
+        "public/proto/arcforges/node/v1/integrations.proto",
+        "public/proto/arcforges/node/v1/memory.proto",
+        "public/proto/arcforges/node/v1/node.proto",
+        "public/proto/arcforges/node/v1/peers.proto",
+        "public/proto/arcforges/node/v1/policy.proto",
+        "public/proto/arcforges/node/v1/queue.proto",
+        "public/proto/arcforges/node/v1/resources.proto",
+        "public/proto/arcforges/node/v1/sessions.proto",
+        "public/proto/arcforges/node/v1/storage.proto",
+        "public/proto/arcforges/node/v1/support.proto",
+        "public/proto/arcforges/node/v1/tasks.proto",
+        "public/proto/arcforges/node/v1/toolchains.proto",
+        "public/proto/arcforges/node/v1/updates.proto",
+        "public/proto/arcforges/node/v1/workspaces.proto"
+      ],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "descriptor": "node.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.Fleet",
+      "kind": "nuget",
+      "access": "public",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.Fleet",
+      "proto": ["public/proto/arcforges/fleet/v1/fleet.proto"],
+      "dependencies": ["ArcForges.Contracts.Foundation", "ArcForges.Contracts.Node"],
+      "descriptor": "fleet.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.Peer",
+      "kind": "nuget",
+      "access": "internal",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.Peer",
+      "proto": ["internal/proto/arcforges/peer/v1/peer.proto"],
+      "dependencies": ["ArcForges.Contracts.Foundation", "ArcForges.Contracts.Node"],
+      "descriptor": "peer.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.Relay",
+      "kind": "nuget",
+      "access": "internal",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.Relay",
+      "proto": ["internal/proto/arcforges/relay/v1/relay.proto"],
+      "dependencies": [
+        "ArcForges.Contracts.Foundation",
+        "ArcForges.Contracts.Node",
+        "ArcForges.Contracts.Fleet"
+      ],
+      "descriptor": "relay.binpb",
       "jsonSchemas": []
     }
   ]

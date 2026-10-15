@@ -1,0 +1,174 @@
+// SPDX-License-Identifier: Apache-2.0
+// ArcForges flagship design specification. Canonical once adopted by the Contracts repository.
+syntax = "proto3";
+
+package arcforges.node.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/account.proto";
+import "arcforges/node/v1/approvals.proto";
+import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/diagnosis.proto";
+import "arcforges/node/v1/integrations.proto";
+import "arcforges/node/v1/node.proto";
+import "arcforges/node/v1/peers.proto";
+import "arcforges/node/v1/policy.proto";
+import "arcforges/node/v1/queue.proto";
+import "arcforges/node/v1/resources.proto";
+import "arcforges/node/v1/sessions.proto";
+import "arcforges/node/v1/storage.proto";
+import "arcforges/node/v1/support.proto";
+import "arcforges/node/v1/tasks.proto";
+import "arcforges/node/v1/updates.proto";
+import "arcforges/node/v1/workspaces.proto";
+
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeEventsProto";
+
+// Snapshot-plus-incremental event streams for local clients (AD-0004; architecture 12 section 1).
+// Ordering: per node, event seq is strictly increasing within a generation. A new generation
+// (node restart or journal reset) requires a snapshot; clients detect gaps and resubscribe.
+
+// Subscribe to node state as snapshot plus incremental events.
+service NodeEventService {
+  // Snapshot of the requested topics (unless resuming from a valid cursor), then events in order. Subscriber buffer 2,048 events; overflow sends reset (02 section 1).
+  // auth: HUMAN=A SCRIPT=A AGENT=A (own session detail; others summary) REMOTE=-
+  // idempotency: read
+  // deadline: none; heartbeat 15 s
+  // stream: server: NodeEventServiceSubscribeFrame; reset on gap, generation change or overflow
+  // errors: VALIDATION/invalid_argument, VALIDATION/invalid_cursor
+  // locality: node
+  rpc Subscribe(NodeEventServiceSubscribeRequest) returns (stream NodeEventServiceSubscribeFrame);
+
+  // Poll events after a cursor (clients that cannot hold a stream).
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // idempotency: read
+  // deadline: 5 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor
+  // locality: node
+  rpc ListEvents(NodeEventServiceListEventsRequest) returns (NodeEventServiceListEventsResponse);
+}
+
+message NodeEventServiceSubscribeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated EventTopic topics = 10 [json_name = "topics"]; // validate: non-empty; unique
+  optional string cursor = 11 [json_name = "cursor"]; // validate: from a previous frame position; empty = snapshot
+  optional uint32 resources_interval_ms = 12 [json_name = "resourcesIntervalMs"]; // validate: 1,000..60,000; default 5,000 (RESOURCES topic)
+}
+message NodeEventServiceSubscribeFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  StreamPosition position = 2 [json_name = "position"];
+  reserved 3 to 9;
+  oneof frame {
+    StreamReset reset = 10 [json_name = "reset"];
+    Heartbeat heartbeat = 11 [json_name = "heartbeat"];
+    arcforges.foundation.v1.ArcError error = 12 [json_name = "error"];
+    NodeEvent event = 20 [json_name = "event"];
+    SnapshotComplete snapshot_complete = 21 [json_name = "snapshotComplete"];
+  }
+}
+
+message NodeEventServiceListEventsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated EventTopic topics = 10 [json_name = "topics"]; // validate: non-empty
+  optional string cursor = 11 [json_name = "cursor"]; // validate: required
+  optional uint32 limit = 12 [json_name = "limit"]; // validate: 1..1000; default 200
+}
+message NodeEventServiceListEventsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEventServiceListEventsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEventServiceListEventsValue {
+  repeated NodeEvent events = 10 [json_name = "events"];
+  StreamPosition position = 11 [json_name = "position"];
+  optional bool reset_required = 12 [json_name = "resetRequired"]; // cursor too old or generation changed: resubscribe with a snapshot
+}
+
+enum EventTopic {
+  EVENT_TOPIC_UNSPECIFIED = 0;
+  EVENT_TOPIC_NODE = 1;
+  EVENT_TOPIC_TASKS = 2;
+  EVENT_TOPIC_QUEUE = 3;
+  EVENT_TOPIC_RESOURCES = 4;
+  EVENT_TOPIC_FINDINGS = 5;
+  EVENT_TOPIC_APPROVALS = 6;
+  EVENT_TOPIC_SESSIONS = 7;
+  EVENT_TOPIC_WORKSPACES = 8;
+  EVENT_TOPIC_JOBS = 9;
+  EVENT_TOPIC_PEERS = 10;
+  EVENT_TOPIC_GUESTS = 11;
+  EVENT_TOPIC_POLICY = 12;
+  EVENT_TOPIC_UPDATES = 13;
+  EVENT_TOPIC_ACCOUNT = 14;
+  EVENT_TOPIC_INTEGRATIONS = 15;
+  EVENT_TOPIC_STORAGE = 16;
+  EVENT_TOPIC_SUPPORT = 17;
+  EVENT_TOPIC_NOTIFICATIONS = 18;
+}
+
+message TaskChanged {
+  ManagedTask task = 1 [json_name = "task"];
+  optional TaskState previous_state = 2 [json_name = "previousState"];
+}
+
+message AttemptChanged {
+  Attempt attempt = 1 [json_name = "attempt"];
+  optional AttemptState previous_state = 2 [json_name = "previousState"];
+}
+
+message QueueChanged {
+  repeated Pool pools = 1 [json_name = "pools"];
+  BudgetSummary budget = 2 [json_name = "budget"];
+}
+
+message NodeStatusChanged {
+  optional NodeLifecycleState state = 1 [json_name = "state"];
+  optional string reason = 2 [json_name = "reason"];
+  CapabilityReport capabilities = 3 [json_name = "capabilities"];
+}
+
+message NodeEvent {
+  optional uint64 seq = 1 [json_name = "seq"];
+  optional uint64 generation = 2 [json_name = "generation"];
+  arcforges.foundation.v1.Instant at = 3 [json_name = "at"];
+  optional EventTopic topic = 4 [json_name = "topic"];
+  optional bool from_snapshot = 5 [json_name = "fromSnapshot"];
+  oneof payload {
+    TaskChanged task = 10 [json_name = "task"];
+    AttemptChanged attempt = 11 [json_name = "attempt"];
+    QueueChanged queue = 12 [json_name = "queue"];
+    ResourceSnapshot resources = 13 [json_name = "resources"];
+    Finding finding = 14 [json_name = "finding"];
+    Approval approval = 15 [json_name = "approval"];
+    Session session = 16 [json_name = "session"];
+    Workspace workspace = 17 [json_name = "workspace"];
+    JobView job = 18 [json_name = "job"];
+    Peer peer = 19 [json_name = "peer"];
+    Pairing pairing = 20 [json_name = "pairing"];
+    GuestLinkView guest_link = 21 [json_name = "guestLink"];
+    PolicyRevision policy = 22 [json_name = "policy"];
+    UpdateStatus update = 23 [json_name = "update"];
+    AccountStatus account = 24 [json_name = "account"];
+    PhonePairing phone_pairing = 25 [json_name = "phonePairing"];
+    SignInFlow sign_in = 26 [json_name = "signIn"];
+    ClientIntegration integration = 27 [json_name = "integration"];
+    CleanupPlan cleanup_plan = 28 [json_name = "cleanupPlan"];
+    NodeStatusChanged node = 29 [json_name = "node"];
+    SupportBundle support_bundle = 30 [json_name = "supportBundle"];
+    NodeNotification notification = 31 [json_name = "notification"];
+  }
+}
+
+message SnapshotComplete {
+  repeated EventTopic topics = 1 [json_name = "topics"];
+  optional uint64 seq = 2 [json_name = "seq"]; // events after this seq follow
+}

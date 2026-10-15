@@ -1,0 +1,1442 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.fleet.v1.AccountSummary": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.AccountSummary",
+      "fields": {
+        "accountId": {},
+        "displayName": {},
+        "emailMasked": {},
+        "plan": {}
+      }
+    },
+    "arcforges.fleet.v1.ApplyUpdateCommand": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.ApplyUpdateCommand",
+      "fields": {
+        "expectedVersion": {}
+      }
+    },
+    "arcforges.fleet.v1.ApprovalSummary": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.ApprovalSummary",
+      "fields": {
+        "approvalId": {},
+        "operation": {},
+        "summary": {},
+        "risk": {},
+        "createdAt": {},
+        "expiresAt": {},
+        "requesterOrigin": {}
+      }
+    },
+    "arcforges.fleet.v1.BillingStatus": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.BillingStatus",
+      "fields": {
+        "subscriptions": {},
+        "effectivePlan": {},
+        "features": {},
+        "duplicateWarning": {},
+        "salesOpen": {}
+      }
+    },
+    "arcforges.fleet.v1.CancelTaskCommand": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.CancelTaskCommand",
+      "fields": {
+        "taskId": {
+          "required": true
+        },
+        "reason": {}
+      }
+    },
+    "arcforges.fleet.v1.CategoryShare": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.CategoryShare",
+      "fields": {
+        "category": {},
+        "seconds": {}
+      }
+    },
+    "arcforges.fleet.v1.DecideApprovalCommand": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.DecideApprovalCommand",
+      "fields": {
+        "approvalId": {
+          "required": true
+        },
+        "approve": {},
+        "comment": {}
+      }
+    },
+    "arcforges.fleet.v1.DeviceAuthorization": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.DeviceAuthorization",
+      "fields": {
+        "deviceCode": {},
+        "userCode": {},
+        "verificationUri": {},
+        "verificationUriComplete": {},
+        "intervalMs": {},
+        "expiresAt": {}
+      }
+    },
+    "arcforges.fleet.v1.EnrollingNodeInfo": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.EnrollingNodeInfo",
+      "fields": {
+        "nodeId": {
+          "required": true
+        },
+        "name": {},
+        "os": {
+          "required": true
+        },
+        "arch": {
+          "required": true
+        },
+        "version": {},
+        "role": {},
+        "hostNodeId": {}
+      }
+    },
+    "arcforges.fleet.v1.EntitlementClaims": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.EntitlementClaims",
+      "fields": {
+        "accountId": {},
+        "nodeId": {},
+        "plan": {},
+        "features": {},
+        "issuedAt": {},
+        "notAfter": {},
+        "revokedNodes": {},
+        "entitlementVersion": {}
+      }
+    },
+    "arcforges.fleet.v1.FindingSummary": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FindingSummary",
+      "fields": {
+        "findingId": {},
+        "kind": {},
+        "severity": {},
+        "title": {},
+        "subjectKind": {},
+        "state": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetNode": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetNode",
+      "fields": {
+        "nodeId": {},
+        "name": {},
+        "os": {},
+        "arch": {},
+        "version": {},
+        "role": {},
+        "hostNodeId": {},
+        "online": {},
+        "lastSeenAt": {},
+        "enrolledAt": {},
+        "summary": {},
+        "relayEnabled": {},
+        "deviceId": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceCancelNodeCommandRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeCommandRequest",
+      "fields": {
+        "meta": {},
+        "commandId": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeCommandResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceCancelNodeCommandValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeCommandValue",
+      "fields": {
+        "command": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceGetNodeCommandRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeCommandRequest",
+      "fields": {
+        "meta": {},
+        "commandId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceGetNodeCommandResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeCommandResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceGetNodeCommandValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeCommandValue",
+      "fields": {
+        "command": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceGetNodeRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceGetNodeResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceGetNodeValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeValue",
+      "fields": {
+        "node": {},
+        "recentCommands": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceGetPushPreferencesRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetPushPreferencesRequest",
+      "fields": {
+        "meta": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceGetPushPreferencesResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetPushPreferencesResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceGetPushPreferencesValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetPushPreferencesValue",
+      "fields": {
+        "preferences": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceIssueRelayTokenRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceIssueRelayTokenRequest",
+      "fields": {
+        "meta": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceIssueRelayTokenResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceIssueRelayTokenResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceIssueRelayTokenValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceIssueRelayTokenValue",
+      "fields": {
+        "grant": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceListNodeCommandsRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodeCommandsRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "page": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceListNodeCommandsResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodeCommandsResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceListNodeCommandsValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodeCommandsValue",
+      "fields": {
+        "commands": {},
+        "page": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceListNodesRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodesRequest",
+      "fields": {
+        "meta": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceListNodesResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodesResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceListNodesValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodesValue",
+      "fields": {
+        "nodes": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceOpenFleetWatchRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceOpenFleetWatchRequest",
+      "fields": {
+        "meta": {},
+        "nodeIds": {},
+        "detail": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceOpenFleetWatchResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceOpenFleetWatchResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceOpenFleetWatchValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceOpenFleetWatchValue",
+      "fields": {
+        "grant": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceRenameNodeRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceRenameNodeRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "name": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceRenameNodeResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceRenameNodeResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceRenameNodeValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceRenameNodeValue",
+      "fields": {
+        "node": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceRevokeNodeRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceRevokeNodeRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceRevokeNodeResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceRevokeNodeResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceRevokeNodeValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceRevokeNodeValue",
+      "fields": {
+        "receipt": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceSendNodeCommandRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceSendNodeCommandRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {},
+        "body": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceSendNodeCommandResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceSendNodeCommandResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceSendNodeCommandValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceSendNodeCommandValue",
+      "fields": {
+        "command": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceUpdatePushPreferencesRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceUpdatePushPreferencesRequest",
+      "fields": {
+        "meta": {},
+        "preferences": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceUpdatePushPreferencesResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceUpdatePushPreferencesResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceUpdatePushPreferencesValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceUpdatePushPreferencesValue",
+      "fields": {
+        "preferences": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceWatchFleetFrame": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceWatchFleetFrame",
+      "fields": {
+        "meta": {},
+        "position": {},
+        "reset": {},
+        "heartbeat": {},
+        "error": {},
+        "snapshot": {},
+        "delta": {},
+        "presence": {},
+        "commandUpdate": {}
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceWatchFleetRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceWatchFleetRequest",
+      "fields": {
+        "meta": {},
+        "nodeIds": {},
+        "detail": {},
+        "cursors": {}
+      }
+    },
+    "arcforges.fleet.v1.LanHint": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.LanHint",
+      "fields": {
+        "nodeId": {},
+        "name": {},
+        "endpoints": {},
+        "fingerprint": {},
+        "reportedAt": {}
+      }
+    },
+    "arcforges.fleet.v1.MobileSessionCredentials": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.MobileSessionCredentials",
+      "fields": {
+        "refreshToken": {},
+        "accessToken": {},
+        "accessExpiresAt": {},
+        "account": {},
+        "installationId": {},
+        "scope": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeCommand": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeCommand",
+      "fields": {
+        "commandId": {},
+        "accountId": {},
+        "nodeId": {},
+        "issuedAt": {},
+        "expiresAt": {},
+        "risk": {},
+        "actorUserId": {},
+        "stepUpAt": {},
+        "actorDevice": {},
+        "body": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeCommandBody": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeCommandBody",
+      "fields": {
+        "refresh": {},
+        "pauseQueue": {},
+        "resumeQueue": {},
+        "cancelTask": {},
+        "setPriority": {},
+        "runTask": {},
+        "decideApproval": {},
+        "readOutputTail": {},
+        "applyUpdate": {},
+        "setParallelism": {},
+        "stopNode": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeCommandResult": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeCommandResult",
+      "fields": {
+        "commandId": {},
+        "nodeId": {},
+        "executedAt": {},
+        "receipt": {},
+        "error": {},
+        "outputTailSha256": {},
+        "detail": {},
+        "outputTailBytes": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeCredentials": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeCredentials",
+      "fields": {
+        "refreshToken": {},
+        "accessToken": {},
+        "accessExpiresAt": {},
+        "account": {},
+        "entitlementToken": {},
+        "nodeCertificateChain": {},
+        "commandKeys": {},
+        "entitlementKeys": {},
+        "installationId": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeCursorInput": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeCursorInput",
+      "fields": {
+        "nodeId": {},
+        "generation": {},
+        "seq": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceApproveDeviceCodeRequest",
+      "fields": {
+        "meta": {},
+        "userCode": {},
+        "approve": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceApproveDeviceCodeResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceApproveDeviceCodeValue",
+      "fields": {
+        "receipt": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceApproveNodeSignInRequest",
+      "fields": {
+        "meta": {},
+        "flowId": {},
+        "approve": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceApproveNodeSignInResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceApproveNodeSignInValue",
+      "fields": {
+        "redirectUrl": {},
+        "flow": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceBeginNodeSignInRequest",
+      "fields": {
+        "meta": {},
+        "codeChallenge": {},
+        "redirectUri": {},
+        "node": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceBeginNodeSignInResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceBeginNodeSignInValue",
+      "fields": {
+        "flowId": {},
+        "authorizeUrl": {},
+        "expiresAt": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceBeginSupportUploadRequest",
+      "fields": {
+        "meta": {},
+        "caseReference": {},
+        "newCaseSubject": {},
+        "fileName": {},
+        "sizeBytes": {},
+        "sha256": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceBeginSupportUploadResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceBeginSupportUploadValue",
+      "fields": {
+        "uploadId": {},
+        "caseId": {},
+        "uploadUrl": {},
+        "expiresAt": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceClaimPhonePairingRequest",
+      "fields": {
+        "meta": {},
+        "pairingId": {
+          "required": true
+        },
+        "secret": {
+          "required": true
+        },
+        "phone": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceClaimPhonePairingResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceClaimPhonePairingValue",
+      "fields": {
+        "pairing": {},
+        "claimToken": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCompleteNodeSignInRequest",
+      "fields": {
+        "meta": {},
+        "flowId": {},
+        "code": {},
+        "codeVerifier": {},
+        "csr": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCompleteNodeSignInResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCompleteNodeSignInValue",
+      "fields": {
+        "credentials": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCompleteSupportUploadRequest",
+      "fields": {
+        "meta": {},
+        "uploadId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCompleteSupportUploadResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCompleteSupportUploadValue",
+      "fields": {
+        "caseId": {},
+        "messageId": {},
+        "objectExpiresAt": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceConfirmPhonePairingRequest",
+      "fields": {
+        "meta": {},
+        "pairingId": {},
+        "approve": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceConfirmPhonePairingResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceConfirmPhonePairingValue",
+      "fields": {
+        "pairing": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingRequest",
+      "fields": {
+        "meta": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingValue",
+      "fields": {
+        "ticket": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetEntitlementKeysRequest",
+      "fields": {
+        "meta": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetEntitlementKeysResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetEntitlementKeysValue",
+      "fields": {
+        "entitlementKeys": {},
+        "commandKeys": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetLanHintsRequest",
+      "fields": {
+        "meta": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetLanHintsResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetLanHintsValue",
+      "fields": {
+        "hints": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetNodeSignInFlowRequest",
+      "fields": {
+        "meta": {},
+        "flowId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetNodeSignInFlowResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetNodeSignInFlowValue",
+      "fields": {
+        "flow": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetPhonePairingRequest",
+      "fields": {
+        "meta": {},
+        "pairingId": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetPhonePairingResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetPhonePairingValue",
+      "fields": {
+        "pairing": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceIssueNodeCertificateRequest",
+      "fields": {
+        "meta": {},
+        "csr": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceIssueNodeCertificateResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceIssueNodeCertificateValue",
+      "fields": {
+        "certificateChain": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceLookupDeviceCodeRequest",
+      "fields": {
+        "meta": {},
+        "userCode": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceLookupDeviceCodeResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceLookupDeviceCodeValue",
+      "fields": {
+        "node": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServicePollDeviceAuthorizationRequest",
+      "fields": {
+        "meta": {},
+        "deviceCode": {
+          "required": true
+        },
+        "csr": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServicePollDeviceAuthorizationResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServicePollDeviceAuthorizationValue",
+      "fields": {
+        "state": {},
+        "intervalMs": {},
+        "credentials": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServicePollPhonePairingRequest",
+      "fields": {
+        "meta": {},
+        "pairingId": {
+          "required": true
+        },
+        "claimToken": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServicePollPhonePairingResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServicePollPhonePairingValue",
+      "fields": {
+        "pairing": {},
+        "credentials": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceRefreshEntitlementTokenRequest",
+      "fields": {
+        "meta": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceRefreshEntitlementTokenResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceRefreshEntitlementTokenValue",
+      "fields": {
+        "entitlementToken": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceRefreshNodeSessionRequest",
+      "fields": {
+        "meta": {},
+        "refreshToken": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceRefreshNodeSessionResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceRefreshNodeSessionValue",
+      "fields": {
+        "refreshToken": {},
+        "accessToken": {},
+        "accessExpiresAt": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportLanEndpointsRequest",
+      "fields": {
+        "meta": {},
+        "endpoints": {},
+        "fingerprint": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportLanEndpointsResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportLanEndpointsValue",
+      "fields": {
+        "receipt": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportNodeInfoRequest",
+      "fields": {
+        "meta": {},
+        "node": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportNodeInfoResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportNodeInfoValue",
+      "fields": {
+        "receipt": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceStartDeviceAuthorizationRequest",
+      "fields": {
+        "meta": {},
+        "node": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceStartDeviceAuthorizationResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceStartDeviceAuthorizationValue",
+      "fields": {
+        "authorization": {}
+      }
+    },
+    "arcforges.fleet.v1.NodePresence": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodePresence",
+      "fields": {
+        "nodeId": {},
+        "state": {},
+        "at": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeSignInFlowView": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeSignInFlowView",
+      "fields": {
+        "flowId": {},
+        "node": {},
+        "state": {},
+        "createdAt": {},
+        "expiresAt": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeSnapshot": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeSnapshot",
+      "fields": {
+        "summary": {},
+        "tasks": {},
+        "findings": {},
+        "approvals": {},
+        "sessions": {}
+      }
+    },
+    "arcforges.fleet.v1.PauseQueueCommand": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.PauseQueueCommand",
+      "fields": {
+        "pool": {}
+      }
+    },
+    "arcforges.fleet.v1.PhoneInstallationInfo": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.PhoneInstallationInfo",
+      "fields": {
+        "installationId": {},
+        "model": {},
+        "osVersion": {},
+        "appVersion": {}
+      }
+    },
+    "arcforges.fleet.v1.PhonePairingTicket": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.PhonePairingTicket",
+      "fields": {
+        "pairingId": {},
+        "secret": {},
+        "qrPayload": {},
+        "expiresAt": {}
+      }
+    },
+    "arcforges.fleet.v1.PhonePairingView": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.PhonePairingView",
+      "fields": {
+        "pairingId": {},
+        "state": {},
+        "phone": {},
+        "expiresAt": {}
+      }
+    },
+    "arcforges.fleet.v1.PlayPurchaseInput": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.PlayPurchaseInput",
+      "fields": {
+        "purchaseToken": {
+          "required": true
+        },
+        "productId": {},
+        "basePlanId": {},
+        "packageName": {},
+        "orderId": {}
+      }
+    },
+    "arcforges.fleet.v1.PlayPurchaseResult": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.PlayPurchaseResult",
+      "fields": {
+        "purchaseTokenHash": {},
+        "linkState": {},
+        "subscription": {},
+        "acknowledged": {}
+      }
+    },
+    "arcforges.fleet.v1.PublicKey": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.PublicKey",
+      "fields": {
+        "kid": {},
+        "algorithm": {},
+        "key": {},
+        "notBefore": {},
+        "notAfter": {}
+      }
+    },
+    "arcforges.fleet.v1.PushPreference": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.PushPreference",
+      "fields": {
+        "kind": {},
+        "nodeId": {},
+        "enabled": {}
+      }
+    },
+    "arcforges.fleet.v1.PushPreferences": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.PushPreferences",
+      "fields": {
+        "preferences": {},
+        "dailyLimit": {},
+        "revision": {}
+      }
+    },
+    "arcforges.fleet.v1.ReadOutputTailCommand": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.ReadOutputTailCommand",
+      "fields": {
+        "taskId": {
+          "required": true
+        },
+        "maxBytes": {}
+      }
+    },
+    "arcforges.fleet.v1.RefreshStatusCommand": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.RefreshStatusCommand",
+      "fields": {
+        "detail": {}
+      }
+    },
+    "arcforges.fleet.v1.RelayTokenGrant": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.RelayTokenGrant",
+      "fields": {
+        "token": {},
+        "expiresAt": {},
+        "relayUrl": {}
+      }
+    },
+    "arcforges.fleet.v1.RemoteCommandView": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.RemoteCommandView",
+      "fields": {
+        "commandId": {},
+        "nodeId": {},
+        "kind": {},
+        "risk": {},
+        "state": {},
+        "createdAt": {},
+        "expiresAt": {},
+        "deliveredAt": {},
+        "completedAt": {},
+        "result": {},
+        "actorDisplay": {}
+      }
+    },
+    "arcforges.fleet.v1.ResumeQueueCommand": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.ResumeQueueCommand",
+      "fields": {
+        "pool": {}
+      }
+    },
+    "arcforges.fleet.v1.RunTaskCommand": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.RunTaskCommand",
+      "fields": {
+        "spec": {}
+      }
+    },
+    "arcforges.fleet.v1.SessionSummary": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.SessionSummary",
+      "fields": {
+        "sessionId": {},
+        "client": {},
+        "state": {},
+        "managedTasks": {},
+        "bypassedCommands": {},
+        "workspaceName": {},
+        "subagentsActive": {},
+        "subagents": {},
+        "lastEventKind": {},
+        "lastEventAt": {},
+        "mcpConnected": {},
+        "routingMode": {},
+        "managedSharePermille": {},
+        "unknowns": {}
+      }
+    },
+    "arcforges.fleet.v1.SetParallelismCommand": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.SetParallelismCommand",
+      "fields": {
+        "scope": {},
+        "target": {},
+        "mode": {},
+        "fixed": {}
+      }
+    },
+    "arcforges.fleet.v1.SetPriorityCommand": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.SetPriorityCommand",
+      "fields": {
+        "taskId": {
+          "required": true
+        },
+        "priority": {}
+      }
+    },
+    "arcforges.fleet.v1.SignedBlob": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.SignedBlob",
+      "fields": {
+        "payload": {},
+        "signature": {},
+        "kid": {},
+        "algorithm": {}
+      }
+    },
+    "arcforges.fleet.v1.StatusDelta": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StatusDelta",
+      "fields": {
+        "nodeId": {},
+        "generation": {},
+        "seq": {},
+        "at": {},
+        "summary": {},
+        "upsertedTasks": {},
+        "removedTaskIds": {},
+        "findings": {},
+        "approvals": {},
+        "sessions": {}
+      }
+    },
+    "arcforges.fleet.v1.StatusSummary": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StatusSummary",
+      "fields": {
+        "nodeId": {},
+        "generation": {},
+        "seq": {},
+        "at": {},
+        "state": {},
+        "version": {},
+        "running": {},
+        "queued": {},
+        "budgetCpuMillicores": {},
+        "budgetMemBytes": {},
+        "cpuUsedPercent": {},
+        "memUsedPercent": {},
+        "pressure": {},
+        "findingsWarning": {},
+        "findingsError": {},
+        "approvalsPending": {},
+        "cpuControl": {},
+        "memoryControl": {},
+        "updateState": {},
+        "name": {},
+        "diskFreeBytes": {},
+        "diskTotalBytes": {},
+        "diskLevel": {},
+        "managedStorageBytes": {},
+        "sessionsActive": {},
+        "subagentsActive": {}
+      }
+    },
+    "arcforges.fleet.v1.StopNodeCommand": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StopNodeCommand",
+      "fields": {
+        "cancelRunning": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceConfirmPurchaseLinkRequest",
+      "fields": {
+        "meta": {},
+        "purchaseToken": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceConfirmPurchaseLinkResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceConfirmPurchaseLinkValue",
+      "fields": {
+        "result": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceGetBillingStatusRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceGetBillingStatusRequest",
+      "fields": {
+        "meta": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceGetBillingStatusResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceGetBillingStatusResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceGetBillingStatusValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceGetBillingStatusValue",
+      "fields": {
+        "status": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceGetPlayAccountReferenceRequest",
+      "fields": {
+        "meta": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceGetPlayAccountReferenceResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceGetPlayAccountReferenceValue",
+      "fields": {
+        "obfuscatedAccountId": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceRestorePlayPurchasesRequest",
+      "fields": {
+        "meta": {},
+        "purchases": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceRestorePlayPurchasesResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceRestorePlayPurchasesValue",
+      "fields": {
+        "results": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceSubmitPlayPurchaseRequest",
+      "fields": {
+        "meta": {},
+        "purchase": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceSubmitPlayPurchaseResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.StoreBillingServiceSubmitPlayPurchaseValue",
+      "fields": {
+        "result": {}
+      }
+    },
+    "arcforges.fleet.v1.SubagentSummary": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.SubagentSummary",
+      "fields": {
+        "agentType": {},
+        "state": {},
+        "startedAt": {},
+        "managedTasks": {}
+      }
+    },
+    "arcforges.fleet.v1.SubscriptionView": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.SubscriptionView",
+      "fields": {
+        "source": {},
+        "plan": {},
+        "state": {},
+        "renewsAt": {},
+        "endsAt": {},
+        "manageUrl": {},
+        "paymentIssue": {}
+      }
+    },
+    "arcforges.fleet.v1.TaskSummary": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.TaskSummary",
+      "fields": {
+        "taskId": {},
+        "title": {},
+        "state": {},
+        "pool": {},
+        "priority": {},
+        "startedAt": {},
+        "finishedAt": {},
+        "category": {},
+        "ownerOrigin": {},
+        "client": {},
+        "exitCode": {},
+        "progressPercent": {},
+        "sessionId": {},
+        "subagent": {},
+        "terminationReason": {},
+        "timeline": {},
+        "queuePosition": {},
+        "blockingReason": {},
+        "eta": {},
+        "elapsedMs": {},
+        "attribution": {}
+      }
+    },
+    "arcforges.fleet.v1.ViewerGrant": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.ViewerGrant",
+      "fields": {
+        "grant": {},
+        "expiresAt": {},
+        "wsUrl": {}
+      }
+    }
+  }
+}

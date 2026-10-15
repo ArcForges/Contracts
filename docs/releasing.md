@@ -1,7 +1,9 @@
 # Registry setup and automatic releases
 
 The workflow is `.github/workflows/ci.yml`. Main pushes automatically build,
-validate and publish the twelve C# NuGet packages and the one internal npm package
+validate and publish the seventeen C# NuGet packages (including the CON.43 Dispatch
+package and the four AF-CON-01 flagship packages Node, Fleet, Peer and Relay) and the
+one internal npm package
 `@arcforges/ai-internal` at `1.0.0-ci.<run-number>.<run-attempt>`. Canonical `vX.Y.Z`
 tags on main ancestry publish `X.Y.Z` of the same identities to both registries. PR,
 merge-group and manual diagnostic events validate only. Setting a variable by
@@ -249,8 +251,8 @@ above continues. These mutable tags do not alter consumer locks.
 
 ## 6. Failure and retry
 
-Registries do not provide an atomic transaction spanning all thirteen active
-packages (twelve NuGet and one npm).
+Registries do not provide an atomic transaction spanning all eighteen active
+packages (seventeen NuGet and one npm).
 Treat the common version as usable only after all required packages are present.
 Do not promote a partially published set by changing a client's dependency to an
 unrelated version.

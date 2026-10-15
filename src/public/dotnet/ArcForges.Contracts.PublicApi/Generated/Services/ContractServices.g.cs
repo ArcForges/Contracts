@@ -39,5 +39,6 @@ public static class ContractServices
         global::ArcForges.Contracts.PublicApi.V1.IdentityService.Descriptor,
         global::ArcForges.Contracts.PublicApi.V1.WorkspaceService.Descriptor,
         global::ArcForges.Contracts.PublicApi.V1.DeviceService.Descriptor,
+        global::ArcForges.Contracts.PublicApi.V1.SupportAccessService.Descriptor,
     ];
 }

@@ -666,6 +666,22 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.TimeRangeUtc.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.TimeRangeUtc? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.TimeRangeUtc? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.From is null) return false;
+        if (!Check(value.From, context)) return false;
+        if (value.Until is null) return false;
+        if (!Check(value.Until, context)) return false;
+        if (value.From.UnixSeconds > value.Until.UnixSeconds || (value.From.UnixSeconds == value.Until.UnixSeconds && value.From.Nanos > value.Until.Nanos)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.TransferTicket.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.TransferTicket? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.TransferTicket? value, ValidationContext context)
@@ -722,6 +738,60 @@ public static class ContractShapeValidation
         {
             if (!ValidUnicode(value.Received)) return false;
             if (!Matches(value.Received, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.AuditEventView.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.AuditEventView? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.AuditEventView? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.EventId is not null)
+        {
+            if (!Check(value.EventId, context)) return false;
+        }
+        if (value.OccurredAt is not null)
+        {
+            if (!Check(value.OccurredAt, context)) return false;
+        }
+        if (value.HasActorRef)
+        {
+            if (!ValidUnicode(value.ActorRef)) return false;
+        }
+        if (value.HasEventType)
+        {
+            if (!ValidUnicode(value.EventType)) return false;
+        }
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+        }
+        if (value.CorrelationId is not null)
+        {
+            if (!Check(value.CorrelationId, context)) return false;
+        }
+        if (value.CommandId is not null)
+        {
+            if (!Check(value.CommandId, context)) return false;
+        }
+        if (value.HasTargetRefKind)
+        {
+            if (!ValidUnicode(value.TargetRefKind)) return false;
+        }
+        if (value.TargetRefId is not null)
+        {
+            if (!Check(value.TargetRefId, context)) return false;
+        }
+        if (value.HasPayloadJson)
+        {
+            if (!ValidUnicode(value.PayloadJson)) return false;
+        }
+        if (value.HasEventHash)
+        {
         }
         return true;
         }
@@ -811,6 +881,111 @@ public static class ContractShapeValidation
         }
         if (value.CreatedAt is null) return false;
         if (!Check(value.CreatedAt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.MonthlyDimensionTotal.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.MonthlyDimensionTotal? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.MonthlyDimensionTotal? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.HasDimension)
+        {
+        }
+        if (value.HasUsed)
+        {
+        }
+        if (value.HasCeilingSum)
+        {
+        }
+        if (value.HasEstimatedCostMicros)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.MonthlyReport.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.MonthlyReport? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.MonthlyReport? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.MonthStart is not null)
+        {
+            if (!Check(value.MonthStart, context)) return false;
+        }
+        if (value.HasDaysCovered)
+        {
+        }
+        if (value.HasPartial)
+        {
+        }
+        foreach (var item in value.Totals)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.HasEstimatedTotalCostMicros)
+        {
+        }
+        if (value.HasMonthlyCeilingMicros)
+        {
+        }
+        if (value.HasActiveProAccounts)
+        {
+        }
+        if (value.HasRelayConnectedNodes)
+        {
+        }
+        if (value.HasCostPerProAccountMicros)
+        {
+        }
+        if (value.HasCostPerRelayNodeMicros)
+        {
+        }
+        if (value.HasFreeTierCostMicros)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatingBudgetView.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatingBudgetView? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatingBudgetView? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.HasDimension)
+        {
+        }
+        if (value.PeriodStart is not null)
+        {
+            if (!Check(value.PeriodStart, context)) return false;
+        }
+        if (value.HasCeiling)
+        {
+        }
+        if (value.HasUsed)
+        {
+        }
+        if (value.HasHeld)
+        {
+        }
+        if (value.HasUsedPermille)
+        {
+        }
+        if (value.HasThreshold)
+        {
+        }
+        if (value.HasEstimated)
+        {
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -1328,6 +1503,242 @@ public static class ContractShapeValidation
         }
         if (value.ExpectedProposalRevision is null) return false;
         if (!Check(value.ExpectedProposalRevision, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorReadContext.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadContext? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadContext? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.HasPurpose)
+        {
+            if (!ValidUnicode(value.Purpose)) return false;
+        }
+        if (value.CaseId is not null)
+        {
+            if (!Check(value.CaseId, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorReadServiceGetMonthlyReportRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetMonthlyReportRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetMonthlyReportRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        if (value.Month is not null)
+        {
+            if (!Check(value.Month, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorReadServiceGetMonthlyReportResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetMonthlyReportResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetMonthlyReportResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorReadServiceGetMonthlyReportValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetMonthlyReportValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetMonthlyReportValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Report is not null)
+        {
+            if (!Check(value.Report, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorReadServiceGetOperatingBudgetsRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetOperatingBudgetsRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetOperatingBudgetsRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        if (value.Day is not null)
+        {
+            if (!Check(value.Day, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorReadServiceGetOperatingBudgetsResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetOperatingBudgetsResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetOperatingBudgetsResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorReadServiceGetOperatingBudgetsValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetOperatingBudgetsValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetOperatingBudgetsValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        foreach (var item in value.Budgets)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.EvaluatedAt is not null)
+        {
+            if (!Check(value.EvaluatedAt, context)) return false;
+        }
+        if (value.Residual is not null)
+        {
+            if (!Check(value.Residual, context)) return false;
+        }
+        if (value.HasEssentialOnly)
+        {
+        }
+        if (value.Reconciliation is not null)
+        {
+            if (!Check(value.Reconciliation, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorReadServiceListAuditEventsRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceListAuditEventsRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceListAuditEventsRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        if (value.Range is null) return false;
+        if (!Check(value.Range, context)) return false;
+        if (value.HasEventTypePrefix)
+        {
+            if (!ValidUnicode(value.EventTypePrefix)) return false;
+        }
+        if (value.HasActorRef)
+        {
+            if (!ValidUnicode(value.ActorRef)) return false;
+        }
+        if (value.HasTargetRefKind)
+        {
+            if (!ValidUnicode(value.TargetRefKind)) return false;
+        }
+        if (value.TargetRefId is not null)
+        {
+            if (!Check(value.TargetRefId, context)) return false;
+        }
+        if (value.Page is not null)
+        {
+            if (!Check(value.Page, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorReadServiceListAuditEventsResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceListAuditEventsResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceListAuditEventsResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorReadServiceListAuditEventsValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceListAuditEventsValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceListAuditEventsValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        foreach (var item in value.Events)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.Page is not null)
+        {
+            if (!Check(value.Page, context)) return false;
+        }
+        if (value.HasChainVerified)
+        {
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -3314,6 +3725,54 @@ public static class ContractShapeValidation
         {
         if (value.Validation is null) return false;
         if (!Check(value.Validation, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.ReconciliationStatus.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.ReconciliationStatus? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.ReconciliationStatus? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.HasState)
+        {
+            if (!ValidUnicode(value.State)) return false;
+        }
+        if (value.LastRunAt is not null)
+        {
+            if (!Check(value.LastRunAt, context)) return false;
+        }
+        foreach (var item in value.Diverged)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.ResidualExposure.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.ResidualExposure? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.ResidualExposure? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.HasContainerBoundMicros)
+        {
+        }
+        if (value.HasStorageAtRestMicros)
+        {
+        }
+        if (value.HasEssentialRequestsMicros)
+        {
+        }
+        if (value.HasTotalDailyMicros)
+        {
+        }
+        if (value.HasWorkerRequestsMicros)
+        {
+        }
         return true;
         }
         finally { context.Exit(value); }

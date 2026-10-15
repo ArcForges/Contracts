@@ -19,3 +19,9 @@ Rows are ordered by `operationId` in ordinal (byte) order. The file is UTF-8 JSO
 with LF line endings and is identical for every build of the same source revision.
 The retained `arcforges.hello.v1.HelloService/SayHello` migration example has no
 row.
+
+The adopted flagship design service `arcforges.publicapi.v1.SupportAccessService`
+(`support_access.proto`, AF-CON-01) has no row either: its methods are classified by
+the design annotation block on each RPC (`auth`, `idempotency`, `deadline`, `stream`,
+`errors`, `locality`), which `eng/check_operation_scope.py` validates against
+`eng/flagship-contracts.json` and the flagship error catalogue.

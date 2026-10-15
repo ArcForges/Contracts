@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.operator.v1.AuditEventView": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.AuditEventView",
+      "fields": {
+        "eventId": {},
+        "occurredAt": {},
+        "actorRef": {},
+        "eventType": {},
+        "reason": {},
+        "correlationId": {},
+        "commandId": {},
+        "targetRefKind": {},
+        "targetRefId": {},
+        "payloadJson": {},
+        "eventHash": {}
+      }
+    },
+    "arcforges.operator.v1.MonthlyDimensionTotal": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.MonthlyDimensionTotal",
+      "fields": {
+        "dimension": {},
+        "used": {},
+        "ceilingSum": {},
+        "estimatedCostMicros": {}
+      }
+    },
+    "arcforges.operator.v1.MonthlyReport": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.MonthlyReport",
+      "fields": {
+        "monthStart": {},
+        "daysCovered": {},
+        "partial": {},
+        "totals": {},
+        "estimatedTotalCostMicros": {},
+        "monthlyCeilingMicros": {},
+        "activeProAccounts": {},
+        "relayConnectedNodes": {},
+        "costPerProAccountMicros": {},
+        "costPerRelayNodeMicros": {},
+        "freeTierCostMicros": {}
+      }
+    },
+    "arcforges.operator.v1.OperatingBudgetView": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatingBudgetView",
+      "fields": {
+        "dimension": {},
+        "periodStart": {},
+        "ceiling": {},
+        "used": {},
+        "held": {},
+        "usedPermille": {},
+        "threshold": {},
+        "estimated": {}
+      }
+    },
+    "arcforges.operator.v1.OperatorReadContext": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadContext",
+      "fields": {
+        "purpose": {},
+        "caseId": {}
+      }
+    },
+    "arcforges.operator.v1.OperatorReadServiceGetMonthlyReportRequest": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetMonthlyReportRequest",
+      "fields": {
+        "meta": {},
+        "context": {
+          "required": true
+        },
+        "month": {}
+      }
+    },
+    "arcforges.operator.v1.OperatorReadServiceGetMonthlyReportResponse": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetMonthlyReportResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.operator.v1.OperatorReadServiceGetMonthlyReportValue": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetMonthlyReportValue",
+      "fields": {
+        "report": {}
+      }
+    },
+    "arcforges.operator.v1.OperatorReadServiceGetOperatingBudgetsRequest": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetOperatingBudgetsRequest",
+      "fields": {
+        "meta": {},
+        "context": {
+          "required": true
+        },
+        "day": {}
+      }
+    },
+    "arcforges.operator.v1.OperatorReadServiceGetOperatingBudgetsResponse": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetOperatingBudgetsResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.operator.v1.OperatorReadServiceGetOperatingBudgetsValue": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceGetOperatingBudgetsValue",
+      "fields": {
+        "budgets": {},
+        "evaluatedAt": {},
+        "residual": {},
+        "essentialOnly": {},
+        "reconciliation": {}
+      }
+    },
+    "arcforges.operator.v1.OperatorReadServiceListAuditEventsRequest": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceListAuditEventsRequest",
+      "fields": {
+        "meta": {},
+        "context": {
+          "required": true
+        },
+        "range": {
+          "required": true
+        },
+        "eventTypePrefix": {},
+        "actorRef": {},
+        "targetRefKind": {},
+        "targetRefId": {},
+        "page": {}
+      }
+    },
+    "arcforges.operator.v1.OperatorReadServiceListAuditEventsResponse": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceListAuditEventsResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.operator.v1.OperatorReadServiceListAuditEventsValue": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadServiceListAuditEventsValue",
+      "fields": {
+        "events": {},
+        "page": {},
+        "chainVerified": {}
+      }
+    },
+    "arcforges.operator.v1.ReconciliationStatus": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.ReconciliationStatus",
+      "fields": {
+        "state": {},
+        "lastRunAt": {},
+        "diverged": {}
+      }
+    },
+    "arcforges.operator.v1.ResidualExposure": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.ResidualExposure",
+      "fields": {
+        "containerBoundMicros": {},
+        "storageAtRestMicros": {},
+        "essentialRequestsMicros": {},
+        "totalDailyMicros": {},
+        "workerRequestsMicros": {}
+      }
+    }
+  }
+}
