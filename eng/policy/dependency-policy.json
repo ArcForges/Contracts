@@ -7,12 +7,12 @@
     ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
     "Directory.Build.props": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b",
     "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
-    "Directory.Packages.props": "a1873374afdc3ca3edbcfb970695f15f9f95501ccbd504ebf985e28fbcb19e94",
+    "Directory.Packages.props": "1b1b4143b64b844c6a58b5fe862ea0342c7d660d36244a48af0a434ce98701ae",
     "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
     "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
     "eng/contract-packages.json": "4c994babcacb1c6a43f4eb1a13c1e8d039877c1408285582d409e75fcbca10b9",
-    "eng/policy/contract-access.json": "04e859dad64a478b61169cbb8659cf9641d1a5c4422ff748eda2f163c7b9020a",
+    "eng/policy/contract-access.json": "bd7b57bc11f71bda9d03f850a491e60cd1441cf8f9067c0c78d35d403b706f36",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -216,7 +216,7 @@
     "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj": "61d0ccec8cb02bf34fab51db298e1d74c8b7180f24fc9ae27f9318650a187b7d",
     "src/public/dotnet/ArcForges.Sdk.Contracts/packages.lock.json": "0490ab15d029c97f1015d0483d419737a7963c4d7be002247d917eac684f74ce",
     "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj": "7065e2d1b5404380438aa305c5dbfcf000214d15ad0fe232846b7ba7639856c7",
-    "tests/ArchitectureTests/packages.lock.json": "7019b7a06d181c6252a1db00bf8d3ffd9de7ea066a5c0151917de92e2470fe33",
+    "tests/ArchitectureTests/packages.lock.json": "755cb1bde873ec0d1e5e1db359aaef6821b095b0b94980d3bbcd24b09645214f",
     "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
     "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
     "tests/StructureTests/StructureTests.csproj": "09d82e8a65ae8ebc5cff2906af91d9d7ca09bec050768804e1e3d2d87f6b39c1",
@@ -482,13 +482,13 @@
       ],
       "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
     },
-    "nuget:arcforges.build.policy@1.0.0-ci.94.1": {
-      "integrity": "PCpeEXikk2m87zhMF6L8tbHe2QrI87mO4Nc5lJBenEDhOePwwV4TkArc6IaM1G11Pm8ojVjurLAIoPW22ozb/A==",
+    "nuget:arcforges.build.policy@1.0.0-ci.136.1": {
+      "integrity": "Qk9kiGpa26LXr1Yeqt/gchqHH1Z7YKzeKZ5BH1JbtODpvxobgf5L7Zap1CY0DWKvWOYMyb2TZ/Ws+8VvPwu9Sw==",
       "licence": "AGPL-3.0-only",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.94.1/arcforges.build.policy.nuspec",
-          "sha256": "bd85acc0b99828a7e9c52751a9d57059fbaa7130986871a562e37b7f6b971c7c"
+          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.136.1/arcforges.build.policy.nuspec",
+          "sha256": "c48c9dd5115b829491bf1e83cda5b2eae368a0bc3b75c5768bc5e89298435af0"
         }
       ],
       "scope": "Exact build-only source-link policy engine for the non-packable Contracts ArchitectureTests host; direct reference only, PrivateAssets=all, never a product/runtime or public package dependency."
@@ -727,12 +727,12 @@
       ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
       "Directory.Build.props": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b",
       "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
-      "Directory.Packages.props": "a1873374afdc3ca3edbcfb970695f15f9f95501ccbd504ebf985e28fbcb19e94",
+      "Directory.Packages.props": "1b1b4143b64b844c6a58b5fe862ea0342c7d660d36244a48af0a434ce98701ae",
       "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
       "eng/contract-packages.json": "4c994babcacb1c6a43f4eb1a13c1e8d039877c1408285582d409e75fcbca10b9",
-      "eng/policy/contract-access.json": "04e859dad64a478b61169cbb8659cf9641d1a5c4422ff748eda2f163c7b9020a",
+      "eng/policy/contract-access.json": "bd7b57bc11f71bda9d03f850a491e60cd1441cf8f9067c0c78d35d403b706f36",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -936,7 +936,7 @@
       "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj": "61d0ccec8cb02bf34fab51db298e1d74c8b7180f24fc9ae27f9318650a187b7d",
       "src/public/dotnet/ArcForges.Sdk.Contracts/packages.lock.json": "0490ab15d029c97f1015d0483d419737a7963c4d7be002247d917eac684f74ce",
       "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj": "7065e2d1b5404380438aa305c5dbfcf000214d15ad0fe232846b7ba7639856c7",
-      "tests/ArchitectureTests/packages.lock.json": "7019b7a06d181c6252a1db00bf8d3ffd9de7ea066a5c0151917de92e2470fe33",
+      "tests/ArchitectureTests/packages.lock.json": "755cb1bde873ec0d1e5e1db359aaef6821b095b0b94980d3bbcd24b09645214f",
       "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
       "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
       "tests/StructureTests/StructureTests.csproj": "09d82e8a65ae8ebc5cff2906af91d9d7ca09bec050768804e1e3d2d87f6b39c1",
@@ -948,21 +948,21 @@
       "tests/public/SerializationProbe/SerializationProbe.csproj": "92a5039dba394839dfbb60f5f3b7f0bde6304a45c904cf80109b94547a2a0158",
       "tests/public/SerializationProbe/packages.lock.json": "a59c32628e487c98c50271a50ff397e2302bbc1f01824cdc7a636005c88d29aa"
     },
-    "maintenanceAssessment": "AF-CON-01 adopts the ArcForges-Design flagship contracts and adds four package identities: ArcForges.Contracts.Node and ArcForges.Contracts.Fleet (public) and ArcForges.Contracts.Peer and ArcForges.Contracts.Relay (internal). Node references ArcForges.Contracts.Foundation; Fleet and Peer reference Foundation and Node; Relay references Foundation, Node and Fleet. Each declares Google.Protobuf (and, except Relay, Grpc.Core.Api) at the existing central pins, with Microsoft.NET.ILLink.Tasks direct from IsAotCompatible as in every packable project. This receipt binds the four new csproj and packages.lock.json files, the refreshed tests/public/SerializationProbe/SerializationProbe.csproj and packages.lock.json (four Project entries; the probe now roots and binds the new packages), the appended eng/contract-packages.json rows (and the two additive schema files of the PublicApi and CloudInternal rows), the eng/policy/contract-access.json rows of the new schemas, types, sources and packages, and the provenance successor eng/provenance/records/contract-bindings-af-con-01-r1.json. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. Independent exact-head review by the named reviewer and all required hosted CI remain mandatory before merge.",
+    "maintenanceAssessment": "AF-CON-01 repair (execution policy 1.6): the shared policy engine of ArcForges.Build.Policy 1.0.0-ci.94.1 scanned the whole contract-test and wire-type binding lists once per public method and wire type (RP-10 and AT-12), so the Contracts hosted architecture gate grew quadratically with the AF-CON-01 flagship packages (29,814 bindings) and the Security secret-scan job exceeded its 30-minute limit. DesktopPlatform#186 (merged at main 49c014d702fdbd27e79a0cb5e713dc650ade92a9) indexes both lists once with ordinal, order-preserving lookups and keeps every finding, message and exception; its main-push run 38671015662 published 1.0.0-ci.136.1. This receipt replaces the admitted exact build-only package nuget:arcforges.build.policy@1.0.0-ci.94.1 with @1.0.0-ci.136.1 under the unchanged GOV.05 boundary: AGPL-3.0-only, the same exact scope string, one central pin in Directory.Packages.props, one direct PrivateAssets=all reference from the non-packable Apache ArchitectureTests host, one direct lock row with no dependencies, never in a product, runtime or public package closure. The rolled-back 1.0.0-ci.124.1 is never admitted (the gates and their tests refuse 94.1, 124.1 and any other version). Package verification before admission: the nuspec repository commit and build-identity.json sourceCommit are 49c014d702fdbd27e79a0cb5e713dc650ade92a9, an ancestor of (equal to) DesktopPlatform main at review; build-identity dirty=false, buildId 38671015662.1, pipelineRun https://github.com/ArcForges/DesktopPlatform/actions/runs/38671015662; all eight tools/architecture files are byte-identical to DesktopPlatform src/Build/ArcForges.Build.Policy/Architecture at that commit; the nuspec served at the evidence URL has SHA-256 c48c9dd5115b829491bf1e83cda5b2eae368a0bc3b75c5768bc5e89298435af0 and the lock contentHash equals the restored .nupkg.metadata contentHash. Package diff 94.1 -> 136.1 (all files compared): only tools/architecture/PolicyEngine.cs (the indexed lookups of #186: identical findings, ordering and exceptions) and tools/architecture/BannedSymbolScanner.cs (GOV.20, DesktopPlatform 49bb6e19: an invocation whose operation is a function-pointer call, which has no managed callee symbol, is no longer refused as unauditable; its arguments are still scanned and every other unresolved invocation still fails closed) changed, plus the nuspec commit and the build identity. build/ targets and props, LICENSE, NOTICE.md, README.md, the remaining engine sources and the nuspec dependency set are byte-identical. GOV.20 does not change any Contracts result: no Contracts source declares or calls a function pointer (git grep 'delegate*' over src/*.cs is empty), and the engine's rule manifest and fixtures still pass. Inputs bound here: Directory.Packages.props, tests/ArchitectureTests/packages.lock.json and the refreshed eng/policy/contract-access.json (its Directory.Packages.props build-input hash). No other coordinate, version, integrity value, licence or framework selection changes. Independent exact-head review by the named reviewer and all required hosted CI remain mandatory before merge.",
     "checks": {
-      "compilation": "dotnet build of ArcForges.Contracts.slnx in Release (TreatWarningsAsErrors, analyzers, IsAotCompatible on the four new packages) passes locally with 0 warnings; the StructureTests and ArchitectureTests runs pass locally; pinned generation, pack and hosted Verify remain required at the reviewed head.",
-      "aot-trim": "The four packages are IsAotCompatible generated protobuf, gRPC stub, service catalogue and shape-check code without reflection serializers or runtime registries (check_serialization passes); the Native AOT SerializationProbe roots all four, binds their 28 services plus SupportAccessService and OperatorReadService (469 methods in total) and round-trips every generated message on win-x64 locally; the linux-x64 probe runs in hosted CI.",
-      "compatibility": "Additive only: new packages and two new files in reused packages; no retained definition changes (check_compatibility --window passes for every published pin), and eng/compatibility/flagship-window.json activates the wire-compatibility gate for the new packages with six adoption baselines.",
-      "licence-provenance": "All new authored files are first-party Apache-2.0; the generated C# is bound by the immutable successor contract-bindings-af-con-01-r1 (same protobuf and gRPC generator pins), the licence-boundary rows register the four projects, and no third-party material is added.",
-      "security-sbom": "No coordinate enters or leaves the closure; locked versions, integrity values and licences are unchanged.",
-      "runtime-performance-migration": "Generated contracts only; no runtime host, migration or performance claim.",
+      "compilation": "ArcForges.Contracts.ArchitectureTests builds in Release against 1.0.0-ci.136.1 with 0 warnings and 0 errors; the local fixtures and SDK-01 to SDK-04 pass; the --hosted gate passes under an emulated CI identity on Linux (see the PR body for timings).",
+      "aot-trim": "Build-only, test-host package with PrivateAssets=all; it enters no product, runtime or AOT closure.",
+      "compatibility": "No contract, schema, descriptor or package identity changes; the engine changes are the reviewed indexed lookups (identical findings) and GOV.20, which no Contracts source exercises.",
+      "licence-provenance": "AGPL-3.0-only build-only exception unchanged in kind and scope (GOV.05); the RP-03 policy exception for the ArchitectureTests host still binds exactly this package; LICENSE and NOTICE.md in the package are byte-identical to 94.1.",
+      "security-sbom": "One coordinate is replaced by its successor from the same publisher and repository; no dependency enters the closure; the package declares no dependencies; integrity and nuspec digests are recorded.",
+      "runtime-performance-migration": "The Contracts hosted architecture gate falls from 14 min 48 s (shared policy 12 min 44 s) to about 3 min 21 s on local Linux; no runtime or migration effect.",
       "framework-runtime-posture": "The .NET SDK and Node pins are unchanged, so no major-upgrade review is triggered."
     },
     "frameworkVersions": {
       "dotnetSdk": "10.0.400",
       "node": "24.21.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-43-r1.json"
+    "previousReceipt": "eng/policy/dependency-reviews/af-con-01-r1.json"
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/af-con-01-r1.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/af-con-01-r2.json"
 }

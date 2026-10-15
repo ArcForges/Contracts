@@ -110,6 +110,7 @@
     "eng/policy/contract-access.json",
     "eng/policy/dependency-policy.json",
     "eng/policy/dependency-reviews/af-con-01-r1.json",
+    "eng/policy/dependency-reviews/af-con-01-r2.json",
     "eng/policy/dependency-reviews/con-01-shards-r1.json",
     "eng/policy/dependency-reviews/con-01-shards-r2.json",
     "eng/policy/dependency-reviews/con-02-descriptors-r1.json",

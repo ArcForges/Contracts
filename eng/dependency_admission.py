@@ -14,7 +14,10 @@ POLICY = 'eng/policy/dependency-policy.json'
 CHECKS = {'compilation', 'aot-trim', 'compatibility', 'licence-provenance', 'security-sbom',
           'runtime-performance-migration', 'framework-runtime-posture'}
 ALLOWED = {'Apache-2.0', 'MIT', 'BSD-2-Clause', 'BSD-3-Clause', '(Apache-2.0 AND BSD-3-Clause)', 'CDDL-1.1'}
-BUILD_POLICY_KEY = 'nuget:arcforges.build.policy@1.0.0-ci.94.1'
+# AF-CON-01 (receipt af-con-01-r2): 1.0.0-ci.136.1 (DesktopPlatform main 49c014d, repair #186) replaces 1.0.0-ci.94.1.
+# 1.0.0-ci.124.1 is a rolled-back version and is never admitted.
+BUILD_POLICY_VERSION = '1.0.0-ci.136.1'
+BUILD_POLICY_KEY = 'nuget:arcforges.build.policy@' + BUILD_POLICY_VERSION
 BUILD_POLICY_SCOPE = ('Exact build-only source-link policy engine for the non-packable Contracts ArchitectureTests host; '
                       'direct reference only, PrivateAssets=all, never a product/runtime or public package dependency.')
 ARCHITECTURE_TEST_PROJECT = 'tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj'
@@ -139,14 +142,14 @@ def validate_architecture_policy_boundary(root, actual):
         return
 
     reject_unless(len(matches) == 1 and matches[0] == BUILD_POLICY_KEY,
-                  'Only ArcForges.Build.Policy 1.0.0-ci.94.1 is admitted')
+                  'Only ArcForges.Build.Policy ' + BUILD_POLICY_VERSION + ' is admitted')
     pin_path = root / 'Directory.Packages.props'
     reject_unless(pin_path.is_file(), 'Build.Policy exact central version pin is missing')
     pins = [item for item in ET.parse(pin_path).getroot().iter()
             if item.tag.split('}')[-1] == 'PackageVersion'
             and (item.get('Include') or '').casefold() == 'arcforges.build.policy']
     reject_unless(len(pins) == 1 and pins[0].get('Include') == 'ArcForges.Build.Policy'
-                  and pins[0].get('Version') == '1.0.0-ci.94.1',
+                  and pins[0].get('Version') == BUILD_POLICY_VERSION,
                   'Build.Policy must have exactly one exact central pin')
 
     project = ET.parse(host).getroot()
@@ -189,7 +192,7 @@ def validate_architecture_policy_boundary(root, actual):
     reject_unless(len(locks) == 1 and locks[0][0] == ARCHITECTURE_TEST_LOCK
                   and locks[0][2] == 'ArcForges.Build.Policy'
                   and locks[0][3].get('type', '').casefold() == 'direct'
-                  and locks[0][3].get('resolved') == '1.0.0-ci.94.1'
+                  and locks[0][3].get('resolved') == BUILD_POLICY_VERSION
                   and locks[0][3].get('contentHash') == actual[BUILD_POLICY_KEY],
                   'Build.Policy must be only the exact direct ArchitectureTests locked dependency')
     reject_unless(not locks[0][3].get('dependencies'),
