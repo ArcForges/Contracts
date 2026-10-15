@@ -174,6 +174,30 @@ copied from the design error catalogue. Within `v1`, changes are additive only, 
 holds the baselines the wire-compatibility gate compares every later change with.
 Pin every Contracts package of one candidate to the same exact version.
 
+## Offline inventory tool (`ArcForges.Cli`)
+
+`ArcForges.Cli` is a .NET tool that validates the shape and declared bounds of an
+`inventory.v1` document offline; it does not verify archive bytes, hashes, signatures or
+trust. It declares the command `arcforges-contracts`. Install an exact version into a
+tool path or a tool manifest:
+
+```text
+dotnet tool install --tool-path .tools ArcForges.Cli --version 1.0.0-ci.12.1
+.tools/arcforges-contracts validate-inventory inventory.json
+```
+
+Exit code 0 means the document is valid, 1 that it is invalid or unreadable, and 2 a
+usage error.
+
+**Release note: command renamed (AF-CON-02).** Versions published after AF-CON-02 declare
+`arcforges-contracts`. Earlier published versions declared `arcforges`, the command of
+the ArcForges product CLI, so both on one PATH collided (ArcForges-Design conflict
+C-03). Earlier versions are immutable: they keep the `arcforges` command and stay
+resolvable, and none is unpublished, deprecated or deleted. A script that pins an earlier
+version keeps working; a script that moves to a newer version calls `arcforges-contracts`.
+The `validate-inventory` arguments, results and exit codes are unchanged. Flagship
+installers never install this tool.
+
 ## Internal npm package
 
 `@arcforges/ai-internal` is the one retained npm package. It carries the internal

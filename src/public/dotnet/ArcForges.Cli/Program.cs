@@ -4,7 +4,7 @@ using ArcForges.Contracts.Validation;
 
 if (args.Length != 2 || args[0] != "validate-inventory")
 {
-    Console.Error.WriteLine("Usage: arcforges validate-inventory <inventory.json>");
+    Console.Error.WriteLine("Usage: arcforges-contracts validate-inventory <inventory.json>");
     return 2;
 }
 

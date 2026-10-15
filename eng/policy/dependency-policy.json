@@ -12,7 +12,7 @@
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
     "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
     "eng/contract-packages.json": "4c994babcacb1c6a43f4eb1a13c1e8d039877c1408285582d409e75fcbca10b9",
-    "eng/policy/contract-access.json": "bd7b57bc11f71bda9d03f850a491e60cd1441cf8f9067c0c78d35d403b706f36",
+    "eng/policy/contract-access.json": "65728baf990420e84296d10d101058e0d29237e393c81da8f67180e0c031915a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -197,7 +197,7 @@
     "src/internal/dotnet/ArcForges.Contracts.Relay/ArcForges.Contracts.Relay.csproj": "6dedad95d1f877002aee9641375870714c65c7eb4e072e233ff69124632bf1a2",
     "src/internal/dotnet/ArcForges.Contracts.Relay/packages.lock.json": "ccb8669870a8f205f1f5254d75bb09241729371e80ef0bea4f45ea9ca158e3b8",
     "src/internal/ts/ai-internal/package.json": "0bff2cf81a1a98ae3b94b9215e813b97d5ce3048dc09184cab1a7de496a68870",
-    "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj": "315e0898b9276c1fcde34510e2ef6c1fce067d30c462b71fc3ffa89261d9ba1a",
+    "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj": "ba49c6478b0e74a3565a57868b0c4655d62cfc52f3059e8ea172433cab68dbcc",
     "src/public/dotnet/ArcForges.Cli/packages.lock.json": "103777bb279eafe8ebe643afc4fb1c5d7d33f80f5f7d31fa3c796c64474b24f8",
     "src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj": "f3ef3c30d9ed05a66d771c390a2ca8ba6439922c81480757d84d2e21067efbed",
     "src/public/dotnet/ArcForges.Contracts.Events/packages.lock.json": "5f4282b8edd354a2197bcc62bf48c640251aa7272bd81b4a51dd340cf28fce45",
@@ -716,11 +716,11 @@
     "stable": "Deliberate canonical vX.Y.Z on main ancestry; no prerelease dependency closure; Central signatures required. No tag created for validation."
   },
   "review": {
-    "owner": "w-deku-20261015-af-con-01",
-    "reviewer": "w-deku-20261015-rev-af-con-01",
+    "owner": "w-deku-20261015-af-con-02",
+    "reviewer": "w-deku-20261015-rev-af-con-02",
     "decision": "approved",
     "reviewedOn": "2026-10-15",
-    "baselineCommit": "2f3a6a28136f31f721bdc13d40709e0e36cfe3ba",
+    "baselineCommit": "dea4cd831ce74dbf7ed8f875a68fcf0a74cbe04e",
     "inputHashes": {
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
@@ -732,7 +732,7 @@
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
       "eng/contract-packages.json": "4c994babcacb1c6a43f4eb1a13c1e8d039877c1408285582d409e75fcbca10b9",
-      "eng/policy/contract-access.json": "bd7b57bc11f71bda9d03f850a491e60cd1441cf8f9067c0c78d35d403b706f36",
+      "eng/policy/contract-access.json": "65728baf990420e84296d10d101058e0d29237e393c81da8f67180e0c031915a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -917,7 +917,7 @@
       "src/internal/dotnet/ArcForges.Contracts.Relay/ArcForges.Contracts.Relay.csproj": "6dedad95d1f877002aee9641375870714c65c7eb4e072e233ff69124632bf1a2",
       "src/internal/dotnet/ArcForges.Contracts.Relay/packages.lock.json": "ccb8669870a8f205f1f5254d75bb09241729371e80ef0bea4f45ea9ca158e3b8",
       "src/internal/ts/ai-internal/package.json": "0bff2cf81a1a98ae3b94b9215e813b97d5ce3048dc09184cab1a7de496a68870",
-      "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj": "315e0898b9276c1fcde34510e2ef6c1fce067d30c462b71fc3ffa89261d9ba1a",
+      "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj": "ba49c6478b0e74a3565a57868b0c4655d62cfc52f3059e8ea172433cab68dbcc",
       "src/public/dotnet/ArcForges.Cli/packages.lock.json": "103777bb279eafe8ebe643afc4fb1c5d7d33f80f5f7d31fa3c796c64474b24f8",
       "src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj": "f3ef3c30d9ed05a66d771c390a2ca8ba6439922c81480757d84d2e21067efbed",
       "src/public/dotnet/ArcForges.Contracts.Events/packages.lock.json": "5f4282b8edd354a2197bcc62bf48c640251aa7272bd81b4a51dd340cf28fce45",
@@ -948,21 +948,21 @@
       "tests/public/SerializationProbe/SerializationProbe.csproj": "92a5039dba394839dfbb60f5f3b7f0bde6304a45c904cf80109b94547a2a0158",
       "tests/public/SerializationProbe/packages.lock.json": "a59c32628e487c98c50271a50ff397e2302bbc1f01824cdc7a636005c88d29aa"
     },
-    "maintenanceAssessment": "AF-CON-01 repair (execution policy 1.6): the shared policy engine of ArcForges.Build.Policy 1.0.0-ci.94.1 scanned the whole contract-test and wire-type binding lists once per public method and wire type (RP-10 and AT-12), so the Contracts hosted architecture gate grew quadratically with the AF-CON-01 flagship packages (29,814 bindings) and the Security secret-scan job exceeded its 30-minute limit. DesktopPlatform#186 (merged at main 49c014d702fdbd27e79a0cb5e713dc650ade92a9) indexes both lists once with ordinal, order-preserving lookups and keeps every finding, message and exception; its main-push run 38671015662 published 1.0.0-ci.136.1. This receipt replaces the admitted exact build-only package nuget:arcforges.build.policy@1.0.0-ci.94.1 with @1.0.0-ci.136.1 under the unchanged GOV.05 boundary: AGPL-3.0-only, the same exact scope string, one central pin in Directory.Packages.props, one direct PrivateAssets=all reference from the non-packable Apache ArchitectureTests host, one direct lock row with no dependencies, never in a product, runtime or public package closure. The rolled-back 1.0.0-ci.124.1 is never admitted (the gates and their tests refuse 94.1, 124.1 and any other version). Package verification before admission: the nuspec repository commit and build-identity.json sourceCommit are 49c014d702fdbd27e79a0cb5e713dc650ade92a9, an ancestor of (equal to) DesktopPlatform main at review; build-identity dirty=false, buildId 38671015662.1, pipelineRun https://github.com/ArcForges/DesktopPlatform/actions/runs/38671015662; all eight tools/architecture files are byte-identical to DesktopPlatform src/Build/ArcForges.Build.Policy/Architecture at that commit; the nuspec served at the evidence URL has SHA-256 c48c9dd5115b829491bf1e83cda5b2eae368a0bc3b75c5768bc5e89298435af0 and the lock contentHash equals the restored .nupkg.metadata contentHash. Package diff 94.1 -> 136.1 (all files compared): only tools/architecture/PolicyEngine.cs (the indexed lookups of #186: identical findings, ordering and exceptions) and tools/architecture/BannedSymbolScanner.cs (GOV.20, DesktopPlatform 49bb6e19: an invocation whose operation is a function-pointer call, which has no managed callee symbol, is no longer refused as unauditable; its arguments are still scanned and every other unresolved invocation still fails closed) changed, plus the nuspec commit and the build identity. build/ targets and props, LICENSE, NOTICE.md, README.md, the remaining engine sources and the nuspec dependency set are byte-identical. GOV.20 does not change any Contracts result: no Contracts source declares or calls a function pointer (git grep 'delegate*' over src/*.cs is empty), and the engine's rule manifest and fixtures still pass. Inputs bound here: Directory.Packages.props, tests/ArchitectureTests/packages.lock.json and the refreshed eng/policy/contract-access.json (its Directory.Packages.props build-input hash). No other coordinate, version, integrity value, licence or framework selection changes. Independent exact-head review by the named reviewer and all required hosted CI remain mandatory before merge.",
+    "maintenanceAssessment": "AF-CON-02 (ArcForges-Design conflict C-03) renames the .NET tool command of the public package ArcForges.Cli from arcforges, which is the command of the ArcForges product CLI, to arcforges-contracts. The only dependency-input change is the ToolCommandName property of src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj; this receipt binds that file and the refreshed eng/policy/contract-access.json (the csproj build-input hash and the Program.cs source hash, whose usage message now names arcforges-contracts). No PackageReference, ProjectReference, target framework, AOT/trim setting, package identity or lock file changes, and src/public/dotnet/ArcForges.Cli/packages.lock.json is byte-identical. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. Earlier published ArcForges.Cli versions keep the arcforges command and stay immutable; none is unpublished, deprecated or deleted. Independent exact-head review by the named reviewer and all required hosted CI remain mandatory before merge.",
     "checks": {
-      "compilation": "ArcForges.Contracts.ArchitectureTests builds in Release against 1.0.0-ci.136.1 with 0 warnings and 0 errors; the local fixtures and SDK-01 to SDK-04 pass; the --hosted gate passes under an emulated CI identity on Linux (see the PR body for timings).",
-      "aot-trim": "Build-only, test-host package with PrivateAssets=all; it enters no product, runtime or AOT closure.",
-      "compatibility": "No contract, schema, descriptor or package identity changes; the engine changes are the reviewed indexed lookups (identical findings) and GOV.20, which no Contracts source exercises.",
-      "licence-provenance": "AGPL-3.0-only build-only exception unchanged in kind and scope (GOV.05); the RP-03 policy exception for the ArchitectureTests host still binds exactly this package; LICENSE and NOTICE.md in the package are byte-identical to 94.1.",
-      "security-sbom": "One coordinate is replaced by its successor from the same publisher and repository; no dependency enters the closure; the package declares no dependencies; integrity and nuspec digests are recorded.",
-      "runtime-performance-migration": "The Contracts hosted architecture gate falls from 14 min 48 s (shared policy 12 min 44 s) to about 3 min 21 s on local Linux; no runtime or migration effect.",
+      "compilation": "dotnet build of ArcForges.Contracts.slnx in Release (TreatWarningsAsErrors, analyzers) passes locally with 0 warnings and 0 errors; the repository pack produces ArcForges.Cli whose tools/net10.0/any/DotnetToolSettings.xml declares exactly the command arcforges-contracts; hosted Verify remains required at the reviewed head.",
+      "aot-trim": "The ArcForges.Cli project keeps IsAotCompatible and its framework-dependent tool packaging unchanged; only the declared command name changes.",
+      "compatibility": "No contract, schema, descriptor, wire or package identity change. The tool command name changes for new versions only; earlier published versions keep arcforges and stay immutable, and the validate-inventory arguments, results and exit codes are unchanged.",
+      "licence-provenance": "First-party Apache-2.0 edits only (csproj property, usage text, package README and documentation); no third-party material, generator or embedded dependency changes.",
+      "security-sbom": "No coordinate enters or leaves the closure; locked versions, integrity values and licences are unchanged.",
+      "runtime-performance-migration": "Consumers that move to a new ArcForges.Cli version call arcforges-contracts instead of arcforges (release note in the package README and docs/consuming.md); no runtime host, migration or performance effect.",
       "framework-runtime-posture": "The .NET SDK and Node pins are unchanged, so no major-upgrade review is triggered."
     },
     "frameworkVersions": {
       "dotnetSdk": "10.0.400",
       "node": "24.21.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/af-con-01-r1.json"
+    "previousReceipt": "eng/policy/dependency-reviews/af-con-01-r2.json"
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/af-con-01-r2.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/af-con-02-r1.json"
 }

@@ -14,7 +14,7 @@
     <DebugType>embedded</DebugType>
     <OutputType>Exe</OutputType>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>arcforges</ToolCommandName>
+    <ToolCommandName>arcforges-contracts</ToolCommandName>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj" />
