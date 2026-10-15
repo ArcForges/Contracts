@@ -18561,7 +18561,7 @@
       "package": "ArcForges.Cli",
       "access": "public",
       "types": [],
-      "sha256": "2e871c072d04c60ca1e5ab6de1a337e51b11552cf316896dfd082d8316813e29",
+      "sha256": "de3294d45a6cc98a2cc57a855535931d6b27750512b1efe0cd69e1ff07e6e1bd",
       "kind": "authored"
     },
     {
@@ -47677,7 +47677,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj",
-      "sha256": "315e0898b9276c1fcde34510e2ef6c1fce067d30c462b71fc3ffa89261d9ba1a"
+      "sha256": "ba49c6478b0e74a3565a57868b0c4655d62cfc52f3059e8ea172433cab68dbcc"
     },
     {
       "path": "src/public/dotnet/ArcForges.Cli/packages.lock.json",
