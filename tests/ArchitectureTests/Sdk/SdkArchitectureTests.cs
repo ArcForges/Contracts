@@ -26,25 +26,37 @@ internal static class SdkArchitectureTests
     private static readonly Regex ProtoComment = new(@"""(?:\\.|[^""\\])*""|'(?:\\.|[^'\\])*'|//[^\n]*|/\*[\s\S]*?\*/", RegexOptions.CultureInvariant, TimeSpan.FromSeconds(5));
     private static readonly Regex PublicClass = new(@"public\s+(?:sealed\s+|static\s+|abstract\s+|partial\s+)*class\s+(?<type>[A-Z]\w*)", RegexOptions.CultureInvariant, TimeSpan.FromSeconds(5));
 
+    /// <summary>The rule at which the SDK rules failed when the module loaded, or null when they passed.</summary>
+    internal static string? FailedRule { get; private set; }
+
     /// <summary>
     /// Self-registration: the architecture host has a fixed entry point, so these rules run when the host module
-    /// loads, before Main. A violation prints only the rule identifier and exits non-zero, like the host's own
-    /// fail-closed stage report, and never echoes source text or environment values.
+    /// loads, before Main. A violation prints only the rule identifier and records it; Main then exits non-zero
+    /// before any other stage, like the host's own fail-closed stage report, and never echoes source text or
+    /// environment values. The initializer itself never calls Environment.Exit: process shutdown from inside a
+    /// module initializer can block on the runtime's own initialization and hang instead of exiting.
     /// </summary>
     [ModuleInitializer]
     internal static void Register()
     {
+        FailedRule = Evaluate(RepositoryRoot.Find(), Console.Out, Console.Error);
+    }
+
+    /// <summary>Runs the rules and reports the outcome; returns the failing rule, or null when every rule passed.</summary>
+    internal static string? Evaluate(string root, TextWriter output, TextWriter error)
+    {
         var rule = "SDK-00";
         try
         {
-            Run(RepositoryRoot.Find(), next => rule = next);
-            Console.WriteLine("Contracts SDK architecture rules SDK-01 to SDK-04 passed with their negative fixtures.");
+            Run(root, next => rule = next);
+            output.WriteLine("Contracts SDK architecture rules SDK-01 to SDK-04 passed with their negative fixtures.");
+            return null;
         }
         catch (Exception exception)
         {
             _ = exception;
-            Console.Error.WriteLine($"Contracts SDK architecture policy failed closed at rule {rule}.");
-            Environment.Exit(1);
+            error.WriteLine($"Contracts SDK architecture policy failed closed at rule {rule}.");
+            return rule;
         }
     }
 
