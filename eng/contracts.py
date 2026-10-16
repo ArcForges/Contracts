@@ -296,7 +296,11 @@ def build() -> None:
     run(sys.executable, ROOT / "eng/check_compatibility.py", "--window", "--report", ARTIFACTS / "evidence/compatibility-matrix.json")
     run(sys.executable, ROOT / "eng/check_serialization.py", "--report", ARTIFACTS / "evidence/serialization-policy.json")
     run(sys.executable, ROOT / "eng/check_operation_scope.py", "--report", ARTIFACTS / "evidence/operation-reachability.json")
-    run("dotnet", "build", "ArcForges.Contracts.slnx", "-c", "Release", "--no-restore")
+    # The architecture host's ArcForges.Build.Policy package stamps the same identity keys as Directory.Build.targets.
+    # In CI both take the build id from the run; locally the package would stamp `local.<commit>` beside this
+    # repository's `local`, a second ArcForges.BuildId that --inspect-build below rejects, so local builds align it.
+    local_identity = [] if os.environ.get("GITHUB_ACTIONS") == "true" else ["-p:ArcForgesBuildId=local"]
+    run("dotnet", "build", "ArcForges.Contracts.slnx", "-c", "Release", "--no-restore", *local_identity)
     run("dotnet", ROOT / "tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll")
     from build_identity import build as identity
     write_json(ARTIFACTS / "expected-build.json", identity())
