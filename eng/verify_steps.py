@@ -10,9 +10,11 @@ range and actionlint (only when a workflow changed) run in their own lanes, conc
 Differences from the hosted jobs, all because the hosted values come from GitHub:
 - `CI` is not set: Directory.Build.targets and eng/build_identity.py require a complete GitHub run identity when it
   is, so local builds carry the `local` build identity instead of `ci`.
-- The PR base the scripts read from the GitHub event (provenance, dependency admission, contract-access history) is
-  the merge base with main: the first step points the clone's `origin/main` at it, which is where the scripts look
-  when no event exists, and the explicit provenance step passes it as `--base`.
+- The clone has the identity of a checkout of ArcForges/Contracts (the first step, `clone-identity`): its `origin`
+  URL is the GitHub repository, which the naming check requires, and its `origin/main` is the merge base with main.
+  The PR base the scripts read from the GitHub event (provenance, dependency admission, contract-access history) is
+  that merge base: without an event they compare against `origin/main`, and the explicit provenance step passes it
+  as `--base`. Nothing is fetched from that URL.
 - The candidate is packed at the local version `1.0.0-ci.0.0` (the `pack` default); the run-number selection of
   eng/release_channels.py and the artifact uploads are GitHub-bound (the selection logic is covered by the tooling
   tests).
@@ -54,6 +56,8 @@ SECRET_SCAN = (
 )
 
 # actionlint as pinned in the product repositories' CI, cached once in WSL; the archive is checked on every run.
+# actionlint 1.7.12 does not know the concurrency `queue` key of publish-npm, which GitHub accepts (the job runs on
+# every main push), so that one message is ignored.
 ACTIONLINT = (
     "set -euo pipefail; v=1.7.12; "
     "sum=8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8; "
@@ -64,7 +68,7 @@ ACTIONLINT = (
     "echo \"$sum  $t.part\" | sha256sum --check --quiet; mv \"$t.part\" \"$t\"; fi; "
     "echo \"$sum  $t\" | sha256sum --check --quiet; "
     "mkdir -p \"$d/actionlint-$v\"; tar -xzf \"$t\" -C \"$d/actionlint-$v\" actionlint; "
-    "\"$d/actionlint-$v/actionlint\""
+    "\"$d/actionlint-$v/actionlint\" -ignore 'unexpected key \"queue\" for \"concurrency\" section'"
 )
 
 
@@ -82,7 +86,9 @@ def wsl(step_id: str, command: str, timeout: int, **options) -> Step:
 
 STEPS = [
     # ci.yml, Build candidate
-    wsl("restore", "set -e; git update-ref refs/remotes/origin/main {base}; python eng/contracts.py restore", 600),
+    wsl("clone-identity", "set -e; git config remote.origin.url https://github.com/ArcForges/Contracts.git; "
+        "git update-ref refs/remotes/origin/main {base}", 60),
+    wsl("restore", "python eng/contracts.py restore", 600),
     wsl("dependency-admission", "python eng/dependency_admission.py", 300),
     wsl("naming", "python eng/check_naming.py --report artifacts/evidence/naming.json", 300),
     wsl("provenance", "python eng/check_provenance.py --owner Contracts --base {base}", 300),
