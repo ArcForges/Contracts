@@ -46,9 +46,9 @@ namespace ArcForges.Contracts.ArchitectureTests
             if (Sdk.SdkArchitectureTests.FailedRule is not null) return 1;
             try
             {
-                if (args.Length > 1 || (args.Length == 1 && args[0] != "--hosted"))
+                if (args.Length > 1 || (args.Length == 1 && args[0] is not ("--hosted" or "--local-gate")))
                 {
-                    throw new InvalidOperationException("Expected no arguments or --hosted.");
+                    throw new InvalidOperationException("Expected no arguments, --hosted or --local-gate.");
                 }
 
                 stage = PolicyGateStage.RunArchitectureFixtures;
@@ -57,8 +57,11 @@ namespace ArcForges.Contracts.ArchitectureTests
                 ContractsArchitectureTests.RunLocal();
                 if (args.Length == 1)
                 {
-                    HostedPolicyGate.Run(next => stage = next);
-                    Console.WriteLine("Contracts architecture policy passed for the exact hosted source revision.");
+                    bool hosted = args[0] == "--hosted";
+                    HostedPolicyGate.Run(next => stage = next, hosted);
+                    Console.WriteLine(hosted
+                        ? "Contracts architecture policy passed for the exact hosted source revision."
+                        : "Contracts architecture policy passed for the checked-out source revision (local verification, no hosted identity).");
                 }
                 else
                 {

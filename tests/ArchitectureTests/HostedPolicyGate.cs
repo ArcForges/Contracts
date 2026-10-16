@@ -26,13 +26,18 @@ internal static class HostedPolicyGate
         ["src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj"] = ProjectRole.Abstractions,
     };
 
-    public static void Run(Action<PolicyGateStage> setStage)
+    /// <summary>
+    /// Runs every policy stage over the full project graph. <paramref name="hosted"/> binds the run to the exact hosted
+    /// Security/secrets job (<c>--hosted</c>); otherwise (<c>--local-gate</c>, the local pre-push verification of
+    /// eng/verify_steps.py) it binds to the checked-out commit and refuses to run inside GitHub Actions.
+    /// </summary>
+    public static void Run(Action<PolicyGateStage> setStage, bool hosted)
     {
         setStage(PolicyGateStage.LocateRepository);
         string root = RepositoryRoot.Find();
 
         setStage(PolicyGateStage.ValidateHostedIdentity);
-        string sourceCommit = RequireHostedIdentity(root);
+        string sourceCommit = hosted ? RequireHostedIdentity(root) : RequireLocalIdentity(root);
 
         setStage(PolicyGateStage.ValidateRp01Evidence);
         ExternalPolicyEvidence naming = ReadNamingEvidence(root, sourceCommit, "RP-01");
@@ -173,6 +178,18 @@ internal static class HostedPolicyGate
         string head = Git(root, "rev-parse", "HEAD");
         if (head != source) throw new InvalidOperationException("The architecture gate source differs from GITHUB_SHA.");
         return source;
+    }
+
+    private static string RequireLocalIdentity(string root)
+    {
+        if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true")
+        {
+            throw new InvalidOperationException("A hosted job must run the architecture gate with --hosted.");
+        }
+
+        string head = Git(root, "rev-parse", "HEAD");
+        if (!Regex.IsMatch(head, "^[0-9a-f]{40}$")) throw new InvalidOperationException("The local architecture gate source is not a commit.");
+        return head;
     }
 
     private static ExternalPolicyEvidence ReadNamingEvidence(string root, string sourceCommit, string rule)

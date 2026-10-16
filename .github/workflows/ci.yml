@@ -1,6 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 name: CI
 
+# Owner (deku2026) PRs are verified by the local pre-push hook (eng/verify.py, AD-0016), so validation and security
+# analysis are skipped for them; external PRs (Dependabot included), the merge queue and manual dispatch run
+# everything, with the security workflow called below so that `Verify` requires it. Main and v* tag pushes run only
+# delivery: the candidate (whose pack embeds its gates in the published bytes) and the publish jobs.
+# merge_group runs the full validation for every author, but only matters if a merge queue is configured (none is today).
 on:
   push:
     branches: [main]
@@ -25,6 +30,7 @@ env:
 jobs:
   candidate:
     name: Build candidate
+    if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.user.login == 'deku2026') }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     outputs:
@@ -98,27 +104,38 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+  security:
+    name: Security
+    if: github.event_name != 'push' && !(github.event_name == 'pull_request' && github.event.pull_request.user.login == 'deku2026')
+    uses: ./.github/workflows/security.yml
+    permissions:
+      contents: read
+      pull-requests: read
+      security-events: write
+
   verify:
     name: Verify
-    if: always()
-    needs: [candidate]
+    if: always() && github.event_name != 'push' && !(github.event_name == 'pull_request' && github.event.pull_request.user.login == 'deku2026')
+    needs: [candidate, security]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Require every package gate to pass
+      - name: Require every package and security gate to pass
         env:
           CANDIDATE_RESULT: ${{ needs.candidate.result }}
+          SECURITY_RESULT: ${{ needs.security.result }}
           NUGET_ENABLED: ${{ vars.NUGET_PUBLISH_ENABLED }}
           NPM_MODE: ${{ vars.NPM_PUBLISH_MODE }}
         run: |
           test "$CANDIDATE_RESULT" = success
-          echo "Generation, compilation, offline checks and candidate validation passed." >> "$GITHUB_STEP_SUMMARY"
+          test "$SECURITY_RESULT" = success
+          echo "Generation, compilation, offline checks, candidate validation and security analysis passed." >> "$GITHUB_STEP_SUMMARY"
           echo "NuGet publishing enabled: ${NUGET_ENABLED:-false}; npm publishing mode: ${NPM_MODE:-disabled}." >> "$GITHUB_STEP_SUMMARY"
           echo "Registry jobs only run for main or canonical release-tag pushes. Skipped jobs mean no publication." >> "$GITHUB_STEP_SUMMARY"
 
   publish-nuget:
     name: Publish NuGet
-    needs: [candidate, verify]
+    needs: [candidate]
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) && github.repository == 'ArcForges/Contracts' && vars.NUGET_PUBLISH_ENABLED == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -153,7 +170,7 @@ jobs:
 
   publish-npm:
     name: Publish npm
-    needs: [candidate, verify]
+    needs: [candidate]
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) && github.repository == 'ArcForges/Contracts' && contains(fromJSON('["bootstrap", "oidc"]'), vars.NPM_PUBLISH_MODE)
     runs-on: ubuntu-latest
     timeout-minutes: 10

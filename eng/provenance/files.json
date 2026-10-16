@@ -4,6 +4,7 @@
   "firstParty": [
     ".editorconfig",
     ".gitattributes",
+    ".githooks/pre-push",
     ".github/CODEOWNERS",
     ".github/ISSUE_TEMPLATE/bug.yml",
     ".github/ISSUE_TEMPLATE/config.yml",
@@ -330,6 +331,8 @@
     "eng/provenance/template.json",
     "eng/publish_tools.py",
     "eng/release_channels.py",
+    "eng/verify.py",
+    "eng/verify_steps.py",
     "eng/version-sources.json",
     "fixtures/internal/con-04-content-sandbox.json",
     "fixtures/internal/con-05-extension-connector-bootstrap.json",
