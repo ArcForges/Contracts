@@ -86,3 +86,7 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: none
       - uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
+        with:
+          # Called from ci.yml, the default category would be ci.yml's; keep security.yml's so PR and scheduled
+          # analyses are compared against each other (code scanning's new-alert comparison).
+          category: .github/workflows/security.yml:codeql/language:${{ matrix.language }}
