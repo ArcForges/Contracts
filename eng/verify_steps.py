@@ -18,8 +18,10 @@ Differences from the hosted jobs, all because the hosted values come from GitHub
 - The candidate is packed at the local version `1.0.0-ci.0.0` (the `pack` default); the run-number selection of
   eng/release_channels.py and the artifact uploads are GitHub-bound (the selection logic is covered by the tooling
   tests).
-- The hosted architecture gate reads the hosted job identity; the step gives it the pushed commit as GITHUB_SHA and
-  the job id `secrets` for that one process, and the gate still checks that the checkout is exactly that commit.
+- The architecture gate's `--hosted` mode requires the hosted Security/secrets job identity (GITHUB_ACTIONS, GITHUB_JOB,
+  GITHUB_SHA), and its project evaluation then builds with the CI identity, which needs the run id. The step runs the
+  same gate with `--local-gate`: every policy stage over the full project graph, bound to the checked-out (pushed)
+  commit instead of the hosted job identity.
 - The secret scan covers the pushed range ({range}), not the full history: history before it was scanned when it was
   pushed.
 Every change runs the full profile: the naming, provenance, formatting, packaging and foundation checks read the
@@ -38,6 +40,9 @@ FINGERPRINT = {
         "git": "git --version",
     },
 }
+
+# Timeouts are about ten times the warm durations measured on this workstation (WSL Debian, 18 threads), with a
+# floor of one to five minutes.
 
 # The environment of ci.yml and security.yml, without CI=true (see above).
 ENV = {"DOTNET_NOLOGO": "true", "DOTNET_CLI_TELEMETRY_OPTOUT": "1", "PYTHONUTF8": "1"}
@@ -89,21 +94,20 @@ STEPS = [
     wsl("clone-identity", "set -e; git config remote.origin.url https://github.com/ArcForges/Contracts.git; "
         "git update-ref refs/remotes/origin/main {base}", 60),
     wsl("restore", "python eng/contracts.py restore", 600),
-    wsl("dependency-admission", "python eng/dependency_admission.py", 300),
+    wsl("dependency-admission", "python eng/dependency_admission.py", 120),
     wsl("naming", "python eng/check_naming.py --report artifacts/evidence/naming.json", 300),
-    wsl("provenance", "python eng/check_provenance.py --owner Contracts --base {base}", 300),
+    wsl("provenance", "python eng/check_provenance.py --owner Contracts --base {base}", 120),
     wsl("contract-access-test", "node --test tests/tooling/contract_access.test.mjs", 300),
     wsl("format-audit", "set -e; npm run format:check; npm audit --audit-level=high; git diff --check", 300),
-    wsl("pack", f"python eng/contracts.py pack --version {LOCAL_VERSION}", 2400),
+    wsl("pack", f"python eng/contracts.py pack --version {LOCAL_VERSION}", 1800),
     wsl("tooling-tests", "python -m unittest discover -s tests/tooling -v", 900),
     wsl("clean-tree", "git diff --exit-code", 60),
     # security.yml, Secret scan job after the scan (the locked restore already ran in `restore`)
     wsl("security-build", "dotnet build ArcForges.Contracts.slnx --configuration Release --no-restore "
-        "--verbosity minimal", 1200),
+        "--verbosity minimal", 900),
     wsl("security-naming", "python eng/check_naming.py --report artifacts/evidence/naming.json", 300),
-    wsl("architecture-hosted", f"GITHUB_ACTIONS=true GITHUB_JOB=secrets GITHUB_SHA={{sha}} dotnet {ARCHITECTURE} "
-        "--hosted", 1200),
+    wsl("architecture-gate", f"dotnet {ARCHITECTURE} --local-gate", 1200),
     # security.yml, the secret scan itself, over the pushed range
-    wsl("secret-scan", SECRET_SCAN, 900, lane="scan"),
+    wsl("secret-scan", SECRET_SCAN, 600, lane="scan"),
     wsl("actionlint", ACTIONLINT, 300, lane="actionlint", when=workflows_changed),
 ]
