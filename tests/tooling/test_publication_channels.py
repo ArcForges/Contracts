@@ -121,7 +121,7 @@ def check_publication_stop(record: dict, root: Path = ROOT) -> None:
     # The stop itself, at this head.
     require(tuple(CHANNELS) == ("nuget", "npm") and tuple(NPM_IDS) == ("@arcforges/ai-internal",), "channels")
     workflow = (root / ".github/workflows/ci.yml").read_text(encoding="utf-8")
-    require(ci_jobs(workflow) == {"candidate", "verify", "publish-nuget", "publish-npm"}, "workflow jobs")
+    require(ci_jobs(workflow) == {"candidate", "security", "verify", "publish-nuget", "publish-npm"}, "workflow jobs")
     require(not re.search(r"setup-java|gradle|maven", workflow, re.I), "a Maven or Gradle step remains")
     require(sorted(record["stop"]["receipts"]) == sorted(set(receipts.values())), "stop receipts")
     inventory = json.loads((root / "eng/provenance/files.json").read_text(encoding="utf-8"))
