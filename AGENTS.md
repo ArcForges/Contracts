@@ -13,7 +13,9 @@
   npm versions. No submodules, sibling source builds or cross-repository project references. Local references in producer tests are
   replaced by package references in the isolated artifact tests.
 - Use the pinned toolchain and commit every lock file. Run the checks relevant
-  to the change; package consumer execution is optional local diagnostics, never a CI gate.
+  to the change while iterating; the full CI-equivalent profile runs in the pre-push hook
+  ([Local verification](#local-verification-ad-0016)). Package consumer execution is optional local diagnostics,
+  never a CI or hook gate.
 - Never put account tokens or keys in files, commands, examples or PR bodies.
   Registry setup belongs in GitHub environments/variables and trusted publishers.
 - Write repository documentation in English. Keep examples explicitly separate
@@ -49,7 +51,7 @@ Contracts is an **active** repository of the ArcForges flagship ([AD-0001](https
 Tasks for this repository come from the [Plan delivery graph](https://github.com/ArcForges/Plan/blob/main/delivery-graph.json) and are delivered under the Plan [execution policy](https://github.com/ArcForges/Plan/blob/main/execution-policy.md) and [delivery procedure](https://github.com/ArcForges/Plan/blob/main/delivery-procedure.md) ([AD-0014](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/decisions/AD-0014-delivery-method.md)). They are binding. The historical P2-018 model (delivery lanes, adoption slices, `delivery.py` claims and handoffs, parallel workers, integration-owner roles, the build slot and the launcher) is retired and never resumed.
 
 - One task is active at a time. Work only inside its write scope, in a worktree `.worktree/<task-id-lower>` on branch `task/<task-id-lower>`, never in the primary checkout.
-- Delegated workers and reviewers work locally. Only the coordinator pushes, opens pull requests, merges (at the reviewed head, after hosted CI passes) and publishes.
+- Delegated workers and reviewers work locally. Only the coordinator pushes (through the pre-push hook), opens pull requests, merges at the reviewed head and publishes. The merge gate is the hook's `arcforges-verify: PASS` line at the pushed head for the owner's PRs and full hosted CI for external PRs ([Hosted CI](#hosted-ci)).
 - Title pull requests `[<TASK-ID>] <summary>`.
 - Shared files: the package inventory, foundation inventory and constraint aggregate are append-only; generated sources and descriptor baselines are regenerated after rebase, never hand-edited or hand-merged. Each merge to main publishes all active packages (NuGet and `@arcforges/ai-internal`) at one candidate version.
 - Dated `docs/wp03-*` and `docs/implementation/*` records (`wp00-*`, `wp01-01`, `wp02-04` and `wp02-05`), `docs/bootstrap-plan.md`, the `docs/con-*` task records, `docs/validation.md` and the retired `docs/maven-central.md`, `docs/kotlin-artifacts-plan.md` and `docs/kotlin-grpc-web-plan.md` describe their original scope; they are evidence, not execution instructions. Their TypeScript, Kotlin and Maven statements predate CON.40. Where older documents prefix a command with `delivery.py build-slot run … --` or assign a step to an integration owner, that is historical: run the wrapped command directly, and leave pushing and merging to the coordinator.
@@ -59,12 +61,45 @@ Tasks for this repository come from the [Plan delivery graph](https://github.com
 The historical [CI and local validation policy](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/64173614f2c41543bfff8f6df8d5a9e41207eb0a/docs/assurance/ci-and-local-validation-policy.md) (ArcForges-Design-Parallel at `64173614`) stays in force for this repository, except its rule 9 (parallel delivery), which AD-0014 supersedes. Where it differs from the Plan execution policy, the Plan governs.
 
 - Never add or execute macOS CI, installed-package consumers, live transport/service tests, GUI/browser/device tests or public-release installation/upgrade tests in any CI trigger or nested build script.
-- Keep necessary Windows/Linux compilation, packaging, targeted offline unit/static tests, locks, required signatures, licence/provenance and non-duplicated security scans. Runtime diagnostics are explicit local opt-in for affected behavior with existing tools; hooks must not silently rebuild/test.
+- Keep necessary Windows/Linux compilation, packaging, targeted offline unit/static tests, locks, required signatures, licence/provenance and non-duplicated security scans. Runtime diagnostics (installed-package consumers, `contracts.py consume`) are explicit local opt-in for affected behavior with existing tools; the pre-push hook runs only the CI-equivalent offline checks.
 - Validate candidate contents once during production and identity/integrity at the actual publication handoff. Do not repeatedly download public artifacts, rescan archives, compare hashes or rerun consumers after publishing. Registry status/coordinate metadata establishes completion.
 - Preserve deliberate-tag formal releases. The Maven main SNAPSHOT and Maven Central channels are retired (CON.40). Never create tags, republish or re-sign solely for verification. Diagnose failed jobs before rerun; ambiguous existing immutable releases require investigation, not silent skipping.
 - Do not reinstall vcpkg, SDKs, emulators or toolchains to expand validation. Use the normal network and never change proxy or network configuration (no port 7890). Diagnose a failure before any rerun, retry transient failures with bounded backoff, inspect remote state before retrying a write, and report the exact operation when a failure persists. Linux opt-in checks run in the local WSL2 Debian distribution (P2-024); installs inside it are the user's, and there is no SSH.
-- Every pull request gets an independent review of its complete latest head and waits for its applicable checks; the coordinator merges only at the reviewed head. Post-merge work ends after expected commit, required build/publication status and clean primary fast-forward. Keep branches/worktrees and report untested coverage accurately.
-- This repository has configured CI/security checks; they remain required for documentation-only PRs. Direct merge after review without CI applies only to documentation repositories with no configured CI. Do not suppress configured workflows with skip directives or bypass branch protection. Documentation changes require no additional ad-hoc local product builds or runtime tests.
+- Every pull request gets an independent review of its complete latest head and passes its merge gate ([Hosted CI](#hosted-ci)); the coordinator merges only at the reviewed head. Post-merge work ends after expected commit, required build/publication status and clean primary fast-forward. Keep branches/worktrees and report untested coverage accurately.
+- Documentation-only changes run the full hook profile too (the naming, provenance, formatting and packaging checks read documentation) and need no additional ad-hoc product builds or runtime tests. Do not suppress configured workflows with skip directives or bypass branch protection.
+
+## Local verification (AD-0016)
+
+The owner's (`deku2026`) PRs are verified by the repository's pre-push hook, not by hosted CI ([AD-0016](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/decisions/AD-0016-local-first-verification.md)). The cross-repository rules are the Plan [AGENTS.md](https://github.com/ArcForges/Plan/blob/main/AGENTS.md) rules 6 and 7.
+
+- **Install** once per clone, from the main checkout on `main`: `python eng/verify.py install`. It copies `.githooks/*` into the clone's common hooks directory, so every worktree runs them, and removes any `core.hooksPath`. Re-run it when `.githooks/` changes.
+- `python eng/verify.py list` shows the profile and steps. `python eng/verify.py run` verifies `HEAD` now; the push reuses that pass for the identical tree, step set, scripts and tools (the secret scan also binds it to the exact base and head commits).
+- **What runs.** Each pushed commit, never the working tree, in the WSL Debian clone `~/.cache/arcforges-verify/Contracts` (hosted CI ran on Ubuntu only), as listed in `eng/verify_steps.py`. Every change runs the full profile.
+  - Lane `wsl`, in order: `restore` (points the clone's `origin/main` at the merge base, which the base-reading scripts compare against, then `python eng/contracts.py restore`), `dependency-admission`, `naming`, `provenance` (`--base` the merge base), `contract-access-test`, `format-audit` (`npm run format:check`, `npm audit --audit-level=high`, `git diff --check`), `pack` (`python eng/contracts.py pack --version 1.0.0-ci.0.0`: generation check, policy checks, Release build, architecture and structure tests, `@arcforges/ai-internal` build and tests, compatibility exchanges, the Native AOT serialization probe and the candidate archives), `tooling-tests` and `clean-tree`; then the Security job's `security-build`, `security-naming` and `architecture-hosted` (the `--hosted` gate, given the pushed commit as its job identity).
+  - Lane `scan`: the pinned gitleaks image over the pushed range with `.gitleaks.toml`, without network.
+  - `actionlint` when `.github/workflows/**` changed.
+  - `CI` is not set (with it, the build requires a GitHub run identity), so local builds carry the `local` build identity.
+- **Prerequisites** (installs are the user's): WSL Debian with the .NET SDK selected by `global.json`, Node and npm as pinned in `.node-version` and `eng/contracts.py`, Python, Docker with the pinned gitleaks image, and network access to the NuGet and npm registries.
+- **Failures.** A failed, timed-out or unrunnable step rejects the push and prints the step, the last log lines and the log path (`<git common dir>/arcforges-verify/logs/`). Read the log, fix the cause, push again.
+- AI agents must never use `git push --no-verify` to bypass required validation.
+- They must also never disable, remove, modify, or otherwise circumvent the hooks merely to allow a push.
+- If validation fails, investigate and fix the underlying issue.
+- If a required local test cannot run, do not silently skip it or claim successful verification.
+- Changing `eng/verify*.py` or `.githooks/` as reviewed engineering work is allowed; changing them to get a push through is not.
+
+## Efficient execution
+
+The Plan's rule 7 applies. In this repository:
+
+- Restore once (`python eng/contracts.py restore`), then build incrementally: `dotnet build ArcForges.Contracts.slnx -c Release --no-restore`.
+- While iterating, run only the affected checks: `python eng/contracts.py generate --check`, the `eng/check_*.py` script of the changed policy, `node --test tests/tooling/contract_access.test.mjs`, `python -m unittest tests.tooling.<module>`, the built suites (`dotnet tests/StructureTests/bin/Release/net10.0/StructureTests.dll .` and `dotnet tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll`) and `npx prettier --check <changed files>`.
+- `python eng/contracts.py pack` is the full candidate. Run it once, through `python eng/verify.py run` before handover, so that the push reuses the pass.
+
+## Hosted CI
+
+- **Owner PRs:** no hosted validation or security analysis; `Build candidate`, `Security` and `Verify` show as skipped.
+- **External PRs** (Dependabot included), the merge queue and manual `CI` runs: `Build candidate`, `Security` (the called `security.yml`: dependency review on PRs, the full-history secret scan with the hosted architecture gate, CodeQL for C#, JavaScript/TypeScript and Python) and `Verify`, which requires both. `Verify` is the required check.
+- **Main and `v*` pushes:** delivery only, `Build candidate` and the publish jobs, which depend on the candidate. `security.yml` also runs weekly and on manual dispatch.
 
 ## Dependency admission (WP02.05)
 

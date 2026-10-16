@@ -4,7 +4,8 @@ Describe the behavior, schema/package impact and why this change is needed.
 
 ## Validation
 
-List the checks actually run and link relevant CI evidence.
+List the checks actually run and link relevant CI evidence (for the owner's PRs, quote the
+`arcforges-verify: PASS` line of the local pre-push verification instead).
 
 - [ ] Generated output and dependency locks are current.
 - [ ] Wire/API compatibility and licence declarations were checked.

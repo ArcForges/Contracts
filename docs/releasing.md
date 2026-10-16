@@ -6,7 +6,8 @@ package and the four AF-CON-01 flagship packages Node, Fleet, Peer and Relay) an
 one internal npm package
 `@arcforges/ai-internal` at `1.0.0-ci.<run-number>.<run-attempt>`. Canonical `vX.Y.Z`
 tags on main ancestry publish `X.Y.Z` of the same identities to both registries. PR,
-merge-group and manual diagnostic events validate only. Setting a variable by
+merge-group and manual diagnostic events validate only; the owner's PRs are validated by the local
+pre-push verification instead of hosted jobs ([AGENTS.md](../AGENTS.md#local-verification-ad-0016)). Setting a variable by
 itself does not trigger a run; finish setup before the next main merge.
 
 C# NuGet is the only first-party SDK channel for business clients (CON.40, P2-021
@@ -41,12 +42,13 @@ not secrets; never put a token in a variable.
 Enable dependency graph/Dependabot alerts and security updates, private
 vulnerability reporting, secret scanning and push protection. The repository
 files add Dependabot updates, CodeQL, secret scanning in CI and PR dependency
-review. CodeQL and the security workflow are separate PR checks; package upload
-is directly gated by the CI `Verify` job. Require successful CI/security checks
-in branch protection before merging.
+review. For external PRs, CI calls the security workflow and its `Verify` job requires
+the candidate and every security job, so `Verify` is the one required check; the
+owner's PRs skip them (local pre-push verification). Package upload on main is gated
+by the main push's own `Build candidate` job. The security workflow also runs weekly.
 
 These GitHub-side settings are configured for this repository, including the
-CI/security checks and PR requirement on main (zero required review approvals).
+required `Verify` check and PR requirement on main (zero required review approvals).
 CodeQL analyses C#, JavaScript/TypeScript and Python. The `CodeQL (java-kotlin)` job
 is removed (CON.40); if branch protection still lists it as a required check, the
 repository owner removes that requirement, because the job no longer reports. Normal operation uses `NUGET_PUBLISH_ENABLED=true` and
@@ -215,7 +217,7 @@ candidate.
 
 ## 5. Understand the result
 
-- **Build candidate / Verify passed:** generation, code, archive contents and
+- **Build candidate passed** (and, for external PRs, **Verify**): generation, code, archive contents and
   targeted offline checks passed; runtime consumers were not run. This alone is not registry publication.
 - **Publish job skipped:** its registry is disabled, or this event was not a main or formal-tag
   push. Check the variables and workflow event.

@@ -104,19 +104,20 @@ flowchart LR
   A[Locked restore] --> B[Regenerate and compare]
   B --> C[Compile and wire tests]
   C --> D[Pack one candidate]
-  D --> G[Offline candidate checks / Verify gate]
-  G --> H[Main: publish same NuGet archives]
-  G --> I[Main: publish @arcforges/ai-internal to npm]
+  D --> H[Main: publish same NuGet archives]
+  D --> I[Main: publish @arcforges/ai-internal to npm]
 ```
 
-PRs and diagnostic manual runs validate only. Main pushes allocate
+PRs and diagnostic manual runs validate only: the owner's PRs through the local pre-push
+verification ([AGENTS.md](AGENTS.md#local-verification-ad-0016)), external PRs through hosted CI.
+Main pushes build the candidate (whose packing runs the same gates) and allocate
 `1.0.0-ci.<run-number>.<run-attempt>` automatically. There is no manual version
 form or manual publishing command in the normal release flow. Before the first stable tag, newer npm CI releases update `latest`. Afterwards, development builds use `ci` and stable releases own `latest`. These remain prereleases; consumers pin the exact verified
 version. Generated schemas use wire namespace
 `v1`, which is independent of the increasing package build version.
 
 **Registry setup is required once.** An unset/disabled publisher produces a
-visible skipped registry job. A green `Verify` means the candidate passed, not
+visible skipped registry job. A green `Verify` (external PRs) means the candidate and security checks passed, not
 that it was uploaded. Follow [the complete account-to-release setup](docs/releasing.md)
 for NuGet and npm OIDC configuration. Each registry
 has a separate GitHub environment restricted to main and release tags; these are repository settings, not
