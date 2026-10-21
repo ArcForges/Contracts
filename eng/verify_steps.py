@@ -94,7 +94,7 @@ def linux(step_id: str, command: str, timeout: int, **options) -> Step:
 STEPS = [
     # ci.yml, Build candidate
     linux("clone-identity", "set -e; git config remote.origin.url https://github.com/ArcForges/Contracts.git; "
-        "git update-ref refs/remotes/origin/main {base}", 60),
+          "git update-ref refs/remotes/origin/main {base}", 60),
     linux("restore", "python eng/contracts.py restore", 600),
     linux("dependency-admission", "python eng/dependency_admission.py", 120),
     linux("naming", "python eng/check_naming.py --report artifacts/evidence/naming.json", 300),
@@ -106,7 +106,7 @@ STEPS = [
     linux("clean-tree", "git diff --exit-code", 60),
     # security.yml, Secret scan job after the scan (the locked restore already ran in `restore`)
     linux("security-build", "dotnet build ArcForges.Contracts.slnx --configuration Release --no-restore "
-        "--verbosity minimal", 900),
+          "--verbosity minimal", 900),
     linux("security-naming", "python eng/check_naming.py --report artifacts/evidence/naming.json", 300),
     linux("architecture-gate", f"dotnet {ARCHITECTURE} --local-gate", 1200),
     # security.yml, the secret scan itself, over the pushed range

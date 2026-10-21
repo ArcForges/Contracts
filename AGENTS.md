@@ -83,8 +83,8 @@ The owner's (`deku2026`) PRs are verified by the repository's pre-push hook, not
 - **Prerequisites** (installs are the user's): a Linux machine with the .NET SDK selected by `global.json`, Node and npm as pinned in `.node-version` and `eng/contracts.py`, Python (`python` on PATH), Docker with the pinned gitleaks image, and network access to the NuGet and npm registries.
 - **Failures.** A failed, timed-out or unrunnable step, or a missing leg record, rejects the push and prints the step, the last log lines and the log path (`<git common dir>/arcforges-verify/logs/`). Read the log, fix the cause, push again.
 - AI agents must never use `git push --no-verify` to bypass required validation.
-- Only `python eng/verify.py import` brings in another machine's leg, and only the record that `python eng/verify.py run` wrote on that machine at the exact commit: writing, editing or reusing a pass record by hand is circumventing the hooks.
 - They must also never disable, remove, modify, or otherwise circumvent the hooks merely to allow a push.
+- Only `python eng/verify.py import` brings in another machine's leg, and only the record that `python eng/verify.py run` wrote on that machine at the exact commit: writing, editing or reusing a pass record by hand is circumventing the hooks.
 - If validation fails, investigate and fix the underlying issue.
 - If a required local test cannot run, do not silently skip it or claim successful verification.
 - Changing `eng/verify*.py` or `.githooks/` as reviewed engineering work is allowed; changing them to get a push through is not.
