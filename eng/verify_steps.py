@@ -1,10 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 """Local verification steps of Contracts, loaded by eng/verify.py (which injects `Step`).
 
-Hosted CI ran on Ubuntu only, so every check runs in WSL Debian, in the Linux-native verification clone checked out at
-the pushed commit. The `wsl` lane is the `Build candidate` job of .github/workflows/ci.yml followed by the build,
-naming and architecture steps of the `secrets` job of .github/workflows/security.yml (they share one checkout, so they
-run in order and the security build is incremental on the candidate's Release build). The secret scan of the pushed
+Hosted CI ran on Ubuntu only, so every check is a step of the Linux leg, which runs on a native Linux machine in the
+Linux-native verification clone checked out at the pushed commit (eng/verify.py; AGENTS.md). The `linux` lane is the
+`Build candidate` job of .github/workflows/ci.yml followed by the build, naming and architecture steps of the `secrets`
+job of .github/workflows/security.yml (they share one checkout, so they run in order and the security build is
+incremental on the candidate's Release build). The secret scan of the pushed
 range and actionlint (only when a workflow changed) run in their own lanes, concurrently.
 
 Differences from the hosted jobs, all because the hosted values come from GitHub:
@@ -32,7 +33,7 @@ REPOSITORY = "Contracts"
 
 # Tool versions that key a reusable pass (the python running eng/verify.py is added by the core).
 FINGERPRINT = {
-    "wsl": {
+    "linux": {
         "dotnet-sdks": "dotnet --list-sdks | tr '\\n' ' '",
         "node": "node --version",
         "npm": "npm --version",
@@ -41,7 +42,7 @@ FINGERPRINT = {
     },
 }
 
-# Timeouts are about ten times the warm durations measured on this workstation (WSL Debian, 18 threads), with a
+# Timeouts are about ten times the warm durations measured on the workstation's Linux environment (18 threads), with a
 # floor of one to five minutes.
 
 # The environment of ci.yml and security.yml, without CI=true (see above).
@@ -60,7 +61,8 @@ SECRET_SCAN = (
     "--log-opts=\"--full-history --diff-filter=tuxdb {range}\""
 )
 
-# actionlint as pinned in the product repositories' CI, cached once in WSL; the archive is checked on every run.
+# actionlint as pinned in the product repositories' CI, cached once on the Linux host; the archive is checked on every
+# run.
 # actionlint 1.7.12 does not know the concurrency `queue` key of publish-npm, which GitHub accepts (the job runs on
 # every main push), so that one message is ignored.
 ACTIONLINT = (
@@ -85,29 +87,29 @@ def select_profile(changed: list[str]) -> str:
     return "full"
 
 
-def wsl(step_id: str, command: str, timeout: int, **options) -> Step:
-    return Step(step_id, "wsl", command, timeout=timeout, env=ENV, **options)
+def linux(step_id: str, command: str, timeout: int, **options) -> Step:
+    return Step(step_id, "linux", command, timeout=timeout, env=ENV, **options)
 
 
 STEPS = [
     # ci.yml, Build candidate
-    wsl("clone-identity", "set -e; git config remote.origin.url https://github.com/ArcForges/Contracts.git; "
-        "git update-ref refs/remotes/origin/main {base}", 60),
-    wsl("restore", "python eng/contracts.py restore", 600),
-    wsl("dependency-admission", "python eng/dependency_admission.py", 120),
-    wsl("naming", "python eng/check_naming.py --report artifacts/evidence/naming.json", 300),
-    wsl("provenance", "python eng/check_provenance.py --owner Contracts --base {base}", 120),
-    wsl("contract-access-test", "node --test tests/tooling/contract_access.test.mjs", 300),
-    wsl("format-audit", "set -e; npm run format:check; npm audit --audit-level=high; git diff --check", 300),
-    wsl("pack", f"python eng/contracts.py pack --version {LOCAL_VERSION}", 1800),
-    wsl("tooling-tests", "python -m unittest discover -s tests/tooling -v", 900),
-    wsl("clean-tree", "git diff --exit-code", 60),
+    linux("clone-identity", "set -e; git config remote.origin.url https://github.com/ArcForges/Contracts.git; "
+          "git update-ref refs/remotes/origin/main {base}", 60),
+    linux("restore", "python eng/contracts.py restore", 600),
+    linux("dependency-admission", "python eng/dependency_admission.py", 120),
+    linux("naming", "python eng/check_naming.py --report artifacts/evidence/naming.json", 300),
+    linux("provenance", "python eng/check_provenance.py --owner Contracts --base {base}", 120),
+    linux("contract-access-test", "node --test tests/tooling/contract_access.test.mjs", 300),
+    linux("format-audit", "set -e; npm run format:check; npm audit --audit-level=high; git diff --check", 300),
+    linux("pack", f"python eng/contracts.py pack --version {LOCAL_VERSION}", 1800),
+    linux("tooling-tests", "python -m unittest discover -s tests/tooling -v", 900),
+    linux("clean-tree", "git diff --exit-code", 60),
     # security.yml, Secret scan job after the scan (the locked restore already ran in `restore`)
-    wsl("security-build", "dotnet build ArcForges.Contracts.slnx --configuration Release --no-restore "
-        "--verbosity minimal", 900),
-    wsl("security-naming", "python eng/check_naming.py --report artifacts/evidence/naming.json", 300),
-    wsl("architecture-gate", f"dotnet {ARCHITECTURE} --local-gate", 1200),
+    linux("security-build", "dotnet build ArcForges.Contracts.slnx --configuration Release --no-restore "
+          "--verbosity minimal", 900),
+    linux("security-naming", "python eng/check_naming.py --report artifacts/evidence/naming.json", 300),
+    linux("architecture-gate", f"dotnet {ARCHITECTURE} --local-gate", 1200),
     # security.yml, the secret scan itself, over the pushed range
-    wsl("secret-scan", SECRET_SCAN, 600, lane="scan"),
-    wsl("actionlint", ACTIONLINT, 300, lane="actionlint", when=workflows_changed),
+    linux("secret-scan", SECRET_SCAN, 600, lane="scan"),
+    linux("actionlint", ACTIONLINT, 300, lane="actionlint", when=workflows_changed),
 ]
