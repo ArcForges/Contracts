@@ -155,7 +155,7 @@ digests in [`eng/flagship-contracts.json`](../eng/flagship-contracts.json):
 | --------------------------- | -------- | --------------------------------------------------------------------------------- |
 | `ArcForges.Contracts.Node`  | public   | `arcforges.node.v1`: 20 files, 19 services (the local node API)                   |
 | `ArcForges.Contracts.Fleet` | public   | `arcforges.fleet.v1`: 3 services (the cloud fleet API); depends on Node           |
-| `ArcForges.Contracts.Peer`  | internal | `arcforges.peer.v1`: 6 services (node to node and host to guest); depends on Node |
+| `ArcForges.Contracts.Peer`  | internal | `arcforges.peer.v1`: 6 services (node to node; `GuestLinkService` retired); depends on Node |
 | `ArcForges.Contracts.Relay` | internal | `arcforges.relay.v1`: relay frames, messages only; depends on Node and Fleet      |
 
 The reused packages gain one additive file each, with their existing namespaces:
@@ -173,6 +173,26 @@ copied from the design error catalogue. Within `v1`, changes are additive only, 
 [`eng/compatibility/flagship-window.json`](../eng/compatibility/flagship-window.json)
 holds the baselines the wire-compatibility gate compares every later change with.
 Pin every Contracts package of one candidate to the same exact version.
+
+**Retired WSL guest-link surfaces (ArcForges-Design
+[AD-0018](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/decisions/AD-0018-native-platforms-without-wsl-integration.md),
+2026-10-21).** ArcForges has no dedicated Windows–WSL integration: no guest node, host–guest link or
+`arcforges bridge wsl`. The published `v1` declarations stay unchanged for wire compatibility, but no node serves,
+calls or sets them and no client may depend on them:
+
+- `arcforges.peer.v1.GuestLinkService` (`OpenLink`, `AnswerGrant`, `RevokeGrant`, `SetGuestBudget`,
+  `GetGuestStatus`) and its messages `GuestHello`, `GrantRequest`, `GrantRelease`, `GuestUsageReport` and the enum
+  `GrantDecision`;
+- `ResourceService.ListGuestLinks`, `SetGuestLink`, `GetHostLink` and `TrustHost`, with `GuestLinkView` and
+  `GuestLinkState`;
+- `NODE_ROLE_GUEST` (every node is `NODE_ROLE_HOST`), `NodeRef.host_node_id`, `ORIGIN_GUEST`, `ORIGIN_HOST`,
+  `ResourceSnapshot.guests` and `GuestConsumer`, `NodeInfo.guest_links`, `EVENT_TOPIC_GUESTS` and
+  `NodeEvent.guest_link`, `FINDING_KIND_GUEST_LINK_LOST`, `ResourcePolicy.guest_standalone_fraction`,
+  `ProbeObservation.wsl_distro`, the fleet's `role` and `host_node_id` for guests, and the error `STATE/link_down`.
+
+`PROCESS_LABEL_GUEST_VM` and `ProcessView.crosses_vm_boundary` stay in use: the Windows node observes the WSL VM as one
+unmanaged consumer and flags a Windows task that runs `wsl.exe`. A future major version may drop the retired
+declarations; within `v1` they are never extended.
 
 ## Offline inventory tool (`ArcForges.Cli`)
 
