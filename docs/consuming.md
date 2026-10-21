@@ -151,12 +151,12 @@ blocked on APP.03 and not proven in Contracts.
 AF-CON-01 adopts the ArcForges-Design specification protos unchanged, recorded with their
 digests in [`eng/flagship-contracts.json`](../eng/flagship-contracts.json):
 
-| Package                     | Access   | Contents                                                                          |
-| --------------------------- | -------- | --------------------------------------------------------------------------------- |
-| `ArcForges.Contracts.Node`  | public   | `arcforges.node.v1`: 20 files, 19 services (the local node API)                   |
-| `ArcForges.Contracts.Fleet` | public   | `arcforges.fleet.v1`: 3 services (the cloud fleet API); depends on Node           |
+| Package                     | Access   | Contents                                                                                    |
+| --------------------------- | -------- | ------------------------------------------------------------------------------------------- |
+| `ArcForges.Contracts.Node`  | public   | `arcforges.node.v1`: 20 files, 19 services (the local node API)                             |
+| `ArcForges.Contracts.Fleet` | public   | `arcforges.fleet.v1`: 3 services (the cloud fleet API); depends on Node                     |
 | `ArcForges.Contracts.Peer`  | internal | `arcforges.peer.v1`: 6 services (node to node; `GuestLinkService` retired); depends on Node |
-| `ArcForges.Contracts.Relay` | internal | `arcforges.relay.v1`: relay frames, messages only; depends on Node and Fleet      |
+| `ArcForges.Contracts.Relay` | internal | `arcforges.relay.v1`: relay frames, messages only; depends on Node and Fleet                |
 
 The reused packages gain one additive file each, with their existing namespaces:
 `ArcForges.Contracts.PublicApi` carries `SupportAccessService` (`support_access.proto`)
