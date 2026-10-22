@@ -81,9 +81,12 @@ Every PR into `main` is verified after the push, on the verification host, and g
   git worktree add --detach .worktree/verify-<sha> <sha>
   cd .worktree/verify-<sha>
   python eng/verify.py run-and-report
+  cd ../..
+  git worktree remove --force .worktree/verify-<sha>
   ```
 
-  It reports `arcforges/linux` on that exact commit: `pending` when it starts, `success` only when every step ran and passed, `failure` when a step failed, `error` when the leg could not complete. It exits non-zero unless it reported success. Every new push needs verifying again. The host reports with `ARCFORGES_STATUS_TOKEN` when set (a token limited to commit statuses), otherwise with its own `gh` login; never print either. For a pull request from a fork, read the diff first, then fetch `refs/pull/<n>/head`.
+  It reports `arcforges/linux` on that exact commit: `pending` when it starts, `success` only when every step ran and passed, `failure` when a step failed, `error` when the leg could not complete. It exits 0 after success, 1 when a step failed and 2 when the leg could not complete or be reported. Every new push needs verifying again. The host reports with `ARCFORGES_STATUS_TOKEN` when set (a token limited to commit statuses), otherwise with its own `gh` login; steps never see either, and they are never printed. For a pull request from a fork, read the diff first, then fetch `refs/pull/<n>/head`.
+
 - **Stop rule** (AD-0019 §5). If the Linux MCP server is unavailable, unreachable or its host lacks a prerequisite, stop and report the exact failure: the status stays missing and the PR cannot merge. Never skip, mock or weaken a step, or run the leg on another host (local WSL or an agent's own sandbox included).
 - `python eng/verify.py list` shows the profile and the steps. `python eng/verify.py run` runs the leg of `HEAD` on the host without reporting.
 - **What runs.** The commit, never the working tree, in the Linux-native clone `~/.cache/arcforges-verify/Contracts`, as listed in `eng/verify_steps.py`. Every change runs the full profile.
