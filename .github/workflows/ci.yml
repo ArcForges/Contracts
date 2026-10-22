@@ -2,8 +2,8 @@
 name: CI
 
 # Every PR is verified after the push on the Linux host (eng/verify.py run-and-report, whose arcforges/linux status
-# main requires; ArcForges-Design AD-0020), so validation and security analysis are skipped for owner (deku2026) PRs; external PRs (Dependabot included), the merge queue and manual dispatch run
-# everything, with the security workflow called below so that `Verify` requires it. Main and v* tag pushes run only
+# main requires; ArcForges-Design AD-0020), so validation and security analysis are skipped for owner (deku2026) PRs;
+# external PRs (Dependabot included), the merge queue and manual dispatch run everything, with the security workflow called below so that `Verify` requires it. Main and v* tag pushes run only
 # delivery: the candidate (whose pack embeds its gates in the published bytes) and the publish jobs.
 # merge_group runs the full validation for every author, but only matters if a merge queue is configured (none is today).
 on:

@@ -24,8 +24,8 @@ Differences from the hosted jobs, all because the hosted values come from GitHub
   GITHUB_SHA), and its project evaluation then builds with the CI identity, which needs the run id. The step runs the
   same gate with `--local-gate`: every policy stage over the full project graph, bound to the checked-out (pushed)
   commit instead of the hosted job identity.
-- The secret scan covers the pushed range ({range}), not the full history: history before it was scanned when it was
-  pushed.
+- The secret scan covers the commits since the merge base ({range}), not the full history: history before it was
+  scanned when its own PR was verified.
 Every change runs the full profile: the naming, provenance, formatting, packaging and foundation checks read the
 documentation too, so there is no Markdown that no check reads.
 """
