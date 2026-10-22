@@ -4,7 +4,6 @@
   "firstParty": [
     ".editorconfig",
     ".gitattributes",
-    ".githooks/pre-push",
     ".github/CODEOWNERS",
     ".github/ISSUE_TEMPLATE/bug.yml",
     ".github/ISSUE_TEMPLATE/config.yml",

@@ -2,7 +2,8 @@
 """Local verification steps of Contracts, loaded by eng/verify.py (which injects `Step`).
 
 Hosted CI ran on Ubuntu only, so every check is a step of the Linux leg, which runs on a native Linux machine in the
-Linux-native verification clone checked out at the pushed commit (eng/verify.py; AGENTS.md). The `linux` lane is the
+Linux-native verification clone checked out at the pushed commit, after the push, and is reported to GitHub as the
+commit status arcforges/linux (eng/verify.py; AGENTS.md). The `linux` lane is the
 `Build candidate` job of .github/workflows/ci.yml followed by the build, naming and architecture steps of the `secrets`
 job of .github/workflows/security.yml (they share one checkout, so they run in order and the security build is
 incremental on the candidate's Release build). The secret scan of the pushed
@@ -23,15 +24,15 @@ Differences from the hosted jobs, all because the hosted values come from GitHub
   GITHUB_SHA), and its project evaluation then builds with the CI identity, which needs the run id. The step runs the
   same gate with `--local-gate`: every policy stage over the full project graph, bound to the checked-out (pushed)
   commit instead of the hosted job identity.
-- The secret scan covers the pushed range ({range}), not the full history: history before it was scanned when it was
-  pushed.
+- The secret scan covers the commits since the merge base ({range}), not the full history: history before it was
+  scanned when its own PR was verified.
 Every change runs the full profile: the naming, provenance, formatting, packaging and foundation checks read the
 documentation too, so there is no Markdown that no check reads.
 """
 
 REPOSITORY = "Contracts"
 
-# Tool versions that key a reusable pass (the python running eng/verify.py is added by the core).
+# Tool versions recorded in the leg's summary (the python running eng/verify.py is added by the core).
 FINGERPRINT = {
     "linux": {
         "dotnet-sdks": "dotnet --list-sdks | tr '\\n' ' '",

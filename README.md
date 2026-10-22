@@ -108,8 +108,8 @@ flowchart LR
   D --> I[Main: publish @arcforges/ai-internal to npm]
 ```
 
-PRs and diagnostic manual runs validate only: the owner's PRs through the local pre-push
-verification ([AGENTS.md](AGENTS.md#local-verification-ad-0016)), external PRs through hosted CI.
+PRs and diagnostic manual runs validate only: every PR through the Linux host's verification after the push,
+whose `arcforges/linux` status `main` requires ([AGENTS.md](AGENTS.md#verification-after-the-push-ad-0020)), and external PRs also through hosted CI.
 Main pushes build the candidate (whose packing runs the same gates) and allocate
 `1.0.0-ci.<run-number>.<run-attempt>` automatically. There is no manual version
 form or manual publishing command in the normal release flow. Before the first stable tag, newer npm CI releases update `latest`. Afterwards, development builds use `ci` and stable releases own `latest`. These remain prereleases; consumers pin the exact verified

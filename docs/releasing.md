@@ -6,8 +6,8 @@ package and the four AF-CON-01 flagship packages Node, Fleet, Peer and Relay) an
 one internal npm package
 `@arcforges/ai-internal` at `1.0.0-ci.<run-number>.<run-attempt>`. Canonical `vX.Y.Z`
 tags on main ancestry publish `X.Y.Z` of the same identities to both registries. PR,
-merge-group and manual diagnostic events validate only; the owner's PRs are validated by the local
-pre-push verification instead of hosted jobs ([AGENTS.md](../AGENTS.md#local-verification-ad-0016)). Setting a variable by
+merge-group and manual diagnostic events validate only; the owner's PRs are validated by the Linux
+host's verification after the push instead of hosted jobs ([AGENTS.md](../AGENTS.md#verification-after-the-push-ad-0020)). Setting a variable by
 itself does not trigger a run; finish setup before the next main merge.
 
 C# NuGet is the only first-party SDK channel for business clients (CON.40, P2-021
@@ -43,12 +43,13 @@ Enable dependency graph/Dependabot alerts and security updates, private
 vulnerability reporting, secret scanning and push protection. The repository
 files add Dependabot updates, CodeQL, secret scanning in CI and PR dependency
 review. For external PRs, CI calls the security workflow and its `Verify` job requires
-the candidate and every security job, so `Verify` is the one required check; the
-owner's PRs skip them (local pre-push verification). Package upload on main is gated
+the candidate and every security job, so `Verify` is the one required hosted check; the
+owner's PRs skip them. Every PR, external ones included, also needs the `arcforges/linux` status of the host verification
+after the push. Package upload on main is gated
 by the main push's own `Build candidate` job. The security workflow also runs weekly.
 
 These GitHub-side settings are configured for this repository, including the
-required `Verify` check and PR requirement on main (zero required review approvals).
+required `Verify` and `arcforges/linux` checks and the PR requirement on main (zero required review approvals).
 CodeQL analyses C#, JavaScript/TypeScript and Python. The `CodeQL (java-kotlin)` job
 is removed (CON.40); if branch protection still lists it as a required check, the
 repository owner removes that requirement, because the job no longer reports. Normal operation uses `NUGET_PUBLISH_ENABLED=true` and

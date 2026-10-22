@@ -2,7 +2,7 @@
 name: Security
 
 # Called by ci.yml (external PRs, the merge queue and manual CI runs), so that its `Verify` requires every job here;
-# owner (deku2026) PRs skip the call and are verified by the local pre-push hook (eng/verify.py, AD-0016), and pushes
+# owner (deku2026) PRs skip the call and are verified on the Linux host after the push (eng/verify.py, AD-0020), and pushes
 # run no security analysis. The weekly schedule and manual dispatch run it on main.
 on:
   workflow_call:
