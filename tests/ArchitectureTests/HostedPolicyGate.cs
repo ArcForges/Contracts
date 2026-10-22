@@ -28,7 +28,7 @@ internal static class HostedPolicyGate
 
     /// <summary>
     /// Runs every policy stage over the full project graph. <paramref name="hosted"/> binds the run to the exact hosted
-    /// Security/secrets job (<c>--hosted</c>); otherwise (<c>--local-gate</c>, the local pre-push verification of
+    /// Security/secrets job (<c>--hosted</c>); otherwise (<c>--local-gate</c>, the host verification of
     /// eng/verify_steps.py) it binds to the checked-out commit and refuses to run inside GitHub Actions.
     /// </summary>
     public static void Run(Action<PolicyGateStage> setStage, bool hosted)
