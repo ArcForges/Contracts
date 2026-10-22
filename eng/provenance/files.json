@@ -670,7 +670,8 @@
     "tests/tooling/test_release_guards.py",
     "tests/tooling/test_secret_history_scope.py",
     "tests/tooling/test_serialization_policy.py",
-    "tests/tooling/test_signed_formats.py"
+    "tests/tooling/test_signed_formats.py",
+    "tests/tooling/test_verify_install.py"
   ],
   "reused": {
     "LICENSE": "canonical-apache-licence-r1",
