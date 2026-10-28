@@ -333,6 +333,21 @@ internal static class Con40SdkCases
             ?? throw new InvalidOperationException("foundation: missing generated descriptor " + name);
     }
 
+    /// <summary>AF-CTR-01: every positive foundation fixture case, materialized exactly as
+    /// <see cref="FoundationIndependentEncoding"/> does, for the C# leg of the Go binding exchange
+    /// (<see cref="GoExchangeCases"/>).</summary>
+    internal static IEnumerable<(string Id, MessageDescriptor Descriptor, string Json)> PositiveFoundationCases(string root)
+    {
+        var fixture = LoadFoundation(root);
+        foreach (var node in fixture.Fixture["cases"]!.AsArray())
+        {
+            var item = node!.AsObject();
+            if (!item["valid"]!.GetValue<bool>()) continue;
+            yield return (item["id"]!.GetValue<string>(), FoundationDescriptor(fixture, item["target"]!.GetValue<string>()),
+                Materialize(item, fixture.Samples).ToJsonString());
+        }
+    }
+
     private static void FoundationIndependentEncoding(string root)
     {
         var fixture = LoadFoundation(root);

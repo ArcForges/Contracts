@@ -26,6 +26,11 @@ Differences from the hosted jobs, all because the hosted values come from GitHub
   commit instead of the hosted job identity.
 - The secret scan covers the commits since the merge base ({range}), not the full history: history before it was
   scanned when its own PR was verified.
+- The Go steps (AF-CTR-01) are the `Go checks` step of the `Build candidate` job, split by control: generation drift,
+  the static controls (gofmt, go vet, staticcheck, go mod verify and tidy drift, the access-graph imports), go test with
+  the race detector, the C#/Go exchange (it needs the StructureTests build of `pack`) and govulncheck. They use the
+  host's Go, which must be the release pinned in go/toolchain.json (hosted CI installs that archive and checks its
+  SHA-256). Contracts has no Windows leg: docs/engineering-controls.md records why the Go bindings do not need one.
 Every change runs the full profile: the naming, provenance, formatting, packaging and foundation checks read the
 documentation too, so there is no Markdown that no check reads.
 """
@@ -39,6 +44,7 @@ FINGERPRINT = {
         "node": "node --version",
         "npm": "npm --version",
         "python": "python --version",
+        "go": "go version",
         "git": "git --version",
     },
 }
@@ -103,6 +109,12 @@ STEPS = [
     linux("contract-access-test", "node --test tests/tooling/contract_access.test.mjs", 300),
     linux("format-audit", "set -e; npm run format:check; npm audit --audit-level=high; git diff --check", 300),
     linux("pack", f"python eng/contracts.py pack --version {LOCAL_VERSION}", 1800),
+    # ci.yml, Build candidate, Go checks (AF-CTR-01)
+    linux("go-generate-drift", "python eng/contracts.py go generate --check", 300),
+    linux("go-static", "python eng/contracts.py go static", 600),
+    linux("go-test", "python eng/contracts.py go test", 900),
+    linux("go-exchange", "python eng/contracts.py go exchange", 600),
+    linux("go-vulncheck", "python eng/contracts.py go vulncheck", 600),
     linux("tooling-tests", "python -m unittest discover -s tests/tooling -v", 900),
     linux("clean-tree", "git diff --exit-code", 60),
     # security.yml, Secret scan job after the scan (the locked restore already ran in `restore`)

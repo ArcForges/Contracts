@@ -395,6 +395,13 @@ def pack(release: str) -> None:
             packed = json.loads(run(NPM, "pack", target, "--ignore-scripts", "--json",
                                     "--pack-destination", output, capture=True))
             entries.append({"name": packed[0]["filename"], "kind": "npm", "id": package["name"]})
+        # AF-CTR-01: the Go module is published by its go/v<version> tag, so the candidate carries its identity:
+        # the module zip and go.mod hashes the proxy and the checksum database must serve for this commit.
+        from go_bindings import candidate_document
+        for row in packages("go"):
+            name = "go-module.json"
+            write_json(output / name, candidate_document(row, release, commit, dirty))
+            entries.append({"name": name, "kind": "go", "id": row["id"]})
         # CON.40: the Maven bundle is retired; retired catalog rows are never packed.
         for descriptor in sorted({row["descriptor"] for row in packages()}):
             shutil.copyfile(ARTIFACTS / descriptor, output / descriptor)
@@ -461,6 +468,16 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
         if entry["kind"] == "descriptor":
             if entry["id"] != "descriptor:" + name or not path.read_bytes():
                 raise ValueError("Missing descriptor")
+            continue
+        if entry["kind"] == "go":
+            from go_bindings import verify_candidate
+            row = package_row(entry["id"])
+            if name != "go-module.json":
+                raise ValueError("The Go module candidate entry must be go-module.json")
+            verify_candidate(json.loads(path.read_text(encoding="utf-8")), row, release, manifest)
+            if hashlib.sha256((directory / row["descriptor"]).read_bytes()).hexdigest() != \
+                    json.loads(path.read_text(encoding="utf-8"))["descriptorSha256"]:
+                raise ValueError("The Go module descriptor differs from its candidate entry")
             continue
         row = package_row(entry["id"])
         descriptor = (directory / row["descriptor"]).read_bytes()

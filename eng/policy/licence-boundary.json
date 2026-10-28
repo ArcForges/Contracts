@@ -107,6 +107,14 @@
     {
       "path": "tests/public/SerializationProbe/SerializationProbe.csproj",
       "kind": "msbuild"
+    },
+    {
+      "path": "go/go.mod",
+      "kind": "go"
+    },
+    {
+      "path": "go/tools/go.mod",
+      "kind": "go"
     }
   ]
 }

@@ -13,6 +13,20 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+  # AF-CTR-01: the published Go bindings module and its never published tools module. Both pin the same
+  # google.golang.org/protobuf and connectrpc.com/connect/v2 (the generators and the runtime); the Go check refuses
+  # a difference and the generation drift step refuses an update that is not regenerated.
+  - package-ecosystem: gomod
+    directories: ["/go", "/go/tools"]
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      protobuf-connect:
+        patterns: ["google.golang.org/protobuf", "connectrpc.com/connect/v2"]
+      go-tools:
+        patterns: ["*"]
+        exclude-patterns: ["google.golang.org/protobuf", "connectrpc.com/connect/v2"]
   - package-ecosystem: github-actions
     directory: /
     schedule:

@@ -5,7 +5,8 @@ name: CI
 # main requires; ArcForges-Design AD-0020), so validation and security analysis are skipped for owner (deku2026) PRs;
 # external PRs (Dependabot included), the merge queue and manual dispatch run everything, with the security workflow
 # called below so that `Verify` requires it. Main and v* tag pushes run only delivery: the candidate (whose pack embeds
-# its gates in the published bytes) and the publish jobs.
+# its gates in the published bytes) and the publish jobs. The Go module (AF-CTR-01) is published by the go/v<version>
+# tag that publish-go creates on the publishing commit, only after publish-nuget succeeded for the same candidate.
 # merge_group runs the full validation for every author, but only matters if a merge queue is configured (none is today).
 on:
   push:
@@ -52,6 +53,10 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
+      - name: Install the pinned Go toolchain (archive SHA-256 from go/toolchain.json)
+        run: |
+          python eng/contracts.py go install-toolchain --dest "$RUNNER_TEMP/go-toolchain"
+          echo "$RUNNER_TEMP/go-toolchain/go/bin" >> "$GITHUB_PATH"
       - name: Restore locked dependencies
         run: python eng/contracts.py restore
       - name: Verify dependency admission and upgrade receipt
@@ -82,6 +87,10 @@ jobs:
           echo "version=$PACKAGE_VERSION" >> "$GITHUB_OUTPUT"
           echo "artifact=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
           echo "Candidate: $PACKAGE_VERSION. Registry publication is a separate job." >> "$GITHUB_STEP_SUMMARY"
+      - name: Go checks (format, vet, staticcheck, module drift, race tests, C#/Go exchange, govulncheck)
+        run: |
+          python eng/contracts.py go check
+          git diff --exit-code
       - name: Retain naming, licence and serialization evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -96,6 +105,8 @@ jobs:
             artifacts/evidence/operation-reachability.json
             artifacts/evidence/authorization-boundaries.json
             artifacts/evidence/serialization-probe-linux-x64.json
+            artifacts/evidence/go-checks.json
+            artifacts/evidence/go-exchange.json
           if-no-files-found: error
           retention-days: 30
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -206,3 +217,29 @@ jobs:
           NPM_PUBLISH_MODE: ${{ vars.NPM_PUBLISH_MODE }}
           NPM_BOOTSTRAP_TOKEN: ${{ vars.NPM_PUBLISH_MODE == 'bootstrap' && secrets.NPM_BOOTSTRAP_TOKEN || '' }}
         run: python eng/contracts.py publish npm
+
+  publish-go:
+    name: Publish Go module tag
+    # After the NuGet cohort of the same candidate published: go/v<version> names the publishing commit.
+    needs: [candidate, publish-nuget]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) && github.repository == 'ArcForges/Contracts'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ needs.candidate.outputs.artifact }}
+          path: artifacts/packages/
+      - name: Tag go/v<version> on the publishing commit (never moved) and resolve it once through the Go module proxy
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python eng/contracts.py publish go

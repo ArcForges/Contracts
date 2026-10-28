@@ -15,3 +15,8 @@ packages except @arcforges/ai-internal) and the Maven packages, including the
 Maven source and documentation archives with the separately audited Dokka
 frontend resources, are retired from new publication (CON.40); already published
 archives keep their full licences and attributions in their own NOTICE files.
+
+The Go module github.com/ArcForges/Contracts/go (go/) holds Go bindings generated
+by protoc-gen-go (google.golang.org/protobuf, BSD-3-Clause) and
+protoc-gen-connect-go (connectrpc.com/connect/v2, Apache-2.0) and carries its own
+LICENSE and NOTICE; copies of both dependency licences are in third-party/.

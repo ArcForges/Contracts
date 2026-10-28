@@ -15,6 +15,16 @@ if (args.Length == 3 && args[1] == "--compatibility-later-services")
     return 0;
 }
 if (args.Length == 3 && args[1] == "--con-41-staged") return Con41OperationMetadataCases.Run(root, Path.GetFullPath(args[2]));
+if (args.Length == 3 && args[1] == "--go-exchange")
+{
+    GoExchangeCases.Run(root, Path.GetFullPath(args[2]));
+    return 0;
+}
+if (args.Length == 3 && args[1] == "--go-exchange-verify")
+{
+    GoExchangeCases.Verify(Path.GetFullPath(args[2]));
+    return 0;
+}
 if (args.Length == 3 && args[1].StartsWith("--compatibility-", StringComparison.Ordinal))
 {
     CompatibilityCases.Run(args[1]["--compatibility-".Length..], Path.GetFullPath(args[2]));

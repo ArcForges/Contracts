@@ -4,7 +4,8 @@
 [![Security](https://github.com/ArcForges/Contracts/actions/workflows/security.yml/badge.svg)](https://github.com/ArcForges/Contracts/actions/workflows/security.yml)
 
 Handwritten protobuf contracts and generated C# packages for the ArcForges product
-family, plus one internal thin-adapter npm package, `@arcforges/ai-internal`. C# NuGet
+family, plus one internal thin-adapter npm package, `@arcforges/ai-internal`, and the
+internal Go module `github.com/ArcForges/Contracts/go` for the ArcForges center (AF-CTR-01). C# NuGet
 is the only first-party SDK channel for business clients (CON.40, P2-021 Decision 4).
 Consumers install versioned packages; they do not clone this repository, run protoc,
 use Git submodules or depend on sibling source.
@@ -35,6 +36,7 @@ historical P2-018 contracts lane is not resumed. The exact producer inventory is
 | `ArcForges.Contracts.CloudInternal`                                      | Private HTTP and separately partitioned operator records                                          |
 | `ArcForges.Sdk.Contracts`, `ArcForges.Sdk.Client`, `ArcForges.Cli`       | Public extension protocol, caller-owned transport composition and offline inventory validation    |
 | `@arcforges/ai-internal`                                                 | Internal AI/Cloud HTTP schema records and validators for the Cloudflare thin adapters             |
+| `github.com/ArcForges/Contracts/go` (Go module, `go/`)                   | Generated Go protobuf and Connect bindings of the center's contracts, tagged `go/v<version>`      |
 
 Business clients use the C# packages, with binary gRPC-Web for public business
 ingress. `@arcforges/ai-internal` is published to the public npm registry
@@ -56,8 +58,8 @@ was retired from new publications at WP03.00 in the same way.
 
 ## Local quick start
 
-Install .NET SDK **10.0.400**, Node **24.21.0** (npm **11.19.0**) and Python
-**3.14.7**. Reuse the installed tools. No JDK, Gradle or Kotlin toolchain is needed:
+Install .NET SDK **10.0.400**, Node **24.21.0** (npm **11.19.0**), Python
+**3.14.7** and Go **1.27.3** (`go/toolchain.json`; generation and the Go checks use it). Reuse the installed tools. No JDK, Gradle or Kotlin toolchain is needed:
 the Kotlin and Maven channel is retired (CON.40). Version files in the root are authoritative. On Windows with fnm,
 select the pinned Node using `fnm use 24.21.0`; `fnm exec --using 24.21.0 --
 python eng/contracts.py restore` is an alternative if the shell is not configured.
@@ -78,8 +80,9 @@ on Windows, or clang and zlib development headers on Linux.
 
 - Open `ArcForges.Contracts.slnx` in a compatible .NET IDE.
 - Edit `public/proto/arcforges/hello/v1/hello.proto`, then run
-  `python eng/contracts.py generate`. Commit the generated C# changes and any
-  `@arcforges/ai-internal` TypeScript changes.
+  `python eng/contracts.py generate`. Commit the generated C# and Go changes and any
+  `@arcforges/ai-internal` TypeScript changes. `python eng/contracts.py go check` runs the
+  Go controls ([engineering controls](docs/engineering-controls.md)).
 - Use `python eng/contracts.py restore --update-locks` after an intentional
   dependency change; update any affected retained local consumer locks only when that diagnostic is required. Ordinary
   development/CI restores npm (`npm ci`) and NuGet (`--locked-mode`) from the committed locks.
@@ -106,6 +109,7 @@ flowchart LR
   C --> D[Pack one candidate]
   D --> H[Main: publish same NuGet archives]
   D --> I[Main: publish @arcforges/ai-internal to npm]
+  H --> J[Main: tag go/v version for the Go module]
 ```
 
 PRs and diagnostic manual runs validate only: every PR through the Linux host's verification after the push,
@@ -186,8 +190,8 @@ using compiled proto descriptors before candidate packing.
 
 ## Publication channels
 
-The active channels are NuGet (the twelve C# packages) and npm (`@arcforges/ai-internal`
-only). Main builds publish both at their CI build version. Canonical `vX.Y.Z` tags on
+The active channels are NuGet (the C# packages), npm (`@arcforges/ai-internal`
+only) and the Go module tag (`go/v<version>`, after NuGet, AF-CTR-01). Main builds publish all three at their CI build version. Canonical `vX.Y.Z` tags on
 main ancestry publish formal `X.Y.Z` packages of the same identities after the same
 tests. The Maven channel (main `1.0.0-SNAPSHOT` and formal Maven Central releases) and
 the four first-party npm SDK packages are retired (CON.40): no new version is built or

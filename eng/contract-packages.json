@@ -436,6 +436,109 @@
       ],
       "descriptor": "relay.binpb",
       "jsonSchemas": []
+    },
+    {
+      "id": "github.com/ArcForges/Contracts/go",
+      "kind": "go",
+      "channel": "go-module",
+      "access": "internal",
+      "sourceRoot": "go",
+      "proto": [
+        "public/proto/arcforges/foundation/v1/foundation.proto",
+        "public/proto/arcforges/hello/v1/hello.proto",
+        "public/proto/arcforges/publicapi/v1/application.proto",
+        "public/proto/arcforges/publicapi/v1/chat.proto",
+        "public/proto/arcforges/publicapi/v1/commerce.proto",
+        "public/proto/arcforges/publicapi/v1/connector.proto",
+        "public/proto/arcforges/publicapi/v1/content.proto",
+        "public/proto/arcforges/publicapi/v1/descriptors.proto",
+        "public/proto/arcforges/publicapi/v1/export.proto",
+        "public/proto/arcforges/publicapi/v1/identity.proto",
+        "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+        "public/proto/arcforges/publicapi/v1/scope.proto",
+        "public/proto/arcforges/publicapi/v1/support.proto",
+        "public/proto/arcforges/publicapi/v1/support_access.proto",
+        "public/proto/arcforges/publicapi/v1/sync.proto",
+        "public/proto/arcforges/publicapi/v1/transfer.proto",
+        "public/proto/arcforges/catalog/v1/catalog.proto",
+        "public/proto/arcforges/node/v1/account.proto",
+        "public/proto/arcforges/node/v1/approvals.proto",
+        "public/proto/arcforges/node/v1/caches.proto",
+        "public/proto/arcforges/node/v1/common.proto",
+        "public/proto/arcforges/node/v1/diagnosis.proto",
+        "public/proto/arcforges/node/v1/events.proto",
+        "public/proto/arcforges/node/v1/integrations.proto",
+        "public/proto/arcforges/node/v1/memory.proto",
+        "public/proto/arcforges/node/v1/node.proto",
+        "public/proto/arcforges/node/v1/peers.proto",
+        "public/proto/arcforges/node/v1/policy.proto",
+        "public/proto/arcforges/node/v1/queue.proto",
+        "public/proto/arcforges/node/v1/resources.proto",
+        "public/proto/arcforges/node/v1/sessions.proto",
+        "public/proto/arcforges/node/v1/storage.proto",
+        "public/proto/arcforges/node/v1/support.proto",
+        "public/proto/arcforges/node/v1/tasks.proto",
+        "public/proto/arcforges/node/v1/toolchains.proto",
+        "public/proto/arcforges/node/v1/updates.proto",
+        "public/proto/arcforges/node/v1/workspaces.proto",
+        "public/proto/arcforges/fleet/v1/fleet.proto",
+        "internal/proto/arcforges/relay/v1/relay.proto",
+        "internal/proto/arcforges/operator/v1/operator.proto",
+        "internal/proto/arcforges/operator/v1/operator_read.proto"
+      ],
+      "dependencies": [],
+      "descriptor": "go-module.binpb",
+      "jsonSchemas": [],
+      "goPackages": [
+        {
+          "protoPackage": "arcforges.foundation.v1",
+          "importPath": "github.com/ArcForges/Contracts/go/arcforges/foundation/v1",
+          "name": "foundationv1",
+          "contractAccess": "public"
+        },
+        {
+          "protoPackage": "arcforges.hello.v1",
+          "importPath": "github.com/ArcForges/Contracts/go/arcforges/hello/v1",
+          "name": "hellov1",
+          "contractAccess": "public"
+        },
+        {
+          "protoPackage": "arcforges.publicapi.v1",
+          "importPath": "github.com/ArcForges/Contracts/go/arcforges/publicapi/v1",
+          "name": "publicapiv1",
+          "contractAccess": "public"
+        },
+        {
+          "protoPackage": "arcforges.catalog.v1",
+          "importPath": "github.com/ArcForges/Contracts/go/arcforges/catalog/v1",
+          "name": "catalogv1",
+          "contractAccess": "public"
+        },
+        {
+          "protoPackage": "arcforges.node.v1",
+          "importPath": "github.com/ArcForges/Contracts/go/arcforges/node/v1",
+          "name": "nodev1",
+          "contractAccess": "public"
+        },
+        {
+          "protoPackage": "arcforges.fleet.v1",
+          "importPath": "github.com/ArcForges/Contracts/go/arcforges/fleet/v1",
+          "name": "fleetv1",
+          "contractAccess": "public"
+        },
+        {
+          "protoPackage": "arcforges.relay.v1",
+          "importPath": "github.com/ArcForges/Contracts/go/arcforges/relay/v1",
+          "name": "relayv1",
+          "contractAccess": "internal"
+        },
+        {
+          "protoPackage": "arcforges.operator.v1",
+          "importPath": "github.com/ArcForges/Contracts/go/arcforges/operator/v1",
+          "name": "operatorv1",
+          "contractAccess": "internal"
+        }
+      ]
     }
   ]
 }

@@ -72,7 +72,8 @@ def npm_publish_tag(package_id: str, release: str) -> str:
     return "latest" if incoming > current else "ci"
 
 
-CHANNELS = ("nuget", "npm")
+# AF-CTR-01: "go" tags go/v<version> at the publishing commit after the NuGet cohort published (eng/go_bindings.py).
+CHANNELS = ("nuget", "npm", "go")
 
 
 def publish_verified(directory: Path, registry: str) -> None:
@@ -101,6 +102,12 @@ def publish_verified(directory: Path, registry: str) -> None:
         refused = sorted(entry["id"] for entry in entries if entry["id"] not in NPM_IDS)
         if refused:
             raise ValueError("Retired or unregistered npm identity: " + ", ".join(refused))
+    if registry == "go":
+        from go_bindings import publish as publish_go
+        if len(entries) != 1:
+            raise ValueError("The candidate must carry exactly one Go module entry")
+        publish_go(directory, manifest, entries[0])
+        return
     for entry in entries:
         path = directory / entry["name"]
         if existing_matches(path, entry, manifest["version"]):

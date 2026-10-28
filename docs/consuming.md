@@ -236,6 +236,42 @@ published main build; afterwards, stable releases own `latest` and main builds u
 `ci`. Moving a tag does not rewrite an existing application's dependency version or
 lock file.
 
+## Go center bindings
+
+`github.com/ArcForges/Contracts/go` (AF-CTR-01) holds the generated Go bindings for the ArcForges
+center ([AD-0021](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/decisions/AD-0021-central-access-go-center.md)).
+Its contract access is internal: first-party ArcForges services use it; business clients use the
+C# packages. Each publication tags `go/v<version>` at the cohort version of the C# packages, so pin
+the same exact version as the C# packages of that candidate and commit `go.sum`:
+
+```text
+go get github.com/ArcForges/Contracts/go@v1.0.0-ci.12.1
+```
+
+The version is illustrative. Keep the default `GOPROXY` and `GOSUMDB` (or a proxy that verifies
+against `sum.golang.org`), so the go command checks the module's hashes against the checksum
+database; use `GOFLAGS=-mod=readonly` in CI. Import a package per proto package, for example
+`fleetv1 "github.com/ArcForges/Contracts/go/arcforges/fleet/v1"` and its Connect stubs in
+`.../fleet/v1/fleetv1connect`. `relayv1` and `operatorv1` hold internal contracts; only first-party
+services import them.
+
+A Go service applies the same serialization posture as the C# packages (WP03.02):
+
+- binary protobuf only: mount handlers and build clients with
+  `connecthttp.WithCodecs(connectproto.NewBinaryCodec())`, so no protobuf JSON is accepted or sent;
+- the byte limits of the registry (4 MiB unary messages, 256 KiB inline pages, 32 KiB stream frames)
+  with `connecthttp.WithReadMaxBytes` and `WithSendMaxBytes`, and the nesting limit (the root plus 100
+  nested messages) with `proto.UnmarshalOptions{RecursionLimit: 101}` where messages are decoded
+  directly;
+- no `protojson`, `anypb`, `structpb`, `dynamicpb`, runtime registry lookups or server reflection for
+  business messages. A foundation.v1 `ArcError` travels as a Connect error detail of type
+  `arcforges.foundation.v1.ArcError`; decode it from `detail.Type` and `detail.Value` with
+  `proto.Unmarshal` into `foundationv1.ArcError`.
+
+The Go and C# runtimes may order fields differently on the wire (protobuf-go writes oneof members
+last), so digests and signatures are computed over the bytes as sent, never over a re-encoding
+([engineering controls](engineering-controls.md#byte-order-of-go-and-c-encodings)).
+
 ## Retired TypeScript and Kotlin packages
 
 No new version of npm `@arcforges/proto`, `@arcforges/api-client`,
@@ -259,5 +295,5 @@ an unrelated repository's update policy. Do not use floating `*` versions or a
 moving dist-tag as a committed production dependency.
 
 No consumer needs protoc, Git submodules, a checkout of Contracts or access to
-DesktopPlatform. NuGet (and npm, for `@arcforges/ai-internal`) download the published
-dependencies normally.
+DesktopPlatform. NuGet (and npm, for `@arcforges/ai-internal`, and the Go module proxy, for the
+Go bindings) download the published dependencies normally.

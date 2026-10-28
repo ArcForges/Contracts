@@ -3,7 +3,7 @@
 - Plan before implementing. Keep work within the requested bootstrap or contract change.
 - Handwritten proto/HTTP schemas and constraint sidecars own their wire/shape definitions.
   Keep the complete `eng/contract-packages.json` inventory and actual access boundaries synchronized. Never edit
-  generated C# or `@arcforges/ai-internal` TypeScript files directly; use `python eng/contracts.py generate`.
+  generated C#, Go (`go/arcforges`) or `@arcforges/ai-internal` TypeScript files directly; use `python eng/contracts.py generate`.
 - Read `docs/architecture.md` and `docs/releasing.md` before changing generation,
   package identities, licensing or CI publication.
 - ArcForges-authored source, generated code, tooling, tests, configuration and
@@ -27,7 +27,9 @@
   `tests/public/SerializationProbe` enforce this in the build.
 - C#-only SDK channels (CON.40, P2-021 Decision 4): C# NuGet is the only first-party SDK channel for
   business clients, and `@arcforges/ai-internal` is the one retained npm package, published to the
-  public registry with an internal contract-access boundary. Never add a source, generator, workflow
+  public registry with an internal contract-access boundary. The Go module `github.com/ArcForges/Contracts/go`
+  (AF-CTR-01, AD-0021 §8) is likewise internal: Go bindings for the ArcForges center, tagged `go/v<version>`
+  after the NuGet cohort, never a business-client SDK. Its tools module `go/tools` is never published. Never add a source, generator, workflow
   step, Dependabot group or new version for the retired identities (npm `@arcforges/proto`,
   `@arcforges/api-client`, `@arcforges/contract-fixtures`, `@arcforges/operator-client`; Maven
   `io.github.arcforges:contracts-proto`, `contracts-connect-client`, `contract-fixtures`), and never
@@ -96,6 +98,8 @@ Every PR into `main` is verified after the push, on the verification host, and g
     - `dependency-admission`, `naming`, `provenance` (`--base` the merge base) and `contract-access-test`;
     - `format-audit`: `npm run format:check`, `npm audit --audit-level=high` and `git diff --check`;
     - `pack`: `python eng/contracts.py pack --version 1.0.0-ci.0.0`, which runs the generation check, the policy checks, the Release build, the architecture and structure tests, the `@arcforges/ai-internal` build and tests, the compatibility exchanges, the Native AOT serialization probe and the candidate archives;
+    - the Go steps `go-generate-drift`, `go-static`, `go-test`, `go-exchange` and `go-vulncheck` (AF-CTR-01;
+      [engineering controls](docs/engineering-controls.md));
     - `tooling-tests` and `clean-tree`;
     - then the Security job's `security-build`, `security-naming` and `architecture-gate` (`--local-gate`: the hosted gate's policy stages over the full project graph, bound to the verified commit instead of the hosted job identity).
   - Lane `scan`: the pinned gitleaks image over the commits since the merge base with `.gitleaks.toml`, without network.
@@ -104,6 +108,7 @@ Every PR into `main` is verified after the push, on the verification host, and g
 - **Prerequisites** (installs are the user's): a Linux machine with:
   - the .NET SDK selected by `global.json`;
   - Node and npm as pinned in `.node-version` and `eng/contracts.py`;
+  - Go as pinned in `go/toolchain.json` (`go` on PATH, with cgo for the race detector);
   - Python (`python` on PATH);
   - Docker with the pinned gitleaks image;
   - `gh` with a credential that can write commit statuses;
@@ -121,7 +126,8 @@ Every PR into `main` is verified after the push, on the verification host, and g
 The Plan's rule 7 applies. In this repository:
 
 - Restore once (`python eng/contracts.py restore`), then build incrementally: `dotnet build ArcForges.Contracts.slnx -c Release --no-restore`.
-- While iterating, run only the affected checks: `python eng/contracts.py generate --check`, the `eng/check_*.py` script of the changed policy, `node --test tests/tooling/contract_access.test.mjs`, `python -m unittest tests.tooling.<module>`, the built suites (`dotnet tests/StructureTests/bin/Release/net10.0/StructureTests.dll .` and `dotnet tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll`) and `npx prettier --check <changed files>`.
+- While iterating, run only the affected checks: `python eng/contracts.py generate --check`,
+  `python eng/contracts.py go static|test|exchange|vulncheck` for Go changes, the `eng/check_*.py` script of the changed policy, `node --test tests/tooling/contract_access.test.mjs`, `python -m unittest tests.tooling.<module>`, the built suites (`dotnet tests/StructureTests/bin/Release/net10.0/StructureTests.dll .` and `dotnet tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll`) and `npx prettier --check <changed files>`.
 - `python eng/contracts.py pack` is the full candidate. It runs once per pushed head, in the host verification; `python eng/verify.py run` on the Linux host checks it before handover without reporting.
 
 ## Hosted CI

@@ -50,6 +50,15 @@ FORBIDDEN_MAVEN = {
     "io.grpc:grpc-services": "gRPC server reflection discovery",
     "io.grpc:grpc-protobuf": "full reflective protobuf runtime",
 }
+# AF-CTR-01: Go modules of the published Go bindings module (go/go.sum) that would add server reflection, an alternate
+# or legacy reflective protobuf runtime (with its JSON mapping) or a second gRPC stack.
+FORBIDDEN_GO = {
+    "connectrpc.com/grpcreflect": "gRPC server reflection discovery",
+    "google.golang.org/grpc": "alternate gRPC runtime with server reflection",
+    "github.com/golang/protobuf": "legacy reflective protobuf runtime (jsonpb)",
+    "github.com/gogo/protobuf": "alternate reflection protobuf runtime",
+    "github.com/grpc-ecosystem/grpc-gateway": "JSON transcoding of business services",
+}
 # Well-known types that defer schema selection to runtime.
 FORBIDDEN_IMPORTS = ("google/protobuf/any.proto", "google/protobuf/struct.proto", "google/protobuf/type.proto",
                      "google/protobuf/api.proto", "google/protobuf/descriptor.proto", "google/protobuf/source_context.proto")
@@ -161,6 +170,28 @@ def scan(root: Path, files: list[str], suffix: str, rules: dict[str, str], handw
     return count
 
 
+def check_go(root: Path, files: list[str]) -> int:
+    """The Go bindings module: no forbidden module in its go.sum, and no Go source outside the offline tests imports
+    protobuf JSON/text mapping, Any/Struct, dynamic messages, the runtime registry or server reflection."""
+    if "go/go.sum" not in files:
+        return 0
+    for line in (root / "go/go.sum").read_text(encoding="utf-8").splitlines():
+        module = line.split()[0]
+        for forbidden, reason in FORBIDDEN_GO.items():
+            require(module != forbidden and not module.startswith(forbidden + "/"), f"go/go.sum: forbidden {reason} ({module})")
+    sys.path.insert(0, str(root / "eng"))
+    from go_bindings import FORBIDDEN_IMPORTS
+    count = 0
+    for path in files:
+        if not path.startswith("go/") or path.startswith("go/tools/") or not path.endswith(".go") or path.endswith("_test.go"):
+            continue
+        text = (root / path).read_text(encoding="utf-8")
+        for forbidden in FORBIDDEN_IMPORTS:
+            require(f'"{forbidden}"' not in text, f"{path}: imports {forbidden} outside the offline tests")
+        count += 1
+    return count
+
+
 def msbuild_property(path: Path, name: str) -> list[str]:
     return [element.text or "" for element in ET.parse(path).iter() if element.tag.split("}")[-1] == name]
 
@@ -227,6 +258,7 @@ def audit(root: Path = ROOT) -> dict:
         "protoFiles": check_protos(root, files),
         "csharpSources": scan(root, files, ".cs", CSHARP_APIS, HANDWRITTEN_CSHARP),
         "typescriptSources": scan(root, files, ".ts", TYPESCRIPT_APIS, HANDWRITTEN_TYPESCRIPT),
+        "goSources": check_go(root, files),
         "packableAotProjects": check_projects(root, files),
         "strictJsonContexts": check_contexts(root, files),
         "catalogueServices": check_services(root),

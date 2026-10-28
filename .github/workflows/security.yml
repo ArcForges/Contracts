@@ -76,15 +76,42 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [csharp, javascript-typescript, python]
+        include:
+          - language: csharp
+            build-mode: none
+          - language: javascript-typescript
+            build-mode: none
+          - language: python
+            build-mode: none
+          # AF-CTR-01: the Go bindings module; Go extraction needs a build of the module (and its test packages).
+          - language: go
+            build-mode: manual
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        if: matrix.language == 'go'
+        with:
+          python-version-file: .python-version
+      - name: Install the pinned Go toolchain (archive SHA-256 from go/toolchain.json)
+        if: matrix.language == 'go'
+        run: |
+          python eng/contracts.py go install-toolchain --dest "$RUNNER_TEMP/go-toolchain"
+          echo "$RUNNER_TEMP/go-toolchain/go/bin" >> "$GITHUB_PATH"
       - uses: github/codeql-action/init@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
         with:
           languages: ${{ matrix.language }}
-          build-mode: none
+          build-mode: ${{ matrix.build-mode }}
+      - name: Build the Go module for analysis
+        if: matrix.language == 'go'
+        env:
+          GOTOOLCHAIN: local
+          GOFLAGS: -mod=readonly
+          GOTELEMETRY: "off"
+        run: |
+          go -C go build ./...
+          go -C go test -count=1 -run '^$' ./...
       - uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
         with:
           # Called from ci.yml, the default category would be ci.yml's; keep security.yml's so PR and scheduled

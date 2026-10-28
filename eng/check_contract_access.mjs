@@ -494,6 +494,9 @@ export function checkSources(root, files, policy, options = {}) {
     "gradle.properties",
     "package.json",
     "package-lock.json",
+    // AF-CTR-01: the requirements of the published Go module.
+    "go/go.mod",
+    "go/go.sum",
   ]);
   const buildInputs = files.filter(
     (p) =>
@@ -556,8 +559,13 @@ export function checkPackageBoundaries(
   const packages = new Map(manifest.packages.map((row) => [row.id, row]));
   requireThat(packages.size === manifest.packages.length, "duplicate package identity");
   for (const row of packages.values()) {
+    // AF-CTR-01: the Go module row owns go/ (its generated packages need not live under src/<access>/); its
+    // internal access, mapping and identity are validated by eng/package_catalog.py.
     requireThat(
-      ACCESS.has(row.access) && row.sourceRoot.startsWith("src/" + row.access + "/"),
+      ACCESS.has(row.access) &&
+        (row.kind === "go"
+          ? row.sourceRoot === "go" && row.access === "internal"
+          : row.sourceRoot.startsWith("src/" + row.access + "/")),
       "package access/root mismatch",
     );
     safePath(row.sourceRoot);
@@ -676,6 +684,15 @@ export function checkPackageInputs(
             .filter((name) => name.startsWith("@arcforges/")),
         ),
       ];
+    } else if (row.kind === "go") {
+      const value = bytes(root, row.sourceRoot + "/go.mod");
+      requireThat(
+        new RegExp("^module " + row.id.replaceAll(".", "\\.") + "$", "m").test(value),
+        "incorrect Go module identity",
+      );
+      actual = [...value.matchAll(/^\s*(?:require\s+)?(github\.com\/ArcForges\/\S+)\s+v/gm)].map(
+        (match) => match[1],
+      );
     } else if (row.kind === "maven") {
       const value = bytes(root, row.sourceRoot + "/build.gradle.kts");
       actual = [...value.matchAll(/project\(\s*["']:([^"']+)["']\s*\)/g)].map(
