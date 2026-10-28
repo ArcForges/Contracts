@@ -11,8 +11,8 @@
     "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
     "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
-    "eng/contract-packages.json": "f09f82c33b724f398e173bd1694841b4f821d3c5e4d6db81654d908c75975d99",
-    "eng/policy/contract-access.json": "459b5a12a0765b784bf1535605c439593d7b7df689a759f663b8df882adb31a2",
+    "eng/contract-packages.json": "6636c2b693830e2157ab0993493da17dfedd02675b9e922cab8ba37d79c5aaa2",
+    "eng/policy/contract-access.json": "7ca3cf666b4776570259aa2b4c2eefe05d0dd6dcca161454b13eba4dcd40a6e4",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -43,6 +43,7 @@
     "eng/provenance/records/con17-semantic-export-r1.json": "9ae65ee01b25241105c986f5f696eb3bc99c23e165613ba227e094424b64d720",
     "eng/provenance/records/connect-go-licence-r1.json": "f9a3410d7a7d8b3774530165a0123c848f5305735fbfd2a26e81b7ffef575ee1",
     "eng/provenance/records/contract-bindings-af-con-01-r1.json": "30903bb6618a6d9c815c41014d2283da37ff5cbf6449b3fde86776681e802167",
+    "eng/provenance/records/contract-bindings-af-ctr-03-r1.json": "4f36ed0fdc87fc5128995b6d9ed66aecdde81aaf01e888afe668e48f4436a46c",
     "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
     "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
     "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -984,27 +985,27 @@
     "stable": "Deliberate canonical vX.Y.Z on main ancestry; no prerelease dependency closure; Central signatures required. No tag created for validation. A canonical vX.Y.Z release also tags go/vX.Y.Z (v0 and v1 only without a reviewed /vN module path)."
   },
   "review": {
-    "owner": "Contracts maintainers (AF-CTR-01 delegated author)",
-    "reviewer": "Independent AF-CTR-01 reviewer under maintainer authorization (review record on Contracts PR #117)",
+    "owner": "Contracts maintainers (AF-CTR-03 delegated author)",
+    "reviewer": "Independent AF-CTR-03 reviewer under maintainer authorization (review record on the Contracts pull request of task/af-ctr-03-products)",
     "decision": "approved",
     "reviewedOn": "2026-10-28",
-    "baselineCommit": "3891c6b10111ccc746fc28f7e5bd7df2af5e274b",
-    "maintenanceAssessment": "AF-CTR-01 (ArcForges-Design AD-0021 section 8) adds the Go bindings module github.com/ArcForges/Contracts/go and its never published tools module go/tools. New dependency inputs: go/go.mod and go/go.sum (runtime: google.golang.org/protobuf v1.36.12, BSD-3-Clause, and connectrpc.com/connect/v2 v2.0.2, Apache-2.0, the versions the Cloud hello-go module already admitted, plus github.com/google/go-cmp v0.7.0 as the go.sum-verified test closure of protobuf), go/tools/go.mod and go/tools/go.sum (protoc-gen-go and protoc-gen-connect-go of the same two modules, staticcheck 2026.2.2 (honnef.co/go/tools v0.8.2, MIT) and govulncheck v1.9.0 (golang.org/x/vuln, BSD-3-Clause) with their golang.org/x, BurntSushi/toml and Google closure) and go/toolchain.json (Go 1.27.3 archive hashes). Every go.sum archive is admitted as go:<module>@<version> with its h1 hash; the 13 modules only go/tools needs are build tooling outside the stable product closure. Changed inputs: eng/contract-packages.json (the appended Go module row), eng/policy/contract-access.json (its build inputs), tests/StructureTests/StructureTests.csproj and packages.lock.json (project references to Node, Fleet and Relay for the C#/Go exchange; project entries only) and the new provenance records. No NuGet or npm coordinate, version, integrity or licence changes; the .NET SDK and Node pins are unchanged and Go 1.27.3 is added to the framework selections. Maintenance: Dependabot gomod updates /go and /go/tools together (protobuf and connect grouped); an update needs regeneration (the drift step refuses stale bindings), a reviewed successor receipt and govulncheck. Independent exact-head review by the named reviewer and the host verification remain mandatory before merge.",
+    "baselineCommit": "7205743648c6d5e81f539fe99b4d937dd4a0cbbc",
+    "maintenanceAssessment": "AF-CTR-03 (ArcForges-Design AD-0021 section 7 at 3392d02) admits the device and session product values arcforges-node, arcforges-mobile and arcforges-web in the identity constraint shard and adds the closed WebBrowserSession document public/http/v1/web-browser.schema.json (the browser session of an arcforges-web installation) beside the BrowserSession document that the CON.17 later-services window freezes. The only dependency-input changes are eng/contract-packages.json (the new document joins the jsonSchemas of ArcForges.Contracts.PublicApi), eng/policy/contract-access.json (the refreshed build-input hashes, the new document's build input, the 29 generated sources of the new document, the refreshed ProtoValidation hash, sourceCommit and reviewedOn) and the new provenance successor eng/provenance/records/contract-bindings-af-ctr-03-r1.json. No csproj, props, lock file, package.json, go.mod, go.sum or toolchain pin changes. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. Independent exact-head review by the named reviewer and the host verification remain mandatory before merge.",
     "checks": {
-      "compilation": "go build and go vet of the module, staticcheck -checks all and go test -race pass with Go 1.27.3 (GOTOOLCHAIN=local, GOFLAGS=-mod=readonly); the C# solution builds with the three added StructureTests project references; the full candidate is produced by the host verification.",
-      "aot-trim": "No C# project changes its AOT or trim settings; StructureTests (not packed) gains project references only. Go compiles natively; there is no trimming step.",
-      "compatibility": "No proto file, descriptor baseline or package identity of C# or npm changes. The Go bindings pass the fixture round trips and the C#/Go exchange of every message and oneof arm.",
-      "licence-provenance": "Runtime licences BSD-3-Clause (protobuf) and Apache-2.0 (connect) are retained under third-party/ with legal-text records; the generated Go output is bound by go-bindings-af-ctr-01-r1; tool modules are MIT, BSD-3-Clause and Apache-2.0 and are not distributed.",
-      "security-sbom": "govulncheck reports no vulnerability for the module and the tools; go.sum pins every archive; the published module requires only protobuf and connect, with no reflection, JSON-mapping or alternate protobuf runtime (check_serialization goSources).",
-      "runtime-performance-migration": "No runtime host, migration or performance effect for existing consumers; the Go center consumes the module from AF-CTR-02 on.",
-      "framework-runtime-posture": "The .NET SDK and Node pins are unchanged; Go 1.27.3 is a new framework selection (no major upgrade of an existing one), so no major-upgrade review is triggered."
+      "compilation": "The official generator reproduces the regenerated ProtoValidation checks and the 29 outputs of the new document (generate --check passes); the C# solution builds in Release with 0 warnings and the StructureTests run the 298 CON.07 HTTP vectors through the generated codecs; the host verification is required at the reviewed head.",
+      "aot-trim": "No project changes its AOT or trim settings; the new generated models use the same source-generated System.Text.Json contexts as the frozen document's, and the Native AOT serialization probe is part of the host verification.",
+      "compatibility": "Additive: the protobuf product enum of InstallationClaim, SessionSummary, InstalledProduct and DeviceServiceRegisterRequest widens (arcscope and companion stay valid), and a new closed document with its own routes under /session/v1/web is added. No proto file, descriptor baseline, published closed schema (browser.schema.json and native-auth.schema.json are unchanged) or package identity changes; the application product IDs keep their branded set.",
+      "licence-provenance": "First-party Apache-2.0 edits only; the generated output is bound by the immutable successor contract-bindings-af-ctr-03-r1 (all 383 predecessor targets retained, 1 hash refreshed, 29 targets added); no third-party material or generator pin changes.",
+      "security-sbom": "No coordinate enters or leaves the closure; locked versions, integrity values and licences are unchanged.",
+      "runtime-performance-migration": "Validators accept three more product values and a new set of browser session shapes; no runtime host, migration or performance effect. The Go center serves the new document's routes from AF-CTR-03 A2 on.",
+      "framework-runtime-posture": "The .NET SDK, Node and Go pins are unchanged, so no major-upgrade review is triggered."
     },
     "frameworkVersions": {
       "dotnetSdk": "10.0.400",
       "node": "24.21.0",
       "go": "1.27.3"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/af-con-02-r1.json",
+    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-01-r1.json",
     "inputHashes": {
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
@@ -1015,8 +1016,8 @@
       "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
-      "eng/contract-packages.json": "f09f82c33b724f398e173bd1694841b4f821d3c5e4d6db81654d908c75975d99",
-      "eng/policy/contract-access.json": "459b5a12a0765b784bf1535605c439593d7b7df689a759f663b8df882adb31a2",
+      "eng/contract-packages.json": "6636c2b693830e2157ab0993493da17dfedd02675b9e922cab8ba37d79c5aaa2",
+      "eng/policy/contract-access.json": "7ca3cf666b4776570259aa2b4c2eefe05d0dd6dcca161454b13eba4dcd40a6e4",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -1047,6 +1048,7 @@
       "eng/provenance/records/con17-semantic-export-r1.json": "9ae65ee01b25241105c986f5f696eb3bc99c23e165613ba227e094424b64d720",
       "eng/provenance/records/connect-go-licence-r1.json": "f9a3410d7a7d8b3774530165a0123c848f5305735fbfd2a26e81b7ffef575ee1",
       "eng/provenance/records/contract-bindings-af-con-01-r1.json": "30903bb6618a6d9c815c41014d2283da37ff5cbf6449b3fde86776681e802167",
+      "eng/provenance/records/contract-bindings-af-ctr-03-r1.json": "4f36ed0fdc87fc5128995b6d9ed66aecdde81aaf01e888afe668e48f4436a46c",
       "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
       "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
       "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -1242,5 +1244,5 @@
       "tests/public/SerializationProbe/packages.lock.json": "a59c32628e487c98c50271a50ff397e2302bbc1f01824cdc7a636005c88d29aa"
     }
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-01-r1.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-03-r1.json"
 }

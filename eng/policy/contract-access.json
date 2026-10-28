@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-10-15",
+  "reviewedOn": "2026-10-28",
   "design": {
     "commit": "212825003ed712200e585445301473233404f597",
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "ed4b8c8dc21e1d4d4d3480b6cfaee912921972e8",
+  "sourceCommit": "71badd3b956c9d3dc50628d4064dd6beb98ff6f6",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -22663,6 +22663,196 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserAuthChallenge.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "WebBrowserAuthChallenge",
+        "WebBrowserWebAuthnOptions",
+        "WebBrowserAuthChallengeJsonContext"
+      ],
+      "sha256": "75fb8d46eec145f21fa6a22129d951aa45f81fb278fac3d3657d0d44a01d88d0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserBeginAuthenticationRequest.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "WebBrowserBeginAuthenticationRequest",
+        "WebBrowserInstallationClaim",
+        "WebBrowserBeginAuthenticationRequestJsonContext"
+      ],
+      "sha256": "91166238f060aa1e11ad926633498fac97bbbfc84fd38aba91d5cfeb87673aa4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserBeginRecoveryRequest.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["WebBrowserBeginRecoveryRequest", "WebBrowserBeginRecoveryRequestJsonContext"],
+      "sha256": "7567512992b0f6a57ca3386d0d9c6cc7f3e45a1c6f151590769cd4f9a18f5af1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserBeginStepUpRequest.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["WebBrowserBeginStepUpRequest", "WebBrowserBeginStepUpRequestJsonContext"],
+      "sha256": "b8c0885b5171dc62af60f5c17d27861e2b946abeebe30c7c4f8ef16dd6db1b70",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserBootstrapResponse.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "WebBrowserBootstrapResponse",
+        "WebBrowserProfileProjection",
+        "WebBrowserSessionProjection",
+        "WebBrowserBootstrapResponseJsonContext"
+      ],
+      "sha256": "72aa4c7cec7fc313de5f5222290c0249840cc3c05d4bd552633eaa6536452929",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserCompleteAuthenticationRequest.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "WebBrowserCompleteAuthenticationRequest",
+        "WebBrowserAuthProof",
+        "WebBrowserAuthProofWebBrowserAuthProofPasskey",
+        "WebBrowserAuthProofWebBrowserAuthProofEmailCode",
+        "WebBrowserAuthProofWebBrowserAuthProofRecoveryCode",
+        "WebBrowserAuthProofWebBrowserAuthProofPassword",
+        "WebBrowserAuthProofWebBrowserAuthProofProviderReceipt",
+        "WebBrowserAuthProofWebBrowserAuthProofAdminGrant",
+        "WebBrowserAuthProofAdminGrant",
+        "WebBrowserAuthProofEmailCode",
+        "WebBrowserAuthProofPasskey",
+        "WebBrowserAuthProofPassword",
+        "WebBrowserAuthProofProviderReceipt",
+        "WebBrowserAuthProofRecoveryCode",
+        "WebBrowserWebAuthnAssertion",
+        "WebBrowserCompleteAuthenticationRequestJsonContext",
+        "WebBrowserCompleteAuthenticationRequestUnionChecks",
+        "WebBrowserAuthProofConverter"
+      ],
+      "sha256": "338b973ac79f4b58d75904527220151d1f0804fdb68b6720d85cf418fd8820ce",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserCompleteEnrollmentRequest.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "WebBrowserCompleteEnrollmentRequest",
+        "WebBrowserCredentialReplacement",
+        "WebBrowserCredentialReplacementWebBrowserCredentialReplacementPasskey",
+        "WebBrowserCredentialReplacementWebBrowserCredentialReplacementPassword",
+        "WebBrowserCredentialReplacementPasskey",
+        "WebBrowserCredentialReplacementPassword",
+        "WebBrowserEnrollmentProof",
+        "WebBrowserEnrollmentProofWebBrowserEnrollmentProofEmailCode",
+        "WebBrowserEnrollmentProofWebBrowserEnrollmentProofLocalCode",
+        "WebBrowserEnrollmentProofWebBrowserEnrollmentProofProviderReceipt",
+        "WebBrowserEnrollmentProofEmailCode",
+        "WebBrowserEnrollmentProofLocalCode",
+        "WebBrowserEnrollmentProofProviderReceipt",
+        "WebBrowserProfileUpdate",
+        "WebBrowserProfileUpdateWebBrowserProfileUpdateKeepAvatar",
+        "WebBrowserProfileUpdateWebBrowserProfileUpdateSetAvatar",
+        "WebBrowserProfileUpdateWebBrowserProfileUpdateClearAvatar",
+        "WebBrowserProfileUpdateClearAvatar",
+        "WebBrowserProfileUpdateKeepAvatar",
+        "WebBrowserProfileUpdateSetAvatar",
+        "WebBrowserAvatarRef",
+        "WebBrowserAvatarRefWebBrowserAvatarCloud",
+        "WebBrowserAvatarRefWebBrowserAvatarNative",
+        "WebBrowserAvatarCloud",
+        "WebBrowserAvatarNative",
+        "WebBrowserBlobRef",
+        "WebBrowserResourceRef",
+        "WebBrowserWebAuthnCreation",
+        "WebBrowserCompleteEnrollmentRequestJsonContext",
+        "WebBrowserCompleteEnrollmentRequestUnionChecks",
+        "WebBrowserCredentialReplacementConverter",
+        "WebBrowserEnrollmentProofConverter",
+        "WebBrowserProfileUpdateConverter",
+        "WebBrowserAvatarRefConverter"
+      ],
+      "sha256": "861f4461620b5074a8c32433d58a8144bdc714a33d25cb884c4c485cf24b65cb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserCompleteRecoveryRequest.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "WebBrowserCompleteRecoveryRequest",
+        "WebBrowserCompleteRecoveryRequestJsonContext"
+      ],
+      "sha256": "5c1bddc2a41fe1f5fc9360ab3020f2f75e4f750dc8a98b4481e761f7e3758d0a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserCompleteStepUpRequest.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["WebBrowserCompleteStepUpRequest", "WebBrowserCompleteStepUpRequestJsonContext"],
+      "sha256": "8cb539e4a24d0d6e1027ac967a9e8a21a9a1043e9141f06bb0e944e684e410b5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserOidcCallbackFailure.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["WebBrowserOidcCallbackFailure", "WebBrowserOidcCallbackFailureJsonContext"],
+      "sha256": "702e7b6a8174c4d93e4a2db01c9c482a776d70a9089351d3091c3790ae493388",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserOidcCallbackSuccess.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["WebBrowserOidcCallbackSuccess", "WebBrowserOidcCallbackSuccessJsonContext"],
+      "sha256": "2673819b88f305ba891b37aad628f00285482b2f419be94480a9ef6300702b4f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserReceipt.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["WebBrowserReceipt", "WebBrowserReceiptJsonContext"],
+      "sha256": "ef1b9fb874e38337420b24ba964144a1d748dffc4a7b398b6f4edb6779cf7bf1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserSessionRoutes.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["WebBrowserSessionRoute", "WebBrowserSessionRoutes"],
+      "sha256": "8e07fb7c3418812aad1456d1af4031a16a6c8a32820fe8b2d745afcbeaa8cc87",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserSessionView.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["WebBrowserSessionView", "WebBrowserSessionViewJsonContext"],
+      "sha256": "a7f4103b5966f5e256379b64c6f5903da429bd08511a1958fc087cfa6a0612c6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserStepUpEvidence.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["WebBrowserStepUpEvidence", "WebBrowserStepUpEvidenceJsonContext"],
+      "sha256": "648471477e7ada161d56a42d46454b84c2ae8be3cd7df99776e2c9fc72c7b596",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Values/Identifiers.g.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
@@ -22948,7 +23138,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "8af0a95b5abf385ee91f3d24323790a769942cfbe38c0b99e36d0e6cef3f2de7",
+      "sha256": "bdb988bb3a325d32efa8df4fc1f1f872e626f284a4bd6e9ca64b2c7dcf618c1d",
       "kind": "generated"
     },
     {
@@ -22957,6 +23147,118 @@
       "access": "public",
       "types": ["RealmDescriptorJson"],
       "sha256": "03197c9a5e86036dfa301351000a84303d808b587c9deec4103251e09644e3ff",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserAuthChallengeValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserAuthChallengeJson"],
+      "sha256": "2c4343f9b7adf9821aebd127b9389655dc0c528388ddbda39ffb10515bc29c23",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserBeginAuthenticationRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserBeginAuthenticationRequestJson"],
+      "sha256": "e99911dcacd62e4037d3113fa355d85083a03efdbe484b56f88a04247df1130b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserBeginRecoveryRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserBeginRecoveryRequestJson"],
+      "sha256": "3969008ff9f056e2d873943319b10932ad32c54e59b6e6f1840a520e17506a66",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserBeginStepUpRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserBeginStepUpRequestJson"],
+      "sha256": "e243f0967aed7073813f1462674ef3b486b024dcbe97c2ef4b1e30de6482caec",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserBootstrapResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserBootstrapResponseJson"],
+      "sha256": "bc01fb5d69582136d02f975e802de5d2695c0d98bcda155868926a0bf3d72f04",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserCompleteAuthenticationRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserCompleteAuthenticationRequestJson"],
+      "sha256": "f9c69786a5b3758ad5380b6f1d7d726f371c85b588782be7ba36c1b573d0e456",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserCompleteEnrollmentRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserCompleteEnrollmentRequestJson"],
+      "sha256": "6d488a8b7d7ab863469857d781f8af3e06589a479fa1dd06f2ca064b9bcf8429",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserCompleteRecoveryRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserCompleteRecoveryRequestJson"],
+      "sha256": "0adf7c9332fbbd5234502fb39c0acaf2905ed8f64b935dc9eec66e3366a1d2d5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserCompleteStepUpRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserCompleteStepUpRequestJson"],
+      "sha256": "c733096a52895564910f59fe54a8353986a4ea72637373196de5a87e1fc445ae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserOidcCallbackFailureValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserOidcCallbackFailureForm"],
+      "sha256": "35044f6e87b4f313fa070d1cf7aa73b8c93ab947d704e95d0c64dc2262721f69",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserOidcCallbackSuccessValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserOidcCallbackSuccessForm"],
+      "sha256": "a5787b533c7ae14ca9148d050986ab1fcd666058d8e0bb2d134e858d6eca1cb6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserReceiptValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserReceiptJson"],
+      "sha256": "7134e0008e19fa6a64fedb53efffa44fbe921ed24bfac5a766c0bdc25558674d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserSessionViewValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserSessionViewJson"],
+      "sha256": "17d9ffdec2901d4844e60b3018bb473d23416e03ada22ac2804eb44a51efd225",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserStepUpEvidenceValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserStepUpEvidenceJson"],
+      "sha256": "9b84aff4dd95a8fa0f23133c425f4d72c29006e9fccc1659a7b413e9e26b9baa",
       "kind": "generated"
     },
     {
@@ -47373,7 +47675,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "f09f82c33b724f398e173bd1694841b4f821d3c5e4d6db81654d908c75975d99"
+      "sha256": "6636c2b693830e2157ab0993493da17dfedd02675b9e922cab8ba37d79c5aaa2"
     },
     {
       "path": "go/go.mod",
@@ -47508,12 +47810,16 @@
       "sha256": "9719004a495ae2475841dc3506b86a7ba8faa2eeb33d774dbf12effa5d495a03"
     },
     {
+      "path": "public/http/v1/web-browser.schema.json",
+      "sha256": "2e54a30f135c6b0fb372f68ffeea38647c58514f03317316ce492db442069078"
+    },
+    {
       "path": "public/http/v1/workflow.schema.json",
       "sha256": "a23961e89badb790abca4f7fef01a833d647394b16194c51d7b4f79352181b42"
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "2fbd6e2ffbcac5c66053393656eb0c3b2dbd60fb50f91070e547f301b697e3ad"
+      "sha256": "1ab63cd45218e0858e54b762bcbfe574fd74b52aa72c0d219b4989eb23cca2cb"
     },
     {
       "path": "public/proto/constraints/af-con-01-fleet.json",
@@ -47529,7 +47835,7 @@
     },
     {
       "path": "public/proto/constraints/con-07-identity.json",
-      "sha256": "60ede66032755ffce344cef2d0161ed86cfb02655c5e7aad8a160fb604f84e8e"
+      "sha256": "e5fc72db496db6f292a0dc28dd453675f2e3c45231bd25123e87de5b238f10d4"
     },
     {
       "path": "public/proto/constraints/con-08-entitlement-commerce.json",

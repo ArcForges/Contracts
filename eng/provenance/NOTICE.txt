@@ -38,8 +38,8 @@ Notice scope: source
 Copyright 2021-2026 The Connect Authors; Apache License, Version 2.0.
 connectrpc.com/connect/v2 v2.0.2 keeps its Apache-2.0 licence; the Go bindings module requires it through go.mod and does not vendor it.
 
-contract-bindings-af-con-01-r1
-Source: https://github.com/ArcForges/Contracts @ ed4b8c8dc21e1d4d4d3480b6cfaee912921972e8
+contract-bindings-af-ctr-03-r1
+Source: https://github.com/ArcForges/Contracts @ 71badd3b956c9d3dc50628d4064dd6beb98ff6f6
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
@@ -47,7 +47,7 @@ Copyright 2008 Google Inc. All rights reserved.
 Copyright 2015, 2019, 2020 gRPC authors.
 Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
-Generated Contracts source remains Apache-2.0. AF-CON-01 adds the generated C# bindings of the adopted flagship design contracts (node, fleet, peer, relay, support access and operator read); the retained generated C#, @arcforges/ai-internal TypeScript and JSON-shape bindings are unchanged apart from the additive services and shape checks, and no runtime behavior, generator or third-party package is added.
+Generated Contracts source remains Apache-2.0. AF-CTR-03 widens the generated product checks of the identity shapes to the device and session products arcforges-node, arcforges-mobile and arcforges-web and adds the generated C# models, route catalogue and validators of the WebBrowserSession document; the retained generated C#, Go, @arcforges/ai-internal TypeScript and JSON-shape bindings are otherwise unchanged, and no runtime behavior, generator or third-party package is added.
 
 dokka-array-buffer-byte-length-licence-r1
 Source: https://github.com/inspect-js/array-buffer-byte-length @ 59deea89141b4aeeb64122e5e15efda485942c00
