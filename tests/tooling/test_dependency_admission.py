@@ -3337,12 +3337,20 @@ class DependencyAdmission(unittest.TestCase):
         def git_blob(commit, path):
             return subprocess.check_output(['git', 'show', f'{commit}:{path}'], cwd=ROOT)
 
-        # The adding commit of the immutable receipt is the scanned commit; it requires retained history.
-        commit = subprocess.check_output(['git', 'log', '--diff-filter=A', '--format=%H', '--', receipt_path],
-                                         cwd=ROOT, text=True).split()[-1]
-        self.assertEqual(subprocess.run(['git', 'merge-base', '--is-ancestor', commit, 'HEAD'],
-                                        cwd=ROOT, check=False).returncode, 0)
-        self.assertEqual(git_blob(commit, receipt_path), (ROOT / receipt_path).read_bytes().replace(b'\r\n', b'\n'))
+        # Every commit that wrote the receipt is a scanned commit: the adding commit and, before merge, the
+        # correction of its review identities to descriptive text. Each keeps exactly these rows on the observed
+        # lines of both files, and the newest is the checked-in receipt; it requires retained history.
+        commits = subprocess.check_output(['git', 'log', '--format=%H', '--', receipt_path],
+                                          cwd=ROOT, text=True).split()
+        added = subprocess.check_output(['git', 'log', '--diff-filter=A', '--format=%H', '--', receipt_path],
+                                        cwd=ROOT, text=True).split()
+        self.assertTrue(commits)
+        self.assertEqual(added, commits[-1:])
+        for commit in commits:
+            self.assertEqual(subprocess.run(['git', 'merge-base', '--is-ancestor', commit, 'HEAD'],
+                                            cwd=ROOT, check=False).returncode, 0)
+        self.assertEqual(git_blob(commits[0], receipt_path),
+                         (ROOT / receipt_path).read_bytes().replace(b'\r\n', b'\n'))
 
         line_shape = r'\s*"([^"]+)"\s*:\s*"([0-9a-f]{64})",?\s*'
         for group, (_, path, group_rows, observed_lines) in zip(groups, expected, strict=True):
@@ -3370,27 +3378,28 @@ class DependencyAdmission(unittest.TestCase):
                     self.assertIsNone(re.fullmatch(pattern, f'  "credential": "{digest}",'))
                     self.assertIsNone(re.fullmatch(pattern, f'  "{key}x": "{digest}",'))
                     self.assertIsNone(re.fullmatch(pattern, f'  "{key}": "{digest}", "credential": "other"'))
-                blob = git_blob(commit, path)
-                document = json.loads(blob)
-                lines = blob.decode('utf-8').splitlines()
-                observed = set()
-                for line_number in observed_lines:
-                    parsed = re.fullmatch(line_shape, lines[line_number - 1])
-                    self.assertIsNotNone(parsed)
-                    key, digest = parsed.groups()
-                    observed.add((key, digest))
-                    self.assertEqual(sum(re.fullmatch(pattern, lines[line_number - 1]) is not None
-                                         for pattern in group['regexes']), 1)
-                    self.assertEqual(digest, hashlib.sha256(git_blob(commit, key)).hexdigest())
-                    bound = [document['review']['inputHashes'].get(key)]
-                    if path == policy_path:
-                        bound.append(document['inputHashes'].get(key))
-                    self.assertIn(digest, bound)
-                # The block admits no other line of the scanned blob.
-                self.assertEqual([number for number, line in enumerate(lines, start=1)
-                                  if any(re.fullmatch(pattern, line) for pattern in group['regexes'])],
-                                 list(observed_lines))
-                self.assertEqual(observed, set(group_rows))
+                for commit in commits:
+                    blob = git_blob(commit, path)
+                    document = json.loads(blob)
+                    lines = blob.decode('utf-8').splitlines()
+                    observed = set()
+                    for line_number in observed_lines:
+                        parsed = re.fullmatch(line_shape, lines[line_number - 1])
+                        self.assertIsNotNone(parsed)
+                        key, digest = parsed.groups()
+                        observed.add((key, digest))
+                        self.assertEqual(sum(re.fullmatch(pattern, lines[line_number - 1]) is not None
+                                             for pattern in group['regexes']), 1)
+                        self.assertEqual(digest, hashlib.sha256(git_blob(commit, key)).hexdigest())
+                        bound = [document['review']['inputHashes'].get(key)]
+                        if path == policy_path:
+                            bound.append(document['inputHashes'].get(key))
+                        self.assertIn(digest, bound)
+                    # The block admits no other line of the scanned blob.
+                    self.assertEqual([number for number, line in enumerate(lines, start=1)
+                                      if any(re.fullmatch(pattern, line) for pattern in group['regexes'])],
+                                     list(observed_lines))
+                    self.assertEqual(observed, set(group_rows))
 
     def test_con17_later_service_receipt_chain_and_secret_scan_allowlist(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))

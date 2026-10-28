@@ -64,7 +64,7 @@
   "generation": null,
   "review": {
     "owner": "Licensing and Provenance Owner",
-    "reviewer": "w-deku-20261028-rev-af-ctr-01",
+    "reviewer": "Independent AF-CTR-01 reviewer under maintainer authorization (review record on Contracts PR #117)",
     "reviewedOn": "2026-10-28",
     "decision": "approved",
     "rationale": "AF-CTR-01 admits google.golang.org/protobuf v1.36.12 as a runtime dependency of the Go bindings; the licence is permissive and compatible with the Apache boundary, and the exact text is retained.",
