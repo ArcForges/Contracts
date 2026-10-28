@@ -150,6 +150,19 @@ without adding a product build dependency. Only exact hash-bound provenance reco
 may use reference names; source, generated code, resources and implementation notes
 are all scanned. See [scope and evidence](docs/implementation/wp00-00-naming.md).
 
+AF-CTR-03 adds the device and session product values `arcforges-node`, `arcforges-mobile` and
+`arcforges-web` as `installationProducts`: the products a device installation, a session and a device
+record name (ArcForges-Design AD-0021 section 7: a node's installation, a phone's installation and a
+browser's own cookie session). They are wire values only, with no display name, namespace, application
+ID or file association, and they never reuse a branded or retired product ID. Their Design source is
+pinned on its own; the P2-019 pin and the derived declaration bound to it are unchanged. The product
+fields of `InstallationClaim`, `SessionSummary`, `InstalledProduct` and `DeviceServiceRegisterRequest`
+accept exactly the branded products plus these values; the application product IDs (`ApplicationScope`,
+`ApplicationTarget` and the history records) keep the branded set. The published closed HTTP documents
+`public/http/v1/browser.schema.json` and `public/http/v1/native-auth.schema.json` are frozen by the
+CON.17 later-services window and keep the branded set. A tooling test holds the validations and the
+policy to the same domain.
+
 WP00.01 adds one digest-bound registration for DesktopPlatform's generated glossary
 forbidden-alias declaration. Its closed envelope and immutable Design source identity
 must match before those declaration values are admitted; every other field remains

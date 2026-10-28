@@ -89,6 +89,7 @@ class NamingPolicyTests(unittest.TestCase):
 
     def test_current_identity_set_and_no_unnecessary_exceptions(self):
         self.assertEqual({p['id'] for p in self.policy['products']}, {'arcscope', 'companion'})
+        self.assertEqual(self.policy['installationProducts']['ids'], ['arcforges-node', 'arcforges-mobile', 'arcforges-web'])
         self.assertEqual({(e['repository'], e['path']) for e in self.policy['provenanceExceptions']},
                          {('DesktopPlatform', 'artifacts/evidence/traceability/feature-trace-bridge.json'),
                           ('DesktopPlatform', 'eng/provenance/reference-inputs.json')})
@@ -205,6 +206,58 @@ class NamingPolicyTests(unittest.TestCase):
                 policy['products'][0]['applicationIds'] = policy['products'][1]['applicationIds']
             with self.subTest(mutation=mutation), self.assertRaises(ValueError):
                 validate_policy(policy)
+
+    def test_installation_products_are_closed_unbranded_and_pinned(self):
+        mutations = {
+            'missing': lambda policy: policy.pop('installationProducts'),
+            'extra field': lambda policy: policy['installationProducts'].update({'displayName': 'Node'}),
+            'extra id': lambda policy: policy['installationProducts']['ids'].append('arcforges-desktop'),
+            'missing id': lambda policy: policy['installationProducts']['ids'].pop(),
+            'reordered': lambda policy: policy['installationProducts']['ids'].reverse(),
+            'duplicate': lambda policy: policy['installationProducts']['ids'].append('ARCFORGES-WEB'),
+            'branded id': lambda policy: policy['installationProducts'].update({'ids': ['companion']}),
+            'retired id': lambda policy: policy['installationProducts'].update({'ids': ['web']}),
+            'Design owner': lambda policy: policy['installationProducts']['design'].update({'repository': 'ArcForges/Contracts'}),
+            'Design commit': lambda policy: policy['installationProducts']['design'].update({'commit': 'main'}),
+            'Design rule': lambda policy: policy['installationProducts']['design'].update({'rule': 'P2-019'}),
+            'Design field': lambda policy: policy['installationProducts']['design'].pop('rule'),
+        }
+        for name, mutate in mutations.items():
+            policy = deepcopy(self.policy)
+            mutate(policy)
+            with self.subTest(mutation=name), self.assertRaises(ValueError):
+                validate_policy(policy)
+        # The P2-019 pin and the derived declaration bound to it stay where they were.
+        self.assertEqual(self.policy['derivedDeclarations'][0]['designCommit'], self.policy['design']['commit'])
+        self.assertNotEqual(self.policy['installationProducts']['design']['commit'], self.policy['design']['commit'])
+
+    def test_device_and_session_product_validations_use_exactly_the_policy_domain(self):
+        root = Path(__file__).resolve().parents[2]
+        device_products = ([p['id'] for p in self.policy['products']] + self.policy['installationProducts']['ids'])
+        self.assertEqual(device_products, ['arcscope', 'companion', 'arcforges-node', 'arcforges-mobile', 'arcforges-web'])
+        branded = [p['id'] for p in self.policy['products']]
+        for path in ('public/proto/constraints/con-07-identity.json', 'public/proto/constraints.json'):
+            messages = json.loads((root / path).read_bytes())['messages']
+            for message in ('InstallationClaim', 'SessionSummary', 'InstalledProduct', 'DeviceServiceRegisterRequest'):
+                with self.subTest(path=path, message=message):
+                    rule = messages['arcforges.publicapi.v1.' + message]['fields']['product']
+                    self.assertEqual(rule['enumValues'], device_products)
+        # Application product IDs are not device or session products: they keep the branded set.
+        aggregate = json.loads((root / 'public/proto/constraints.json').read_bytes())['messages']
+        for message, field in (('arcforges.foundation.v1.ApplicationScope', 'productId'),
+                               ('arcforges.publicapi.v1.ApplicationTarget', 'productId'),
+                               ('arcforges.publicapi.v1.HistoryImportManifest', 'productId'),
+                               ('arcforges.publicapi.v1.HistoryArchiveHeader', 'productId')):
+            with self.subTest(message=message):
+                self.assertEqual(aggregate[message]['fields'][field]['enumValues'], branded)
+        # The published closed HTTP documents are frozen by the CON.17 later-services window: their product
+        # fields keep the branded set.
+        schemas = (('public/http/v1/browser.schema.json', 'BrowserInstallationClaim'),
+                   ('public/http/v1/native-auth.schema.json', 'NativeTokenInstalledProduct'))
+        for path, definition in schemas:
+            with self.subTest(path=path):
+                schema = json.loads((root / path).read_bytes())
+                self.assertEqual(schema['$defs'][definition]['properties']['product']['enum'], branded)
 
     def test_wrong_owner_missing_namespace_and_lost_migration_fail(self):
         for key, value in [('owners', ['Cloud']), ('namespaces', ['Unowned']), ('legacyApplicationIds', [])]:

@@ -69,7 +69,7 @@ def occurrences(data, names):
 
 
 def validate_policy(policy):
-    fields(policy, 'schemaVersion license design repositories products features webOutputs '
+    fields(policy, 'schemaVersion license design repositories products installationProducts features webOutputs '
            'retiredProductIds providers forbiddenNames referenceRepositoryNames provenanceExceptions derivedDeclarations', 'policy')
     require(type(policy['schemaVersion']) is int and policy['schemaVersion'] == 2, 'unsupported schema')
     require(policy['license'] == 'Apache-2.0', 'incorrect policy license')
@@ -121,6 +121,22 @@ def validate_policy(policy):
             require(association['formatOwner'] == ('WP33/WP35' if product['id'] == 'arcscope' else 'WP36/WP39'), 'invalid format owner')
             associations.append(association['extension'])
     require(set(product_ids) == {'arcscope', 'companion'}, 'incorrect ProductId set')
+    # Device and session product values (AF-CTR-03; ArcForges-Design AD-0021 section 7): the products a device
+    # installation, a session and a device record name. They are wire values only, with no display name, namespace,
+    # application ID or file association, and they never reuse a branded or retired product ID. Their Design source is
+    # pinned on its own, so the P2-019 pin above (and the derived declaration bound to it) is unchanged.
+    installation = policy['installationProducts']
+    fields(installation, 'design ids', 'installation products')
+    fields(installation['design'], 'repository commit rule', 'installation products design')
+    require(installation['design']['repository'] == 'ArcForges/ArcForges-Design', 'incorrect installation products Design owner')
+    require(isinstance(installation['design']['commit'], str)
+            and re.fullmatch('[0-9a-f]{40}', installation['design']['commit']) is not None,
+            'invalid installation products Design commit')
+    require(installation['design']['rule'] == 'AD-0021', 'invalid installation products Design rule')
+    strings(installation['ids'], 'installation product IDs')
+    require(installation['ids'] == ['arcforges-node', 'arcforges-mobile', 'arcforges-web'], 'incorrect installation product IDs')
+    require(not set(installation['ids']) & (set(product_ids) | set(policy['retiredProductIds'])),
+            'an installation product ID reuses a branded or retired product ID')
     strings(installed, 'installed identities'); strings(associations, 'association identities')
     strings(namespaces, 'reserved namespaces')
     require(policy['features'] == [{'id': 'assistant', 'displayName': 'ArcChat', 'owner': 'DesktopPlatform',

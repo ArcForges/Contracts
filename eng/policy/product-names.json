@@ -44,6 +44,14 @@
       "fileAssociations": []
     }
   ],
+  "installationProducts": {
+    "design": {
+      "repository": "ArcForges/ArcForges-Design",
+      "commit": "3392d02a93bc4cbd3996cdfcff3174ac7a38497b",
+      "rule": "AD-0021"
+    },
+    "ids": ["arcforges-node", "arcforges-mobile", "arcforges-web"]
+  },
   "features": [
     {
       "id": "assistant",

@@ -3278,6 +3278,45 @@
       }
     },
     {
+      "id": "auto.InstallationClaim.product.allowed-arcforges-node",
+      "target": "InstallationClaim",
+      "valid": true,
+      "value": {
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcforges-node",
+        "platform": "a",
+        "appVersion": "a"
+      }
+    },
+    {
+      "id": "auto.InstallationClaim.product.allowed-arcforges-mobile",
+      "target": "InstallationClaim",
+      "valid": true,
+      "value": {
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcforges-mobile",
+        "platform": "a",
+        "appVersion": "a"
+      }
+    },
+    {
+      "id": "auto.InstallationClaim.product.allowed-arcforges-web",
+      "target": "InstallationClaim",
+      "valid": true,
+      "value": {
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcforges-web",
+        "platform": "a",
+        "appVersion": "a"
+      }
+    },
+    {
       "id": "auto.InstallationClaim.product.outside-enum",
       "target": "InstallationClaim",
       "valid": false,
@@ -7001,6 +7040,84 @@
       }
     },
     {
+      "id": "auto.SessionSummary.product.allowed-arcforges-node",
+      "target": "SessionSummary",
+      "valid": true,
+      "value": {
+        "sessionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcforges-node",
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        },
+        "expiresAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        },
+        "current": false,
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "auto.SessionSummary.product.allowed-arcforges-mobile",
+      "target": "SessionSummary",
+      "valid": true,
+      "value": {
+        "sessionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcforges-mobile",
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        },
+        "expiresAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        },
+        "current": false,
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "auto.SessionSummary.product.allowed-arcforges-web",
+      "target": "SessionSummary",
+      "valid": true,
+      "value": {
+        "sessionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcforges-web",
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        },
+        "expiresAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        },
+        "current": false,
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
       "id": "auto.SessionSummary.product.outside-enum",
       "target": "SessionSummary",
       "valid": false,
@@ -9232,6 +9349,33 @@
       "valid": true,
       "value": {
         "product": "companion",
+        "version": "a"
+      }
+    },
+    {
+      "id": "auto.InstalledProduct.product.allowed-arcforges-node",
+      "target": "InstalledProduct",
+      "valid": true,
+      "value": {
+        "product": "arcforges-node",
+        "version": "a"
+      }
+    },
+    {
+      "id": "auto.InstalledProduct.product.allowed-arcforges-mobile",
+      "target": "InstalledProduct",
+      "valid": true,
+      "value": {
+        "product": "arcforges-mobile",
+        "version": "a"
+      }
+    },
+    {
+      "id": "auto.InstalledProduct.product.allowed-arcforges-web",
+      "target": "InstalledProduct",
+      "valid": true,
+      "value": {
+        "product": "arcforges-web",
         "version": "a"
       }
     },
@@ -18685,6 +18829,72 @@
           "value": "ESIzRFVmd4iZqrvM3e7/AA=="
         },
         "product": "companion",
+        "platform": "a",
+        "name": "a",
+        "publicKey": "AQ=="
+      }
+    },
+    {
+      "id": "auto.DeviceServiceRegisterRequest.product.allowed-arcforges-node",
+      "target": "DeviceServiceRegisterRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcforges-node",
+        "platform": "a",
+        "name": "a",
+        "publicKey": "AQ=="
+      }
+    },
+    {
+      "id": "auto.DeviceServiceRegisterRequest.product.allowed-arcforges-mobile",
+      "target": "DeviceServiceRegisterRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcforges-mobile",
+        "platform": "a",
+        "name": "a",
+        "publicKey": "AQ=="
+      }
+    },
+    {
+      "id": "auto.DeviceServiceRegisterRequest.product.allowed-arcforges-web",
+      "target": "DeviceServiceRegisterRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcforges-web",
         "platform": "a",
         "name": "a",
         "publicKey": "AQ=="
