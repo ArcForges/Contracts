@@ -42,13 +42,14 @@ that main, regenerates bindings and inventories with pinned tools, and obtains
 review of the updated head. Never hand-merge generated output or create a second
 publication solely for validation.
 
-Dependabot updates the NuGet, npm, Go (`/go` and `/go/tools`) and GitHub Actions dependencies.
+Dependabot updates the NuGet, npm, Go (`/go` and `/go/tools`, including the `// indirect` tool
+requirements of `/go/tools`) and GitHub Actions dependencies.
 A Go update keeps `google.golang.org/protobuf` and `connectrpc.com/connect/v2` equal in both Go
 modules and regenerates the Go bindings (`python eng/contracts.py generate`) before review. The Gradle
 ecosystem and the npm `protobuf` and `connect` groups of the retired TypeScript
 generators left the Dependabot configuration with CON.40, and the Java/Kotlin CodeQL job and its
 pinned prerelease CodeQL bundle were removed; CodeQL analyses C#,
-JavaScript/TypeScript and Python. Never reintroduce a source, generator or new
+JavaScript/TypeScript, Python and Go. Never reintroduce a source, generator or new
 version for a retired package identity.
 
 Contributions to ArcForges-authored source, generated bindings, examples, tooling,

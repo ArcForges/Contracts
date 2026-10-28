@@ -88,8 +88,17 @@ jobs:
           echo "artifact=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
           echo "Candidate: $PACKAGE_VERSION. Registry publication is a separate job." >> "$GITHUB_STEP_SUMMARY"
       - name: Go checks (format, vet, staticcheck, module drift, race tests, C#/Go exchange, govulncheck)
+        if: github.event_name != 'push'
         run: |
           python eng/contracts.py go check
+          git diff --exit-code
+      # Main and v* pushes run delivery only: a newly disclosed advisory must not block the NuGet, npm and Go
+      # publication of an already verified commit. The host verification, external-PR CI (above) and the weekly
+      # Security run keep govulncheck (docs/engineering-controls.md).
+      - name: Go checks without govulncheck (format, vet, staticcheck, module drift, race tests, C#/Go exchange)
+        if: github.event_name == 'push'
+        run: |
+          python eng/contracts.py go check --no-vulncheck
           git diff --exit-code
       - name: Retain naming, licence and serialization evidence
         if: always()
@@ -224,7 +233,8 @@ jobs:
     needs: [candidate, publish-nuget]
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) && github.repository == 'ArcForges/Contracts'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # The proxy handoff gives up after 10 minutes (eng/go_bindings.py RESOLVE_BUDGET), well inside this limit.
+    timeout-minutes: 30
     permissions:
       contents: write
     steps:

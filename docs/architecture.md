@@ -61,8 +61,9 @@ ArcForges-Design [AD-0021](https://github.com/ArcForges/ArcForges-Design/blob/ma
 §8 moves business decisions to a Go center that consumes Go bindings generated here from the same
 `.proto` files. The Go module `github.com/ArcForges/Contracts/go` (directory `go/`, catalog row kind
 `go`, channel `go-module`) holds one Go package per proto package of the center's contracts and their
-import closure: `foundation.v1`, `hello.v1`, `publicapi.v1`, `catalog.v1` (imported by
-`operator.v1`), `node.v1`, `fleet.v1` and the internal `relay.v1` and `operator.v1`, at
+import closure: `foundation.v1`, `hello.v1`, `publicapi.v1`, `catalog.v1` (imported only by
+`operator.v1`), `node.v1`, `fleet.v1` and the internal `relay.v1` and `operator.v1` (the center
+serves the operator contracts; [scope note](engineering-controls.md#generated-packages-beyond-the-tasks-list)), at
 `go/arcforges/<name>/v1` with package name `<name>v1`, and a `<name>v1connect` package for the
 services of each. The proto files carry no `go_package` option: protoc `M` options map every file
 from the catalog row, so the `.proto` files and the C# and npm descriptor baselines are unchanged.
@@ -85,8 +86,10 @@ from the catalog row, so the `.proto` files and the C# and npm descriptor baseli
   internal `relay.v1` and `operator.v1` packages do not use Go's `internal/` directory, which would
   stop the center (another module) from importing them. Go imports never lead from a public contract
   package to an internal one.
-- **Compatibility.** The offline Go tests (`go/internal/compat`) decode and re-encode the golden
-  fixtures, compare every embedded Go descriptor with the compiled schema and carry foundation.v1
+- **Compatibility.** The offline Go tests (`go/internal/compat`) decode and re-encode the foundation,
+  serialization, descriptor, sync, Hello and error-catalogue fixtures (the exact set:
+  [fixture coverage](engineering-controls.md#fixture-coverage)), compare every embedded Go
+  descriptor with the compiled schema and carry foundation.v1
   `ArcError` values as Connect error details over the Connect, gRPC and gRPC-Web protocols. The
   exchange step sends a reference-codec sample of every message and oneof arm through the generated
   C# codecs, then the generated Go codecs, then back to C# and to the reference reader.

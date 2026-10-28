@@ -53,7 +53,7 @@ by the main push's own `Build candidate` job. The security workflow also runs we
 
 These GitHub-side settings are configured for this repository, including the
 required `Verify` and `arcforges/linux` checks and the PR requirement on main (zero required review approvals).
-CodeQL analyses C#, JavaScript/TypeScript and Python. The `CodeQL (java-kotlin)` job
+CodeQL analyses C#, JavaScript/TypeScript, Python and Go. The `CodeQL (java-kotlin)` job
 is removed (CON.40); if branch protection still lists it as a required check, the
 repository owner removes that requirement, because the job no longer reports. Normal operation uses `NUGET_PUBLISH_ENABLED=true` and
 `NPM_PUBLISH_MODE=oidc`; the WP03.00 first publication temporarily used bootstrap

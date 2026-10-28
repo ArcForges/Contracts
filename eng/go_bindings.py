@@ -74,6 +74,10 @@ ROOT_ENV = "ARCFORGES_CONTRACTS_ROOT"
 CANDIDATE_FORMAT = "arcforges.contracts.go-module.v1"
 PROXY = "https://proxy.golang.org"
 SUMDB = "https://sum.golang.org"
+# The handoff after tagging waits for the proxy at most this long, requests included; the publish-go job's timeout
+# (ci.yml) leaves a wide margin above it (tests/tooling/test_go_bindings.py pins the relation).
+RESOLVE_BUDGET = 600.0
+REQUEST_TIMEOUT = 30.0
 
 
 def require(condition: bool, message: str) -> None:
@@ -609,8 +613,11 @@ def exchange() -> dict:
     return report
 
 
-def check_all() -> dict:
-    result = {"static": static(), "test": test(), "exchange": exchange(), "vulncheck": vulncheck()}
+def check_all(with_vulncheck: bool = True) -> dict:
+    """Every Go check. ci.yml leaves govulncheck out on main and v* pushes, which run delivery only; the host
+    verification, external-PR CI and the weekly security run keep it (docs/engineering-controls.md)."""
+    result = {"static": static(), "test": test(), "exchange": exchange(),
+              "vulncheck": vulncheck() if with_vulncheck else "not run (--no-vulncheck)"}
     evidence = ARTIFACTS / "evidence" / "go-checks.json"
     evidence.parent.mkdir(parents=True, exist_ok=True)
     evidence.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
@@ -738,7 +745,8 @@ def escape_path(value: str) -> str:
     return re.sub(r"[A-Z]", lambda match: "!" + match[0].lower(), value)
 
 
-def http_json(method: str, url: str, token: str | None = None, body: dict | None = None) -> tuple[int, object]:
+def http_json(method: str, url: str, token: str | None = None, body: dict | None = None,
+              timeout: float = 60.0) -> tuple[int, object]:
     headers = {"User-Agent": "ArcForges-Contracts-CI", "Accept": "application/vnd.github+json",
                "X-GitHub-Api-Version": "2022-11-28"}
     if token:
@@ -747,7 +755,7 @@ def http_json(method: str, url: str, token: str | None = None, body: dict | None
     if data is not None:
         headers["Content-Type"] = "application/json"
     try:
-        with urlopen(Request(url, data=data, method=method, headers=headers), timeout=60) as response:
+        with urlopen(Request(url, data=data, method=method, headers=headers), timeout=timeout) as response:
             payload = response.read()
             return response.status, json.loads(payload) if payload else None
     except HTTPError as error:
@@ -794,23 +802,30 @@ def create_tag(repository: str, tag: str, commit: str, token: str) -> str:
     return "existing"
 
 
-def resolve(document: dict, attempts: int = 8, first_wait: float = 15.0) -> dict:
+def resolve(document: dict, budget: float = RESOLVE_BUDGET, first_wait: float = 15.0) -> dict:
     """The handoff: the public module proxy serves the tag at the publishing commit and the checksum database records
-    the candidate's hashes. Metadata only; the module zip is not downloaded. Bounded retries while the proxy fetches."""
+    the candidate's hashes. Metadata only; the module zip is not downloaded. Retries with growing waits while the proxy
+    fetches, and gives up once the waits and requests would pass `budget` seconds."""
     import time
     module, version = escape_path(document["module"]), escape_path(document["version"])
-    wait, last = first_wait, ""
-    for attempt in range(1, attempts + 1):
+    deadline = time.monotonic() + budget
+
+    def remaining() -> float:
+        return max(1.0, min(REQUEST_TIMEOUT, deadline - time.monotonic()))
+
+    wait, last, attempt = first_wait, "no request made", 0
+    while time.monotonic() + wait < deadline:
         time.sleep(wait)
+        attempt += 1
         try:
-            status, info = http_json("GET", f"{PROXY}/{module}/@v/{version}.info")
+            status, info = http_json("GET", f"{PROXY}/{module}/@v/{version}.info", timeout=remaining())
             if status == 200 and isinstance(info, dict):
                 require(info.get("Version") == document["version"], "The proxy serves another version: " + str(info))
                 origin = info.get("Origin") or {}
                 require(not origin.get("Hash") or origin["Hash"] == document["commit"],
                         f"The proxy resolved {document['tag']} to {origin.get('Hash')}, not {document['commit']}")
-                with urlopen(Request(f"{SUMDB}/lookup/{module}@{version}",
-                                     headers={"User-Agent": "ArcForges-Contracts-CI"}), timeout=60) as response:
+                lookup = Request(f"{SUMDB}/lookup/{module}@{version}", headers={"User-Agent": "ArcForges-Contracts-CI"})
+                with urlopen(lookup, timeout=remaining()) as response:
                     lines = response.read().decode("utf-8").splitlines()
                 recorded = {}
                 for line in lines:
@@ -825,10 +840,13 @@ def resolve(document: dict, attempts: int = 8, first_wait: float = 15.0) -> dict
             last = f"HTTP {status}"
         except (URLError, TimeoutError, ConnectionError) as problem:
             last = str(problem)
-        say(f"The module proxy does not serve {document['tag']} yet ({last}); attempt {attempt} of {attempts}")
+        say(f"The module proxy does not serve {document['tag']} yet ({last}); attempt {attempt}, "
+            f"{max(0.0, deadline - time.monotonic()):.0f} s of {budget:.0f} s left")
         wait = min(wait * 2, 120.0)
-    raise ValueError(f"The module proxy did not resolve {document['module']}@{document['version']} ({last}); the tag "
-                     "exists, so diagnose the proxy response before rerunning this job (the rerun keeps the tag)")
+    raise ValueError(f"The module proxy did not resolve {document['module']}@{document['version']} within "
+                     f"{budget:.0f} s ({attempt} attempts; last: {last}). The tag {document['tag']} exists at "
+                     f"{document['commit']}, so diagnose the proxy and checksum database responses before rerunning "
+                     "this job (the rerun keeps the tag)")
 
 
 def publish(directory: Path, manifest: dict, entry: dict) -> None:
@@ -866,7 +884,7 @@ def main(arguments: list[str]) -> None:
     test_parser.add_argument("--no-race", action="store_true")
     sub.add_parser("exchange")
     sub.add_parser("vulncheck")
-    sub.add_parser("check")
+    sub.add_parser("check").add_argument("--no-vulncheck", action="store_true")
     install = sub.add_parser("install-toolchain")
     install.add_argument("--dest", type=Path, required=True)
     args = parser.parse_args(arguments)
@@ -881,7 +899,8 @@ def main(arguments: list[str]) -> None:
     elif args.action == "vulncheck":
         say(json.dumps(vulncheck()))
     elif args.action == "check":
-        check_all()
-        say("Go checks passed: static, test, exchange and vulncheck.")
+        check_all(not args.no_vulncheck)
+        say("Go checks passed: static, test, exchange" + (" (govulncheck not run)." if args.no_vulncheck
+                                                          else " and vulncheck."))
     elif args.action == "install-toolchain":
         print(install_toolchain(args.dest.resolve()))

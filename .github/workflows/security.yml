@@ -66,6 +66,27 @@ jobs:
       - name: Enforce the shared architecture policy over the full project graph
         run: dotnet tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll --hosted
 
+  govulncheck:
+    name: Go vulnerability check
+    # AF-CTR-01: external PRs run govulncheck in ci.yml's Go checks; the weekly schedule and manual dispatch run it
+    # here on main, so an advisory disclosed after a merge surfaces without blocking delivery (pushes skip it).
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - name: Install the pinned Go toolchain (archive SHA-256 from go/toolchain.json)
+        run: |
+          python eng/contracts.py go install-toolchain --dest "$RUNNER_TEMP/go-toolchain"
+          echo "$RUNNER_TEMP/go-toolchain/go/bin" >> "$GITHUB_PATH"
+      - name: govulncheck over the published module and the pinned tools
+        run: python eng/contracts.py go vulncheck
+
   codeql:
     name: CodeQL (${{ matrix.language }})
     runs-on: ubuntu-latest

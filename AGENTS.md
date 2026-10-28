@@ -134,7 +134,7 @@ The Plan's rule 7 applies. In this repository:
 ## Hosted CI
 
 - **Owner PRs:** no hosted validation or security analysis; `Build candidate`, `Security` and `Verify` show as skipped.
-- **External PRs** (Dependabot included), the merge queue and manual `CI` runs: `Build candidate`, `Security` (the called `security.yml`: dependency review on PRs, the full-history secret scan with the hosted architecture gate, CodeQL for C#, JavaScript/TypeScript and Python) and `Verify`, which requires both. `Verify` is the required hosted check (`arcforges/linux` is required too, for every PR). `Verify` guards jobs, not code scanning's separate `CodeQL` alert check (owner PRs never produce it, so it cannot be required): an external PR merges only when that check is not failing.
+- **External PRs** (Dependabot included), the merge queue and manual `CI` runs: `Build candidate`, `Security` (the called `security.yml`: dependency review on PRs, the full-history secret scan with the hosted architecture gate, CodeQL for C#, JavaScript/TypeScript, Python and Go) and `Verify`, which requires both. `Verify` is the required hosted check (`arcforges/linux` is required too, for every PR). `Verify` guards jobs, not code scanning's separate `CodeQL` alert check (owner PRs never produce it, so it cannot be required): an external PR merges only when that check is not failing.
 - **Main and `v*` pushes:** delivery only, `Build candidate` and the publish jobs, which depend on the candidate. `security.yml` also runs weekly and on manual dispatch.
 
 ## Dependency admission (WP02.05)

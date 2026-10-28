@@ -20,6 +20,10 @@ updates:
     directories: ["/go", "/go/tools"]
     schedule:
       interval: weekly
+    # go/tools requires its generators and analysers only through `tool` lines, so every requirement there is
+    # `// indirect`, which Dependabot does not update by default; /go requires protobuf and connect directly.
+    allow:
+      - dependency-type: all
     open-pull-requests-limit: 5
     groups:
       protobuf-connect:

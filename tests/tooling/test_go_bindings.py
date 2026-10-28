@@ -11,6 +11,7 @@ import copy
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -239,10 +240,26 @@ class Publication(unittest.TestCase):
         with patch("go_bindings.http_json", return_value=(200, moved)), patch("time.sleep"):
             with self.assertRaisesRegex(ValueError, "not " + self.COMMIT):
                 go_bindings.resolve(self.document())
-        with patch("go_bindings.http_json", return_value=(410, None)), patch("time.sleep") as sleep:
-            with self.assertRaisesRegex(ValueError, "did not resolve"):
-                go_bindings.resolve(self.document(), attempts=3)
-            self.assertEqual(sleep.call_count, 3)
+        clock = [0.0]
+
+        def advance(seconds):
+            clock[0] += seconds
+        with patch("go_bindings.http_json", return_value=(410, None)) as proxy, \
+                patch("time.sleep", side_effect=advance) as sleep, patch("time.monotonic", side_effect=lambda: clock[0]):
+            with self.assertRaisesRegex(ValueError, r"did not resolve .* within 600 s \(7 attempts; last: HTTP 410\)"):
+                go_bindings.resolve(self.document())
+            self.assertEqual([call.args[0] for call in sleep.call_args_list], [15, 30, 60, 120, 120, 120, 120])
+            self.assertLess(clock[0], go_bindings.RESOLVE_BUDGET)
+            self.assertTrue(all(0 < call.kwargs["timeout"] <= go_bindings.REQUEST_TIMEOUT
+                                for call in proxy.call_args_list))
+
+    def test_handoff_ends_well_inside_the_publish_job_timeout(self):
+        # Every wait and request of resolve() ends within RESOLVE_BUDGET (plus at most two request timeouts of the
+        # last attempt); the publish-go job keeps at least ten minutes for checkout, download and tagging.
+        workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+        job = workflow[workflow.index("\n  publish-go:\n"):]
+        minutes = int(re.search(r"\n    timeout-minutes: (\d+)\n", job)[1])
+        self.assertLessEqual(go_bindings.RESOLVE_BUDGET + 2 * go_bindings.REQUEST_TIMEOUT, (minutes - 10) * 60)
 
     def test_publish_refuses_another_commit_or_a_dirty_candidate(self):
         environment = {"GITHUB_REF": "refs/heads/main", "GITHUB_SHA": self.COMMIT, "GITHUB_TOKEN": "t",
@@ -255,6 +272,23 @@ class Publication(unittest.TestCase):
                 manifest = {"version": "1.0.0-ci.5.1", "commit": self.COMMIT, "dirty": False}
                 with self.assertRaisesRegex(ValueError, "does not describe this publishing commit"):
                     go_bindings.publish(directory, manifest, {"name": "go-module.json", "kind": "go"})
+
+
+class CheckScope(unittest.TestCase):
+    def test_check_without_vulncheck_runs_every_other_check(self):
+        calls = []
+        with tempfile.TemporaryDirectory() as temporary, \
+                patch("go_bindings.ARTIFACTS", Path(temporary)), \
+                patch("go_bindings.static", side_effect=lambda: calls.append("static") or {}), \
+                patch("go_bindings.test", side_effect=lambda: calls.append("test") or {}), \
+                patch("go_bindings.exchange", side_effect=lambda: calls.append("exchange") or {}), \
+                patch("go_bindings.vulncheck", side_effect=lambda: calls.append("vulncheck") or {}):
+            self.assertEqual(go_bindings.check_all(False)["vulncheck"], "not run (--no-vulncheck)")
+            self.assertEqual(calls, ["static", "test", "exchange"])
+            go_bindings.check_all()
+            self.assertEqual(calls[3:], ["static", "test", "exchange", "vulncheck"])
+            evidence = json.loads((Path(temporary) / "evidence" / "go-checks.json").read_text(encoding="utf-8"))
+            self.assertEqual(evidence["vulncheck"], {})
 
 
 class ExchangeSamples(unittest.TestCase):
