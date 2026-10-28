@@ -288,14 +288,23 @@ class DependencyAdmission(unittest.TestCase):
                     dependency_admission.go_sum_rows(root, "go/go.sum")
 
     def test_stable_closure_exempts_only_tool_modules(self):
+        # The Go part of the admitted closure: the runtime modules are stable releases, and the pseudo-versions belong
+        # to the tools module only. (The full closure keeps its earlier pinned C# prerelease of the previous client.)
         policy = json.loads((ROOT / dependency_admission.POLICY).read_text())
-        actual = dependency_admission.inventory(ROOT)
+        actual = {key: value for key, value in dependency_admission.inventory(ROOT).items() if key.startswith("go:")}
+        policy["closure"] = {key: policy["closure"][key] for key in actual}
         tool_only = dependency_admission.go_tool_only(ROOT)
+        self.assertEqual(sorted(set(actual) - tool_only), ["go:connectrpc.com/connect/v2@v2.0.2",
+                                                           "go:github.com/google/go-cmp@v0.7.0",
+                                                           "go:google.golang.org/protobuf@v1.36.12"])
         self.assertTrue(any("-" in key.rsplit("@", 1)[1] for key in tool_only))
         dependency_admission.validate(policy, actual, stable=True, tool_only=tool_only)
-        runtime_prerelease = next(key for key in tool_only if "-" in key.rsplit("@", 1)[1])
+        tool_prerelease = next(key for key in sorted(tool_only) if "-" in key.rsplit("@", 1)[1])
         with self.assertRaisesRegex(ValueError, "Stable closure contains prerelease"):
-            dependency_admission.validate(policy, actual, stable=True, tool_only=tool_only - {runtime_prerelease})
+            dependency_admission.validate(policy, actual, stable=True, tool_only=tool_only - {tool_prerelease})
+        for key in actual:
+            self.assertIn(policy["closure"][key]["licence"], dependency_admission.ALLOWED)
+            self.assertEqual(policy["closure"][key]["integrity"], actual[key])
 
 
 class LicenceBoundary(unittest.TestCase):
