@@ -160,8 +160,11 @@ fields of `InstallationClaim`, `SessionSummary`, `InstalledProduct` and `DeviceS
 accept exactly the branded products plus these values; the application product IDs (`ApplicationScope`,
 `ApplicationTarget` and the history records) keep the branded set. The published closed HTTP documents
 `public/http/v1/browser.schema.json` and `public/http/v1/native-auth.schema.json` are frozen by the
-CON.17 later-services window and keep the branded set. A tooling test holds the validations and the
-policy to the same domain.
+CON.17 later-services window and keep the branded set. The browser session of an `arcforges-web`
+installation has its own closed document, `public/http/v1/web-browser.schema.json` (`WebBrowserSession`,
+routes under `/session/v1/web/`): the meaning of `BrowserSession` with its own definition names, route
+identities and paths, whose installation claim also admits `arcforges-web`. A tooling test holds the
+validations and the policy to the same domain.
 
 WP00.01 adds one digest-bound registration for DesktopPlatform's generated glossary
 forbidden-alias declaration. Its closed envelope and immutable Design source identity

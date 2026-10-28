@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using ArcForges.Contracts.Foundation.Serialization;
 using ArcForges.Contracts.PublicApi.Http.V1.Browser;
 using ArcForges.Contracts.PublicApi.Http.V1.NativeAuth;
+using ArcForges.Contracts.PublicApi.Http.V1.WebBrowser;
 using ArcForges.Contracts.PublicApi.V1;
 using ArcForges.Contracts.Validation;
 using Google.Protobuf;
@@ -247,6 +248,20 @@ internal static class IdentityCases
         ["BrowserReceipt"] = Codec<BrowserReceipt>(BrowserReceiptJson.TryParse, BrowserReceiptJson.Serialize),
         ["BrowserSessionView"] = Codec<BrowserSessionView>(BrowserSessionViewJson.TryParse, BrowserSessionViewJson.Serialize),
         ["BrowserStepUpEvidence"] = Codec<BrowserStepUpEvidence>(BrowserStepUpEvidenceJson.TryParse, BrowserStepUpEvidenceJson.Serialize),
+        ["WebBrowserAuthChallenge"] = Codec<WebBrowserAuthChallenge>(WebBrowserAuthChallengeJson.TryParse, WebBrowserAuthChallengeJson.Serialize),
+        ["WebBrowserBeginAuthenticationRequest"] = Codec<WebBrowserBeginAuthenticationRequest>(WebBrowserBeginAuthenticationRequestJson.TryParse, WebBrowserBeginAuthenticationRequestJson.Serialize),
+        ["WebBrowserBeginRecoveryRequest"] = Codec<WebBrowserBeginRecoveryRequest>(WebBrowserBeginRecoveryRequestJson.TryParse, WebBrowserBeginRecoveryRequestJson.Serialize),
+        ["WebBrowserBeginStepUpRequest"] = Codec<WebBrowserBeginStepUpRequest>(WebBrowserBeginStepUpRequestJson.TryParse, WebBrowserBeginStepUpRequestJson.Serialize),
+        ["WebBrowserBootstrapResponse"] = Codec<WebBrowserBootstrapResponse>(WebBrowserBootstrapResponseJson.TryParse, WebBrowserBootstrapResponseJson.Serialize),
+        ["WebBrowserCompleteAuthenticationRequest"] = Codec<WebBrowserCompleteAuthenticationRequest>(WebBrowserCompleteAuthenticationRequestJson.TryParse, WebBrowserCompleteAuthenticationRequestJson.Serialize),
+        ["WebBrowserCompleteEnrollmentRequest"] = Codec<WebBrowserCompleteEnrollmentRequest>(WebBrowserCompleteEnrollmentRequestJson.TryParse, WebBrowserCompleteEnrollmentRequestJson.Serialize),
+        ["WebBrowserCompleteRecoveryRequest"] = Codec<WebBrowserCompleteRecoveryRequest>(WebBrowserCompleteRecoveryRequestJson.TryParse, WebBrowserCompleteRecoveryRequestJson.Serialize),
+        ["WebBrowserCompleteStepUpRequest"] = Codec<WebBrowserCompleteStepUpRequest>(WebBrowserCompleteStepUpRequestJson.TryParse, WebBrowserCompleteStepUpRequestJson.Serialize),
+        ["WebBrowserOidcCallbackFailure"] = Codec<WebBrowserOidcCallbackFailure>(WebBrowserOidcCallbackFailureForm.TryParse, WebBrowserOidcCallbackFailureForm.Serialize),
+        ["WebBrowserOidcCallbackSuccess"] = Codec<WebBrowserOidcCallbackSuccess>(WebBrowserOidcCallbackSuccessForm.TryParse, WebBrowserOidcCallbackSuccessForm.Serialize),
+        ["WebBrowserReceipt"] = Codec<WebBrowserReceipt>(WebBrowserReceiptJson.TryParse, WebBrowserReceiptJson.Serialize),
+        ["WebBrowserSessionView"] = Codec<WebBrowserSessionView>(WebBrowserSessionViewJson.TryParse, WebBrowserSessionViewJson.Serialize),
+        ["WebBrowserStepUpEvidence"] = Codec<WebBrowserStepUpEvidence>(WebBrowserStepUpEvidenceJson.TryParse, WebBrowserStepUpEvidenceJson.Serialize),
         ["NativeAuthorizeCallbackFailure"] = Codec<NativeAuthorizeCallbackFailure>(NativeAuthorizeCallbackFailureForm.TryParse, NativeAuthorizeCallbackFailureForm.Serialize),
         ["NativeAuthorizeCallbackSuccess"] = Codec<NativeAuthorizeCallbackSuccess>(NativeAuthorizeCallbackSuccessForm.TryParse, NativeAuthorizeCallbackSuccessForm.Serialize),
         ["NativeAuthorizeRequest"] = Codec<NativeAuthorizeRequest>(NativeAuthorizeRequestForm.TryParse, NativeAuthorizeRequestForm.Serialize),
@@ -421,6 +436,7 @@ internal static class IdentityCases
     {
         AssertRoutes(BrowserSessionRoutes.All.Select(Describe).ToArray(), routes.GetProperty("BrowserSession"), "BrowserSession");
         AssertRoutes(NativeAuthRoutes.All.Select(Describe).ToArray(), routes.GetProperty("NativeAuth"), "NativeAuth");
+        AssertRoutes(WebBrowserSessionRoutes.All.Select(Describe).ToArray(), routes.GetProperty("WebBrowserSession"), "WebBrowserSession");
         var all = BrowserSessionRoutes.All.Select(route => (route.Id, route.Method, route.Path, route.Cache, route.Csrf, route.Origin, route.SetCookie))
             .Concat(NativeAuthRoutes.All.Select(route => (route.Id, route.Method, route.Path, route.Cache, route.Csrf, route.Origin, route.SetCookie))).ToArray();
         Require(all.Select(route => route.Method + " " + route.Path).Distinct().Count() == all.Length, "unique method and path");
@@ -428,9 +444,19 @@ internal static class IdentityCases
         Require(all.Count(route => route.Id.StartsWith("browser.", StringComparison.Ordinal) && route.Method == "POST") == 8 &&
             all.Where(route => route.Id.StartsWith("browser.", StringComparison.Ordinal) && route.Method == "POST").All(route => route.Csrf == "required" && route.Origin == "exact-configured"), "every browser POST requires Origin and CSRF");
         Require(all.Where(route => route.SetCookie == "session").Select(route => route.Id).SequenceEqual(new[] { "browser.completeAuthentication", "browser.completeEnrollment" }), "session cookie only from completion routes");
+        // AF-CTR-03: the arcforges-web browser session keeps the same route semantics under its own paths.
+        var web = WebBrowserSessionRoutes.All.Select(route => (route.Id, route.Method, route.Path, route.Cache, route.Csrf, route.Origin, route.SetCookie)).ToArray();
+        Require(all.Concat(web).Select(route => route.Method + " " + route.Path).Distinct().Count() == all.Length + web.Length, "web routes never share a method and path");
+        Require(web.All(route => route.Cache == "no-store" && route.Id.StartsWith("webBrowser.", StringComparison.Ordinal) && route.Path.StartsWith("/session/v1/web/", StringComparison.Ordinal)), "no-store web session routes");
+        Require(web.Count(route => route.Method == "POST") == 8 && web.Where(route => route.Method == "POST").All(route => route.Csrf == "required" && route.Origin == "exact-configured"), "every web browser POST requires Origin and CSRF");
+        Require(web.Where(route => route.SetCookie == "session").Select(route => route.Id).SequenceEqual(new[] { "webBrowser.completeAuthentication", "webBrowser.completeEnrollment" }), "web session cookie only from completion routes");
+        Require(web.Single(route => route.Id == "webBrowser.logout").SetCookie == "clear", "web logout clears the session cookie");
     }
 
     private static string Describe(BrowserSessionRoute route) =>
+        string.Join("|", route.Id, route.Method, route.Path, route.Credential, route.Origin, route.Csrf, route.SetCookie, route.Cache, route.RequestWire, string.Join(",", route.RequestRoots), route.ResponseWire, string.Join(",", route.ResponseRoots));
+
+    private static string Describe(WebBrowserSessionRoute route) =>
         string.Join("|", route.Id, route.Method, route.Path, route.Credential, route.Origin, route.Csrf, route.SetCookie, route.Cache, route.RequestWire, string.Join(",", route.RequestRoots), route.ResponseWire, string.Join(",", route.ResponseRoots));
 
     private static string Describe(NativeAuthRoute route) =>

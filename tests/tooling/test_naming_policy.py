@@ -258,6 +258,11 @@ class NamingPolicyTests(unittest.TestCase):
             with self.subTest(path=path):
                 schema = json.loads((root / path).read_bytes())
                 self.assertEqual(schema['$defs'][definition]['properties']['product']['enum'], branded)
+        # The browser session of an arcforges-web installation has its own document, which admits that product only.
+        web = json.loads((root / 'public/http/v1/web-browser.schema.json').read_bytes())
+        self.assertEqual(web['$defs']['WebBrowserInstallationClaim']['properties']['product']['enum'],
+                         branded + ['arcforges-web'])
+        self.assertIn('arcforges-web', self.policy['installationProducts']['ids'])
 
     def test_wrong_owner_missing_namespace_and_lost_migration_fail(self):
         for key, value in [('owners', ['Cloud']), ('namespaces', ['Unowned']), ('legacyApplicationIds', [])]:
