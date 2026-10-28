@@ -112,7 +112,8 @@ Every PR into `main` is verified after the push, on the verification host, and g
   - Python (`python` on PATH);
   - Docker with the pinned gitleaks image;
   - `gh` with a credential that can write commit statuses;
-  - network access to GitHub and to the NuGet and npm registries.
+  - network access to GitHub and to the NuGet and npm registries, and for the Go steps to the Go module proxy
+    and checksum database (`proxy.golang.org`, `sum.golang.org`) and the Go vulnerability database (`vuln.go.dev`).
 - **Failures.** A failed, timed-out or unrunnable step reports `failure` and prints the step, the last log lines and the log path (`<git common dir>/arcforges-verify/logs/`). Read the log, fix the cause, push, verify again.
 - **Statuses and rulesets.** A status is reported only by `python eng/verify.py run-and-report` on the host it names, at the commit it verified. Never post, edit or copy an `arcforges/*` status by hand, and never change the ruleset or required checks to get a PR merged.
 - AI agents must never use `git push --no-verify` to bypass required validation.
