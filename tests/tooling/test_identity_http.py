@@ -172,7 +172,9 @@ class IdentityHttpExceptions(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.fixture = load("fixtures/public/con-07-identity.json")
-        cls.documents = {"BrowserSession": load("public/http/v1/browser.schema.json"), "NativeAuth": load("public/http/v1/native-auth.schema.json")}
+        cls.documents = {"BrowserSession": load("public/http/v1/browser.schema.json"), "NativeAuth": load("public/http/v1/native-auth.schema.json"),
+                         # AF-CTR-03: the browser session of an arcforges-web installation, beside the frozen document.
+                         "WebBrowserSession": load("public/http/v1/web-browser.schema.json")}
         cls.root_bundle = {root: bundle for bundle, doc in cls.documents.items() for root in (ref["$ref"].split("/")[-1] for ref in doc["oneOf"])}
 
     def test_vectors_match_an_independent_schema_interpreter(self):
@@ -228,6 +230,10 @@ class IdentityHttpExceptions(unittest.TestCase):
             ("POST", "/session/v1/enrollment/complete"), ("POST", "/session/v1/recovery/begin"), ("POST", "/session/v1/recovery/complete"),
             ("POST", "/session/v1/step-up/begin"), ("POST", "/session/v1/step-up/complete"), ("POST", "/session/v1/logout"),
             ("GET", "/session/v1/providers/{providerId}/callback"), ("GET", "/session/v1/native/authorize"), ("POST", "/session/v1/native/token"),
+            ("GET", "/session/v1/web/bootstrap"), ("POST", "/session/v1/web/authentication/begin"), ("POST", "/session/v1/web/authentication/complete"),
+            ("POST", "/session/v1/web/enrollment/complete"), ("POST", "/session/v1/web/recovery/begin"), ("POST", "/session/v1/web/recovery/complete"),
+            ("POST", "/session/v1/web/step-up/begin"), ("POST", "/session/v1/web/step-up/complete"), ("POST", "/session/v1/web/logout"),
+            ("GET", "/session/v1/web/providers/{providerId}/callback"),
         }
         actual = set()
         for bundle, document in self.documents.items():
@@ -238,7 +244,7 @@ class IdentityHttpExceptions(unittest.TestCase):
                 actual.add((route["method"], route["path"]))
                 self.assertEqual(route["cache"], "no-store")
                 self.assertTrue(set(route["request"]) <= roots and set(route["response"]) <= roots, route["id"])
-                if route["method"] == "POST" and route["id"].startswith("browser."):
+                if route["method"] == "POST" and route["id"].startswith(("browser.", "webBrowser.")):
                     self.assertEqual((route["csrf"], route["origin"]), ("required", "exact-configured"), route["id"])
                 if route["method"] == "GET":
                     self.assertTrue(all(document["$defs"][root].get("x-arcforges-wire") == "form-urlencoded" for root in route["request"]), route["id"])
@@ -248,14 +254,63 @@ class IdentityHttpExceptions(unittest.TestCase):
             self.assertEqual(roots - used, client_redirects, bundle + " has no unrouted root")
             self.assertFalse(used - roots, bundle)
         self.assertEqual(actual, expected_paths)
-        browser_responses = {root for route in self.documents["BrowserSession"]["x-arcforges-routes"] for root in route["response"]}
-        self.assertNotIn("NativeTokenResponse", browser_responses)
+        for bundle in ("BrowserSession", "WebBrowserSession"):
+            browser_responses = {root for route in self.documents[bundle]["x-arcforges-routes"] for root in route["response"]}
+            self.assertNotIn("NativeTokenResponse", browser_responses)
         native_properties = set(self.documents["NativeAuth"]["$defs"]["NativeTokenResponse"]["properties"])
         for root in self.root_bundle:
-            if self.root_bundle[root] == "BrowserSession":
-                props = set(self.documents["BrowserSession"]["$defs"][root]["properties"])
+            if self.root_bundle[root] in ("BrowserSession", "WebBrowserSession"):
+                props = set(self.documents[self.root_bundle[root]]["$defs"][root]["properties"])
                 self.assertFalse({"accessToken", "refreshToken"} & props, root + " never carries native tokens")
         self.assertTrue({"accessToken", "refreshToken"} <= native_properties)
+
+    def test_web_browser_document_mirrors_the_frozen_browser_document_with_the_arcforges_web_product(self):
+        # AF-CTR-03: the CON.17 later-services window freezes BrowserSession, so the browser session of an
+        # arcforges-web installation is its own closed document. It keeps the frozen document's meaning: the same
+        # constraints, wires, bounds and route semantics, with its own definition names (generated names are unique per
+        # output root), route identities and paths, and an installation claim that also admits arcforges-web.
+        frozen, web = self.documents["BrowserSession"], self.documents["WebBrowserSession"]
+        branded = ["arcscope", "companion"]
+        self.assertEqual(frozen["$defs"]["BrowserInstallationClaim"]["properties"]["product"]["enum"], branded)
+        self.assertEqual(web["$defs"]["WebBrowserInstallationClaim"]["properties"]["product"]["enum"], branded + ["arcforges-web"])
+        self.assertEqual((web["title"], web["x-arcforges-schema-version"]), ("WebBrowserSession", "1"))
+        self.assertNotIn("$id", frozen)
+        mirror = json.loads(json.dumps(web))
+        mirror["$defs"]["WebBrowserInstallationClaim"]["properties"]["product"]["enum"].remove("arcforges-web")
+        text = json.dumps(mirror).replace('"/session/v1/web/', '"/session/v1/').replace('"webBrowser.', '"browser.')
+        undone = json.loads(re.sub(r'(?<=["/])WebBrowser(?=[A-Z"])', "Browser", text))
+        self.assertNotEqual(undone.pop("description"), frozen["description"])
+        self.assertEqual(undone, {key: value for key, value in frozen.items() if key != "description"})
+        frozen_paths = {(route["method"], route["path"]) for route in frozen["x-arcforges-routes"]}
+        for route in web["x-arcforges-routes"]:
+            self.assertTrue(route["id"].startswith("webBrowser.") and route["path"].startswith("/session/v1/web/"), route["id"])
+            self.assertNotIn((route["method"], route["path"]), frozen_paths)
+        self.assertFalse(set(web["$defs"]) & set(frozen["$defs"]))
+        # Only PublicApi owns the new document; the retired api-client row keeps its historical schema list.
+        catalog = load("eng/contract-packages.json")["packages"]
+        owners = [row["id"] for row in catalog if "public/http/v1/web-browser.schema.json" in row["jsonSchemas"]]
+        self.assertEqual(owners, ["ArcForges.Contracts.PublicApi"])
+        # The product vectors: the new document admits arcforges-web and refuses the node and mobile products, the
+        # frozen document refuses arcforges-web.
+        vectors = {vector["id"]: vector for vector in self.fixture["httpVectors"]}
+        for vector_id, root, valid in (
+                ("web-browser-begin-authentication-arcforges-web", "WebBrowserBeginAuthenticationRequest", True),
+                ("web-browser-begin-recovery-arcforges-web", "WebBrowserBeginRecoveryRequest", True),
+                ("web-browser-begin-authentication-arcforges-node-refused", "WebBrowserBeginAuthenticationRequest", False),
+                ("web-browser-begin-authentication-arcforges-mobile-refused", "WebBrowserBeginAuthenticationRequest", False),
+                ("web-browser-begin-recovery-arcforges-node-refused", "WebBrowserBeginRecoveryRequest", False),
+                ("browser-begin-authentication-arcforges-web-refused", "BrowserBeginAuthenticationRequest", False),
+                ("browser-begin-recovery-arcforges-web-refused", "BrowserBeginRecoveryRequest", False)):
+            with self.subTest(vector=vector_id):
+                vector = vectors[vector_id]
+                self.assertEqual((vector["root"], vector["valid"]), (root, valid))
+                failure = failure_of(vector["text"], root, self.documents[self.root_bundle[root]], "json")
+                self.assertEqual(failure, None if valid else "invalid")
+        # Every BrowserSession vector is mirrored on the new document with the same bytes and outcome.
+        for vector in self.fixture["httpVectors"]:
+            if self.root_bundle[vector["root"]] == "BrowserSession" and not vector["id"].endswith("-arcforges-web-refused"):
+                copy = vectors["web-" + vector["id"]]
+                self.assertEqual(copy, {**vector, "id": "web-" + vector["id"], "root": "Web" + vector["root"]})
 
     def test_existing_transfer_http_schema_is_untouched(self):
         part = load("public/http/v1/schema.json")

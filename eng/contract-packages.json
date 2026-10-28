@@ -42,7 +42,8 @@
         "public/http/v1/signed-formats.schema.json",
         "public/http/v1/policy-body.schema.json",
         "public/http/v1/browser.schema.json",
-        "public/http/v1/native-auth.schema.json"
+        "public/http/v1/native-auth.schema.json",
+        "public/http/v1/web-browser.schema.json"
       ]
     },
     {

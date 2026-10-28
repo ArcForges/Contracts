@@ -7176,7 +7176,13 @@
           "required": true,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": ["arcscope", "companion"]
+          "enumValues": [
+            "arcscope",
+            "companion",
+            "arcforges-node",
+            "arcforges-mobile",
+            "arcforges-web"
+          ]
         },
         "platform": {
           "required": true,
@@ -7551,7 +7557,13 @@
           "required": true,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": ["arcscope", "companion"]
+          "enumValues": [
+            "arcscope",
+            "companion",
+            "arcforges-node",
+            "arcforges-mobile",
+            "arcforges-web"
+          ]
         },
         "createdAt": {
           "required": true
@@ -7822,7 +7834,13 @@
           "required": true,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": ["arcscope", "companion"]
+          "enumValues": [
+            "arcscope",
+            "companion",
+            "arcforges-node",
+            "arcforges-mobile",
+            "arcforges-web"
+          ]
         },
         "version": {
           "required": true,
@@ -9299,7 +9317,13 @@
           "required": true,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": ["arcscope", "companion"]
+          "enumValues": [
+            "arcscope",
+            "companion",
+            "arcforges-node",
+            "arcforges-mobile",
+            "arcforges-web"
+          ]
         },
         "platform": {
           "required": true,

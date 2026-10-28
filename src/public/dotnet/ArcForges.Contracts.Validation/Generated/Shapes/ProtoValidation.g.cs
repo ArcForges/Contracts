@@ -9585,7 +9585,7 @@ public static class ContractShapeValidation
             if (!ValidUnicode(value.Product)) return false;
             if (ScalarLength(value.Product) > 128) return false;
             if (!Matches(value.Product, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
-            if (value.Product != "arcscope" && value.Product != "companion") return false;
+            if (value.Product != "arcscope" && value.Product != "companion" && value.Product != "arcforges-node" && value.Product != "arcforges-mobile" && value.Product != "arcforges-web") return false;
         }
         if (!value.HasPlatform) return false;
         if (value.HasPlatform)
@@ -13141,7 +13141,7 @@ public static class ContractShapeValidation
             if (!ValidUnicode(value.Product)) return false;
             if (ScalarLength(value.Product) > 128) return false;
             if (!Matches(value.Product, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
-            if (value.Product != "arcscope" && value.Product != "companion") return false;
+            if (value.Product != "arcscope" && value.Product != "companion" && value.Product != "arcforges-node" && value.Product != "arcforges-mobile" && value.Product != "arcforges-web") return false;
         }
         if (!value.HasPlatform) return false;
         if (value.HasPlatform)
@@ -13174,7 +13174,7 @@ public static class ContractShapeValidation
             if (!ValidUnicode(value.Product)) return false;
             if (ScalarLength(value.Product) > 128) return false;
             if (!Matches(value.Product, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
-            if (value.Product != "arcscope" && value.Product != "companion") return false;
+            if (value.Product != "arcscope" && value.Product != "companion" && value.Product != "arcforges-node" && value.Product != "arcforges-mobile" && value.Product != "arcforges-web") return false;
         }
         if (!value.HasVersion) return false;
         if (value.HasVersion)
@@ -15759,7 +15759,7 @@ public static class ContractShapeValidation
             if (!ValidUnicode(value.Product)) return false;
             if (ScalarLength(value.Product) > 128) return false;
             if (!Matches(value.Product, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
-            if (value.Product != "arcscope" && value.Product != "companion") return false;
+            if (value.Product != "arcscope" && value.Product != "companion" && value.Product != "arcforges-node" && value.Product != "arcforges-mobile" && value.Product != "arcforges-web") return false;
         }
         if (value.CreatedAt is null) return false;
         if (!Check(value.CreatedAt, context)) return false;
