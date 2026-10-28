@@ -10,6 +10,9 @@ merge-group and manual diagnostic events validate only; the owner's PRs are vali
 host's verification after the push instead of hosted jobs ([AGENTS.md](../AGENTS.md#verification-after-the-push-ad-0020)). Setting a variable by
 itself does not trigger a run; finish setup before the next main merge.
 
+After `Publish NuGet` succeeds, `Publish Go module tag` tags `go/v<same version>` on the same commit
+for the Go module of the ArcForges center ([below](#go-module-tags-af-ctr-01)).
+
 C# NuGet is the only first-party SDK channel for business clients (CON.40, P2-021
 Decision 4). The [retired channels](#retired-channels-con40) publish no new version;
 their already published versions stay immutable and resolvable.
@@ -50,7 +53,7 @@ by the main push's own `Build candidate` job. The security workflow also runs we
 
 These GitHub-side settings are configured for this repository, including the
 required `Verify` and `arcforges/linux` checks and the PR requirement on main (zero required review approvals).
-CodeQL analyses C#, JavaScript/TypeScript and Python. The `CodeQL (java-kotlin)` job
+CodeQL analyses C#, JavaScript/TypeScript, Python and Go. The `CodeQL (java-kotlin)` job
 is removed (CON.40); if branch protection still lists it as a required check, the
 repository owner removes that requirement, because the job no longer reports. Normal operation uses `NUGET_PUBLISH_ENABLED=true` and
 `NPM_PUBLISH_MODE=oidc`; the WP03.00 first publication temporarily used bootstrap
@@ -175,6 +178,35 @@ Tokens invalidates the credential itself. Keep the package trusted-publisher
 connections and the GitHub `npm` environment. Registry publication does not
 establish product or Android device acceptance.
 
+## Go module tags (AF-CTR-01)
+
+The Go module `github.com/ArcForges/Contracts/go` is published by a Git tag, not by a registry
+upload: the Go module proxy (`proxy.golang.org`) serves a public tag on first request and the
+checksum database (`sum.golang.org`) records its hashes for good.
+
+- **When.** The `publish-go` job of `ci.yml` needs `candidate` and `publish-nuget`, so it runs on a
+  main or canonical `v*` push only after the NuGet cohort of the same candidate published. A skipped
+  or failed NuGet job skips it. It needs no variable, environment or registry account.
+- **What.** It creates the lightweight tag `go/v<version>` on the publishing commit (`GITHUB_SHA`),
+  where `<version>` is the candidate version: `1.0.0-ci.<run-number>.<run-attempt>` on main, `X.Y.Z`
+  for a canonical `vX.Y.Z` tag. The job token has `contents: write` for this job only. An existing tag
+  at the same commit is accepted (a rerun); a tag at another commit fails the job and is never moved,
+  deleted or recreated. A Go module at major version 2 or later needs a `/v2` module path, so a
+  `v2.0.0` or later formal release is refused by packing until a reviewed module identity change.
+- **Handoff.** The candidate carries `go-module.json` with the module-zip and `go.mod` hashes computed
+  from the commit (the same hashes the go command computes; the Go check proves it before merge). After
+  tagging, the job resolves the version once through the proxy (`.info`, with the commit as its origin)
+  and the checksum database (`lookup`), and requires the recorded hashes; it downloads no module zip.
+  It retries with bounded backoff while the proxy fetches the new tag; a persistent failure leaves the
+  tag in place and fails the job with the exact response for diagnosis.
+- **Version set.** The Go module joins the version set of a candidate: treat a version as complete
+  only when the NuGet packages, `@arcforges/ai-internal` and the `go/v<version>` tag all exist.
+  Rerunning a failed `publish-go` job keeps the original candidate and tag; rerunning all jobs creates
+  a new candidate and a new version, as for NuGet.
+
+Go consumers pin the exact version in `go.mod` and commit `go.sum`; the go command verifies the
+module against the checksum database ([consuming](consuming.md#go-center-bindings)).
+
 ## Retired channels (CON.40)
 
 CON.40 stops new publication of these identities from main. Their catalog rows stay
@@ -255,7 +287,7 @@ above continues. These mutable tags do not alter consumer locks.
 ## 6. Failure and retry
 
 Registries do not provide an atomic transaction spanning all eighteen active
-packages (seventeen NuGet and one npm).
+packages (seventeen NuGet and one npm) and the Go module tag.
 Treat the common version as usable only after all required packages are present.
 Do not promote a partially published set by changing a client's dependency to an
 unrelated version.

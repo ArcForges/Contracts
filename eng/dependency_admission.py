@@ -34,6 +34,36 @@ def pinned(version):
                   and 'SNAPSHOT' not in version, 'Floating or mutable selector: ' + str(version))
 
 
+GO_SUMS = ('go/go.sum', 'go/tools/go.sum')
+GO_VERSION = re.compile(r'v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?(?:\+incompatible)?')
+GO_PUBLISHER = {'module': 'github.com/ArcForges/Contracts/go', 'tagPrefix': 'go/v', 'proxy': 'https://proxy.golang.org',
+                'checksumDatabase': 'https://sum.golang.org', 'credential': 'github-token-contents-write'}
+
+
+def go_sum_rows(root, path):
+    """(module, version, h1 hash) of each module archive go.sum verifies; go.mod-only lines carry no code."""
+    rows = []
+    for line in (root / path).read_text(encoding='utf-8').splitlines():
+        parts = line.split()
+        reject_unless(len(parts) == 3 and parts[2].startswith('h1:'), 'Malformed go.sum line in ' + path)
+        module, version, digest = parts
+        if version.endswith('/go.mod'):
+            continue
+        reject_unless(GO_VERSION.fullmatch(version) is not None, 'Floating or invalid Go module version: ' + line)
+        rows.append((module, version, digest))
+    return rows
+
+
+def go_tool_only(root):
+    """Admitted Go archives that only the never-published tools module (go/tools) verifies: build tooling, outside
+    the stable product closure, as the Build.Policy package is."""
+    tools = {f'go:{module}@{version}' for module, version, _ in go_sum_rows(root, 'go/tools/go.sum')} \
+        if (root / 'go/tools/go.sum').is_file() else set()
+    runtime = {f'go:{module}@{version}' for module, version, _ in go_sum_rows(root, 'go/go.sum')} \
+        if (root / 'go/go.sum').is_file() else set()
+    return tools - runtime
+
+
 def stable_dependency(key):
     if key == BUILD_POLICY_KEY:
         return True  # Test/build-only tooling is excluded from the stable product/runtime closure.
@@ -55,7 +85,8 @@ def input_paths(root):
                 '.lockfile', 'packages.lock.json', 'package.json', 'package-lock.json', 'verification-metadata.xml'))
             or p in {'global.json', 'NuGet.config', '.npmrc', '.node-version', '.java-version', '.python-version',
                      'gradle/libs.versions.toml', 'gradle/verification-metadata.xml',
-                     'gradle/wrapper/gradle-wrapper.properties', 'eng/toolchain.json', 'eng/contract-packages.json', 'eng/policy/contract-access.json'}
+                     'gradle/wrapper/gradle-wrapper.properties', 'eng/toolchain.json', 'eng/contract-packages.json', 'eng/policy/contract-access.json',
+                     'go/go.mod', 'go/go.sum', 'go/tools/go.mod', 'go/tools/go.sum', 'go/toolchain.json'}
             or p.startswith(('eng/provenance/records/', 'eng/provenance/artifact-profiles/', 'eng/provenance/retirements/'))]
 
 
@@ -94,6 +125,10 @@ def inventory(root):
                 pinned(row['version'])
                 reject_unless(row.get('resolved', '').startswith('https://registry.npmjs.org/'), 'Untrusted npm feed')
                 admit('npm:' + name.rsplit('node_modules/', 1)[1] + '@' + row['version'], row.get('integrity'))
+        elif path in GO_SUMS:
+            # AF-CTR-01: every Go module archive that go.sum verifies, keyed by its exact module version.
+            for module, version, digest in go_sum_rows(root, path):
+                admit('go:' + module + '@' + version, digest)
         elif path.endswith('.lockfile'):
             for line in (root / path).read_text().splitlines():
                 if not line.startswith('#') and ':' in line:
@@ -104,7 +139,7 @@ def inventory(root):
     return result
 
 
-def validate(policy, actual, stable=False):
+def validate(policy, actual, stable=False, tool_only=frozenset()):
     reject_unless(policy['schemaVersion'] == 1 and policy['repository'] == 'Contracts', 'Wrong owner policy')
     reject_unless(set(actual) == set(policy['closure']), 'Unadmitted dependency closure')
     for key, digest in actual.items():
@@ -117,7 +152,7 @@ def validate(policy, actual, stable=False):
             reject_unless(entry['licence'] in ALLOWED, 'Forbidden or unreviewed licence: ' + key)
         reject_unless(entry['evidence'] and all(re.fullmatch('[0-9a-f]{64}', e['sha256']) and e['source']
                                               for e in entry['evidence']), 'Missing exact source evidence')
-        if stable:
+        if stable and key not in tool_only:
             reject_unless(stable_dependency(key), 'Stable closure contains prerelease: ' + key)
     review = policy['review']
     reject_unless(review['owner'] and review['reviewer'] and review['maintenanceAssessment'], 'Missing review')
@@ -127,7 +162,8 @@ def validate(policy, actual, stable=False):
     reject_unless(policy['publisher'] == {'repository': 'ArcForges/Contracts', 'workflow': 'ci.yml',
                   'nuget': {'feed': 'https://api.nuget.org/v3/index.json', 'environment': 'nuget', 'credential': 'github-oidc'},
                   'npm': {'feed': 'https://registry.npmjs.org/', 'environment': 'npm', 'credential': 'github-oidc'},
-                  'maven': {'environment': 'maven-central', 'credential': 'central-token-and-formal-pgp'}},
+                  'maven': {'environment': 'maven-central', 'credential': 'central-token-and-formal-pgp'},
+                  'go': GO_PUBLISHER},
                   'Wrong publisher or feed')
     reject_unless(policy['publicInternalGate'] == 'eng/policy/contract-access.json', 'Public/internal guard missing')
 
@@ -229,8 +265,12 @@ def immutable_coordinates(policy, receipts):
 
 def frameworks(root):
     # CON.40 retired the Gradle/Kotlin toolchain (gradle/libs.versions.toml); its pins leave the selection.
-    return {'dotnetSdk': json.loads((root / 'global.json').read_text())['sdk']['version'],
-            'node': (root / '.node-version').read_text().strip()}
+    selected = {'dotnetSdk': json.loads((root / 'global.json').read_text())['sdk']['version'],
+                'node': (root / '.node-version').read_text().strip()}
+    if (root / 'go/toolchain.json').is_file():
+        # AF-CTR-01: the pinned Go release of the Go bindings module.
+        selected['go'] = json.loads((root / 'go/toolchain.json').read_text())['goVersion'].removeprefix('go')
+    return selected
 
 
 def major_upgrade(before, after):
@@ -272,7 +312,7 @@ def audit(root=ROOT, stable=False):
     policy = json.loads((root / POLICY).read_text())
     reject_unless(policy['inputHashes'] == input_hashes(root), 'Dependency input drift requires reviewed upgrade receipt')
     actual = inventory(root)
-    validate(policy, actual, stable)
+    validate(policy, actual, stable, go_tool_only(root))
     validate_architecture_policy_boundary(root, actual)
     review_history(root, policy)
     reject_unless([e.get('value') for e in ET.parse(root / 'NuGet.config').findall('./packageSources/add')]

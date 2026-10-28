@@ -34,11 +34,17 @@ def unique(pairs):
     return result
 
 
+# AF-CTR-01: the published Go bindings module and its never published tools module. A Go module has no licence
+# property; the published one carries the repository's Apache-2.0 LICENSE in its module root (the module zip holds
+# only the module directory), and neither may require another first-party Go module or replace a dependency.
+GO_MODULES = {'go/go.mod': 'github.com/ArcForges/Contracts/go', 'go/tools/go.mod': 'github.com/ArcForges/Contracts/go/tools'}
+
+
 def project_kind(path):
     if path.suffix in PROJECT_SUFFIXES:
         return 'msbuild'
     return {'package.json': 'npm', 'build.gradle.kts': 'gradle',
-            'build.gradle': 'gradle', 'CMakeLists.txt': 'cmake'}.get(path.name)
+            'build.gradle': 'gradle', 'CMakeLists.txt': 'cmake', 'go.mod': 'go'}.get(path.name)
 
 
 def check_package(name):
@@ -100,6 +106,14 @@ def audit(root=ROOT):
             package = document(name)
             require(package.get('license') == 'Apache-2.0' and package.get('arcforges', {}).get('licenceBoundary') == 'Apache' and set(package.get('arcforges', {})) <= {'licenceBoundary', 'contractAccess'},
                     f'Missing/incorrect npm declaration: {name}')
+        elif kind == 'go':
+            module = re.findall(r'^module (\S+)$', text, re.M)
+            require(name in GO_MODULES and module == [GO_MODULES[name]], f'Unreviewed Go module: {name}')
+            require(not re.search(r'^\s*replace\b', text, re.M), f'Go module replaces a dependency: {name}')
+            require(not re.search(r'^\s*(?:require\s+)?github\.com/ArcForges/', text, re.M),
+                    f'Go module requires a first-party module: {name}')
+            if name == 'go/go.mod':
+                require(read('go/LICENSE') == read('LICENSE'), 'The published Go module must carry the Apache-2.0 LICENSE')
         elif kind == 'gradle':
             for prop, expected in [('spdxLicense', 'Apache-2.0'), ('licenceBoundary', 'Apache')]:
                 require(re.findall(r'extra\["' + prop + r'"\]\s*=\s*"([^"\n]+)"', text) == [expected],

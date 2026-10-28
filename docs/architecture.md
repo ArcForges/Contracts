@@ -3,9 +3,10 @@
 ## Authored source and generated output
 
 The authored proto trees, JSON schemas and constraint sidecars own the wire and
-validation shapes. `eng/contract-packages.json` holds 25 package rows: the 18 active
+validation shapes. `eng/contract-packages.json` holds 26 package rows: the 19 active
 outputs (17 NuGet packages, including the CON.43 Dispatch package and the four AF-CON-01
-flagship packages, and the internal npm package `@arcforges/ai-internal`) and
+flagship packages, the internal npm package `@arcforges/ai-internal` and the internal Go
+module `github.com/ArcForges/Contracts/go` of AF-CTR-01) and
 seven rows that CON.40 retired from new publication (four npm and three Maven), kept
 and marked `retired`. The initial source slices are fixed by the
 [WP03.00 structure profile](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/26f15ebf6278e8cd42c2b2396e82c326513e1078/docs/assurance/wp03-00-contract-structure-profile.md).
@@ -39,8 +40,9 @@ references to internal contracts. It keeps every historical access row of a reti
 identity unchanged and marked retired, and refuses a new row for it.
 
 The pinned Grpc.Tools protoc and gRPC C# plugin generate per-owner C# bindings.
-C# is the only generated business binding language: the protobuf-es, Java/Kotlin lite
-and Connect-Kotlin generators are retired with their packages (CON.40). The content
+C# is the only generated binding language for business clients: the protobuf-es, Java/Kotlin lite
+and Connect-Kotlin generators are retired with their packages (CON.40). The Go bindings of
+AF-CTR-01 serve the ArcForges center, not business clients ([below](#go-bindings-af-ctr-01)). The content
 schema contains no services. Extension IPC is C# only. Generated sources are committed and regenerated
 into temporary directories for comparison. JSON schema and constraint generators
 emit concrete models and AOT-compatible C# validation; for the internal HTTP schemas
@@ -52,6 +54,53 @@ tests. The CLI validates the declared inventory.v1 JSON shape; it does not inspe
 archive payload bytes or decide signatures, trust or authorization. The SDK client
 composes a caller-owned CallInvoker for RenewLease and validates its request. The
 caller owns transport, session, authentication and lifecycle.
+
+## Go bindings (AF-CTR-01)
+
+ArcForges-Design [AD-0021](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/decisions/AD-0021-central-access-go-center.md)
+§8 moves business decisions to a Go center that consumes Go bindings generated here from the same
+`.proto` files. The Go module `github.com/ArcForges/Contracts/go` (directory `go/`, catalog row kind
+`go`, channel `go-module`) holds one Go package per proto package of the center's contracts and their
+import closure: `foundation.v1`, `hello.v1`, `publicapi.v1`, `catalog.v1` (imported only by
+`operator.v1`), `node.v1`, `fleet.v1` and the internal `relay.v1` and `operator.v1` (the center
+serves the operator contracts; [scope note](engineering-controls.md#generated-packages-beyond-the-tasks-list)), at
+`go/arcforges/<name>/v1` with package name `<name>v1`, and a `<name>v1connect` package for the
+services of each. The proto files carry no `go_package` option: protoc `M` options map every file
+from the catalog row, so the `.proto` files and the C# and npm descriptor baselines are unchanged.
+
+- **Generation.** `python eng/contracts.py generate` runs the Go stage after the C# one
+  (`eng/go_bindings.py`): the Grpc.Tools `protoc` with `protoc-gen-go` (google.golang.org/protobuf)
+  and `protoc-gen-connect-go` (connectrpc.com/connect/v2), built from the never published tools
+  module `go/tools`, which pins them (and staticcheck and govulncheck) as `tool` dependencies with
+  `go.sum`. Each package also gets a generated `doc.go` that names its proto package and contract
+  access. `generate --check` refuses any byte difference; the generated files are committed and
+  never edited.
+- **Module.** `go/go.mod` requires exactly `google.golang.org/protobuf` and
+  `connectrpc.com/connect/v2`, at the versions the tools generate with, so a consumer's module graph
+  gains no generator or analyser. Every Go command runs with `GOTOOLCHAIN=local`,
+  `GOFLAGS=-mod=readonly` and the release pinned in `go/toolchain.json`. The module root carries the
+  repository's Apache-2.0 `LICENSE` and a `NOTICE`.
+- **Access.** The module's contract access is `internal`, as for `@arcforges/ai-internal`: it is
+  published (the Go module proxy serves public tags) for first-party ArcForges services, and it is
+  not a business-client SDK channel. The public contract packages keep their public schemas; the
+  internal `relay.v1` and `operator.v1` packages do not use Go's `internal/` directory, which would
+  stop the center (another module) from importing them. Go imports never lead from a public contract
+  package to an internal one.
+- **Compatibility.** The offline Go tests (`go/internal/compat`) decode and re-encode the foundation,
+  serialization, descriptor, sync, Hello and error-catalogue fixtures (the exact set:
+  [fixture coverage](engineering-controls.md#fixture-coverage)), compare every embedded Go
+  descriptor with the compiled schema and carry foundation.v1
+  `ArcError` values as Connect error details over the Connect, gRPC and gRPC-Web protocols. The
+  exchange step sends a reference-codec sample of every message and oneof arm through the generated
+  C# codecs, then the generated Go codecs, then back to C# and to the reference reader.
+- **Serialization.** The generated protobuf code is the only Go wire implementation. Go sources
+  outside the tests import no protobuf JSON mapping, Any or Struct, dynamic messages, runtime
+  registry or server reflection; the WP03.02 limits are configured by the consumer
+  ([consuming](consuming.md#go-center-bindings)).
+
+[Engineering controls](engineering-controls.md) maps every control to its Go equivalent and records
+why the Go bindings need no Windows leg; [releasing](releasing.md#go-module-tags-af-ctr-01) describes
+the tag publication.
 
 ## Foundation values and profile validation
 

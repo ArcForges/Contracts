@@ -11,8 +11,8 @@
     "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
     "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
-    "eng/contract-packages.json": "4c994babcacb1c6a43f4eb1a13c1e8d039877c1408285582d409e75fcbca10b9",
-    "eng/policy/contract-access.json": "65728baf990420e84296d10d101058e0d29237e393c81da8f67180e0c031915a",
+    "eng/contract-packages.json": "f09f82c33b724f398e173bd1694841b4f821d3c5e4d6db81654d908c75975d99",
+    "eng/policy/contract-access.json": "459b5a12a0765b784bf1535605c439593d7b7df689a759f663b8df882adb31a2",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -35,11 +35,13 @@
     "eng/provenance/artifact-profiles/dokka-2-2-0-r8.json": "224432d3957639e42fb429aa2841d80dbfd10aaec18b8ab3b4bf3851829f2089",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r9.json": "8fae9b8b9ba086ce05ca66b48604e1f96afbb14f89da00cc9d2b5e4dbd839ac5",
     "eng/provenance/records/canonical-apache-licence-r1.json": "e4252278767a0b4dd27a09a50b176c9420469828345e61336a4b5ca1d17c7b44",
+    "eng/provenance/records/canonical-apache-licence-r2.json": "1b2ec73f35eb6dbe28895cf20bb3b37aeeb3f443fb487a91217861707da14c2a",
     "eng/provenance/records/con-12-bindings-r1.json": "b69ba75443f90ab4e31ceca63b95ef84e59d8be90ba1a6d6d2760bfafc8b026a",
     "eng/provenance/records/con02-descriptor-bindings-r1.json": "0f3b130e1cfacae47cc5bd49c6b0381cfdacfb3f9e65119ed0a450d0465a7d93",
     "eng/provenance/records/con17-later-service-descriptors-r1.json": "52c1ec9a974469c7e511c12f42e21a1029a70e60a7e9e4af30901dec3e7eadee",
     "eng/provenance/records/con17-published-descriptors-r1.json": "b0f35abb8edcaa665d53663f5eaad3cd7825195fd93bbe093101e29452bed97c",
     "eng/provenance/records/con17-semantic-export-r1.json": "9ae65ee01b25241105c986f5f696eb3bc99c23e165613ba227e094424b64d720",
+    "eng/provenance/records/connect-go-licence-r1.json": "f9a3410d7a7d8b3774530165a0123c848f5305735fbfd2a26e81b7ffef575ee1",
     "eng/provenance/records/contract-bindings-af-con-01-r1.json": "30903bb6618a6d9c815c41014d2283da37ff5cbf6449b3fde86776681e802167",
     "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
     "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
@@ -171,6 +173,8 @@
     "eng/provenance/records/dokka-which-boxed-primitive-licence-r1.json": "18ad9e03d27cfe2816725f58ceacf04fbfb7381023fad7a82c498c29dd103291",
     "eng/provenance/records/dokka-which-collection-licence-r1.json": "60f258f62506034ec8d91900cbccedc782055d9c3c5f61da6b0b1c1fb9dd819d",
     "eng/provenance/records/dokka-which-typed-array-licence-r1.json": "8351998c7f87386e6e0fcf5145db40852364e1c8152c6ebe2c396d11e7756b6f",
+    "eng/provenance/records/go-bindings-af-ctr-01-r1.json": "2716c0ae34bced2a2ae87b63a5fcc4b8cf1fc4f3997862ab66059a5d71f7f072",
+    "eng/provenance/records/go-protobuf-licence-r1.json": "a9fb8d247113f025813e5562ab10e72d92d7f5055cece829b64b8e13785b0ffd",
     "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
     "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
     "eng/provenance/records/protobuf-generator-licence-r1.json": "0d7fc75eb1453908b2954c182e895ff5da49c5000f04b5d66d8449f552be1f81",
@@ -178,6 +182,11 @@
     "eng/provenance/retirements/con-40-npm.json": "4911dd0c111a74f6953c5d7c9c5bb09fa10959275322a3ac51bde34fea18be23",
     "eng/provenance/retirements/contracts-client-wp03-00.json": "3dbc212a56e678bea10950909a2ae1ad7fc8f2f3640421d02c8f80d2c22c1126",
     "global.json": "c39786ab1a147662bbe4db015f900165178875ec4a872ddae53bc0c90771ac34",
+    "go/go.mod": "a411a8290d10ad572bd310ea293ea7adb6754d935b81d3bcf0ff59efe4553187",
+    "go/go.sum": "b01034abad848408362f1f2a67db5d1eb6d93e05813723efe0d8e26d363ff1eb",
+    "go/toolchain.json": "3b5365d675298ae44f035402aa65c7aaf733cbea58e2aa462c57d569112f2f53",
+    "go/tools/go.mod": "f3d2d5603014b1334198643b8a2be357d63778a4884482f8ab9c4afc06d48f78",
+    "go/tools/go.sum": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561",
     "package-lock.json": "d44b7ef6159d74205b89abb6a8fada91652c7b3c4f7642685b6e189c6d569284",
     "package.json": "67d22bf8641404e51f11847c2878e8537e79a0f8e958cb7b893cc2cbb21e7cb3",
     "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj": "d60341c571cce8fdf90f7a06938ae71af87fbbccafff26f8819ef6a458738e4d",
@@ -219,8 +228,8 @@
     "tests/ArchitectureTests/packages.lock.json": "755cb1bde873ec0d1e5e1db359aaef6821b095b0b94980d3bbcd24b09645214f",
     "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
     "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
-    "tests/StructureTests/StructureTests.csproj": "09d82e8a65ae8ebc5cff2906af91d9d7ca09bec050768804e1e3d2d87f6b39c1",
-    "tests/StructureTests/packages.lock.json": "b7c700360fe0301db9ef012db19344890102d3f3cd5fd89468ebf5dea157f553",
+    "tests/StructureTests/StructureTests.csproj": "dc46e2029371daea08810a0b0869c2b6c7eef61de95c5d8e6a4fa8cc68a709bc",
+    "tests/StructureTests/packages.lock.json": "122fe212f81237edc7d86a7cf3f69585b4df522e1b281328dbdce117d9ed6366",
     "tests/public/HelloClient/HelloClient.csproj": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a",
     "tests/public/HelloClient/packages.lock.json": "1592ed0d5c1bc731764993c0629fbc4954673001b4757800f0c7511ac1e462e7",
     "tests/public/HelloHost/HelloHost.csproj": "c7ac2acb49c079907c4fdbe9a937421d93146f4b87e92546032d7881fadc6035",
@@ -229,6 +238,258 @@
     "tests/public/SerializationProbe/packages.lock.json": "a59c32628e487c98c50271a50ff397e2302bbc1f01824cdc7a636005c88d29aa"
   },
   "closure": {
+    "go:connectrpc.com/connect/v2@v2.0.2": {
+      "integrity": "h1:PoPDmOlhc46elsuCdKCKTxjNBb3HJlKF+s/sP2oucPw=",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "go/go.sum#connectrpc.com/connect/v2@v2.0.2",
+          "sha256": "b01034abad848408362f1f2a67db5d1eb6d93e05813723efe0d8e26d363ff1eb"
+        },
+        {
+          "source": "go/tools/go.sum#connectrpc.com/connect/v2@v2.0.2",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/connectrpc.com/connect/v2/@v/v2.0.2.zip#connectrpc.com/connect/v2@v2.0.2/LICENSE",
+          "sha256": "595c92e7a9bc933c07da143f527d199e2fc3010e2afd8a8c0654c1f43bfa076c"
+        }
+      ],
+      "scope": "runtime closure of the published Go bindings module go/ (required by go/go.mod and verified by go.sum); referenced, not vendored"
+    },
+    "go:github.com/BurntSushi/toml@v1.4.1-0.20240526193622-a339e1f7089c": {
+      "integrity": "h1:pxW6RcqyfI9/kWtOwnv/G+AzdKuy2ZrqINhenH4HyNs=",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#github.com/BurntSushi/toml@v1.4.1-0.20240526193622-a339e1f7089c",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/github.com/!burnt!sushi/toml/@v/v1.4.1-0.20240526193622-a339e1f7089c.zip#github.com/BurntSushi/toml@v1.4.1-0.20240526193622-a339e1f7089c/COPYING",
+          "sha256": "d21cb1c60785d6d3a84a7059323ccafc45c645b1bbda281c76a62d66ad2d7dc3"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
+    "go:github.com/google/go-cmdtest@v0.4.1-0.20220921163831-55ab3332a786": {
+      "integrity": "h1:rcv+Ippz6RAtvaGgKxc+8FQIpxHgsF+HBzPyYL2cyVU=",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#github.com/google/go-cmdtest@v0.4.1-0.20220921163831-55ab3332a786",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/github.com/google/go-cmdtest/@v/v0.4.1-0.20220921163831-55ab3332a786.zip#github.com/google/go-cmdtest@v0.4.1-0.20220921163831-55ab3332a786/LICENSE",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
+    "go:github.com/google/go-cmp@v0.7.0": {
+      "integrity": "h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "go/go.sum#github.com/google/go-cmp@v0.7.0",
+          "sha256": "b01034abad848408362f1f2a67db5d1eb6d93e05813723efe0d8e26d363ff1eb"
+        },
+        {
+          "source": "go/tools/go.sum#github.com/google/go-cmp@v0.7.0",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/github.com/google/go-cmp/@v/v0.7.0.zip#github.com/google/go-cmp@v0.7.0/LICENSE",
+          "sha256": "17b5d209ba8f9684257ecfcff87df6ceda6194143a8fbd074f29727cff6f0c40"
+        }
+      ],
+      "scope": "runtime closure of the published Go bindings module go/ (required by go/go.mod and verified by go.sum); referenced, not vendored"
+    },
+    "go:github.com/google/renameio@v0.1.0": {
+      "integrity": "h1:GOZbcHa3HfsPKPlmyPyN2KEohoMXOhdMbHrvbpl2QaA=",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#github.com/google/renameio@v0.1.0",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/github.com/google/renameio/@v/v0.1.0.zip#github.com/google/renameio@v0.1.0/LICENSE",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
+    "go:golang.org/x/exp/typeparams@v0.0.0-20231108232855-2478ac86f678": {
+      "integrity": "h1:1P7xPZEwZMoBoz0Yze5Nx2/4pxj6nw9ZqHWXqP0iRgQ=",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#golang.org/x/exp/typeparams@v0.0.0-20231108232855-2478ac86f678",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/golang.org/x/exp/typeparams/@v/v0.0.0-20231108232855-2478ac86f678.zip#golang.org/x/exp/typeparams@v0.0.0-20231108232855-2478ac86f678/LICENSE",
+          "sha256": "2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
+    "go:golang.org/x/mod@v0.42.0": {
+      "integrity": "h1:ICeL3t2L30ljSPHHxDnR4fqVcBt/zR2zJAb9juavmQg=",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#golang.org/x/mod@v0.42.0",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/golang.org/x/mod/@v/v0.42.0.zip#golang.org/x/mod@v0.42.0/LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
+    "go:golang.org/x/sync@v0.24.0": {
+      "integrity": "h1:iqiDrGoDgyuvAKrhLQthUEzU/R378N78gXbBjxed7oA=",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#golang.org/x/sync@v0.24.0",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/golang.org/x/sync/@v/v0.24.0.zip#golang.org/x/sync@v0.24.0/LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
+    "go:golang.org/x/sys@v0.49.0": {
+      "integrity": "h1:XbzkgYJHdqh/8m2Uu0W/dQv8nktxx4BFHp1M0gROTXA=",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#golang.org/x/sys@v0.49.0",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/golang.org/x/sys/@v/v0.49.0.zip#golang.org/x/sys@v0.49.0/LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
+    "go:golang.org/x/telemetry@v0.0.0-20261010193011-f71dc92da45e": {
+      "integrity": "h1:P6NGsugec4oASJ+yKMNgTndeo0h2CbixZLvQIe9h5R4=",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#golang.org/x/telemetry@v0.0.0-20261010193011-f71dc92da45e",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/golang.org/x/telemetry/@v/v0.0.0-20261010193011-f71dc92da45e.zip#golang.org/x/telemetry@v0.0.0-20261010193011-f71dc92da45e/LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
+    "go:golang.org/x/tools/go/expect@v0.1.1-deprecated": {
+      "integrity": "h1:jpBZDwmgPhXsKZC6WhL20P4b/wmnpsEAGHaNy0n/rJM=",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#golang.org/x/tools/go/expect@v0.1.1-deprecated",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/golang.org/x/tools/go/expect/@v/v0.1.1-deprecated.zip#golang.org/x/tools/go/expect@v0.1.1-deprecated/LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
+    "go:golang.org/x/tools/go/packages/packagestest@v0.1.1-deprecated": {
+      "integrity": "h1:1h2MnaIAIXISqTFKdENegdpAgUXz6NrPEsbIeWaBRvM=",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#golang.org/x/tools/go/packages/packagestest@v0.1.1-deprecated",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/golang.org/x/tools/go/packages/packagestest/@v/v0.1.1-deprecated.zip#golang.org/x/tools/go/packages/packagestest@v0.1.1-deprecated/LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
+    "go:golang.org/x/tools@v0.52.0": {
+      "integrity": "h1:ryxg4U63oaUYk7uOLTF37n43f4qgtGvqV4Ioit1BaEs=",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#golang.org/x/tools@v0.52.0",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/golang.org/x/tools/@v/v0.52.0.zip#golang.org/x/tools@v0.52.0/LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
+    "go:golang.org/x/vuln@v1.9.0": {
+      "integrity": "h1:12VaqnI9kJfqwRoPptxoqsUhQtdfrSbdksT7X/KY/sc=",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#golang.org/x/vuln@v1.9.0",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/golang.org/x/vuln/@v/v1.9.0.zip#golang.org/x/vuln@v1.9.0/LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
+    "go:google.golang.org/protobuf@v1.36.12": {
+      "integrity": "h1:pJOKDDOyeXErUroCihFAd5LQuwXBSpVnKGrj5o/fwxc=",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "go/go.sum#google.golang.org/protobuf@v1.36.12",
+          "sha256": "b01034abad848408362f1f2a67db5d1eb6d93e05813723efe0d8e26d363ff1eb"
+        },
+        {
+          "source": "go/tools/go.sum#google.golang.org/protobuf@v1.36.12",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/google.golang.org/protobuf/@v/v1.36.12.zip#google.golang.org/protobuf@v1.36.12/LICENSE",
+          "sha256": "4835612df0098ca95f8e7d9e3bffcb02358d435dbb38057c844c99d7f725eb20"
+        }
+      ],
+      "scope": "runtime closure of the published Go bindings module go/ (required by go/go.mod and verified by go.sum); referenced, not vendored"
+    },
+    "go:honnef.co/go/tools@v0.8.2": {
+      "integrity": "h1:+jPbCzuYxYrcoOvCecYUFDj+XJQRmzIhJmlbpps21Zk=",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#honnef.co/go/tools@v0.8.2",
+          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+        },
+        {
+          "source": "https://proxy.golang.org/honnef.co/go/tools/@v/v0.8.2.zip#honnef.co/go/tools@v0.8.2/LICENSE",
+          "sha256": "f221780eca6d16dc9dce29ce46cd089ce1ca1178998b31ebbcc89ff822c6072b"
+        }
+      ],
+      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+    },
     "npm:@bufbuild/protobuf@2.15.0": {
       "integrity": "sha512-DAheWUkVr/SJTWCc+lg9dhY0eN4SaWlf4+bG1KzHeXbnqt0AfB/NX0Z+VunGlM1ki1B4zVvye27MpKh/svySUA==",
       "licence": "(Apache-2.0 AND BSD-3-Clause)",
@@ -493,6 +754,28 @@
       ],
       "scope": "Exact build-only source-link policy engine for the non-packable Contracts ArchitectureTests host; direct reference only, PrivateAssets=all, never a product/runtime or public package dependency."
     },
+    "nuget:arcforges.contracts.foundation@1.0.0-ci.113.1": {
+      "integrity": "k51yFjKnec92FJEfOM3/6YEhnbi1wfO4gztqjlhLumg7USTjVnA7ab7rE4X/H1cDb62Ny4c2ufn8Xi/CtBaZnA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.contracts.foundation/1.0.0-ci.113.1/arcforges.contracts.foundation.nuspec",
+          "sha256": "7726a233f9ce81c4373a2ab9423c33d566b919bb2cb90d2b5577cf844bbbbfc4"
+        }
+      ],
+      "scope": "Exact previously published first-party fixture consumed only by the isolated offline PreviousClient test executable; never a production package dependency."
+    },
+    "nuget:arcforges.contracts.publicapi@1.0.0-ci.113.1": {
+      "integrity": "1ai2jcqdFfKLHahN62N9dqkcSsAEbgK/K5uQi4LDIUFDGaT38/2KJYYykrb/YLO2UyUBpFjxJmTk++A+4mr8Uw==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.contracts.publicapi/1.0.0-ci.113.1/arcforges.contracts.publicapi.nuspec",
+          "sha256": "ff556689167901646fc045bdf691fdd2c8b72b25cb848e9312ff384d0b0e7216"
+        }
+      ],
+      "scope": "Exact previously published first-party fixture consumed only by the isolated offline PreviousClient test executable; never a production package dependency."
+    },
     "nuget:google.protobuf@3.36.1": {
       "integrity": "77AqPEoaY1ODE+syYBHti0jXiwQq0J/fUr/fRyYhNlc9oKtH5dZZEr/OLKtdKNVG83PRnCYB2r8B80ZrObzOGQ==",
       "licence": "BSD-3-Clause",
@@ -548,17 +831,6 @@
       ],
       "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
     },
-    "nuget:grpc.net.client@2.84.0": {
-      "integrity": "My6Fms2YCyAbihTBZZ3kLS39iTY2pkMAzGDBTC6XhPOujg70eB07AEJ7tPiW3tZ70bhFzHcc3+d4j3DaIPF3aA==",
-      "licence": "Apache-2.0",
-      "evidence": [
-        {
-          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.client/2.84.0/grpc.net.client.nuspec",
-          "sha256": "32a43f3448ab90bb71c946533db4d5135cef4728a3ee29bf88d9a0cbf1e67413"
-        }
-      ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
-    },
     "nuget:grpc.core.api@2.84.0": {
       "integrity": "p2SOMl6q/GZ4/5MLkgboC/z55g4zKUEruRn/g46QgppjQBVnsLZVBU/9VO7n60ll38G3Eo8Zu9b7x+W01GKFVg==",
       "licence": "Apache-2.0",
@@ -566,6 +838,17 @@
         {
           "source": "https://api.nuget.org/v3-flatcontainer/grpc.core.api/2.84.0/grpc.core.api.nuspec",
           "sha256": "bba00f5d5be8423dd351662e313648b0abd13100ef67d55f6fc29de44c544a96"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.net.client@2.84.0": {
+      "integrity": "My6Fms2YCyAbihTBZZ3kLS39iTY2pkMAzGDBTC6XhPOujg70eB07AEJ7tPiW3tZ70bhFzHcc3+d4j3DaIPF3aA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.client/2.84.0/grpc.net.client.nuspec",
+          "sha256": "32a43f3448ab90bb71c946533db4d5135cef4728a3ee29bf88d9a0cbf1e67413"
         }
       ],
       "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
@@ -614,17 +897,6 @@
       ],
       "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
     },
-    "nuget:microsoft.extensions.logging.abstractions@8.0.1": {
-      "integrity": "RIFgaqoaINxkM2KTOw72dmilDmTrYA0ns2KW4lDz4gZ2+o6IQ894CzmdL3StM2oh7QQq44nCWiqKqc4qUI9Jmg==",
-      "licence": "MIT",
-      "evidence": [
-        {
-          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/8.0.1/microsoft.extensions.logging.abstractions.nuspec",
-          "sha256": "7593932df3e935a8e6670efad230c82967bc45ea4065186d9b886670408b95cc"
-        }
-      ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
-    },
     "nuget:microsoft.extensions.dependencyinjection.abstractions@8.0.1": {
       "integrity": "fGLiCRLMYd00JYpClraLjJTNKLmMJPnqxMaiRzEBIIvevlzxz33mXy39Lkd48hu1G+N21S7QpaO5ZzKsI6FRuA==",
       "licence": "MIT",
@@ -632,6 +904,17 @@
         {
           "source": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/8.0.1/microsoft.extensions.dependencyinjection.abstractions.nuspec",
           "sha256": "1ed9fd0c77d67cc75208b3268df565762916a992f3e246973430dbd77ede2413"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:microsoft.extensions.logging.abstractions@8.0.1": {
+      "integrity": "RIFgaqoaINxkM2KTOw72dmilDmTrYA0ns2KW4lDz4gZ2+o6IQ894CzmdL3StM2oh7QQq44nCWiqKqc4qUI9Jmg==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/8.0.1/microsoft.extensions.logging.abstractions.nuspec",
+          "sha256": "7593932df3e935a8e6670efad230c82967bc45ea4065186d9b886670408b95cc"
         }
       ],
       "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
@@ -668,28 +951,6 @@
         }
       ],
       "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
-    },
-    "nuget:arcforges.contracts.foundation@1.0.0-ci.113.1": {
-      "integrity": "k51yFjKnec92FJEfOM3/6YEhnbi1wfO4gztqjlhLumg7USTjVnA7ab7rE4X/H1cDb62Ny4c2ufn8Xi/CtBaZnA==",
-      "licence": "Apache-2.0",
-      "evidence": [
-        {
-          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.contracts.foundation/1.0.0-ci.113.1/arcforges.contracts.foundation.nuspec",
-          "sha256": "7726a233f9ce81c4373a2ab9423c33d566b919bb2cb90d2b5577cf844bbbbfc4"
-        }
-      ],
-      "scope": "Exact previously published first-party fixture consumed only by the isolated offline PreviousClient test executable; never a production package dependency."
-    },
-    "nuget:arcforges.contracts.publicapi@1.0.0-ci.113.1": {
-      "integrity": "1ai2jcqdFfKLHahN62N9dqkcSsAEbgK/K5uQi4LDIUFDGaT38/2KJYYykrb/YLO2UyUBpFjxJmTk++A+4mr8Uw==",
-      "licence": "Apache-2.0",
-      "evidence": [
-        {
-          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.contracts.publicapi/1.0.0-ci.113.1/arcforges.contracts.publicapi.nuspec",
-          "sha256": "ff556689167901646fc045bdf691fdd2c8b72b25cb848e9312ff384d0b0e7216"
-        }
-      ],
-      "scope": "Exact previously published first-party fixture consumed only by the isolated offline PreviousClient test executable; never a production package dependency."
     }
   },
   "publisher": {
@@ -708,19 +969,42 @@
     "maven": {
       "environment": "maven-central",
       "credential": "central-token-and-formal-pgp"
+    },
+    "go": {
+      "module": "github.com/ArcForges/Contracts/go",
+      "tagPrefix": "go/v",
+      "proxy": "https://proxy.golang.org",
+      "checksumDatabase": "https://sum.golang.org",
+      "credential": "github-token-contents-write"
     }
   },
   "publicInternalGate": "eng/policy/contract-access.json",
   "channels": {
-    "main": "Exact NuGet/npm CI versions; npm latest may name newest verified main candidate but consumers use exact versions. Maven main remains SNAPSHOT with timestamped provider receipts.",
-    "stable": "Deliberate canonical vX.Y.Z on main ancestry; no prerelease dependency closure; Central signatures required. No tag created for validation."
+    "main": "Exact NuGet/npm CI versions; npm latest may name newest verified main candidate but consumers use exact versions. Maven main remains SNAPSHOT with timestamped provider receipts. The Go module is tagged go/v<CI version> on the publishing commit after the NuGet cohort published; consumers pin the exact version and verify it through go.sum and sum.golang.org.",
+    "stable": "Deliberate canonical vX.Y.Z on main ancestry; no prerelease dependency closure; Central signatures required. No tag created for validation. A canonical vX.Y.Z release also tags go/vX.Y.Z (v0 and v1 only without a reviewed /vN module path)."
   },
   "review": {
-    "owner": "w-deku-20261015-af-con-02",
-    "reviewer": "w-deku-20261015-rev-af-con-02",
+    "owner": "Contracts maintainers (AF-CTR-01 delegated author)",
+    "reviewer": "Independent AF-CTR-01 reviewer under maintainer authorization (review record on Contracts PR #117)",
     "decision": "approved",
-    "reviewedOn": "2026-10-15",
-    "baselineCommit": "dea4cd831ce74dbf7ed8f875a68fcf0a74cbe04e",
+    "reviewedOn": "2026-10-28",
+    "baselineCommit": "3891c6b10111ccc746fc28f7e5bd7df2af5e274b",
+    "maintenanceAssessment": "AF-CTR-01 (ArcForges-Design AD-0021 section 8) adds the Go bindings module github.com/ArcForges/Contracts/go and its never published tools module go/tools. New dependency inputs: go/go.mod and go/go.sum (runtime: google.golang.org/protobuf v1.36.12, BSD-3-Clause, and connectrpc.com/connect/v2 v2.0.2, Apache-2.0, the versions the Cloud hello-go module already admitted, plus github.com/google/go-cmp v0.7.0 as the go.sum-verified test closure of protobuf), go/tools/go.mod and go/tools/go.sum (protoc-gen-go and protoc-gen-connect-go of the same two modules, staticcheck 2026.2.2 (honnef.co/go/tools v0.8.2, MIT) and govulncheck v1.9.0 (golang.org/x/vuln, BSD-3-Clause) with their golang.org/x, BurntSushi/toml and Google closure) and go/toolchain.json (Go 1.27.3 archive hashes). Every go.sum archive is admitted as go:<module>@<version> with its h1 hash; the 13 modules only go/tools needs are build tooling outside the stable product closure. Changed inputs: eng/contract-packages.json (the appended Go module row), eng/policy/contract-access.json (its build inputs), tests/StructureTests/StructureTests.csproj and packages.lock.json (project references to Node, Fleet and Relay for the C#/Go exchange; project entries only) and the new provenance records. No NuGet or npm coordinate, version, integrity or licence changes; the .NET SDK and Node pins are unchanged and Go 1.27.3 is added to the framework selections. Maintenance: Dependabot gomod updates /go and /go/tools together (protobuf and connect grouped); an update needs regeneration (the drift step refuses stale bindings), a reviewed successor receipt and govulncheck. Independent exact-head review by the named reviewer and the host verification remain mandatory before merge.",
+    "checks": {
+      "compilation": "go build and go vet of the module, staticcheck -checks all and go test -race pass with Go 1.27.3 (GOTOOLCHAIN=local, GOFLAGS=-mod=readonly); the C# solution builds with the three added StructureTests project references; the full candidate is produced by the host verification.",
+      "aot-trim": "No C# project changes its AOT or trim settings; StructureTests (not packed) gains project references only. Go compiles natively; there is no trimming step.",
+      "compatibility": "No proto file, descriptor baseline or package identity of C# or npm changes. The Go bindings pass the fixture round trips and the C#/Go exchange of every message and oneof arm.",
+      "licence-provenance": "Runtime licences BSD-3-Clause (protobuf) and Apache-2.0 (connect) are retained under third-party/ with legal-text records; the generated Go output is bound by go-bindings-af-ctr-01-r1; tool modules are MIT, BSD-3-Clause and Apache-2.0 and are not distributed.",
+      "security-sbom": "govulncheck reports no vulnerability for the module and the tools; go.sum pins every archive; the published module requires only protobuf and connect, with no reflection, JSON-mapping or alternate protobuf runtime (check_serialization goSources).",
+      "runtime-performance-migration": "No runtime host, migration or performance effect for existing consumers; the Go center consumes the module from AF-CTR-02 on.",
+      "framework-runtime-posture": "The .NET SDK and Node pins are unchanged; Go 1.27.3 is a new framework selection (no major upgrade of an existing one), so no major-upgrade review is triggered."
+    },
+    "frameworkVersions": {
+      "dotnetSdk": "10.0.400",
+      "node": "24.21.0",
+      "go": "1.27.3"
+    },
+    "previousReceipt": "eng/policy/dependency-reviews/af-con-02-r1.json",
     "inputHashes": {
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
@@ -731,8 +1015,8 @@
       "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
-      "eng/contract-packages.json": "4c994babcacb1c6a43f4eb1a13c1e8d039877c1408285582d409e75fcbca10b9",
-      "eng/policy/contract-access.json": "65728baf990420e84296d10d101058e0d29237e393c81da8f67180e0c031915a",
+      "eng/contract-packages.json": "f09f82c33b724f398e173bd1694841b4f821d3c5e4d6db81654d908c75975d99",
+      "eng/policy/contract-access.json": "459b5a12a0765b784bf1535605c439593d7b7df689a759f663b8df882adb31a2",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -755,11 +1039,13 @@
       "eng/provenance/artifact-profiles/dokka-2-2-0-r8.json": "224432d3957639e42fb429aa2841d80dbfd10aaec18b8ab3b4bf3851829f2089",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r9.json": "8fae9b8b9ba086ce05ca66b48604e1f96afbb14f89da00cc9d2b5e4dbd839ac5",
       "eng/provenance/records/canonical-apache-licence-r1.json": "e4252278767a0b4dd27a09a50b176c9420469828345e61336a4b5ca1d17c7b44",
+      "eng/provenance/records/canonical-apache-licence-r2.json": "1b2ec73f35eb6dbe28895cf20bb3b37aeeb3f443fb487a91217861707da14c2a",
       "eng/provenance/records/con-12-bindings-r1.json": "b69ba75443f90ab4e31ceca63b95ef84e59d8be90ba1a6d6d2760bfafc8b026a",
       "eng/provenance/records/con02-descriptor-bindings-r1.json": "0f3b130e1cfacae47cc5bd49c6b0381cfdacfb3f9e65119ed0a450d0465a7d93",
       "eng/provenance/records/con17-later-service-descriptors-r1.json": "52c1ec9a974469c7e511c12f42e21a1029a70e60a7e9e4af30901dec3e7eadee",
       "eng/provenance/records/con17-published-descriptors-r1.json": "b0f35abb8edcaa665d53663f5eaad3cd7825195fd93bbe093101e29452bed97c",
       "eng/provenance/records/con17-semantic-export-r1.json": "9ae65ee01b25241105c986f5f696eb3bc99c23e165613ba227e094424b64d720",
+      "eng/provenance/records/connect-go-licence-r1.json": "f9a3410d7a7d8b3774530165a0123c848f5305735fbfd2a26e81b7ffef575ee1",
       "eng/provenance/records/contract-bindings-af-con-01-r1.json": "30903bb6618a6d9c815c41014d2283da37ff5cbf6449b3fde86776681e802167",
       "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
       "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
@@ -891,6 +1177,8 @@
       "eng/provenance/records/dokka-which-boxed-primitive-licence-r1.json": "18ad9e03d27cfe2816725f58ceacf04fbfb7381023fad7a82c498c29dd103291",
       "eng/provenance/records/dokka-which-collection-licence-r1.json": "60f258f62506034ec8d91900cbccedc782055d9c3c5f61da6b0b1c1fb9dd819d",
       "eng/provenance/records/dokka-which-typed-array-licence-r1.json": "8351998c7f87386e6e0fcf5145db40852364e1c8152c6ebe2c396d11e7756b6f",
+      "eng/provenance/records/go-bindings-af-ctr-01-r1.json": "2716c0ae34bced2a2ae87b63a5fcc4b8cf1fc4f3997862ab66059a5d71f7f072",
+      "eng/provenance/records/go-protobuf-licence-r1.json": "a9fb8d247113f025813e5562ab10e72d92d7f5055cece829b64b8e13785b0ffd",
       "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
       "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
       "eng/provenance/records/protobuf-generator-licence-r1.json": "0d7fc75eb1453908b2954c182e895ff5da49c5000f04b5d66d8449f552be1f81",
@@ -898,6 +1186,11 @@
       "eng/provenance/retirements/con-40-npm.json": "4911dd0c111a74f6953c5d7c9c5bb09fa10959275322a3ac51bde34fea18be23",
       "eng/provenance/retirements/contracts-client-wp03-00.json": "3dbc212a56e678bea10950909a2ae1ad7fc8f2f3640421d02c8f80d2c22c1126",
       "global.json": "c39786ab1a147662bbe4db015f900165178875ec4a872ddae53bc0c90771ac34",
+      "go/go.mod": "a411a8290d10ad572bd310ea293ea7adb6754d935b81d3bcf0ff59efe4553187",
+      "go/go.sum": "b01034abad848408362f1f2a67db5d1eb6d93e05813723efe0d8e26d363ff1eb",
+      "go/toolchain.json": "3b5365d675298ae44f035402aa65c7aaf733cbea58e2aa462c57d569112f2f53",
+      "go/tools/go.mod": "f3d2d5603014b1334198643b8a2be357d63778a4884482f8ab9c4afc06d48f78",
+      "go/tools/go.sum": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561",
       "package-lock.json": "d44b7ef6159d74205b89abb6a8fada91652c7b3c4f7642685b6e189c6d569284",
       "package.json": "67d22bf8641404e51f11847c2878e8537e79a0f8e958cb7b893cc2cbb21e7cb3",
       "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj": "d60341c571cce8fdf90f7a06938ae71af87fbbccafff26f8819ef6a458738e4d",
@@ -939,30 +1232,15 @@
       "tests/ArchitectureTests/packages.lock.json": "755cb1bde873ec0d1e5e1db359aaef6821b095b0b94980d3bbcd24b09645214f",
       "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
       "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
-      "tests/StructureTests/StructureTests.csproj": "09d82e8a65ae8ebc5cff2906af91d9d7ca09bec050768804e1e3d2d87f6b39c1",
-      "tests/StructureTests/packages.lock.json": "b7c700360fe0301db9ef012db19344890102d3f3cd5fd89468ebf5dea157f553",
+      "tests/StructureTests/StructureTests.csproj": "dc46e2029371daea08810a0b0869c2b6c7eef61de95c5d8e6a4fa8cc68a709bc",
+      "tests/StructureTests/packages.lock.json": "122fe212f81237edc7d86a7cf3f69585b4df522e1b281328dbdce117d9ed6366",
       "tests/public/HelloClient/HelloClient.csproj": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a",
       "tests/public/HelloClient/packages.lock.json": "1592ed0d5c1bc731764993c0629fbc4954673001b4757800f0c7511ac1e462e7",
       "tests/public/HelloHost/HelloHost.csproj": "c7ac2acb49c079907c4fdbe9a937421d93146f4b87e92546032d7881fadc6035",
       "tests/public/HelloHost/packages.lock.json": "15c1bd39184b4ee86f3f30e52eb21a6cf1ba7d3d8032a21e49b5af71ea7cca1d",
       "tests/public/SerializationProbe/SerializationProbe.csproj": "92a5039dba394839dfbb60f5f3b7f0bde6304a45c904cf80109b94547a2a0158",
       "tests/public/SerializationProbe/packages.lock.json": "a59c32628e487c98c50271a50ff397e2302bbc1f01824cdc7a636005c88d29aa"
-    },
-    "maintenanceAssessment": "AF-CON-02 (ArcForges-Design conflict C-03) renames the .NET tool command of the public package ArcForges.Cli from arcforges, which is the command of the ArcForges product CLI, to arcforges-contracts. The only dependency-input change is the ToolCommandName property of src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj; this receipt binds that file and the refreshed eng/policy/contract-access.json (the csproj build-input hash and the Program.cs source hash, whose usage message now names arcforges-contracts). No PackageReference, ProjectReference, target framework, AOT/trim setting, package identity or lock file changes, and src/public/dotnet/ArcForges.Cli/packages.lock.json is byte-identical. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. Earlier published ArcForges.Cli versions keep the arcforges command and stay immutable; none is unpublished, deprecated or deleted. Independent exact-head review by the named reviewer and all required hosted CI remain mandatory before merge.",
-    "checks": {
-      "compilation": "dotnet build of ArcForges.Contracts.slnx in Release (TreatWarningsAsErrors, analyzers) passes locally with 0 warnings and 0 errors; the repository pack produces ArcForges.Cli whose tools/net10.0/any/DotnetToolSettings.xml declares exactly the command arcforges-contracts; hosted Verify remains required at the reviewed head.",
-      "aot-trim": "The ArcForges.Cli project keeps IsAotCompatible and its framework-dependent tool packaging unchanged; only the declared command name changes.",
-      "compatibility": "No contract, schema, descriptor, wire or package identity change. The tool command name changes for new versions only; earlier published versions keep arcforges and stay immutable, and the validate-inventory arguments, results and exit codes are unchanged.",
-      "licence-provenance": "First-party Apache-2.0 edits only (csproj property, usage text, package README and documentation); no third-party material, generator or embedded dependency changes.",
-      "security-sbom": "No coordinate enters or leaves the closure; locked versions, integrity values and licences are unchanged.",
-      "runtime-performance-migration": "Consumers that move to a new ArcForges.Cli version call arcforges-contracts instead of arcforges (release note in the package README and docs/consuming.md); no runtime host, migration or performance effect.",
-      "framework-runtime-posture": "The .NET SDK and Node pins are unchanged, so no major-upgrade review is triggered."
-    },
-    "frameworkVersions": {
-      "dotnetSdk": "10.0.400",
-      "node": "24.21.0"
-    },
-    "previousReceipt": "eng/policy/dependency-reviews/af-con-01-r2.json"
+    }
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/af-con-02-r1.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-01-r1.json"
 }

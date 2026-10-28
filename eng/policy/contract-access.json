@@ -47373,7 +47373,15 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "4c994babcacb1c6a43f4eb1a13c1e8d039877c1408285582d409e75fcbca10b9"
+      "sha256": "f09f82c33b724f398e173bd1694841b4f821d3c5e4d6db81654d908c75975d99"
+    },
+    {
+      "path": "go/go.mod",
+      "sha256": "a411a8290d10ad572bd310ea293ea7adb6754d935b81d3bcf0ff59efe4553187"
+    },
+    {
+      "path": "go/go.sum",
+      "sha256": "b01034abad848408362f1f2a67db5d1eb6d93e05813723efe0d8e26d363ff1eb"
     },
     {
       "path": "internal/ai-http/v1/configuration.schema.json",

@@ -19,5 +19,9 @@
     <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj" />
     <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj" />
     <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj" />
+    <!-- AF-CTR-01: the C# leg of the Go binding exchange reads every message of the Go module. -->
+    <ProjectReference Include="../../src/public/dotnet/ArcForges.Contracts.Node/ArcForges.Contracts.Node.csproj" />
+    <ProjectReference Include="../../src/public/dotnet/ArcForges.Contracts.Fleet/ArcForges.Contracts.Fleet.csproj" />
+    <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.Relay/ArcForges.Contracts.Relay.csproj" />
   </ItemGroup>
 </Project>

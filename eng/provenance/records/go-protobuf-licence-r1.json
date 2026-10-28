@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "id": "go-protobuf-licence-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://go.googlesource.com/protobuf",
+  "sourceCommit": "cdd4c5f7406e82462949c7a65defa9f3029c162d",
+  "sourcePaths": [
+    "LICENSE"
+  ],
+  "licence": {
+    "spdx": "BSD-3-Clause",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "LICENSE",
+        "sha256": "4835612df0098ca95f8e7d9e3bffcb02358d435dbb38057c844c99d7f725eb20",
+        "finding": "The LICENSE of the google.golang.org/protobuf v1.36.12 module archive (go.sum h1 verified; the module proxy records origin commit cdd4c5f7406e82462949c7a65defa9f3029c162d) is retained byte for byte."
+      }
+    ],
+    "scope": "Exact upstream legal document of the Go runtime dependency google.golang.org/protobuf v1.36.12 of the Go bindings module, retained for the dependency admission and the module NOTICE; no implementation is copied.",
+    "copyingPermission": "The BSD-3-Clause licence requires and permits reproduction of this copyright, conditions and disclaimer when redistributing covered material."
+  },
+  "attribution": [
+    "Copyright (c) 2018 The Go Authors. All rights reserved."
+  ],
+  "targets": [
+    {
+      "path": "third-party/go-protobuf-LICENSE.txt",
+      "sha256": "4835612df0098ca95f8e7d9e3bffcb02358d435dbb38057c844c99d7f725eb20",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "byte-match",
+    "command": "python eng/check_provenance.py --owner Contracts",
+    "expected": "The retained licence equals the LICENSE member of the module archive the Go module proxy serves for this version.",
+    "artifacts": [
+      {
+        "url": "https://proxy.golang.org/google.golang.org/protobuf/@v/v1.36.12.zip",
+        "sha256": "68f8a3174aff42950fd9bd02c11b45c6986eb8060508d124d1c3dd6bf86b9be6",
+        "members": [
+          "google.golang.org/protobuf@v1.36.12/LICENSE"
+        ]
+      }
+    ]
+  },
+  "notice": {
+    "required": true,
+    "text": "google.golang.org/protobuf v1.36.12 keeps its BSD-3-Clause licence; the Go bindings module requires it through go.mod and does not vendor it.",
+    "files": [
+      "third-party/go-protobuf-LICENSE.txt",
+      "go/NOTICE"
+    ],
+    "distribution": "source",
+    "reason": "The Go module references this runtime dependency; the source tree keeps its complete licence and the module NOTICE names it. No NuGet or npm package contains it."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Independent AF-CTR-01 reviewer under maintainer authorization (review record on Contracts PR #117)",
+    "reviewedOn": "2026-10-28",
+    "decision": "approved",
+    "rationale": "AF-CTR-01 admits google.golang.org/protobuf v1.36.12 as a runtime dependency of the Go bindings; the licence is permissive and compatible with the Apache boundary, and the exact text is retained.",
+    "baselineCommit": "3891c6b10111ccc746fc28f7e5bd7df2af5e274b",
+    "reconciliation": false
+  },
+  "supersedes": null
+}

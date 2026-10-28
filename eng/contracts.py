@@ -237,9 +237,10 @@ def generate(check: bool = False) -> None:
     grpc_plugin = tool_dir / ("grpc_csharp_plugin" + suffix)
     packages = generation_packages()
     for row in packages:
-        if row["kind"] != "nuget" and row.get("proto"):
-            # CON.40: the protobuf-es (TypeScript) generator is retired; only NuGet packages own protobuf schemas.
-            raise ValueError("Only a NuGet package may own protobuf schemas: " + row["id"])
+        if row["kind"] not in {"nuget", "go"} and row.get("proto"):
+            # CON.40: the protobuf-es (TypeScript) generator is retired; only NuGet packages and the Go module
+            # (AF-CTR-01, generated below by eng/go_bindings.py) own protobuf schemas.
+            raise ValueError("Only a NuGet package or the Go module may own protobuf schemas: " + row["id"])
     # CON.40: contracts.binpb, the public descriptor set that the retained @arcforges/ai-internal package and the
     # candidate still ship, keeps the schema closure recorded on the retired @arcforges/proto catalog row.
     from package_catalog import closure, packages as catalog_packages
@@ -285,8 +286,11 @@ def generate(check: bool = False) -> None:
         generate_inprocess(check)
         from local_operations import generate as generate_local_operations
         generate_local_operations(check)
+    # AF-CTR-01: the Go bindings, from the same proto files with the same pinned protoc.
+    from go_bindings import generate as generate_go
+    generate_go(check, protoc)
     print("Generated bindings match the authored proto." if check
-          else "Generated C#, the @arcforges/ai-internal TypeScript shapes and the descriptor sets.")
+          else "Generated C#, Go, the @arcforges/ai-internal TypeScript shapes and the descriptor sets.")
 
 
 def build() -> None:
@@ -382,8 +386,14 @@ def main() -> None:
     consumer_parser.add_argument("--directory", type=Path, default=ARTIFACTS / "packages")
     consumer_parser.add_argument("--aot", action="store_true")
     publish_parser = sub.add_parser("publish")
-    publish_parser.add_argument("registry", choices=["nuget", "npm"])
+    publish_parser.add_argument("registry", choices=["nuget", "npm", "go"])
     publish_parser.add_argument("--directory", type=Path, default=ARTIFACTS / "packages")
+    sub.add_parser("go", add_help=False, help="Go bindings: generate, static, test, exchange, vulncheck, check, "
+                   "install-toolchain (eng/go_bindings.py)")
+    if sys.argv[1:2] == ["go"]:
+        from go_bindings import main as go_main
+        go_main(sys.argv[2:])
+        return
     args = parser.parse_args()
     if args.command == "restore":
         restore(args.update_locks)
