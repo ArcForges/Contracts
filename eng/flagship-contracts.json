@@ -10,7 +10,7 @@
     "annotations": "docs/contracts/README.md#4-method-annotations",
     "errors": "docs/contracts/errors.md"
   },
-  "adoption": "Byte-identical copies of the design specification protos, placed per docs/contracts/README.md (node and fleet public; peer and relay internal; the additive publicapi.v1 and operator.v1 files in their reused packages). Within v1 every later change is additive only and reviewed against the wire-compatibility baselines in eng/compatibility/flagship-window.json.",
+  "adoption": "Byte-identical copies of the design specification protos, placed per docs/contracts/README.md (node and fleet public; peer and relay internal; the additive publicapi.v1 and operator.v1 files in their reused packages). Within v1 every later change is additive only and reviewed against the wire-compatibility baselines in eng/compatibility/flagship-window.json. Since AF-CTR-04 (part C0) fleet.proto, node.proto and account.proto are the Design files at the design commit plus additive changes made here first: new fields and the SignOutNode method, comment-only annotation and specification text, and the two StopNode lines of Design bf86fc6 (MR-06); Contracts is canonical and the ArcForges-Design companion copies these three files byte for byte. The design commit stays the adoption commit.",
   "methodAnnotations": {
     "required": ["auth", "idempotency", "deadline", "stream", "errors", "locality"],
     "optional": ["state"]
@@ -21,13 +21,13 @@
       "design": "arcforges/fleet/v1/fleet.proto",
       "path": "public/proto/arcforges/fleet/v1/fleet.proto",
       "package": "ArcForges.Contracts.Fleet",
-      "sha256": "6b4339ef3e80674718e0ab69465323f6fb78c24086e14ff6386211bc7eecaceb"
+      "sha256": "489a7ac1f32117635532ebc3a5c3a7c0ddb6ede1119926827e2a0ea63952933c"
     },
     {
       "design": "arcforges/node/v1/account.proto",
       "path": "public/proto/arcforges/node/v1/account.proto",
       "package": "ArcForges.Contracts.Node",
-      "sha256": "76c2529ab03c225517c16158b5281099db19fab6cd107c37a6fda565653a1b3a"
+      "sha256": "a01155a88a558f6905eefc2d282ac8a40fc3588879fa694df39004b4f069c9e6"
     },
     {
       "design": "arcforges/node/v1/approvals.proto",
@@ -75,7 +75,7 @@
       "design": "arcforges/node/v1/node.proto",
       "path": "public/proto/arcforges/node/v1/node.proto",
       "package": "ArcForges.Contracts.Node",
-      "sha256": "18e1efb556ca1b527f488778fced7e88b131f5d9a32b8ae92c28b6852e65d560"
+      "sha256": "a44b5bbc35594f263e18911ea7e0cf50b6ffc630fb9adb63788c857279f45524"
     },
     {
       "design": "arcforges/node/v1/peers.proto",
@@ -169,15 +169,15 @@
     }
   ],
   "schemaDigest": {
-    "combined": "d2dbbcca05a198492a550a1eaf553355d56ec7f8cf6abcd00ac9d9903d2d696c",
+    "combined": "93f7e2e1c3f2e4f754984685720d547380b718506ef32703bc7b3a5e83462fe8",
     "files": [
       {
         "file": "arcforges/fleet/v1/fleet.proto",
-        "sha256": "6af96fda6d74c6a367966fa11074ad8c5a697e536db7725ed10464bc1a07f5d4"
+        "sha256": "9822649fefe7c25250653061c107d418b7a10b6c07c61d4dcc18279d268e4ae6"
       },
       {
         "file": "arcforges/node/v1/account.proto",
-        "sha256": "6b908a711855dbeaa74e2fc006b0dfd2967faff363a06f71f792d10339d67d17"
+        "sha256": "5bf681a5c13ac6f287b061da0ab6352d5d97166507b40377fea035dbe860810d"
       },
       {
         "file": "arcforges/node/v1/approvals.proto",
@@ -209,7 +209,7 @@
       },
       {
         "file": "arcforges/node/v1/node.proto",
-        "sha256": "0476145c3150dc3309a2a8fb23ffba3984b742d2fef6d7476afb2247165f6bb8"
+        "sha256": "0e15d16d0721008a805542dfa849ecf948b055cbe52957aa783e0b7869e7c8ab"
       },
       {
         "file": "arcforges/node/v1/peers.proto",

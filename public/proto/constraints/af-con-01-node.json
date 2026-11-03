@@ -231,7 +231,10 @@
         "cloudReachable": {},
         "lastContactAt": {},
         "warnings": {},
-        "credentialInOsStore": {}
+        "credentialInOsStore": {},
+        "centerUrl": {},
+        "nodeKeyFingerprint": {},
+        "credentialExpiresAt": {}
       }
     },
     "arcforges.node.v1.ActionRule": {
@@ -2175,7 +2178,8 @@
       "fields": {
         "meta": {},
         "logLevel": {},
-        "telemetryOptIn": {}
+        "telemetryOptIn": {},
+        "centerUrl": {}
       }
     },
     "arcforges.node.v1.NodeServiceUpdateNodeSettingsResponse": {
@@ -2225,7 +2229,8 @@
         "logLevel": {},
         "telemetryOptIn": {},
         "configPath": {},
-        "revision": {}
+        "revision": {},
+        "centerUrl": {}
       }
     },
     "arcforges.node.v1.NodeStatusChanged": {
@@ -4007,7 +4012,8 @@
         "expiresAt": {},
         "pollIntervalMs": {},
         "error": {},
-        "fellBackToDeviceCode": {}
+        "fellBackToDeviceCode": {},
+        "nodeKeyFingerprint": {}
       }
     },
     "arcforges.node.v1.SnapshotComplete": {

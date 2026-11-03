@@ -106,7 +106,7 @@ class AdoptionRecord(unittest.TestCase):
             files = {row["path"] for row in RECORD["files"] if row["design"].split("/")[1] == area}
             services = {binding.split("/")[0] for binding, source in methods.items() if source in files}
             self.assertEqual(len(services), count, area)
-        self.assertEqual(sum(source in {row["path"] for row in RECORD["files"]} for source in methods.values()), 225)
+        self.assertEqual(sum(source in {row["path"] for row in RECORD["files"]} for source in methods.values()), 226)
 
     def test_schema_digest_of_the_compiled_package_descriptors_is_recorded(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -138,7 +138,7 @@ class ErrorCatalogue(unittest.TestCase):
 
     def test_every_annotated_method_names_only_catalogued_codes(self):
         flagship = scope.flagship_methods(ROOT, scope.proto_methods(ROOT))
-        self.assertEqual(len(flagship), 225)
+        self.assertEqual(len(flagship), 226)
         known = {row["category"] + "/" + row["code"] for row in CATALOGUE["codes"]}
         for method in flagship:
             named = method["annotations"]["errors"]
@@ -172,7 +172,7 @@ class ConstraintSidecars(unittest.TestCase):
                   if rules.get("required")}
         self.assertEqual(set(messages), declared)
         self.assertEqual(actual, expected)
-        self.assertEqual(len(actual), 124)
+        self.assertEqual(len(actual), 129)
         for value in messages.values():
             self.assertEqual({key for rules in value["fields"].values() for key in rules} - {"required"}, set())
 

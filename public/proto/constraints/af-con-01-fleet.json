@@ -133,7 +133,8 @@
         "enrolledAt": {},
         "summary": {},
         "relayEnabled": {},
-        "deviceId": {}
+        "deviceId": {},
+        "credentialExpiresAt": {}
       }
     },
     "arcforges.fleet.v1.FleetServiceCancelNodeCommandRequest": {
@@ -500,7 +501,9 @@
         "nodeCertificateChain": {},
         "commandKeys": {},
         "entitlementKeys": {},
-        "installationId": {}
+        "installationId": {},
+        "sessionExpiresAt": {},
+        "accessLifetimeMs": {}
       }
     },
     "arcforges.fleet.v1.NodeCursorInput": {
@@ -563,6 +566,12 @@
         "codeChallenge": {},
         "redirectUri": {},
         "node": {
+          "required": true
+        },
+        "state": {
+          "required": true
+        },
+        "nodePublicKey": {
           "required": true
         }
       }
@@ -648,7 +657,10 @@
         "flowId": {},
         "code": {},
         "codeVerifier": {},
-        "csr": {}
+        "csr": {},
+        "nodeKeyProof": {
+          "required": true
+        }
       }
     },
     "arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInResponse": {
@@ -866,7 +878,10 @@
         "deviceCode": {
           "required": true
         },
-        "csr": {}
+        "csr": {},
+        "nodeKeyProof": {
+          "required": true
+        }
       }
     },
     "arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationResponse": {
@@ -952,7 +967,11 @@
       "fields": {
         "refreshToken": {},
         "accessToken": {},
-        "accessExpiresAt": {}
+        "accessExpiresAt": {},
+        "commandKeys": {},
+        "entitlementKeys": {},
+        "sessionExpiresAt": {},
+        "accessLifetimeMs": {}
       }
     },
     "arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsRequest": {
@@ -998,11 +1017,34 @@
         "receipt": {}
       }
     },
+    "arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest",
+      "fields": {
+        "meta": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      }
+    },
+    "arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeValue",
+      "fields": {
+        "receipt": {}
+      }
+    },
     "arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceStartDeviceAuthorizationRequest",
       "fields": {
         "meta": {},
         "node": {
+          "required": true
+        },
+        "nodePublicKey": {
           "required": true
         }
       }

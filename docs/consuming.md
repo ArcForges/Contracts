@@ -149,7 +149,9 @@ blocked on APP.03 and not proven in Contracts.
 ## Flagship contracts (C#)
 
 AF-CON-01 adopts the ArcForges-Design specification protos unchanged, recorded with their
-digests in [`eng/flagship-contracts.json`](../eng/flagship-contracts.json):
+digests in [`eng/flagship-contracts.json`](../eng/flagship-contracts.json). Later additive
+changes are made here first and mirrored to ArcForges-Design: AF-CTR-04 (part C0) adds the node
+sign-in fields and `SignOutNode` to `fleet.proto`, `node.proto` and `account.proto`.
 
 | Package                     | Access   | Contents                                                                                    |
 | --------------------------- | -------- | ------------------------------------------------------------------------------------------- |

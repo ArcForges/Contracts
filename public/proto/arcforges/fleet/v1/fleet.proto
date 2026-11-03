@@ -23,104 +23,148 @@ option java_outer_classname = "FleetProto";
 // Architecture 10; decisions AD-0009, AD-0010, AD-0011. State machines: SM-SIGN-IN, SM-DEVICE-AUTH,
 // SM-PHONE-PAIRING, SM-RELAY, SM-REMOTE-COMMAND, SM-SUBSCRIPTION.
 // Caller credentials: `account` session (web, Android, reused Identity), `node` credential (enrolled node),
-// or none (only where stated). Step-up is the reused Identity step-up (passkey or recent authentication).
+// or none (only where stated). Step-up is the reused Identity step-up: single-use evidence proved by a passkey or an
+// e-mail code; authentication time is never evidence.
 
 // Node sign-in (browser and device code), phone pairing, credentials, certificates, LAN hints and entitlement tokens.
 service NodeEnrollmentService {
   // Start a PKCE loopback sign-in for a node (10 section 3.1).
+  // A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
+  // (state.state node_key, state.reason already_registered); the node replaces its key once and starts again.
   // auth: none (rate limited per IP and per node ID)
-  // idempotency: command_id
+  // idempotency: natural: every call starts a new flow; meta.command_id is correlation only
   // deadline: 10 s
   // stream: none
-  // errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+  // errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists
   // locality: cloud
   // state: SM-SIGN-IN: (none) -> PENDING
   rpc BeginNodeSignIn(NodeEnrollmentServiceBeginNodeSignInRequest) returns (NodeEnrollmentServiceBeginNodeSignInResponse);
 
   // Web consent page: show which node asks to connect.
+  // Reviewing a PENDING flow records the reviewing account and time; ApproveNodeSignIn decides only a reviewed flow.
   // auth: account session
-  // idempotency: read
+  // idempotency: natural: on a PENDING flow records the reviewing account and time
   // deadline: 5 s
   // stream: none
-  // errors: STATE/not_found, STATE/expired
+  // errors: STATE/not_found, STATE/expired, AUTHENTICATION/step_up_required, AUTHORIZATION/permission_denied
   // locality: cloud
   rpc GetNodeSignInFlow(NodeEnrollmentServiceGetNodeSignInFlowRequest) returns (NodeEnrollmentServiceGetNodeSignInFlowResponse);
 
   // Web consent decision. On approval returns the loopback redirect with a one-use code.
+  // Approval (approve = true) needs a proved step-up of class fleet.approveNodeSignIn bound to the flow ID; deny needs
+  // none. Only a flow this account reviewed within the last 10 minutes can be decided. While the flow is APPROVED and
+  // its code unredeemed, the approving account may deny it, or approve it again, which replaces the code.
+  // RESOURCE/quota_exceeded: limit.limit_name max_nodes_per_account, limit.maximum the cap.
+  // STATE/invalid_state: state.state node_sign_in, state.reason the lower-case state name or not_reviewed.
   // auth: account session
-  // idempotency: command_id
+  // idempotency: natural: the flow row; a repeat by the same account replaces the unredeemed one-use code
   // deadline: 10 s
   // stream: none
-  // errors: STATE/not_found, STATE/expired, STATE/invalid_state, ENTITLEMENT/plan_limit_reached
+  // errors: STATE/not_found, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
   // locality: cloud
-  // state: SM-SIGN-IN: PENDING -> APPROVED | DENIED
+  // state: SM-SIGN-IN: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
   rpc ApproveNodeSignIn(NodeEnrollmentServiceApproveNodeSignInRequest) returns (NodeEnrollmentServiceApproveNodeSignInResponse);
 
   // Exchange the code and verifier for node credentials; registers the NODE installation.
+  // A failed proof (code, verifier or node key proof) is AUTHENTICATION/unauthenticated. STATE/expired covers the flow
+  // and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
+  // CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
+  // registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
   // auth: none (flow-bound proof)
   // idempotency: natural: code single use; reuse revokes the flow
   // deadline: 15 s
   // stream: none
-  // errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+  // errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, STATE/invalid_state, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
   // locality: cloud
   // state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
   rpc CompleteNodeSignIn(NodeEnrollmentServiceCompleteNodeSignInRequest) returns (NodeEnrollmentServiceCompleteNodeSignInResponse);
 
   // Start a device-code sign-in for headless nodes (10 section 3.2).
+  // A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
+  // (state.state node_key, state.reason already_registered); the node replaces its key once and starts again.
   // auth: none (rate limited)
-  // idempotency: command_id
+  // idempotency: natural: every call starts a new flow; meta.command_id is correlation only
   // deadline: 10 s
   // stream: none
-  // errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+  // errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists
   // locality: cloud
   // state: SM-DEVICE-AUTH: (none) -> PENDING
   rpc StartDeviceAuthorization(NodeEnrollmentServiceStartDeviceAuthorizationRequest) returns (NodeEnrollmentServiceStartDeviceAuthorizationResponse);
 
   // Poll at the given interval. APPROVED returns credentials.
+  // A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
+  // CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
   // auth: none (device_code proof)
   // idempotency: natural
   // deadline: 10 s
   // stream: none
-  // errors: STATE/not_found, RESOURCE/rate_limited
+  // errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
   // locality: cloud
   // state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
   rpc PollDeviceAuthorization(NodeEnrollmentServicePollDeviceAuthorizationRequest) returns (NodeEnrollmentServicePollDeviceAuthorizationResponse);
 
-  // Web /activate: show the node behind a user code (5 entry attempts per code).
+  // Web /activate: show the node behind a user code (5 lookups per live code).
+  // Malformed input costs nothing. A wrong entry is VALIDATION/code_invalid with limit.limit_name device_entry_account,
+  // limit.maximum the window's cap and limit.available the entries left; a wrong entry beyond the account or network
+  // budget is RESOURCE/rate_limited with retry_at. The sixth lookup of one live code denies it (VALIDATION/code_invalid,
+  // limit.limit_name device_code_lookups, limit.available 0). An expired code or a code in another state is
+  // STATE/expired or STATE/invalid_state, without limit. A lookup records the reviewing account and time.
   // auth: account session
-  // idempotency: read (counts an attempt)
+  // idempotency: natural: counts one lookup of the live code and records the reviewing account
   // deadline: 5 s
   // stream: none
-  // errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited
+  // errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited, STATE/invalid_state, AUTHENTICATION/step_up_required, AUTHORIZATION/permission_denied
   // locality: cloud
   rpc LookupDeviceCode(NodeEnrollmentServiceLookupDeviceCodeRequest) returns (NodeEnrollmentServiceLookupDeviceCodeResponse);
 
   // Web /activate decision.
+  // Approval (approve = true) needs a proved step-up of class fleet.approveDeviceCode bound to the normalized user code
+  // (8 upper-case letters); deny needs none. Only a code this account looked up within the last 10 minutes can be
+  // decided. The approving account may deny an APPROVED authorization whose credentials are not yet delivered.
+  // RESOURCE/quota_exceeded and STATE/invalid_state carry the details of ApproveNodeSignIn (state.state
+  // device_authorization).
   // auth: account session
   // idempotency: command_id
   // deadline: 10 s
   // stream: none
-  // errors: VALIDATION/code_invalid, STATE/expired, ENTITLEMENT/plan_limit_reached
+  // errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
   // locality: cloud
+  // state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
   rpc ApproveDeviceCode(NodeEnrollmentServiceApproveDeviceCodeRequest) returns (NodeEnrollmentServiceApproveDeviceCodeResponse);
 
   // Rotate the node refresh token and obtain an access token.
+  // Strict rotation: there is no grace window. Presenting a spent refresh token (also a retry whose reply was lost)
+  // revokes the credential family, and the node signs in again. A live account token is refused with
+  // AUTHORIZATION/permission_denied.
   // auth: node refresh token
   // idempotency: natural: rotation with reuse detection (reuse revokes the credential)
   // deadline: 10 s
   // stream: none
-  // errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked
+  // errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
   // locality: cloud
   rpc RefreshNodeSession(NodeEnrollmentServiceRefreshNodeSessionRequest) returns (NodeEnrollmentServiceRefreshNodeSessionResponse);
 
   // Update the registry after a version, name or role change.
+  // The node key is not reported here: the credential's installation names the node and its key; a key change is a new
+  // sign-in. A Restricted account's node is refused with AUTHORIZATION/permission_denied.
   // auth: node credential
   // idempotency: command_id
   // deadline: 10 s
   // stream: none
-  // errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+  // errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
   // locality: cloud
   rpc ReportNodeInfo(NodeEnrollmentServiceReportNodeInfoRequest) returns (NodeEnrollmentServiceReportNodeInfoResponse);
+
+  // Sign this node out: revoke the calling node credential; the node record, device and installation stay.
+  // A Restricted account's node may call it. A retry after the revocation (also a retry whose reply was lost) is refused
+  // at the ingress as credential_revoked before any receipt is read; the node treats that as signed out.
+  // auth: node credential
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+  // locality: cloud
+  rpc SignOutNode(NodeEnrollmentServiceSignOutNodeRequest) returns (NodeEnrollmentServiceSignOutNodeResponse);
 
   // Create a QR pairing so a phone can sign in as this account (10 section 3.3).
   // auth: node credential
@@ -239,8 +283,10 @@ message NodeEnrollmentServiceBeginNodeSignInRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
   optional string code_challenge = 10 [json_name = "codeChallenge"]; // validate: base64url SHA-256, 43 chars
-  optional string redirect_uri = 11 [json_name = "redirectUri"]; // validate: http://127.0.0.1:<port>/callback or http://[::1]:<port>/callback
+  optional string redirect_uri = 11 [json_name = "redirectUri"]; // validate: http://127.0.0.1:<port>/callback or http://[::1]:<port>/callback; <port> 1024..65535, decimal, no leading zero
   EnrollingNodeInfo node = 12 [json_name = "node"]; // validate: required
+  optional string state = 13 [json_name = "state"]; // validate: required; 16..128 chars of [A-Za-z0-9._~-]; returned unchanged in the loopback redirect
+  optional bytes node_public_key = 14 [json_name = "nodePublicKey"]; // validate: required; PKIX SubjectPublicKeyInfo DER of an ECDSA P-256 key, 91 bytes
 }
 message NodeEnrollmentServiceBeginNodeSignInResponse {
   arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
@@ -252,7 +298,7 @@ message NodeEnrollmentServiceBeginNodeSignInResponse {
 }
 message NodeEnrollmentServiceBeginNodeSignInValue {
   arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
-  optional string authorize_url = 11 [json_name = "authorizeUrl"]; // https://arcforges.com/connect?flow=<id>
+  optional string authorize_url = 11 [json_name = "authorizeUrl"]; // <center>/connect#flow=<flow_id>, <center> the center's public base URL (https://arcforges.com/api); the node derives the same string from its configured center and requires an exact match; <= 512 chars
   arcforges.foundation.v1.Instant expires_at = 12 [json_name = "expiresAt"]; // 10 minutes
 }
 
@@ -276,7 +322,7 @@ message NodeEnrollmentServiceGetNodeSignInFlowValue {
 message NodeEnrollmentServiceApproveNodeSignInRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
-  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"]; // validate: PENDING
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"]; // validate: PENDING, or APPROVED with an unredeemed code (repeat approval or deny by the approving account)
   optional bool approve = 11 [json_name = "approve"];
 }
 message NodeEnrollmentServiceApproveNodeSignInResponse {
@@ -292,6 +338,19 @@ message NodeEnrollmentServiceApproveNodeSignInValue {
   NodeSignInFlowView flow = 11 [json_name = "flow"];
 }
 
+// Node key proof (node_key_proof of CompleteNodeSignIn and PollDeviceAuthorization): ES256 (ECDSA P-256 with SHA-256)
+// over the bytes
+//   "ArcForges node-key-proof v1\n" (28 bytes ASCII) || purpose (1 byte) || SHA-256(audience) (32 bytes)
+//   || node_id (16 bytes) || binding
+// purpose 0x01 CompleteNodeSignIn, binding = flow_id (16 bytes) || code (UTF-8, 43 chars); purpose 0x02
+// PollDeviceAuthorization, binding = device_code (UTF-8, 43 chars); other purpose values are reserved. Every field
+// before binding has a fixed length. audience = the full canonical center URL the node is configured with, as UTF-8
+// (scheme, lower-case host, port only when not the default, optional path prefix, no trailing slash; for example
+// https://arcforges.com/api); the center compares it with its own public base URL. Key and credential names on the
+// node derive from the node ID and the canonical center origin; only this proof binds the full URL.
+// Signature: IEEE P1363 r||s, 64 bytes, r and s in [1, n-1], low-S (s <= n/2); the node normalizes s, and the center
+// refuses a high-S proof. Other signatures of the node key use a different leading domain string; this message is
+// not a SignedBlob payload.
 message NodeEnrollmentServiceCompleteNodeSignInRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
@@ -299,6 +358,7 @@ message NodeEnrollmentServiceCompleteNodeSignInRequest {
   optional string code = 11 [json_name = "code"]; // validate: one use
   optional string code_verifier = 12 [json_name = "codeVerifier"]; // validate: 43..128 chars; matches the challenge
   optional bytes csr = 13 [json_name = "csr"]; // validate: optional; PKCS#10 DER, P-256, SAN URI arcforges:node:<node_id>; reserved for account-based LAN trust (roadmap RM-01) and ignored in release 1
+  optional bytes node_key_proof = 14 [json_name = "nodeKeyProof"]; // validate: required; 64 bytes; the node key proof (purpose 0x01) by the key of BeginNodeSignIn
 }
 message NodeEnrollmentServiceCompleteNodeSignInResponse {
   arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
@@ -316,6 +376,7 @@ message NodeEnrollmentServiceStartDeviceAuthorizationRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
   EnrollingNodeInfo node = 10 [json_name = "node"]; // validate: required
+  optional bytes node_public_key = 11 [json_name = "nodePublicKey"]; // validate: required; PKIX SubjectPublicKeyInfo DER of an ECDSA P-256 key, 91 bytes
 }
 message NodeEnrollmentServiceStartDeviceAuthorizationResponse {
   arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
@@ -334,6 +395,7 @@ message NodeEnrollmentServicePollDeviceAuthorizationRequest {
   reserved 2 to 9;
   optional string device_code = 10 [json_name = "deviceCode"]; // validate: required
   optional bytes csr = 11 [json_name = "csr"]; // validate: optional; as in CompleteNodeSignIn (reserved for roadmap RM-01)
+  optional bytes node_key_proof = 12 [json_name = "nodeKeyProof"]; // validate: required; 64 bytes; the node key proof (purpose 0x02) by the key of StartDeviceAuthorization
 }
 message NodeEnrollmentServicePollDeviceAuthorizationResponse {
   arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
@@ -401,6 +463,10 @@ message NodeEnrollmentServiceRefreshNodeSessionValue {
   optional string refresh_token = 10 [json_name = "refreshToken"];
   optional string access_token = 11 [json_name = "accessToken"];
   arcforges.foundation.v1.Instant access_expires_at = 12 [json_name = "accessExpiresAt"];
+  repeated PublicKey command_keys = 13 [json_name = "commandKeys"]; // current keys and registered successors (not_before may lie ahead)
+  repeated PublicKey entitlement_keys = 14 [json_name = "entitlementKeys"]; // as command_keys
+  arcforges.foundation.v1.Instant session_expires_at = 15 [json_name = "sessionExpiresAt"]; // absolute end of this credential family; refresh does not extend it
+  optional uint64 access_lifetime_ms = 16 [json_name = "accessLifetimeMs"]; // lifetime of access_token as issued; the node schedules its refresh from it, not from its wall clock
 }
 
 message NodeEnrollmentServiceReportNodeInfoRequest {
@@ -417,6 +483,22 @@ message NodeEnrollmentServiceReportNodeInfoResponse {
   reserved 4 to 9;
 }
 message NodeEnrollmentServiceReportNodeInfoValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message NodeEnrollmentServiceSignOutNodeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message NodeEnrollmentServiceSignOutNodeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeEnrollmentServiceSignOutNodeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message NodeEnrollmentServiceSignOutNodeValue {
   arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
 }
 
@@ -1166,7 +1248,7 @@ enum NodeSignInState {
   NODE_SIGN_IN_STATE_COMPLETED = 3;
   NODE_SIGN_IN_STATE_DENIED = 4;
   NODE_SIGN_IN_STATE_EXPIRED = 5;
-  NODE_SIGN_IN_STATE_REVOKED = 6; // code reuse detected
+  NODE_SIGN_IN_STATE_REVOKED = 6; // code reuse, a wrong verifier or node key proof after a correct code, or the fifth wrong code
 }
 
 // SM-PHONE-PAIRING states (cloud side).
@@ -1214,11 +1296,11 @@ enum PlayLinkState {
 message EnrollingNodeInfo {
   arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"]; // validate: required; 16 bytes
   optional string name = 2 [json_name = "name"]; // validate: 1..64 chars
-  optional arcforges.node.v1.OsFamily os = 3 [json_name = "os"]; // validate: required
+  optional arcforges.node.v1.OsFamily os = 3 [json_name = "os"]; // validate: required; WINDOWS or LINUX, mapped by name, not by number: device platform windows or linux
   optional arcforges.node.v1.CpuArchitecture arch = 4 [json_name = "arch"]; // validate: required
-  optional string version = 5 [json_name = "version"]; // validate: SemVer
-  optional arcforges.node.v1.NodeRole role = 6 [json_name = "role"];
-  arcforges.foundation.v1.Id host_node_id = 7 [json_name = "hostNodeId"]; // validate: GUEST only
+  optional string version = 5 [json_name = "version"]; // validate: SemVer 2.0.0, <= 128 chars; the center stores the canonical form (the text before the first '+')
+  optional arcforges.node.v1.NodeRole role = 6 [json_name = "role"]; // validate: HOST or unspecified; GUEST is refused (AD-0018)
+  arcforges.foundation.v1.Id host_node_id = 7 [json_name = "hostNodeId"]; // validate: empty (GUEST only, and GUEST is refused)
 }
 
 message AccountSummary {
@@ -1257,15 +1339,17 @@ message EntitlementClaims {
 }
 
 message NodeCredentials {
-  optional string refresh_token = 1 [json_name = "refreshToken"]; // scope node; 90-day sliding; stored in the OS secret store
-  optional string access_token = 2 [json_name = "accessToken"]; // 15 minutes
+  optional string refresh_token = 1 [json_name = "refreshToken"]; // scope node; idle limit 90 days (sliding), not past session_expires_at; stored in the OS secret store
+  optional string access_token = 2 [json_name = "accessToken"]; // node access lifetime: default 60 minutes (policy, 15..60 minutes); see access_lifetime_ms
   arcforges.foundation.v1.Instant access_expires_at = 3 [json_name = "accessExpiresAt"];
   AccountSummary account = 4 [json_name = "account"];
   SignedBlob entitlement_token = 5 [json_name = "entitlementToken"];
   repeated bytes node_certificate_chain = 6 [json_name = "nodeCertificateChain"]; // DER; account-based LAN trust (roadmap RM-01): absent in release 1
-  repeated PublicKey command_keys = 7 [json_name = "commandKeys"];
-  repeated PublicKey entitlement_keys = 8 [json_name = "entitlementKeys"];
+  repeated PublicKey command_keys = 7 [json_name = "commandKeys"]; // current keys and registered successors (not_before may lie ahead)
+  repeated PublicKey entitlement_keys = 8 [json_name = "entitlementKeys"]; // as command_keys
   arcforges.foundation.v1.Id installation_id = 9 [json_name = "installationId"];
+  arcforges.foundation.v1.Instant session_expires_at = 10 [json_name = "sessionExpiresAt"]; // absolute end of this credential family (default 365 days); refresh does not extend it
+  optional uint64 access_lifetime_ms = 11 [json_name = "accessLifetimeMs"]; // lifetime of access_token as issued; the node schedules its refresh from it, not from its wall clock
 }
 
 enum MobileSessionScope {
@@ -1294,8 +1378,8 @@ message NodeSignInFlowView {
 message DeviceAuthorization {
   optional string device_code = 1 [json_name = "deviceCode"]; // 32 bytes base64url; node-held secret
   optional string user_code = 2 [json_name = "userCode"]; // 8 characters from BCDFGHJKLMNPQRSTVWXZ, shown as XXXX-XXXX
-  optional string verification_uri = 3 [json_name = "verificationUri"]; // https://arcforges.com/activate
-  optional string verification_uri_complete = 4 [json_name = "verificationUriComplete"];
+  optional string verification_uri = 3 [json_name = "verificationUri"]; // <center>/activate, <center> the center's public base URL; the node derives the same string from its configured center and requires an exact match; <= 512 chars
+  optional string verification_uri_complete = 4 [json_name = "verificationUriComplete"]; // <center>/activate#code=XXXX-XXXX; derived and matched like verification_uri
   optional uint64 interval_ms = 5 [json_name = "intervalMs"]; // 5,000; grows by 5,000 on SLOW_DOWN
   arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"]; // 600 s
 }
@@ -1466,6 +1550,7 @@ message FleetNode {
   StatusSummary summary = 11 [json_name = "summary"]; // cached by the relay; absent when never connected
   optional bool relay_enabled = 12 [json_name = "relayEnabled"];
   arcforges.foundation.v1.Id device_id = 13 [json_name = "deviceId"]; // the node's own device record (publicapi.v1.DeviceService)
+  arcforges.foundation.v1.Instant credential_expires_at = 14 [json_name = "credentialExpiresAt"]; // absolute end of the node's credential; absent when signed out
 }
 
 // Commands a viewer may send to a node (AD-0009 section 5). Risk is fixed per kind.
