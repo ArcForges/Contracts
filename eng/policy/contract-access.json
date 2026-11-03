@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-10-28",
+  "reviewedOn": "2026-11-03",
   "design": {
     "commit": "212825003ed712200e585445301473233404f597",
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "71badd3b956c9d3dc50628d4064dd6beb98ff6f6",
+  "sourceCommit": "f74a1ae504fdd29beaa04a3dd5e42af864df7642",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -77,7 +77,7 @@
     {
       "path": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public",
-      "sha256": "6b4339ef3e80674718e0ab69465323f6fb78c24086e14ff6386211bc7eecaceb"
+      "sha256": "c36b4de920638312055896179b48eb994c91da6d462b54a6d00ec4418f76ae61"
     },
     {
       "path": "public/proto/arcforges/foundation/v1/foundation.proto",
@@ -92,7 +92,7 @@
     {
       "path": "public/proto/arcforges/node/v1/account.proto",
       "access": "public",
-      "sha256": "76c2529ab03c225517c16158b5281099db19fab6cd107c37a6fda565653a1b3a"
+      "sha256": "a01155a88a558f6905eefc2d282ac8a40fc3588879fa694df39004b4f069c9e6"
     },
     {
       "path": "public/proto/arcforges/node/v1/approvals.proto",
@@ -132,7 +132,7 @@
     {
       "path": "public/proto/arcforges/node/v1/node.proto",
       "access": "public",
-      "sha256": "18e1efb556ca1b527f488778fced7e88b131f5d9a32b8ae92c28b6852e65d560"
+      "sha256": "d44bb6760e6ccd20937d468c38dfd337120cadeafa431e4f0d396acb5bcf4a09"
     },
     {
       "path": "public/proto/arcforges/node/v1/peers.proto",
@@ -1570,6 +1570,24 @@
     },
     {
       "name": "arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeValue",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public"
@@ -18722,6 +18740,11 @@
         "outcome_",
         "OutcomeOneofCase",
         "NodeEnrollmentServiceReportNodeInfoValue",
+        "NodeEnrollmentServiceSignOutNodeRequest",
+        "NodeEnrollmentServiceSignOutNodeResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "NodeEnrollmentServiceSignOutNodeValue",
         "NodeEnrollmentServiceCreatePhonePairingRequest",
         "NodeEnrollmentServiceCreatePhonePairingResponse",
         "outcome_",
@@ -18924,7 +18947,7 @@
         "BillingStatus",
         "NodeCursorInput"
       ],
-      "sha256": "b847d4b1384a1b1ace1375bf70f3086cac400b1c80cf24010e38386d09a5fd70",
+      "sha256": "593df7a32bf24d88fa875d58163b7b76d813f5582c3eb1e0dcc82a6349328053",
       "kind": "generated"
     },
     {
@@ -18945,7 +18968,7 @@
         "StoreBillingServiceBase",
         "StoreBillingServiceClient"
       ],
-      "sha256": "af983b99893545a7fd111f62114bc58760643b5cdc58d9393daff53ec7fa01db",
+      "sha256": "59bf964c9db053a643929d86e22b969f9f1c7c568c340cbfe3612fd51da67ca3",
       "kind": "generated"
     },
     {
@@ -18961,7 +18984,7 @@
       "package": "ArcForges.Contracts.Fleet",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "4ef310405f3b79a06c816f174b24f5af9b5d216190d0fa72a732fb816a3054de",
+      "sha256": "3203b0b5e30673b0e9a9af89b67801184817d2dae8e7462cfac683537dd270ca",
       "kind": "generated"
     },
     {
@@ -19160,7 +19183,7 @@
         "AccountStatus",
         "PhonePairing"
       ],
-      "sha256": "4688dce98890674184ba902c017efa620c53248134eb27d8b6b4879b7d7553f5",
+      "sha256": "751b3421470c347733a081c37eab669efe4f2e719b4e7268af46b9e6f3fbd213",
       "kind": "generated"
     },
     {
@@ -19173,7 +19196,7 @@
         "AccountServiceBase",
         "AccountServiceClient"
       ],
-      "sha256": "ff4544dbd99073378834c3895f24f9bf6d37bdf8863c260f86cd686e1f16449f",
+      "sha256": "f0c9cf9b79fa2951c2531847660463871c41ce247da5c63f91850a1ff10a9391",
       "kind": "generated"
     },
     {
@@ -19647,7 +19670,7 @@
         "NodeSettings",
         "HealthMetric"
       ],
-      "sha256": "db41c5d75e3b772fd3bb712a3b7728ebebe6948a274597c39f72405bffc701c8",
+      "sha256": "8f9d05040dc0028d780b9fe079ed95e1f01bae65c90d504fa24a34e473f7512d",
       "kind": "generated"
     },
     {
@@ -19655,7 +19678,7 @@
       "package": "ArcForges.Contracts.Node",
       "access": "public",
       "types": ["NodeService", "__Helper_MessageCache", "NodeServiceBase", "NodeServiceClient"],
-      "sha256": "b56d515633101d5119663013e48f6e2cd9511cd793f96962b0cd2eb0358b881b",
+      "sha256": "5686ed6c744b40773c2f7a52d1f71cc6f4ce61d559410a6995529325d30ca939",
       "kind": "generated"
     },
     {
@@ -20590,7 +20613,7 @@
       "package": "ArcForges.Contracts.Node",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "aeccdd4a6047f5f6fb7bdd47e2b4e5e7bce97491b75a7cf5147346f90a9695c3",
+      "sha256": "6408f5cf480203664a3706c8125d454fb7a080e05b43f6cf97e2be3d0f24dc1f",
       "kind": "generated"
     },
     {
@@ -47819,15 +47842,15 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "1ab63cd45218e0858e54b762bcbfe574fd74b52aa72c0d219b4989eb23cca2cb"
+      "sha256": "4497a9d7259f679e2bc165dc34cd81fdae5756123501255bbff2f71c99eb5e05"
     },
     {
       "path": "public/proto/constraints/af-con-01-fleet.json",
-      "sha256": "345d47da34d7308526fd8b24f2886bcfb032bf0c3803dee0d28a763d38b15b64"
+      "sha256": "c8a1201ef7ecad9d4ecbe4cbfd69c746960bf224533cd05c3a7176935c2a2277"
     },
     {
       "path": "public/proto/constraints/af-con-01-node.json",
-      "sha256": "a9f1f697067172a5392f73bff75c9e5dd9b68e73a8f3ff37dea5d15ec1fadf18"
+      "sha256": "e8a21e815fd716be34a041625443b2a49825d24f61ec063d9cffce66d292bb1a"
     },
     {
       "path": "public/proto/constraints/af-con-01-support-access.json",

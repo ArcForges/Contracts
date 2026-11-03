@@ -1098,6 +1098,18 @@ public static class ContractShapeValidation
         if (value.HasCredentialInOsStore)
         {
         }
+        if (value.HasCenterUrl)
+        {
+            if (!ValidUnicode(value.CenterUrl)) return false;
+        }
+        if (value.HasNodeKeyFingerprint)
+        {
+            if (!ValidUnicode(value.NodeKeyFingerprint)) return false;
+        }
+        if (value.CredentialExpiresAt is not null)
+        {
+            if (!Check(value.CredentialExpiresAt, context)) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -6574,6 +6586,10 @@ public static class ContractShapeValidation
         if (value.HasTelemetryOptIn)
         {
         }
+        if (value.HasCenterUrl)
+        {
+            if (!ValidUnicode(value.CenterUrl)) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -6708,6 +6724,10 @@ public static class ContractShapeValidation
         if (value.Revision is not null)
         {
             if (!Check(value.Revision, context)) return false;
+        }
+        if (value.HasCenterUrl)
+        {
+            if (!ValidUnicode(value.CenterUrl)) return false;
         }
         return true;
         }
@@ -11609,6 +11629,10 @@ public static class ContractShapeValidation
         }
         if (value.HasFellBackToDeviceCode)
         {
+        }
+        if (value.HasNodeKeyFingerprint)
+        {
+            if (!ValidUnicode(value.NodeKeyFingerprint)) return false;
         }
         return true;
         }

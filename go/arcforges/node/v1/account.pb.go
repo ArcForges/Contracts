@@ -2128,6 +2128,7 @@ type SignInFlow struct {
 	PollIntervalMs          *uint64                `protobuf:"varint,10,opt,name=poll_interval_ms,json=pollIntervalMs,proto3,oneof" json:"poll_interval_ms,omitempty"`
 	Error                   *v1.ArcError           `protobuf:"bytes,11,opt,name=error,proto3" json:"error,omitempty"`
 	FellBackToDeviceCode    *bool                  `protobuf:"varint,12,opt,name=fell_back_to_device_code,json=fellBackToDeviceCode,proto3,oneof" json:"fell_back_to_device_code,omitempty"` // loopback port unavailable
+	NodeKeyFingerprint      *string                `protobuf:"bytes,13,opt,name=node_key_fingerprint,json=nodeKeyFingerprint,proto3,oneof" json:"node_key_fingerprint,omitempty"`            // XXXX-XXXX-XXXX-XXXX-XXXX: upper-case hex of the first 10 bytes of SHA-256 over the node public key (PKIX DER)
 	unknownFields           protoimpl.UnknownFields
 	sizeCache               protoimpl.SizeCache
 }
@@ -2246,6 +2247,13 @@ func (x *SignInFlow) GetFellBackToDeviceCode() bool {
 	return false
 }
 
+func (x *SignInFlow) GetNodeKeyFingerprint() string {
+	if x != nil && x.NodeKeyFingerprint != nil {
+		return *x.NodeKeyFingerprint
+	}
+	return ""
+}
+
 type EntitlementSummary struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Plan          *string                `protobuf:"bytes,1,opt,name=plan,proto3,oneof" json:"plan,omitempty"`
@@ -2337,6 +2345,9 @@ type AccountStatus struct {
 	LastContactAt            *v1.Instant            `protobuf:"bytes,11,opt,name=last_contact_at,json=lastContactAt,proto3" json:"last_contact_at,omitempty"`
 	Warnings                 []string               `protobuf:"bytes,12,rep,name=warnings,proto3" json:"warnings,omitempty"` // e.g. weaker credential storage on Linux without a secret service
 	CredentialInOsStore      *bool                  `protobuf:"varint,13,opt,name=credential_in_os_store,json=credentialInOsStore,proto3,oneof" json:"credential_in_os_store,omitempty"`
+	CenterUrl                *string                `protobuf:"bytes,14,opt,name=center_url,json=centerUrl,proto3,oneof" json:"center_url,omitempty"`                              // the credential's center when signed in, else the configured center (canonical)
+	NodeKeyFingerprint       *string                `protobuf:"bytes,15,opt,name=node_key_fingerprint,json=nodeKeyFingerprint,proto3,oneof" json:"node_key_fingerprint,omitempty"` // as SignInFlow.node_key_fingerprint; absent while the node has no key
+	CredentialExpiresAt      *v1.Instant            `protobuf:"bytes,16,opt,name=credential_expires_at,json=credentialExpiresAt,proto3" json:"credential_expires_at,omitempty"`    // absolute end of the node credential; absent when signed out
 	unknownFields            protoimpl.UnknownFields
 	sizeCache                protoimpl.SizeCache
 }
@@ -2460,6 +2471,27 @@ func (x *AccountStatus) GetCredentialInOsStore() bool {
 		return *x.CredentialInOsStore
 	}
 	return false
+}
+
+func (x *AccountStatus) GetCenterUrl() string {
+	if x != nil && x.CenterUrl != nil {
+		return *x.CenterUrl
+	}
+	return ""
+}
+
+func (x *AccountStatus) GetNodeKeyFingerprint() string {
+	if x != nil && x.NodeKeyFingerprint != nil {
+		return *x.NodeKeyFingerprint
+	}
+	return ""
+}
+
+func (x *AccountStatus) GetCredentialExpiresAt() *v1.Instant {
+	if x != nil {
+		return x.CredentialExpiresAt
+	}
+	return nil
 }
 
 type PhonePairing struct {
@@ -2701,7 +2733,7 @@ const file_arcforges_node_v1_account_proto_rawDesc = "" +
 	"\"p\n" +
 	"%AccountServiceRefreshEntitlementValue\x12G\n" +
 	"\ventitlement\x18\n" +
-	" \x01(\v2%.arcforges.node.v1.EntitlementSummaryR\ventitlement\"\xaf\x06\n" +
+	" \x01(\v2%.arcforges.node.v1.EntitlementSummaryR\ventitlement\"\xff\x06\n" +
 	"\n" +
 	"SignInFlow\x124\n" +
 	"\aflow_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06flowId\x12<\n" +
@@ -2718,7 +2750,8 @@ const file_arcforges_node_v1_account_proto_rawDesc = "" +
 	"\x10poll_interval_ms\x18\n" +
 	" \x01(\x04H\aR\x0epollIntervalMs\x88\x01\x01\x127\n" +
 	"\x05error\x18\v \x01(\v2!.arcforges.foundation.v1.ArcErrorR\x05error\x12;\n" +
-	"\x18fell_back_to_device_code\x18\f \x01(\bH\bR\x14fellBackToDeviceCode\x88\x01\x01B\t\n" +
+	"\x18fell_back_to_device_code\x18\f \x01(\bH\bR\x14fellBackToDeviceCode\x88\x01\x01\x125\n" +
+	"\x14node_key_fingerprint\x18\r \x01(\tH\tR\x12nodeKeyFingerprint\x88\x01\x01B\t\n" +
 	"\a_methodB\b\n" +
 	"\x06_stateB\x10\n" +
 	"\x0e_authorize_urlB\f\n" +
@@ -2728,7 +2761,8 @@ const file_arcforges_node_v1_account_proto_rawDesc = "" +
 	"\x1a_verification_uri_completeB\r\n" +
 	"\v_qr_payloadB\x13\n" +
 	"\x11_poll_interval_msB\x1b\n" +
-	"\x19_fell_back_to_device_code\"\x92\x02\n" +
+	"\x19_fell_back_to_device_codeB\x17\n" +
+	"\x15_node_key_fingerprint\"\x92\x02\n" +
 	"\x12EntitlementSummary\x12\x17\n" +
 	"\x04plan\x18\x01 \x01(\tH\x00R\x04plan\x88\x01\x01\x12\x1a\n" +
 	"\bfeatures\x18\x02 \x03(\tR\bfeatures\x12=\n" +
@@ -2736,7 +2770,7 @@ const file_arcforges_node_v1_account_proto_rawDesc = "" +
 	"\frefreshed_at\x18\x04 \x01(\v2 .arcforges.foundation.v1.InstantR\vrefreshedAt\x12(\n" +
 	"\roffline_grace\x18\x05 \x01(\bH\x01R\fofflineGrace\x88\x01\x01B\a\n" +
 	"\x05_planB\x10\n" +
-	"\x0e_offline_grace\"\x89\a\n" +
+	"\x0e_offline_grace\"\xe2\b\n" +
 	"\rAccountStatus\x12 \n" +
 	"\tsigned_in\x18\x01 \x01(\bH\x00R\bsignedIn\x88\x01\x01\x125\n" +
 	"\x14account_display_name\x18\x02 \x01(\tH\x01R\x12accountDisplayName\x88\x01\x01\x125\n" +
@@ -2751,7 +2785,12 @@ const file_arcforges_node_v1_account_proto_rawDesc = "" +
 	" \x01(\bH\aR\x0ecloudReachable\x88\x01\x01\x12H\n" +
 	"\x0flast_contact_at\x18\v \x01(\v2 .arcforges.foundation.v1.InstantR\rlastContactAt\x12\x1a\n" +
 	"\bwarnings\x18\f \x03(\tR\bwarnings\x128\n" +
-	"\x16credential_in_os_store\x18\r \x01(\bH\bR\x13credentialInOsStore\x88\x01\x01B\f\n" +
+	"\x16credential_in_os_store\x18\r \x01(\bH\bR\x13credentialInOsStore\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"center_url\x18\x0e \x01(\tH\tR\tcenterUrl\x88\x01\x01\x125\n" +
+	"\x14node_key_fingerprint\x18\x0f \x01(\tH\n" +
+	"R\x12nodeKeyFingerprint\x88\x01\x01\x12T\n" +
+	"\x15credential_expires_at\x18\x10 \x01(\v2 .arcforges.foundation.v1.InstantR\x13credentialExpiresAtB\f\n" +
 	"\n" +
 	"_signed_inB\x17\n" +
 	"\x15_account_display_nameB\x17\n" +
@@ -2761,7 +2800,9 @@ const file_arcforges_node_v1_account_proto_rawDesc = "" +
 	"\r_relay_reasonB\x15\n" +
 	"\x13_cloud_link_enabledB\x12\n" +
 	"\x10_cloud_reachableB\x19\n" +
-	"\x17_credential_in_os_store\"\xad\x03\n" +
+	"\x17_credential_in_os_storeB\r\n" +
+	"\v_center_urlB\x17\n" +
+	"\x15_node_key_fingerprint\"\xad\x03\n" +
 	"\fPhonePairing\x12:\n" +
 	"\n" +
 	"pairing_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\tpairingId\x12?\n" +
@@ -2949,35 +2990,36 @@ var file_arcforges_node_v1_account_proto_depIdxs = []int32{
 	43, // 63: arcforges.node.v1.AccountStatus.node_certificate_expires_at:type_name -> arcforges.foundation.v1.Instant
 	2,  // 64: arcforges.node.v1.AccountStatus.relay:type_name -> arcforges.node.v1.RelayState
 	43, // 65: arcforges.node.v1.AccountStatus.last_contact_at:type_name -> arcforges.foundation.v1.Instant
-	41, // 66: arcforges.node.v1.PhonePairing.pairing_id:type_name -> arcforges.foundation.v1.Id
-	3,  // 67: arcforges.node.v1.PhonePairing.state:type_name -> arcforges.node.v1.PhonePairingState
-	43, // 68: arcforges.node.v1.PhonePairing.expires_at:type_name -> arcforges.foundation.v1.Instant
-	43, // 69: arcforges.node.v1.PhonePairing.claimed_at:type_name -> arcforges.foundation.v1.Instant
-	4,  // 70: arcforges.node.v1.AccountService.GetAccountStatus:input_type -> arcforges.node.v1.AccountServiceGetAccountStatusRequest
-	7,  // 71: arcforges.node.v1.AccountService.BeginSignIn:input_type -> arcforges.node.v1.AccountServiceBeginSignInRequest
-	10, // 72: arcforges.node.v1.AccountService.GetSignInFlow:input_type -> arcforges.node.v1.AccountServiceGetSignInFlowRequest
-	13, // 73: arcforges.node.v1.AccountService.CancelSignIn:input_type -> arcforges.node.v1.AccountServiceCancelSignInRequest
-	16, // 74: arcforges.node.v1.AccountService.SignOut:input_type -> arcforges.node.v1.AccountServiceSignOutRequest
-	19, // 75: arcforges.node.v1.AccountService.CreatePhonePairing:input_type -> arcforges.node.v1.AccountServiceCreatePhonePairingRequest
-	22, // 76: arcforges.node.v1.AccountService.GetPhonePairing:input_type -> arcforges.node.v1.AccountServiceGetPhonePairingRequest
-	25, // 77: arcforges.node.v1.AccountService.ConfirmPhonePairing:input_type -> arcforges.node.v1.AccountServiceConfirmPhonePairingRequest
-	28, // 78: arcforges.node.v1.AccountService.SetCloudLink:input_type -> arcforges.node.v1.AccountServiceSetCloudLinkRequest
-	31, // 79: arcforges.node.v1.AccountService.RefreshEntitlement:input_type -> arcforges.node.v1.AccountServiceRefreshEntitlementRequest
-	5,  // 80: arcforges.node.v1.AccountService.GetAccountStatus:output_type -> arcforges.node.v1.AccountServiceGetAccountStatusResponse
-	8,  // 81: arcforges.node.v1.AccountService.BeginSignIn:output_type -> arcforges.node.v1.AccountServiceBeginSignInResponse
-	11, // 82: arcforges.node.v1.AccountService.GetSignInFlow:output_type -> arcforges.node.v1.AccountServiceGetSignInFlowResponse
-	14, // 83: arcforges.node.v1.AccountService.CancelSignIn:output_type -> arcforges.node.v1.AccountServiceCancelSignInResponse
-	17, // 84: arcforges.node.v1.AccountService.SignOut:output_type -> arcforges.node.v1.AccountServiceSignOutResponse
-	20, // 85: arcforges.node.v1.AccountService.CreatePhonePairing:output_type -> arcforges.node.v1.AccountServiceCreatePhonePairingResponse
-	23, // 86: arcforges.node.v1.AccountService.GetPhonePairing:output_type -> arcforges.node.v1.AccountServiceGetPhonePairingResponse
-	26, // 87: arcforges.node.v1.AccountService.ConfirmPhonePairing:output_type -> arcforges.node.v1.AccountServiceConfirmPhonePairingResponse
-	29, // 88: arcforges.node.v1.AccountService.SetCloudLink:output_type -> arcforges.node.v1.AccountServiceSetCloudLinkResponse
-	32, // 89: arcforges.node.v1.AccountService.RefreshEntitlement:output_type -> arcforges.node.v1.AccountServiceRefreshEntitlementResponse
-	80, // [80:90] is the sub-list for method output_type
-	70, // [70:80] is the sub-list for method input_type
-	70, // [70:70] is the sub-list for extension type_name
-	70, // [70:70] is the sub-list for extension extendee
-	0,  // [0:70] is the sub-list for field type_name
+	43, // 66: arcforges.node.v1.AccountStatus.credential_expires_at:type_name -> arcforges.foundation.v1.Instant
+	41, // 67: arcforges.node.v1.PhonePairing.pairing_id:type_name -> arcforges.foundation.v1.Id
+	3,  // 68: arcforges.node.v1.PhonePairing.state:type_name -> arcforges.node.v1.PhonePairingState
+	43, // 69: arcforges.node.v1.PhonePairing.expires_at:type_name -> arcforges.foundation.v1.Instant
+	43, // 70: arcforges.node.v1.PhonePairing.claimed_at:type_name -> arcforges.foundation.v1.Instant
+	4,  // 71: arcforges.node.v1.AccountService.GetAccountStatus:input_type -> arcforges.node.v1.AccountServiceGetAccountStatusRequest
+	7,  // 72: arcforges.node.v1.AccountService.BeginSignIn:input_type -> arcforges.node.v1.AccountServiceBeginSignInRequest
+	10, // 73: arcforges.node.v1.AccountService.GetSignInFlow:input_type -> arcforges.node.v1.AccountServiceGetSignInFlowRequest
+	13, // 74: arcforges.node.v1.AccountService.CancelSignIn:input_type -> arcforges.node.v1.AccountServiceCancelSignInRequest
+	16, // 75: arcforges.node.v1.AccountService.SignOut:input_type -> arcforges.node.v1.AccountServiceSignOutRequest
+	19, // 76: arcforges.node.v1.AccountService.CreatePhonePairing:input_type -> arcforges.node.v1.AccountServiceCreatePhonePairingRequest
+	22, // 77: arcforges.node.v1.AccountService.GetPhonePairing:input_type -> arcforges.node.v1.AccountServiceGetPhonePairingRequest
+	25, // 78: arcforges.node.v1.AccountService.ConfirmPhonePairing:input_type -> arcforges.node.v1.AccountServiceConfirmPhonePairingRequest
+	28, // 79: arcforges.node.v1.AccountService.SetCloudLink:input_type -> arcforges.node.v1.AccountServiceSetCloudLinkRequest
+	31, // 80: arcforges.node.v1.AccountService.RefreshEntitlement:input_type -> arcforges.node.v1.AccountServiceRefreshEntitlementRequest
+	5,  // 81: arcforges.node.v1.AccountService.GetAccountStatus:output_type -> arcforges.node.v1.AccountServiceGetAccountStatusResponse
+	8,  // 82: arcforges.node.v1.AccountService.BeginSignIn:output_type -> arcforges.node.v1.AccountServiceBeginSignInResponse
+	11, // 83: arcforges.node.v1.AccountService.GetSignInFlow:output_type -> arcforges.node.v1.AccountServiceGetSignInFlowResponse
+	14, // 84: arcforges.node.v1.AccountService.CancelSignIn:output_type -> arcforges.node.v1.AccountServiceCancelSignInResponse
+	17, // 85: arcforges.node.v1.AccountService.SignOut:output_type -> arcforges.node.v1.AccountServiceSignOutResponse
+	20, // 86: arcforges.node.v1.AccountService.CreatePhonePairing:output_type -> arcforges.node.v1.AccountServiceCreatePhonePairingResponse
+	23, // 87: arcforges.node.v1.AccountService.GetPhonePairing:output_type -> arcforges.node.v1.AccountServiceGetPhonePairingResponse
+	26, // 88: arcforges.node.v1.AccountService.ConfirmPhonePairing:output_type -> arcforges.node.v1.AccountServiceConfirmPhonePairingResponse
+	29, // 89: arcforges.node.v1.AccountService.SetCloudLink:output_type -> arcforges.node.v1.AccountServiceSetCloudLinkResponse
+	32, // 90: arcforges.node.v1.AccountService.RefreshEntitlement:output_type -> arcforges.node.v1.AccountServiceRefreshEntitlementResponse
+	81, // [81:91] is the sub-list for method output_type
+	71, // [71:81] is the sub-list for method input_type
+	71, // [71:71] is the sub-list for extension type_name
+	71, // [71:71] is the sub-list for extension extendee
+	0,  // [0:71] is the sub-list for field type_name
 }
 
 func init() { file_arcforges_node_v1_account_proto_init() }

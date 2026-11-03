@@ -1414,6 +1414,7 @@
         "/arcforges.fleet.v1.NodeEnrollmentService/ApproveDeviceCode",
         "/arcforges.fleet.v1.NodeEnrollmentService/RefreshNodeSession",
         "/arcforges.fleet.v1.NodeEnrollmentService/ReportNodeInfo",
+        "/arcforges.fleet.v1.NodeEnrollmentService/SignOutNode",
         "/arcforges.fleet.v1.NodeEnrollmentService/CreatePhonePairing",
         "/arcforges.fleet.v1.NodeEnrollmentService/ClaimPhonePairing",
         "/arcforges.fleet.v1.NodeEnrollmentService/GetPhonePairing",

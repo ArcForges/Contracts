@@ -31,7 +31,7 @@ service AccountService {
   // idempotency: command_id; one active flow at a time (returns it)
   // deadline: 15 s
   // stream: none
-  // errors: STATE/invalid_state, STATE/cloud_unreachable, RESOURCE/rate_limited, AUTHORIZATION/permission_denied
+  // errors: STATE/invalid_state, STATE/cloud_unreachable, RESOURCE/rate_limited, AUTHORIZATION/permission_denied, STATE/not_activated
   // locality: node -> cloud
   // state: SM-SIGN-IN: (none) -> PENDING
   rpc BeginSignIn(AccountServiceBeginSignInRequest) returns (AccountServiceBeginSignInResponse);
@@ -332,6 +332,7 @@ message SignInFlow {
   optional uint64 poll_interval_ms = 10 [json_name = "pollIntervalMs"];
   arcforges.foundation.v1.ArcError error = 11 [json_name = "error"];
   optional bool fell_back_to_device_code = 12 [json_name = "fellBackToDeviceCode"]; // loopback port unavailable
+  optional string node_key_fingerprint = 13 [json_name = "nodeKeyFingerprint"]; // XXXX-XXXX-XXXX-XXXX-XXXX: upper-case hex of the first 10 bytes of SHA-256 over the node public key (PKIX DER)
 }
 
 message EntitlementSummary {
@@ -356,6 +357,9 @@ message AccountStatus {
   arcforges.foundation.v1.Instant last_contact_at = 11 [json_name = "lastContactAt"];
   repeated string warnings = 12 [json_name = "warnings"]; // e.g. weaker credential storage on Linux without a secret service
   optional bool credential_in_os_store = 13 [json_name = "credentialInOsStore"];
+  optional string center_url = 14 [json_name = "centerUrl"]; // the credential's center when signed in, else the configured center (canonical)
+  optional string node_key_fingerprint = 15 [json_name = "nodeKeyFingerprint"]; // as SignInFlow.node_key_fingerprint; absent while the node has no key
+  arcforges.foundation.v1.Instant credential_expires_at = 16 [json_name = "credentialExpiresAt"]; // absolute end of the node credential; absent when signed out
 }
 
 message PhonePairing {

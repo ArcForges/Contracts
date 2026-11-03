@@ -1432,6 +1432,7 @@ type NodeServiceUpdateNodeSettingsRequest struct {
 	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
 	LogLevel       *LogLevel              `protobuf:"varint,10,opt,name=log_level,json=logLevel,proto3,enum=arcforges.node.v1.LogLevel,oneof" json:"log_level,omitempty"` // validate: UNSPECIFIED = unchanged
 	TelemetryOptIn *bool                  `protobuf:"varint,11,opt,name=telemetry_opt_in,json=telemetryOptIn,proto3,oneof" json:"telemetry_opt_in,omitempty"`             // validate: HUMAN only
+	CenterUrl      *string                `protobuf:"bytes,12,opt,name=center_url,json=centerUrl,proto3,oneof" json:"center_url,omitempty"`                               // validate: HUMAN only; https URL (http only for localhost, 127.0.0.1, [::1]), no userinfo, query or fragment, lower-case host, no trailing slash, <= 512 chars; empty = back to the official default (refused under --test-mode); unset = unchanged
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -1485,6 +1486,13 @@ func (x *NodeServiceUpdateNodeSettingsRequest) GetTelemetryOptIn() bool {
 		return *x.TelemetryOptIn
 	}
 	return false
+}
+
+func (x *NodeServiceUpdateNodeSettingsRequest) GetCenterUrl() string {
+	if x != nil && x.CenterUrl != nil {
+		return *x.CenterUrl
+	}
+	return ""
 }
 
 type NodeServiceUpdateNodeSettingsResponse struct {
@@ -3412,6 +3420,7 @@ type NodeSettings struct {
 	TelemetryOptIn *bool                  `protobuf:"varint,3,opt,name=telemetry_opt_in,json=telemetryOptIn,proto3,oneof" json:"telemetry_opt_in,omitempty"`             // default false (R-OPS-003)
 	ConfigPath     *string                `protobuf:"bytes,4,opt,name=config_path,json=configPath,proto3,oneof" json:"config_path,omitempty"`                            // read-only
 	Revision       *v1.Revision           `protobuf:"bytes,5,opt,name=revision,proto3" json:"revision,omitempty"`
+	CenterUrl      *string                `protobuf:"bytes,6,opt,name=center_url,json=centerUrl,proto3,oneof" json:"center_url,omitempty"` // effective center URL (canonical); the official default when none is configured; absent under --test-mode until one is set
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -3479,6 +3488,13 @@ func (x *NodeSettings) GetRevision() *v1.Revision {
 		return x.Revision
 	}
 	return nil
+}
+
+func (x *NodeSettings) GetCenterUrl() string {
+	if x != nil && x.CenterUrl != nil {
+		return *x.CenterUrl
+	}
+	return ""
 }
 
 type HealthMetric struct {
@@ -3659,15 +3675,18 @@ const file_arcforges_node_v1_node_proto_rawDesc = "" +
 	"\"^\n" +
 	"\x1fNodeServiceGetNodeSettingsValue\x12;\n" +
 	"\bsettings\x18\n" +
-	" \x01(\v2\x1f.arcforges.node.v1.NodeSettingsR\bsettings\"\xf7\x01\n" +
+	" \x01(\v2\x1f.arcforges.node.v1.NodeSettingsR\bsettings\"\xaa\x02\n" +
 	"$NodeServiceUpdateNodeSettingsRequest\x128\n" +
 	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x12=\n" +
 	"\tlog_level\x18\n" +
 	" \x01(\x0e2\x1b.arcforges.node.v1.LogLevelH\x00R\blogLevel\x88\x01\x01\x12-\n" +
-	"\x10telemetry_opt_in\x18\v \x01(\bH\x01R\x0etelemetryOptIn\x88\x01\x01B\f\n" +
+	"\x10telemetry_opt_in\x18\v \x01(\bH\x01R\x0etelemetryOptIn\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"center_url\x18\f \x01(\tH\x02R\tcenterUrl\x88\x01\x01B\f\n" +
 	"\n" +
 	"_log_levelB\x13\n" +
-	"\x11_telemetry_opt_inJ\x04\b\x02\x10\n" +
+	"\x11_telemetry_opt_inB\r\n" +
+	"\v_center_urlJ\x04\b\x02\x10\n" +
 	"\"\xfd\x01\n" +
 	"%NodeServiceUpdateNodeSettingsResponse\x129\n" +
 	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12M\n" +
@@ -3872,20 +3891,23 @@ const file_arcforges_node_v1_node_proto_rawDesc = "" +
 	"\f_guest_linksB\n" +
 	"\n" +
 	"\b_editionB\b\n" +
-	"\x06_state\"\xc4\x02\n" +
+	"\x06_state\"\xf7\x02\n" +
 	"\fNodeSettings\x12 \n" +
 	"\tdata_root\x18\x01 \x01(\tH\x00R\bdataRoot\x88\x01\x01\x12=\n" +
 	"\tlog_level\x18\x02 \x01(\x0e2\x1b.arcforges.node.v1.LogLevelH\x01R\blogLevel\x88\x01\x01\x12-\n" +
 	"\x10telemetry_opt_in\x18\x03 \x01(\bH\x02R\x0etelemetryOptIn\x88\x01\x01\x12$\n" +
 	"\vconfig_path\x18\x04 \x01(\tH\x03R\n" +
 	"configPath\x88\x01\x01\x12=\n" +
-	"\brevision\x18\x05 \x01(\v2!.arcforges.foundation.v1.RevisionR\brevisionB\f\n" +
+	"\brevision\x18\x05 \x01(\v2!.arcforges.foundation.v1.RevisionR\brevision\x12\"\n" +
+	"\n" +
+	"center_url\x18\x06 \x01(\tH\x04R\tcenterUrl\x88\x01\x01B\f\n" +
 	"\n" +
 	"_data_rootB\f\n" +
 	"\n" +
 	"_log_levelB\x13\n" +
 	"\x11_telemetry_opt_inB\x0e\n" +
-	"\f_config_path\"\xd4\x02\n" +
+	"\f_config_pathB\r\n" +
+	"\v_center_url\"\xd4\x02\n" +
 	"\fHealthMetric\x12\x17\n" +
 	"\x04name\x18\x01 \x01(\tH\x00R\x04name\x88\x01\x01\x126\n" +
 	"\x04kind\x18\x02 \x01(\x0e2\x1d.arcforges.node.v1.MetricKindH\x01R\x04kind\x88\x01\x01\x12\x19\n" +

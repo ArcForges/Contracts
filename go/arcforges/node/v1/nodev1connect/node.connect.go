@@ -214,19 +214,22 @@ type NodeServiceClient interface {
 	// locality: node
 	GetNodeSettings(context.Context, *v1.NodeServiceGetNodeSettingsRequest) (*v1.NodeServiceGetNodeSettingsResponse, error)
 	// Change node.json settings (meta.expected_rev = settings revision).
+	// center_url is HUMAN only (no approval path) and is refused while the node is signed in or signing in:
+	// STATE/invalid_state (state.state signed_in or signing_in, state.reason center_url).
 	// auth: HUMAN=A SCRIPT=P AGENT=D REMOTE=-
 	// idempotency: command_id; expected_rev
 	// deadline: 5 s
 	// stream: none
-	// errors: CONFLICT/revision_conflict, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required
+	// errors: CONFLICT/revision_conflict, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/invalid_state, VALIDATION/invalid_argument
 	// locality: node
 	UpdateNodeSettings(context.Context, *v1.NodeServiceUpdateNodeSettingsRequest) (*v1.NodeServiceUpdateNodeSettingsResponse, error)
 	// Stop the node. Running executions continue unless cancel_running (or kill_with_node tasks).
+	// STARTING or RECOVERING: STATE/invalid_state (DID_NOT_HAPPEN, NEVER); no deferred stop. Issue a new command after readiness.
 	// auth: HUMAN=A SCRIPT=A AGENT=D REMOTE=high
 	// idempotency: command_id
 	// deadline: 10 s (returns when the stop is recorded; the node then stops within timeout_ms)
 	// stream: none
-	// errors: AUTHORIZATION/permission_denied, STATE/update_in_progress
+	// errors: AUTHORIZATION/permission_denied, STATE/update_in_progress, STATE/invalid_state
 	// locality: node
 	// state: SM-NODE: READY|DEGRADED -> STOPPING
 	StopNode(context.Context, *v1.NodeServiceStopNodeRequest) (*v1.NodeServiceStopNodeResponse, error)
@@ -337,19 +340,22 @@ type NodeServiceHandler interface {
 	// locality: node
 	GetNodeSettings(context.Context, *v1.NodeServiceGetNodeSettingsRequest) (*v1.NodeServiceGetNodeSettingsResponse, error)
 	// Change node.json settings (meta.expected_rev = settings revision).
+	// center_url is HUMAN only (no approval path) and is refused while the node is signed in or signing in:
+	// STATE/invalid_state (state.state signed_in or signing_in, state.reason center_url).
 	// auth: HUMAN=A SCRIPT=P AGENT=D REMOTE=-
 	// idempotency: command_id; expected_rev
 	// deadline: 5 s
 	// stream: none
-	// errors: CONFLICT/revision_conflict, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required
+	// errors: CONFLICT/revision_conflict, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/invalid_state, VALIDATION/invalid_argument
 	// locality: node
 	UpdateNodeSettings(context.Context, *v1.NodeServiceUpdateNodeSettingsRequest) (*v1.NodeServiceUpdateNodeSettingsResponse, error)
 	// Stop the node. Running executions continue unless cancel_running (or kill_with_node tasks).
+	// STARTING or RECOVERING: STATE/invalid_state (DID_NOT_HAPPEN, NEVER); no deferred stop. Issue a new command after readiness.
 	// auth: HUMAN=A SCRIPT=A AGENT=D REMOTE=high
 	// idempotency: command_id
 	// deadline: 10 s (returns when the stop is recorded; the node then stops within timeout_ms)
 	// stream: none
-	// errors: AUTHORIZATION/permission_denied, STATE/update_in_progress
+	// errors: AUTHORIZATION/permission_denied, STATE/update_in_progress, STATE/invalid_state
 	// locality: node
 	// state: SM-NODE: READY|DEGRADED -> STOPPING
 	StopNode(context.Context, *v1.NodeServiceStopNodeRequest) (*v1.NodeServiceStopNodeResponse, error)

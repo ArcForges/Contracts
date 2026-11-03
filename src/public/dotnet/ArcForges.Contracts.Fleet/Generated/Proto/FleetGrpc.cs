@@ -94,6 +94,10 @@ namespace ArcForges.Contracts.Fleet.V1 {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportNodeInfoResponse> __Marshaller_arcforges_fleet_v1_NodeEnrollmentServiceReportNodeInfoResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportNodeInfoResponse.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest> __Marshaller_arcforges_fleet_v1_NodeEnrollmentServiceSignOutNodeRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse> __Marshaller_arcforges_fleet_v1_NodeEnrollmentServiceSignOutNodeResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingRequest> __Marshaller_arcforges_fleet_v1_NodeEnrollmentServiceCreatePhonePairingRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingResponse> __Marshaller_arcforges_fleet_v1_NodeEnrollmentServiceCreatePhonePairingResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingResponse.Parser));
@@ -223,6 +227,14 @@ namespace ArcForges.Contracts.Fleet.V1 {
         __Marshaller_arcforges_fleet_v1_NodeEnrollmentServiceReportNodeInfoResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse> __Method_SignOutNode = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "SignOutNode",
+        __Marshaller_arcforges_fleet_v1_NodeEnrollmentServiceSignOutNodeRequest,
+        __Marshaller_arcforges_fleet_v1_NodeEnrollmentServiceSignOutNodeResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingRequest, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingResponse> __Method_CreatePhonePairing = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingRequest, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
@@ -330,11 +342,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
     {
       /// <summary>
       /// Start a PKCE loopback sign-in for a node (10 section 3.1).
+      /// A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
+      /// (state.state node_key, state.reason already_registered); the node replaces its key once and starts again.
       /// auth: none (rate limited per IP and per node ID)
-      /// idempotency: command_id
+      /// idempotency: natural: every call starts a new flow; meta.command_id is correlation only
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists
       /// locality: cloud
       /// state: SM-SIGN-IN: (none) -> PENDING
       /// </summary>
@@ -349,11 +363,12 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// Web consent page: show which node asks to connect.
+      /// Reviewing a PENDING flow records the reviewing account and time; ApproveNodeSignIn decides only a reviewed flow.
       /// auth: account session
-      /// idempotency: read
+      /// idempotency: natural: on a PENDING flow records the reviewing account and time
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired
+      /// errors: STATE/not_found, STATE/expired, AUTHENTICATION/step_up_required, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -367,13 +382,18 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// Web consent decision. On approval returns the loopback redirect with a one-use code.
+      /// Approval (approve = true) needs a proved step-up of class fleet.approveNodeSignIn bound to the flow ID; deny needs
+      /// none. Only a flow this account reviewed within the last 10 minutes can be decided. While the flow is APPROVED and
+      /// its code unredeemed, the approving account may deny it, or approve it again, which replaces the code.
+      /// RESOURCE/quota_exceeded: limit.limit_name max_nodes_per_account, limit.maximum the cap.
+      /// STATE/invalid_state: state.state node_sign_in, state.reason the lower-case state name or not_reviewed.
       /// auth: account session
-      /// idempotency: command_id
+      /// idempotency: natural: the flow row; a repeat by the same account replaces the unredeemed one-use code
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, STATE/invalid_state, ENTITLEMENT/plan_limit_reached
+      /// errors: STATE/not_found, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
       /// locality: cloud
-      /// state: SM-SIGN-IN: PENDING -> APPROVED | DENIED
+      /// state: SM-SIGN-IN: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
@@ -386,11 +406,15 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// Exchange the code and verifier for node credentials; registers the NODE installation.
+      /// A failed proof (code, verifier or node key proof) is AUTHENTICATION/unauthenticated. STATE/expired covers the flow
+      /// and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
+      /// CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
+      /// registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
       /// auth: none (flow-bound proof)
       /// idempotency: natural: code single use; reuse revokes the flow
       /// deadline: 15 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
       /// locality: cloud
       /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
       /// </summary>
@@ -405,11 +429,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// Start a device-code sign-in for headless nodes (10 section 3.2).
+      /// A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
+      /// (state.state node_key, state.reason already_registered); the node replaces its key once and starts again.
       /// auth: none (rate limited)
-      /// idempotency: command_id
+      /// idempotency: natural: every call starts a new flow; meta.command_id is correlation only
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: (none) -> PENDING
       /// </summary>
@@ -424,11 +450,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// Poll at the given interval. APPROVED returns credentials.
+      /// A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
+      /// CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
       /// auth: none (device_code proof)
       /// idempotency: natural
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, RESOURCE/rate_limited
+      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
       /// </summary>
@@ -442,12 +470,19 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
 
       /// <summary>
-      /// Web /activate: show the node behind a user code (5 entry attempts per code).
+      /// Web /activate: show the node behind a user code (5 lookups per live code).
+      /// Malformed input costs nothing. Every other entry first reserves one unit of the account budget and one of the
+      /// network budget; a right lookup gives both back. A wrong entry is VALIDATION/code_invalid with limit.limit_name
+      /// device_entry_account, limit.maximum the window's cap and limit.available the entries left. Once the account or
+      /// network budget is spent, every entry (also a right one) is RESOURCE/rate_limited with retry_at until the window
+      /// ends. The sixth and later lookups of one live code are refused with VALIDATION/code_invalid (limit.limit_name
+      /// device_code_lookups, limit.available 0); the authorization stays PENDING. An expired code or a code in another
+      /// state is STATE/expired or STATE/invalid_state, without limit. A lookup records the reviewing account and time.
       /// auth: account session
-      /// idempotency: read (counts an attempt)
+      /// idempotency: natural: counts one lookup of the live code and records the reviewing account
       /// deadline: 5 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited
+      /// errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited, STATE/invalid_state, AUTHENTICATION/step_up_required, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -461,12 +496,18 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// Web /activate decision.
+      /// Approval (approve = true) needs a proved step-up of class fleet.approveDeviceCode bound to the normalized user code
+      /// (8 upper-case letters); deny needs none. Only a code this account looked up within the last 10 minutes can be
+      /// decided. The approving account may deny an APPROVED authorization whose credentials are not yet delivered.
+      /// RESOURCE/quota_exceeded and STATE/invalid_state carry the details of ApproveNodeSignIn (state.state
+      /// device_authorization).
       /// auth: account session
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, ENTITLEMENT/plan_limit_reached
+      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
       /// locality: cloud
+      /// state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
@@ -479,11 +520,14 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// Rotate the node refresh token and obtain an access token.
+      /// Strict rotation: there is no grace window. Presenting a spent refresh token (also a retry whose reply was lost)
+      /// revokes the credential family, and the node signs in again. A live account token is refused with
+      /// AUTHORIZATION/permission_denied.
       /// auth: node refresh token
       /// idempotency: natural: rotation with reuse detection (reuse revokes the credential)
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked
+      /// errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -497,11 +541,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// Update the registry after a version, name or role change.
+      /// The node key is not reported here: the credential's installation names the node and its key; a key change is a new
+      /// sign-in. A Restricted account's node is refused with AUTHORIZATION/permission_denied.
       /// auth: node credential
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -509,6 +555,26 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportNodeInfoResponse> ReportNodeInfo(global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportNodeInfoRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Sign this node out: revoke the calling node credential; the node record, device and installation stay.
+      /// A Restricted account's node may call it. A retry after the revocation (also a retry whose reply was lost) is refused
+      /// at the ingress as credential_revoked before any receipt is read; the node treats that as signed out.
+      /// auth: node credential
+      /// idempotency: command_id
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+      /// locality: cloud
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse> SignOutNode(global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -764,11 +830,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// Start a PKCE loopback sign-in for a node (10 section 3.1).
+      /// A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
+      /// (state.state node_key, state.reason already_registered); the node replaces its key once and starts again.
       /// auth: none (rate limited per IP and per node ID)
-      /// idempotency: command_id
+      /// idempotency: natural: every call starts a new flow; meta.command_id is correlation only
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists
       /// locality: cloud
       /// state: SM-SIGN-IN: (none) -> PENDING
       /// </summary>
@@ -784,11 +852,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Start a PKCE loopback sign-in for a node (10 section 3.1).
+      /// A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
+      /// (state.state node_key, state.reason already_registered); the node replaces its key once and starts again.
       /// auth: none (rate limited per IP and per node ID)
-      /// idempotency: command_id
+      /// idempotency: natural: every call starts a new flow; meta.command_id is correlation only
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists
       /// locality: cloud
       /// state: SM-SIGN-IN: (none) -> PENDING
       /// </summary>
@@ -802,11 +872,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Start a PKCE loopback sign-in for a node (10 section 3.1).
+      /// A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
+      /// (state.state node_key, state.reason already_registered); the node replaces its key once and starts again.
       /// auth: none (rate limited per IP and per node ID)
-      /// idempotency: command_id
+      /// idempotency: natural: every call starts a new flow; meta.command_id is correlation only
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists
       /// locality: cloud
       /// state: SM-SIGN-IN: (none) -> PENDING
       /// </summary>
@@ -822,11 +894,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Start a PKCE loopback sign-in for a node (10 section 3.1).
+      /// A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
+      /// (state.state node_key, state.reason already_registered); the node replaces its key once and starts again.
       /// auth: none (rate limited per IP and per node ID)
-      /// idempotency: command_id
+      /// idempotency: natural: every call starts a new flow; meta.command_id is correlation only
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists
       /// locality: cloud
       /// state: SM-SIGN-IN: (none) -> PENDING
       /// </summary>
@@ -840,11 +914,12 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Web consent page: show which node asks to connect.
+      /// Reviewing a PENDING flow records the reviewing account and time; ApproveNodeSignIn decides only a reviewed flow.
       /// auth: account session
-      /// idempotency: read
+      /// idempotency: natural: on a PENDING flow records the reviewing account and time
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired
+      /// errors: STATE/not_found, STATE/expired, AUTHENTICATION/step_up_required, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -859,11 +934,12 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Web consent page: show which node asks to connect.
+      /// Reviewing a PENDING flow records the reviewing account and time; ApproveNodeSignIn decides only a reviewed flow.
       /// auth: account session
-      /// idempotency: read
+      /// idempotency: natural: on a PENDING flow records the reviewing account and time
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired
+      /// errors: STATE/not_found, STATE/expired, AUTHENTICATION/step_up_required, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -876,11 +952,12 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Web consent page: show which node asks to connect.
+      /// Reviewing a PENDING flow records the reviewing account and time; ApproveNodeSignIn decides only a reviewed flow.
       /// auth: account session
-      /// idempotency: read
+      /// idempotency: natural: on a PENDING flow records the reviewing account and time
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired
+      /// errors: STATE/not_found, STATE/expired, AUTHENTICATION/step_up_required, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -895,11 +972,12 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Web consent page: show which node asks to connect.
+      /// Reviewing a PENDING flow records the reviewing account and time; ApproveNodeSignIn decides only a reviewed flow.
       /// auth: account session
-      /// idempotency: read
+      /// idempotency: natural: on a PENDING flow records the reviewing account and time
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired
+      /// errors: STATE/not_found, STATE/expired, AUTHENTICATION/step_up_required, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -912,13 +990,18 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Web consent decision. On approval returns the loopback redirect with a one-use code.
+      /// Approval (approve = true) needs a proved step-up of class fleet.approveNodeSignIn bound to the flow ID; deny needs
+      /// none. Only a flow this account reviewed within the last 10 minutes can be decided. While the flow is APPROVED and
+      /// its code unredeemed, the approving account may deny it, or approve it again, which replaces the code.
+      /// RESOURCE/quota_exceeded: limit.limit_name max_nodes_per_account, limit.maximum the cap.
+      /// STATE/invalid_state: state.state node_sign_in, state.reason the lower-case state name or not_reviewed.
       /// auth: account session
-      /// idempotency: command_id
+      /// idempotency: natural: the flow row; a repeat by the same account replaces the unredeemed one-use code
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, STATE/invalid_state, ENTITLEMENT/plan_limit_reached
+      /// errors: STATE/not_found, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
       /// locality: cloud
-      /// state: SM-SIGN-IN: PENDING -> APPROVED | DENIED
+      /// state: SM-SIGN-IN: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -932,13 +1015,18 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Web consent decision. On approval returns the loopback redirect with a one-use code.
+      /// Approval (approve = true) needs a proved step-up of class fleet.approveNodeSignIn bound to the flow ID; deny needs
+      /// none. Only a flow this account reviewed within the last 10 minutes can be decided. While the flow is APPROVED and
+      /// its code unredeemed, the approving account may deny it, or approve it again, which replaces the code.
+      /// RESOURCE/quota_exceeded: limit.limit_name max_nodes_per_account, limit.maximum the cap.
+      /// STATE/invalid_state: state.state node_sign_in, state.reason the lower-case state name or not_reviewed.
       /// auth: account session
-      /// idempotency: command_id
+      /// idempotency: natural: the flow row; a repeat by the same account replaces the unredeemed one-use code
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, STATE/invalid_state, ENTITLEMENT/plan_limit_reached
+      /// errors: STATE/not_found, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
       /// locality: cloud
-      /// state: SM-SIGN-IN: PENDING -> APPROVED | DENIED
+      /// state: SM-SIGN-IN: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -950,13 +1038,18 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Web consent decision. On approval returns the loopback redirect with a one-use code.
+      /// Approval (approve = true) needs a proved step-up of class fleet.approveNodeSignIn bound to the flow ID; deny needs
+      /// none. Only a flow this account reviewed within the last 10 minutes can be decided. While the flow is APPROVED and
+      /// its code unredeemed, the approving account may deny it, or approve it again, which replaces the code.
+      /// RESOURCE/quota_exceeded: limit.limit_name max_nodes_per_account, limit.maximum the cap.
+      /// STATE/invalid_state: state.state node_sign_in, state.reason the lower-case state name or not_reviewed.
       /// auth: account session
-      /// idempotency: command_id
+      /// idempotency: natural: the flow row; a repeat by the same account replaces the unredeemed one-use code
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, STATE/invalid_state, ENTITLEMENT/plan_limit_reached
+      /// errors: STATE/not_found, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
       /// locality: cloud
-      /// state: SM-SIGN-IN: PENDING -> APPROVED | DENIED
+      /// state: SM-SIGN-IN: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -970,13 +1063,18 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Web consent decision. On approval returns the loopback redirect with a one-use code.
+      /// Approval (approve = true) needs a proved step-up of class fleet.approveNodeSignIn bound to the flow ID; deny needs
+      /// none. Only a flow this account reviewed within the last 10 minutes can be decided. While the flow is APPROVED and
+      /// its code unredeemed, the approving account may deny it, or approve it again, which replaces the code.
+      /// RESOURCE/quota_exceeded: limit.limit_name max_nodes_per_account, limit.maximum the cap.
+      /// STATE/invalid_state: state.state node_sign_in, state.reason the lower-case state name or not_reviewed.
       /// auth: account session
-      /// idempotency: command_id
+      /// idempotency: natural: the flow row; a repeat by the same account replaces the unredeemed one-use code
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, STATE/invalid_state, ENTITLEMENT/plan_limit_reached
+      /// errors: STATE/not_found, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
       /// locality: cloud
-      /// state: SM-SIGN-IN: PENDING -> APPROVED | DENIED
+      /// state: SM-SIGN-IN: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -988,11 +1086,15 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Exchange the code and verifier for node credentials; registers the NODE installation.
+      /// A failed proof (code, verifier or node key proof) is AUTHENTICATION/unauthenticated. STATE/expired covers the flow
+      /// and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
+      /// CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
+      /// registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
       /// auth: none (flow-bound proof)
       /// idempotency: natural: code single use; reuse revokes the flow
       /// deadline: 15 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
       /// locality: cloud
       /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
       /// </summary>
@@ -1008,11 +1110,15 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Exchange the code and verifier for node credentials; registers the NODE installation.
+      /// A failed proof (code, verifier or node key proof) is AUTHENTICATION/unauthenticated. STATE/expired covers the flow
+      /// and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
+      /// CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
+      /// registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
       /// auth: none (flow-bound proof)
       /// idempotency: natural: code single use; reuse revokes the flow
       /// deadline: 15 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
       /// locality: cloud
       /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
       /// </summary>
@@ -1026,11 +1132,15 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Exchange the code and verifier for node credentials; registers the NODE installation.
+      /// A failed proof (code, verifier or node key proof) is AUTHENTICATION/unauthenticated. STATE/expired covers the flow
+      /// and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
+      /// CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
+      /// registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
       /// auth: none (flow-bound proof)
       /// idempotency: natural: code single use; reuse revokes the flow
       /// deadline: 15 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
       /// locality: cloud
       /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
       /// </summary>
@@ -1046,11 +1156,15 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Exchange the code and verifier for node credentials; registers the NODE installation.
+      /// A failed proof (code, verifier or node key proof) is AUTHENTICATION/unauthenticated. STATE/expired covers the flow
+      /// and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
+      /// CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
+      /// registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
       /// auth: none (flow-bound proof)
       /// idempotency: natural: code single use; reuse revokes the flow
       /// deadline: 15 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
       /// locality: cloud
       /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
       /// </summary>
@@ -1064,11 +1178,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Start a device-code sign-in for headless nodes (10 section 3.2).
+      /// A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
+      /// (state.state node_key, state.reason already_registered); the node replaces its key once and starts again.
       /// auth: none (rate limited)
-      /// idempotency: command_id
+      /// idempotency: natural: every call starts a new flow; meta.command_id is correlation only
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: (none) -> PENDING
       /// </summary>
@@ -1084,11 +1200,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Start a device-code sign-in for headless nodes (10 section 3.2).
+      /// A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
+      /// (state.state node_key, state.reason already_registered); the node replaces its key once and starts again.
       /// auth: none (rate limited)
-      /// idempotency: command_id
+      /// idempotency: natural: every call starts a new flow; meta.command_id is correlation only
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: (none) -> PENDING
       /// </summary>
@@ -1102,11 +1220,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Start a device-code sign-in for headless nodes (10 section 3.2).
+      /// A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
+      /// (state.state node_key, state.reason already_registered); the node replaces its key once and starts again.
       /// auth: none (rate limited)
-      /// idempotency: command_id
+      /// idempotency: natural: every call starts a new flow; meta.command_id is correlation only
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: (none) -> PENDING
       /// </summary>
@@ -1122,11 +1242,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Start a device-code sign-in for headless nodes (10 section 3.2).
+      /// A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
+      /// (state.state node_key, state.reason already_registered); the node replaces its key once and starts again.
       /// auth: none (rate limited)
-      /// idempotency: command_id
+      /// idempotency: natural: every call starts a new flow; meta.command_id is correlation only
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active
+      /// errors: VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: (none) -> PENDING
       /// </summary>
@@ -1140,11 +1262,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Poll at the given interval. APPROVED returns credentials.
+      /// A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
+      /// CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
       /// auth: none (device_code proof)
       /// idempotency: natural
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, RESOURCE/rate_limited
+      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
       /// </summary>
@@ -1160,11 +1284,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Poll at the given interval. APPROVED returns credentials.
+      /// A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
+      /// CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
       /// auth: none (device_code proof)
       /// idempotency: natural
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, RESOURCE/rate_limited
+      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
       /// </summary>
@@ -1178,11 +1304,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Poll at the given interval. APPROVED returns credentials.
+      /// A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
+      /// CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
       /// auth: none (device_code proof)
       /// idempotency: natural
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, RESOURCE/rate_limited
+      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
       /// </summary>
@@ -1198,11 +1326,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Poll at the given interval. APPROVED returns credentials.
+      /// A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
+      /// CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
       /// auth: none (device_code proof)
       /// idempotency: natural
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, RESOURCE/rate_limited
+      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
       /// </summary>
@@ -1215,12 +1345,19 @@ namespace ArcForges.Contracts.Fleet.V1 {
         return CallInvoker.AsyncUnaryCall(__Method_PollDeviceAuthorization, null, options, request);
       }
       /// <summary>
-      /// Web /activate: show the node behind a user code (5 entry attempts per code).
+      /// Web /activate: show the node behind a user code (5 lookups per live code).
+      /// Malformed input costs nothing. Every other entry first reserves one unit of the account budget and one of the
+      /// network budget; a right lookup gives both back. A wrong entry is VALIDATION/code_invalid with limit.limit_name
+      /// device_entry_account, limit.maximum the window's cap and limit.available the entries left. Once the account or
+      /// network budget is spent, every entry (also a right one) is RESOURCE/rate_limited with retry_at until the window
+      /// ends. The sixth and later lookups of one live code are refused with VALIDATION/code_invalid (limit.limit_name
+      /// device_code_lookups, limit.available 0); the authorization stays PENDING. An expired code or a code in another
+      /// state is STATE/expired or STATE/invalid_state, without limit. A lookup records the reviewing account and time.
       /// auth: account session
-      /// idempotency: read (counts an attempt)
+      /// idempotency: natural: counts one lookup of the live code and records the reviewing account
       /// deadline: 5 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited
+      /// errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited, STATE/invalid_state, AUTHENTICATION/step_up_required, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1234,12 +1371,19 @@ namespace ArcForges.Contracts.Fleet.V1 {
         return LookupDeviceCode(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Web /activate: show the node behind a user code (5 entry attempts per code).
+      /// Web /activate: show the node behind a user code (5 lookups per live code).
+      /// Malformed input costs nothing. Every other entry first reserves one unit of the account budget and one of the
+      /// network budget; a right lookup gives both back. A wrong entry is VALIDATION/code_invalid with limit.limit_name
+      /// device_entry_account, limit.maximum the window's cap and limit.available the entries left. Once the account or
+      /// network budget is spent, every entry (also a right one) is RESOURCE/rate_limited with retry_at until the window
+      /// ends. The sixth and later lookups of one live code are refused with VALIDATION/code_invalid (limit.limit_name
+      /// device_code_lookups, limit.available 0); the authorization stays PENDING. An expired code or a code in another
+      /// state is STATE/expired or STATE/invalid_state, without limit. A lookup records the reviewing account and time.
       /// auth: account session
-      /// idempotency: read (counts an attempt)
+      /// idempotency: natural: counts one lookup of the live code and records the reviewing account
       /// deadline: 5 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited
+      /// errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited, STATE/invalid_state, AUTHENTICATION/step_up_required, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1251,12 +1395,19 @@ namespace ArcForges.Contracts.Fleet.V1 {
         return CallInvoker.BlockingUnaryCall(__Method_LookupDeviceCode, null, options, request);
       }
       /// <summary>
-      /// Web /activate: show the node behind a user code (5 entry attempts per code).
+      /// Web /activate: show the node behind a user code (5 lookups per live code).
+      /// Malformed input costs nothing. Every other entry first reserves one unit of the account budget and one of the
+      /// network budget; a right lookup gives both back. A wrong entry is VALIDATION/code_invalid with limit.limit_name
+      /// device_entry_account, limit.maximum the window's cap and limit.available the entries left. Once the account or
+      /// network budget is spent, every entry (also a right one) is RESOURCE/rate_limited with retry_at until the window
+      /// ends. The sixth and later lookups of one live code are refused with VALIDATION/code_invalid (limit.limit_name
+      /// device_code_lookups, limit.available 0); the authorization stays PENDING. An expired code or a code in another
+      /// state is STATE/expired or STATE/invalid_state, without limit. A lookup records the reviewing account and time.
       /// auth: account session
-      /// idempotency: read (counts an attempt)
+      /// idempotency: natural: counts one lookup of the live code and records the reviewing account
       /// deadline: 5 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited
+      /// errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited, STATE/invalid_state, AUTHENTICATION/step_up_required, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1270,12 +1421,19 @@ namespace ArcForges.Contracts.Fleet.V1 {
         return LookupDeviceCodeAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Web /activate: show the node behind a user code (5 entry attempts per code).
+      /// Web /activate: show the node behind a user code (5 lookups per live code).
+      /// Malformed input costs nothing. Every other entry first reserves one unit of the account budget and one of the
+      /// network budget; a right lookup gives both back. A wrong entry is VALIDATION/code_invalid with limit.limit_name
+      /// device_entry_account, limit.maximum the window's cap and limit.available the entries left. Once the account or
+      /// network budget is spent, every entry (also a right one) is RESOURCE/rate_limited with retry_at until the window
+      /// ends. The sixth and later lookups of one live code are refused with VALIDATION/code_invalid (limit.limit_name
+      /// device_code_lookups, limit.available 0); the authorization stays PENDING. An expired code or a code in another
+      /// state is STATE/expired or STATE/invalid_state, without limit. A lookup records the reviewing account and time.
       /// auth: account session
-      /// idempotency: read (counts an attempt)
+      /// idempotency: natural: counts one lookup of the live code and records the reviewing account
       /// deadline: 5 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited
+      /// errors: VALIDATION/code_invalid, STATE/expired, RESOURCE/rate_limited, STATE/invalid_state, AUTHENTICATION/step_up_required, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1288,12 +1446,18 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Web /activate decision.
+      /// Approval (approve = true) needs a proved step-up of class fleet.approveDeviceCode bound to the normalized user code
+      /// (8 upper-case letters); deny needs none. Only a code this account looked up within the last 10 minutes can be
+      /// decided. The approving account may deny an APPROVED authorization whose credentials are not yet delivered.
+      /// RESOURCE/quota_exceeded and STATE/invalid_state carry the details of ApproveNodeSignIn (state.state
+      /// device_authorization).
       /// auth: account session
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, ENTITLEMENT/plan_limit_reached
+      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
       /// locality: cloud
+      /// state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -1307,12 +1471,18 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Web /activate decision.
+      /// Approval (approve = true) needs a proved step-up of class fleet.approveDeviceCode bound to the normalized user code
+      /// (8 upper-case letters); deny needs none. Only a code this account looked up within the last 10 minutes can be
+      /// decided. The approving account may deny an APPROVED authorization whose credentials are not yet delivered.
+      /// RESOURCE/quota_exceeded and STATE/invalid_state carry the details of ApproveNodeSignIn (state.state
+      /// device_authorization).
       /// auth: account session
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, ENTITLEMENT/plan_limit_reached
+      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
       /// locality: cloud
+      /// state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -1324,12 +1494,18 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Web /activate decision.
+      /// Approval (approve = true) needs a proved step-up of class fleet.approveDeviceCode bound to the normalized user code
+      /// (8 upper-case letters); deny needs none. Only a code this account looked up within the last 10 minutes can be
+      /// decided. The approving account may deny an APPROVED authorization whose credentials are not yet delivered.
+      /// RESOURCE/quota_exceeded and STATE/invalid_state carry the details of ApproveNodeSignIn (state.state
+      /// device_authorization).
       /// auth: account session
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, ENTITLEMENT/plan_limit_reached
+      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
       /// locality: cloud
+      /// state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -1343,12 +1519,18 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Web /activate decision.
+      /// Approval (approve = true) needs a proved step-up of class fleet.approveDeviceCode bound to the normalized user code
+      /// (8 upper-case letters); deny needs none. Only a code this account looked up within the last 10 minutes can be
+      /// decided. The approving account may deny an APPROVED authorization whose credentials are not yet delivered.
+      /// RESOURCE/quota_exceeded and STATE/invalid_state carry the details of ApproveNodeSignIn (state.state
+      /// device_authorization).
       /// auth: account session
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, ENTITLEMENT/plan_limit_reached
+      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
       /// locality: cloud
+      /// state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -1360,11 +1542,14 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Rotate the node refresh token and obtain an access token.
+      /// Strict rotation: there is no grace window. Presenting a spent refresh token (also a retry whose reply was lost)
+      /// revokes the credential family, and the node signs in again. A live account token is refused with
+      /// AUTHORIZATION/permission_denied.
       /// auth: node refresh token
       /// idempotency: natural: rotation with reuse detection (reuse revokes the credential)
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked
+      /// errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1379,11 +1564,14 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Rotate the node refresh token and obtain an access token.
+      /// Strict rotation: there is no grace window. Presenting a spent refresh token (also a retry whose reply was lost)
+      /// revokes the credential family, and the node signs in again. A live account token is refused with
+      /// AUTHORIZATION/permission_denied.
       /// auth: node refresh token
       /// idempotency: natural: rotation with reuse detection (reuse revokes the credential)
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked
+      /// errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1396,11 +1584,14 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Rotate the node refresh token and obtain an access token.
+      /// Strict rotation: there is no grace window. Presenting a spent refresh token (also a retry whose reply was lost)
+      /// revokes the credential family, and the node signs in again. A live account token is refused with
+      /// AUTHORIZATION/permission_denied.
       /// auth: node refresh token
       /// idempotency: natural: rotation with reuse detection (reuse revokes the credential)
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked
+      /// errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1415,11 +1606,14 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Rotate the node refresh token and obtain an access token.
+      /// Strict rotation: there is no grace window. Presenting a spent refresh token (also a retry whose reply was lost)
+      /// revokes the credential family, and the node signs in again. A live account token is refused with
+      /// AUTHORIZATION/permission_denied.
       /// auth: node refresh token
       /// idempotency: natural: rotation with reuse detection (reuse revokes the credential)
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked
+      /// errors: AUTHENTICATION/token_expired, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1432,11 +1626,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Update the registry after a version, name or role change.
+      /// The node key is not reported here: the credential's installation names the node and its key; a key change is a new
+      /// sign-in. A Restricted account's node is refused with AUTHORIZATION/permission_denied.
       /// auth: node credential
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1451,11 +1647,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Update the registry after a version, name or role change.
+      /// The node key is not reported here: the credential's installation names the node and its key; a key change is a new
+      /// sign-in. A Restricted account's node is refused with AUTHORIZATION/permission_denied.
       /// auth: node credential
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1468,11 +1666,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Update the registry after a version, name or role change.
+      /// The node key is not reported here: the credential's installation names the node and its key; a key change is a new
+      /// sign-in. A Restricted account's node is refused with AUTHORIZATION/permission_denied.
       /// auth: node credential
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1487,11 +1687,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Update the registry after a version, name or role change.
+      /// The node key is not reported here: the credential's installation names the node and its key; a key change is a new
+      /// sign-in. A Restricted account's node is refused with AUTHORIZATION/permission_denied.
       /// auth: node credential
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument
+      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1501,6 +1703,86 @@ namespace ArcForges.Contracts.Fleet.V1 {
       public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportNodeInfoResponse> ReportNodeInfoAsync(global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportNodeInfoRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_ReportNodeInfo, null, options, request);
+      }
+      /// <summary>
+      /// Sign this node out: revoke the calling node credential; the node record, device and installation stay.
+      /// A Restricted account's node may call it. A retry after the revocation (also a retry whose reply was lost) is refused
+      /// at the ingress as credential_revoked before any receipt is read; the node treats that as signed out.
+      /// auth: node credential
+      /// idempotency: command_id
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+      /// locality: cloud
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse SignOutNode(global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SignOutNode(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Sign this node out: revoke the calling node credential; the node record, device and installation stay.
+      /// A Restricted account's node may call it. A retry after the revocation (also a retry whose reply was lost) is refused
+      /// at the ingress as credential_revoked before any receipt is read; the node treats that as signed out.
+      /// auth: node credential
+      /// idempotency: command_id
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+      /// locality: cloud
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse SignOutNode(global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_SignOutNode, null, options, request);
+      }
+      /// <summary>
+      /// Sign this node out: revoke the calling node credential; the node record, device and installation stay.
+      /// A Restricted account's node may call it. A retry after the revocation (also a retry whose reply was lost) is refused
+      /// at the ingress as credential_revoked before any receipt is read; the node treats that as signed out.
+      /// auth: node credential
+      /// idempotency: command_id
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+      /// locality: cloud
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse> SignOutNodeAsync(global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SignOutNodeAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Sign this node out: revoke the calling node credential; the node record, device and installation stay.
+      /// A Restricted account's node may call it. A retry after the revocation (also a retry whose reply was lost) is refused
+      /// at the ingress as credential_revoked before any receipt is read; the node treats that as signed out.
+      /// auth: node credential
+      /// idempotency: command_id
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+      /// locality: cloud
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse> SignOutNodeAsync(global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_SignOutNode, null, options, request);
       }
       /// <summary>
       /// Create a QR pairing so a phone can sign in as this account (10 section 3.3).
@@ -2406,6 +2688,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
           .AddMethod(__Method_ApproveDeviceCode, serviceImpl.ApproveDeviceCode)
           .AddMethod(__Method_RefreshNodeSession, serviceImpl.RefreshNodeSession)
           .AddMethod(__Method_ReportNodeInfo, serviceImpl.ReportNodeInfo)
+          .AddMethod(__Method_SignOutNode, serviceImpl.SignOutNode)
           .AddMethod(__Method_CreatePhonePairing, serviceImpl.CreatePhonePairing)
           .AddMethod(__Method_ClaimPhonePairing, serviceImpl.ClaimPhonePairing)
           .AddMethod(__Method_GetPhonePairing, serviceImpl.GetPhonePairing)
@@ -2437,6 +2720,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       serviceBinder.AddMethod(__Method_ApproveDeviceCode, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceApproveDeviceCodeRequest, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceApproveDeviceCodeResponse>(serviceImpl.ApproveDeviceCode));
       serviceBinder.AddMethod(__Method_RefreshNodeSession, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceRefreshNodeSessionRequest, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceRefreshNodeSessionResponse>(serviceImpl.RefreshNodeSession));
       serviceBinder.AddMethod(__Method_ReportNodeInfo, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportNodeInfoRequest, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceReportNodeInfoResponse>(serviceImpl.ReportNodeInfo));
+      serviceBinder.AddMethod(__Method_SignOutNode, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse>(serviceImpl.SignOutNode));
       serviceBinder.AddMethod(__Method_CreatePhonePairing, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingRequest, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceCreatePhonePairingResponse>(serviceImpl.CreatePhonePairing));
       serviceBinder.AddMethod(__Method_ClaimPhonePairing, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceClaimPhonePairingRequest, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceClaimPhonePairingResponse>(serviceImpl.ClaimPhonePairing));
       serviceBinder.AddMethod(__Method_GetPhonePairing, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetPhonePairingRequest, global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceGetPhonePairingResponse>(serviceImpl.GetPhonePairing));

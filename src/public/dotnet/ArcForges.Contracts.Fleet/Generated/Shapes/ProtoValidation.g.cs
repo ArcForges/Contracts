@@ -370,6 +370,10 @@ public static class ContractShapeValidation
         {
             if (!Check(value.DeviceId, context)) return false;
         }
+        if (value.CredentialExpiresAt is not null)
+        {
+            if (!Check(value.CredentialExpiresAt, context)) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -1385,6 +1389,13 @@ public static class ContractShapeValidation
         {
             if (!Check(value.InstallationId, context)) return false;
         }
+        if (value.SessionExpiresAt is not null)
+        {
+            if (!Check(value.SessionExpiresAt, context)) return false;
+        }
+        if (value.HasAccessLifetimeMs)
+        {
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -1555,6 +1566,15 @@ public static class ContractShapeValidation
         }
         if (value.Node is null) return false;
         if (!Check(value.Node, context)) return false;
+        if (!value.HasState) return false;
+        if (value.HasState)
+        {
+            if (!ValidUnicode(value.State)) return false;
+        }
+        if (!value.HasNodePublicKey) return false;
+        if (value.HasNodePublicKey)
+        {
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -1779,6 +1799,10 @@ public static class ContractShapeValidation
             if (!ValidUnicode(value.CodeVerifier)) return false;
         }
         if (value.HasCsr)
+        {
+        }
+        if (!value.HasNodeKeyProof) return false;
+        if (value.HasNodeKeyProof)
         {
         }
         return true;
@@ -2352,6 +2376,10 @@ public static class ContractShapeValidation
         if (value.HasCsr)
         {
         }
+        if (!value.HasNodeKeyProof) return false;
+        if (value.HasNodeKeyProof)
+        {
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -2578,6 +2606,21 @@ public static class ContractShapeValidation
         {
             if (!Check(value.AccessExpiresAt, context)) return false;
         }
+        foreach (var item in value.CommandKeys)
+        {
+            if (!Check(item, context)) return false;
+        }
+        foreach (var item in value.EntitlementKeys)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.SessionExpiresAt is not null)
+        {
+            if (!Check(value.SessionExpiresAt, context)) return false;
+        }
+        if (value.HasAccessLifetimeMs)
+        {
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -2700,6 +2743,59 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceSignOutNodeValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Receipt is not null)
+        {
+            if (!Check(value.Receipt, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceStartDeviceAuthorizationRequest? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.NodeEnrollmentServiceStartDeviceAuthorizationRequest? value, ValidationContext context)
@@ -2713,6 +2809,10 @@ public static class ContractShapeValidation
         }
         if (value.Node is null) return false;
         if (!Check(value.Node, context)) return false;
+        if (!value.HasNodePublicKey) return false;
+        if (value.HasNodePublicKey)
+        {
+        }
         return true;
         }
         finally { context.Exit(value); }

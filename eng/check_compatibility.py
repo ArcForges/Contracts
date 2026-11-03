@@ -506,7 +506,12 @@ def project(writer: dict, reader: dict, name: str, tree: dict, strict: bool) -> 
         if tag not in known:
             if strict:
                 raise ValueError(f"member {tag} ({field['name']}) is not declared by the reader")
-            dropped.append(encode_field(writer, field, tag, tree[tag]))
+            # A reader keeps every wire record of an undeclared member as its own unknown record: a repeated member
+            # that is not packed is written as one record per element.
+            if field["label"] == 3 and field["type"] not in PACKABLE:
+                dropped.extend(encode_field(writer, field, tag, [item]) for item in tree[tag])
+            else:
+                dropped.append(encode_field(writer, field, tag, tree[tag]))
         elif field["type"] == 11:
             if known[tag]["typeName"] != field["typeName"] or known[tag]["type"] != 11:
                 raise ValueError(f"member {tag} ({field['name']}) changed its message type")

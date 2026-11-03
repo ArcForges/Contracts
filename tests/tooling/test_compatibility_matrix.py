@@ -611,6 +611,26 @@ class LaterServiceMatrixTests(unittest.TestCase):
         self.assertTrue(any(target.message in error for error in errors))
         self.assertEqual(summary["errors"], len(errors))
 
+    def test_an_added_repeated_member_stays_unknown_record_by_record_for_an_older_reader(self):
+        # AF-CTR-04 C0 adds repeated message members (RefreshNodeSessionValue.command_keys and entitlement_keys) to a
+        # pinned message. An older reader keeps each wire record of an undeclared member as its own unknown record:
+        # one per element of a repeated message or string member, one for a packed scalar member.
+        def field(name, kind, label=1, type_name=""):
+            return {"name": name, "type": kind, "label": label, "typeName": type_name, "oneof": None}
+
+        current = {"messages": {".fixture.Keys": {1: field("token", 9), 2: field("keys", 11, 3, ".fixture.Key"),
+                                                  3: field("names", 9, 3), 4: field("sizes", 13, 3)},
+                                ".fixture.Key": {1: field("kid", 9)}}, "enums": {}, "services": {}}
+        older = deepcopy(current)
+        for tag in (2, 3, 4):
+            del older["messages"][".fixture.Keys"][tag]
+        summary, errors = exchange(current, older, CURRENT_TO_MINIMUM)
+        self.assertEqual((summary["samples"], errors), (2, []))
+        written = encode_message(current, ".fixture.Keys", synthesize(current, ".fixture.Keys"))
+        decoded = decode_message(older, ".fixture.Keys", written)
+        self.assertEqual(len(decoded[UNKNOWN]), 2 + 2 + 1 + 1)  # two keys, two names, one packed record, the injected one
+        self.assertTrue(written.endswith(b"".join(decoded[UNKNOWN])))
+
     def test_reference_codec_matches_the_published_wire_examples(self):
         # Examples from the Protocol Buffers encoding guide plus exact integer boundaries.
         cases = [

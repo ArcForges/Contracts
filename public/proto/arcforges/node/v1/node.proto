@@ -72,20 +72,23 @@ service NodeService {
   rpc GetNodeSettings(NodeServiceGetNodeSettingsRequest) returns (NodeServiceGetNodeSettingsResponse);
 
   // Change node.json settings (meta.expected_rev = settings revision).
+  // center_url is HUMAN only (no approval path) and is refused while the node is signed in or signing in:
+  // STATE/invalid_state (state.state signed_in or signing_in, state.reason center_url).
   // auth: HUMAN=A SCRIPT=P AGENT=D REMOTE=-
   // idempotency: command_id; expected_rev
   // deadline: 5 s
   // stream: none
-  // errors: CONFLICT/revision_conflict, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required
+  // errors: CONFLICT/revision_conflict, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/invalid_state, VALIDATION/invalid_argument
   // locality: node
   rpc UpdateNodeSettings(NodeServiceUpdateNodeSettingsRequest) returns (NodeServiceUpdateNodeSettingsResponse);
 
   // Stop the node. Running executions continue unless cancel_running (or kill_with_node tasks).
+  // STARTING or RECOVERING: STATE/invalid_state (DID_NOT_HAPPEN, NEVER); no deferred stop. Issue a new command after readiness.
   // auth: HUMAN=A SCRIPT=A AGENT=D REMOTE=high
   // idempotency: command_id
   // deadline: 10 s (returns when the stop is recorded; the node then stops within timeout_ms)
   // stream: none
-  // errors: AUTHORIZATION/permission_denied, STATE/update_in_progress
+  // errors: AUTHORIZATION/permission_denied, STATE/update_in_progress, STATE/invalid_state
   // locality: node
   // state: SM-NODE: READY|DEGRADED -> STOPPING
   rpc StopNode(NodeServiceStopNodeRequest) returns (NodeServiceStopNodeResponse);
@@ -254,6 +257,7 @@ message NodeServiceUpdateNodeSettingsRequest {
   reserved 2 to 9;
   optional LogLevel log_level = 10 [json_name = "logLevel"]; // validate: UNSPECIFIED = unchanged
   optional bool telemetry_opt_in = 11 [json_name = "telemetryOptIn"]; // validate: HUMAN only
+  optional string center_url = 12 [json_name = "centerUrl"]; // validate: HUMAN only; https URL (http only for localhost, 127.0.0.1, [::1]), no userinfo, query or fragment, lower-case host, no trailing slash, <= 512 chars; empty = back to the official default (refused under --test-mode); unset = unchanged
 }
 message NodeServiceUpdateNodeSettingsResponse {
   arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
@@ -488,6 +492,7 @@ message NodeSettings {
   optional bool telemetry_opt_in = 3 [json_name = "telemetryOptIn"]; // default false (R-OPS-003)
   optional string config_path = 4 [json_name = "configPath"]; // read-only
   arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];
+  optional string center_url = 6 [json_name = "centerUrl"]; // effective center URL (canonical); the official default when none is configured; absent under --test-mode until one is set
 }
 
 message HealthMetric {

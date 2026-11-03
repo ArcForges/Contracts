@@ -138,7 +138,7 @@ namespace ArcForges.Contracts.Node.V1 {
             "Z2VzLmZvdW5kYXRpb24udjEuQXJjRXJyb3JIAFIFZXJyb3JCCQoHb3V0Y29t",
             "ZUoECAQQCiJwCiVBY2NvdW50U2VydmljZVJlZnJlc2hFbnRpdGxlbWVudFZh",
             "bHVlEkcKC2VudGl0bGVtZW50GAogASgLMiUuYXJjZm9yZ2VzLm5vZGUudjEu",
-            "RW50aXRsZW1lbnRTdW1tYXJ5UgtlbnRpdGxlbWVudCKvBgoKU2lnbkluRmxv",
+            "RW50aXRsZW1lbnRTdW1tYXJ5UgtlbnRpdGxlbWVudCL/BgoKU2lnbkluRmxv",
             "dxI0CgdmbG93X2lkGAEgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEu",
             "SWRSBmZsb3dJZBI8CgZtZXRob2QYAiABKA4yHy5hcmNmb3JnZXMubm9kZS52",
             "MS5TaWduSW5NZXRob2RIAFIGbWV0aG9kiAEBEj0KBXN0YXRlGAMgASgOMiIu",
@@ -153,97 +153,104 @@ namespace ArcForges.Contracts.Node.V1 {
             "BEgHUg5wb2xsSW50ZXJ2YWxNc4gBARI3CgVlcnJvchgLIAEoCzIhLmFyY2Zv",
             "cmdlcy5mb3VuZGF0aW9uLnYxLkFyY0Vycm9yUgVlcnJvchI7ChhmZWxsX2Jh",
             "Y2tfdG9fZGV2aWNlX2NvZGUYDCABKAhICFIUZmVsbEJhY2tUb0RldmljZUNv",
-            "ZGWIAQFCCQoHX21ldGhvZEIICgZfc3RhdGVCEAoOX2F1dGhvcml6ZV91cmxC",
-            "DAoKX3VzZXJfY29kZUITChFfdmVyaWZpY2F0aW9uX3VyaUIcChpfdmVyaWZp",
-            "Y2F0aW9uX3VyaV9jb21wbGV0ZUINCgtfcXJfcGF5bG9hZEITChFfcG9sbF9p",
-            "bnRlcnZhbF9tc0IbChlfZmVsbF9iYWNrX3RvX2RldmljZV9jb2RlIpICChJF",
-            "bnRpdGxlbWVudFN1bW1hcnkSFwoEcGxhbhgBIAEoCUgAUgRwbGFuiAEBEhoK",
-            "CGZlYXR1cmVzGAIgAygJUghmZWF0dXJlcxI9Cglub3RfYWZ0ZXIYAyABKAsy",
-            "IC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50Ughub3RBZnRlchJD",
-            "CgxyZWZyZXNoZWRfYXQYBCABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52",
-            "MS5JbnN0YW50UgtyZWZyZXNoZWRBdBIoCg1vZmZsaW5lX2dyYWNlGAUgASgI",
-            "SAFSDG9mZmxpbmVHcmFjZYgBAUIHCgVfcGxhbkIQCg5fb2ZmbGluZV9ncmFj",
-            "ZSKJBwoNQWNjb3VudFN0YXR1cxIgCglzaWduZWRfaW4YASABKAhIAFIIc2ln",
-            "bmVkSW6IAQESNQoUYWNjb3VudF9kaXNwbGF5X25hbWUYAiABKAlIAVISYWNj",
-            "b3VudERpc3BsYXlOYW1liAEBEjUKFGFjY291bnRfZW1haWxfbWFza2VkGAMg",
-            "ASgJSAJSEmFjY291bnRFbWFpbE1hc2tlZIgBARJHCgtlbnRpdGxlbWVudBgE",
-            "IAEoCzIlLmFyY2Zvcmdlcy5ub2RlLnYxLkVudGl0bGVtZW50U3VtbWFyeVIL",
-            "ZW50aXRsZW1lbnQSKAoNbm9kZV9lbnJvbGxlZBgFIAEoCEgDUgxub2RlRW5y",
-            "b2xsZWSIAQESXwobbm9kZV9jZXJ0aWZpY2F0ZV9leHBpcmVzX2F0GAYgASgL",
-            "MiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudFIYbm9kZUNlcnRp",
-            "ZmljYXRlRXhwaXJlc0F0EjgKBXJlbGF5GAcgASgOMh0uYXJjZm9yZ2VzLm5v",
-            "ZGUudjEuUmVsYXlTdGF0ZUgEUgVyZWxheYgBARImCgxyZWxheV9yZWFzb24Y",
-            "CCABKAlIBVILcmVsYXlSZWFzb26IAQESMQoSY2xvdWRfbGlua19lbmFibGVk",
-            "GAkgASgISAZSEGNsb3VkTGlua0VuYWJsZWSIAQESLAoPY2xvdWRfcmVhY2hh",
-            "YmxlGAogASgISAdSDmNsb3VkUmVhY2hhYmxliAEBEkgKD2xhc3RfY29udGFj",
-            "dF9hdBgLIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbnRS",
-            "DWxhc3RDb250YWN0QXQSGgoId2FybmluZ3MYDCADKAlSCHdhcm5pbmdzEjgK",
-            "FmNyZWRlbnRpYWxfaW5fb3Nfc3RvcmUYDSABKAhICFITY3JlZGVudGlhbElu",
-            "T3NTdG9yZYgBAUIMCgpfc2lnbmVkX2luQhcKFV9hY2NvdW50X2Rpc3BsYXlf",
-            "bmFtZUIXChVfYWNjb3VudF9lbWFpbF9tYXNrZWRCEAoOX25vZGVfZW5yb2xs",
-            "ZWRCCAoGX3JlbGF5Qg8KDV9yZWxheV9yZWFzb25CFQoTX2Nsb3VkX2xpbmtf",
-            "ZW5hYmxlZEISChBfY2xvdWRfcmVhY2hhYmxlQhkKF19jcmVkZW50aWFsX2lu",
-            "X29zX3N0b3JlIq0DCgxQaG9uZVBhaXJpbmcSOgoKcGFpcmluZ19pZBgBIAEo",
-            "CzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUglwYWlyaW5nSWQSPwoF",
-            "c3RhdGUYAiABKA4yJC5hcmNmb3JnZXMubm9kZS52MS5QaG9uZVBhaXJpbmdT",
-            "dGF0ZUgAUgVzdGF0ZYgBARIiCgpxcl9wYXlsb2FkGAMgASgJSAFSCXFyUGF5",
-            "bG9hZIgBARI/CgpleHBpcmVzX2F0GAQgASgLMiAuYXJjZm9yZ2VzLmZvdW5k",
-            "YXRpb24udjEuSW5zdGFudFIJZXhwaXJlc0F0EiQKC3Bob25lX21vZGVsGAUg",
-            "ASgJSAJSCnBob25lTW9kZWyIAQESHgoIcGhvbmVfb3MYBiABKAlIA1IHcGhv",
-            "bmVPc4gBARI/CgpjbGFpbWVkX2F0GAcgASgLMiAuYXJjZm9yZ2VzLmZvdW5k",
-            "YXRpb24udjEuSW5zdGFudFIJY2xhaW1lZEF0QggKBl9zdGF0ZUINCgtfcXJf",
-            "cGF5bG9hZEIOCgxfcGhvbmVfbW9kZWxCCwoJX3Bob25lX29zKmoKDFNpZ25J",
-            "bk1ldGhvZBIeChpTSUdOX0lOX01FVEhPRF9VTlNQRUNJRklFRBAAEhoKFlNJ",
-            "R05fSU5fTUVUSE9EX0JST1dTRVIQARIeChpTSUdOX0lOX01FVEhPRF9ERVZJ",
-            "Q0VfQ09ERRACKpoCCg9TaWduSW5GbG93U3RhdGUSIgoeU0lHTl9JTl9GTE9X",
-            "X1NUQVRFX1VOU1BFQ0lGSUVEEAASHgoaU0lHTl9JTl9GTE9XX1NUQVRFX1BF",
-            "TkRJTkcQARIhCh1TSUdOX0lOX0ZMT1dfU1RBVEVfQ09NUExFVElORxACEiAK",
-            "HFNJR05fSU5fRkxPV19TVEFURV9TSUdORURfSU4QAxIdChlTSUdOX0lOX0ZM",
-            "T1dfU1RBVEVfREVOSUVEEAQSHgoaU0lHTl9JTl9GTE9XX1NUQVRFX0VYUElS",
-            "RUQQBRIdChlTSUdOX0lOX0ZMT1dfU1RBVEVfRkFJTEVEEAYSIAocU0lHTl9J",
-            "Tl9GTE9XX1NUQVRFX0NBTkNFTExFRBAHKqwBCgpSZWxheVN0YXRlEhsKF1JF",
-            "TEFZX1NUQVRFX1VOU1BFQ0lGSUVEEAASGAoUUkVMQVlfU1RBVEVfRElTQUJM",
-            "RUQQARIaChZSRUxBWV9TVEFURV9DT05ORUNUSU5HEAISGQoVUkVMQVlfU1RB",
-            "VEVfQ09OTkVDVEVEEAMSFwoTUkVMQVlfU1RBVEVfQkFDS09GRhAEEhcKE1JF",
-            "TEFZX1NUQVRFX1JFRlVTRUQQBSqYAgoRUGhvbmVQYWlyaW5nU3RhdGUSIwof",
-            "UEhPTkVfUEFJUklOR19TVEFURV9VTlNQRUNJRklFRBAAEigKJFBIT05FX1BB",
-            "SVJJTkdfU1RBVEVfV0FJVElOR19GT1JfU0NBThABEi0KKVBIT05FX1BBSVJJ",
-            "TkdfU1RBVEVfQVdBSVRJTkdfQ09ORklSTUFUSU9OEAISIQodUEhPTkVfUEFJ",
-            "UklOR19TVEFURV9DT05GSVJNRUQQAxIeChpQSE9ORV9QQUlSSU5HX1NUQVRF",
-            "X0RFTklFRBAEEh8KG1BIT05FX1BBSVJJTkdfU1RBVEVfRVhQSVJFRBAFEiEK",
-            "HVBIT05FX1BBSVJJTkdfU1RBVEVfQ09NUExFVEVEEAYytgoKDkFjY291bnRT",
-            "ZXJ2aWNlEocBChBHZXRBY2NvdW50U3RhdHVzEjguYXJjZm9yZ2VzLm5vZGUu",
-            "djEuQWNjb3VudFNlcnZpY2VHZXRBY2NvdW50U3RhdHVzUmVxdWVzdBo5LmFy",
-            "Y2Zvcmdlcy5ub2RlLnYxLkFjY291bnRTZXJ2aWNlR2V0QWNjb3VudFN0YXR1",
-            "c1Jlc3BvbnNlEngKC0JlZ2luU2lnbkluEjMuYXJjZm9yZ2VzLm5vZGUudjEu",
-            "QWNjb3VudFNlcnZpY2VCZWdpblNpZ25JblJlcXVlc3QaNC5hcmNmb3JnZXMu",
-            "bm9kZS52MS5BY2NvdW50U2VydmljZUJlZ2luU2lnbkluUmVzcG9uc2USfgoN",
-            "R2V0U2lnbkluRmxvdxI1LmFyY2Zvcmdlcy5ub2RlLnYxLkFjY291bnRTZXJ2",
-            "aWNlR2V0U2lnbkluRmxvd1JlcXVlc3QaNi5hcmNmb3JnZXMubm9kZS52MS5B",
-            "Y2NvdW50U2VydmljZUdldFNpZ25JbkZsb3dSZXNwb25zZRJ7CgxDYW5jZWxT",
-            "aWduSW4SNC5hcmNmb3JnZXMubm9kZS52MS5BY2NvdW50U2VydmljZUNhbmNl",
-            "bFNpZ25JblJlcXVlc3QaNS5hcmNmb3JnZXMubm9kZS52MS5BY2NvdW50U2Vy",
-            "dmljZUNhbmNlbFNpZ25JblJlc3BvbnNlEmwKB1NpZ25PdXQSLy5hcmNmb3Jn",
-            "ZXMubm9kZS52MS5BY2NvdW50U2VydmljZVNpZ25PdXRSZXF1ZXN0GjAuYXJj",
-            "Zm9yZ2VzLm5vZGUudjEuQWNjb3VudFNlcnZpY2VTaWduT3V0UmVzcG9uc2US",
-            "jQEKEkNyZWF0ZVBob25lUGFpcmluZxI6LmFyY2Zvcmdlcy5ub2RlLnYxLkFj",
-            "Y291bnRTZXJ2aWNlQ3JlYXRlUGhvbmVQYWlyaW5nUmVxdWVzdBo7LmFyY2Zv",
-            "cmdlcy5ub2RlLnYxLkFjY291bnRTZXJ2aWNlQ3JlYXRlUGhvbmVQYWlyaW5n",
-            "UmVzcG9uc2UShAEKD0dldFBob25lUGFpcmluZxI3LmFyY2Zvcmdlcy5ub2Rl",
-            "LnYxLkFjY291bnRTZXJ2aWNlR2V0UGhvbmVQYWlyaW5nUmVxdWVzdBo4LmFy",
-            "Y2Zvcmdlcy5ub2RlLnYxLkFjY291bnRTZXJ2aWNlR2V0UGhvbmVQYWlyaW5n",
-            "UmVzcG9uc2USkAEKE0NvbmZpcm1QaG9uZVBhaXJpbmcSOy5hcmNmb3JnZXMu",
-            "bm9kZS52MS5BY2NvdW50U2VydmljZUNvbmZpcm1QaG9uZVBhaXJpbmdSZXF1",
-            "ZXN0GjwuYXJjZm9yZ2VzLm5vZGUudjEuQWNjb3VudFNlcnZpY2VDb25maXJt",
-            "UGhvbmVQYWlyaW5nUmVzcG9uc2USewoMU2V0Q2xvdWRMaW5rEjQuYXJjZm9y",
-            "Z2VzLm5vZGUudjEuQWNjb3VudFNlcnZpY2VTZXRDbG91ZExpbmtSZXF1ZXN0",
-            "GjUuYXJjZm9yZ2VzLm5vZGUudjEuQWNjb3VudFNlcnZpY2VTZXRDbG91ZExp",
-            "bmtSZXNwb25zZRKNAQoSUmVmcmVzaEVudGl0bGVtZW50EjouYXJjZm9yZ2Vz",
-            "Lm5vZGUudjEuQWNjb3VudFNlcnZpY2VSZWZyZXNoRW50aXRsZW1lbnRSZXF1",
-            "ZXN0GjsuYXJjZm9yZ2VzLm5vZGUudjEuQWNjb3VudFNlcnZpY2VSZWZyZXNo",
-            "RW50aXRsZW1lbnRSZXNwb25zZUJZCiVpby5naXRodWIuYXJjZm9yZ2VzLmNv",
-            "bnRyYWN0cy5ub2RlLnYxQhBOb2RlQWNjb3VudFByb3RvUAGqAhtBcmNGb3Jn",
-            "ZXMuQ29udHJhY3RzLk5vZGUuVjFiBnByb3RvMw=="));
+            "ZGWIAQESNQoUbm9kZV9rZXlfZmluZ2VycHJpbnQYDSABKAlICVISbm9kZUtl",
+            "eUZpbmdlcnByaW50iAEBQgkKB19tZXRob2RCCAoGX3N0YXRlQhAKDl9hdXRo",
+            "b3JpemVfdXJsQgwKCl91c2VyX2NvZGVCEwoRX3ZlcmlmaWNhdGlvbl91cmlC",
+            "HAoaX3ZlcmlmaWNhdGlvbl91cmlfY29tcGxldGVCDQoLX3FyX3BheWxvYWRC",
+            "EwoRX3BvbGxfaW50ZXJ2YWxfbXNCGwoZX2ZlbGxfYmFja190b19kZXZpY2Vf",
+            "Y29kZUIXChVfbm9kZV9rZXlfZmluZ2VycHJpbnQikgIKEkVudGl0bGVtZW50",
+            "U3VtbWFyeRIXCgRwbGFuGAEgASgJSABSBHBsYW6IAQESGgoIZmVhdHVyZXMY",
+            "AiADKAlSCGZlYXR1cmVzEj0KCW5vdF9hZnRlchgDIAEoCzIgLmFyY2Zvcmdl",
+            "cy5mb3VuZGF0aW9uLnYxLkluc3RhbnRSCG5vdEFmdGVyEkMKDHJlZnJlc2hl",
+            "ZF9hdBgEIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbnRS",
+            "C3JlZnJlc2hlZEF0EigKDW9mZmxpbmVfZ3JhY2UYBSABKAhIAVIMb2ZmbGlu",
+            "ZUdyYWNliAEBQgcKBV9wbGFuQhAKDl9vZmZsaW5lX2dyYWNlIuIICg1BY2Nv",
+            "dW50U3RhdHVzEiAKCXNpZ25lZF9pbhgBIAEoCEgAUghzaWduZWRJbogBARI1",
+            "ChRhY2NvdW50X2Rpc3BsYXlfbmFtZRgCIAEoCUgBUhJhY2NvdW50RGlzcGxh",
+            "eU5hbWWIAQESNQoUYWNjb3VudF9lbWFpbF9tYXNrZWQYAyABKAlIAlISYWNj",
+            "b3VudEVtYWlsTWFza2VkiAEBEkcKC2VudGl0bGVtZW50GAQgASgLMiUuYXJj",
+            "Zm9yZ2VzLm5vZGUudjEuRW50aXRsZW1lbnRTdW1tYXJ5UgtlbnRpdGxlbWVu",
+            "dBIoCg1ub2RlX2Vucm9sbGVkGAUgASgISANSDG5vZGVFbnJvbGxlZIgBARJf",
+            "Chtub2RlX2NlcnRpZmljYXRlX2V4cGlyZXNfYXQYBiABKAsyIC5hcmNmb3Jn",
+            "ZXMuZm91bmRhdGlvbi52MS5JbnN0YW50Uhhub2RlQ2VydGlmaWNhdGVFeHBp",
+            "cmVzQXQSOAoFcmVsYXkYByABKA4yHS5hcmNmb3JnZXMubm9kZS52MS5SZWxh",
+            "eVN0YXRlSARSBXJlbGF5iAEBEiYKDHJlbGF5X3JlYXNvbhgIIAEoCUgFUgty",
+            "ZWxheVJlYXNvbogBARIxChJjbG91ZF9saW5rX2VuYWJsZWQYCSABKAhIBlIQ",
+            "Y2xvdWRMaW5rRW5hYmxlZIgBARIsCg9jbG91ZF9yZWFjaGFibGUYCiABKAhI",
+            "B1IOY2xvdWRSZWFjaGFibGWIAQESSAoPbGFzdF9jb250YWN0X2F0GAsgASgL",
+            "MiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudFINbGFzdENvbnRh",
+            "Y3RBdBIaCgh3YXJuaW5ncxgMIAMoCVIId2FybmluZ3MSOAoWY3JlZGVudGlh",
+            "bF9pbl9vc19zdG9yZRgNIAEoCEgIUhNjcmVkZW50aWFsSW5Pc1N0b3JliAEB",
+            "EiIKCmNlbnRlcl91cmwYDiABKAlICVIJY2VudGVyVXJsiAEBEjUKFG5vZGVf",
+            "a2V5X2ZpbmdlcnByaW50GA8gASgJSApSEm5vZGVLZXlGaW5nZXJwcmludIgB",
+            "ARJUChVjcmVkZW50aWFsX2V4cGlyZXNfYXQYECABKAsyIC5hcmNmb3JnZXMu",
+            "Zm91bmRhdGlvbi52MS5JbnN0YW50UhNjcmVkZW50aWFsRXhwaXJlc0F0QgwK",
+            "Cl9zaWduZWRfaW5CFwoVX2FjY291bnRfZGlzcGxheV9uYW1lQhcKFV9hY2Nv",
+            "dW50X2VtYWlsX21hc2tlZEIQCg5fbm9kZV9lbnJvbGxlZEIICgZfcmVsYXlC",
+            "DwoNX3JlbGF5X3JlYXNvbkIVChNfY2xvdWRfbGlua19lbmFibGVkQhIKEF9j",
+            "bG91ZF9yZWFjaGFibGVCGQoXX2NyZWRlbnRpYWxfaW5fb3Nfc3RvcmVCDQoL",
+            "X2NlbnRlcl91cmxCFwoVX25vZGVfa2V5X2ZpbmdlcnByaW50Iq0DCgxQaG9u",
+            "ZVBhaXJpbmcSOgoKcGFpcmluZ19pZBgBIAEoCzIbLmFyY2Zvcmdlcy5mb3Vu",
+            "ZGF0aW9uLnYxLklkUglwYWlyaW5nSWQSPwoFc3RhdGUYAiABKA4yJC5hcmNm",
+            "b3JnZXMubm9kZS52MS5QaG9uZVBhaXJpbmdTdGF0ZUgAUgVzdGF0ZYgBARIi",
+            "Cgpxcl9wYXlsb2FkGAMgASgJSAFSCXFyUGF5bG9hZIgBARI/CgpleHBpcmVz",
+            "X2F0GAQgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudFIJ",
+            "ZXhwaXJlc0F0EiQKC3Bob25lX21vZGVsGAUgASgJSAJSCnBob25lTW9kZWyI",
+            "AQESHgoIcGhvbmVfb3MYBiABKAlIA1IHcGhvbmVPc4gBARI/CgpjbGFpbWVk",
+            "X2F0GAcgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudFIJ",
+            "Y2xhaW1lZEF0QggKBl9zdGF0ZUINCgtfcXJfcGF5bG9hZEIOCgxfcGhvbmVf",
+            "bW9kZWxCCwoJX3Bob25lX29zKmoKDFNpZ25Jbk1ldGhvZBIeChpTSUdOX0lO",
+            "X01FVEhPRF9VTlNQRUNJRklFRBAAEhoKFlNJR05fSU5fTUVUSE9EX0JST1dT",
+            "RVIQARIeChpTSUdOX0lOX01FVEhPRF9ERVZJQ0VfQ09ERRACKpoCCg9TaWdu",
+            "SW5GbG93U3RhdGUSIgoeU0lHTl9JTl9GTE9XX1NUQVRFX1VOU1BFQ0lGSUVE",
+            "EAASHgoaU0lHTl9JTl9GTE9XX1NUQVRFX1BFTkRJTkcQARIhCh1TSUdOX0lO",
+            "X0ZMT1dfU1RBVEVfQ09NUExFVElORxACEiAKHFNJR05fSU5fRkxPV19TVEFU",
+            "RV9TSUdORURfSU4QAxIdChlTSUdOX0lOX0ZMT1dfU1RBVEVfREVOSUVEEAQS",
+            "HgoaU0lHTl9JTl9GTE9XX1NUQVRFX0VYUElSRUQQBRIdChlTSUdOX0lOX0ZM",
+            "T1dfU1RBVEVfRkFJTEVEEAYSIAocU0lHTl9JTl9GTE9XX1NUQVRFX0NBTkNF",
+            "TExFRBAHKqwBCgpSZWxheVN0YXRlEhsKF1JFTEFZX1NUQVRFX1VOU1BFQ0lG",
+            "SUVEEAASGAoUUkVMQVlfU1RBVEVfRElTQUJMRUQQARIaChZSRUxBWV9TVEFU",
+            "RV9DT05ORUNUSU5HEAISGQoVUkVMQVlfU1RBVEVfQ09OTkVDVEVEEAMSFwoT",
+            "UkVMQVlfU1RBVEVfQkFDS09GRhAEEhcKE1JFTEFZX1NUQVRFX1JFRlVTRUQQ",
+            "BSqYAgoRUGhvbmVQYWlyaW5nU3RhdGUSIwofUEhPTkVfUEFJUklOR19TVEFU",
+            "RV9VTlNQRUNJRklFRBAAEigKJFBIT05FX1BBSVJJTkdfU1RBVEVfV0FJVElO",
+            "R19GT1JfU0NBThABEi0KKVBIT05FX1BBSVJJTkdfU1RBVEVfQVdBSVRJTkdf",
+            "Q09ORklSTUFUSU9OEAISIQodUEhPTkVfUEFJUklOR19TVEFURV9DT05GSVJN",
+            "RUQQAxIeChpQSE9ORV9QQUlSSU5HX1NUQVRFX0RFTklFRBAEEh8KG1BIT05F",
+            "X1BBSVJJTkdfU1RBVEVfRVhQSVJFRBAFEiEKHVBIT05FX1BBSVJJTkdfU1RB",
+            "VEVfQ09NUExFVEVEEAYytgoKDkFjY291bnRTZXJ2aWNlEocBChBHZXRBY2Nv",
+            "dW50U3RhdHVzEjguYXJjZm9yZ2VzLm5vZGUudjEuQWNjb3VudFNlcnZpY2VH",
+            "ZXRBY2NvdW50U3RhdHVzUmVxdWVzdBo5LmFyY2Zvcmdlcy5ub2RlLnYxLkFj",
+            "Y291bnRTZXJ2aWNlR2V0QWNjb3VudFN0YXR1c1Jlc3BvbnNlEngKC0JlZ2lu",
+            "U2lnbkluEjMuYXJjZm9yZ2VzLm5vZGUudjEuQWNjb3VudFNlcnZpY2VCZWdp",
+            "blNpZ25JblJlcXVlc3QaNC5hcmNmb3JnZXMubm9kZS52MS5BY2NvdW50U2Vy",
+            "dmljZUJlZ2luU2lnbkluUmVzcG9uc2USfgoNR2V0U2lnbkluRmxvdxI1LmFy",
+            "Y2Zvcmdlcy5ub2RlLnYxLkFjY291bnRTZXJ2aWNlR2V0U2lnbkluRmxvd1Jl",
+            "cXVlc3QaNi5hcmNmb3JnZXMubm9kZS52MS5BY2NvdW50U2VydmljZUdldFNp",
+            "Z25JbkZsb3dSZXNwb25zZRJ7CgxDYW5jZWxTaWduSW4SNC5hcmNmb3JnZXMu",
+            "bm9kZS52MS5BY2NvdW50U2VydmljZUNhbmNlbFNpZ25JblJlcXVlc3QaNS5h",
+            "cmNmb3JnZXMubm9kZS52MS5BY2NvdW50U2VydmljZUNhbmNlbFNpZ25JblJl",
+            "c3BvbnNlEmwKB1NpZ25PdXQSLy5hcmNmb3JnZXMubm9kZS52MS5BY2NvdW50",
+            "U2VydmljZVNpZ25PdXRSZXF1ZXN0GjAuYXJjZm9yZ2VzLm5vZGUudjEuQWNj",
+            "b3VudFNlcnZpY2VTaWduT3V0UmVzcG9uc2USjQEKEkNyZWF0ZVBob25lUGFp",
+            "cmluZxI6LmFyY2Zvcmdlcy5ub2RlLnYxLkFjY291bnRTZXJ2aWNlQ3JlYXRl",
+            "UGhvbmVQYWlyaW5nUmVxdWVzdBo7LmFyY2Zvcmdlcy5ub2RlLnYxLkFjY291",
+            "bnRTZXJ2aWNlQ3JlYXRlUGhvbmVQYWlyaW5nUmVzcG9uc2UShAEKD0dldFBo",
+            "b25lUGFpcmluZxI3LmFyY2Zvcmdlcy5ub2RlLnYxLkFjY291bnRTZXJ2aWNl",
+            "R2V0UGhvbmVQYWlyaW5nUmVxdWVzdBo4LmFyY2Zvcmdlcy5ub2RlLnYxLkFj",
+            "Y291bnRTZXJ2aWNlR2V0UGhvbmVQYWlyaW5nUmVzcG9uc2USkAEKE0NvbmZp",
+            "cm1QaG9uZVBhaXJpbmcSOy5hcmNmb3JnZXMubm9kZS52MS5BY2NvdW50U2Vy",
+            "dmljZUNvbmZpcm1QaG9uZVBhaXJpbmdSZXF1ZXN0GjwuYXJjZm9yZ2VzLm5v",
+            "ZGUudjEuQWNjb3VudFNlcnZpY2VDb25maXJtUGhvbmVQYWlyaW5nUmVzcG9u",
+            "c2USewoMU2V0Q2xvdWRMaW5rEjQuYXJjZm9yZ2VzLm5vZGUudjEuQWNjb3Vu",
+            "dFNlcnZpY2VTZXRDbG91ZExpbmtSZXF1ZXN0GjUuYXJjZm9yZ2VzLm5vZGUu",
+            "djEuQWNjb3VudFNlcnZpY2VTZXRDbG91ZExpbmtSZXNwb25zZRKNAQoSUmVm",
+            "cmVzaEVudGl0bGVtZW50EjouYXJjZm9yZ2VzLm5vZGUudjEuQWNjb3VudFNl",
+            "cnZpY2VSZWZyZXNoRW50aXRsZW1lbnRSZXF1ZXN0GjsuYXJjZm9yZ2VzLm5v",
+            "ZGUudjEuQWNjb3VudFNlcnZpY2VSZWZyZXNoRW50aXRsZW1lbnRSZXNwb25z",
+            "ZUJZCiVpby5naXRodWIuYXJjZm9yZ2VzLmNvbnRyYWN0cy5ub2RlLnYxQhBO",
+            "b2RlQWNjb3VudFByb3RvUAGqAhtBcmNGb3JnZXMuQ29udHJhY3RzLk5vZGUu",
+            "VjFiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::ArcForges.Contracts.Node.V1.SignInMethod), typeof(global::ArcForges.Contracts.Node.V1.SignInFlowState), typeof(global::ArcForges.Contracts.Node.V1.RelayState), typeof(global::ArcForges.Contracts.Node.V1.PhonePairingState), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -277,9 +284,9 @@ namespace ArcForges.Contracts.Node.V1 {
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.AccountServiceRefreshEntitlementRequest), global::ArcForges.Contracts.Node.V1.AccountServiceRefreshEntitlementRequest.Parser, new[]{ "Meta" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.AccountServiceRefreshEntitlementResponse), global::ArcForges.Contracts.Node.V1.AccountServiceRefreshEntitlementResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.AccountServiceRefreshEntitlementValue), global::ArcForges.Contracts.Node.V1.AccountServiceRefreshEntitlementValue.Parser, new[]{ "Entitlement" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.SignInFlow), global::ArcForges.Contracts.Node.V1.SignInFlow.Parser, new[]{ "FlowId", "Method", "State", "AuthorizeUrl", "UserCode", "VerificationUri", "VerificationUriComplete", "QrPayload", "ExpiresAt", "PollIntervalMs", "Error", "FellBackToDeviceCode" }, new[]{ "Method", "State", "AuthorizeUrl", "UserCode", "VerificationUri", "VerificationUriComplete", "QrPayload", "PollIntervalMs", "FellBackToDeviceCode" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.SignInFlow), global::ArcForges.Contracts.Node.V1.SignInFlow.Parser, new[]{ "FlowId", "Method", "State", "AuthorizeUrl", "UserCode", "VerificationUri", "VerificationUriComplete", "QrPayload", "ExpiresAt", "PollIntervalMs", "Error", "FellBackToDeviceCode", "NodeKeyFingerprint" }, new[]{ "Method", "State", "AuthorizeUrl", "UserCode", "VerificationUri", "VerificationUriComplete", "QrPayload", "PollIntervalMs", "FellBackToDeviceCode", "NodeKeyFingerprint" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.EntitlementSummary), global::ArcForges.Contracts.Node.V1.EntitlementSummary.Parser, new[]{ "Plan", "Features", "NotAfter", "RefreshedAt", "OfflineGrace" }, new[]{ "Plan", "OfflineGrace" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.AccountStatus), global::ArcForges.Contracts.Node.V1.AccountStatus.Parser, new[]{ "SignedIn", "AccountDisplayName", "AccountEmailMasked", "Entitlement", "NodeEnrolled", "NodeCertificateExpiresAt", "Relay", "RelayReason", "CloudLinkEnabled", "CloudReachable", "LastContactAt", "Warnings", "CredentialInOsStore" }, new[]{ "SignedIn", "AccountDisplayName", "AccountEmailMasked", "NodeEnrolled", "Relay", "RelayReason", "CloudLinkEnabled", "CloudReachable", "CredentialInOsStore" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.AccountStatus), global::ArcForges.Contracts.Node.V1.AccountStatus.Parser, new[]{ "SignedIn", "AccountDisplayName", "AccountEmailMasked", "Entitlement", "NodeEnrolled", "NodeCertificateExpiresAt", "Relay", "RelayReason", "CloudLinkEnabled", "CloudReachable", "LastContactAt", "Warnings", "CredentialInOsStore", "CenterUrl", "NodeKeyFingerprint", "CredentialExpiresAt" }, new[]{ "SignedIn", "AccountDisplayName", "AccountEmailMasked", "NodeEnrolled", "Relay", "RelayReason", "CloudLinkEnabled", "CloudReachable", "CredentialInOsStore", "CenterUrl", "NodeKeyFingerprint" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.PhonePairing), global::ArcForges.Contracts.Node.V1.PhonePairing.Parser, new[]{ "PairingId", "State", "QrPayload", "ExpiresAt", "PhoneModel", "PhoneOs", "ClaimedAt" }, new[]{ "State", "QrPayload", "PhoneModel", "PhoneOs" }, null, null, null)
           }));
     }
@@ -8345,6 +8352,7 @@ namespace ArcForges.Contracts.Node.V1 {
       pollIntervalMs_ = other.pollIntervalMs_;
       error_ = other.error_ != null ? other.error_.Clone() : null;
       fellBackToDeviceCode_ = other.fellBackToDeviceCode_;
+      nodeKeyFingerprint_ = other.nodeKeyFingerprint_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -8640,6 +8648,35 @@ namespace ArcForges.Contracts.Node.V1 {
       _hasBits0 &= ~8;
     }
 
+    /// <summary>Field number for the "node_key_fingerprint" field.</summary>
+    public const int NodeKeyFingerprintFieldNumber = 13;
+    private readonly static string NodeKeyFingerprintDefaultValue = "";
+
+    private string nodeKeyFingerprint_;
+    /// <summary>
+    /// XXXX-XXXX-XXXX-XXXX-XXXX: upper-case hex of the first 10 bytes of SHA-256 over the node public key (PKIX DER)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string NodeKeyFingerprint {
+      get { return nodeKeyFingerprint_ ?? NodeKeyFingerprintDefaultValue; }
+      set {
+        nodeKeyFingerprint_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "node_key_fingerprint" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasNodeKeyFingerprint {
+      get { return nodeKeyFingerprint_ != null; }
+    }
+    /// <summary>Clears the value of the "node_key_fingerprint" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearNodeKeyFingerprint() {
+      nodeKeyFingerprint_ = null;
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -8667,6 +8704,7 @@ namespace ArcForges.Contracts.Node.V1 {
       if (PollIntervalMs != other.PollIntervalMs) return false;
       if (!object.Equals(Error, other.Error)) return false;
       if (FellBackToDeviceCode != other.FellBackToDeviceCode) return false;
+      if (NodeKeyFingerprint != other.NodeKeyFingerprint) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -8686,6 +8724,7 @@ namespace ArcForges.Contracts.Node.V1 {
       if (HasPollIntervalMs) hash ^= PollIntervalMs.GetHashCode();
       if (error_ != null) hash ^= Error.GetHashCode();
       if (HasFellBackToDeviceCode) hash ^= FellBackToDeviceCode.GetHashCode();
+      if (HasNodeKeyFingerprint) hash ^= NodeKeyFingerprint.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -8752,6 +8791,10 @@ namespace ArcForges.Contracts.Node.V1 {
         output.WriteRawTag(96);
         output.WriteBool(FellBackToDeviceCode);
       }
+      if (HasNodeKeyFingerprint) {
+        output.WriteRawTag(106);
+        output.WriteString(NodeKeyFingerprint);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -8810,6 +8853,10 @@ namespace ArcForges.Contracts.Node.V1 {
         output.WriteRawTag(96);
         output.WriteBool(FellBackToDeviceCode);
       }
+      if (HasNodeKeyFingerprint) {
+        output.WriteRawTag(106);
+        output.WriteString(NodeKeyFingerprint);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -8855,6 +8902,9 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       if (HasFellBackToDeviceCode) {
         size += 1 + 1;
+      }
+      if (HasNodeKeyFingerprint) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(NodeKeyFingerprint);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -8912,6 +8962,9 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       if (other.HasFellBackToDeviceCode) {
         FellBackToDeviceCode = other.FellBackToDeviceCode;
+      }
+      if (other.HasNodeKeyFingerprint) {
+        NodeKeyFingerprint = other.NodeKeyFingerprint;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -8989,6 +9042,10 @@ namespace ArcForges.Contracts.Node.V1 {
             FellBackToDeviceCode = input.ReadBool();
             break;
           }
+          case 106: {
+            NodeKeyFingerprint = input.ReadString();
+            break;
+          }
         }
       }
     #endif
@@ -9063,6 +9120,10 @@ namespace ArcForges.Contracts.Node.V1 {
           }
           case 96: {
             FellBackToDeviceCode = input.ReadBool();
+            break;
+          }
+          case 106: {
+            NodeKeyFingerprint = input.ReadString();
             break;
           }
         }
@@ -9506,6 +9567,9 @@ namespace ArcForges.Contracts.Node.V1 {
       lastContactAt_ = other.lastContactAt_ != null ? other.lastContactAt_.Clone() : null;
       warnings_ = other.warnings_.Clone();
       credentialInOsStore_ = other.credentialInOsStore_;
+      centerUrl_ = other.centerUrl_;
+      nodeKeyFingerprint_ = other.nodeKeyFingerprint_;
+      credentialExpiresAt_ = other.credentialExpiresAt_ != null ? other.credentialExpiresAt_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -9808,6 +9872,79 @@ namespace ArcForges.Contracts.Node.V1 {
       _hasBits0 &= ~32;
     }
 
+    /// <summary>Field number for the "center_url" field.</summary>
+    public const int CenterUrlFieldNumber = 14;
+    private readonly static string CenterUrlDefaultValue = "";
+
+    private string centerUrl_;
+    /// <summary>
+    /// the credential's center when signed in, else the configured center (canonical)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string CenterUrl {
+      get { return centerUrl_ ?? CenterUrlDefaultValue; }
+      set {
+        centerUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "center_url" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasCenterUrl {
+      get { return centerUrl_ != null; }
+    }
+    /// <summary>Clears the value of the "center_url" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearCenterUrl() {
+      centerUrl_ = null;
+    }
+
+    /// <summary>Field number for the "node_key_fingerprint" field.</summary>
+    public const int NodeKeyFingerprintFieldNumber = 15;
+    private readonly static string NodeKeyFingerprintDefaultValue = "";
+
+    private string nodeKeyFingerprint_;
+    /// <summary>
+    /// as SignInFlow.node_key_fingerprint; absent while the node has no key
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string NodeKeyFingerprint {
+      get { return nodeKeyFingerprint_ ?? NodeKeyFingerprintDefaultValue; }
+      set {
+        nodeKeyFingerprint_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "node_key_fingerprint" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasNodeKeyFingerprint {
+      get { return nodeKeyFingerprint_ != null; }
+    }
+    /// <summary>Clears the value of the "node_key_fingerprint" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearNodeKeyFingerprint() {
+      nodeKeyFingerprint_ = null;
+    }
+
+    /// <summary>Field number for the "credential_expires_at" field.</summary>
+    public const int CredentialExpiresAtFieldNumber = 16;
+    private global::ArcForges.Contracts.Foundation.V1.Instant credentialExpiresAt_;
+    /// <summary>
+    /// absolute end of the node credential; absent when signed out
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant CredentialExpiresAt {
+      get { return credentialExpiresAt_; }
+      set {
+        credentialExpiresAt_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -9836,6 +9973,9 @@ namespace ArcForges.Contracts.Node.V1 {
       if (!object.Equals(LastContactAt, other.LastContactAt)) return false;
       if(!warnings_.Equals(other.warnings_)) return false;
       if (CredentialInOsStore != other.CredentialInOsStore) return false;
+      if (CenterUrl != other.CenterUrl) return false;
+      if (NodeKeyFingerprint != other.NodeKeyFingerprint) return false;
+      if (!object.Equals(CredentialExpiresAt, other.CredentialExpiresAt)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -9856,6 +9996,9 @@ namespace ArcForges.Contracts.Node.V1 {
       if (lastContactAt_ != null) hash ^= LastContactAt.GetHashCode();
       hash ^= warnings_.GetHashCode();
       if (HasCredentialInOsStore) hash ^= CredentialInOsStore.GetHashCode();
+      if (HasCenterUrl) hash ^= CenterUrl.GetHashCode();
+      if (HasNodeKeyFingerprint) hash ^= NodeKeyFingerprint.GetHashCode();
+      if (credentialExpiresAt_ != null) hash ^= CredentialExpiresAt.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -9923,6 +10066,18 @@ namespace ArcForges.Contracts.Node.V1 {
         output.WriteRawTag(104);
         output.WriteBool(CredentialInOsStore);
       }
+      if (HasCenterUrl) {
+        output.WriteRawTag(114);
+        output.WriteString(CenterUrl);
+      }
+      if (HasNodeKeyFingerprint) {
+        output.WriteRawTag(122);
+        output.WriteString(NodeKeyFingerprint);
+      }
+      if (credentialExpiresAt_ != null) {
+        output.WriteRawTag(130, 1);
+        output.WriteMessage(CredentialExpiresAt);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -9982,6 +10137,18 @@ namespace ArcForges.Contracts.Node.V1 {
         output.WriteRawTag(104);
         output.WriteBool(CredentialInOsStore);
       }
+      if (HasCenterUrl) {
+        output.WriteRawTag(114);
+        output.WriteString(CenterUrl);
+      }
+      if (HasNodeKeyFingerprint) {
+        output.WriteRawTag(122);
+        output.WriteString(NodeKeyFingerprint);
+      }
+      if (credentialExpiresAt_ != null) {
+        output.WriteRawTag(130, 1);
+        output.WriteMessage(CredentialExpiresAt);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -10028,6 +10195,15 @@ namespace ArcForges.Contracts.Node.V1 {
       size += warnings_.CalculateSize(_repeated_warnings_codec);
       if (HasCredentialInOsStore) {
         size += 1 + 1;
+      }
+      if (HasCenterUrl) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CenterUrl);
+      }
+      if (HasNodeKeyFingerprint) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(NodeKeyFingerprint);
+      }
+      if (credentialExpiresAt_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(CredentialExpiresAt);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -10086,6 +10262,18 @@ namespace ArcForges.Contracts.Node.V1 {
       warnings_.Add(other.warnings_);
       if (other.HasCredentialInOsStore) {
         CredentialInOsStore = other.CredentialInOsStore;
+      }
+      if (other.HasCenterUrl) {
+        CenterUrl = other.CenterUrl;
+      }
+      if (other.HasNodeKeyFingerprint) {
+        NodeKeyFingerprint = other.NodeKeyFingerprint;
+      }
+      if (other.credentialExpiresAt_ != null) {
+        if (credentialExpiresAt_ == null) {
+          CredentialExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        CredentialExpiresAt.MergeFrom(other.CredentialExpiresAt);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -10167,6 +10355,21 @@ namespace ArcForges.Contracts.Node.V1 {
             CredentialInOsStore = input.ReadBool();
             break;
           }
+          case 114: {
+            CenterUrl = input.ReadString();
+            break;
+          }
+          case 122: {
+            NodeKeyFingerprint = input.ReadString();
+            break;
+          }
+          case 130: {
+            if (credentialExpiresAt_ == null) {
+              CredentialExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(CredentialExpiresAt);
+            break;
+          }
         }
       }
     #endif
@@ -10245,6 +10448,21 @@ namespace ArcForges.Contracts.Node.V1 {
           }
           case 104: {
             CredentialInOsStore = input.ReadBool();
+            break;
+          }
+          case 114: {
+            CenterUrl = input.ReadString();
+            break;
+          }
+          case 122: {
+            NodeKeyFingerprint = input.ReadString();
+            break;
+          }
+          case 130: {
+            if (credentialExpiresAt_ == null) {
+              CredentialExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(CredentialExpiresAt);
             break;
           }
         }

@@ -20,7 +20,9 @@ production operation catalogue and later semantic gates are not complete.
 
 Each NuGet project owns real generated contracts or validation/client/tool code.
 The flagship packages (AF-CON-01) hold the ArcForges-Design specification protos,
-adopted byte for byte and recorded with their digests and schema digest in
+adopted byte for byte (later additive changes, such as AF-CTR-04's node sign-in fields in
+`fleet.proto`, `node.proto` and `account.proto`, are made here first and mirrored to the Design)
+and recorded with their digests and schema digest in
 `eng/flagship-contracts.json`: public `Node` (`arcforges.node.v1`) and `Fleet`
 (`arcforges.fleet.v1`), internal `Peer` (`arcforges.peer.v1`) and `Relay`
 (`arcforges.relay.v1`), plus one additive file each in PublicApi (`support_access.proto`)

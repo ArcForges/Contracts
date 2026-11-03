@@ -145,7 +145,7 @@ type AccountServiceClient interface {
 	// idempotency: command_id; one active flow at a time (returns it)
 	// deadline: 15 s
 	// stream: none
-	// errors: STATE/invalid_state, STATE/cloud_unreachable, RESOURCE/rate_limited, AUTHORIZATION/permission_denied
+	// errors: STATE/invalid_state, STATE/cloud_unreachable, RESOURCE/rate_limited, AUTHORIZATION/permission_denied, STATE/not_activated
 	// locality: node -> cloud
 	// state: SM-SIGN-IN: (none) -> PENDING
 	BeginSignIn(context.Context, *v1.AccountServiceBeginSignInRequest) (*v1.AccountServiceBeginSignInResponse, error)
@@ -239,7 +239,7 @@ type AccountServiceHandler interface {
 	// idempotency: command_id; one active flow at a time (returns it)
 	// deadline: 15 s
 	// stream: none
-	// errors: STATE/invalid_state, STATE/cloud_unreachable, RESOURCE/rate_limited, AUTHORIZATION/permission_denied
+	// errors: STATE/invalid_state, STATE/cloud_unreachable, RESOURCE/rate_limited, AUTHORIZATION/permission_denied, STATE/not_activated
 	// locality: node -> cloud
 	// state: SM-SIGN-IN: (none) -> PENDING
 	BeginSignIn(context.Context, *v1.AccountServiceBeginSignInRequest) (*v1.AccountServiceBeginSignInResponse, error)
