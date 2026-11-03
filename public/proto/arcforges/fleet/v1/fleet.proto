@@ -74,7 +74,7 @@ service NodeEnrollmentService {
   // idempotency: natural: code single use; reuse revokes the flow
   // deadline: 15 s
   // stream: none
-  // errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, STATE/invalid_state, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+  // errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
   // locality: cloud
   // state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
   rpc CompleteNodeSignIn(NodeEnrollmentServiceCompleteNodeSignInRequest) returns (NodeEnrollmentServiceCompleteNodeSignInResponse);
@@ -104,11 +104,13 @@ service NodeEnrollmentService {
   rpc PollDeviceAuthorization(NodeEnrollmentServicePollDeviceAuthorizationRequest) returns (NodeEnrollmentServicePollDeviceAuthorizationResponse);
 
   // Web /activate: show the node behind a user code (5 lookups per live code).
-  // Malformed input costs nothing. A wrong entry is VALIDATION/code_invalid with limit.limit_name device_entry_account,
-  // limit.maximum the window's cap and limit.available the entries left; a wrong entry beyond the account or network
-  // budget is RESOURCE/rate_limited with retry_at. The sixth lookup of one live code denies it (VALIDATION/code_invalid,
-  // limit.limit_name device_code_lookups, limit.available 0). An expired code or a code in another state is
-  // STATE/expired or STATE/invalid_state, without limit. A lookup records the reviewing account and time.
+  // Malformed input costs nothing. Every other entry first reserves one unit of the account budget and one of the
+  // network budget; a right lookup gives both back. A wrong entry is VALIDATION/code_invalid with limit.limit_name
+  // device_entry_account, limit.maximum the window's cap and limit.available the entries left. Once the account or
+  // network budget is spent, every entry (also a right one) is RESOURCE/rate_limited with retry_at until the window
+  // ends. The sixth and later lookups of one live code are refused with VALIDATION/code_invalid (limit.limit_name
+  // device_code_lookups, limit.available 0); the authorization stays PENDING. An expired code or a code in another
+  // state is STATE/expired or STATE/invalid_state, without limit. A lookup records the reviewing account and time.
   // auth: account session
   // idempotency: natural: counts one lookup of the live code and records the reviewing account
   // deadline: 5 s
@@ -298,7 +300,7 @@ message NodeEnrollmentServiceBeginNodeSignInResponse {
 }
 message NodeEnrollmentServiceBeginNodeSignInValue {
   arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
-  optional string authorize_url = 11 [json_name = "authorizeUrl"]; // <center>/connect#flow=<flow_id>, <center> the center's public base URL (https://arcforges.com/api); the node derives the same string from its configured center and requires an exact match; <= 512 chars
+  optional string authorize_url = 11 [json_name = "authorizeUrl"]; // <center>/connect#flow=<flow_id>, <center> the center's public base URL (https://arcforges.com/api), <flow_id> the lower-case 8-4-4-4-12 hex form of the 16 flow_id bytes in order (RFC 9562), never a platform GUID byte order; the node derives the same string from its configured center and requires an exact match; <= 512 chars
   arcforges.foundation.v1.Instant expires_at = 12 [json_name = "expiresAt"]; // 10 minutes
 }
 
@@ -342,11 +344,14 @@ message NodeEnrollmentServiceApproveNodeSignInValue {
 // over the bytes
 //   "ArcForges node-key-proof v1\n" (28 bytes ASCII) || purpose (1 byte) || SHA-256(audience) (32 bytes)
 //   || node_id (16 bytes) || binding
+// node_id = the 16 bytes of EnrollingNodeInfo.node_id (Id.value) of the BeginNodeSignIn or StartDeviceAuthorization
+// request (CompleteNodeSignIn and PollDeviceAuthorization carry no node ID); flow_id = the 16 bytes of Id.value.
 // purpose 0x01 CompleteNodeSignIn, binding = flow_id (16 bytes) || code (UTF-8, 43 chars); purpose 0x02
 // PollDeviceAuthorization, binding = device_code (UTF-8, 43 chars); other purpose values are reserved. Every field
 // before binding has a fixed length. audience = the full canonical center URL the node is configured with, as UTF-8
 // (scheme, lower-case host, port only when not the default, optional path prefix, no trailing slash; for example
-// https://arcforges.com/api); the center compares it with its own public base URL. Key and credential names on the
+// https://arcforges.com/api). The audience is not sent: the center verifies the proof with SHA-256 of its own public
+// base URL in this position. Key and credential names on the
 // node derive from the node ID and the canonical center origin; only this proof binds the full URL.
 // Signature: IEEE P1363 r||s, 64 bytes, r and s in [1, n-1], low-S (s <= n/2); the node normalizes s, and the center
 // refuses a high-S proof. Other signatures of the node key use a different leading domain string; this message is
@@ -1248,7 +1253,7 @@ enum NodeSignInState {
   NODE_SIGN_IN_STATE_COMPLETED = 3;
   NODE_SIGN_IN_STATE_DENIED = 4;
   NODE_SIGN_IN_STATE_EXPIRED = 5;
-  NODE_SIGN_IN_STATE_REVOKED = 6; // code reuse, a wrong verifier or node key proof after a correct code, or the fifth wrong code
+  NODE_SIGN_IN_STATE_REVOKED = 6; // a correct code presented again (reuse), or a correct code with a wrong verifier or node key proof
 }
 
 // SM-PHONE-PAIRING states (cloud side).

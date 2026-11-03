@@ -360,7 +360,7 @@ type NodeEnrollmentServiceClient interface {
 	// idempotency: natural: code single use; reuse revokes the flow
 	// deadline: 15 s
 	// stream: none
-	// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, STATE/invalid_state, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+	// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
 	// locality: cloud
 	// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
 	CompleteNodeSignIn(context.Context, *v1.NodeEnrollmentServiceCompleteNodeSignInRequest) (*v1.NodeEnrollmentServiceCompleteNodeSignInResponse, error)
@@ -387,11 +387,13 @@ type NodeEnrollmentServiceClient interface {
 	// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
 	PollDeviceAuthorization(context.Context, *v1.NodeEnrollmentServicePollDeviceAuthorizationRequest) (*v1.NodeEnrollmentServicePollDeviceAuthorizationResponse, error)
 	// Web /activate: show the node behind a user code (5 lookups per live code).
-	// Malformed input costs nothing. A wrong entry is VALIDATION/code_invalid with limit.limit_name device_entry_account,
-	// limit.maximum the window's cap and limit.available the entries left; a wrong entry beyond the account or network
-	// budget is RESOURCE/rate_limited with retry_at. The sixth lookup of one live code denies it (VALIDATION/code_invalid,
-	// limit.limit_name device_code_lookups, limit.available 0). An expired code or a code in another state is
-	// STATE/expired or STATE/invalid_state, without limit. A lookup records the reviewing account and time.
+	// Malformed input costs nothing. Every other entry first reserves one unit of the account budget and one of the
+	// network budget; a right lookup gives both back. A wrong entry is VALIDATION/code_invalid with limit.limit_name
+	// device_entry_account, limit.maximum the window's cap and limit.available the entries left. Once the account or
+	// network budget is spent, every entry (also a right one) is RESOURCE/rate_limited with retry_at until the window
+	// ends. The sixth and later lookups of one live code are refused with VALIDATION/code_invalid (limit.limit_name
+	// device_code_lookups, limit.available 0); the authorization stays PENDING. An expired code or a code in another
+	// state is STATE/expired or STATE/invalid_state, without limit. A lookup records the reviewing account and time.
 	// auth: account session
 	// idempotency: natural: counts one lookup of the live code and records the reviewing account
 	// deadline: 5 s
@@ -599,7 +601,7 @@ type NodeEnrollmentServiceHandler interface {
 	// idempotency: natural: code single use; reuse revokes the flow
 	// deadline: 15 s
 	// stream: none
-	// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, STATE/invalid_state, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+	// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
 	// locality: cloud
 	// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
 	CompleteNodeSignIn(context.Context, *v1.NodeEnrollmentServiceCompleteNodeSignInRequest) (*v1.NodeEnrollmentServiceCompleteNodeSignInResponse, error)
@@ -626,11 +628,13 @@ type NodeEnrollmentServiceHandler interface {
 	// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
 	PollDeviceAuthorization(context.Context, *v1.NodeEnrollmentServicePollDeviceAuthorizationRequest) (*v1.NodeEnrollmentServicePollDeviceAuthorizationResponse, error)
 	// Web /activate: show the node behind a user code (5 lookups per live code).
-	// Malformed input costs nothing. A wrong entry is VALIDATION/code_invalid with limit.limit_name device_entry_account,
-	// limit.maximum the window's cap and limit.available the entries left; a wrong entry beyond the account or network
-	// budget is RESOURCE/rate_limited with retry_at. The sixth lookup of one live code denies it (VALIDATION/code_invalid,
-	// limit.limit_name device_code_lookups, limit.available 0). An expired code or a code in another state is
-	// STATE/expired or STATE/invalid_state, without limit. A lookup records the reviewing account and time.
+	// Malformed input costs nothing. Every other entry first reserves one unit of the account budget and one of the
+	// network budget; a right lookup gives both back. A wrong entry is VALIDATION/code_invalid with limit.limit_name
+	// device_entry_account, limit.maximum the window's cap and limit.available the entries left. Once the account or
+	// network budget is spent, every entry (also a right one) is RESOURCE/rate_limited with retry_at until the window
+	// ends. The sixth and later lookups of one live code are refused with VALIDATION/code_invalid (limit.limit_name
+	// device_code_lookups, limit.available 0); the authorization stays PENDING. An expired code or a code in another
+	// state is STATE/expired or STATE/invalid_state, without limit. A lookup records the reviewing account and time.
 	// auth: account session
 	// idempotency: natural: counts one lookup of the live code and records the reviewing account
 	// deadline: 5 s

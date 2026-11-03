@@ -21,7 +21,7 @@
       "design": "arcforges/fleet/v1/fleet.proto",
       "path": "public/proto/arcforges/fleet/v1/fleet.proto",
       "package": "ArcForges.Contracts.Fleet",
-      "sha256": "489a7ac1f32117635532ebc3a5c3a7c0ddb6ede1119926827e2a0ea63952933c"
+      "sha256": "c36b4de920638312055896179b48eb994c91da6d462b54a6d00ec4418f76ae61"
     },
     {
       "design": "arcforges/node/v1/account.proto",
@@ -75,7 +75,7 @@
       "design": "arcforges/node/v1/node.proto",
       "path": "public/proto/arcforges/node/v1/node.proto",
       "package": "ArcForges.Contracts.Node",
-      "sha256": "a44b5bbc35594f263e18911ea7e0cf50b6ffc630fb9adb63788c857279f45524"
+      "sha256": "d44bb6760e6ccd20937d468c38dfd337120cadeafa431e4f0d396acb5bcf4a09"
     },
     {
       "design": "arcforges/node/v1/peers.proto",

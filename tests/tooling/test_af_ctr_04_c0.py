@@ -88,7 +88,7 @@ ANNOTATIONS = {
         "natural: the flow row; a repeat by the same account replaces the unredeemed one-use code"),
     "arcforges.fleet.v1.NodeEnrollmentService/CompleteNodeSignIn": (
         "STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, "
-        "VALIDATION/invalid_argument, STATE/invalid_state, CONFLICT/already_exists, AUTHENTICATION/credential_revoked",
+        "VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked",
         "natural: code single use; reuse revokes the flow"),
     "arcforges.fleet.v1.NodeEnrollmentService/StartDeviceAuthorization": (
         "VALIDATION/invalid_argument, RESOURCE/rate_limited, RESOURCE/kill_switch_active, CONFLICT/already_exists",
@@ -208,12 +208,26 @@ class AnnotationDelta(unittest.TestCase):
                 "<center>/connect#flow=<flow_id>",
                 "<center>/activate#code=XXXX-XXXX",
                 "authentication time is never evidence",
-                "SemVer 2.0.0, <= 128 chars; the center stores the canonical form"):
+                "SemVer 2.0.0, <= 128 chars; the center stores the canonical form",
+                # Fix round 1 of #125: protocol-1 (no wrong-code counter revokes a flow) and Q8 (entry budgets).
+                "NODE_SIGN_IN_STATE_REVOKED = 6; // a correct code presented again (reuse), or a correct code with a "
+                "wrong verifier or node key proof\n",
+                "every entry (also a right one) is RESOURCE/rate_limited with retry_at until the window",
+                "a right lookup gives both back",
+                "The sixth and later lookups of one live code are refused with VALIDATION/code_invalid",
+                "limit.available 0); the authorization stays PENDING.",
+                "The audience is not sent: the center verifies the proof with SHA-256 of its own public",
+                "node_id = the 16 bytes of EnrollingNodeInfo.node_id (Id.value) of the BeginNodeSignIn or "
+                "StartDeviceAuthorization",
+                "<flow_id> the lower-case 8-4-4-4-12 hex form of the 16 flow_id bytes in order (RFC 9562)"):
             with self.subTest(phrase):
                 self.assertIn(phrase, fleet)
         self.assertEqual(len("ArcForges node-key-proof v1\n".encode("ascii")), 28)
         self.assertNotIn("passkey or recent authentication", fleet)
         self.assertNotIn("connect?flow=", fleet)
+        for withdrawn in ("fifth wrong code", "denies it", "a wrong entry beyond", "compares it with its own"):
+            self.assertNotIn(withdrawn, fleet)
+        self.assertIn("STATE/invalid_state (state.state signed_in or signing_in, state.reason center_url).", text(NODE))
         self.assertIn("// validate: HUMAN only;", message_fields(NODE, "NodeServiceUpdateNodeSettingsRequest")[12][3])
         self.assertIn("XXXX-XXXX-XXXX-XXXX-XXXX: upper-case hex of the first 10 bytes of SHA-256",
                       message_fields(ACCOUNT, "SignInFlow")[13][3])

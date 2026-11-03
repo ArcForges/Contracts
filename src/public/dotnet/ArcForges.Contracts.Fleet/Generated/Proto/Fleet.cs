@@ -1406,7 +1406,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     [pbr::OriginalName("NODE_SIGN_IN_STATE_DENIED")] Denied = 4,
     [pbr::OriginalName("NODE_SIGN_IN_STATE_EXPIRED")] Expired = 5,
     /// <summary>
-    /// code reuse, a wrong verifier or node key proof after a correct code, or the fifth wrong code
+    /// a correct code presented again (reuse), or a correct code with a wrong verifier or node key proof
     /// </summary>
     [pbr::OriginalName("NODE_SIGN_IN_STATE_REVOKED")] Revoked = 6,
   }
@@ -2361,7 +2361,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
     private string authorizeUrl_;
     /// <summary>
-    /// &lt;center>/connect#flow=&lt;flow_id>, &lt;center> the center's public base URL (https://arcforges.com/api); the node derives the same string from its configured center and requires an exact match; &lt;= 512 chars
+    /// &lt;center>/connect#flow=&lt;flow_id>, &lt;center> the center's public base URL (https://arcforges.com/api), &lt;flow_id> the lower-case 8-4-4-4-12 hex form of the 16 flow_id bytes in order (RFC 9562), never a platform GUID byte order; the node derives the same string from its configured center and requires an exact match; &lt;= 512 chars
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -4325,11 +4325,14 @@ namespace ArcForges.Contracts.Fleet.V1 {
   /// over the bytes
   ///   "ArcForges node-key-proof v1\n" (28 bytes ASCII) || purpose (1 byte) || SHA-256(audience) (32 bytes)
   ///   || node_id (16 bytes) || binding
+  /// node_id = the 16 bytes of EnrollingNodeInfo.node_id (Id.value) of the BeginNodeSignIn or StartDeviceAuthorization
+  /// request (CompleteNodeSignIn and PollDeviceAuthorization carry no node ID); flow_id = the 16 bytes of Id.value.
   /// purpose 0x01 CompleteNodeSignIn, binding = flow_id (16 bytes) || code (UTF-8, 43 chars); purpose 0x02
   /// PollDeviceAuthorization, binding = device_code (UTF-8, 43 chars); other purpose values are reserved. Every field
   /// before binding has a fixed length. audience = the full canonical center URL the node is configured with, as UTF-8
   /// (scheme, lower-case host, port only when not the default, optional path prefix, no trailing slash; for example
-  /// https://arcforges.com/api); the center compares it with its own public base URL. Key and credential names on the
+  /// https://arcforges.com/api). The audience is not sent: the center verifies the proof with SHA-256 of its own public
+  /// base URL in this position. Key and credential names on the
   /// node derive from the node ID and the canonical center origin; only this proof binds the full URL.
   /// Signature: IEEE P1363 r||s, 64 bytes, r and s in [1, n-1], low-S (s &lt;= n/2); the node normalizes s, and the center
   /// refuses a high-S proof. Other signatures of the node key use a different leading domain string; this message is

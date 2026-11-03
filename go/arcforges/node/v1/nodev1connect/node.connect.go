@@ -215,7 +215,7 @@ type NodeServiceClient interface {
 	GetNodeSettings(context.Context, *v1.NodeServiceGetNodeSettingsRequest) (*v1.NodeServiceGetNodeSettingsResponse, error)
 	// Change node.json settings (meta.expected_rev = settings revision).
 	// center_url is HUMAN only (no approval path) and is refused while the node is signed in or signing in:
-	// STATE/invalid_state (state.state signed_in or signing_in).
+	// STATE/invalid_state (state.state signed_in or signing_in, state.reason center_url).
 	// auth: HUMAN=A SCRIPT=P AGENT=D REMOTE=-
 	// idempotency: command_id; expected_rev
 	// deadline: 5 s
@@ -341,7 +341,7 @@ type NodeServiceHandler interface {
 	GetNodeSettings(context.Context, *v1.NodeServiceGetNodeSettingsRequest) (*v1.NodeServiceGetNodeSettingsResponse, error)
 	// Change node.json settings (meta.expected_rev = settings revision).
 	// center_url is HUMAN only (no approval path) and is refused while the node is signed in or signing in:
-	// STATE/invalid_state (state.state signed_in or signing_in).
+	// STATE/invalid_state (state.state signed_in or signing_in, state.reason center_url).
 	// auth: HUMAN=A SCRIPT=P AGENT=D REMOTE=-
 	// idempotency: command_id; expected_rev
 	// deadline: 5 s
