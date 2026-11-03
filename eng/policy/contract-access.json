@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "2bdf2a1b5b58fd5f11aab115fc6ffb8470f75b43",
+  "sourceCommit": "f74a1ae504fdd29beaa04a3dd5e42af864df7642",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -77,7 +77,7 @@
     {
       "path": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public",
-      "sha256": "489a7ac1f32117635532ebc3a5c3a7c0ddb6ede1119926827e2a0ea63952933c"
+      "sha256": "c36b4de920638312055896179b48eb994c91da6d462b54a6d00ec4418f76ae61"
     },
     {
       "path": "public/proto/arcforges/foundation/v1/foundation.proto",
@@ -132,7 +132,7 @@
     {
       "path": "public/proto/arcforges/node/v1/node.proto",
       "access": "public",
-      "sha256": "a44b5bbc35594f263e18911ea7e0cf50b6ffc630fb9adb63788c857279f45524"
+      "sha256": "d44bb6760e6ccd20937d468c38dfd337120cadeafa431e4f0d396acb5bcf4a09"
     },
     {
       "path": "public/proto/arcforges/node/v1/peers.proto",
@@ -18947,7 +18947,7 @@
         "BillingStatus",
         "NodeCursorInput"
       ],
-      "sha256": "37e14042533e04527fcf8d618c0a159df249269cb0746bd19af929204658c54b",
+      "sha256": "593df7a32bf24d88fa875d58163b7b76d813f5582c3eb1e0dcc82a6349328053",
       "kind": "generated"
     },
     {
@@ -18968,7 +18968,7 @@
         "StoreBillingServiceBase",
         "StoreBillingServiceClient"
       ],
-      "sha256": "c32384e6d297c89c46cf45d778874408b0d6da46e17a332fc82d2662e41cba3c",
+      "sha256": "59bf964c9db053a643929d86e22b969f9f1c7c568c340cbfe3612fd51da67ca3",
       "kind": "generated"
     },
     {
@@ -19678,7 +19678,7 @@
       "package": "ArcForges.Contracts.Node",
       "access": "public",
       "types": ["NodeService", "__Helper_MessageCache", "NodeServiceBase", "NodeServiceClient"],
-      "sha256": "ce0d111af53c89317c5046356f4ef9cd6a658593af7a52c75ccb7e63198d3790",
+      "sha256": "5686ed6c744b40773c2f7a52d1f71cc6f4ce61d559410a6995529325d30ca939",
       "kind": "generated"
     },
     {
