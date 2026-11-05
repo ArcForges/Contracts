@@ -319,7 +319,8 @@ def flagship_annotations(text: str, path: str) -> dict[str, dict]:
 
 # AF-CTR-05 (part C1): the error catalogue lists each code's replies as explicit {effect, retry} pairs, regenerated from
 # ArcForges-Design errors.md; independent retry-mode and effect arrays would recreate the pair the Contracts rule arcError
-# rejects (UNKNOWN with AFTER_TIME), so the v1 form is refused.
+# rejects (UNKNOWN with AFTER_TIME), so the v1 form is refused. The pair form: AFTER_TIME with DID_NOT_HAPPEN or HAPPENED;
+# AFTER_TIME or SAME_COMMAND with HAPPENED; RECONCILE, SAME_COMMAND or NEVER with UNKNOWN.
 CATALOGUE_EFFECTS = ("DID_NOT_HAPPEN", "HAPPENED", "UNKNOWN")
 CATALOGUE_RETRY_MODES = ("NEVER", "AFTER_TIME", "SAME_COMMAND", "RECONCILE")
 CATALOGUE_ROW_KEYS = {"category", "code", "messageKey", "meaning", "retryAdvice", "effect", "pairs", "details"}
@@ -339,6 +340,9 @@ def error_catalogue_codes(catalogue: dict) -> set[str]:
                 f"{key}: an error catalogue row has exactly the pair form keys (no independent retry-mode or effect arrays)")
         require(key not in codes, f"{key}: error code listed twice")
         codes.add(key)
+        for cell in ("category", "code", "messageKey", "meaning", "retryAdvice", "effect", "details"):
+            require(isinstance(row[cell], str) and bool(row[cell]),
+                    f"{key}: the {cell} cell is a non-empty string (no independent array under a v2 key)")
         pairs = row["pairs"]
         require(isinstance(pairs, list) and bool(pairs), f"{key}: an error catalogue row lists at least one effect/retry pair")
         seen = set()
@@ -346,9 +350,12 @@ def error_catalogue_codes(catalogue: dict) -> set[str]:
             require(isinstance(pair, dict) and set(pair) - {"reconciliationOperation"} == {"effect", "retry"},
                     f"{key}: a pair is exactly an effect, a retry mode and, for RECONCILE, its reconciliation operation")
             effect, retry, operation = pair["effect"], pair["retry"], pair.get("reconciliationOperation")
+            require(isinstance(effect, str) and isinstance(retry, str), f"{key}: a pair's effect and retry mode are single values")
             require(effect in CATALOGUE_EFFECTS and retry in CATALOGUE_RETRY_MODES, f"{key}: unknown effect or retry mode in a pair")
             require(not (effect == "UNKNOWN" and retry == "AFTER_TIME"),
                     f"{key}: UNKNOWN never pairs with AFTER_TIME (the Contracts rule arcError)")
+            require(effect != "HAPPENED" or retry in ("AFTER_TIME", "SAME_COMMAND"),
+                    f"{key}: HAPPENED pairs only with AFTER_TIME or SAME_COMMAND (errors.md pair form)")
             require((retry == "RECONCILE") == (operation is not None),
                     f"{key}: a RECONCILE pair names its reconciliation operation and no other pair does (the rule retryAdvice)")
             require(operation is None or (isinstance(operation, str) and RECONCILIATION_OPERATION.fullmatch(operation) is not None),

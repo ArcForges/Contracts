@@ -155,11 +155,15 @@ class EmailBound(unittest.TestCase):
         pins = {row["path"]: row["sha256"] for row in load("eng/compatibility/later-services-window.json")["schemas"]}
         self.assertEqual(schema_identity((ROOT / "public/http/v1/browser.schema.json").read_bytes())[0],
                          pins["public/http/v1/browser.schema.json"])
+        # web-browser.schema.json is not in the CON.17 window: its bytes are pinned here (review N-4), equal to main 5873dc2.
+        self.assertEqual(hashlib.sha256((ROOT / "public/http/v1/web-browser.schema.json").read_bytes()).hexdigest(),
+                         "2e54a30f135c6b0fb372f68ffeea38647c58514f03317316ce492db442069078")
         for document in ("public/http/v1/browser.schema.json", "public/http/v1/web-browser.schema.json"):
             with self.subTest(document):
                 self.assertEqual(text(document).count('"maxLength": 320'), 2)
         consuming = text("docs/consuming.md")
-        for phrase in ("stay byte-identical with `maxLength` 320", "the center is stricter and refuses", "255 to 320 scalars"):
+        for phrase in ("stay byte-identical with `maxLength` 320", "the center is stricter and refuses", "255 to 320 scalars",
+                       "an HTTP client should apply 254 too"):
             self.assertIn(phrase, " ".join(consuming.split()))
 
 
@@ -170,6 +174,15 @@ class FollowUpDecisions(unittest.TestCase):
                        "the Worker adds a `ResponseMeta` with the correlation ID to its generated replies",
                        "The contracts and the generated validators are unchanged: they keep requiring `meta`."):
             self.assertIn(phrase, consuming)
+
+    def test_additive_only_names_the_recorded_validator_tightenings(self):
+        # Review N-3: within v1 the change is additive on the wire; the two validator tightenings are recorded decisions.
+        consuming = " ".join(text("docs/consuming.md").split())
+        self.assertIn("Within `v1`, changes are additive only on the wire, and a validator tightens only by a recorded decision "
+                      "(AF-CTR-05 part C1: the e-mail bound of Plan decision Q12 and the `approve` rule, below)", consuming)
+        self.assertIn("additive only on the wire and reviewed against the wire-compatibility baselines in "
+                      "eng/compatibility/flagship-window.json; a validator tightens only by a recorded decision (AF-CTR-05 part C1: "
+                      "the e-mail bound of Plan decision Q12 and the approve rule).", load("eng/flagship-contracts.json")["adoption"])
 
     def test_the_web_browser_session_document_keeps_no_error_body(self):
         web = load("public/http/v1/web-browser.schema.json")

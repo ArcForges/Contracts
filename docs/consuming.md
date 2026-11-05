@@ -171,7 +171,9 @@ names repeat with different fully qualified names (design reuse map, conflict C-
 Each RPC carries its design annotation block (`auth`, `idempotency`, `deadline`,
 `stream`, `errors`, `locality`, optional `state`); error codes are listed in
 [`fixtures/public/af-con-01-error-catalogue.json`](../fixtures/public/af-con-01-error-catalogue.json),
-copied from the design error catalogue. Within `v1`, changes are additive only, and
+copied from the design error catalogue. Within `v1`, changes are additive only on the wire, and a validator
+tightens only by a recorded decision (AF-CTR-05 part C1: the e-mail bound of Plan decision Q12 and the `approve`
+rule, below);
 [`eng/compatibility/flagship-window.json`](../eng/compatibility/flagship-window.json)
 holds the baselines the wire-compatibility gate compares every later change with.
 Pin every Contracts package of one candidate to the same exact version.
@@ -190,7 +192,7 @@ Pin every Contracts package of one candidate to the same exact version.
   `email` of `RequestEmailCode`, `BeginRecovery` and `BeginEmailChange`), the bound the center applies. The
   frozen closed documents `public/http/v1/browser.schema.json` and `public/http/v1/web-browser.schema.json`
   stay byte-identical with `maxLength` 320. This divergence is deliberate: the center is stricter and refuses
-  255 to 320 scalars, so an HTTP client applies 254 too.
+  255 to 320 scalars, so an HTTP client should apply 254 too.
 - _Worker replies without `ResponseMeta` (Plan decision Q13)._ The hosted Worker's own domain replies
   (`not_activated`, `rate_limited`) carry `ArcError.correlation_id` but no `ResponseMeta`. The decision is
   that the Worker adds a `ResponseMeta` with the correlation ID to its generated replies (Cloud, AF-CTR-05

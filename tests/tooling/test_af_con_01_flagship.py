@@ -186,6 +186,16 @@ class ErrorCatalogue(unittest.TestCase):
                                                "names its reconciliation operation"),
             "no pair": (lambda row: row.update(pairs=[]), "at least one effect/retry pair"),
             "a duplicate pair": (lambda row: row["pairs"].append(dict(row["pairs"][0])), "listed twice"),
+            # Review N-1: the HAPPENED half of the pair form, and the cells and pair members are single values.
+            "HAPPENED with NEVER": (lambda row: row["pairs"].append({"effect": "HAPPENED", "retry": "NEVER"}),
+                                    "HAPPENED pairs only with AFTER_TIME or SAME_COMMAND"),
+            "HAPPENED with RECONCILE": (lambda row: row["pairs"].append({"effect": "HAPPENED", "retry": "RECONCILE",
+                                                                         "reconciliationOperation": "arcforges.node.v1.PeerService/ListPeers"}),
+                                        "HAPPENED pairs only with AFTER_TIME or SAME_COMMAND"),
+            "an effect cell as an array": (lambda row: row.update(effect=["DID_NOT_HAPPEN", "UNKNOWN"]), "the effect cell is a non-empty string"),
+            "a retry advice cell as an array": (lambda row: row.update(retryAdvice=["AFTER_TIME"]), "the retryAdvice cell is a non-empty string"),
+            "a pair effect as an array": (lambda row: row["pairs"][0].update(effect=["DID_NOT_HAPPEN", "UNKNOWN"]), "single values"),
+            "a pair retry as an array": (lambda row: row["pairs"][0].update(retry=["AFTER_TIME"]), "single values"),
         }
         for label, (change, message) in cases.items():
             with self.subTest(label), self.assertRaisesRegex(ValueError, message):

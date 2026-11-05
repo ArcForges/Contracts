@@ -473,6 +473,7 @@ class IdentityHttpExceptions(unittest.TestCase):
         for phrase in ("403 for authentication, authorization and entitlement", "400 for validation, conflict, state and RESOURCE/quota_exceeded",
                        "404 for STATE/not_found and STATE/not_activated", "429 for RESOURCE/rate_limited", "503 otherwise",
                        "never mean that the center did not see the request", "LimitFailure.available is not carried",
+                       "answers an unknown or disabled path (404) and a method other than the route's (405) without a body",
                        "which stays unchanged"):
             self.assertIn(phrase, text, phrase)
         # The companion is owned by PublicApi only, it is not a pinned frozen document, and WebBrowserSession has no error root.
