@@ -12,7 +12,7 @@
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
     "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
     "eng/contract-packages.json": "91823eba278799f8c0bbc6b24b2ce80afbd43116a683dd8aad27af0e092a43dc",
-    "eng/policy/contract-access.json": "179606a9400d79c3ca01fc5bc48e7855410bebdc541b152966e7dea008175e73",
+    "eng/policy/contract-access.json": "65b18ee2725354adbfd99ddf40a9d3209a64521a9106c77614119c48be945e9c",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -47,6 +47,7 @@
     "eng/provenance/records/contract-bindings-af-ctr-04-r1.json": "ae6b864455545c4deed8f132d0df7ae350136c8b8f931509dcf416af89a13fb3",
     "eng/provenance/records/contract-bindings-af-ctr-04-r2.json": "b5b1194aec017b9c5ff97f362eb48d058c5545d4bce7b294e0dff2493f41cb7d",
     "eng/provenance/records/contract-bindings-af-ctr-04-r3.json": "ad734125e7ecb687002f18cd1ddaabea8f794399b5548a2e80bda06cf6fc0808",
+    "eng/provenance/records/contract-bindings-af-ctr-04-r4.json": "073eb53d909a8c55e25310cd2532113c2d6dc79d1d5e7ce02be784e7e3eb5c43",
     "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
     "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
     "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -995,12 +996,12 @@
     "decision": "approved",
     "reviewedOn": "2026-11-05",
     "baselineCommit": "1e0a5d69125635746411ac4128e1cdf5b879e60c",
-    "maintenanceAssessment": "AF-CTR-04 part CM (this receipt supersedes af-ctr-04-r3, the .NET 10.0.14 repair) adds the closed HTTP document public/http/v1/mobile-native.schema.json (MobileNativeAuth, schema version 1: the native authorization of the ArcForges mobile app, routes mobile.begin and mobile.token) and generates its C# models, route catalogue and validators into ArcForges.Contracts.PublicApi and ArcForges.Contracts.Validation. The only dependency-input changes are eng/contract-packages.json (the new document in the PublicApi jsonSchemas list), eng/policy/contract-access.json (the 13 new generated sources with their declared types, the new build input, the refreshed eng/contract-packages.json hash, sourceCommit and reviewedOn) and the new provenance successor eng/provenance/records/contract-bindings-af-ctr-04-r3.json. No csproj, props, lock file, package.json, go.mod, go.sum or toolchain pin changes. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. Independent exact-head review by the named reviewer and the host verification remain mandatory before merge.",
+    "maintenanceAssessment": "Review round of the AF-CTR-04 CM pull request (this receipt supersedes af-ctr-04-r4): descriptions of the document and the route catalogue guard for the anonymous credential change, the generated outputs are unchanged, contract-access.json refreshes the schema build-input hash and sourceCommit, and the provenance successor contract-bindings-af-ctr-04-r4 replaces r3. Unchanged from r4: AF-CTR-04 part CM adds the closed HTTP document public/http/v1/mobile-native.schema.json (MobileNativeAuth, schema version 1: the native authorization of the ArcForges mobile app, routes mobile.begin and mobile.token) and generates its C# models, route catalogue and validators into ArcForges.Contracts.PublicApi and ArcForges.Contracts.Validation. The only dependency-input changes are eng/contract-packages.json (the new document in the PublicApi jsonSchemas list), eng/policy/contract-access.json (the 13 new generated sources with their declared types, the new build input, the refreshed eng/contract-packages.json hash, sourceCommit and reviewedOn) and the new provenance successor eng/provenance/records/contract-bindings-af-ctr-04-r4.json. No csproj, props, lock file, package.json, go.mod, go.sum or toolchain pin changes. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. Independent exact-head review by the named reviewer and the host verification remain mandatory before merge.",
     "checks": {
       "compilation": "The official generator reproduces the 13 new C# outputs and every retained output (generate --check passes; the Go bindings are unchanged); the StructureTests build in Release with 0 warnings and run the 120 MobileNativeAuth HTTP vectors through the generated codecs; the host verification is required at the reviewed head.",
       "aot-trim": "No project changes its AOT or trim settings; the new strict JSON contexts are source-generated like the existing ones and the serialization gate counts them (117).",
       "compatibility": "Additive: one new closed HTTP document with new definition names, route identities and paths; the frozen browser.schema.json and native-auth.schema.json and every other pinned schema of the CON.17 later-services window are unchanged; no proto, package identity or descriptor baseline changes.",
-      "licence-provenance": "First-party Apache-2.0 edits only; the generated outputs are bound by the immutable successor contract-bindings-af-ctr-04-r3 (425 targets: the 412 of r2 with unchanged hashes and the 13 new outputs); go-bindings-af-ctr-04-r2 stays active unchanged; no third-party material or generator pin changes.",
+      "licence-provenance": "First-party Apache-2.0 edits only; the generated outputs are bound by the immutable successor contract-bindings-af-ctr-04-r4 (425 targets: r3 bound the 412 of r2 with unchanged hashes and the 13 new outputs; r4 keeps all 425 unchanged); go-bindings-af-ctr-04-r2 stays active unchanged; no third-party material or generator pin changes.",
       "security-sbom": "No coordinate enters or leaves the closure; locked versions, integrity values and licences are unchanged.",
       "runtime-performance-migration": "Generated models and validators of a document the center does not serve yet; no runtime host, migration or performance effect. The Go center serves the routes from AF-CTR-04 part M on.",
       "framework-runtime-posture": "The .NET SDK (10.0.403 since af-ctr-04-r3), Node and Go pins are unchanged by this receipt, so no major-upgrade review is triggered."
@@ -1010,7 +1011,7 @@
       "node": "24.21.0",
       "go": "1.27.3"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-04-r3.json",
+    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-04-r4.json",
     "inputHashes": {
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
@@ -1022,7 +1023,7 @@
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
       "eng/contract-packages.json": "91823eba278799f8c0bbc6b24b2ce80afbd43116a683dd8aad27af0e092a43dc",
-      "eng/policy/contract-access.json": "179606a9400d79c3ca01fc5bc48e7855410bebdc541b152966e7dea008175e73",
+      "eng/policy/contract-access.json": "65b18ee2725354adbfd99ddf40a9d3209a64521a9106c77614119c48be945e9c",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -1057,6 +1058,7 @@
       "eng/provenance/records/contract-bindings-af-ctr-04-r1.json": "ae6b864455545c4deed8f132d0df7ae350136c8b8f931509dcf416af89a13fb3",
       "eng/provenance/records/contract-bindings-af-ctr-04-r2.json": "b5b1194aec017b9c5ff97f362eb48d058c5545d4bce7b294e0dff2493f41cb7d",
       "eng/provenance/records/contract-bindings-af-ctr-04-r3.json": "ad734125e7ecb687002f18cd1ddaabea8f794399b5548a2e80bda06cf6fc0808",
+      "eng/provenance/records/contract-bindings-af-ctr-04-r4.json": "073eb53d909a8c55e25310cd2532113c2d6dc79d1d5e7ce02be784e7e3eb5c43",
       "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
       "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
       "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -1254,5 +1256,5 @@
       "tests/public/SerializationProbe/packages.lock.json": "c22dac951b63b91a5b5b2f9d620cfd5601024a12c59f6b3a62176837fe8d9fa4"
     }
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-04-r4.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-04-r5.json"
 }
