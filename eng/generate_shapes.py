@@ -450,7 +450,8 @@ class JsonShapes:
         selected = {"panelTree": CS_PANEL_RULES, "policyBody": CS_POLICY_RULES, "canonicalDecimal": CS_DECIMAL_RULES,
                     "configurationDocument": CS_CONFIGURATION_RULES, "manifestProfile": CS_MANIFEST_RULES, "workflowGraph": CS_WORKFLOW_RULES,
                     "authChallengePurpose": CS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": CS_NATIVE_CLIENT_RULE,
-                    "mobileClientRedirect": CS_MOBILE_CLIENT_RULE, "mobileAuthorizeFlow": CS_MOBILE_AUTHORIZE_RULE}
+                    "mobileClientRedirect": CS_MOBILE_CLIENT_RULE, "mobileAuthorizeFlow": CS_MOBILE_AUTHORIZE_RULE,
+                    "webBrowserErrorAdvice": CS_WEB_BROWSER_ERROR_RULE}
         return CS_JSON_HELPERS + "".join(selected[rule] for rule in sorted(rules & selected.keys()))
 
     def ts_helpers(self) -> str:
@@ -458,7 +459,8 @@ class JsonShapes:
         selected = {"panelTree": TS_PANEL_RULES, "policyBody": TS_POLICY_RULES, "canonicalDecimal": TS_DECIMAL_RULES,
                     "configurationDocument": TS_CONFIGURATION_RULES, "manifestProfile": TS_MANIFEST_RULES, "workflowGraph": TS_WORKFLOW_RULES,
                     "authChallengePurpose": TS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": TS_NATIVE_CLIENT_RULE,
-                    "mobileClientRedirect": TS_MOBILE_CLIENT_RULE, "mobileAuthorizeFlow": TS_MOBILE_AUTHORIZE_RULE}
+                    "mobileClientRedirect": TS_MOBILE_CLIENT_RULE, "mobileAuthorizeFlow": TS_MOBILE_AUTHORIZE_RULE,
+                    "webBrowserErrorAdvice": TS_WEB_BROWSER_ERROR_RULE}
         helpers = TS_FORM_HELPERS if self.form else TS_JSON_HELPERS
         if self.finite_numbers and not self.form:
             helpers = helpers.replace("/** Strict UTF-8 JSON: no BOM, comments, trailing commas or duplicate properties; depth <= 32; integer lexemes only. */",
@@ -699,7 +701,7 @@ class JsonShapes:
                 c.append("        if (!CanonicalDecimal(text)) return false;")
                 t.append("  if (!canonicalDecimal(value)) return false;")
             elif rule in {"configurationDocument", "manifestProfile", "workflowGraph", "authChallengePurpose", "nativeClientRedirect",
-                          "mobileClientRedirect", "mobileAuthorizeFlow"}:
+                          "mobileClientRedirect", "mobileAuthorizeFlow", "webBrowserErrorAdvice"}:
                 c.append(f"        if (!{rule[0].upper() + rule[1:]}(value)) return false;")
                 t.append(f"  if (!{rule}(value)) return false;")
             else:
@@ -1064,6 +1066,8 @@ def generate(check: bool = False) -> None:
         ("public/http/v1/native-auth.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.NativeAuth", "src/public/dotnet/ArcForges.Contracts.PublicApi", None),
         # AF-CTR-04 (part CM): the native authorization of an arcforges-mobile installation, beside the frozen NativeAuth document.
         ("public/http/v1/mobile-native.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.MobileNative", "src/public/dotnet/ArcForges.Contracts.PublicApi", None),
+        # AF-CTR-05 (part C1, Q14): the error body of the WebBrowserSession routes, beside the unchanged WebBrowserSession document.
+        ("public/http/v1/web-browser-error.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.WebBrowserError", "src/public/dotnet/ArcForges.Contracts.PublicApi", None),
         ("internal/ai-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
         ("internal/cf-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
         ("internal/storage-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Storage.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
@@ -2836,5 +2840,27 @@ TS_MOBILE_AUTHORIZE_RULE = r'''
 function mobileAuthorizeFlow(value: unknown): boolean {
   const object = value as { flowId: string; authorizeUrl: string };
   return object.authorizeUrl.endsWith("/mobile/authorize#flow=" + object.flowId);
+}
+'''
+# AF-CTR-05 (part C1, Q14): the ArcError of a WebBrowserSession refusal keeps the foundation rules retryAdvice and arcError (an
+# instant exactly for afterTime, an operation exactly for reconcile, never unknown with afterTime) and its message key form.
+CS_WEB_BROWSER_ERROR_RULE = r'''
+    private static bool WebBrowserErrorAdvice(global::System.Text.Json.JsonElement value)
+    {
+        if (value.GetProperty("messageKey").GetString() != "error." + value.GetProperty("category").GetString() + "." + value.GetProperty("code").GetString()) return false;
+        var retry = value.GetProperty("retry");
+        var mode = retry.GetProperty("mode").GetString();
+        if ((mode == "afterTime") != retry.TryGetProperty("retryAt", out _)) return false;
+        if ((mode == "reconcile") != retry.TryGetProperty("reconciliationOperation", out _)) return false;
+        return !(mode == "afterTime" && value.GetProperty("effect").GetString() == "unknown");
+    }
+'''
+TS_WEB_BROWSER_ERROR_RULE = r'''
+function webBrowserErrorAdvice(value: unknown): boolean {
+  const object = value as { category: string; code: string; messageKey: string; effect: string; retry: { mode: string; retryAt?: string; reconciliationOperation?: string } };
+  if (object.messageKey !== "error." + object.category + "." + object.code) return false;
+  if ((object.retry.mode === "afterTime") !== (object.retry.retryAt !== undefined)) return false;
+  if ((object.retry.mode === "reconcile") !== (object.retry.reconciliationOperation !== undefined)) return false;
+  return !(object.retry.mode === "afterTime" && object.effect === "unknown");
 }
 '''

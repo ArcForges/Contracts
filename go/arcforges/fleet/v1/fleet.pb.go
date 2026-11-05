@@ -1042,7 +1042,7 @@ type NodeEnrollmentServiceApproveNodeSignInRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Meta          *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
 	FlowId        *v1.Id                 `protobuf:"bytes,10,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"` // validate: PENDING, or APPROVED with an unredeemed code (repeat approval or deny by the approving account)
-	Approve       *bool                  `protobuf:"varint,11,opt,name=approve,proto3,oneof" json:"approve,omitempty"`
+	Approve       *bool                  `protobuf:"varint,11,opt,name=approve,proto3,oneof" json:"approve,omitempty"`      // validate: required; true approves, false denies
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1192,7 +1192,7 @@ func (*NodeEnrollmentServiceApproveNodeSignInResponse_Error) isNodeEnrollmentSer
 
 type NodeEnrollmentServiceApproveNodeSignInValue struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RedirectUrl   *string                `protobuf:"bytes,10,opt,name=redirect_url,json=redirectUrl,proto3,oneof" json:"redirect_url,omitempty"` // loopback URI with code and state
+	RedirectUrl   *string                `protobuf:"bytes,10,opt,name=redirect_url,json=redirectUrl,proto3,oneof" json:"redirect_url,omitempty"` // loopback URI: on approval <redirect_uri>?code=<code>&state=<state>; on a denial <redirect_uri>?error=access_denied&state=<state>
 	Flow          *NodeSignInFlowView    `protobuf:"bytes,11,opt,name=flow,proto3" json:"flow,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -2088,7 +2088,7 @@ type NodeEnrollmentServiceApproveDeviceCodeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Meta          *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
 	UserCode      *string                `protobuf:"bytes,10,opt,name=user_code,json=userCode,proto3,oneof" json:"user_code,omitempty"` // validate: as LookupDeviceCode
-	Approve       *bool                  `protobuf:"varint,11,opt,name=approve,proto3,oneof" json:"approve,omitempty"`
+	Approve       *bool                  `protobuf:"varint,11,opt,name=approve,proto3,oneof" json:"approve,omitempty"`                  // validate: required; true approves, false denies
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

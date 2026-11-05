@@ -519,7 +519,7 @@
       "fields": {
         "meta": {},
         "userCode": {},
-        "approve": {}
+        "approve": { "required": true }
       }
     },
     "arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeResponse": {
@@ -541,7 +541,7 @@
       "fields": {
         "meta": {},
         "flowId": {},
-        "approve": {}
+        "approve": { "required": true }
       }
     },
     "arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInResponse": {

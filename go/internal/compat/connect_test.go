@@ -160,13 +160,20 @@ func TestHelloOverConnect(t *testing.T) {
 	}
 }
 
+// cataloguePair is one reply of a catalogued code: an effect with its retry mode, and the read operation of a RECONCILE
+// advice (AF-CTR-05 part C1: explicit pairs instead of independent retry-mode and effect arrays).
+type cataloguePair struct {
+	Effect                  string `json:"effect"`
+	Retry                   string `json:"retry"`
+	ReconciliationOperation string `json:"reconciliationOperation"`
+}
+
 type catalogueEntry struct {
-	Category   string   `json:"category"`
-	Code       string   `json:"code"`
-	MessageKey string   `json:"messageKey"`
-	RetryModes []string `json:"retryModes"`
-	Effects    []string `json:"effects"`
-	Details    string   `json:"details"`
+	Category   string          `json:"category"`
+	Code       string          `json:"code"`
+	MessageKey string          `json:"messageKey"`
+	Pairs      []cataloguePair `json:"pairs"`
+	Details    string          `json:"details"`
 }
 
 func enumValue(t *testing.T, values map[string]int32, prefix, name string) int32 {
@@ -178,8 +185,8 @@ func enumValue(t *testing.T, values map[string]int32, prefix, name string) int32
 	return value
 }
 
-// TestErrorCatalogueAsConnectDetails maps every code of the AF-CON-01 error catalogue, with each of its retry modes
-// and effects, to a foundation.v1 ArcError, attaches it to a Connect error and checks that the client receives the
+// TestErrorCatalogueAsConnectDetails maps every code of the AF-CON-01 error catalogue, with each of its effect and
+// retry pairs, to a foundation.v1 ArcError, attaches it to a Connect error and checks that the client receives the
 // same Connect code and the same ArcError over the Connect, gRPC and gRPC-Web protocols. The design returns ArcError
 // in the response outcome and defines no category-to-Connect-code table, so the test sends every Connect error code
 // in turn: the code and the detail travel independently.
@@ -210,25 +217,36 @@ func TestErrorCatalogueAsConnectDetails(t *testing.T) {
 		if key := "error." + strings.ToLower(entry.Category) + "." + entry.Code; key != entry.MessageKey {
 			t.Fatalf("%s/%s: message key %s differs from %s", entry.Category, entry.Code, entry.MessageKey, key)
 		}
-		for _, modeName := range entry.RetryModes {
-			for _, effectName := range entry.Effects {
-				index := len(failures)
-				arc := &foundationv1.ArcError{
-					Code: proto.String(entry.Code), Category: category.Enum(), MessageKey: proto.String(entry.MessageKey),
-					Retry: &foundationv1.RetryAdvice{Mode: foundationv1.RetryMode(enumValue(t,
-						foundationv1.RetryMode_value, "RETRY_MODE_", modeName)).Enum()},
-					Effect: foundationv1.EffectCertainty(enumValue(t, foundationv1.EffectCertainty_value,
-						"EFFECT_CERTAINTY_", effectName)).Enum(),
-					CorrelationId: &foundationv1.Id{Value: []byte(fmt.Sprintf("%016x", index))},
-					Details: &foundationv1.ErrorDetails{Detail: &foundationv1.ErrorDetails_State{
-						State: &foundationv1.StateFailure{State: proto.String(entry.Category),
-							Reason: proto.String(entry.Details)}}},
-				}
-				name := fmt.Sprintf("%s/%s/%s/%s", entry.Category, entry.Code, modeName, effectName)
-				code := codes[index%len(codes)]
-				failures[name] = failure{code, arc}
-				errorsByName[name] = connect.NewError(code, entry.MessageKey).WithDetail(arcErrorDetail(t, arc))
+		if len(entry.Pairs) == 0 {
+			t.Fatalf("%s/%s: no effect and retry pair", entry.Category, entry.Code)
+		}
+		for _, pair := range entry.Pairs {
+			index := len(failures)
+			retry := &foundationv1.RetryAdvice{Mode: foundationv1.RetryMode(enumValue(t,
+				foundationv1.RetryMode_value, "RETRY_MODE_", pair.Retry)).Enum()}
+			if (pair.Retry == "RECONCILE") != (pair.ReconciliationOperation != "") {
+				t.Fatalf("%s/%s: a RECONCILE pair names its operation and no other pair does", entry.Category, entry.Code)
 			}
+			if pair.ReconciliationOperation != "" {
+				retry.ReconciliationOperation = proto.String(pair.ReconciliationOperation)
+			}
+			if pair.Effect == "UNKNOWN" && pair.Retry == "AFTER_TIME" {
+				t.Fatalf("%s/%s: UNKNOWN never pairs with AFTER_TIME", entry.Category, entry.Code)
+			}
+			arc := &foundationv1.ArcError{
+				Code: proto.String(entry.Code), Category: category.Enum(), MessageKey: proto.String(entry.MessageKey),
+				Retry: retry,
+				Effect: foundationv1.EffectCertainty(enumValue(t, foundationv1.EffectCertainty_value,
+					"EFFECT_CERTAINTY_", pair.Effect)).Enum(),
+				CorrelationId: &foundationv1.Id{Value: []byte(fmt.Sprintf("%016x", index))},
+				Details: &foundationv1.ErrorDetails{Detail: &foundationv1.ErrorDetails_State{
+					State: &foundationv1.StateFailure{State: proto.String(entry.Category),
+						Reason: proto.String(entry.Details)}}},
+			}
+			name := fmt.Sprintf("%s/%s/%s/%s/%s", entry.Category, entry.Code, pair.Retry, pair.Effect, pair.ReconciliationOperation)
+			code := codes[index%len(codes)]
+			failures[name] = failure{code, arc}
+			errorsByName[name] = connect.NewError(code, entry.MessageKey).WithDetail(arcErrorDetail(t, arc))
 		}
 	}
 	server := startHello(t, helloHandler{failures: errorsByName})

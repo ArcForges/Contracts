@@ -123,6 +123,15 @@ ANNOTATIONS = {
         "STATE/not_activated",
         "command_id; one active flow at a time (returns it)"),
 }
+# AF-CTR-05 (part C1, D3) appends the built refusals of errors.md to five of these methods (tests/tooling/test_af_ctr_05_c1.py).
+C1_APPENDED = {
+    "arcforges.fleet.v1.NodeEnrollmentService/CompleteNodeSignIn": ", RESOURCE/quota_exceeded",
+    "arcforges.fleet.v1.NodeEnrollmentService/PollDeviceAuthorization": ", RESOURCE/quota_exceeded",
+    "arcforges.fleet.v1.NodeEnrollmentService/ApproveDeviceCode": ", CONFLICT/command_id_reused",
+    "arcforges.fleet.v1.NodeEnrollmentService/ReportNodeInfo": ", CONFLICT/command_id_reused",
+    "arcforges.fleet.v1.NodeEnrollmentService/SignOutNode": ", CONFLICT/command_id_reused",
+}
+ANNOTATIONS = {binding: (errors + C1_APPENDED.get(binding, ""), idempotency) for binding, (errors, idempotency) in ANNOTATIONS.items()}
 STATES = {
     "arcforges.fleet.v1.NodeEnrollmentService/ApproveNodeSignIn": "SM-SIGN-IN: PENDING -> APPROVED | DENIED; APPROVED -> DENIED",
     "arcforges.fleet.v1.NodeEnrollmentService/ApproveDeviceCode": "SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED",

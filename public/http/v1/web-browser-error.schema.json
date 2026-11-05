@@ -1,0 +1,248 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "SPDX-License-Identifier: Apache-2.0",
+  "title": "WebBrowserSessionError",
+  "description": "Closed error body of the WebBrowserSession routes (AF-CTR-05 part C1; Plan decision Q14; ArcForges-Design web.md \"Contract gap\" and errors.md): the JSON the center sends for a refusal of a /session/v1/web/* JSON route, an ArcError in the WebBrowserSession conventions (UUIDs as lower-case text, instants as RFC 3339 UTC, 64-bit integers as decimal strings). A companion of public/http/v1/web-browser.schema.json, which stays unchanged; it has no route of its own. Shape validity is not authentication of the reply.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/WebBrowserErrorReply"
+    }
+  ],
+  "$defs": {
+    "WebBrowserErrorReply": {
+      "title": "WebBrowserErrorReply",
+      "description": "The body of a refusal of a WebBrowserSession JSON route (public/http/v1/web-browser.schema.json, /session/v1/web/*): Content-Type application/json, the reply of the center instead of the route's own response root. error is the ArcError of the refused call (foundation.v1, ArcForges-Design errors.md) in the document's JSON conventions. The HTTP status follows the category: 403 for authentication, authorization and entitlement; 400 for validation, conflict, state and RESOURCE/quota_exceeded (413 for a body over the route's bound and 415 for a media type or content encoding the route does not admit); 404 for STATE/not_found and STATE/not_activated; 429 for RESOURCE/rate_limited; 503 otherwise. A client reads the error member, never a message text. On a hosted center the Worker answers some requests to the same routes itself in text/plain without this body (400, 403, 405, 408, 413, 415 and 429 before the center; 499, 503 and 504 that can follow a call the center has begun or finished, so a 499, a 504 and a 503 without Retry-After never mean that the center did not see the request), and a disabled surface is its 404; such a reply carries no ArcError and is not this document.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/$defs/WebBrowserArcError"
+        }
+      },
+      "required": ["error"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 16384
+    },
+    "WebBrowserArcError": {
+      "title": "WebBrowserArcError",
+      "description": "foundation.v1.ArcError as JSON: category, retry mode and effect as the lower camel case of their enum names; code the errors.md code; messageKey error.<category>.<code>; correlationId the call's correlation ID (the one in the center's log); details the single detail of the error, omitted when there is none. Rule webBrowserErrorAdvice: messageKey is error.<category>.<code>; retryAt is present exactly when the mode is afterTime and reconciliationOperation exactly when it is reconcile (the foundation rule retryAdvice); the effect unknown never pairs with afterTime (the rule arcError).",
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [
+            "validation",
+            "authentication",
+            "authorization",
+            "entitlement",
+            "conflict",
+            "state",
+            "resource",
+            "execution",
+            "internal"
+          ]
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z_]*$"
+        },
+        "messageKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "retry": {
+          "$ref": "#/$defs/WebBrowserErrorRetry"
+        },
+        "effect": {
+          "type": "string",
+          "enum": ["didNotHappen", "happened", "unknown"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "details": {
+          "$ref": "#/$defs/WebBrowserErrorDetails"
+        }
+      },
+      "required": ["category", "code", "messageKey", "retry", "effect", "correlationId"],
+      "additionalProperties": false,
+      "x-arcforges-rules": ["webBrowserErrorAdvice"]
+    },
+    "WebBrowserErrorRetry": {
+      "title": "WebBrowserErrorRetry",
+      "description": "foundation.v1.RetryAdvice: mode; retryAt the earliest retry (RFC 3339, UTC) of an afterTime advice; reconciliationOperation the fully qualified read method of a reconcile advice.",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["never", "afterTime", "sameCommand", "reconcile"]
+        },
+        "retryAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "reconciliationOperation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["mode"],
+      "additionalProperties": false
+    },
+    "WebBrowserErrorDetails": {
+      "title": "WebBrowserErrorDetails",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/WebBrowserErrorStateDetails"
+        },
+        {
+          "$ref": "#/$defs/WebBrowserErrorLimitDetails"
+        },
+        {
+          "$ref": "#/$defs/WebBrowserErrorRevisionDetails"
+        }
+      ]
+    },
+    "WebBrowserErrorStateDetails": {
+      "title": "WebBrowserErrorStateDetails",
+      "type": "object",
+      "properties": {
+        "state": {
+          "$ref": "#/$defs/WebBrowserErrorStateFailure"
+        }
+      },
+      "required": ["state"],
+      "additionalProperties": false
+    },
+    "WebBrowserErrorLimitDetails": {
+      "title": "WebBrowserErrorLimitDetails",
+      "type": "object",
+      "properties": {
+        "limit": {
+          "$ref": "#/$defs/WebBrowserErrorLimitFailure"
+        }
+      },
+      "required": ["limit"],
+      "additionalProperties": false
+    },
+    "WebBrowserErrorRevisionDetails": {
+      "title": "WebBrowserErrorRevisionDetails",
+      "type": "object",
+      "properties": {
+        "revision": {
+          "$ref": "#/$defs/WebBrowserErrorRevisionConflict"
+        }
+      },
+      "required": ["revision"],
+      "additionalProperties": false
+    },
+    "WebBrowserErrorStateFailure": {
+      "title": "WebBrowserErrorStateFailure",
+      "description": "foundation.v1.StateFailure: state and reason (both present, errors.md reply rules); resource only with a real 16-byte ID, the ID the caller named or the caller's own object. Never an e-mail address or other personal data.",
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "resource": {
+          "$ref": "#/$defs/WebBrowserErrorResource"
+        }
+      },
+      "required": ["state", "reason"],
+      "additionalProperties": false
+    },
+    "WebBrowserErrorResource": {
+      "title": "WebBrowserErrorResource",
+      "description": "foundation.v1.AggregateRef: the object's kind and its ID.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": ["kind", "id"],
+      "additionalProperties": false
+    },
+    "WebBrowserErrorLimitFailure": {
+      "title": "WebBrowserErrorLimitFailure",
+      "description": "foundation.v1.LimitFailure as the center sends it: limitName; maximum (a canonical decimal) when the limit has one; recoveryAt (RFC 3339, UTC) when the limit recovers at a known instant. LimitFailure.available is not carried.",
+      "type": "object",
+      "properties": {
+        "limitName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "maximum": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 39,
+          "pattern": "^(0|-?[1-9][0-9]*|-?(0|[1-9][0-9]*)\\.[0-9]{0,8}[1-9])$",
+          "x-arcforges-rules": ["canonicalDecimal"]
+        },
+        "recoveryAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        }
+      },
+      "required": ["limitName"],
+      "additionalProperties": false
+    },
+    "WebBrowserErrorRevisionConflict": {
+      "title": "WebBrowserErrorRevisionConflict",
+      "description": "foundation.v1.RevisionConflict: the expected and the actual revision, as decimal strings.",
+      "type": "object",
+      "properties": {
+        "expected": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["int64"]
+        },
+        "actual": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["int64"]
+        }
+      },
+      "required": ["expected", "actual"],
+      "additionalProperties": false
+    }
+  },
+  "x-arcforges-schema-version": "1"
+}

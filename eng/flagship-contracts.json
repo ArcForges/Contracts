@@ -10,7 +10,7 @@
     "annotations": "docs/contracts/README.md#4-method-annotations",
     "errors": "docs/contracts/errors.md"
   },
-  "adoption": "Byte-identical copies of the design specification protos, placed per docs/contracts/README.md (node and fleet public; peer and relay internal; the additive publicapi.v1 and operator.v1 files in their reused packages). Within v1 every later change is additive only and reviewed against the wire-compatibility baselines in eng/compatibility/flagship-window.json. Since AF-CTR-04 (part C0) fleet.proto, node.proto and account.proto are the Design files at the design commit plus additive changes made here first: new fields and the SignOutNode method, comment-only annotation and specification text, and the two StopNode lines of Design bf86fc6 (MR-06); Contracts is canonical and the ArcForges-Design companion copies these three files byte for byte. The design commit stays the adoption commit.",
+  "adoption": "Byte-identical copies of the design specification protos, placed per docs/contracts/README.md (node and fleet public; peer and relay internal; the additive publicapi.v1 and operator.v1 files in their reused packages). Within v1 every later change is additive only and reviewed against the wire-compatibility baselines in eng/compatibility/flagship-window.json. Since AF-CTR-04 (part C0) fleet.proto, node.proto and account.proto are the Design files at the design commit plus additive changes made here first: new fields and the SignOutNode method, comment-only annotation and specification text, and the two StopNode lines of Design bf86fc6 (MR-06); AF-CTR-05 (part C1) adds comment-only annotation text to fleet.proto and account.proto (the built refusals of errors.md and the COMPLETED -> REVOKED sign-in transition) and one validate: required rule (approve of ApproveNodeSignIn and ApproveDeviceCode). Contracts is canonical and the ArcForges-Design companion copies these three files byte for byte. The design commit stays the adoption commit.",
   "methodAnnotations": {
     "required": ["auth", "idempotency", "deadline", "stream", "errors", "locality"],
     "optional": ["state"]
@@ -21,13 +21,13 @@
       "design": "arcforges/fleet/v1/fleet.proto",
       "path": "public/proto/arcforges/fleet/v1/fleet.proto",
       "package": "ArcForges.Contracts.Fleet",
-      "sha256": "c36b4de920638312055896179b48eb994c91da6d462b54a6d00ec4418f76ae61"
+      "sha256": "5441edc142ff545fcb934989ee101c29c6ffb58b51db7fa91be8225d57414b39"
     },
     {
       "design": "arcforges/node/v1/account.proto",
       "path": "public/proto/arcforges/node/v1/account.proto",
       "package": "ArcForges.Contracts.Node",
-      "sha256": "a01155a88a558f6905eefc2d282ac8a40fc3588879fa694df39004b4f069c9e6"
+      "sha256": "0a762f8c7e5c2a7d9c28cc9d789c3e45b1bf2c87dc6b479edab5f0fb6b815805"
     },
     {
       "design": "arcforges/node/v1/approvals.proto",

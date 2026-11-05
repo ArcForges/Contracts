@@ -129,6 +129,10 @@ def shape(value, schema, document):
                 return False
             if rule == "positiveInt64String" and not 0 < int(value) <= 2**63 - 1:
                 return False
+            if rule == "int64" and not -(2**63) <= int(value) <= 2**63 - 1:
+                return False
+            if rule == "canonicalDecimal" and (value == "-0" or ("." in value and value.endswith("0"))):
+                return False
         return True
     if kind == "integer":
         return (type(value) is int and schema.get("minimum", -(10**18)) <= value <= schema.get("maximum", 10**18)
@@ -150,6 +154,13 @@ def rule_ok(rule, value):
         return {"arcforges.android": True, "arcforges.android.local": False}.get(value["clientId"]) == value["redirectUri"].startswith("https://")
     if rule == "mobileAuthorizeFlow":
         return value["authorizeUrl"].endswith("/mobile/authorize#flow=" + value["flowId"])
+    if rule == "webBrowserErrorAdvice":
+        # AF-CTR-05 (part C1, Q14): the foundation rules retryAdvice and arcError, and the message key form.
+        retry = value["retry"]
+        return (value["messageKey"] == f"error.{value['category']}.{value['code']}"
+                and (retry["mode"] == "afterTime") == ("retryAt" in retry)
+                and (retry["mode"] == "reconcile") == ("reconciliationOperation" in retry)
+                and not (retry["mode"] == "afterTime" and value["effect"] == "unknown"))
     raise ValueError("unknown rule " + rule)
 
 
@@ -182,7 +193,9 @@ class IdentityHttpExceptions(unittest.TestCase):
                          # AF-CTR-03: the browser session of an arcforges-web installation, beside the frozen document.
                          "WebBrowserSession": load("public/http/v1/web-browser.schema.json"),
                          # AF-CTR-04 (part CM): the native authorization of an arcforges-mobile installation.
-                         "MobileNativeAuth": load("public/http/v1/mobile-native.schema.json")}
+                         "MobileNativeAuth": load("public/http/v1/mobile-native.schema.json"),
+                         # AF-CTR-05 (part C1, Q14): the error body of the WebBrowserSession routes; it has no route of its own.
+                         "WebBrowserSessionError": load("public/http/v1/web-browser-error.schema.json")}
         cls.root_bundle = {root: bundle for bundle, doc in cls.documents.items() for root in (ref["$ref"].split("/")[-1] for ref in doc["oneOf"])}
 
     def test_vectors_match_an_independent_schema_interpreter(self):
@@ -244,7 +257,10 @@ class IdentityHttpExceptions(unittest.TestCase):
             ("GET", "/session/v1/web/providers/{providerId}/callback"), ("POST", "/session/v1/mobile/begin"), ("POST", "/session/v1/mobile/token"),
         }
         actual = set()
+        self.assertNotIn("x-arcforges-routes", self.documents["WebBrowserSessionError"])
         for bundle, document in self.documents.items():
+            if bundle == "WebBrowserSessionError":
+                continue
             roots = {ref["$ref"].split("/")[-1] for ref in document["oneOf"]}
             routes = document["x-arcforges-routes"]
             self.assertEqual([route["id"] for route in routes], [row["id"] for row in self.fixture["routes"][bundle]])
@@ -339,7 +355,7 @@ class IdentityHttpExceptions(unittest.TestCase):
                          [("mobile.begin", "POST", "/session/v1/mobile/begin", "anonymous"),
                           ("mobile.token", "POST", "/session/v1/mobile/token", "authorization-code")])
         for bundle, document in self.documents.items():
-            for route in document["x-arcforges-routes"]:
+            for route in document.get("x-arcforges-routes", []):
                 if route["id"].startswith("mobile.") or route["path"].startswith("/session/v1/mobile/"):
                     with self.subTest(route=route["id"]):
                         self.assertEqual(bundle, "MobileNativeAuth")
@@ -422,6 +438,63 @@ class IdentityHttpExceptions(unittest.TestCase):
         mobile_roots = {root for root, bundle in self.root_bundle.items() if bundle == "MobileNativeAuth"}
         self.assertGreaterEqual(sum(1 for vector in self.fixture["httpVectors"] if vector["root"] in mobile_roots), 100)
         self.assertTrue(all(vector["id"].startswith("mobile-") == (vector["root"] in mobile_roots) for vector in self.fixture["httpVectors"]))
+
+    def test_web_browser_error_document_is_the_center_error_body(self):
+        # AF-CTR-05 (part C1; Plan decision Q14; ArcForges-Design web.md "Contract gap"): the JSON body of a refused
+        # WebBrowserSession route, in a new version-1 companion document; WebBrowserSession itself is unchanged.
+        error = self.documents["WebBrowserSessionError"]
+        defs = error["$defs"]
+        self.assertEqual((error["title"], error["x-arcforges-schema-version"]), ("WebBrowserSessionError", "1"))
+        self.assertNotIn("$id", error)
+        self.assertEqual([ref["$ref"] for ref in error["oneOf"]], ["#/$defs/WebBrowserErrorReply"])
+        self.assertTrue(all(name.startswith("WebBrowserError") or name == "WebBrowserArcError" for name in defs))
+        for other in ("BrowserSession", "NativeAuth", "WebBrowserSession", "MobileNativeAuth"):
+            self.assertFalse(set(defs) & set(self.documents[other]["$defs"]), other)
+        # The members and their order are those of the center's errorOf (Cloud center/internal/pages/jsonout.go).
+        members = {name: list(node["properties"]) for name, node in defs.items() if "properties" in node}
+        self.assertEqual(members["WebBrowserErrorReply"], ["error"])
+        self.assertEqual(members["WebBrowserArcError"], ["category", "code", "messageKey", "retry", "effect", "correlationId", "details"])
+        self.assertEqual(defs["WebBrowserArcError"]["required"], ["category", "code", "messageKey", "retry", "effect", "correlationId"])
+        self.assertEqual(members["WebBrowserErrorRetry"], ["mode", "retryAt", "reconciliationOperation"])
+        self.assertEqual(members["WebBrowserErrorStateFailure"], ["state", "reason", "resource"])
+        self.assertEqual(members["WebBrowserErrorResource"], ["kind", "id"])
+        self.assertEqual(members["WebBrowserErrorLimitFailure"], ["limitName", "maximum", "recoveryAt"])
+        self.assertEqual(members["WebBrowserErrorRevisionConflict"], ["expected", "actual"])
+        self.assertEqual([ref["$ref"].split("/")[-1] for ref in defs["WebBrowserErrorDetails"]["oneOf"]],
+                         ["WebBrowserErrorStateDetails", "WebBrowserErrorLimitDetails", "WebBrowserErrorRevisionDetails"])
+        arc = defs["WebBrowserArcError"]["properties"]
+        self.assertEqual(arc["category"]["enum"], ["validation", "authentication", "authorization", "entitlement", "conflict", "state",
+                                                   "resource", "execution", "internal"])
+        self.assertEqual(defs["WebBrowserErrorRetry"]["properties"]["mode"]["enum"], ["never", "afterTime", "sameCommand", "reconcile"])
+        self.assertEqual(arc["effect"]["enum"], ["didNotHappen", "happened", "unknown"])
+        self.assertEqual(defs["WebBrowserArcError"]["x-arcforges-rules"], ["webBrowserErrorAdvice"])
+        self.assertEqual(defs["WebBrowserErrorReply"]["x-arcforges-max-bytes"], 16384)
+        text = json.dumps(error)
+        for phrase in ("403 for authentication, authorization and entitlement", "400 for validation, conflict, state and RESOURCE/quota_exceeded",
+                       "404 for STATE/not_found and STATE/not_activated", "429 for RESOURCE/rate_limited", "503 otherwise",
+                       "never mean that the center did not see the request", "LimitFailure.available is not carried",
+                       "which stays unchanged"):
+            self.assertIn(phrase, text, phrase)
+        # The companion is owned by PublicApi only, it is not a pinned frozen document, and WebBrowserSession has no error root.
+        catalog = load("eng/contract-packages.json")["packages"]
+        self.assertEqual([row["id"] for row in catalog if "public/http/v1/web-browser-error.schema.json" in row["jsonSchemas"]],
+                         ["ArcForges.Contracts.PublicApi"])
+        pins = {row["path"] for row in load("eng/compatibility/later-services-window.json")["schemas"]}
+        self.assertNotIn("public/http/v1/web-browser-error.schema.json", pins)
+        self.assertFalse([name for name in self.documents["WebBrowserSession"]["$defs"] if "Error" in name])
+        # The center's replies validate; each refusal the rules exclude is refused.
+        vectors = {vector["id"]: vector for vector in self.fixture["httpVectors"]}
+        for vector_id, valid in (("web-browser-error-rate-limited", True), ("web-browser-error-internal-unknown-never", True),
+                                 ("web-browser-error-reconcile-with-operation", True), ("web-browser-error-not-found", True),
+                                 ("web-browser-error-unknown-with-after-time", False), ("web-browser-error-after-time-without-retry-at", False),
+                                 ("web-browser-error-reconcile-without-operation", False), ("web-browser-error-operation-without-reconcile", False),
+                                 ("web-browser-error-message-key-of-another-code", False), ("web-browser-error-two-details", False),
+                                 ("web-browser-error-missing-correlation-id", False), ("web-browser-error-limit-with-available", False)):
+            with self.subTest(vector=vector_id):
+                self.assertEqual((vectors[vector_id]["root"], vectors[vector_id]["valid"]), ("WebBrowserErrorReply", valid))
+        roots = [vector for vector in self.fixture["httpVectors"] if vector["root"] == "WebBrowserErrorReply"]
+        self.assertEqual(len(roots), 45)
+        self.assertTrue(all(vector["id"].startswith("web-browser-error-") for vector in roots))
 
     def test_existing_transfer_http_schema_is_untouched(self):
         part = load("public/http/v1/schema.json")

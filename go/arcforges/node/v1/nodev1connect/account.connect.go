@@ -167,11 +167,13 @@ type AccountServiceClient interface {
 	// state: SM-SIGN-IN: PENDING -> CANCELLED
 	CancelSignIn(context.Context, *v1.AccountServiceCancelSignInRequest) (*v1.AccountServiceCancelSignInResponse, error)
 	// Sign the node out: revoke its credential in the cloud when reachable, delete local credentials, stop the relay.
+	// STATE/invalid_state (state.state signed_out, state.reason credential_store_unavailable): the node's secret store or
+	// link file cannot be read; both sign-out forms then change nothing.
 	// auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
 	// idempotency: command_id
 	// deadline: 15 s
 	// stream: none
-	// errors: STATE/not_signed_in
+	// errors: STATE/not_signed_in, STATE/invalid_state
 	// locality: node -> cloud
 	SignOut(context.Context, *v1.AccountServiceSignOutRequest) (*v1.AccountServiceSignOutResponse, error)
 	// Create a QR pairing for signing a phone in as this account (10 section 3.3).
@@ -261,11 +263,13 @@ type AccountServiceHandler interface {
 	// state: SM-SIGN-IN: PENDING -> CANCELLED
 	CancelSignIn(context.Context, *v1.AccountServiceCancelSignInRequest) (*v1.AccountServiceCancelSignInResponse, error)
 	// Sign the node out: revoke its credential in the cloud when reachable, delete local credentials, stop the relay.
+	// STATE/invalid_state (state.state signed_out, state.reason credential_store_unavailable): the node's secret store or
+	// link file cannot be read; both sign-out forms then change nothing.
 	// auth: HUMAN=A (interactive) SCRIPT=D AGENT=D REMOTE=-
 	// idempotency: command_id
 	// deadline: 15 s
 	// stream: none
-	// errors: STATE/not_signed_in
+	// errors: STATE/not_signed_in, STATE/invalid_state
 	// locality: node -> cloud
 	SignOut(context.Context, *v1.AccountServiceSignOutRequest) (*v1.AccountServiceSignOutResponse, error)
 	// Create a QR pairing for signing a phone in as this account (10 section 3.3).

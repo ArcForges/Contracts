@@ -317,6 +317,51 @@ def flagship_annotations(text: str, path: str) -> dict[str, dict]:
     return result
 
 
+# AF-CTR-05 (part C1): the error catalogue lists each code's replies as explicit {effect, retry} pairs, regenerated from
+# ArcForges-Design errors.md; independent retry-mode and effect arrays would recreate the pair the Contracts rule arcError
+# rejects (UNKNOWN with AFTER_TIME), so the v1 form is refused.
+CATALOGUE_EFFECTS = ("DID_NOT_HAPPEN", "HAPPENED", "UNKNOWN")
+CATALOGUE_RETRY_MODES = ("NEVER", "AFTER_TIME", "SAME_COMMAND", "RECONCILE")
+CATALOGUE_ROW_KEYS = {"category", "code", "messageKey", "meaning", "retryAdvice", "effect", "pairs", "details"}
+RECONCILIATION_OPERATION = re.compile(r"arcforges\.[a-z]+\.v1\.[A-Z][A-Za-z]*Service/[A-Z][A-Za-z]*")
+
+
+def error_catalogue_codes(catalogue: dict) -> set[str]:
+    """Validate the explicit pair form of the flagship error catalogue and return its CATEGORY/code keys."""
+    require(catalogue.get("schemaVersion") == "af-con-01-error-catalogue.v2", "unsupported flagship error catalogue")
+    rows = catalogue.get("codes")
+    require(isinstance(rows, list) and bool(rows), "empty flagship error catalogue")
+    codes = set()
+    for row in rows:
+        require(isinstance(row, dict), "flagship error catalogue row must be an object")
+        key = f"{row.get('category')}/{row.get('code')}"
+        require(set(row) == CATALOGUE_ROW_KEYS,
+                f"{key}: an error catalogue row has exactly the pair form keys (no independent retry-mode or effect arrays)")
+        require(key not in codes, f"{key}: error code listed twice")
+        codes.add(key)
+        pairs = row["pairs"]
+        require(isinstance(pairs, list) and bool(pairs), f"{key}: an error catalogue row lists at least one effect/retry pair")
+        seen = set()
+        for pair in pairs:
+            require(isinstance(pair, dict) and set(pair) - {"reconciliationOperation"} == {"effect", "retry"},
+                    f"{key}: a pair is exactly an effect, a retry mode and, for RECONCILE, its reconciliation operation")
+            effect, retry, operation = pair["effect"], pair["retry"], pair.get("reconciliationOperation")
+            require(effect in CATALOGUE_EFFECTS and retry in CATALOGUE_RETRY_MODES, f"{key}: unknown effect or retry mode in a pair")
+            require(not (effect == "UNKNOWN" and retry == "AFTER_TIME"),
+                    f"{key}: UNKNOWN never pairs with AFTER_TIME (the Contracts rule arcError)")
+            require((retry == "RECONCILE") == (operation is not None),
+                    f"{key}: a RECONCILE pair names its reconciliation operation and no other pair does (the rule retryAdvice)")
+            require(operation is None or (isinstance(operation, str) and RECONCILIATION_OPERATION.fullmatch(operation) is not None),
+                    f"{key}: a reconciliation operation is a fully qualified read method")
+            identity = (effect, retry, operation)
+            require(identity not in seen, f"{key}: a pair is listed twice")
+            seen.add(identity)
+    implicit = catalogue.get("implicit")
+    require(isinstance(implicit, dict) and all(isinstance(names, list) and set(names) <= codes for names in implicit.values()),
+            "every implicit error code is catalogued")
+    return codes
+
+
 def flagship_methods(root: Path, methods: dict[str, str]) -> list[dict]:
     """Validate the adopted flagship files and report their methods with their design annotations."""
     path = root / FLAGSHIP_RECORD
@@ -325,8 +370,7 @@ def flagship_methods(root: Path, methods: dict[str, str]) -> list[dict]:
     record = load(path)
     require(record.get("schemaVersion") == "flagship-contracts.v1", "unsupported flagship contract record")
     catalogue = load(source_path(root, record.get("errorCatalogue")))
-    require(catalogue.get("schemaVersion") == "af-con-01-error-catalogue.v1", "unsupported flagship error catalogue")
-    codes = {f"{row['category']}/{row['code']}" for row in catalogue.get("codes", [])}
+    codes = error_catalogue_codes(catalogue)
     require(bool(codes), "empty flagship error catalogue")
     files = record.get("files")
     require(isinstance(files, list) and bool(files), "flagship file list required")

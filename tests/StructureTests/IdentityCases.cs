@@ -8,6 +8,7 @@ using ArcForges.Contracts.PublicApi.Http.V1.Browser;
 using ArcForges.Contracts.PublicApi.Http.V1.MobileNative;
 using ArcForges.Contracts.PublicApi.Http.V1.NativeAuth;
 using ArcForges.Contracts.PublicApi.Http.V1.WebBrowser;
+using ArcForges.Contracts.PublicApi.Http.V1.WebBrowserError;
 using ArcForges.Contracts.PublicApi.V1;
 using ArcForges.Contracts.Validation;
 using Google.Protobuf;
@@ -274,7 +275,9 @@ internal static class IdentityCases
         ["MobileAuthorizeCallbackSuccess"] = Codec<MobileAuthorizeCallbackSuccess>(MobileAuthorizeCallbackSuccessForm.TryParse, MobileAuthorizeCallbackSuccessForm.Serialize),
         ["MobileAuthorizeCallbackFailure"] = Codec<MobileAuthorizeCallbackFailure>(MobileAuthorizeCallbackFailureForm.TryParse, MobileAuthorizeCallbackFailureForm.Serialize),
         ["MobileTokenRequest"] = Codec<MobileTokenRequest>(MobileTokenRequestJson.TryParse, MobileTokenRequestJson.Serialize),
-        ["MobileTokenResponse"] = Codec<MobileTokenResponse>(MobileTokenResponseJson.TryParse, MobileTokenResponseJson.Serialize)
+        ["MobileTokenResponse"] = Codec<MobileTokenResponse>(MobileTokenResponseJson.TryParse, MobileTokenResponseJson.Serialize),
+        // AF-CTR-05 (part C1, Q14): the error body of the WebBrowserSession routes.
+        ["WebBrowserErrorReply"] = Codec<WebBrowserErrorReply>(WebBrowserErrorReplyJson.TryParse, WebBrowserErrorReplyJson.Serialize)
     };
 
     internal static void Run(string root)

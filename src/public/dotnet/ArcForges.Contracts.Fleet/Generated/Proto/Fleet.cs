@@ -3490,6 +3490,9 @@ namespace ArcForges.Contracts.Fleet.V1 {
     private readonly static bool ApproveDefaultValue = false;
 
     private bool approve_;
+    /// <summary>
+    /// validate: required; true approves, false denies
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Approve {
@@ -4111,7 +4114,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
     private string redirectUrl_;
     /// <summary>
-    /// loopback URI with code and state
+    /// loopback URI: on approval &lt;redirect_uri>?code=&lt;code>&amp;state=&lt;state>; on a denial &lt;redirect_uri>?error=access_denied&amp;state=&lt;state>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -8142,6 +8145,9 @@ namespace ArcForges.Contracts.Fleet.V1 {
     private readonly static bool ApproveDefaultValue = false;
 
     private bool approve_;
+    /// <summary>
+    /// validate: required; true approves, false denies
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Approve {

@@ -175,6 +175,14 @@ builds only). Both routes are native JSON: no cookie, no Origin or CSRF requirem
 route credential `anonymous` and `token` the code (`authorization-code`). Both callbacks carry the
 issuer (`iss`, RFC 9207). The frozen `browser.schema.json` and `native-auth.schema.json` are unchanged.
 
+AF-CTR-05 (part C1) adds the closed document `public/http/v1/web-browser-error.schema.json`
+(`WebBrowserSessionError`, schema version 1, root `WebBrowserErrorReply`): the JSON body of a refusal of a
+`WebBrowserSession` route, the `ArcError` as `{"error": {category, code, messageKey, retry, effect,
+correlationId, details}}` in that document's conventions, with the HTTP status per category. It has no
+route of its own, and `web-browser.schema.json` is unchanged. The rule `webBrowserErrorAdvice` keeps the
+foundation rules `retryAdvice` and `arcError` (an instant exactly for `afterTime`, an operation exactly
+for `reconcile`, never `unknown` with `afterTime`) and the message key form `error.<category>.<code>`.
+
 WP00.01 adds one digest-bound registration for DesktopPlatform's generated glossary
 forbidden-alias declaration. Its closed envelope and immutable Design source identity
 must match before those declaration values are admitted; every other field remains
