@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "552e135d7c452166f46d6ee2c5a59cae755e7bae",
+  "sourceCommit": "91de9f0f87572c6c83327fc5c8e1123bd85b053c",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -77,7 +77,7 @@
     {
       "path": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public",
-      "sha256": "c36b4de920638312055896179b48eb994c91da6d462b54a6d00ec4418f76ae61"
+      "sha256": "5441edc142ff545fcb934989ee101c29c6ffb58b51db7fa91be8225d57414b39"
     },
     {
       "path": "public/proto/arcforges/foundation/v1/foundation.proto",
@@ -92,7 +92,7 @@
     {
       "path": "public/proto/arcforges/node/v1/account.proto",
       "access": "public",
-      "sha256": "a01155a88a558f6905eefc2d282ac8a40fc3588879fa694df39004b4f069c9e6"
+      "sha256": "0a762f8c7e5c2a7d9c28cc9d789c3e45b1bf2c87dc6b479edab5f0fb6b815805"
     },
     {
       "path": "public/proto/arcforges/node/v1/approvals.proto",
@@ -18947,7 +18947,7 @@
         "BillingStatus",
         "NodeCursorInput"
       ],
-      "sha256": "593df7a32bf24d88fa875d58163b7b76d813f5582c3eb1e0dcc82a6349328053",
+      "sha256": "70d0582ded93f4dacfcb8a70b18091e1527385518294374619f18a0d2531f963",
       "kind": "generated"
     },
     {
@@ -18968,7 +18968,7 @@
         "StoreBillingServiceBase",
         "StoreBillingServiceClient"
       ],
-      "sha256": "59bf964c9db053a643929d86e22b969f9f1c7c568c340cbfe3612fd51da67ca3",
+      "sha256": "2a2978dd9df1dbf16137f775af7d9b0fcd25938161da13782a2e5d5a1d963535",
       "kind": "generated"
     },
     {
@@ -18984,7 +18984,7 @@
       "package": "ArcForges.Contracts.Fleet",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "3203b0b5e30673b0e9a9af89b67801184817d2dae8e7462cfac683537dd270ca",
+      "sha256": "6142a84785466712a873f9ee71db79005850a1b37f52dcde9aae8a6af3d213d1",
       "kind": "generated"
     },
     {
@@ -19196,7 +19196,7 @@
         "AccountServiceBase",
         "AccountServiceClient"
       ],
-      "sha256": "f0c9cf9b79fa2951c2531847660463871c41ce247da5c63f91850a1ff10a9391",
+      "sha256": "a7a026c1dd32fd792e2c094e3dd0acbfe0eef22360c0d64069878b1a14acfcac",
       "kind": "generated"
     },
     {
@@ -22889,6 +22889,32 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserErrorReply.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "WebBrowserErrorReply",
+        "WebBrowserArcError",
+        "WebBrowserErrorDetails",
+        "WebBrowserErrorDetailsWebBrowserErrorStateDetails",
+        "WebBrowserErrorDetailsWebBrowserErrorLimitDetails",
+        "WebBrowserErrorDetailsWebBrowserErrorRevisionDetails",
+        "WebBrowserErrorLimitDetails",
+        "WebBrowserErrorLimitFailure",
+        "WebBrowserErrorRetry",
+        "WebBrowserErrorRevisionDetails",
+        "WebBrowserErrorRevisionConflict",
+        "WebBrowserErrorStateDetails",
+        "WebBrowserErrorStateFailure",
+        "WebBrowserErrorResource",
+        "WebBrowserErrorReplyJsonContext",
+        "WebBrowserErrorReplyUnionChecks",
+        "WebBrowserErrorDetailsConverter"
+      ],
+      "sha256": "c987cbbe14b90273d9641b9ab6b94afdecc74b0a68c9de8dae99e4792620ff0f",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/WebBrowserOidcCallbackFailure.g.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
@@ -23270,7 +23296,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "bdb988bb3a325d32efa8df4fc1f1f872e626f284a4bd6e9ca64b2c7dcf618c1d",
+      "sha256": "aa828e08bd7a1303cb01f1e030101c32defe49336502cc18fee55b29c8cf7917",
       "kind": "generated"
     },
     {
@@ -23351,6 +23377,14 @@
       "access": "public",
       "types": ["WebBrowserCompleteStepUpRequestJson"],
       "sha256": "c733096a52895564910f59fe54a8353986a4ea72637373196de5a87e1fc445ae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/WebBrowserErrorReplyValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["WebBrowserErrorReplyJson"],
+      "sha256": "a7a702694d6f2531b1fb39f957da2de838c156601a77bea76b3ea8d41dbdbcf3",
       "kind": "generated"
     },
     {
@@ -47807,7 +47841,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "91823eba278799f8c0bbc6b24b2ce80afbd43116a683dd8aad27af0e092a43dc"
+      "sha256": "9f7277d7c19616fcb6997278d6630adc814269aa4e34c8386f3b798144a39887"
     },
     {
       "path": "go/go.mod",
@@ -47946,6 +47980,10 @@
       "sha256": "9719004a495ae2475841dc3506b86a7ba8faa2eeb33d774dbf12effa5d495a03"
     },
     {
+      "path": "public/http/v1/web-browser-error.schema.json",
+      "sha256": "dd577ad421f404ca941e0426a26177bf8daa9ce02bcc88ee24f27d23573468bd"
+    },
+    {
       "path": "public/http/v1/web-browser.schema.json",
       "sha256": "2e54a30f135c6b0fb372f68ffeea38647c58514f03317316ce492db442069078"
     },
@@ -47955,11 +47993,11 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "4497a9d7259f679e2bc165dc34cd81fdae5756123501255bbff2f71c99eb5e05"
+      "sha256": "c29d61262cd6714413b801aa9e1daea0a8a1e67796b80bdd6e8cb123c9bfb4e6"
     },
     {
       "path": "public/proto/constraints/af-con-01-fleet.json",
-      "sha256": "c8a1201ef7ecad9d4ecbe4cbfd69c746960bf224533cd05c3a7176935c2a2277"
+      "sha256": "41f9a25ce0c28cc471dda81fb03dbd3e9e4bef04dafdf9dbf5fbebfc33946bd1"
     },
     {
       "path": "public/proto/constraints/af-con-01-node.json",
@@ -47971,7 +48009,7 @@
     },
     {
       "path": "public/proto/constraints/con-07-identity.json",
-      "sha256": "e5fc72db496db6f292a0dc28dd453675f2e3c45231bd25123e87de5b238f10d4"
+      "sha256": "501d04194cd3772ed3cdcaa43e663d219eb3c479e7a8fa65f7ccb27d8702be3f"
     },
     {
       "path": "public/proto/constraints/con-08-entitlement-commerce.json",
