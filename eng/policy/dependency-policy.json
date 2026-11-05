@@ -12,7 +12,7 @@
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
     "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
     "eng/contract-packages.json": "9f7277d7c19616fcb6997278d6630adc814269aa4e34c8386f3b798144a39887",
-    "eng/policy/contract-access.json": "5b1c9323b4a4b0366f0ce73fbbe10048ce269c6a022a0832545dc9273836f70e",
+    "eng/policy/contract-access.json": "788a17ac7e2820ee85c5afbfaf4e3565658658d8b8f4f1ac85b7857c436de6bf",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -49,6 +49,7 @@
     "eng/provenance/records/contract-bindings-af-ctr-04-r3.json": "ad734125e7ecb687002f18cd1ddaabea8f794399b5548a2e80bda06cf6fc0808",
     "eng/provenance/records/contract-bindings-af-ctr-04-r4.json": "073eb53d909a8c55e25310cd2532113c2d6dc79d1d5e7ce02be784e7e3eb5c43",
     "eng/provenance/records/contract-bindings-af-ctr-05-r1.json": "538e907657814878c48d73fcf752ea72929725ac8cf52f43bbc9b8f32492c8cd",
+    "eng/provenance/records/contract-bindings-af-ctr-05-r2.json": "59b141c52bf3e81ddb46f75375b00811d85593815773f9be159ae09bd1e5aa57",
     "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
     "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
     "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -998,12 +999,12 @@
     "decision": "approved",
     "reviewedOn": "2026-11-05",
     "baselineCommit": "5873dc24d4452adc2306f3e0bc6fb477add911e9",
-    "maintenanceAssessment": "AF-CTR-05 part C1, the Contracts follow-up window (this receipt supersedes af-ctr-04-r5): the closed HTTP document public/http/v1/web-browser-error.schema.json (WebBrowserSessionError, schema version 1: the error body of the WebBrowserSession routes) with its generated C# model and validator, the 254-scalar e-mail bound of five publicapi.v1 constraints, the validate: required rule of approve on ApproveNodeSignIn and ApproveDeviceCode, comment-only annotation text of fleet.proto and account.proto, and the error catalogue fixture in its explicit pair form. The only dependency-input changes are eng/contract-packages.json (the new document in the PublicApi jsonSchemas list), eng/policy/contract-access.json (the 2 new generated sources with their declared types, 5 refreshed generated-source hashes, the new build input, the refreshed build-input hashes of eng/contract-packages.json and the three changed constraint files, the refreshed schema hashes of fleet.proto and account.proto, and sourceCommit) and the two new provenance successors eng/provenance/records/contract-bindings-af-ctr-05-r1.json and eng/provenance/records/go-bindings-af-ctr-05-r1.json. No csproj, props, lock file, package.json, go.mod, go.sum or toolchain pin changes. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. Independent exact-head review by the named reviewer and the host verification remain mandatory before merge.",
+    "maintenanceAssessment": "Review round of the AF-CTR-05 C1 pull request, Contracts #128 (this receipt supersedes af-ctr-05-r1): the description of the WebBrowserErrorReply root changes (N-5), the generated outputs are unchanged, contract-access.json refreshes the schema build-input hash and sourceCommit, and the provenance successor contract-bindings-af-ctr-05-r2 replaces r1 (go-bindings-af-ctr-05-r1 stays active). Unchanged from r1: AF-CTR-05 part C1, the Contracts follow-up window: the closed HTTP document public/http/v1/web-browser-error.schema.json (WebBrowserSessionError, schema version 1: the error body of the WebBrowserSession routes) with its generated C# model and validator, the 254-scalar e-mail bound of five publicapi.v1 constraints, the validate: required rule of approve on ApproveNodeSignIn and ApproveDeviceCode, comment-only annotation text of fleet.proto and account.proto, and the error catalogue fixture in its explicit pair form. The only dependency-input changes are eng/contract-packages.json (the new document in the PublicApi jsonSchemas list), eng/policy/contract-access.json (the 2 new generated sources with their declared types, 5 refreshed generated-source hashes, the new build input, the refreshed build-input hashes of eng/contract-packages.json and the three changed constraint files, the refreshed schema hashes of fleet.proto and account.proto, and sourceCommit) and the two new provenance successors eng/provenance/records/contract-bindings-af-ctr-05-r1.json and eng/provenance/records/go-bindings-af-ctr-05-r1.json. No csproj, props, lock file, package.json, go.mod, go.sum or toolchain pin changes. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. Independent exact-head review by the named reviewer and the host verification remain mandatory before merge.",
     "checks": {
       "compilation": "The official generator reproduces the 2 new C# outputs, the 5 regenerated C# outputs, the 3 regenerated Go outputs (doc comments only) and every retained output (generate --check passes); the StructureTests build in Release with 0 warnings and run the 45 WebBrowserErrorReply HTTP vectors through the generated codec, the 10 moved e-mail bound vectors and the approve presence vectors; the host verification is required at the reviewed head.",
       "aot-trim": "No project changes its AOT or trim settings; the new strict JSON context is source-generated like the existing ones and the serialization gate counts it (118).",
       "compatibility": "The wire descriptors are unchanged (comments only in fleet.proto and account.proto; the flagship-window baselines compare equal). One new closed HTTP document with new definition names; the frozen browser.schema.json and every other pinned schema of the CON.17 later-services window, and web-browser.schema.json, are byte-identical. Two validator tightenings, both to what the center already refuses: the e-mail bound 254 (Plan decision Q12; the frozen HTTP documents keep 320, a recorded divergence) and approve required on the two enrollment decisions.",
-      "licence-provenance": "First-party Apache-2.0 edits only; the generated outputs are bound by the immutable successors contract-bindings-af-ctr-05-r1 (427 targets: 420 of contract-bindings-af-ctr-04-r4 unchanged, 5 refreshed, 2 new) and go-bindings-af-ctr-05-r1 (90 targets, 3 refreshed in doc comments); no third-party material or generator pin changes.",
+      "licence-provenance": "First-party Apache-2.0 edits only; the generated outputs are bound by the immutable successors contract-bindings-af-ctr-05-r2 (427 targets: r1 kept 420 of contract-bindings-af-ctr-04-r4 unchanged, refreshed 5 and added 2; r2 keeps all 427 unchanged) and go-bindings-af-ctr-05-r1 (90 targets, 3 refreshed in doc comments); no third-party material or generator pin changes.",
       "security-sbom": "No coordinate enters or leaves the closure; locked versions, integrity values and licences are unchanged.",
       "runtime-performance-migration": "Generated models and validators and comment text; no runtime host, migration or performance effect. The center already sends the documented error body and already refuses the tightened values.",
       "framework-runtime-posture": "The .NET SDK (10.0.403 since af-ctr-04-r3), Node and Go pins are unchanged by this receipt, so no major-upgrade review is triggered."
@@ -1013,7 +1014,7 @@
       "node": "24.21.0",
       "go": "1.27.3"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-04-r5.json",
+    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-05-r1.json",
     "inputHashes": {
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
@@ -1025,7 +1026,7 @@
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
       "eng/contract-packages.json": "9f7277d7c19616fcb6997278d6630adc814269aa4e34c8386f3b798144a39887",
-      "eng/policy/contract-access.json": "5b1c9323b4a4b0366f0ce73fbbe10048ce269c6a022a0832545dc9273836f70e",
+      "eng/policy/contract-access.json": "788a17ac7e2820ee85c5afbfaf4e3565658658d8b8f4f1ac85b7857c436de6bf",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -1062,6 +1063,7 @@
       "eng/provenance/records/contract-bindings-af-ctr-04-r3.json": "ad734125e7ecb687002f18cd1ddaabea8f794399b5548a2e80bda06cf6fc0808",
       "eng/provenance/records/contract-bindings-af-ctr-04-r4.json": "073eb53d909a8c55e25310cd2532113c2d6dc79d1d5e7ce02be784e7e3eb5c43",
       "eng/provenance/records/contract-bindings-af-ctr-05-r1.json": "538e907657814878c48d73fcf752ea72929725ac8cf52f43bbc9b8f32492c8cd",
+      "eng/provenance/records/contract-bindings-af-ctr-05-r2.json": "59b141c52bf3e81ddb46f75375b00811d85593815773f9be159ae09bd1e5aa57",
       "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
       "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
       "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -1260,5 +1262,5 @@
       "tests/public/SerializationProbe/packages.lock.json": "c22dac951b63b91a5b5b2f9d620cfd5601024a12c59f6b3a62176837fe8d9fa4"
     }
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-05-r1.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-05-r2.json"
 }

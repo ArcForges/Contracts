@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "91de9f0f87572c6c83327fc5c8e1123bd85b053c",
+  "sourceCommit": "45313c1a9b2d8d2e7a7fa7c5847835065082ab1d",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -47981,7 +47981,7 @@
     },
     {
       "path": "public/http/v1/web-browser-error.schema.json",
-      "sha256": "dd577ad421f404ca941e0426a26177bf8daa9ce02bcc88ee24f27d23573468bd"
+      "sha256": "a969a256e5dd2b94d9144bbf09775c57a06d5b4417e3920854ee7c131c76ac5c"
     },
     {
       "path": "public/http/v1/web-browser.schema.json",
