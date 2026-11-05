@@ -449,14 +449,16 @@ class JsonShapes:
         rules = {rule for node in self.nodes for rule in node.get("x-arcforges-rules", [])}
         selected = {"panelTree": CS_PANEL_RULES, "policyBody": CS_POLICY_RULES, "canonicalDecimal": CS_DECIMAL_RULES,
                     "configurationDocument": CS_CONFIGURATION_RULES, "manifestProfile": CS_MANIFEST_RULES, "workflowGraph": CS_WORKFLOW_RULES,
-                    "authChallengePurpose": CS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": CS_NATIVE_CLIENT_RULE}
+                    "authChallengePurpose": CS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": CS_NATIVE_CLIENT_RULE,
+                    "mobileClientRedirect": CS_MOBILE_CLIENT_RULE, "mobileAuthorizeFlow": CS_MOBILE_AUTHORIZE_RULE}
         return CS_JSON_HELPERS + "".join(selected[rule] for rule in sorted(rules & selected.keys()))
 
     def ts_helpers(self) -> str:
         rules = {rule for node in self.nodes for rule in node.get("x-arcforges-rules", [])}
         selected = {"panelTree": TS_PANEL_RULES, "policyBody": TS_POLICY_RULES, "canonicalDecimal": TS_DECIMAL_RULES,
                     "configurationDocument": TS_CONFIGURATION_RULES, "manifestProfile": TS_MANIFEST_RULES, "workflowGraph": TS_WORKFLOW_RULES,
-                    "authChallengePurpose": TS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": TS_NATIVE_CLIENT_RULE}
+                    "authChallengePurpose": TS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": TS_NATIVE_CLIENT_RULE,
+                    "mobileClientRedirect": TS_MOBILE_CLIENT_RULE, "mobileAuthorizeFlow": TS_MOBILE_AUTHORIZE_RULE}
         helpers = TS_FORM_HELPERS if self.form else TS_JSON_HELPERS
         if self.finite_numbers and not self.form:
             helpers = helpers.replace("/** Strict UTF-8 JSON: no BOM, comments, trailing commas or duplicate properties; depth <= 32; integer lexemes only. */",
@@ -696,7 +698,8 @@ class JsonShapes:
             elif rule == "canonicalDecimal":
                 c.append("        if (!CanonicalDecimal(text)) return false;")
                 t.append("  if (!canonicalDecimal(value)) return false;")
-            elif rule in {"configurationDocument", "manifestProfile", "workflowGraph", "authChallengePurpose", "nativeClientRedirect"}:
+            elif rule in {"configurationDocument", "manifestProfile", "workflowGraph", "authChallengePurpose", "nativeClientRedirect",
+                          "mobileClientRedirect", "mobileAuthorizeFlow"}:
                 c.append(f"        if (!{rule[0].upper() + rule[1:]}(value)) return false;")
                 t.append(f"  if (!{rule}(value)) return false;")
             else:
@@ -1059,6 +1062,8 @@ def generate(check: bool = False) -> None:
         # AF-CTR-03: the browser session of an arcforges-web installation, beside the frozen BrowserSession document.
         ("public/http/v1/web-browser.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.WebBrowser", "src/public/dotnet/ArcForges.Contracts.PublicApi", None),
         ("public/http/v1/native-auth.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.NativeAuth", "src/public/dotnet/ArcForges.Contracts.PublicApi", None),
+        # AF-CTR-04 (part CM): the native authorization of an arcforges-mobile installation, beside the frozen NativeAuth document.
+        ("public/http/v1/mobile-native.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.MobileNative", "src/public/dotnet/ArcForges.Contracts.PublicApi", None),
         ("internal/ai-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
         ("internal/cf-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
         ("internal/storage-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Storage.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
@@ -1149,7 +1154,9 @@ def generate(check: bool = False) -> None:
 ROUTE_FIELDS = {"id", "method", "path", "credential", "origin", "csrf", "setCookie", "cache", "request", "response"}
 ROUTE_VOCABULARY = {
     "method": {"GET", "POST"},
-    "credential": {"anonymous-or-session-cookie", "preauth-flow", "session-cookie", "flow-cookie", "browser-login", "authorization-code"},
+    # AF-CTR-04 (part CM, MB-3): "anonymous" is a native JSON route that takes no credential at all (no cookie, no Origin or CSRF).
+    "credential": {"anonymous-or-session-cookie", "preauth-flow", "session-cookie", "flow-cookie", "browser-login", "authorization-code",
+                   "anonymous"},
     "origin": {"exact-configured", "none"},
     "csrf": {"none", "issues-token", "required"},
     "setCookie": {"none", "session", "clear"},
@@ -1173,6 +1180,8 @@ def route_catalogue(title: str, namespace: str, routes: list, wires: dict[str, s
         if not isinstance(route["id"], str) or not re.fullmatch(r"[a-z][A-Za-z0-9]*(?:\.[a-z][A-Za-z0-9]*)+", route["id"]) or route["id"] in ids:
             raise ValueError(f"{title} route identity must be unique dotted lower-camel text")
         ids.add(route["id"])
+        if route["credential"] == "anonymous" and (route["origin"], route["csrf"], route["setCookie"]) != ("none", "none", "none"):
+            raise ValueError(f"{title} route {route['id']}: an anonymous route requires no Origin, no CSRF and no cookie")
         if not re.fullmatch(r"/session/v1/[A-Za-z0-9{}/-]+", route["path"]) or (route["method"], route["path"]) in paths:
             raise ValueError(f"{title} route {route['id']}: invalid or duplicate method/path")
         paths.add((route["method"], route["path"]))
@@ -2791,5 +2800,37 @@ function nativeClientRedirect(value: unknown): boolean {
     case "companion.android.selfhost": return object.redirect_uri === "com.arcforges.mobile:/auth/callback";
     default: return false;
   }
+}
+'''
+# AF-CTR-04 (part CM): the release client takes the https App Link form of the redirect, the debug client the private-use scheme
+# form; the redirect's own pattern admits only these two forms, and the center admits only its exact configured value.
+CS_MOBILE_CLIENT_RULE = r'''
+    private static bool MobileClientRedirect(global::System.Text.Json.JsonElement value)
+    {
+        var client = value.GetProperty("clientId").GetString();
+        var appLink = value.GetProperty("redirectUri").GetString()!.StartsWith("https://", global::System.StringComparison.Ordinal);
+        return client switch { "arcforges.android" => appLink, "arcforges.android.local" => !appLink, _ => false };
+    }
+'''
+TS_MOBILE_CLIENT_RULE = r'''
+function mobileClientRedirect(value: unknown): boolean {
+  const object = value as { clientId: string; redirectUri: string };
+  const appLink = object.redirectUri.startsWith("https://");
+  switch (object.clientId) {
+    case "arcforges.android": return appLink;
+    case "arcforges.android.local": return !appLink;
+    default: return false;
+  }
+}
+'''
+# The authorization page URL of a begun flow names that flow.
+CS_MOBILE_AUTHORIZE_RULE = r'''
+    private static bool MobileAuthorizeFlow(global::System.Text.Json.JsonElement value)
+        => value.GetProperty("authorizeUrl").GetString()!.EndsWith("/mobile/authorize#flow=" + value.GetProperty("flowId").GetString(), global::System.StringComparison.Ordinal);
+'''
+TS_MOBILE_AUTHORIZE_RULE = r'''
+function mobileAuthorizeFlow(value: unknown): boolean {
+  const object = value as { flowId: string; authorizeUrl: string };
+  return object.authorizeUrl.endsWith("/mobile/authorize#flow=" + object.flowId);
 }
 '''

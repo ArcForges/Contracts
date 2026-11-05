@@ -5,6 +5,7 @@ using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using ArcForges.Contracts.Foundation.Serialization;
 using ArcForges.Contracts.PublicApi.Http.V1.Browser;
+using ArcForges.Contracts.PublicApi.Http.V1.MobileNative;
 using ArcForges.Contracts.PublicApi.Http.V1.NativeAuth;
 using ArcForges.Contracts.PublicApi.Http.V1.WebBrowser;
 using ArcForges.Contracts.PublicApi.V1;
@@ -266,7 +267,14 @@ internal static class IdentityCases
         ["NativeAuthorizeCallbackSuccess"] = Codec<NativeAuthorizeCallbackSuccess>(NativeAuthorizeCallbackSuccessForm.TryParse, NativeAuthorizeCallbackSuccessForm.Serialize),
         ["NativeAuthorizeRequest"] = Codec<NativeAuthorizeRequest>(NativeAuthorizeRequestForm.TryParse, NativeAuthorizeRequestForm.Serialize),
         ["NativeTokenRequest"] = Codec<NativeTokenRequest>(NativeTokenRequestForm.TryParse, NativeTokenRequestForm.Serialize),
-        ["NativeTokenResponse"] = Codec<NativeTokenResponse>(NativeTokenResponseJson.TryParse, NativeTokenResponseJson.Serialize)
+        ["NativeTokenResponse"] = Codec<NativeTokenResponse>(NativeTokenResponseJson.TryParse, NativeTokenResponseJson.Serialize),
+        // AF-CTR-04 (part CM): the native authorization of an arcforges-mobile installation.
+        ["MobileBeginRequest"] = Codec<MobileBeginRequest>(MobileBeginRequestJson.TryParse, MobileBeginRequestJson.Serialize),
+        ["MobileBeginResponse"] = Codec<MobileBeginResponse>(MobileBeginResponseJson.TryParse, MobileBeginResponseJson.Serialize),
+        ["MobileAuthorizeCallbackSuccess"] = Codec<MobileAuthorizeCallbackSuccess>(MobileAuthorizeCallbackSuccessForm.TryParse, MobileAuthorizeCallbackSuccessForm.Serialize),
+        ["MobileAuthorizeCallbackFailure"] = Codec<MobileAuthorizeCallbackFailure>(MobileAuthorizeCallbackFailureForm.TryParse, MobileAuthorizeCallbackFailureForm.Serialize),
+        ["MobileTokenRequest"] = Codec<MobileTokenRequest>(MobileTokenRequestJson.TryParse, MobileTokenRequestJson.Serialize),
+        ["MobileTokenResponse"] = Codec<MobileTokenResponse>(MobileTokenResponseJson.TryParse, MobileTokenResponseJson.Serialize)
     };
 
     internal static void Run(string root)
@@ -451,12 +459,49 @@ internal static class IdentityCases
         Require(web.Count(route => route.Method == "POST") == 8 && web.Where(route => route.Method == "POST").All(route => route.Csrf == "required" && route.Origin == "exact-configured"), "every web browser POST requires Origin and CSRF");
         Require(web.Where(route => route.SetCookie == "session").Select(route => route.Id).SequenceEqual(new[] { "webBrowser.completeAuthentication", "webBrowser.completeEnrollment" }), "web session cookie only from completion routes");
         Require(web.Single(route => route.Id == "webBrowser.logout").SetCookie == "clear", "web logout clears the session cookie");
+        // AF-CTR-04 (part CM, MB-3): the mobile app's begin and token are native JSON routes: no mobile.* route takes a cookie of any
+        // kind, sets one, or requires an Origin or CSRF token; only begin is anonymous, token is authorized by its code.
+        AssertRoutes(MobileNativeAuthRoutes.All.Select(Describe).ToArray(), routes.GetProperty("MobileNativeAuth"), "MobileNativeAuth");
+        var mobile = MobileNativeAuthRoutes.All.Select(route => (route.Id, route.Method, route.Path, route.Credential, route.Origin, route.Csrf, route.SetCookie, route.Cache, route.RequestWire, route.ResponseWire)).ToArray();
+        var everyRoute = all.Select(route => route.Method + " " + route.Path).Concat(web.Select(route => route.Method + " " + route.Path)).ToHashSet(StringComparer.Ordinal);
+        Require(mobile.Select(route => route.Id).SequenceEqual(new[] { "mobile.begin", "mobile.token" }), "exact mobile routes");
+        Require(mobile.All(route => !everyRoute.Contains(route.Method + " " + route.Path) && route.Method == "POST" && route.Path.StartsWith("/session/v1/mobile/", StringComparison.Ordinal)), "mobile routes are their own POST paths");
+        Require(mobile.All(route => !route.Credential.Contains("cookie", StringComparison.Ordinal) && route.SetCookie == "none" && route.Origin == "none" && route.Csrf == "none" && route.Cache == "no-store"), "no mobile route takes or sets a cookie or requires Origin or CSRF");
+        Require(mobile.All(route => route.RequestWire == "json" && route.ResponseWire == "json"), "mobile routes carry strict JSON");
+        Require(mobile.Where(route => route.Credential == "anonymous").Select(route => route.Id).SequenceEqual(new[] { "mobile.begin" }) &&
+            mobile.Single(route => route.Id == "mobile.token").Credential == "authorization-code", "begin is anonymous and token is authorized by its code");
+        Require(BrowserSessionRoutes.All.Concat<object>(NativeAuthRoutes.All).Concat(WebBrowserSessionRoutes.All).All(route => route switch
+        {
+            BrowserSessionRoute browser => browser.Credential != "anonymous",
+            NativeAuthRoute native => native.Credential != "anonymous",
+            WebBrowserSessionRoute webBrowser => webBrowser.Credential != "anonymous",
+            _ => false
+        }), "the anonymous credential is the mobile begin's only");
+        RunMobileCallbacks();
+    }
+
+    private static void RunMobileCallbacks()
+    {
+        // MB-2: both callbacks carry the issuer; a callback without it is refused, and the issuer survives the percent-encoding.
+        const string code = "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8";
+        var success = Encoding.ASCII.GetBytes("code=" + code + "&state=Qm9yZWFsaXMtc3RhdGU&iss=https%3A%2F%2Farcforges.com%2Fapi");
+        Require(MobileAuthorizeCallbackSuccessForm.TryParse(success, out var parsed, out _) && parsed!.Iss == "https://arcforges.com/api" && parsed.Code == code,
+            "mobile callback issuer decodes");
+        Require(MobileAuthorizeCallbackSuccessForm.Serialize(parsed!).AsSpan().SequenceEqual(success), "mobile callback serializes code, state, iss in order");
+        Require(!MobileAuthorizeCallbackSuccessForm.TryParse(Encoding.ASCII.GetBytes("code=" + code + "&state=Qm9yZWFsaXMtc3RhdGU"), out _, out var missing) &&
+            missing == ContractSerializationFailure.Invalid, "mobile callback without iss");
+        Require(!MobileAuthorizeCallbackFailureForm.TryParse(Encoding.ASCII.GetBytes("error=access_denied&state=Qm9yZWFsaXMtc3RhdGU"), out _, out var denied) &&
+            denied == ContractSerializationFailure.Invalid, "mobile denial without iss");
+        Require(MobileBeginRequestJson.MaxBytes == 4096 && MobileTokenRequestJson.MaxBytes == 4096 && MobileAuthorizeCallbackSuccessForm.MaxBytes == 16384, "mobile bounds");
     }
 
     private static string Describe(BrowserSessionRoute route) =>
         string.Join("|", route.Id, route.Method, route.Path, route.Credential, route.Origin, route.Csrf, route.SetCookie, route.Cache, route.RequestWire, string.Join(",", route.RequestRoots), route.ResponseWire, string.Join(",", route.ResponseRoots));
 
     private static string Describe(WebBrowserSessionRoute route) =>
+        string.Join("|", route.Id, route.Method, route.Path, route.Credential, route.Origin, route.Csrf, route.SetCookie, route.Cache, route.RequestWire, string.Join(",", route.RequestRoots), route.ResponseWire, string.Join(",", route.ResponseRoots));
+
+    private static string Describe(MobileNativeAuthRoute route) =>
         string.Join("|", route.Id, route.Method, route.Path, route.Credential, route.Origin, route.Csrf, route.SetCookie, route.Cache, route.RequestWire, string.Join(",", route.RequestRoots), route.ResponseWire, string.Join(",", route.ResponseRoots));
 
     private static string Describe(NativeAuthRoute route) =>

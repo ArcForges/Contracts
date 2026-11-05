@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 import re
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -144,6 +145,11 @@ def rule_ok(rule, value):
         return (recovery and not method) if recover else (method and not recovery)
     if rule == "nativeClientRedirect":
         return NATIVE_CLIENTS.get(value["client_id"]) == value["redirect_uri"]
+    if rule == "mobileClientRedirect":
+        # AF-CTR-04 (part CM): the release client takes the https App Link form, the debug client the private-use scheme form.
+        return {"arcforges.android": True, "arcforges.android.local": False}.get(value["clientId"]) == value["redirectUri"].startswith("https://")
+    if rule == "mobileAuthorizeFlow":
+        return value["authorizeUrl"].endswith("/mobile/authorize#flow=" + value["flowId"])
     raise ValueError("unknown rule " + rule)
 
 
@@ -174,7 +180,9 @@ class IdentityHttpExceptions(unittest.TestCase):
         cls.fixture = load("fixtures/public/con-07-identity.json")
         cls.documents = {"BrowserSession": load("public/http/v1/browser.schema.json"), "NativeAuth": load("public/http/v1/native-auth.schema.json"),
                          # AF-CTR-03: the browser session of an arcforges-web installation, beside the frozen document.
-                         "WebBrowserSession": load("public/http/v1/web-browser.schema.json")}
+                         "WebBrowserSession": load("public/http/v1/web-browser.schema.json"),
+                         # AF-CTR-04 (part CM): the native authorization of an arcforges-mobile installation.
+                         "MobileNativeAuth": load("public/http/v1/mobile-native.schema.json")}
         cls.root_bundle = {root: bundle for bundle, doc in cls.documents.items() for root in (ref["$ref"].split("/")[-1] for ref in doc["oneOf"])}
 
     def test_vectors_match_an_independent_schema_interpreter(self):
@@ -233,7 +241,7 @@ class IdentityHttpExceptions(unittest.TestCase):
             ("GET", "/session/v1/web/bootstrap"), ("POST", "/session/v1/web/authentication/begin"), ("POST", "/session/v1/web/authentication/complete"),
             ("POST", "/session/v1/web/enrollment/complete"), ("POST", "/session/v1/web/recovery/begin"), ("POST", "/session/v1/web/recovery/complete"),
             ("POST", "/session/v1/web/step-up/begin"), ("POST", "/session/v1/web/step-up/complete"), ("POST", "/session/v1/web/logout"),
-            ("GET", "/session/v1/web/providers/{providerId}/callback"),
+            ("GET", "/session/v1/web/providers/{providerId}/callback"), ("POST", "/session/v1/mobile/begin"), ("POST", "/session/v1/mobile/token"),
         }
         actual = set()
         for bundle, document in self.documents.items():
@@ -250,7 +258,8 @@ class IdentityHttpExceptions(unittest.TestCase):
                     self.assertTrue(all(document["$defs"][root].get("x-arcforges-wire") == "form-urlencoded" for root in route["request"]), route["id"])
             used = {root for route in routes for root in route["request"] + route["response"]}
             # The two native callback queries travel to the client's registered redirect URI, not to a server route.
-            client_redirects = {"NativeAuthorizeCallbackSuccess", "NativeAuthorizeCallbackFailure"} if bundle == "NativeAuth" else set()
+            client_redirects = {"NativeAuth": {"NativeAuthorizeCallbackSuccess", "NativeAuthorizeCallbackFailure"},
+                                "MobileNativeAuth": {"MobileAuthorizeCallbackSuccess", "MobileAuthorizeCallbackFailure"}}.get(bundle, set())
             self.assertEqual(roots - used, client_redirects, bundle + " has no unrouted root")
             self.assertFalse(used - roots, bundle)
         self.assertEqual(actual, expected_paths)
@@ -311,6 +320,102 @@ class IdentityHttpExceptions(unittest.TestCase):
             if self.root_bundle[vector["root"]] == "BrowserSession" and not vector["id"].endswith("-arcforges-web-refused"):
                 copy = vectors["web-" + vector["id"]]
                 self.assertEqual(copy, {**vector, "id": "web-" + vector["id"], "root": "Web" + vector["root"]})
+
+    def test_mobile_native_document_is_closed_cookieless_and_issuer_bound(self):
+        # AF-CTR-04 (part CM; MOB protocol review MB-2, MB-3, MB-6, MB-11, MB-12, MB-16, MB-17).
+        mobile = self.documents["MobileNativeAuth"]
+        defs = mobile["$defs"]
+        self.assertEqual((mobile["title"], mobile["x-arcforges-schema-version"]), ("MobileNativeAuth", "1"))
+        self.assertNotIn("$id", mobile)
+        self.assertEqual([ref["$ref"].split("/")[-1] for ref in mobile["oneOf"]],
+                         ["MobileBeginRequest", "MobileBeginResponse", "MobileAuthorizeCallbackSuccess", "MobileAuthorizeCallbackFailure",
+                          "MobileTokenRequest", "MobileTokenResponse"])
+        self.assertTrue(all(name.startswith("Mobile") for name in defs))
+        for other in ("BrowserSession", "NativeAuth", "WebBrowserSession"):
+            self.assertFalse(set(defs) & set(self.documents[other]["$defs"]), other)
+        # The routes: native JSON, exact paths, no cookie of any kind, no Origin or CSRF, begin anonymous, token by the code.
+        routes = mobile["x-arcforges-routes"]
+        self.assertEqual([(r["id"], r["method"], r["path"], r["credential"]) for r in routes],
+                         [("mobile.begin", "POST", "/session/v1/mobile/begin", "anonymous"),
+                          ("mobile.token", "POST", "/session/v1/mobile/token", "authorization-code")])
+        for bundle, document in self.documents.items():
+            for route in document["x-arcforges-routes"]:
+                if route["id"].startswith("mobile.") or route["path"].startswith("/session/v1/mobile/"):
+                    with self.subTest(route=route["id"]):
+                        self.assertEqual(bundle, "MobileNativeAuth")
+                        self.assertNotIn("cookie", route["credential"])
+                        self.assertEqual((route["origin"], route["csrf"], route["setCookie"], route["cache"]), ("none", "none", "none", "no-store"))
+                        self.assertTrue(all(document["$defs"][root].get("x-arcforges-wire", "json") == "json"
+                                            for root in route["request"] + route["response"]))
+                self.assertEqual(route["credential"] == "anonymous", route["id"] == "mobile.begin", route["id"])
+        # Mix-up defence (MB-2): both callbacks carry the issuer, required; the begin reply's page URL names its flow.
+        success, failure = defs["MobileAuthorizeCallbackSuccess"], defs["MobileAuthorizeCallbackFailure"]
+        self.assertEqual(list(success["properties"]), ["code", "state", "iss"])
+        self.assertEqual(list(failure["properties"]), ["error", "state", "iss"])
+        for callback in (success, failure):
+            self.assertEqual(callback["required"], list(callback["properties"]))
+            self.assertEqual(callback["x-arcforges-wire"], "form-urlencoded")
+            self.assertEqual(callback["properties"]["iss"], defs["MobileAuthorizeCallbackSuccess"]["properties"]["iss"])
+        self.assertEqual(failure["properties"]["error"], {"type": "string", "const": "access_denied"})
+        self.assertEqual(defs["MobileBeginResponse"]["x-arcforges-rules"], ["mobileAuthorizeFlow"])
+        self.assertEqual(defs["MobileBeginResponse"]["properties"]["authorizeUrl"]["maxLength"], 512)
+        self.assertEqual(success["properties"]["iss"]["maxLength"] + len("/mobile/authorize#flow=") + 36, 512)
+        # The clients, the redirect forms and the PKCE bounds.
+        for root in ("MobileBeginRequest", "MobileTokenRequest"):
+            node = defs[root]
+            self.assertEqual(node["x-arcforges-rules"], ["mobileClientRedirect"], root)
+            self.assertEqual(node["properties"]["clientId"]["enum"], ["arcforges.android", "arcforges.android.local"], root)
+            self.assertEqual(node["required"], list(node["properties"]), root)
+            self.assertEqual(node["x-arcforges-max-bytes"], 4096, root)
+        self.assertEqual(defs["MobileBeginRequest"]["properties"]["codeChallengeMethod"], {"type": "string", "const": "S256"})
+        self.assertEqual((defs["MobileBeginRequest"]["properties"]["state"]["minLength"], defs["MobileBeginRequest"]["properties"]["state"]["maxLength"]), (16, 128))
+        self.assertEqual((defs["MobileTokenRequest"]["properties"]["codeVerifier"]["minLength"], defs["MobileTokenRequest"]["properties"]["codeVerifier"]["maxLength"]), (43, 128))
+        self.assertEqual(defs["MobileTokenRequest"]["properties"]["code"], success["properties"]["code"])
+        # The installation claim (MB-12) and the delivered session: arcforges-mobile only, an account session that authenticates.
+        claim = defs["MobileInstallationClaim"]
+        self.assertEqual(claim["properties"]["product"]["enum"], ["arcforges-mobile"])
+        self.assertEqual(defs["MobileTokenInstalledProduct"]["properties"]["product"]["enum"], ["arcforges-mobile"])
+        self.assertEqual(claim["properties"]["installationId"]["x-arcforges-rules"], ["nonzeroUuid"])
+        self.assertNotIn("+", claim["properties"]["appVersion"]["pattern"])
+        self.assertNotIn("model", claim["properties"])
+        token = defs["MobileTokenResponse"]["properties"]
+        self.assertEqual((token["scope"], token["purpose"]), ({"type": "string", "const": "account"}, {"type": "string", "const": "authenticate"}))
+        native = self.documents["NativeAuth"]["$defs"]["NativeTokenResponse"]["properties"]
+        self.assertEqual(set(token) - set(native), {"scope"})
+        self.assertEqual(set(native) - set(token), set())
+        # The contract statements the app relies on (MB-2, MB-16, MB-17, MB-11).
+        text = json.dumps(mobile)
+        for phrase in ("identity.authorizeMobile", "byte-equal to the derived value", "RFC 9207", "valid for 2 minutes", "one use",
+                       "CONFLICT/code_reused and revokes the session family", "makes a new installation ID", "begins a new attempt",
+                       "fresh PKCE verifier and a fresh state", "exactly one pending attempt", "without build metadata",
+                       "as the app reports it", "Loopback redirects are not admitted", "access_denied as cancelled in the browser",
+                       "AUTHORIZATION/permission_denied", "STATE/not_activated", "RESOURCE/rate_limited", "RESOURCE/overloaded"):
+            self.assertIn(phrase, text, phrase)
+        # Only PublicApi owns the new document; the frozen documents keep their pinned bytes.
+        catalog = load("eng/contract-packages.json")["packages"]
+        owners = [row["id"] for row in catalog if "public/http/v1/mobile-native.schema.json" in row["jsonSchemas"]]
+        self.assertEqual(owners, ["ArcForges.Contracts.PublicApi"])
+        # (The CON.17 window pins each frozen document's canonical content, read here with the window's own function.)
+        sys.path.insert(0, str(ROOT / "eng"))
+        from check_compatibility import schema_identity
+        pins = {row["path"]: row["sha256"] for row in load("eng/compatibility/later-services-window.json")["schemas"]}
+        for frozen in ("public/http/v1/browser.schema.json", "public/http/v1/native-auth.schema.json"):
+            self.assertEqual(schema_identity((ROOT / frozen).read_bytes())[0], pins[frozen], frozen)
+        self.assertNotIn("public/http/v1/mobile-native.schema.json", pins)
+        # The vectors M replays: each mix-up, redirect and claim refusal is present with its outcome.
+        vectors = {vector["id"]: vector for vector in self.fixture["httpVectors"]}
+        for vector_id, valid in (("mobile-callback-success", True), ("mobile-callback-success-missing-iss", False),
+                                 ("mobile-callback-failure", True), ("mobile-callback-failure-missing-iss", False),
+                                 ("mobile-begin-reply-other-flow", False), ("mobile-begin-reply-http-official", False),
+                                 ("mobile-begin-release-with-private-scheme", False), ("mobile-begin-loopback-name", False),
+                                 ("mobile-begin-loopback-ip", False), ("mobile-begin-app-version-build-metadata", False),
+                                 ("mobile-begin-product-node", False), ("mobile-begin-platform-ios", False),
+                                 ("mobile-token-noncanonical-code", False), ("mobile-token-response-node-scope", False)):
+            with self.subTest(vector=vector_id):
+                self.assertEqual(vectors[vector_id]["valid"], valid)
+        mobile_roots = {root for root, bundle in self.root_bundle.items() if bundle == "MobileNativeAuth"}
+        self.assertGreaterEqual(sum(1 for vector in self.fixture["httpVectors"] if vector["root"] in mobile_roots), 100)
+        self.assertTrue(all(vector["id"].startswith("mobile-") == (vector["root"] in mobile_roots) for vector in self.fixture["httpVectors"]))
 
     def test_existing_transfer_http_schema_is_untouched(self):
         part = load("public/http/v1/schema.json")

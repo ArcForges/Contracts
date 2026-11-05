@@ -101,6 +101,21 @@ class RouteCatalogueGuards(unittest.TestCase):
         self.assertEqual(shapes.ROUTE_VOCABULARY["cache"], {"no-store"})
         self.assertEqual(shapes.ROUTE_VOCABULARY["method"], {"GET", "POST"})
 
+    def test_the_credential_vocabulary_is_closed_and_adds_only_anonymous(self):
+        # AF-CTR-04 (part CM, MB-3): the one added credential is "anonymous", for the native JSON begin of the mobile app.
+        self.assertEqual(shapes.ROUTE_VOCABULARY["credential"], {
+            "anonymous-or-session-cookie", "preauth-flow", "session-cookie", "flow-cookie", "browser-login", "authorization-code",
+            "anonymous"})
+
+    def test_an_anonymous_route_takes_no_cookie_origin_or_csrf(self):
+        anonymous = dict(credential="anonymous", origin="none", csrf="none", setCookie="none")
+        cs, _ = catalogue(route(**anonymous))
+        self.assertIn('"anonymous"', cs)
+        for field, value in (("origin", "exact-configured"), ("csrf", "required"), ("csrf", "issues-token"),
+                             ("setCookie", "session"), ("setCookie", "clear")):
+            with self.subTest(field=field, value=value), self.assertRaisesRegex(ValueError, "anonymous route requires no Origin"):
+                catalogue(route(**{**anonymous, field: value}))
+
 
 def form_root(**changes):
     root = {

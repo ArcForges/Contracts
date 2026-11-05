@@ -166,6 +166,15 @@ routes under `/session/v1/web/`): the meaning of `BrowserSession` with its own d
 identities and paths, whose installation claim also admits `arcforges-web`. A tooling test holds the
 validations and the policy to the same domain.
 
+AF-CTR-04 (part CM) adds the closed document `public/http/v1/mobile-native.schema.json`
+(`MobileNativeAuth`, schema version 1, routes `mobile.begin` and `mobile.token` under
+`/session/v1/mobile/`): the native authorization of the ArcForges mobile app, whose installation claim
+and delivered installations admit exactly `arcforges-mobile`, with the clients `arcforges.android`
+(App Link redirect) and `arcforges.android.local` (private-use scheme redirect, self-hosted debug
+builds only). Both routes are native JSON: no cookie, no Origin or CSRF requirement; `begin` uses the
+route credential `anonymous` and `token` the code (`authorization-code`). Both callbacks carry the
+issuer (`iss`, RFC 9207). The frozen `browser.schema.json` and `native-auth.schema.json` are unchanged.
+
 WP00.01 adds one digest-bound registration for DesktopPlatform's generated glossary
 forbidden-alias declaration. Its closed envelope and immutable Design source identity
 must match before those declaration values are admitted; every other field remains
