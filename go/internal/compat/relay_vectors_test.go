@@ -64,6 +64,12 @@ type relayVectors struct {
 		HighS          string   `json:"highSSignature"`
 		Capabilities   []string `json:"capabilities"`
 	} `json:"hello"`
+	RelayClose struct {
+		Frame            string `json:"frame"`
+		Code             uint32 `json:"code"`
+		Reason           string `json:"reason"`
+		ReconnectAfterMs uint32 `json:"reconnectAfterMs"`
+	} `json:"relayClose"`
 	RelayAssertions []struct {
 		ID                               string  `json:"id"`
 		Assertion                        string  `json:"assertion"`
@@ -72,6 +78,8 @@ type relayVectors struct {
 		HighS                            string  `json:"highSSignature"`
 		ListNodesRequest                 string  `json:"listNodesRequest"`
 		ListNodesRequestWithoutAssertion string  `json:"listNodesRequestWithoutAssertion"`
+		GetNodeRequest                   string  `json:"getNodeRequest"`
+		GetNodeRequestWithoutAssertion   string  `json:"getNodeRequestWithoutAssertion"`
 		Method                           int32   `json:"method"`
 		LocalOrigin                      int32   `json:"localOrigin"`
 		TargetNodeID                     *string `json:"targetNodeId"`
@@ -136,9 +144,12 @@ func withoutField(t *testing.T, message []byte, drop protowire.Number) []byte {
 	var out []byte
 	for rest := message; len(rest) > 0; {
 		number, kind, tagLength := protowire.ConsumeTag(rest)
+		if tagLength < 0 {
+			t.Fatal("malformed message tag")
+		}
 		valueLength := protowire.ConsumeFieldValue(number, kind, rest[tagLength:])
-		if tagLength < 0 || valueLength < 0 {
-			t.Fatal("malformed message")
+		if valueLength < 0 {
+			t.Fatal("malformed message field")
 		}
 		if number != drop {
 			out = append(out, rest[:tagLength+valueLength]...)
@@ -185,6 +196,7 @@ func TestRelayGoldenVectors(t *testing.T) {
 		t.Fatal("the audience digest")
 	}
 	center, node, other := publicKey(t, v, "center"), publicKey(t, v, "node"), publicKey(t, v, "otherInstallation")
+	otherCenter := publicKey(t, v, "otherCenter")
 
 	// Relay assertions.
 	assertions := make([]*relayv1.RelayAssertion, 0, len(v.RelayAssertions))
@@ -226,7 +238,22 @@ func TestRelayGoldenVectors(t *testing.T) {
 				t.Errorf("%s: the ListNodes request digest or caller", vector.ID)
 			}
 		}
+		if vector.GetNodeRequest != "" {
+			full := mustHex(t, vector.GetNodeRequest)
+			request := &fleetv1.FleetServiceGetNodeRequest{}
+			decode(t, full, request)
+			kept := withoutField(t, full, 12)
+			digest := sha256.Sum256(kept)
+			if !bytes.Equal(kept, mustHex(t, vector.GetNodeRequestWithoutAssertion)) || !bytes.Equal(digest[:], assertion.GetRequestSha256()) ||
+				!bytes.Equal(request.GetRelayAssertion(), mustHex(t, vector.Assertion)) || !proto.Equal(request.GetNodeId(), assertion.GetTargetNodeId()) ||
+				request.GetCaller().GetLocalOrigin() != assertion.GetLocalOrigin() {
+				t.Errorf("%s: the GetNode request digest, node or caller", vector.ID)
+			}
+		}
 		assertions = append(assertions, assertion)
+	}
+	if len(assertions) != 3 || assertions[1].GetTargetNodeId() != nil || assertions[2].GetMethod() != relayv1.RoutedMethod_ROUTED_METHOD_GET_NODE {
+		t.Fatal("the submit, ListNodes and GetNode assertions")
 	}
 
 	// The routed call.
@@ -249,8 +276,8 @@ func TestRelayGoldenVectors(t *testing.T) {
 			t.Errorf("a call signature verified under %q", domain)
 		}
 	}
-	if verifyES256(center, signing, mustHex(t, v.RoutedCall.HighS)) {
-		t.Error("a high-S call signature verified")
+	if verifyES256(center, signing, mustHex(t, v.RoutedCall.HighS)) || verifyES256(otherCenter, signing, call.GetHeader().GetSignature()) {
+		t.Error("a high-S call signature, or another center's key, verified")
 	}
 	header := &relayv1.CallHeader{}
 	decode(t, headerBytes, header)
@@ -332,10 +359,21 @@ func TestRelayGoldenVectors(t *testing.T) {
 		t.Error("the hello proof")
 	}
 	if verifyES256(other, signing, hello.GetHelloSignature()) || verifyES256(node, signing[len(helloDomain):], hello.GetHelloSignature()) ||
+		verifyES256(node, concat(resultDomain, signing[len(helloDomain):]), hello.GetHelloSignature()) ||
+		verifyES256(node, concat(originDomain, signing[len(helloDomain):]), hello.GetHelloSignature()) ||
 		verifyES256(node, signing, mustHex(t, v.Hello.HighS)) {
-		t.Error("another installation's key, the bare bytes or a high-S proof verified")
+		t.Error("another installation's key, another domain string, the bare bytes or a high-S proof verified")
 	}
 	if len(hello.GetCapabilities()) != len(v.Hello.Capabilities) || hello.GetCapabilities()[0] != v.Hello.Capabilities[0] {
 		t.Error("the hello capabilities")
+	}
+
+	// A graceful shutdown: close code 4500 with the reconnect hint (RelayClose.reconnect_after_ms = 3).
+	frame = &relayv1.RelayFrame{}
+	decode(t, mustHex(t, v.RelayClose.Frame), frame)
+	closing := frame.GetClose()
+	if closing == nil || closing.GetCode() != v.RelayClose.Code || closing.GetReason() != v.RelayClose.Reason ||
+		closing.ReconnectAfterMs == nil || closing.GetReconnectAfterMs() != v.RelayClose.ReconnectAfterMs {
+		t.Error("the close frame")
 	}
 }

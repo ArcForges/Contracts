@@ -153,7 +153,11 @@
       "csharpType": "ArcForges.Contracts.Relay.V1.RelayClose",
       "fields": {
         "code": {},
-        "reason": {}
+        "reason": {},
+        "reconnectAfterMs": {
+          "min": 0,
+          "max": 300000
+        }
       }
     },
     "arcforges.relay.v1.RelayFrame": {
@@ -287,7 +291,7 @@
       "fields": {
         "maxFrameBytes": {
           "required": true,
-          "min": 65536,
+          "min": 1048576,
           "max": 1048576
         },
         "maxInFlightCalls": {
@@ -469,7 +473,7 @@
         },
         "error": {}
       },
-      "rules": ["resultHeader"]
+      "rules": ["resultHeader", "routedRefusal"]
     },
     "arcforges.relay.v1.ChannelResult": {
       "csharpType": "ArcForges.Contracts.Relay.V1.ChannelResult",

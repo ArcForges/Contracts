@@ -1351,8 +1351,10 @@ AF_CTR_05_CS_RULES = {
         if ((value.UserId is not null) != accountSession || (value.SessionId is not null) != accountSession) return false;
         if ((value.RelayingNodeId is not null) == accountSession || value.HasLocalOrigin == accountSession || (value.LocalSessionId is not null) == accountSession) return false;""",
     # A command ID only for SUBMIT_NODE_TASK (1) and CANCEL_NODE_TASK (6); the relay assertion digest only for a NODE_RELAY caller;
-    # issued_at < expires_at <= issued_at + 300 s and issued_at < deadline <= expires_at (AD-0021 section 10).
+    # the caller's account is the header's; issued_at < expires_at <= issued_at + 300 s and issued_at < deadline <= expires_at
+    # (AD-0021 section 10).
     "callHeader": """if ((value.CommandId is not null) != ((int)value.Method is 1 or 6)) return false;
+        if (!value.Caller.AccountId.Equals(value.AccountId)) return false;
         if (value.HasRelayAssertionSha256 != ((int)value.Caller.Kind == 2)) return false;
         if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 300)) return false;
         if (RelayNanos(value.Deadline) <= RelayNanos(value.IssuedAt) || RelayNanos(value.Deadline) > RelayNanos(value.ExpiresAt)) return false;""",
@@ -1366,6 +1368,8 @@ AF_CTR_05_CS_RULES = {
         var executed = (int)value.Outcome == 1;
         if (value.HasResponseSha256 != executed || value.HasResponseSize != executed || (value.Error is null) != executed) return false;""",
     "channelLimits": "if (value.HeartbeatDeadlineMs <= value.HeartbeatIntervalMs) return false;",
+    # The node's refusal holds closed fields only (relay.proto, "ResultHeader.error, rule routedRefusal"; Plan PN-6).
+    "routedRefusal": "if (value.Error is not null && !RoutedRefusal(value.Error)) return false;",
     # No target for LIST_NODES (7); a command ID only for SUBMIT_NODE_TASK (1) and CANCEL_NODE_TASK (6);
     # issued_at < expires_at <= issued_at + 120 s (Plan addendum D0-B1).
     "relayAssertion": """if ((value.TargetNodeId is null) != ((int)value.Method == 7)) return false;
@@ -1373,12 +1377,25 @@ AF_CTR_05_CS_RULES = {
         if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 120)) return false;""",
 }
 
-AF_CTR_05_WINDOW_RULES = {"callHeader", "relayAssertion"}
+AF_CTR_05_WINDOW_RULES = {"callHeader", "relayAssertion", "routedRefusal"}
 CS_RELAY_HELPERS = r'''
     private static global::System.Int128 RelayNanos(global::ArcForges.Contracts.Foundation.V1.Instant value) =>
         (global::System.Int128)value.UnixSeconds * 1_000_000_000 + value.Nanos;
     private static bool RelayWindow(global::ArcForges.Contracts.Foundation.V1.Instant issued, global::ArcForges.Contracts.Foundation.V1.Instant expires, int seconds) =>
         RelayNanos(expires) > RelayNanos(issued) && RelayNanos(expires) - RelayNanos(issued) <= (global::System.Int128)seconds * 1_000_000_000;
+    private static readonly string[] RefusalCategories = ["", "validation", "authentication", "authorization", "entitlement", "conflict", "state", "resource", "execution", "internal"];
+    private static bool RoutedRefusal(global::ArcForges.Contracts.Foundation.V1.ArcError error)
+    {
+        if (error.CalculateSize() > 512 || !Matches(error.Code, "^[a-z][a-z0-9_]{0,63}$")) return false;
+        var category = (int)error.Category;
+        if (category is < 1 or > 9 || error.MessageKey != "error." + RefusalCategories[category] + "." + error.Code) return false;
+        if (error.Retry.HasReconciliationOperation && error.Retry.ReconciliationOperation != "arcforges.node.v1.ApprovalService/GetApproval") return false;
+        if (error.Details is null) return true;
+        if ((int)error.Details.DetailCase != 4) return false;
+        var state = error.Details.State;
+        if (!Matches(state.State, "^[a-z0-9_.]{1,64}$") || !Matches(state.Reason, "^[a-z0-9_.]{1,64}$") || state.Native is not null) return false;
+        return state.Resource is null || (error.Code == "approval_required" && state.Resource.Kind == "approval");
+    }
 '''
 
 

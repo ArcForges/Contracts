@@ -251,6 +251,13 @@ class ConstraintSidecars(unittest.TestCase):
                 if set(rules) - {"required"}:
                     with self.subTest(message=name, field=field):
                         self.assertTrue(name in C2_BOUNDED_MESSAGES or (name, field) in C2_BOUNDED_FIELDS)
+        # Message-level relationship rules: among the earlier flagship messages only the two relayed reads of AF-CTR-05 part C2
+        # carry one (C-N6); every other rule belongs to a C2 message (review B N-4).
+        ruled = {name for name, value in messages.items() if value.get("rules")}
+        self.assertEqual(ruled - C2_BOUNDED_MESSAGES, {"arcforges.fleet.v1.FleetServiceListNodesRequest",
+                                                       "arcforges.fleet.v1.FleetServiceGetNodeRequest"})
+        self.assertEqual({name: messages[name]["rules"] for name in ruled - C2_BOUNDED_MESSAGES},
+                         {name: ["relayedCaller"] for name in ruled - C2_BOUNDED_MESSAGES})
 
 
 # AF-CTR-05 part C2: the new messages and the new fields of earlier messages whose sidecar entries carry bounds.
@@ -264,7 +271,8 @@ C2_BOUNDED_FIELDS = {("arcforges.relay.v1.NodeHello", "contractVersion"), ("arcf
                      ("arcforges.relay.v1.NodeHello", "helloSignature"), ("arcforges.fleet.v1.FleetNode", "reportedName"),
                      ("arcforges.fleet.v1.FleetServiceListNodesRequest", "relayAssertion"),
                      ("arcforges.fleet.v1.FleetServiceGetNodeRequest", "relayAssertion"),
-                     ("arcforges.node.v1.TaskServiceReadTaskOutputRequest", "waitMs")}
+                     ("arcforges.node.v1.TaskServiceReadTaskOutputRequest", "waitMs"),
+                     ("arcforges.relay.v1.RelayClose", "reconnectAfterMs")}
 C2_REQUIRED = 81  # the required flags of the C2 messages and fields (212 in all)
 
 

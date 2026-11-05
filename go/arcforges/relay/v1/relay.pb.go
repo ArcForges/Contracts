@@ -740,6 +740,9 @@ func (x *EventBatch) GetEvents() []*PushEvent {
 	return nil
 }
 
+// On the AF-CTR-05 node channel, TokenRefresh carries an access token of the same session family that opened the connection; a
+// token of another node or another installation closes 4403, so the connection's installation key (the key of results and of
+// relay assertions) never changes during the connection (review A N-5).
 type TokenRefresh struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Token         *string                `protobuf:"bytes,1,opt,name=token,proto3,oneof" json:"token,omitempty"`
@@ -835,10 +838,11 @@ type RelayClose struct {
 	// failed hello proof, an unverifiable result); 4408 hello or heartbeat deadline; 4409 replaced by a newer proved connection of
 	// the node; 4413 frame too large; 4429 rate limited; 4500 center shutting down (reconnect after a jittered delay); 4503 kill
 	// switch (reserved, AF-CLD-04). A node treats an abnormal close (1006, 1011) like 4500.
-	Code          *uint32 `protobuf:"varint,1,opt,name=code,proto3,oneof" json:"code,omitempty"` // 4401 token expired, 4403 refused, 4408 idle, 4429 rate limited, 4503 kill switch
-	Reason        *string `protobuf:"bytes,2,opt,name=reason,proto3,oneof" json:"reason,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Code             *uint32 `protobuf:"varint,1,opt,name=code,proto3,oneof" json:"code,omitempty"` // 4401 token expired, 4403 refused, 4408 idle, 4429 rate limited, 4503 kill switch
+	Reason           *string `protobuf:"bytes,2,opt,name=reason,proto3,oneof" json:"reason,omitempty"`
+	ReconnectAfterMs *uint32 `protobuf:"varint,3,opt,name=reconnect_after_ms,json=reconnectAfterMs,proto3,oneof" json:"reconnect_after_ms,omitempty"` // validate: 0..300,000; meaningful with code 4500 only: the jittered delay the center asks the node to wait before it reconnects (Plan CTR5-HUB-11); absent or with another code, the node uses its own backoff
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *RelayClose) Reset() {
@@ -883,6 +887,13 @@ func (x *RelayClose) GetReason() string {
 		return *x.Reason
 	}
 	return ""
+}
+
+func (x *RelayClose) GetReconnectAfterMs() uint32 {
+	if x != nil && x.ReconnectAfterMs != nil {
+		return *x.ReconnectAfterMs
+	}
+	return 0
 }
 
 type RelayAck struct {
@@ -1456,7 +1467,7 @@ func (x *ChannelChallenge) GetHelloDeadline() *v1.Instant {
 // The center's limits for one connection (Plan CTR5-HUB-03, CTR5-HUB-10).
 type ChannelLimits struct {
 	state               protoimpl.MessageState `protogen:"open.v1"`
-	MaxFrameBytes       *uint32                `protobuf:"varint,1,opt,name=max_frame_bytes,json=maxFrameBytes,proto3,oneof" json:"max_frame_bytes,omitempty"`                   // validate: required; 65,536..1,048,576 (default 1 MiB); a larger frame closes 4413
+	MaxFrameBytes       *uint32                `protobuf:"varint,1,opt,name=max_frame_bytes,json=maxFrameBytes,proto3,oneof" json:"max_frame_bytes,omitempty"`                   // validate: required; exactly 1,048,576 (1 MiB, Plan CTR5-HUB-03), so the largest call (253,952-byte payload) and result (1,040,384-byte payload) frames always fit; a larger frame closes 4413
 	MaxInFlightCalls    *uint32                `protobuf:"varint,2,opt,name=max_in_flight_calls,json=maxInFlightCalls,proto3,oneof" json:"max_in_flight_calls,omitempty"`        // validate: required; 1..64 (default 8)
 	HeartbeatIntervalMs *uint32                `protobuf:"varint,3,opt,name=heartbeat_interval_ms,json=heartbeatIntervalMs,proto3,oneof" json:"heartbeat_interval_ms,omitempty"` // validate: required; 5,000..60,000 (default 25 s)
 	HeartbeatDeadlineMs *uint32                `protobuf:"varint,4,opt,name=heartbeat_deadline_ms,json=heartbeatDeadlineMs,proto3,oneof" json:"heartbeat_deadline_ms,omitempty"` // validate: required; 10,000..300,000 and above heartbeat_interval_ms (default 60 s); silence that long closes 4408
@@ -1743,7 +1754,7 @@ type CallHeader struct {
 	IssuedAt             *v1.Instant            `protobuf:"bytes,11,opt,name=issued_at,json=issuedAt,proto3" json:"issued_at,omitempty"`                                             // validate: required
 	ExpiresAt            *v1.Instant            `protobuf:"bytes,12,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`                                          // validate: required; issued_at < expires_at <= issued_at + 300 s (AD-0021 section 10)
 	Deadline             *v1.Instant            `protobuf:"bytes,13,opt,name=deadline,proto3" json:"deadline,omitempty"`                                                             // validate: required; issued_at < deadline <= expires_at; when the center stops waiting for the result
-	RelayAssertionSha256 []byte                 `protobuf:"bytes,14,opt,name=relay_assertion_sha256,json=relayAssertionSha256,proto3,oneof" json:"relay_assertion_sha256,omitempty"` // validate: required for a NODE_RELAY caller, absent otherwise; 32 bytes: SHA-256 of the relay_assertion bytes the routed request carried
+	RelayAssertionSha256 []byte                 `protobuf:"bytes,14,opt,name=relay_assertion_sha256,json=relayAssertionSha256,proto3,oneof" json:"relay_assertion_sha256,omitempty"` // validate: required for a NODE_RELAY caller, absent otherwise; 32 bytes: SHA-256 of the relay_assertion bytes the routed request carried; the target never receives the assertion and cannot check this digest: it links the call to the center's audit and log, and the target relies on caller.relaying_node_id, which the center signed (review A N-8)
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -1953,7 +1964,7 @@ type ResultHeader struct {
 	ResponseSize   *uint32                `protobuf:"varint,7,opt,name=response_size,json=responseSize,proto3,oneof" json:"response_size,omitempty"`         // validate: required for EXECUTED, absent otherwise; 1..1,040,384; the payload's length
 	ExecutedAt     *v1.Instant            `protobuf:"bytes,8,opt,name=executed_at,json=executedAt,proto3" json:"executed_at,omitempty"`                      // validate: required; when the node decided
 	Outcome        *RoutedOutcome         `protobuf:"varint,9,opt,name=outcome,proto3,enum=arcforges.relay.v1.RoutedOutcome,oneof" json:"outcome,omitempty"` // validate: required
-	Error          *v1.ArcError           `protobuf:"bytes,10,opt,name=error,proto3" json:"error,omitempty"`                                                 // validate: required unless EXECUTED, absent then; the node's refusal: category, code, retry, effect and the state reason only, never a message or details beyond them (Plan PN-6)
+	Error          *v1.ArcError           `protobuf:"bytes,10,opt,name=error,proto3" json:"error,omitempty"`                                                 // validate: required unless EXECUTED, absent then; the node's refusal as closed fields only (rule routedRefusal, below)
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -2059,7 +2070,8 @@ func (x *ResultHeader) GetError() *v1.ArcError {
 }
 
 // A routed result, node -> center. For EXECUTED, payload is the exact node.v1 TaskService response bytes, which the center
-// forwards unchanged as the routed value's response; otherwise payload is empty and the center answers with ResultHeader.error.
+// forwards unchanged as the routed value's response; otherwise payload is empty and the center answers with an ArcError that it
+// rebuilds from the closed fields of ResultHeader.error (rule routedRefusal), never with the node's error bytes.
 type ChannelResult struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CallId        *v1.Id                 `protobuf:"bytes,1,opt,name=call_id,json=callId,proto3" json:"call_id,omitempty"` // validate: required; equals ResultHeader.call_id
@@ -2241,7 +2253,10 @@ func (x *RelayNonce) GetExpiresAt() *v1.Instant {
 // only from a verified assertion.
 // request_sha256: for the six routed task methods, SHA-256 of the exact node.v1 request bytes of the routed request's request
 // field (the call header's request_sha256); for LIST_NODES and GET_NODE, SHA-256 of the routed request's top-level fields as
-// transmitted, in wire order and byte for byte, with every occurrence of the relay_assertion field left out.
+// transmitted, in wire order and byte for byte, with every occurrence of the relay_assertion field left out. That digest is
+// defined over the binary protobuf encoding only: a node-relayed ListNodes or GetNode uses the binary codec (gRPC or binary
+// gRPC-Web), the digest covers the message bytes after any transport decompression, and the center digests those received
+// bytes, never a re-encoding of a decoded message; a relayed read in a JSON encoding is refused (request_mismatch) (review A N-1).
 type RelayAssertion struct {
 	state                  protoimpl.MessageState `protogen:"open.v1"`
 	RelayingNodeId         *v1.Id                 `protobuf:"bytes,1,opt,name=relaying_node_id,json=relayingNodeId,proto3" json:"relaying_node_id,omitempty"`                           // validate: required
@@ -3476,13 +3491,15 @@ const file_arcforges_relay_v1_relay_proto_rawDesc = "" +
 	"\x06_token\"b\n" +
 	"\x12EntitlementChanged\x124\n" +
 	"\x13entitlement_version\x18\x01 \x01(\x03H\x00R\x12entitlementVersion\x88\x01\x01B\x16\n" +
-	"\x14_entitlement_version\"V\n" +
+	"\x14_entitlement_version\"\xa0\x01\n" +
 	"\n" +
 	"RelayClose\x12\x17\n" +
 	"\x04code\x18\x01 \x01(\rH\x00R\x04code\x88\x01\x01\x12\x1b\n" +
-	"\x06reason\x18\x02 \x01(\tH\x01R\x06reason\x88\x01\x01B\a\n" +
+	"\x06reason\x18\x02 \x01(\tH\x01R\x06reason\x88\x01\x01\x121\n" +
+	"\x12reconnect_after_ms\x18\x03 \x01(\rH\x02R\x10reconnectAfterMs\x88\x01\x01B\a\n" +
 	"\x05_codeB\t\n" +
-	"\a_reason\"@\n" +
+	"\a_reasonB\x15\n" +
+	"\x13_reconnect_after_ms\"@\n" +
 	"\bRelayAck\x12$\n" +
 	"\vthrough_seq\x18\x01 \x01(\x04H\x00R\n" +
 	"throughSeq\x88\x01\x01B\x0e\n" +

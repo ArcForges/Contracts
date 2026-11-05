@@ -224,7 +224,7 @@ type TaskServiceClient interface {
 	// local SCRIPT caller only while ARCFORGES_TEST_ALLOW_LOCAL_SCRIPT_SUBMIT=1 is set, and never an AGENT caller. A local submission
 	// is a diagnostic one (ManagedTask.local_diagnostic). The HUMAN, SCRIPT and AGENT cells apply to the local origin of a
 	// center-routed caller (FleetService.SubmitNodeTask; Design 11 section 1), whose REMOTE cell the center-routed policy decides.
-	// auth: HUMAN=A SCRIPT=A AGENT=A (allowed_command_patterns) REMOTE=high (center-routed policy decides); local: HUMAN only (AD-0021 section 5)
+	// auth: routed local origin: HUMAN=A SCRIPT=A AGENT=A (allowed_command_patterns) REMOTE=high (center-routed policy decides); local: HUMAN only (AD-0021 section 5)
 	// idempotency: command_id; 24 h; same payload digest required
 	// deadline: 10 s
 	// stream: none
@@ -355,6 +355,7 @@ type TaskServiceClient interface {
 	// Read captured output bytes with their index records. With wait_ms, a read that finds no byte past from_offset of an attempt
 	// that has not finished waits up to wait_ms for new output or the attempt's end (Plan decision Q17). A center-routed caller
 	// (FleetService.ReadNodeTaskOutput) reads its own tasks' output, others' only while the privacy policy remote_output_tail is true.
+	// For a REMOTE caller the node itself caps max_bytes at 262,144 and wait_ms at 20,000, whatever the center checked (review A N-7).
 	// auth: HUMAN=A SCRIPT=A AGENT=A (own session) REMOTE=low (center-routed policy decides; privacy policy for others' tasks)
 	// idempotency: read
 	// deadline: 10 s; wait_ms + 10 s with wait_ms
@@ -451,7 +452,7 @@ type TaskServiceHandler interface {
 	// local SCRIPT caller only while ARCFORGES_TEST_ALLOW_LOCAL_SCRIPT_SUBMIT=1 is set, and never an AGENT caller. A local submission
 	// is a diagnostic one (ManagedTask.local_diagnostic). The HUMAN, SCRIPT and AGENT cells apply to the local origin of a
 	// center-routed caller (FleetService.SubmitNodeTask; Design 11 section 1), whose REMOTE cell the center-routed policy decides.
-	// auth: HUMAN=A SCRIPT=A AGENT=A (allowed_command_patterns) REMOTE=high (center-routed policy decides); local: HUMAN only (AD-0021 section 5)
+	// auth: routed local origin: HUMAN=A SCRIPT=A AGENT=A (allowed_command_patterns) REMOTE=high (center-routed policy decides); local: HUMAN only (AD-0021 section 5)
 	// idempotency: command_id; 24 h; same payload digest required
 	// deadline: 10 s
 	// stream: none
@@ -582,6 +583,7 @@ type TaskServiceHandler interface {
 	// Read captured output bytes with their index records. With wait_ms, a read that finds no byte past from_offset of an attempt
 	// that has not finished waits up to wait_ms for new output or the attempt's end (Plan decision Q17). A center-routed caller
 	// (FleetService.ReadNodeTaskOutput) reads its own tasks' output, others' only while the privacy policy remote_output_tail is true.
+	// For a REMOTE caller the node itself caps max_bytes at 262,144 and wait_ms at 20,000, whatever the center checked (review A N-7).
 	// auth: HUMAN=A SCRIPT=A AGENT=A (own session) REMOTE=low (center-routed policy decides; privacy policy for others' tasks)
 	// idempotency: read
 	// deadline: 10 s; wait_ms + 10 s with wait_ms

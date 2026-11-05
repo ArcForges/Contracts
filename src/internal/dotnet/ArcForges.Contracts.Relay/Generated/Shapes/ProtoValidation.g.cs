@@ -1024,6 +1024,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertionSha256.Length != 32) return false;
         }
         if ((value.CommandId is not null) != ((int)value.Method is 1 or 6)) return false;
+        if (!value.Caller.AccountId.Equals(value.AccountId)) return false;
         if (value.HasRelayAssertionSha256 != ((int)value.Caller.Kind == 2)) return false;
         if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 300)) return false;
         if (RelayNanos(value.Deadline) <= RelayNanos(value.IssuedAt) || RelayNanos(value.Deadline) > RelayNanos(value.ExpiresAt)) return false;
@@ -1129,7 +1130,7 @@ public static class ContractShapeValidation
         if (!value.HasMaxFrameBytes) return false;
         if (value.HasMaxFrameBytes)
         {
-            if (value.MaxFrameBytes < 65536) return false;
+            if (value.MaxFrameBytes < 1048576) return false;
             if (value.MaxFrameBytes > 1048576) return false;
         }
         if (!value.HasMaxInFlightCalls) return false;
@@ -1627,6 +1628,11 @@ public static class ContractShapeValidation
         {
             if (!ValidUnicode(value.Reason)) return false;
         }
+        if (value.HasReconnectAfterMs)
+        {
+            if (value.ReconnectAfterMs < 0) return false;
+            if (value.ReconnectAfterMs > 300000) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -1880,6 +1886,7 @@ public static class ContractShapeValidation
         if (value.HasMethod != verified || value.HasRequestSha256 != verified || (!verified && value.CommandId is not null)) return false;
         var executed = (int)value.Outcome == 1;
         if (value.HasResponseSha256 != executed || value.HasResponseSize != executed || (value.Error is null) != executed) return false;
+        if (value.Error is not null && !RoutedRefusal(value.Error)) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2209,5 +2216,18 @@ public static class ContractShapeValidation
         (global::System.Int128)value.UnixSeconds * 1_000_000_000 + value.Nanos;
     private static bool RelayWindow(global::ArcForges.Contracts.Foundation.V1.Instant issued, global::ArcForges.Contracts.Foundation.V1.Instant expires, int seconds) =>
         RelayNanos(expires) > RelayNanos(issued) && RelayNanos(expires) - RelayNanos(issued) <= (global::System.Int128)seconds * 1_000_000_000;
+    private static readonly string[] RefusalCategories = ["", "validation", "authentication", "authorization", "entitlement", "conflict", "state", "resource", "execution", "internal"];
+    private static bool RoutedRefusal(global::ArcForges.Contracts.Foundation.V1.ArcError error)
+    {
+        if (error.CalculateSize() > 512 || !Matches(error.Code, "^[a-z][a-z0-9_]{0,63}$")) return false;
+        var category = (int)error.Category;
+        if (category is < 1 or > 9 || error.MessageKey != "error." + RefusalCategories[category] + "." + error.Code) return false;
+        if (error.Retry.HasReconciliationOperation && error.Retry.ReconciliationOperation != "arcforges.node.v1.ApprovalService/GetApproval") return false;
+        if (error.Details is null) return true;
+        if ((int)error.Details.DetailCase != 4) return false;
+        var state = error.Details.State;
+        if (!Matches(state.State, "^[a-z0-9_.]{1,64}$") || !Matches(state.Reason, "^[a-z0-9_.]{1,64}$") || state.Native is not null) return false;
+        return state.Resource is null || (error.Code == "approval_required" && state.Resource.Kind == "approval");
+    }
 
 }

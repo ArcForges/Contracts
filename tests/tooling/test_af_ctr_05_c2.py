@@ -42,6 +42,7 @@ FIELDS = {
                             "demand": 14, "command": 15, "command_result": 16, "events": 17, "token_refresh": 18,
                             "entitlement_changed": 19, "close": 20, "ack": 21, "output_tail": 22, "call": 23, "call_result": 24,
                             "heartbeat": 25, "accepted": 26, "challenge": 27, "relay_nonce_request": 28, "relay_nonce": 29},
+    (RELAY, "RelayClose"): {"code": 1, "reason": 2, "reconnect_after_ms": 3},
     (RELAY, "ChannelChallenge"): {"nonce": 1, "connection_id": 2, "hello_deadline": 3},
     (RELAY, "ChannelLimits"): {"max_frame_bytes": 1, "max_in_flight_calls": 2, "heartbeat_interval_ms": 3, "heartbeat_deadline_ms": 4,
                                "max_relay_nonces": 5},
@@ -113,6 +114,15 @@ def load(relative):
 def comments(relative):
     """The file's text with the comment markers removed and the whitespace collapsed, so a phrase may cross a line break."""
     return " ".join(" ".join(line.strip().lstrip("/") for line in text(relative).splitlines()).split())
+
+
+def varint(value):
+    out = bytearray()
+    while True:
+        out.append(value & 0x7F | (0x80 if value > 0x7F else 0))
+        value >>= 7
+        if not value:
+            return bytes(out)
 
 
 def contains(case, haystack, phrase):
@@ -232,6 +242,14 @@ class DomainStrings(unittest.TestCase):
                 self.assertEqual(len(expected), 228)
                 self.assertEqual(bytes.fromhex(vector["signingInput"]), expected)
                 self.assertLessEqual(vector["expiresAt"][0] - vector["issuedAt"][0], 120)
+        # ListNodes drops field 11 and GetNode field 12; the rest is the request as transmitted (review A N-1).
+        for vector, field in ((fixture["relayAssertions"][1], 11), (fixture["relayAssertions"][2], 12)):
+            without = bytes.fromhex(vector.get("listNodesRequestWithoutAssertion") or vector["getNodeRequestWithoutAssertion"])
+            full = bytes.fromhex(vector.get("listNodesRequest") or vector["getNodeRequest"])
+            assertion = bytes.fromhex(vector["assertion"])
+            self.assertEqual(full, without + bytes([field << 3 | 2]) + varint(len(assertion)) + assertion)
+            self.assertEqual(hashlib.sha256(without).hexdigest(), vector["requestSha256"])
+        self.assertEqual([v["method"] for v in fixture["relayAssertions"]], [1, 7, 8])
         hello = fixture["hello"]
         expected = (DOMAINS["hello"].encode() + bytes.fromhex(hello["nonce"]) + bytes.fromhex(ids["connection"]) + audience
                     + bytes.fromhex(ids["node"]) + bytes.fromhex(ids["installation"]))
@@ -246,7 +264,7 @@ class DomainStrings(unittest.TestCase):
         raw = text(VECTORS)
         for word in ("PRIVATE", "private", "scalar", "seed"):
             self.assertNotIn(word, raw.replace("only their public halves are recorded", ""))
-        for name in ("center", "node", "otherInstallation"):
+        for name in ("center", "node", "otherInstallation", "otherCenter"):
             self.assertTrue(load(VECTORS)["keys"][name]["spki"].startswith("3059301306072a8648ce3d020106082a8648ce3d030107034200"))
 
 
@@ -258,7 +276,7 @@ class Validators(unittest.TestCase):
         relay, fleet, node = self.sidecar("internal"), self.sidecar("public"), self.sidecar("public")
         expected = {
             ("internal", "arcforges.relay.v1.CallHeader"): ["callHeader"],
-            ("internal", "arcforges.relay.v1.ResultHeader"): ["resultHeader"],
+            ("internal", "arcforges.relay.v1.ResultHeader"): ["resultHeader", "routedRefusal"],
             ("internal", "arcforges.relay.v1.ChannelCall"): ["channelCall"],
             ("internal", "arcforges.relay.v1.ChannelResult"): ["channelResult"],
             ("internal", "arcforges.relay.v1.ChannelLimits"): ["channelLimits"],
@@ -276,6 +294,15 @@ class Validators(unittest.TestCase):
         self.assertEqual(relay_cs.count("if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 300)) return false;"), 1)
         self.assertEqual(relay_cs.count("if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 120)) return false;"), 1)
         self.assertNotRegex(relay_cs, r"RelayWindow\(value\.IssuedAt, value\.ExpiresAt, (?!300\)|120\))\d+\)")
+        # The refusal of a routed call is closed (Plan PN-6; review A B-1).
+        self.assertEqual(relay_cs.count("if (value.Error is not null && !RoutedRefusal(value.Error)) return false;"), 1)
+        for phrase in ('if (error.CalculateSize() > 512 || !Matches(error.Code, "^[a-z][a-z0-9_]{0,63}$")) return false;',
+                       'error.MessageKey != "error." + RefusalCategories[category] + "." + error.Code',
+                       'if ((int)error.Details.DetailCase != 4) return false;',
+                       '!Matches(state.State, "^[a-z0-9_.]{1,64}$") || !Matches(state.Reason, "^[a-z0-9_.]{1,64}$") || state.Native is not null',
+                       'return state.Resource is null || (error.Code == "approval_required" && state.Resource.Kind == "approval");',
+                       'if (!value.Caller.AccountId.Equals(value.AccountId)) return false;'):
+            contains(self, relay_cs, phrase)
         fleet_cs = text("src/public/dotnet/ArcForges.Contracts.Fleet/Generated/Shapes/ProtoValidation.g.cs")
         self.assertEqual(fleet_cs.count("if ((value.Caller is null) == value.HasRelayAssertion) return false;"), 8)
 
@@ -290,7 +317,10 @@ class Validators(unittest.TestCase):
         for message, field in (("SignedHeader", "signature"), ("RelayAssertion", "signature"), ("NodeHello", "helloSignature")):
             self.assertEqual(relay["arcforges.relay.v1." + message]["fields"][field], {"required": True, "bytesLength": 64}, (message, field))
         self.assertEqual(relay["arcforges.relay.v1.SignedHeader"]["fields"]["header"], {"required": True, "minLength": 1, "maxLength": 2048})
-        self.assertEqual(relay["arcforges.relay.v1.ChannelLimits"]["fields"]["maxFrameBytes"], {"required": True, "min": 65536, "max": 1048576})
+        # Pinned at 1 MiB (Plan CTR5-HUB-03; review A N-2, B N-2), so the largest call and result frames always fit.
+        self.assertEqual(relay["arcforges.relay.v1.ChannelLimits"]["fields"]["maxFrameBytes"], {"required": True, "min": 1048576, "max": 1048576})
+        self.assertLessEqual(BOUNDS["SubmitNodeTask"] + 2048 + 512, 1048576)
+        self.assertLessEqual(1040384 + 2048 + 512, 1048576)
         for name, bound in BOUNDS.items():
             fields = public[f"arcforges.fleet.v1.FleetService{name}Request"]["fields"]
             self.assertEqual(fields["request"], {"required": True, "minLength": 1, "maxLength": bound}, name)
@@ -301,6 +331,9 @@ class Validators(unittest.TestCase):
         # The Submit envelope fits the center's AbsoluteMaxRequestBytes (262,144) with room for meta, caller and assertion (PN-9).
         self.assertLessEqual(BOUNDS["SubmitNodeTask"] + 512 + 4096, 262144)
         self.assertEqual(public["arcforges.node.v1.TaskServiceReadTaskOutputRequest"]["fields"]["waitMs"], {"min": 0, "max": 20000})
+        # The graceful-shutdown reconnect hint (CTR5-HUB-11, close code 4500): optional, 0..300,000.
+        self.assertEqual(relay["arcforges.relay.v1.RelayClose"]["fields"], {"code": {}, "reason": {}, "reconnectAfterMs": {"min": 0, "max": 300000}})
+        contains(self, comments(RELAY), "reconnect_after_ms = 3 [json_name = \"reconnectAfterMs\"]; // validate: 0..300,000; meaningful with code 4500 only")
 
 
 class Annotations(unittest.TestCase):

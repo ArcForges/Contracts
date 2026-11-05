@@ -38,6 +38,7 @@ internal static class NodeChannelCases
         RoutedResult(fixture);
         Hello(fixture);
         RelayNonces(fixture);
+        RelayCloses(fixture);
         FieldNumbers();
         Validators(fixture);
         Console.WriteLine("Validated the AF-CTR-05 C2 golden vectors, signatures, field numbers and validator vectors.");
@@ -85,6 +86,7 @@ internal static class NodeChannelCases
             Require(!Verify(node, signing[OriginDomain.Length..], signature), id + ": a signature over the bare fields is refused");
             Require(!Verify(node, [.. CallDomain, .. signing[OriginDomain.Length..]], signature), id + ": the signature is not valid under another domain string");
             Require(!Verify(node, Hex(vector, "signingInput"), Hex(vector, "highSSignature")), id + ": a high-S signature is refused");
+            Require(!Verify(Key(fixture, "otherInstallation"), signing, signature), id + ": another installation's key does not verify the assertion");
             if (vector.TryGetProperty("listNodesRequest", out var listed))
             {
                 var request = FleetServiceListNodesRequest.Parser.ParseFrom(Convert.FromHexString(listed.GetString()!));
@@ -95,9 +97,21 @@ internal static class NodeChannelCases
                 Require(request.Caller.Kind == CallerKind.NodeRelay && request.Caller.LocalOrigin == assertion.LocalOrigin
                     && request.Caller.RelayingNodeId.Equals(assertion.RelayingNodeId), id + ": the caller equals the assertion's");
             }
+            if (vector.TryGetProperty("getNodeRequest", out var got))
+            {
+                var full = Convert.FromHexString(got.GetString()!);
+                var request = FleetServiceGetNodeRequest.Parser.ParseFrom(full);
+                Require(request.RelayAssertion.ToByteArray().SequenceEqual(bytes) && FleetShapes.IsValid(request), id + ": the GetNode request carries it");
+                var kept = WithoutField(full, 12);
+                Require(kept.SequenceEqual(Hex(vector, "getNodeRequestWithoutAssertion")), id + ": the GetNode request without its relay_assertion field (12)");
+                Require(SHA256.HashData(kept).SequenceEqual(assertion.RequestSha256.ToByteArray()), id + ": request_sha256 of a GetNode request");
+                Require(request.NodeId.Equals(assertion.TargetNodeId) && request.Caller.LocalOrigin == assertion.LocalOrigin
+                    && request.Caller.RelayingNodeId.Equals(assertion.RelayingNodeId), id + ": node_id and caller equal the assertion's");
+            }
             result.Add(assertion);
         }
-        Require(result.Count == 2 && result[1].TargetNodeId is null && result[1].CommandId is null, "the ListNodes assertion names no target and no command");
+        Require(result.Count == 3 && result[1].TargetNodeId is null && result[1].CommandId is null, "the ListNodes assertion names no target and no command");
+        Require(result[2].Method == RoutedMethod.GetNode && result[2].TargetNodeId is not null && result[2].CommandId is null, "the GetNode assertion names its target and no command");
         return result;
     }
 
@@ -121,6 +135,7 @@ internal static class NodeChannelCases
         foreach (var other in new[] { ResultDomain, HelloDomain, OriginDomain })
             Require(!Verify(center, [.. other, .. header], signature), "a call signature is not valid under another domain string");
         Require(!Verify(center, signing, Hex(vector, "highSSignature")), "a high-S call signature is refused");
+        Require(!Verify(Key(fixture, "otherCenter"), signing, signature), "another center's command key does not verify the call");
         var flipped = (byte[])header.Clone();
         flipped[^1] ^= 1;
         Require(!Verify(center, [.. CallDomain, .. flipped], signature), "a flipped header byte is refused");
@@ -216,10 +231,25 @@ internal static class NodeChannelCases
         Require(nonce.RelayNonce.RequestId.Equals(request.RelayNonceRequest.RequestId) && nonce.RelayNonce.Nonce.ToByteArray().SequenceEqual(Hex(vector, "nonce")), "the nonce answers its request");
     }
 
+    private static void RelayCloses(JsonElement fixture)
+    {
+        // A graceful shutdown (CTR5-HUB-11): close code 4500 with the reconnect hint, RelayFrame member 20.
+        var vector = fixture.GetProperty("relayClose");
+        var bytes = Hex(vector, "frame");
+        var frame = RelayFrame.Parser.ParseFrom(bytes);
+        Require(frame.FrameCase == RelayFrame.FrameOneofCase.Close && frame.ToByteArray().SequenceEqual(bytes) && RelayShapes.IsValid(frame), "the close frame");
+        Require(frame.Close.Code == vector.GetProperty("code").GetUInt32() && frame.Close.Reason == vector.GetProperty("reason").GetString()
+            && frame.Close.ReconnectAfterMs == vector.GetProperty("reconnectAfterMs").GetUInt32(), "code 4500, reason and reconnect_after_ms");
+        Require(RelayShapes.IsValid(Change(frame.Close, c => c.ReconnectAfterMs = 300_000)) && RelayShapes.IsValid(Change(frame.Close, c => c.ReconnectAfterMs = 0))
+            && !RelayShapes.IsValid(Change(frame.Close, c => c.ReconnectAfterMs = 300_001)) && RelayShapes.IsValid(Change(frame.Close, c => c.ClearReconnectAfterMs())),
+            "reconnect_after_ms is optional, 0..300,000");
+    }
+
     private static void FieldNumbers()
     {
         Number(RelayFrame.Descriptor, ("call", 23), ("call_result", 24), ("heartbeat", 25), ("accepted", 26), ("challenge", 27), ("relay_nonce_request", 28), ("relay_nonce", 29),
             ("command", 15), ("command_result", 16), ("node_hello", 10));
+        Number(RelayClose.Descriptor, ("code", 1), ("reason", 2), ("reconnect_after_ms", 3));
         Number(NodeHello.Descriptor, ("contract_version", 5), ("capabilities", 6), ("installation_id", 7), ("hello_signature", 8));
         Number(CallHeader.Descriptor, ("call_id", 1), ("kid", 2), ("center_url_sha256", 3), ("account_id", 4), ("target_node_id", 5), ("caller", 6), ("command_id", 7),
             ("method", 8), ("request_sha256", 9), ("request_size", 10), ("issued_at", 11), ("expires_at", 12), ("deadline", 13), ("relay_assertion_sha256", 14));
@@ -287,6 +317,7 @@ internal static class NodeChannelCases
         Invalid(call, c => c.Deadline = At(c.ExpiresAt, 0, 1), "a deadline after expires_at");
         Invalid(call, c => c.Deadline = At(c.IssuedAt, 0, 0), "a deadline at issued_at");
         Invalid(call, c => c.ClearRelayAssertionSha256(), "a NODE_RELAY call without the assertion digest");
+        Invalid(call, c => c.Caller.AccountId = c.TargetNodeId, "a caller of another account than the header's");
         var session = new CenterCaller { Kind = CenterCallerKind.AccountSession, AccountId = call.AccountId, UserId = call.CallId, SessionId = call.TargetNodeId };
         Require(NodeShapes.IsValid(session), "an account-session caller");
         Valid(call, c => { c.Caller = session; c.ClearRelayAssertionSha256(); }, "an account-session call without an assertion digest");
@@ -322,6 +353,7 @@ internal static class NodeChannelCases
             "a verification refusal echoes nothing it could not verify");
         Invalid(result, r => { r.Outcome = RoutedOutcome.RefusedVerification; r.ClearResponseSha256(); r.ClearResponseSize(); r.Error = refusal; }, "a verification refusal echoing the method");
         Invalid(result, r => { r.Outcome = RoutedOutcome.Expired; r.ClearResponseSha256(); r.ClearResponseSize(); r.Error = refusal; r.ClearMethod(); }, "an expired result without method");
+        RoutedRefusals(result, refusal);
 
         var frame = RelayFrame.Parser.ParseFrom(Hex(fixture.GetProperty("routedCall"), "frame")).Call;
         Invalid(frame, c => c.Header.ClearKid(), "a call without kid");
@@ -356,6 +388,8 @@ internal static class NodeChannelCases
         Require(RelayShapes.IsValid(accepted), "a channel acceptance with the default limits");
         Invalid(accepted, a => a.Limits.MaxFrameBytes = 1_048_577, "a frame bound above 1 MiB");
         Invalid(accepted, a => a.Limits.MaxFrameBytes = 65_535, "a frame bound below 64 KiB");
+        Invalid(accepted, a => a.Limits.MaxFrameBytes = 1_048_575, "a frame bound below 1 MiB (the bound is pinned)");
+        Invalid(accepted, a => a.Limits.MaxFrameBytes = 65_536, "a frame bound of 64 KiB (the bound is pinned)");
         Invalid(accepted, a => a.Limits.HeartbeatDeadlineMs = 25_000, "a heartbeat deadline not above the interval");
         Invalid(accepted, a => a.Limits.MaxInFlightCalls = 0, "no in-flight call");
         Invalid(accepted, a => a.Limits.MaxRelayNonces = 65, "65 relay nonces");
@@ -419,6 +453,42 @@ internal static class NodeChannelCases
             && !NodeShapes.IsValid(new CenterRoutedPolicy { RelayedFrom = (RelayedFrom)3 }), "the center-routed policy");
         Require(NodeShapes.IsValid(new PolicyDocument { CenterRouted = new CenterRoutedPolicy { RelayedFrom = RelayedFrom.OwnNode } }), "PolicyDocument.center_routed");
         Require(NodeShapes.IsValid(new ManagedTask { LocalDiagnostic = true }), "ManagedTask.local_diagnostic");
+    }
+
+    // ResultHeader.error holds closed fields only (rule routedRefusal; Plan PN-6; review A B-1): free text, other details, a
+    // resource other than an approval of approval_required and a message key other than the catalogue's are refused.
+    private static void RoutedRefusals(ResultHeader result, ArcError refusal)
+    {
+        var policy = Change(result, r => { r.Outcome = RoutedOutcome.RefusedByPolicy; r.ClearResponseSha256(); r.ClearResponseSize(); r.Error = refusal; });
+        StateFailure State(string state, string reason) => new() { State = state, Reason = reason };
+        void Refusal(Action<ArcError> change, bool valid, string name) =>
+            Require(RelayShapes.IsValid(Change(policy, r => change(r.Error))) == valid, name + (valid ? " is valid" : " is refused"));
+        Refusal(e => { }, true, "a refusal without details");
+        Refusal(e => e.Details = new ErrorDetails { State = State("task.submit", "relay_own_node_only") }, true, "a refusal with a closed state");
+        Refusal(e => e.Details = new ErrorDetails { State = State("task.submit", "/home/u/.ssh/id_ed25519: permission denied") }, false, "a path-like reason");
+        Refusal(e => e.Details = new ErrorDetails { State = State("task.submit", "Relay_own_node_only") }, false, "a reason outside the closed pattern");
+        Refusal(e => e.Details = new ErrorDetails { State = State("task submit", "relay_own_node_only") }, false, "a state outside the closed pattern");
+        Refusal(e => e.Details = new ErrorDetails { State = State("task.submit", new string('a', 65)) }, false, "a reason of 65 characters");
+        Refusal(e => e.Details = new ErrorDetails { Limit = new LimitFailure { LimitName = "routed_calls_per_account" } }, false, "details.limit");
+        Refusal(e => e.Details = new ErrorDetails { Revision = new RevisionConflict() }, false, "details.revision");
+        Refusal(e => e.Details = new ErrorDetails { Upgrade = new VersionFailure { MinReadable = "1.0.0", MinWritable = "1.0.0", Received = "0.9.0" } }, false, "details.upgrade");
+        Refusal(e => { var s = State("task.submit", "relay_own_node_only"); s.Resource = new AggregateRef { Kind = "task", Id = refusal.CorrelationId }; e.Details = new ErrorDetails { State = s }; },
+            false, "state.resource on a permission refusal");
+        Refusal(e => { var s = State("task.submit", "relay_own_node_only"); s.Native = new NativeContentRev { Value = 1 }; e.Details = new ErrorDetails { State = s }; }, false, "state.native");
+        Refusal(e => e.Code = "Permission denied", false, "a free-text code");
+        Refusal(e => e.Code = "authorization.permission_denied", false, "a dotted code");
+        Refusal(e => e.MessageKey = "error.authorization.something_else", false, "a message key that is not the code's");
+        Refusal(e => e.MessageKey = "/srv/build", false, "a path as message key");
+        var approval = new ArcError
+        {
+            Code = "approval_required", Category = ErrorCategory.Authorization, MessageKey = "error.authorization.approval_required",
+            Retry = new RetryAdvice { Mode = RetryMode.Reconcile, ReconciliationOperation = "arcforges.node.v1.ApprovalService/GetApproval" },
+            Effect = EffectCertainty.DidNotHappen, CorrelationId = refusal.CorrelationId,
+            Details = new ErrorDetails { State = new StateFailure { State = "task.cancel_others", Reason = "approval_required", Resource = new AggregateRef { Kind = "approval", Id = refusal.CorrelationId } } },
+        };
+        Refusal(e => e.MergeFrom(approval), true, "approval_required with its approval resource and GetApproval");
+        Refusal(e => { e.MergeFrom(approval); e.Details.State.Resource.Kind = "task"; }, false, "approval_required with another resource kind");
+        Refusal(e => { e.MergeFrom(approval); e.Retry.ReconciliationOperation = "arcforges.node.v1.TaskService/GetTask"; }, false, "another reconciliation operation");
     }
 
     private static void Routed<T>(T request, int bound, string name) where T : class, IMessage<T>

@@ -1699,6 +1699,7 @@ type FleetServiceClient interface {
 	WaitNodeTask(context.Context, *v1.FleetServiceWaitNodeTaskRequest) (*v1.FleetServiceWaitNodeTaskResponse, error)
 	// Read a node's task output. request: a TaskServiceReadTaskOutputRequest of 1..3,072 bytes with max_bytes at most 262,144 (the
 	// routed cap; default 256 KiB) and wait_ms at most 20,000 (Plan decision Q17); response: its TaskServiceReadTaskOutputResponse.
+	// The node caps both again for a REMOTE caller (TaskService.ReadTaskOutput), so a missed center check cannot exceed the response bound.
 	// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
 	// idempotency: read
 	// deadline: 10 s; wait_ms + 10 s with wait_ms, at most 30 s
@@ -1903,6 +1904,7 @@ type FleetServiceHandler interface {
 	WaitNodeTask(context.Context, *v1.FleetServiceWaitNodeTaskRequest) (*v1.FleetServiceWaitNodeTaskResponse, error)
 	// Read a node's task output. request: a TaskServiceReadTaskOutputRequest of 1..3,072 bytes with max_bytes at most 262,144 (the
 	// routed cap; default 256 KiB) and wait_ms at most 20,000 (Plan decision Q17); response: its TaskServiceReadTaskOutputResponse.
+	// The node caps both again for a REMOTE caller (TaskService.ReadTaskOutput), so a missed center check cannot exceed the response bound.
 	// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
 	// idempotency: read
 	// deadline: 10 s; wait_ms + 10 s with wait_ms, at most 30 s
