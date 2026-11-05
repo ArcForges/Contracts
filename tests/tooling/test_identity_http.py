@@ -385,12 +385,18 @@ class IdentityHttpExceptions(unittest.TestCase):
         self.assertEqual(set(native) - set(token), set())
         # The contract statements the app relies on (MB-2, MB-16, MB-17, MB-11).
         text = json.dumps(mobile)
-        for phrase in ("identity.authorizeMobile", "byte-equal to the derived value", "RFC 9207", "valid for 2 minutes", "one use",
+        for phrase in ("identity.authorizeMobile", "byte-equal to the derived value", "RFC 9207", "valid for at most 2 minutes (the center's policy)", "one use",
                        "CONFLICT/code_reused and revokes the session family", "makes a new installation ID", "begins a new attempt",
-                       "fresh PKCE verifier and a fresh state", "exactly one pending attempt", "without build metadata",
+                       "exactly one pending attempt", "without build metadata",
                        "as the app reports it", "Loopback redirects are not admitted", "access_denied as cancelled in the browser",
-                       "AUTHORIZATION/permission_denied", "STATE/not_activated", "RESOURCE/rate_limited", "RESOURCE/overloaded"):
+                       "AUTHORIZATION/permission_denied", "STATE/not_activated", "RESOURCE/rate_limited", "RESOURCE/overloaded",
+                       "The app checks state and iss as for a success",
+                       "admitted only by a self-hosted center configured for that scheme and never by an official-hosted center",
+                       "fresh, random PKCE verifier and a fresh, random state (each from at least 32 random bytes",
+                       "flowId is the begin reply's", "or its flow was ended by a wrong verifier or a binding mismatch"):
             self.assertIn(phrase, text, phrase)
+        for root in ("MobileBeginRequest", "MobileTokenRequest"):
+            self.assertIn("STATE/not_activated while the center's mobile surface is off", defs[root]["description"], root)
         # Only PublicApi owns the new document; the frozen documents keep their pinned bytes.
         catalog = load("eng/contract-packages.json")["packages"]
         owners = [row["id"] for row in catalog if "public/http/v1/mobile-native.schema.json" in row["jsonSchemas"]]

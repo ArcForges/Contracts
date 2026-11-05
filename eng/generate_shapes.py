@@ -1180,8 +1180,6 @@ def route_catalogue(title: str, namespace: str, routes: list, wires: dict[str, s
         if not isinstance(route["id"], str) or not re.fullmatch(r"[a-z][A-Za-z0-9]*(?:\.[a-z][A-Za-z0-9]*)+", route["id"]) or route["id"] in ids:
             raise ValueError(f"{title} route identity must be unique dotted lower-camel text")
         ids.add(route["id"])
-        if route["credential"] == "anonymous" and (route["origin"], route["csrf"], route["setCookie"]) != ("none", "none", "none"):
-            raise ValueError(f"{title} route {route['id']}: an anonymous route requires no Origin, no CSRF and no cookie")
         if not re.fullmatch(r"/session/v1/[A-Za-z0-9{}/-]+", route["path"]) or (route["method"], route["path"]) in paths:
             raise ValueError(f"{title} route {route['id']}: invalid or duplicate method/path")
         paths.add((route["method"], route["path"]))
@@ -1198,6 +1196,12 @@ def route_catalogue(title: str, namespace: str, routes: list, wires: dict[str, s
             raise ValueError(f"{title} route {route['id']}: a GET request cannot carry a JSON body")
         if route["method"] == "POST" and sides["request"][0] != "none" and len(sides["request"][1]) != 1:
             raise ValueError(f"{title} route {route['id']}: a POST body has exactly one root")
+        # An anonymous route is a native JSON route (MB-3): POST with one JSON body and a JSON reply, no Origin, CSRF or cookie.
+        if route["credential"] == "anonymous":
+            if (route["origin"], route["csrf"], route["setCookie"]) != ("none", "none", "none"):
+                raise ValueError(f"{title} route {route['id']}: an anonymous route requires no Origin, no CSRF and no cookie")
+            if route["method"] != "POST" or sides["request"][0] != "json" or sides["response"][0] != "json":
+                raise ValueError(f"{title} route {route['id']}: an anonymous route is a POST with a JSON request and a JSON response")
         rows.append((route, sides))
     record = title + "Route"
     cs = HEADER + f"#nullable enable\nnamespace {namespace};\n\n"

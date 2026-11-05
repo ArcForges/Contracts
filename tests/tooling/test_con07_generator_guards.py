@@ -117,6 +117,18 @@ class RouteCatalogueGuards(unittest.TestCase):
                 catalogue(route(**{**anonymous, field: value}))
 
 
+    def test_an_anonymous_route_is_a_post_with_json_on_both_sides(self):
+        # AF-CTR-04 (part CM review N-5): anonymous is the native JSON row kind; a GET, a form body or a form or empty reply is refused.
+        anonymous = dict(credential="anonymous", origin="none", csrf="none", setCookie="none")
+        for name, changes in (("GET", dict(method="GET", path="/session/v1/demo/get", request=["FormRequest"])),
+                              ("form request", dict(request=["FormRequest"])),
+                              ("no request", dict(request=[])),
+                              ("form response", dict(response=["FormRequest"])),
+                              ("no response", dict(response=[]))):
+            with self.subTest(case=name), self.assertRaisesRegex(ValueError, "anonymous route is a POST with a JSON request"):
+                catalogue(route(**{**anonymous, **changes}))
+
+
 def form_root(**changes):
     root = {
         "title": "FormRoot",
