@@ -38,8 +38,8 @@ Notice scope: source
 Copyright 2021-2026 The Connect Authors; Apache License, Version 2.0.
 connectrpc.com/connect/v2 v2.0.2 keeps its Apache-2.0 licence; the Go bindings module requires it through go.mod and does not vendor it.
 
-contract-bindings-af-ctr-05-r2
-Source: https://github.com/ArcForges/Contracts @ 45313c1a9b2d8d2e7a7fa7c5847835065082ab1d
+contract-bindings-af-ctr-05-r3
+Source: https://github.com/ArcForges/Contracts @ e16715b1124db5e48377eb94e8df00718abf023c
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
@@ -47,7 +47,7 @@ Copyright 2008 Google Inc. All rights reserved.
 Copyright 2015, 2019, 2020 gRPC authors.
 Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
-Generated Contracts source remains Apache-2.0. AF-CTR-05 part C1 generates the C# model and validator of the closed WebBrowserSessionError HTTP document into ArcForges.Contracts.PublicApi and ArcForges.Contracts.Validation and regenerates the Fleet, Node and Validation outputs of its proto comment, approve-rule and e-mail-bound changes. The Go bindings are bound by go-bindings-af-ctr-05-r1 (doc comments only); the retained @arcforges/ai-internal TypeScript and JSON-shape bindings are unchanged, and no runtime behavior, generator or third-party package is added.
+Generated Contracts source remains Apache-2.0. AF-CTR-05 part C2 regenerates the Relay, Fleet and Node C# messages and services and the Relay, Fleet, Node and Peer shape checks for the node channel, the center-routed methods and the node additions. The Go bindings are bound by go-bindings-af-ctr-05-r2; the retained @arcforges/ai-internal TypeScript and JSON-shape bindings are unchanged, and no runtime behavior, generator or third-party package is added.
 
 dokka-array-buffer-byte-length-licence-r1
 Source: https://github.com/inspect-js/array-buffer-byte-length @ 59deea89141b4aeeb64122e5e15efda485942c00
@@ -719,8 +719,8 @@ Copyright (c) 2015 Jordan Harband
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
 
-go-bindings-af-ctr-05-r1
-Source: https://github.com/ArcForges/Contracts @ 91de9f0f87572c6c83327fc5c8e1123bd85b053c
+go-bindings-af-ctr-05-r2
+Source: https://github.com/ArcForges/Contracts @ e16715b1124db5e48377eb94e8df00718abf023c
 Material licence: Apache-2.0
 Notice scope: source
 Copyright 2026 ArcForges contributors.
