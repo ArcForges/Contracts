@@ -1327,6 +1327,8 @@ def generate_proto_checks(check: bool) -> None:
         content = HEADER + "#nullable enable\nusing System.Text;\n" + f"namespace {namespace};\n\n/// <summary>Explicit protobuf shape checks generated from the authored field constraints.</summary>\npublic static class ContractShapeValidation\n{{\n"
         from foundation_semantics import COMMON_CS_HELPERS, CS_HELPERS, DESCRIPTOR_CS_HELPERS, SYNC_ADMISSION_CS
         content += "\n".join(methods) + CS_PROTO_HELPERS + COMMON_CS_HELPERS
+        if any(rule in AF_CTR_05_WINDOW_RULES for name in names for rule in messages[name]["constraints"].get("rules", [])):
+            content += CS_RELAY_HELPERS
         if "arcforges.foundation.v1.ContractVersion" in names:
             content += DESCRIPTOR_CS_HELPERS
         if any(n.startswith("arcforges.publicapi.") for n in names):
@@ -1336,6 +1338,48 @@ def generate_proto_checks(check: bool) -> None:
         content += "\n}\n"
         emit(ROOT / directory / "Generated/Shapes/ProtoValidation.g.cs", content, check)
     # CON.40: the protobuf-es (TypeScript) shape checks retired with @arcforges/proto and @arcforges/operator-client.
+
+
+# AF-CTR-05 (part C2): the relationships of the node channel, the relay assertion and the routed fleet methods that one message's
+# own fields decide (internal/proto/arcforges/relay/v1/relay.proto, fleet.proto, node/v1/common.proto). Field presence and bounds
+# run first, so every required message is present here. An instant is compared in nanoseconds since the Unix epoch.
+AF_CTR_05_CS_RULES = {
+    # A routed fleet request carries caller and relay_assertion together (a node-relayed caller) or neither (an account session).
+    "relayedCaller": "if ((value.Caller is null) == value.HasRelayAssertion) return false;",
+    # An account session names its user and session; a node relay its relaying node, local origin and local session; never both.
+    "centerCaller": """var accountSession = (int)value.Kind == 1;
+        if ((value.UserId is not null) != accountSession || (value.SessionId is not null) != accountSession) return false;
+        if ((value.RelayingNodeId is not null) == accountSession || value.HasLocalOrigin == accountSession || (value.LocalSessionId is not null) == accountSession) return false;""",
+    # A command ID only for SUBMIT_NODE_TASK (1) and CANCEL_NODE_TASK (6); the relay assertion digest only for a NODE_RELAY caller;
+    # issued_at < expires_at <= issued_at + 300 s and issued_at < deadline <= expires_at (AD-0021 section 10).
+    "callHeader": """if ((value.CommandId is not null) != ((int)value.Method is 1 or 6)) return false;
+        if (value.HasRelayAssertionSha256 != ((int)value.Caller.Kind == 2)) return false;
+        if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 300)) return false;
+        if (RelayNanos(value.Deadline) <= RelayNanos(value.IssuedAt) || RelayNanos(value.Deadline) > RelayNanos(value.ExpiresAt)) return false;""",
+    # A call names its command key; a result does not (the key is the connection's installation key).
+    "channelCall": "if (!value.Header.HasKid) return false;",
+    "channelResult": "if (value.Header.HasKid) return false;",
+    # REFUSED_VERIFICATION (3) echoes nothing it could not verify; EXECUTED (1) digests its payload and carries no error; every
+    # other outcome carries the node's refusal.
+    "resultHeader": """var verified = (int)value.Outcome != 3;
+        if (value.HasMethod != verified || value.HasRequestSha256 != verified || (!verified && value.CommandId is not null)) return false;
+        var executed = (int)value.Outcome == 1;
+        if (value.HasResponseSha256 != executed || value.HasResponseSize != executed || (value.Error is null) != executed) return false;""",
+    "channelLimits": "if (value.HeartbeatDeadlineMs <= value.HeartbeatIntervalMs) return false;",
+    # No target for LIST_NODES (7); a command ID only for SUBMIT_NODE_TASK (1) and CANCEL_NODE_TASK (6);
+    # issued_at < expires_at <= issued_at + 120 s (Plan addendum D0-B1).
+    "relayAssertion": """if ((value.TargetNodeId is null) != ((int)value.Method == 7)) return false;
+        if ((value.CommandId is not null) != ((int)value.Method is 1 or 6)) return false;
+        if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 120)) return false;""",
+}
+
+AF_CTR_05_WINDOW_RULES = {"callHeader", "relayAssertion"}
+CS_RELAY_HELPERS = r'''
+    private static global::System.Int128 RelayNanos(global::ArcForges.Contracts.Foundation.V1.Instant value) =>
+        (global::System.Int128)value.UnixSeconds * 1_000_000_000 + value.Nanos;
+    private static bool RelayWindow(global::ArcForges.Contracts.Foundation.V1.Instant issued, global::ArcForges.Contracts.Foundation.V1.Instant expires, int seconds) =>
+        RelayNanos(expires) > RelayNanos(issued) && RelayNanos(expires) - RelayNanos(issued) <= (global::System.Int128)seconds * 1_000_000_000;
+'''
 
 
 def proto_cs(name: str, messages: dict) -> str:
@@ -1392,6 +1436,7 @@ def proto_cs(name: str, messages: dict) -> str:
         "chunkOffsets": "if (value.Offset > ulong.MaxValue - (ulong)value.Bytes.Length || value.NextOffset != value.Offset + (ulong)value.Bytes.Length) return false;",
         **cs_rules,
         **CS_RULES,
+        **AF_CTR_05_CS_RULES,
     }
     for rule in profile.get("rules", []):
         if rule not in rules:

@@ -300,130 +300,137 @@ namespace ArcForges.Contracts.Node.V1 {
             "c2sYAiABKA4yHC5hcmNmb3JnZXMubm9kZS52MS5SaXNrQ2xhc3NIAVIHbWF4",
             "Umlza4gBARIsCg9hbGxvd19hcHByb3ZhbHMYAyABKAhIAlIOYWxsb3dBcHBy",
             "b3ZhbHOIAQFCCgoIX2VuYWJsZWRCCwoJX21heF9yaXNrQhIKEF9hbGxvd19h",
-            "cHByb3ZhbHMiqAEKClRpbWVXaW5kb3cSIAoJZGF5c19tYXNrGAEgASgNSABS",
-            "CGRheXNNYXNriAEBEiYKDHN0YXJ0X21pbnV0ZRgCIAEoDUgBUgtzdGFydE1p",
-            "bnV0ZYgBARIiCgplbmRfbWludXRlGAMgASgNSAJSCWVuZE1pbnV0ZYgBAUIM",
-            "CgpfZGF5c19tYXNrQg8KDV9zdGFydF9taW51dGVCDQoLX2VuZF9taW51dGUi",
-            "ggIKDFVwZGF0ZVBvbGljeRI2CgRtb2RlGAEgASgOMh0uYXJjZm9yZ2VzLm5v",
-            "ZGUudjEuVXBkYXRlTW9kZUgAUgRtb2RliAEBEh0KB2NoYW5uZWwYAiABKAlI",
-            "AVIHY2hhbm5lbIgBARI3Cgd3aW5kb3dzGAMgAygLMh0uYXJjZm9yZ2VzLm5v",
-            "ZGUudjEuVGltZVdpbmRvd1IHd2luZG93cxJBCgdtZXRlcmVkGAQgASgOMiIu",
-            "YXJjZm9yZ2VzLm5vZGUudjEuTWV0ZXJlZEJlaGF2aW9ySAJSB21ldGVyZWSI",
-            "AQFCBwoFX21vZGVCCgoIX2NoYW5uZWxCCgoIX21ldGVyZWQi+wIKCUxhblBv",
-            "bGljeRIdCgdlbmFibGVkGAEgASgISABSB2VuYWJsZWSIAQESFwoEcG9ydBgC",
-            "IAEoDUgBUgRwb3J0iAEBEiEKCWFkdmVydGlzZRgDIAEoCEgCUglhZHZlcnRp",
-            "c2WIAQESTQoTZGVmYXVsdF9wZWVyX3BvbGljeRgEIAEoCzIdLmFyY2Zvcmdl",
-            "cy5ub2RlLnYxLlBlZXJQb2xpY3lSEWRlZmF1bHRQZWVyUG9saWN5EjkKFmFk",
-            "dmVydGlzZV9hY2NvdW50X2hpbnQYBSABKAhIA1IUYWR2ZXJ0aXNlQWNjb3Vu",
-            "dEhpbnSIAQESMwoTbWF4X3dvcmtzcGFjZV9zbG90cxgGIAEoDUgEUhFtYXhX",
-            "b3Jrc3BhY2VTbG90c4gBAUIKCghfZW5hYmxlZEIHCgVfcG9ydEIMCgpfYWR2",
-            "ZXJ0aXNlQhkKF19hZHZlcnRpc2VfYWNjb3VudF9oaW50QhYKFF9tYXhfd29y",
-            "a3NwYWNlX3Nsb3RzIq4CChFSZXN1bHRDYWNoZVBvbGljeRJKCgxkZWZhdWx0",
-            "X21vZGUYASABKA4yIi5hcmNmb3JnZXMubm9kZS52MS5SZXN1bHRDYWNoZU1v",
-            "ZGVIAFILZGVmYXVsdE1vZGWIAQESYQoPd29ya3NwYWNlX21vZGVzGAIgAygL",
-            "MjguYXJjZm9yZ2VzLm5vZGUudjEuUmVzdWx0Q2FjaGVQb2xpY3kuV29ya3Nw",
-            "YWNlTW9kZXNFbnRyeVIOd29ya3NwYWNlTW9kZXMaWQoTV29ya3NwYWNlTW9k",
-            "ZXNFbnRyeRILCgNrZXkYASABKAkSMQoFdmFsdWUYAiABKA4yIi5hcmNmb3Jn",
-            "ZXMubm9kZS52MS5SZXN1bHRDYWNoZU1vZGU6AjgBQg8KDV9kZWZhdWx0X21v",
-            "ZGUi1gEKD1JldHJ5U2FmZXR5UnVsZRIdCgdwYXR0ZXJuGAEgASgJSABSB3Bh",
-            "dHRlcm6IAQESPgoMd29ya3NwYWNlX2lkGAIgASgLMhsuYXJjZm9yZ2VzLmZv",
-            "dW5kYXRpb24udjEuSWRSC3dvcmtzcGFjZUlkEkgKC3NpZGVfZWZmZWN0GAMg",
-            "ASgOMiIuYXJjZm9yZ2VzLm5vZGUudjEuU2lkZUVmZmVjdENsYXNzSAFSCnNp",
-            "ZGVFZmZlY3SIAQFCCgoIX3BhdHRlcm5CDgoMX3NpZGVfZWZmZWN0IqYBChFS",
-            "ZXRyeVNhZmV0eVBvbGljeRI4CgVydWxlcxgBIAMoCzIiLmFyY2Zvcmdlcy5u",
-            "b2RlLnYxLlJldHJ5U2FmZXR5UnVsZVIFcnVsZXMSOwoXYWNjZXB0X2FnZW50",
-            "X2Fzc2VydGlvbnMYAiABKAhIAFIVYWNjZXB0QWdlbnRBc3NlcnRpb25ziAEB",
-            "QhoKGF9hY2NlcHRfYWdlbnRfYXNzZXJ0aW9ucyLDAQoOQXBwcm92YWxQb2xp",
-            "Y3kSKQoOZGVmYXVsdF90dGxfbXMYASABKARIAFIMZGVmYXVsdFR0bE1ziAEB",
-            "EioKDm5vdGlmeV9kZXNrdG9wGAIgASgISAFSDW5vdGlmeURlc2t0b3CIAQES",
-            "JAoLbm90aWZ5X3B1c2gYAyABKAhIAlIKbm90aWZ5UHVzaIgBAUIRCg9fZGVm",
-            "YXVsdF90dGxfbXNCEQoPX25vdGlmeV9kZXNrdG9wQg4KDF9ub3RpZnlfcHVz",
-            "aCK1CAoOUG9saWN5RG9jdW1lbnQSPwoJcmVzb3VyY2VzGAEgASgLMiEuYXJj",
-            "Zm9yZ2VzLm5vZGUudjEuUmVzb3VyY2VQb2xpY3lSCXJlc291cmNlcxIzCgVw",
-            "b29scxgCIAMoCzIdLmFyY2Zvcmdlcy5ub2RlLnYxLlBvb2xQb2xpY3lSBXBv",
-            "b2xzEkQKC3BhcmFsbGVsaXNtGAMgAygLMiIuYXJjZm9yZ2VzLm5vZGUudjEu",
-            "UGFyYWxsZWxpc21SdWxlUgtwYXJhbGxlbGlzbRJHCgtwZXJtaXNzaW9ucxgE",
-            "IAMoCzIlLmFyY2Zvcmdlcy5ub2RlLnYxLlBlcm1pc3Npb25PdmVycmlkZVIL",
-            "cGVybWlzc2lvbnMSNgoGYWdlbnRzGAUgASgLMh4uYXJjZm9yZ2VzLm5vZGUu",
-            "djEuQWdlbnRQb2xpY3lSBmFnZW50cxI6Cgdyb3V0aW5nGAYgASgLMiAuYXJj",
-            "Zm9yZ2VzLm5vZGUudjEuUm91dGluZ1BvbGljeVIHcm91dGluZxJACglkaWFn",
-            "bm9zaXMYByABKAsyIi5hcmNmb3JnZXMubm9kZS52MS5EaWFnbm9zaXNQb2xp",
-            "Y3lSCWRpYWdub3NpcxI6CgdzdG9yYWdlGAggASgLMiAuYXJjZm9yZ2VzLm5v",
-            "ZGUudjEuU3RvcmFnZVBvbGljeVIHc3RvcmFnZRI6CgdjbGVhbnVwGAkgASgL",
-            "MiAuYXJjZm9yZ2VzLm5vZGUudjEuQ2xlYW51cFBvbGljeVIHY2xlYW51cBI2",
-            "CgZjYWNoZXMYCiABKAsyHi5hcmNmb3JnZXMubm9kZS52MS5DYWNoZVBvbGlj",
-            "eVIGY2FjaGVzEjoKB3ByaXZhY3kYCyABKAsyIC5hcmNmb3JnZXMubm9kZS52",
-            "MS5Qcml2YWN5UG9saWN5Ugdwcml2YWN5Ej4KBnJlbW90ZRgMIAEoCzImLmFy",
-            "Y2Zvcmdlcy5ub2RlLnYxLlJlbW90ZUNvbnRyb2xQb2xpY3lSBnJlbW90ZRI5",
-            "Cgd1cGRhdGVzGA0gASgLMh8uYXJjZm9yZ2VzLm5vZGUudjEuVXBkYXRlUG9s",
-            "aWN5Ugd1cGRhdGVzEi4KA2xhbhgOIAEoCzIcLmFyY2Zvcmdlcy5ub2RlLnYx",
-            "LkxhblBvbGljeVIDbGFuEj8KCWFwcHJvdmFscxgPIAEoCzIhLmFyY2Zvcmdl",
-            "cy5ub2RlLnYxLkFwcHJvdmFsUG9saWN5UglhcHByb3ZhbHMSRwoMcmVzdWx0",
-            "X2NhY2hlGBAgASgLMiQuYXJjZm9yZ2VzLm5vZGUudjEuUmVzdWx0Q2FjaGVQ",
-            "b2xpY3lSC3Jlc3VsdENhY2hlEkcKDHJldHJ5X3NhZmV0eRgRIAEoCzIkLmFy",
-            "Y2Zvcmdlcy5ub2RlLnYxLlJldHJ5U2FmZXR5UG9saWN5UgtyZXRyeVNhZmV0",
-            "eSLUAgoOUG9saWN5UmV2aXNpb24SPQoIcmV2aXNpb24YASABKAsyIS5hcmNm",
-            "b3JnZXMuZm91bmRhdGlvbi52MS5SZXZpc2lvblIIcmV2aXNpb24SPwoKY3Jl",
-            "YXRlZF9hdBgCIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkluc3Rh",
-            "bnRSCWNyZWF0ZWRBdBIxCgVhY3RvchgDIAEoCzIbLmFyY2Zvcmdlcy5ub2Rl",
-            "LnYxLkFjdG9yUmVmUgVhY3RvchIdCgdjb21tZW50GAQgASgJSABSB2NvbW1l",
-            "bnSIAQESGwoGZGlnZXN0GAUgASgJSAFSBmRpZ2VzdIgBARI8CgthcHByb3Zh",
-            "bF9pZBgGIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUgphcHBy",
-            "b3ZhbElkQgoKCF9jb21tZW50QgkKB19kaWdlc3QipQEKC1BvbGljeUlzc3Vl",
-            "EhcKBHBhdGgYASABKAlIAFIEcGF0aIgBARI8CghzZXZlcml0eRgCIAEoDjIb",
-            "LmFyY2Zvcmdlcy5ub2RlLnYxLlNldmVyaXR5SAFSCHNldmVyaXR5iAEBEh0K",
-            "B21lc3NhZ2UYAyABKAlIAlIHbWVzc2FnZYgBAUIHCgVfcGF0aEILCglfc2V2",
-            "ZXJpdHlCCgoIX21lc3NhZ2UqlQEKC1JvdXRpbmdNb2RlEhwKGFJPVVRJTkdf",
-            "TU9ERV9VTlNQRUNJRklFRBAAEhgKFFJPVVRJTkdfTU9ERV9PQlNFUlZFEAES",
-            "FgoSUk9VVElOR19NT0RFX0dVSURFEAISGAoUUk9VVElOR19NT0RFX1JFV1JJ",
-            "VEUQAxIcChhST1VUSU5HX01PREVfUkVXUklURV9BTEwQBCptChBDbGllbnRQ",
-            "ZXJtaXNzaW9uEiEKHUNMSUVOVF9QRVJNSVNTSU9OX1VOU1BFQ0lGSUVEEAAS",
-            "GQoVQ0xJRU5UX1BFUk1JU1NJT05fQVNLEAESGwoXQ0xJRU5UX1BFUk1JU1NJ",
-            "T05fQUxMT1cQAipzCg9EaXNrTGltaXRBY3Rpb24SIQodRElTS19MSU1JVF9B",
-            "Q1RJT05fVU5TUEVDSUZJRUQQABIfChtESVNLX0xJTUlUX0FDVElPTl9URVJN",
-            "SU5BVEUQARIcChhESVNLX0xJTUlUX0FDVElPTl9OT1RJRlkQAip2CgpBY3Rp",
-            "b25Nb2RlEhsKF0FDVElPTl9NT0RFX1VOU1BFQ0lGSUVEEAASFAoQQUNUSU9O",
-            "X01PREVfQVVUTxABEhgKFEFDVElPTl9NT0RFX0FQUFJPVkFMEAISGwoXQUNU",
-            "SU9OX01PREVfTk9USUZZX09OTFkQAypRCglRdW90YUtpbmQSGgoWUVVPVEFf",
-            "S0lORF9VTlNQRUNJRklFRBAAEhMKD1FVT1RBX0tJTkRfSEFSRBABEhMKD1FV",
-            "T1RBX0tJTkRfV0FSThACKn0KEEFnZW50Q2xlYW51cE1vZGUSIgoeQUdFTlRf",
-            "Q0xFQU5VUF9NT0RFX1VOU1BFQ0lGSUVEEAASHwobQUdFTlRfQ0xFQU5VUF9N",
-            "T0RFX0FQUFJPVkFMEAESJAogQUdFTlRfQ0xFQU5VUF9NT0RFX0xPV19SSVNL",
-            "X09OTFkQAipvCgpVcGRhdGVNb2RlEhsKF1VQREFURV9NT0RFX1VOU1BFQ0lG",
-            "SUVEEAASFAoQVVBEQVRFX01PREVfQVVUTxABEhYKElVQREFURV9NT0RFX05P",
-            "VElGWRACEhYKElVQREFURV9NT0RFX01BTlVBTBADKmsKD01ldGVyZWRCZWhh",
-            "dmlvchIgChxNRVRFUkVEX0JFSEFWSU9SX1VOU1BFQ0lGSUVEEAASGgoWTUVU",
-            "RVJFRF9CRUhBVklPUl9ERUZFUhABEhoKFk1FVEVSRURfQkVIQVZJT1JfQUxM",
-            "T1cQAiqNAQoPUmVzdWx0Q2FjaGVNb2RlEiEKHVJFU1VMVF9DQUNIRV9NT0RF",
-            "X1VOU1BFQ0lGSUVEEAASGQoVUkVTVUxUX0NBQ0hFX01PREVfT0ZGEAESHQoZ",
-            "UkVTVUxUX0NBQ0hFX01PREVfT0JTRVJWRRACEh0KGVJFU1VMVF9DQUNIRV9N",
-            "T0RFX1JFU1RPUkUQAzK4BwoNUG9saWN5U2VydmljZRJwCglHZXRQb2xpY3kS",
-            "MC5hcmNmb3JnZXMubm9kZS52MS5Qb2xpY3lTZXJ2aWNlR2V0UG9saWN5UmVx",
-            "dWVzdBoxLmFyY2Zvcmdlcy5ub2RlLnYxLlBvbGljeVNlcnZpY2VHZXRQb2xp",
-            "Y3lSZXNwb25zZRKFAQoQR2V0RGVmYXVsdFBvbGljeRI3LmFyY2Zvcmdlcy5u",
-            "b2RlLnYxLlBvbGljeVNlcnZpY2VHZXREZWZhdWx0UG9saWN5UmVxdWVzdBo4",
-            "LmFyY2Zvcmdlcy5ub2RlLnYxLlBvbGljeVNlcnZpY2VHZXREZWZhdWx0UG9s",
-            "aWN5UmVzcG9uc2USfwoOVmFsaWRhdGVQb2xpY3kSNS5hcmNmb3JnZXMubm9k",
-            "ZS52MS5Qb2xpY3lTZXJ2aWNlVmFsaWRhdGVQb2xpY3lSZXF1ZXN0GjYuYXJj",
-            "Zm9yZ2VzLm5vZGUudjEuUG9saWN5U2VydmljZVZhbGlkYXRlUG9saWN5UmVz",
-            "cG9uc2USeQoMVXBkYXRlUG9saWN5EjMuYXJjZm9yZ2VzLm5vZGUudjEuUG9s",
-            "aWN5U2VydmljZVVwZGF0ZVBvbGljeVJlcXVlc3QaNC5hcmNmb3JnZXMubm9k",
-            "ZS52MS5Qb2xpY3lTZXJ2aWNlVXBkYXRlUG9saWN5UmVzcG9uc2USjgEKE0xp",
-            "c3RQb2xpY3lSZXZpc2lvbnMSOi5hcmNmb3JnZXMubm9kZS52MS5Qb2xpY3lT",
-            "ZXJ2aWNlTGlzdFBvbGljeVJldmlzaW9uc1JlcXVlc3QaOy5hcmNmb3JnZXMu",
-            "bm9kZS52MS5Qb2xpY3lTZXJ2aWNlTGlzdFBvbGljeVJldmlzaW9uc1Jlc3Bv",
-            "bnNlEpQBChVSZXN0b3JlUG9saWN5UmV2aXNpb24SPC5hcmNmb3JnZXMubm9k",
-            "ZS52MS5Qb2xpY3lTZXJ2aWNlUmVzdG9yZVBvbGljeVJldmlzaW9uUmVxdWVz",
-            "dBo9LmFyY2Zvcmdlcy5ub2RlLnYxLlBvbGljeVNlcnZpY2VSZXN0b3JlUG9s",
-            "aWN5UmV2aXNpb25SZXNwb25zZRKIAQoRRXhwbGFpblBlcm1pc3Npb24SOC5h",
-            "cmNmb3JnZXMubm9kZS52MS5Qb2xpY3lTZXJ2aWNlRXhwbGFpblBlcm1pc3Np",
-            "b25SZXF1ZXN0GjkuYXJjZm9yZ2VzLm5vZGUudjEuUG9saWN5U2VydmljZUV4",
-            "cGxhaW5QZXJtaXNzaW9uUmVzcG9uc2VCWAolaW8uZ2l0aHViLmFyY2Zvcmdl",
-            "cy5jb250cmFjdHMubm9kZS52MUIPTm9kZVBvbGljeVByb3RvUAGqAhtBcmNG",
-            "b3JnZXMuQ29udHJhY3RzLk5vZGUuVjFiBnByb3RvMw=="));
+            "cHByb3ZhbHMimAEKEkNlbnRlclJvdXRlZFBvbGljeRIdCgdlbmFibGVkGAEg",
+            "ASgISABSB2VuYWJsZWSIAQESRgoMcmVsYXllZF9mcm9tGAIgASgOMh4uYXJj",
+            "Zm9yZ2VzLm5vZGUudjEuUmVsYXllZEZyb21IAVILcmVsYXllZEZyb22IAQFC",
+            "CgoIX2VuYWJsZWRCDwoNX3JlbGF5ZWRfZnJvbSKoAQoKVGltZVdpbmRvdxIg",
+            "CglkYXlzX21hc2sYASABKA1IAFIIZGF5c01hc2uIAQESJgoMc3RhcnRfbWlu",
+            "dXRlGAIgASgNSAFSC3N0YXJ0TWludXRliAEBEiIKCmVuZF9taW51dGUYAyAB",
+            "KA1IAlIJZW5kTWludXRliAEBQgwKCl9kYXlzX21hc2tCDwoNX3N0YXJ0X21p",
+            "bnV0ZUINCgtfZW5kX21pbnV0ZSKCAgoMVXBkYXRlUG9saWN5EjYKBG1vZGUY",
+            "ASABKA4yHS5hcmNmb3JnZXMubm9kZS52MS5VcGRhdGVNb2RlSABSBG1vZGWI",
+            "AQESHQoHY2hhbm5lbBgCIAEoCUgBUgdjaGFubmVsiAEBEjcKB3dpbmRvd3MY",
+            "AyADKAsyHS5hcmNmb3JnZXMubm9kZS52MS5UaW1lV2luZG93Ugd3aW5kb3dz",
+            "EkEKB21ldGVyZWQYBCABKA4yIi5hcmNmb3JnZXMubm9kZS52MS5NZXRlcmVk",
+            "QmVoYXZpb3JIAlIHbWV0ZXJlZIgBAUIHCgVfbW9kZUIKCghfY2hhbm5lbEIK",
+            "CghfbWV0ZXJlZCL7AgoJTGFuUG9saWN5Eh0KB2VuYWJsZWQYASABKAhIAFIH",
+            "ZW5hYmxlZIgBARIXCgRwb3J0GAIgASgNSAFSBHBvcnSIAQESIQoJYWR2ZXJ0",
+            "aXNlGAMgASgISAJSCWFkdmVydGlzZYgBARJNChNkZWZhdWx0X3BlZXJfcG9s",
+            "aWN5GAQgASgLMh0uYXJjZm9yZ2VzLm5vZGUudjEuUGVlclBvbGljeVIRZGVm",
+            "YXVsdFBlZXJQb2xpY3kSOQoWYWR2ZXJ0aXNlX2FjY291bnRfaGludBgFIAEo",
+            "CEgDUhRhZHZlcnRpc2VBY2NvdW50SGludIgBARIzChNtYXhfd29ya3NwYWNl",
+            "X3Nsb3RzGAYgASgNSARSEW1heFdvcmtzcGFjZVNsb3RziAEBQgoKCF9lbmFi",
+            "bGVkQgcKBV9wb3J0QgwKCl9hZHZlcnRpc2VCGQoXX2FkdmVydGlzZV9hY2Nv",
+            "dW50X2hpbnRCFgoUX21heF93b3Jrc3BhY2Vfc2xvdHMirgIKEVJlc3VsdENh",
+            "Y2hlUG9saWN5EkoKDGRlZmF1bHRfbW9kZRgBIAEoDjIiLmFyY2Zvcmdlcy5u",
+            "b2RlLnYxLlJlc3VsdENhY2hlTW9kZUgAUgtkZWZhdWx0TW9kZYgBARJhCg93",
+            "b3Jrc3BhY2VfbW9kZXMYAiADKAsyOC5hcmNmb3JnZXMubm9kZS52MS5SZXN1",
+            "bHRDYWNoZVBvbGljeS5Xb3Jrc3BhY2VNb2Rlc0VudHJ5Ug53b3Jrc3BhY2VN",
+            "b2RlcxpZChNXb3Jrc3BhY2VNb2Rlc0VudHJ5EgsKA2tleRgBIAEoCRIxCgV2",
+            "YWx1ZRgCIAEoDjIiLmFyY2Zvcmdlcy5ub2RlLnYxLlJlc3VsdENhY2hlTW9k",
+            "ZToCOAFCDwoNX2RlZmF1bHRfbW9kZSLWAQoPUmV0cnlTYWZldHlSdWxlEh0K",
+            "B3BhdHRlcm4YASABKAlIAFIHcGF0dGVybogBARI+Cgx3b3Jrc3BhY2VfaWQY",
+            "AiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFILd29ya3NwYWNl",
+            "SWQSSAoLc2lkZV9lZmZlY3QYAyABKA4yIi5hcmNmb3JnZXMubm9kZS52MS5T",
+            "aWRlRWZmZWN0Q2xhc3NIAVIKc2lkZUVmZmVjdIgBAUIKCghfcGF0dGVybkIO",
+            "Cgxfc2lkZV9lZmZlY3QipgEKEVJldHJ5U2FmZXR5UG9saWN5EjgKBXJ1bGVz",
+            "GAEgAygLMiIuYXJjZm9yZ2VzLm5vZGUudjEuUmV0cnlTYWZldHlSdWxlUgVy",
+            "dWxlcxI7ChdhY2NlcHRfYWdlbnRfYXNzZXJ0aW9ucxgCIAEoCEgAUhVhY2Nl",
+            "cHRBZ2VudEFzc2VydGlvbnOIAQFCGgoYX2FjY2VwdF9hZ2VudF9hc3NlcnRp",
+            "b25zIsMBCg5BcHByb3ZhbFBvbGljeRIpCg5kZWZhdWx0X3R0bF9tcxgBIAEo",
+            "BEgAUgxkZWZhdWx0VHRsTXOIAQESKgoObm90aWZ5X2Rlc2t0b3AYAiABKAhI",
+            "AVINbm90aWZ5RGVza3RvcIgBARIkCgtub3RpZnlfcHVzaBgDIAEoCEgCUgpu",
+            "b3RpZnlQdXNoiAEBQhEKD19kZWZhdWx0X3R0bF9tc0IRCg9fbm90aWZ5X2Rl",
+            "c2t0b3BCDgoMX25vdGlmeV9wdXNoIoEJCg5Qb2xpY3lEb2N1bWVudBI/Cgly",
+            "ZXNvdXJjZXMYASABKAsyIS5hcmNmb3JnZXMubm9kZS52MS5SZXNvdXJjZVBv",
+            "bGljeVIJcmVzb3VyY2VzEjMKBXBvb2xzGAIgAygLMh0uYXJjZm9yZ2VzLm5v",
+            "ZGUudjEuUG9vbFBvbGljeVIFcG9vbHMSRAoLcGFyYWxsZWxpc20YAyADKAsy",
+            "Ii5hcmNmb3JnZXMubm9kZS52MS5QYXJhbGxlbGlzbVJ1bGVSC3BhcmFsbGVs",
+            "aXNtEkcKC3Blcm1pc3Npb25zGAQgAygLMiUuYXJjZm9yZ2VzLm5vZGUudjEu",
+            "UGVybWlzc2lvbk92ZXJyaWRlUgtwZXJtaXNzaW9ucxI2CgZhZ2VudHMYBSAB",
+            "KAsyHi5hcmNmb3JnZXMubm9kZS52MS5BZ2VudFBvbGljeVIGYWdlbnRzEjoK",
+            "B3JvdXRpbmcYBiABKAsyIC5hcmNmb3JnZXMubm9kZS52MS5Sb3V0aW5nUG9s",
+            "aWN5Ugdyb3V0aW5nEkAKCWRpYWdub3NpcxgHIAEoCzIiLmFyY2Zvcmdlcy5u",
+            "b2RlLnYxLkRpYWdub3Npc1BvbGljeVIJZGlhZ25vc2lzEjoKB3N0b3JhZ2UY",
+            "CCABKAsyIC5hcmNmb3JnZXMubm9kZS52MS5TdG9yYWdlUG9saWN5UgdzdG9y",
+            "YWdlEjoKB2NsZWFudXAYCSABKAsyIC5hcmNmb3JnZXMubm9kZS52MS5DbGVh",
+            "bnVwUG9saWN5UgdjbGVhbnVwEjYKBmNhY2hlcxgKIAEoCzIeLmFyY2Zvcmdl",
+            "cy5ub2RlLnYxLkNhY2hlUG9saWN5UgZjYWNoZXMSOgoHcHJpdmFjeRgLIAEo",
+            "CzIgLmFyY2Zvcmdlcy5ub2RlLnYxLlByaXZhY3lQb2xpY3lSB3ByaXZhY3kS",
+            "PgoGcmVtb3RlGAwgASgLMiYuYXJjZm9yZ2VzLm5vZGUudjEuUmVtb3RlQ29u",
+            "dHJvbFBvbGljeVIGcmVtb3RlEjkKB3VwZGF0ZXMYDSABKAsyHy5hcmNmb3Jn",
+            "ZXMubm9kZS52MS5VcGRhdGVQb2xpY3lSB3VwZGF0ZXMSLgoDbGFuGA4gASgL",
+            "MhwuYXJjZm9yZ2VzLm5vZGUudjEuTGFuUG9saWN5UgNsYW4SPwoJYXBwcm92",
+            "YWxzGA8gASgLMiEuYXJjZm9yZ2VzLm5vZGUudjEuQXBwcm92YWxQb2xpY3lS",
+            "CWFwcHJvdmFscxJHCgxyZXN1bHRfY2FjaGUYECABKAsyJC5hcmNmb3JnZXMu",
+            "bm9kZS52MS5SZXN1bHRDYWNoZVBvbGljeVILcmVzdWx0Q2FjaGUSRwoMcmV0",
+            "cnlfc2FmZXR5GBEgASgLMiQuYXJjZm9yZ2VzLm5vZGUudjEuUmV0cnlTYWZl",
+            "dHlQb2xpY3lSC3JldHJ5U2FmZXR5EkoKDWNlbnRlcl9yb3V0ZWQYEiABKAsy",
+            "JS5hcmNmb3JnZXMubm9kZS52MS5DZW50ZXJSb3V0ZWRQb2xpY3lSDGNlbnRl",
+            "clJvdXRlZCLUAgoOUG9saWN5UmV2aXNpb24SPQoIcmV2aXNpb24YASABKAsy",
+            "IS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXZpc2lvblIIcmV2aXNpb24S",
+            "PwoKY3JlYXRlZF9hdBgCIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYx",
+            "Lkluc3RhbnRSCWNyZWF0ZWRBdBIxCgVhY3RvchgDIAEoCzIbLmFyY2Zvcmdl",
+            "cy5ub2RlLnYxLkFjdG9yUmVmUgVhY3RvchIdCgdjb21tZW50GAQgASgJSABS",
+            "B2NvbW1lbnSIAQESGwoGZGlnZXN0GAUgASgJSAFSBmRpZ2VzdIgBARI8Cgth",
+            "cHByb3ZhbF9pZBgGIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklk",
+            "UgphcHByb3ZhbElkQgoKCF9jb21tZW50QgkKB19kaWdlc3QipQEKC1BvbGlj",
+            "eUlzc3VlEhcKBHBhdGgYASABKAlIAFIEcGF0aIgBARI8CghzZXZlcml0eRgC",
+            "IAEoDjIbLmFyY2Zvcmdlcy5ub2RlLnYxLlNldmVyaXR5SAFSCHNldmVyaXR5",
+            "iAEBEh0KB21lc3NhZ2UYAyABKAlIAlIHbWVzc2FnZYgBAUIHCgVfcGF0aEIL",
+            "Cglfc2V2ZXJpdHlCCgoIX21lc3NhZ2UqlQEKC1JvdXRpbmdNb2RlEhwKGFJP",
+            "VVRJTkdfTU9ERV9VTlNQRUNJRklFRBAAEhgKFFJPVVRJTkdfTU9ERV9PQlNF",
+            "UlZFEAESFgoSUk9VVElOR19NT0RFX0dVSURFEAISGAoUUk9VVElOR19NT0RF",
+            "X1JFV1JJVEUQAxIcChhST1VUSU5HX01PREVfUkVXUklURV9BTEwQBCptChBD",
+            "bGllbnRQZXJtaXNzaW9uEiEKHUNMSUVOVF9QRVJNSVNTSU9OX1VOU1BFQ0lG",
+            "SUVEEAASGQoVQ0xJRU5UX1BFUk1JU1NJT05fQVNLEAESGwoXQ0xJRU5UX1BF",
+            "Uk1JU1NJT05fQUxMT1cQAipzCg9EaXNrTGltaXRBY3Rpb24SIQodRElTS19M",
+            "SU1JVF9BQ1RJT05fVU5TUEVDSUZJRUQQABIfChtESVNLX0xJTUlUX0FDVElP",
+            "Tl9URVJNSU5BVEUQARIcChhESVNLX0xJTUlUX0FDVElPTl9OT1RJRlkQAip2",
+            "CgpBY3Rpb25Nb2RlEhsKF0FDVElPTl9NT0RFX1VOU1BFQ0lGSUVEEAASFAoQ",
+            "QUNUSU9OX01PREVfQVVUTxABEhgKFEFDVElPTl9NT0RFX0FQUFJPVkFMEAIS",
+            "GwoXQUNUSU9OX01PREVfTk9USUZZX09OTFkQAypRCglRdW90YUtpbmQSGgoW",
+            "UVVPVEFfS0lORF9VTlNQRUNJRklFRBAAEhMKD1FVT1RBX0tJTkRfSEFSRBAB",
+            "EhMKD1FVT1RBX0tJTkRfV0FSThACKn0KEEFnZW50Q2xlYW51cE1vZGUSIgoe",
+            "QUdFTlRfQ0xFQU5VUF9NT0RFX1VOU1BFQ0lGSUVEEAASHwobQUdFTlRfQ0xF",
+            "QU5VUF9NT0RFX0FQUFJPVkFMEAESJAogQUdFTlRfQ0xFQU5VUF9NT0RFX0xP",
+            "V19SSVNLX09OTFkQAipvCgpVcGRhdGVNb2RlEhsKF1VQREFURV9NT0RFX1VO",
+            "U1BFQ0lGSUVEEAASFAoQVVBEQVRFX01PREVfQVVUTxABEhYKElVQREFURV9N",
+            "T0RFX05PVElGWRACEhYKElVQREFURV9NT0RFX01BTlVBTBADKmsKD01ldGVy",
+            "ZWRCZWhhdmlvchIgChxNRVRFUkVEX0JFSEFWSU9SX1VOU1BFQ0lGSUVEEAAS",
+            "GgoWTUVURVJFRF9CRUhBVklPUl9ERUZFUhABEhoKFk1FVEVSRURfQkVIQVZJ",
+            "T1JfQUxMT1cQAipgCgtSZWxheWVkRnJvbRIcChhSRUxBWUVEX0ZST01fVU5T",
+            "UEVDSUZJRUQQABIZChVSRUxBWUVEX0ZST01fT1dOX05PREUQARIYChRSRUxB",
+            "WUVEX0ZST01fQUNDT1VOVBACKo0BCg9SZXN1bHRDYWNoZU1vZGUSIQodUkVT",
+            "VUxUX0NBQ0hFX01PREVfVU5TUEVDSUZJRUQQABIZChVSRVNVTFRfQ0FDSEVf",
+            "TU9ERV9PRkYQARIdChlSRVNVTFRfQ0FDSEVfTU9ERV9PQlNFUlZFEAISHQoZ",
+            "UkVTVUxUX0NBQ0hFX01PREVfUkVTVE9SRRADMrgHCg1Qb2xpY3lTZXJ2aWNl",
+            "EnAKCUdldFBvbGljeRIwLmFyY2Zvcmdlcy5ub2RlLnYxLlBvbGljeVNlcnZp",
+            "Y2VHZXRQb2xpY3lSZXF1ZXN0GjEuYXJjZm9yZ2VzLm5vZGUudjEuUG9saWN5",
+            "U2VydmljZUdldFBvbGljeVJlc3BvbnNlEoUBChBHZXREZWZhdWx0UG9saWN5",
+            "EjcuYXJjZm9yZ2VzLm5vZGUudjEuUG9saWN5U2VydmljZUdldERlZmF1bHRQ",
+            "b2xpY3lSZXF1ZXN0GjguYXJjZm9yZ2VzLm5vZGUudjEuUG9saWN5U2Vydmlj",
+            "ZUdldERlZmF1bHRQb2xpY3lSZXNwb25zZRJ/Cg5WYWxpZGF0ZVBvbGljeRI1",
+            "LmFyY2Zvcmdlcy5ub2RlLnYxLlBvbGljeVNlcnZpY2VWYWxpZGF0ZVBvbGlj",
+            "eVJlcXVlc3QaNi5hcmNmb3JnZXMubm9kZS52MS5Qb2xpY3lTZXJ2aWNlVmFs",
+            "aWRhdGVQb2xpY3lSZXNwb25zZRJ5CgxVcGRhdGVQb2xpY3kSMy5hcmNmb3Jn",
+            "ZXMubm9kZS52MS5Qb2xpY3lTZXJ2aWNlVXBkYXRlUG9saWN5UmVxdWVzdBo0",
+            "LmFyY2Zvcmdlcy5ub2RlLnYxLlBvbGljeVNlcnZpY2VVcGRhdGVQb2xpY3lS",
+            "ZXNwb25zZRKOAQoTTGlzdFBvbGljeVJldmlzaW9ucxI6LmFyY2Zvcmdlcy5u",
+            "b2RlLnYxLlBvbGljeVNlcnZpY2VMaXN0UG9saWN5UmV2aXNpb25zUmVxdWVz",
+            "dBo7LmFyY2Zvcmdlcy5ub2RlLnYxLlBvbGljeVNlcnZpY2VMaXN0UG9saWN5",
+            "UmV2aXNpb25zUmVzcG9uc2USlAEKFVJlc3RvcmVQb2xpY3lSZXZpc2lvbhI8",
+            "LmFyY2Zvcmdlcy5ub2RlLnYxLlBvbGljeVNlcnZpY2VSZXN0b3JlUG9saWN5",
+            "UmV2aXNpb25SZXF1ZXN0Gj0uYXJjZm9yZ2VzLm5vZGUudjEuUG9saWN5U2Vy",
+            "dmljZVJlc3RvcmVQb2xpY3lSZXZpc2lvblJlc3BvbnNlEogBChFFeHBsYWlu",
+            "UGVybWlzc2lvbhI4LmFyY2Zvcmdlcy5ub2RlLnYxLlBvbGljeVNlcnZpY2VF",
+            "eHBsYWluUGVybWlzc2lvblJlcXVlc3QaOS5hcmNmb3JnZXMubm9kZS52MS5Q",
+            "b2xpY3lTZXJ2aWNlRXhwbGFpblBlcm1pc3Npb25SZXNwb25zZUJYCiVpby5n",
+            "aXRodWIuYXJjZm9yZ2VzLmNvbnRyYWN0cy5ub2RlLnYxQg9Ob2RlUG9saWN5",
+            "UHJvdG9QAaoCG0FyY0Zvcmdlcy5Db250cmFjdHMuTm9kZS5WMWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor, global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor, global::ArcForges.Contracts.Node.V1.PeersReflection.Descriptor, global::ArcForges.Contracts.Node.V1.QueueReflection.Descriptor, global::ArcForges.Contracts.Node.V1.TasksReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::ArcForges.Contracts.Node.V1.RoutingMode), typeof(global::ArcForges.Contracts.Node.V1.ClientPermission), typeof(global::ArcForges.Contracts.Node.V1.DiskLimitAction), typeof(global::ArcForges.Contracts.Node.V1.ActionMode), typeof(global::ArcForges.Contracts.Node.V1.QuotaKind), typeof(global::ArcForges.Contracts.Node.V1.AgentCleanupMode), typeof(global::ArcForges.Contracts.Node.V1.UpdateMode), typeof(global::ArcForges.Contracts.Node.V1.MeteredBehavior), typeof(global::ArcForges.Contracts.Node.V1.ResultCacheMode), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::ArcForges.Contracts.Node.V1.RoutingMode), typeof(global::ArcForges.Contracts.Node.V1.ClientPermission), typeof(global::ArcForges.Contracts.Node.V1.DiskLimitAction), typeof(global::ArcForges.Contracts.Node.V1.ActionMode), typeof(global::ArcForges.Contracts.Node.V1.QuotaKind), typeof(global::ArcForges.Contracts.Node.V1.AgentCleanupMode), typeof(global::ArcForges.Contracts.Node.V1.UpdateMode), typeof(global::ArcForges.Contracts.Node.V1.MeteredBehavior), typeof(global::ArcForges.Contracts.Node.V1.RelayedFrom), typeof(global::ArcForges.Contracts.Node.V1.ResultCacheMode), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.PolicyServiceGetPolicyRequest), global::ArcForges.Contracts.Node.V1.PolicyServiceGetPolicyRequest.Parser, new[]{ "Meta" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.PolicyServiceGetPolicyResponse), global::ArcForges.Contracts.Node.V1.PolicyServiceGetPolicyResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.PolicyServiceGetPolicyValue), global::ArcForges.Contracts.Node.V1.PolicyServiceGetPolicyValue.Parser, new[]{ "Document", "Revision" }, null, null, null, null),
@@ -463,6 +470,7 @@ namespace ArcForges.Contracts.Node.V1 {
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.CachePolicy), global::ArcForges.Contracts.Node.V1.CachePolicy.Parser, new[]{ "Quotas", "DotnetSharedBuildServers", "RedirectToolCaches", "UsageScanBudgetMs", "SccachePortFirst", "SccachePortLast" }, new[]{ "DotnetSharedBuildServers", "RedirectToolCaches", "UsageScanBudgetMs", "SccachePortFirst", "SccachePortLast" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.PrivacyPolicy), global::ArcForges.Contracts.Node.V1.PrivacyPolicy.Parser, new[]{ "SecretNamePatterns", "RemoteCommandLines", "RemoteOutputTail", "PeerCommandLines" }, new[]{ "RemoteCommandLines", "RemoteOutputTail", "PeerCommandLines" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.RemoteControlPolicy), global::ArcForges.Contracts.Node.V1.RemoteControlPolicy.Parser, new[]{ "Enabled", "MaxRisk", "AllowApprovals" }, new[]{ "Enabled", "MaxRisk", "AllowApprovals" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.CenterRoutedPolicy), global::ArcForges.Contracts.Node.V1.CenterRoutedPolicy.Parser, new[]{ "Enabled", "RelayedFrom" }, new[]{ "Enabled", "RelayedFrom" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.TimeWindow), global::ArcForges.Contracts.Node.V1.TimeWindow.Parser, new[]{ "DaysMask", "StartMinute", "EndMinute" }, new[]{ "DaysMask", "StartMinute", "EndMinute" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.UpdatePolicy), global::ArcForges.Contracts.Node.V1.UpdatePolicy.Parser, new[]{ "Mode", "Channel", "Windows", "Metered" }, new[]{ "Mode", "Channel", "Metered" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.LanPolicy), global::ArcForges.Contracts.Node.V1.LanPolicy.Parser, new[]{ "Enabled", "Port", "Advertise", "DefaultPeerPolicy", "AdvertiseAccountHint", "MaxWorkspaceSlots" }, new[]{ "Enabled", "Port", "Advertise", "AdvertiseAccountHint", "MaxWorkspaceSlots" }, null, null, null),
@@ -470,7 +478,7 @@ namespace ArcForges.Contracts.Node.V1 {
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.RetrySafetyRule), global::ArcForges.Contracts.Node.V1.RetrySafetyRule.Parser, new[]{ "Pattern", "WorkspaceId", "SideEffect" }, new[]{ "Pattern", "SideEffect" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.RetrySafetyPolicy), global::ArcForges.Contracts.Node.V1.RetrySafetyPolicy.Parser, new[]{ "Rules", "AcceptAgentAssertions" }, new[]{ "AcceptAgentAssertions" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.ApprovalPolicy), global::ArcForges.Contracts.Node.V1.ApprovalPolicy.Parser, new[]{ "DefaultTtlMs", "NotifyDesktop", "NotifyPush" }, new[]{ "DefaultTtlMs", "NotifyDesktop", "NotifyPush" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.PolicyDocument), global::ArcForges.Contracts.Node.V1.PolicyDocument.Parser, new[]{ "Resources", "Pools", "Parallelism", "Permissions", "Agents", "Routing", "Diagnosis", "Storage", "Cleanup", "Caches", "Privacy", "Remote", "Updates", "Lan", "Approvals", "ResultCache", "RetrySafety" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.PolicyDocument), global::ArcForges.Contracts.Node.V1.PolicyDocument.Parser, new[]{ "Resources", "Pools", "Parallelism", "Permissions", "Agents", "Routing", "Diagnosis", "Storage", "Cleanup", "Caches", "Privacy", "Remote", "Updates", "Lan", "Approvals", "ResultCache", "RetrySafety", "CenterRouted" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.PolicyRevision), global::ArcForges.Contracts.Node.V1.PolicyRevision.Parser, new[]{ "Revision", "CreatedAt", "Actor", "Comment", "Digest", "ApprovalId" }, new[]{ "Comment", "Digest" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.PolicyIssue), global::ArcForges.Contracts.Node.V1.PolicyIssue.Parser, new[]{ "Path", "Severity", "Message" }, new[]{ "Path", "Severity", "Message" }, null, null, null)
           }));
@@ -550,6 +558,24 @@ namespace ArcForges.Contracts.Node.V1 {
     [pbr::OriginalName("METERED_BEHAVIOR_UNSPECIFIED")] Unspecified = 0,
     [pbr::OriginalName("METERED_BEHAVIOR_DEFER")] Defer = 1,
     [pbr::OriginalName("METERED_BEHAVIOR_ALLOW")] Allow = 2,
+  }
+
+  /// <summary>
+  /// Where a node-relayed call may come from (AF-CTR-05 target; Plan decisions Q7 and PB-2; Design 11 section 1).
+  /// </summary>
+  public enum RelayedFrom {
+    /// <summary>
+    /// read as OWN_NODE
+    /// </summary>
+    [pbr::OriginalName("RELAYED_FROM_UNSPECIFIED")] Unspecified = 0,
+    /// <summary>
+    /// default: a node-relayed call is admitted only when its relaying node is this node
+    /// </summary>
+    [pbr::OriginalName("RELAYED_FROM_OWN_NODE")] OwnNode = 1,
+    /// <summary>
+    /// opt-in: also from the other nodes of this node's account, their claimed local origin advisory
+    /// </summary>
+    [pbr::OriginalName("RELAYED_FROM_ACCOUNT")] Account = 2,
   }
 
   public enum ResultCacheMode {
@@ -14275,7 +14301,7 @@ namespace ArcForges.Contracts.Node.V1 {
 
     private bool remoteCommandLines_;
     /// <summary>
-    /// default false
+    /// default false; AF-CTR-05: also what a center-routed read returns of other callers' tasks: argv and the working directory, environment names only (Plan PN-8)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -14305,7 +14331,7 @@ namespace ArcForges.Contracts.Node.V1 {
 
     private bool remoteOutputTail_;
     /// <summary>
-    /// default false
+    /// default false; AF-CTR-05: also whether a center-routed caller reads other callers' tasks' output
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -14562,6 +14588,10 @@ namespace ArcForges.Contracts.Node.V1 {
 
   }
 
+  /// <summary>
+  /// Governs only the unserved command kinds of FleetService.SendNodeCommand; it neither enables nor disables center-routed calls,
+  /// which CenterRoutedPolicy governs (AF-CTR-05, review finding N-4).
+  /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class RemoteControlPolicy : pb::IMessage<RemoteControlPolicy>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -14890,6 +14920,288 @@ namespace ArcForges.Contracts.Node.V1 {
 
   }
 
+  /// <summary>
+  /// Who may call this node through the center (AF-CTR-05 target; Plan decisions Q7 as amended by PB-2, PN-8; Design 11 section 1,
+  /// "Center-routed callers"; review finding N-4). It governs the six center-routed task methods and nothing else. Only a local
+  /// HUMAN changes it (operation policy.center_routed), and permission overrides for REMOTE may only narrow it. A node-relayed call
+  /// from another node is refused AUTHORIZATION/permission_denied (state.reason relay_own_node_only) unless relayed_from is
+  /// ACCOUNT; after that opt-in its claimed HUMAN or SCRIPT origin gets the SCRIPT cells, never more, and a claimed AGENT origin is
+  /// refused (relayed_agent_own_node_only) until AF-CTR-07. While enabled is false every routed call is refused before any effect
+  /// (state.reason center_routed_disabled); turning the cloud link off closes the channel.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class CenterRoutedPolicy : pb::IMessage<CenterRoutedPolicy>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<CenterRoutedPolicy> _parser = new pb::MessageParser<CenterRoutedPolicy>(() => new CenterRoutedPolicy());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<CenterRoutedPolicy> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[39]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public CenterRoutedPolicy() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public CenterRoutedPolicy(CenterRoutedPolicy other) : this() {
+      _hasBits0 = other._hasBits0;
+      enabled_ = other.enabled_;
+      relayedFrom_ = other.relayedFrom_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public CenterRoutedPolicy Clone() {
+      return new CenterRoutedPolicy(this);
+    }
+
+    /// <summary>Field number for the "enabled" field.</summary>
+    public const int EnabledFieldNumber = 1;
+    private readonly static bool EnabledDefaultValue = false;
+
+    private bool enabled_;
+    /// <summary>
+    /// default true while the node is signed in with its cloud link on (Plan decision Q7, Q19)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Enabled {
+      get { if ((_hasBits0 & 1) != 0) { return enabled_; } else { return EnabledDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        enabled_ = value;
+      }
+    }
+    /// <summary>Gets whether the "enabled" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasEnabled {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "enabled" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearEnabled() {
+      _hasBits0 &= ~1;
+    }
+
+    /// <summary>Field number for the "relayed_from" field.</summary>
+    public const int RelayedFromFieldNumber = 2;
+    private readonly static global::ArcForges.Contracts.Node.V1.RelayedFrom RelayedFromDefaultValue = global::ArcForges.Contracts.Node.V1.RelayedFrom.Unspecified;
+
+    private global::ArcForges.Contracts.Node.V1.RelayedFrom relayedFrom_;
+    /// <summary>
+    /// default OWN_NODE; ACCOUNT is the cross-node opt-in on this, the target, node
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Node.V1.RelayedFrom RelayedFrom {
+      get { if ((_hasBits0 & 2) != 0) { return relayedFrom_; } else { return RelayedFromDefaultValue; } }
+      set {
+        _hasBits0 |= 2;
+        relayedFrom_ = value;
+      }
+    }
+    /// <summary>Gets whether the "relayed_from" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasRelayedFrom {
+      get { return (_hasBits0 & 2) != 0; }
+    }
+    /// <summary>Clears the value of the "relayed_from" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearRelayedFrom() {
+      _hasBits0 &= ~2;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as CenterRoutedPolicy);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(CenterRoutedPolicy other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Enabled != other.Enabled) return false;
+      if (RelayedFrom != other.RelayedFrom) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasEnabled) hash ^= Enabled.GetHashCode();
+      if (HasRelayedFrom) hash ^= RelayedFrom.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasEnabled) {
+        output.WriteRawTag(8);
+        output.WriteBool(Enabled);
+      }
+      if (HasRelayedFrom) {
+        output.WriteRawTag(16);
+        output.WriteEnum((int) RelayedFrom);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasEnabled) {
+        output.WriteRawTag(8);
+        output.WriteBool(Enabled);
+      }
+      if (HasRelayedFrom) {
+        output.WriteRawTag(16);
+        output.WriteEnum((int) RelayedFrom);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasEnabled) {
+        size += 1 + 1;
+      }
+      if (HasRelayedFrom) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) RelayedFrom);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(CenterRoutedPolicy other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasEnabled) {
+        Enabled = other.Enabled;
+      }
+      if (other.HasRelayedFrom) {
+        RelayedFrom = other.RelayedFrom;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Enabled = input.ReadBool();
+            break;
+          }
+          case 16: {
+            RelayedFrom = (global::ArcForges.Contracts.Node.V1.RelayedFrom) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Enabled = input.ReadBool();
+            break;
+          }
+          case 16: {
+            RelayedFrom = (global::ArcForges.Contracts.Node.V1.RelayedFrom) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class TimeWindow : pb::IMessage<TimeWindow>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -14906,7 +15218,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[39]; }
+      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[40]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -15234,7 +15546,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[40]; }
+      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[41]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -15590,7 +15902,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[41]; }
+      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[42]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -16077,7 +16389,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[42]; }
+      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[43]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -16327,7 +16639,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[43]; }
+      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[44]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -16648,7 +16960,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[44]; }
+      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[45]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -16895,7 +17207,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[45]; }
+      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[46]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -17222,7 +17534,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[46]; }
+      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[47]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -17259,6 +17571,7 @@ namespace ArcForges.Contracts.Node.V1 {
       approvals_ = other.approvals_ != null ? other.approvals_.Clone() : null;
       resultCache_ = other.resultCache_ != null ? other.resultCache_.Clone() : null;
       retrySafety_ = other.retrySafety_ != null ? other.retrySafety_.Clone() : null;
+      centerRouted_ = other.centerRouted_ != null ? other.centerRouted_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -17472,6 +17785,21 @@ namespace ArcForges.Contracts.Node.V1 {
       }
     }
 
+    /// <summary>Field number for the "center_routed" field.</summary>
+    public const int CenterRoutedFieldNumber = 18;
+    private global::ArcForges.Contracts.Node.V1.CenterRoutedPolicy centerRouted_;
+    /// <summary>
+    /// AF-CTR-05: the center-routed policy (HUMAN-edited)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Node.V1.CenterRoutedPolicy CenterRouted {
+      get { return centerRouted_; }
+      set {
+        centerRouted_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -17504,6 +17832,7 @@ namespace ArcForges.Contracts.Node.V1 {
       if (!object.Equals(Approvals, other.Approvals)) return false;
       if (!object.Equals(ResultCache, other.ResultCache)) return false;
       if (!object.Equals(RetrySafety, other.RetrySafety)) return false;
+      if (!object.Equals(CenterRouted, other.CenterRouted)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -17528,6 +17857,7 @@ namespace ArcForges.Contracts.Node.V1 {
       if (approvals_ != null) hash ^= Approvals.GetHashCode();
       if (resultCache_ != null) hash ^= ResultCache.GetHashCode();
       if (retrySafety_ != null) hash ^= RetrySafety.GetHashCode();
+      if (centerRouted_ != null) hash ^= CenterRouted.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -17605,6 +17935,10 @@ namespace ArcForges.Contracts.Node.V1 {
         output.WriteRawTag(138, 1);
         output.WriteMessage(RetrySafety);
       }
+      if (centerRouted_ != null) {
+        output.WriteRawTag(146, 1);
+        output.WriteMessage(CenterRouted);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -17674,6 +18008,10 @@ namespace ArcForges.Contracts.Node.V1 {
         output.WriteRawTag(138, 1);
         output.WriteMessage(RetrySafety);
       }
+      if (centerRouted_ != null) {
+        output.WriteRawTag(146, 1);
+        output.WriteMessage(CenterRouted);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -17728,6 +18066,9 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       if (retrySafety_ != null) {
         size += 2 + pb::CodedOutputStream.ComputeMessageSize(RetrySafety);
+      }
+      if (centerRouted_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(CenterRouted);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -17827,6 +18168,12 @@ namespace ArcForges.Contracts.Node.V1 {
           RetrySafety = new global::ArcForges.Contracts.Node.V1.RetrySafetyPolicy();
         }
         RetrySafety.MergeFrom(other.RetrySafety);
+      }
+      if (other.centerRouted_ != null) {
+        if (centerRouted_ == null) {
+          CenterRouted = new global::ArcForges.Contracts.Node.V1.CenterRoutedPolicy();
+        }
+        CenterRouted.MergeFrom(other.CenterRouted);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -17955,6 +18302,13 @@ namespace ArcForges.Contracts.Node.V1 {
               RetrySafety = new global::ArcForges.Contracts.Node.V1.RetrySafetyPolicy();
             }
             input.ReadMessage(RetrySafety);
+            break;
+          }
+          case 146: {
+            if (centerRouted_ == null) {
+              CenterRouted = new global::ArcForges.Contracts.Node.V1.CenterRoutedPolicy();
+            }
+            input.ReadMessage(CenterRouted);
             break;
           }
         }
@@ -18086,6 +18440,13 @@ namespace ArcForges.Contracts.Node.V1 {
             input.ReadMessage(RetrySafety);
             break;
           }
+          case 146: {
+            if (centerRouted_ == null) {
+              CenterRouted = new global::ArcForges.Contracts.Node.V1.CenterRoutedPolicy();
+            }
+            input.ReadMessage(CenterRouted);
+            break;
+          }
         }
       }
     }
@@ -18108,7 +18469,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[47]; }
+      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[48]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -18559,7 +18920,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[48]; }
+      get { return global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor.MessageTypes[49]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

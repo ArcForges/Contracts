@@ -259,6 +259,30 @@ message ActorRef {
   arcforges.foundation.v1.Id peer_node_id = 6 [json_name = "peerNodeId"];
   arcforges.foundation.v1.Id remote_command_id = 7 [json_name = "remoteCommandId"];
   optional string client_name = 8 [json_name = "clientName"];
+  CenterCaller center_caller = 9 [json_name = "centerCaller"]; // origin REMOTE through the center (AF-CTR-05): the caller the center signed into the call; remote_command_id is then the routed command ID
+}
+
+// The kind of a center-routed call's caller (AF-CTR-05 target; Plan CTR5-RTE-07; Design 11 section 1, "Center-routed callers").
+enum CenterCallerKind {
+  CENTER_CALLER_KIND_UNSPECIFIED = 0;
+  CENTER_CALLER_KIND_ACCOUNT_SESSION = 1; // an account session of the center (Web, Android)
+  CENTER_CALLER_KIND_NODE_RELAY = 2; // a node-relayed caller, as the verified relay assertion states it
+  CENTER_CALLER_KIND_AGENT_GRANT = 3; // reserved for the agent grants of AF-CTR-07; never sent before then
+}
+
+// The caller of a center-routed call as the center verified it and signed it into the call header (arcforges.relay.v1
+// CallHeader.caller). The center fills it only from the verified account session or relay assertion, never from a request
+// field. The node records it on ActorRef.center_caller and decides the call by its center-routed policy (CenterRoutedPolicy),
+// never by the HUMAN cells; a NODE_RELAY caller's local_origin is the target's own classification only when relaying_node_id is
+// the target node itself, and advisory otherwise.
+message CenterCaller {
+  optional CenterCallerKind kind = 1 [json_name = "kind"]; // validate: required; ACCOUNT_SESSION or NODE_RELAY
+  arcforges.foundation.v1.Id account_id = 2 [json_name = "accountId"]; // validate: required
+  arcforges.foundation.v1.Id user_id = 3 [json_name = "userId"]; // validate: required for ACCOUNT_SESSION, absent otherwise
+  arcforges.foundation.v1.Id session_id = 4 [json_name = "sessionId"]; // validate: required for ACCOUNT_SESSION, absent otherwise; the center session
+  arcforges.foundation.v1.Id relaying_node_id = 5 [json_name = "relayingNodeId"]; // validate: required for NODE_RELAY, absent otherwise
+  optional Origin local_origin = 6 [json_name = "localOrigin"]; // validate: required for NODE_RELAY, absent otherwise; HUMAN, SCRIPT or AGENT
+  arcforges.foundation.v1.Id local_session_id = 7 [json_name = "localSessionId"]; // validate: required for NODE_RELAY, absent otherwise; the local caller's client session at the relaying node
 }
 
 // Shape reused from arcforges.events.v1.StreamPosition (cursor, sequence, generation).

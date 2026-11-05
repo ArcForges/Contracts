@@ -374,6 +374,12 @@ public static class ContractShapeValidation
         {
             if (!Check(value.CredentialExpiresAt, context)) return false;
         }
+        if (value.HasReportedName)
+        {
+            if (!ValidUnicode(value.ReportedName)) return false;
+            if (ScalarLength(value.ReportedName) < 1) return false;
+            if (ScalarLength(value.ReportedName) > 64) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -431,6 +437,81 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Command, context)) return false;
         }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceCancelNodeTaskRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
+        if (value.Caller is not null)
+        {
+            if (!Check(value.Caller, context)) return false;
+        }
+        if (!value.HasRequest) return false;
+        if (value.HasRequest)
+        {
+            if (value.Request.Length < 1) return false;
+            if (value.Request.Length > 3072) return false;
+        }
+        if (value.HasRelayAssertion)
+        {
+            if (value.RelayAssertion.Length < 1) return false;
+            if (value.RelayAssertion.Length > 512) return false;
+        }
+        if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceCancelNodeTaskResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceCancelNodeTaskValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasResponse) return false;
+        if (value.HasResponse)
+        {
+            if (value.Response.Length < 1) return false;
+            if (value.Response.Length > 1040384) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -505,6 +586,16 @@ public static class ContractShapeValidation
         {
             if (!Check(value.NodeId, context)) return false;
         }
+        if (value.Caller is not null)
+        {
+            if (!Check(value.Caller, context)) return false;
+        }
+        if (value.HasRelayAssertion)
+        {
+            if (value.RelayAssertion.Length < 1) return false;
+            if (value.RelayAssertion.Length > 512) return false;
+        }
+        if ((value.Caller is null) == value.HasRelayAssertion) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -528,6 +619,81 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Error, context)) return false;
         }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceGetNodeTaskRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
+        if (value.Caller is not null)
+        {
+            if (!Check(value.Caller, context)) return false;
+        }
+        if (!value.HasRequest) return false;
+        if (value.HasRequest)
+        {
+            if (value.Request.Length < 1) return false;
+            if (value.Request.Length > 3072) return false;
+        }
+        if (value.HasRelayAssertion)
+        {
+            if (value.RelayAssertion.Length < 1) return false;
+            if (value.RelayAssertion.Length > 512) return false;
+        }
+        if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceGetNodeTaskResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceGetNodeTaskValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasResponse) return false;
+        if (value.HasResponse)
+        {
+            if (value.Response.Length < 1) return false;
+            if (value.Response.Length > 1040384) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -720,6 +886,81 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceListNodeTasksRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
+        if (value.Caller is not null)
+        {
+            if (!Check(value.Caller, context)) return false;
+        }
+        if (!value.HasRequest) return false;
+        if (value.HasRequest)
+        {
+            if (value.Request.Length < 1) return false;
+            if (value.Request.Length > 3072) return false;
+        }
+        if (value.HasRelayAssertion)
+        {
+            if (value.RelayAssertion.Length < 1) return false;
+            if (value.RelayAssertion.Length > 512) return false;
+        }
+        if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceListNodeTasksResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceListNodeTasksValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasResponse) return false;
+        if (value.HasResponse)
+        {
+            if (value.Response.Length < 1) return false;
+            if (value.Response.Length > 1040384) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceListNodesRequest.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodesRequest? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodesRequest? value, ValidationContext context)
@@ -731,6 +972,16 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Meta, context)) return false;
         }
+        if (value.Caller is not null)
+        {
+            if (!Check(value.Caller, context)) return false;
+        }
+        if (value.HasRelayAssertion)
+        {
+            if (value.RelayAssertion.Length < 1) return false;
+            if (value.RelayAssertion.Length > 512) return false;
+        }
+        if ((value.Caller is null) == value.HasRelayAssertion) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -829,6 +1080,81 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Grant, context)) return false;
         }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceReadNodeTaskOutputRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
+        if (value.Caller is not null)
+        {
+            if (!Check(value.Caller, context)) return false;
+        }
+        if (!value.HasRequest) return false;
+        if (value.HasRequest)
+        {
+            if (value.Request.Length < 1) return false;
+            if (value.Request.Length > 3072) return false;
+        }
+        if (value.HasRelayAssertion)
+        {
+            if (value.RelayAssertion.Length < 1) return false;
+            if (value.RelayAssertion.Length > 512) return false;
+        }
+        if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceReadNodeTaskOutputResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceReadNodeTaskOutputValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasResponse) return false;
+        if (value.HasResponse)
+        {
+            if (value.Response.Length < 1) return false;
+            if (value.Response.Length > 1040384) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1006,6 +1332,81 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceSubmitNodeTaskRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
+        if (value.Caller is not null)
+        {
+            if (!Check(value.Caller, context)) return false;
+        }
+        if (!value.HasRequest) return false;
+        if (value.HasRequest)
+        {
+            if (value.Request.Length < 1) return false;
+            if (value.Request.Length > 253952) return false;
+        }
+        if (value.HasRelayAssertion)
+        {
+            if (value.RelayAssertion.Length < 1) return false;
+            if (value.RelayAssertion.Length > 512) return false;
+        }
+        if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceSubmitNodeTaskResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceSubmitNodeTaskValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasResponse) return false;
+        if (value.HasResponse)
+        {
+            if (value.Response.Length < 1) return false;
+            if (value.Response.Length > 1040384) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceUpdatePushPreferencesRequest.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceUpdatePushPreferencesRequest? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceUpdatePushPreferencesRequest? value, ValidationContext context)
@@ -1059,6 +1460,81 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Preferences, context)) return false;
         }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceWaitNodeTaskRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
+        if (value.Caller is not null)
+        {
+            if (!Check(value.Caller, context)) return false;
+        }
+        if (!value.HasRequest) return false;
+        if (value.HasRequest)
+        {
+            if (value.Request.Length < 1) return false;
+            if (value.Request.Length > 3072) return false;
+        }
+        if (value.HasRelayAssertion)
+        {
+            if (value.RelayAssertion.Length < 1) return false;
+            if (value.RelayAssertion.Length > 512) return false;
+        }
+        if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceWaitNodeTaskResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.FleetServiceWaitNodeTaskValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasResponse) return false;
+        if (value.HasResponse)
+        {
+            if (value.Response.Length < 1) return false;
+            if (value.Response.Length > 1040384) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3282,6 +3758,29 @@ public static class ContractShapeValidation
         if (value.HasPool)
         {
             if (!ValidUnicode(value.Pool)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.fleet.v1.RoutedCaller.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.RoutedCaller? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Fleet.V1.RoutedCaller? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if ((int)value.Kind != 2) return false;
+        }
+        if (value.RelayingNodeId is null) return false;
+        if (!Check(value.RelayingNodeId, context)) return false;
+        if (!value.HasLocalOrigin) return false;
+        if (value.HasLocalOrigin)
+        {
+            if ((int)value.LocalOrigin != 1 && (int)value.LocalOrigin != 2 && (int)value.LocalOrigin != 3) return false;
         }
         return true;
         }

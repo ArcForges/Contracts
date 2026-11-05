@@ -1353,6 +1353,59 @@ func (JobState) EnumDescriptor() ([]byte, []int) {
 	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{23}
 }
 
+// The kind of a center-routed call's caller (AF-CTR-05 target; Plan CTR5-RTE-07; Design 11 section 1, "Center-routed callers").
+type CenterCallerKind int32
+
+const (
+	CenterCallerKind_CENTER_CALLER_KIND_UNSPECIFIED     CenterCallerKind = 0
+	CenterCallerKind_CENTER_CALLER_KIND_ACCOUNT_SESSION CenterCallerKind = 1 // an account session of the center (Web, Android)
+	CenterCallerKind_CENTER_CALLER_KIND_NODE_RELAY      CenterCallerKind = 2 // a node-relayed caller, as the verified relay assertion states it
+	CenterCallerKind_CENTER_CALLER_KIND_AGENT_GRANT     CenterCallerKind = 3 // reserved for the agent grants of AF-CTR-07; never sent before then
+)
+
+// Enum value maps for CenterCallerKind.
+var (
+	CenterCallerKind_name = map[int32]string{
+		0: "CENTER_CALLER_KIND_UNSPECIFIED",
+		1: "CENTER_CALLER_KIND_ACCOUNT_SESSION",
+		2: "CENTER_CALLER_KIND_NODE_RELAY",
+		3: "CENTER_CALLER_KIND_AGENT_GRANT",
+	}
+	CenterCallerKind_value = map[string]int32{
+		"CENTER_CALLER_KIND_UNSPECIFIED":     0,
+		"CENTER_CALLER_KIND_ACCOUNT_SESSION": 1,
+		"CENTER_CALLER_KIND_NODE_RELAY":      2,
+		"CENTER_CALLER_KIND_AGENT_GRANT":     3,
+	}
+)
+
+func (x CenterCallerKind) Enum() *CenterCallerKind {
+	p := new(CenterCallerKind)
+	*p = x
+	return p
+}
+
+func (x CenterCallerKind) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CenterCallerKind) Descriptor() protoreflect.EnumDescriptor {
+	return file_arcforges_node_v1_common_proto_enumTypes[24].Descriptor()
+}
+
+func (CenterCallerKind) Type() protoreflect.EnumType {
+	return &file_arcforges_node_v1_common_proto_enumTypes[24]
+}
+
+func (x CenterCallerKind) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CenterCallerKind.Descriptor instead.
+func (CenterCallerKind) EnumDescriptor() ([]byte, []int) {
+	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{24}
+}
+
 type ResourceDemand struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	CpuMillicores    *uint32                `protobuf:"varint,1,opt,name=cpu_millicores,json=cpuMillicores,proto3,oneof" json:"cpu_millicores,omitempty"`            // validate: 1..1,024,000; clamped to policy maximum
@@ -1669,6 +1722,7 @@ type ActorRef struct {
 	PeerNodeId      *v1.Id                 `protobuf:"bytes,6,opt,name=peer_node_id,json=peerNodeId,proto3" json:"peer_node_id,omitempty"`
 	RemoteCommandId *v1.Id                 `protobuf:"bytes,7,opt,name=remote_command_id,json=remoteCommandId,proto3" json:"remote_command_id,omitempty"`
 	ClientName      *string                `protobuf:"bytes,8,opt,name=client_name,json=clientName,proto3,oneof" json:"client_name,omitempty"`
+	CenterCaller    *CenterCaller          `protobuf:"bytes,9,opt,name=center_caller,json=centerCaller,proto3" json:"center_caller,omitempty"` // origin REMOTE through the center (AF-CTR-05): the caller the center signed into the call; remote_command_id is then the routed command ID
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1759,6 +1813,110 @@ func (x *ActorRef) GetClientName() string {
 	return ""
 }
 
+func (x *ActorRef) GetCenterCaller() *CenterCaller {
+	if x != nil {
+		return x.CenterCaller
+	}
+	return nil
+}
+
+// The caller of a center-routed call as the center verified it and signed it into the call header (arcforges.relay.v1
+// CallHeader.caller). The center fills it only from the verified account session or relay assertion, never from a request
+// field. The node records it on ActorRef.center_caller and decides the call by its center-routed policy (CenterRoutedPolicy),
+// never by the HUMAN cells; a NODE_RELAY caller's local_origin is the target's own classification only when relaying_node_id is
+// the target node itself, and advisory otherwise.
+type CenterCaller struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Kind           *CenterCallerKind      `protobuf:"varint,1,opt,name=kind,proto3,enum=arcforges.node.v1.CenterCallerKind,oneof" json:"kind,omitempty"`                        // validate: required; ACCOUNT_SESSION or NODE_RELAY
+	AccountId      *v1.Id                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`                                            // validate: required
+	UserId         *v1.Id                 `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                                                     // validate: required for ACCOUNT_SESSION, absent otherwise
+	SessionId      *v1.Id                 `protobuf:"bytes,4,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`                                            // validate: required for ACCOUNT_SESSION, absent otherwise; the center session
+	RelayingNodeId *v1.Id                 `protobuf:"bytes,5,opt,name=relaying_node_id,json=relayingNodeId,proto3" json:"relaying_node_id,omitempty"`                           // validate: required for NODE_RELAY, absent otherwise
+	LocalOrigin    *Origin                `protobuf:"varint,6,opt,name=local_origin,json=localOrigin,proto3,enum=arcforges.node.v1.Origin,oneof" json:"local_origin,omitempty"` // validate: required for NODE_RELAY, absent otherwise; HUMAN, SCRIPT or AGENT
+	LocalSessionId *v1.Id                 `protobuf:"bytes,7,opt,name=local_session_id,json=localSessionId,proto3" json:"local_session_id,omitempty"`                           // validate: required for NODE_RELAY, absent otherwise; the local caller's client session at the relaying node
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CenterCaller) Reset() {
+	*x = CenterCaller{}
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CenterCaller) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CenterCaller) ProtoMessage() {}
+
+func (x *CenterCaller) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CenterCaller.ProtoReflect.Descriptor instead.
+func (*CenterCaller) Descriptor() ([]byte, []int) {
+	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CenterCaller) GetKind() CenterCallerKind {
+	if x != nil && x.Kind != nil {
+		return *x.Kind
+	}
+	return CenterCallerKind_CENTER_CALLER_KIND_UNSPECIFIED
+}
+
+func (x *CenterCaller) GetAccountId() *v1.Id {
+	if x != nil {
+		return x.AccountId
+	}
+	return nil
+}
+
+func (x *CenterCaller) GetUserId() *v1.Id {
+	if x != nil {
+		return x.UserId
+	}
+	return nil
+}
+
+func (x *CenterCaller) GetSessionId() *v1.Id {
+	if x != nil {
+		return x.SessionId
+	}
+	return nil
+}
+
+func (x *CenterCaller) GetRelayingNodeId() *v1.Id {
+	if x != nil {
+		return x.RelayingNodeId
+	}
+	return nil
+}
+
+func (x *CenterCaller) GetLocalOrigin() Origin {
+	if x != nil && x.LocalOrigin != nil {
+		return *x.LocalOrigin
+	}
+	return Origin_ORIGIN_UNSPECIFIED
+}
+
+func (x *CenterCaller) GetLocalSessionId() *v1.Id {
+	if x != nil {
+		return x.LocalSessionId
+	}
+	return nil
+}
+
 // Shape reused from arcforges.events.v1.StreamPosition (cursor, sequence, generation).
 type StreamPosition struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -1771,7 +1929,7 @@ type StreamPosition struct {
 
 func (x *StreamPosition) Reset() {
 	*x = StreamPosition{}
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[5]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1783,7 +1941,7 @@ func (x *StreamPosition) String() string {
 func (*StreamPosition) ProtoMessage() {}
 
 func (x *StreamPosition) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[5]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1796,7 +1954,7 @@ func (x *StreamPosition) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StreamPosition.ProtoReflect.Descriptor instead.
 func (*StreamPosition) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{5}
+	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *StreamPosition) GetCursor() string {
@@ -1830,7 +1988,7 @@ type StreamReset struct {
 
 func (x *StreamReset) Reset() {
 	*x = StreamReset{}
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[6]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1842,7 +2000,7 @@ func (x *StreamReset) String() string {
 func (*StreamReset) ProtoMessage() {}
 
 func (x *StreamReset) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[6]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1855,7 +2013,7 @@ func (x *StreamReset) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StreamReset.ProtoReflect.Descriptor instead.
 func (*StreamReset) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{6}
+	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *StreamReset) GetReason() string {
@@ -1881,7 +2039,7 @@ type Heartbeat struct {
 
 func (x *Heartbeat) Reset() {
 	*x = Heartbeat{}
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[7]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1893,7 +2051,7 @@ func (x *Heartbeat) String() string {
 func (*Heartbeat) ProtoMessage() {}
 
 func (x *Heartbeat) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[7]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1906,7 +2064,7 @@ func (x *Heartbeat) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Heartbeat.ProtoReflect.Descriptor instead.
 func (*Heartbeat) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{7}
+	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *Heartbeat) GetAt() *v1.Instant {
@@ -1927,7 +2085,7 @@ type KeyValue struct {
 
 func (x *KeyValue) Reset() {
 	*x = KeyValue{}
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[8]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1939,7 +2097,7 @@ func (x *KeyValue) String() string {
 func (*KeyValue) ProtoMessage() {}
 
 func (x *KeyValue) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[8]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1952,7 +2110,7 @@ func (x *KeyValue) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KeyValue.ProtoReflect.Descriptor instead.
 func (*KeyValue) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{8}
+	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *KeyValue) GetName() string {
@@ -2002,7 +2160,7 @@ type CapabilityReport struct {
 
 func (x *CapabilityReport) Reset() {
 	*x = CapabilityReport{}
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[9]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2014,7 +2172,7 @@ func (x *CapabilityReport) String() string {
 func (*CapabilityReport) ProtoMessage() {}
 
 func (x *CapabilityReport) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[9]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2027,7 +2185,7 @@ func (x *CapabilityReport) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CapabilityReport.ProtoReflect.Descriptor instead.
 func (*CapabilityReport) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{9}
+	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CapabilityReport) GetCpu() CpuControl {
@@ -2175,7 +2333,7 @@ type JobView struct {
 
 func (x *JobView) Reset() {
 	*x = JobView{}
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[10]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2187,7 +2345,7 @@ func (x *JobView) String() string {
 func (*JobView) ProtoMessage() {}
 
 func (x *JobView) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[10]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2200,7 +2358,7 @@ func (x *JobView) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JobView.ProtoReflect.Descriptor instead.
 func (*JobView) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{10}
+	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *JobView) GetJobId() *v1.Id {
@@ -2293,7 +2451,7 @@ type ApprovalHandle struct {
 
 func (x *ApprovalHandle) Reset() {
 	*x = ApprovalHandle{}
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[11]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2305,7 +2463,7 @@ func (x *ApprovalHandle) String() string {
 func (*ApprovalHandle) ProtoMessage() {}
 
 func (x *ApprovalHandle) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_common_proto_msgTypes[11]
+	mi := &file_arcforges_node_v1_common_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2318,7 +2476,7 @@ func (x *ApprovalHandle) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApprovalHandle.ProtoReflect.Descriptor instead.
 func (*ApprovalHandle) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{11}
+	return file_arcforges_node_v1_common_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ApprovalHandle) GetApprovalId() *v1.Id {
@@ -2384,7 +2542,7 @@ const file_arcforges_node_v1_common_proto_rawDesc = "" +
 	"\x05_nameB\a\n" +
 	"\x05_roleB\x05\n" +
 	"\x03_osB\a\n" +
-	"\x05_arch\"\xf3\x03\n" +
+	"\x05_arch\"\xb9\x04\n" +
 	"\bActorRef\x126\n" +
 	"\x06origin\x18\x01 \x01(\x0e2\x19.arcforges.node.v1.OriginH\x00R\x06origin\x88\x01\x01\x12C\n" +
 	"\vclient_kind\x18\x02 \x01(\x0e2\x1d.arcforges.node.v1.ClientKindH\x01R\n" +
@@ -2397,13 +2555,26 @@ const file_arcforges_node_v1_common_proto_rawDesc = "" +
 	"peerNodeId\x12G\n" +
 	"\x11remote_command_id\x18\a \x01(\v2\x1b.arcforges.foundation.v1.IdR\x0fremoteCommandId\x12$\n" +
 	"\vclient_name\x18\b \x01(\tH\x04R\n" +
-	"clientName\x88\x01\x01B\t\n" +
+	"clientName\x88\x01\x01\x12D\n" +
+	"\rcenter_caller\x18\t \x01(\v2\x1f.arcforges.node.v1.CenterCallerR\fcenterCallerB\t\n" +
 	"\a_originB\x0e\n" +
 	"\f_client_kindB\v\n" +
 	"\t_agent_idB\n" +
 	"\n" +
 	"\b_os_userB\x0e\n" +
-	"\f_client_name\"\x9a\x01\n" +
+	"\f_client_name\"\xe5\x03\n" +
+	"\fCenterCaller\x12<\n" +
+	"\x04kind\x18\x01 \x01(\x0e2#.arcforges.node.v1.CenterCallerKindH\x00R\x04kind\x88\x01\x01\x12:\n" +
+	"\n" +
+	"account_id\x18\x02 \x01(\v2\x1b.arcforges.foundation.v1.IdR\taccountId\x124\n" +
+	"\auser_id\x18\x03 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06userId\x12:\n" +
+	"\n" +
+	"session_id\x18\x04 \x01(\v2\x1b.arcforges.foundation.v1.IdR\tsessionId\x12E\n" +
+	"\x10relaying_node_id\x18\x05 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x0erelayingNodeId\x12A\n" +
+	"\flocal_origin\x18\x06 \x01(\x0e2\x19.arcforges.node.v1.OriginH\x01R\vlocalOrigin\x88\x01\x01\x12E\n" +
+	"\x10local_session_id\x18\a \x01(\v2\x1b.arcforges.foundation.v1.IdR\x0elocalSessionIdB\a\n" +
+	"\x05_kindB\x0f\n" +
+	"\r_local_origin\"\x9a\x01\n" +
 	"\x0eStreamPosition\x12\x1b\n" +
 	"\x06cursor\x18\x01 \x01(\tH\x00R\x06cursor\x88\x01\x01\x12\x1f\n" +
 	"\bsequence\x18\x02 \x01(\x04H\x01R\bsequence\x88\x01\x01\x12#\n" +
@@ -2639,7 +2810,12 @@ const file_arcforges_node_v1_common_proto_rawDesc = "" +
 	"\x11JOB_STATE_RUNNING\x10\x02\x12\x17\n" +
 	"\x13JOB_STATE_SUCCEEDED\x10\x03\x12\x14\n" +
 	"\x10JOB_STATE_FAILED\x10\x04\x12\x17\n" +
-	"\x13JOB_STATE_CANCELLED\x10\x05BX\n" +
+	"\x13JOB_STATE_CANCELLED\x10\x05*\xa5\x01\n" +
+	"\x10CenterCallerKind\x12\"\n" +
+	"\x1eCENTER_CALLER_KIND_UNSPECIFIED\x10\x00\x12&\n" +
+	"\"CENTER_CALLER_KIND_ACCOUNT_SESSION\x10\x01\x12!\n" +
+	"\x1dCENTER_CALLER_KIND_NODE_RELAY\x10\x02\x12\"\n" +
+	"\x1eCENTER_CALLER_KIND_AGENT_GRANT\x10\x03BX\n" +
 	"%io.github.arcforges.contracts.node.v1B\x0fNodeCommonProtoP\x01\xaa\x02\x1bArcForges.Contracts.Node.V1b\x06proto3"
 
 var (
@@ -2654,8 +2830,8 @@ func file_arcforges_node_v1_common_proto_rawDescGZIP() []byte {
 	return file_arcforges_node_v1_common_proto_rawDescData
 }
 
-var file_arcforges_node_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 24)
-var file_arcforges_node_v1_common_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_arcforges_node_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 25)
+var file_arcforges_node_v1_common_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_arcforges_node_v1_common_proto_goTypes = []any{
 	(Origin)(0),              // 0: arcforges.node.v1.Origin
 	(ClientKind)(0),          // 1: arcforges.node.v1.ClientKind
@@ -2681,62 +2857,72 @@ var file_arcforges_node_v1_common_proto_goTypes = []any{
 	(AdoptSupport)(0),        // 21: arcforges.node.v1.AdoptSupport
 	(JobKind)(0),             // 22: arcforges.node.v1.JobKind
 	(JobState)(0),            // 23: arcforges.node.v1.JobState
-	(*ResourceDemand)(nil),   // 24: arcforges.node.v1.ResourceDemand
-	(*ResourceUsage)(nil),    // 25: arcforges.node.v1.ResourceUsage
-	(*ProcessIdentity)(nil),  // 26: arcforges.node.v1.ProcessIdentity
-	(*NodeRef)(nil),          // 27: arcforges.node.v1.NodeRef
-	(*ActorRef)(nil),         // 28: arcforges.node.v1.ActorRef
-	(*StreamPosition)(nil),   // 29: arcforges.node.v1.StreamPosition
-	(*StreamReset)(nil),      // 30: arcforges.node.v1.StreamReset
-	(*Heartbeat)(nil),        // 31: arcforges.node.v1.Heartbeat
-	(*KeyValue)(nil),         // 32: arcforges.node.v1.KeyValue
-	(*CapabilityReport)(nil), // 33: arcforges.node.v1.CapabilityReport
-	(*JobView)(nil),          // 34: arcforges.node.v1.JobView
-	(*ApprovalHandle)(nil),   // 35: arcforges.node.v1.ApprovalHandle
-	(*v1.Instant)(nil),       // 36: arcforges.foundation.v1.Instant
-	(*v1.Id)(nil),            // 37: arcforges.foundation.v1.Id
-	(*v1.ArcError)(nil),      // 38: arcforges.foundation.v1.ArcError
-	(*v1.AggregateRef)(nil),  // 39: arcforges.foundation.v1.AggregateRef
+	(CenterCallerKind)(0),    // 24: arcforges.node.v1.CenterCallerKind
+	(*ResourceDemand)(nil),   // 25: arcforges.node.v1.ResourceDemand
+	(*ResourceUsage)(nil),    // 26: arcforges.node.v1.ResourceUsage
+	(*ProcessIdentity)(nil),  // 27: arcforges.node.v1.ProcessIdentity
+	(*NodeRef)(nil),          // 28: arcforges.node.v1.NodeRef
+	(*ActorRef)(nil),         // 29: arcforges.node.v1.ActorRef
+	(*CenterCaller)(nil),     // 30: arcforges.node.v1.CenterCaller
+	(*StreamPosition)(nil),   // 31: arcforges.node.v1.StreamPosition
+	(*StreamReset)(nil),      // 32: arcforges.node.v1.StreamReset
+	(*Heartbeat)(nil),        // 33: arcforges.node.v1.Heartbeat
+	(*KeyValue)(nil),         // 34: arcforges.node.v1.KeyValue
+	(*CapabilityReport)(nil), // 35: arcforges.node.v1.CapabilityReport
+	(*JobView)(nil),          // 36: arcforges.node.v1.JobView
+	(*ApprovalHandle)(nil),   // 37: arcforges.node.v1.ApprovalHandle
+	(*v1.Instant)(nil),       // 38: arcforges.foundation.v1.Instant
+	(*v1.Id)(nil),            // 39: arcforges.foundation.v1.Id
+	(*v1.ArcError)(nil),      // 40: arcforges.foundation.v1.ArcError
+	(*v1.AggregateRef)(nil),  // 41: arcforges.foundation.v1.AggregateRef
 }
 var file_arcforges_node_v1_common_proto_depIdxs = []int32{
 	6,  // 0: arcforges.node.v1.ResourceDemand.source:type_name -> arcforges.node.v1.EstimateSource
-	36, // 1: arcforges.node.v1.ProcessIdentity.start_time:type_name -> arcforges.foundation.v1.Instant
-	37, // 2: arcforges.node.v1.NodeRef.node_id:type_name -> arcforges.foundation.v1.Id
+	38, // 1: arcforges.node.v1.ProcessIdentity.start_time:type_name -> arcforges.foundation.v1.Instant
+	39, // 2: arcforges.node.v1.NodeRef.node_id:type_name -> arcforges.foundation.v1.Id
 	4,  // 3: arcforges.node.v1.NodeRef.role:type_name -> arcforges.node.v1.NodeRole
-	37, // 4: arcforges.node.v1.NodeRef.host_node_id:type_name -> arcforges.foundation.v1.Id
+	39, // 4: arcforges.node.v1.NodeRef.host_node_id:type_name -> arcforges.foundation.v1.Id
 	2,  // 5: arcforges.node.v1.NodeRef.os:type_name -> arcforges.node.v1.OsFamily
 	3,  // 6: arcforges.node.v1.NodeRef.arch:type_name -> arcforges.node.v1.CpuArchitecture
 	0,  // 7: arcforges.node.v1.ActorRef.origin:type_name -> arcforges.node.v1.Origin
 	1,  // 8: arcforges.node.v1.ActorRef.client_kind:type_name -> arcforges.node.v1.ClientKind
-	37, // 9: arcforges.node.v1.ActorRef.session_id:type_name -> arcforges.foundation.v1.Id
-	37, // 10: arcforges.node.v1.ActorRef.peer_node_id:type_name -> arcforges.foundation.v1.Id
-	37, // 11: arcforges.node.v1.ActorRef.remote_command_id:type_name -> arcforges.foundation.v1.Id
-	36, // 12: arcforges.node.v1.Heartbeat.at:type_name -> arcforges.foundation.v1.Instant
-	15, // 13: arcforges.node.v1.CapabilityReport.cpu:type_name -> arcforges.node.v1.CpuControl
-	16, // 14: arcforges.node.v1.CapabilityReport.memory:type_name -> arcforges.node.v1.MemoryControl
-	17, // 15: arcforges.node.v1.CapabilityReport.pids:type_name -> arcforges.node.v1.ProcessCountControl
-	18, // 16: arcforges.node.v1.CapabilityReport.io:type_name -> arcforges.node.v1.IoControl
-	19, // 17: arcforges.node.v1.CapabilityReport.pause:type_name -> arcforges.node.v1.PauseSupport
-	20, // 18: arcforges.node.v1.CapabilityReport.kill_tree:type_name -> arcforges.node.v1.KillTreeGuarantee
-	21, // 19: arcforges.node.v1.CapabilityReport.adopt:type_name -> arcforges.node.v1.AdoptSupport
-	36, // 20: arcforges.node.v1.CapabilityReport.evaluated_at:type_name -> arcforges.foundation.v1.Instant
-	32, // 21: arcforges.node.v1.CapabilityReport.platform_facts:type_name -> arcforges.node.v1.KeyValue
-	37, // 22: arcforges.node.v1.JobView.job_id:type_name -> arcforges.foundation.v1.Id
-	22, // 23: arcforges.node.v1.JobView.kind:type_name -> arcforges.node.v1.JobKind
-	23, // 24: arcforges.node.v1.JobView.state:type_name -> arcforges.node.v1.JobState
-	37, // 25: arcforges.node.v1.JobView.task_id:type_name -> arcforges.foundation.v1.Id
-	28, // 26: arcforges.node.v1.JobView.requested_by:type_name -> arcforges.node.v1.ActorRef
-	36, // 27: arcforges.node.v1.JobView.created_at:type_name -> arcforges.foundation.v1.Instant
-	36, // 28: arcforges.node.v1.JobView.finished_at:type_name -> arcforges.foundation.v1.Instant
-	38, // 29: arcforges.node.v1.JobView.error:type_name -> arcforges.foundation.v1.ArcError
-	39, // 30: arcforges.node.v1.JobView.result:type_name -> arcforges.foundation.v1.AggregateRef
-	37, // 31: arcforges.node.v1.ApprovalHandle.approval_id:type_name -> arcforges.foundation.v1.Id
-	36, // 32: arcforges.node.v1.ApprovalHandle.expires_at:type_name -> arcforges.foundation.v1.Instant
-	33, // [33:33] is the sub-list for method output_type
-	33, // [33:33] is the sub-list for method input_type
-	33, // [33:33] is the sub-list for extension type_name
-	33, // [33:33] is the sub-list for extension extendee
-	0,  // [0:33] is the sub-list for field type_name
+	39, // 9: arcforges.node.v1.ActorRef.session_id:type_name -> arcforges.foundation.v1.Id
+	39, // 10: arcforges.node.v1.ActorRef.peer_node_id:type_name -> arcforges.foundation.v1.Id
+	39, // 11: arcforges.node.v1.ActorRef.remote_command_id:type_name -> arcforges.foundation.v1.Id
+	30, // 12: arcforges.node.v1.ActorRef.center_caller:type_name -> arcforges.node.v1.CenterCaller
+	24, // 13: arcforges.node.v1.CenterCaller.kind:type_name -> arcforges.node.v1.CenterCallerKind
+	39, // 14: arcforges.node.v1.CenterCaller.account_id:type_name -> arcforges.foundation.v1.Id
+	39, // 15: arcforges.node.v1.CenterCaller.user_id:type_name -> arcforges.foundation.v1.Id
+	39, // 16: arcforges.node.v1.CenterCaller.session_id:type_name -> arcforges.foundation.v1.Id
+	39, // 17: arcforges.node.v1.CenterCaller.relaying_node_id:type_name -> arcforges.foundation.v1.Id
+	0,  // 18: arcforges.node.v1.CenterCaller.local_origin:type_name -> arcforges.node.v1.Origin
+	39, // 19: arcforges.node.v1.CenterCaller.local_session_id:type_name -> arcforges.foundation.v1.Id
+	38, // 20: arcforges.node.v1.Heartbeat.at:type_name -> arcforges.foundation.v1.Instant
+	15, // 21: arcforges.node.v1.CapabilityReport.cpu:type_name -> arcforges.node.v1.CpuControl
+	16, // 22: arcforges.node.v1.CapabilityReport.memory:type_name -> arcforges.node.v1.MemoryControl
+	17, // 23: arcforges.node.v1.CapabilityReport.pids:type_name -> arcforges.node.v1.ProcessCountControl
+	18, // 24: arcforges.node.v1.CapabilityReport.io:type_name -> arcforges.node.v1.IoControl
+	19, // 25: arcforges.node.v1.CapabilityReport.pause:type_name -> arcforges.node.v1.PauseSupport
+	20, // 26: arcforges.node.v1.CapabilityReport.kill_tree:type_name -> arcforges.node.v1.KillTreeGuarantee
+	21, // 27: arcforges.node.v1.CapabilityReport.adopt:type_name -> arcforges.node.v1.AdoptSupport
+	38, // 28: arcforges.node.v1.CapabilityReport.evaluated_at:type_name -> arcforges.foundation.v1.Instant
+	34, // 29: arcforges.node.v1.CapabilityReport.platform_facts:type_name -> arcforges.node.v1.KeyValue
+	39, // 30: arcforges.node.v1.JobView.job_id:type_name -> arcforges.foundation.v1.Id
+	22, // 31: arcforges.node.v1.JobView.kind:type_name -> arcforges.node.v1.JobKind
+	23, // 32: arcforges.node.v1.JobView.state:type_name -> arcforges.node.v1.JobState
+	39, // 33: arcforges.node.v1.JobView.task_id:type_name -> arcforges.foundation.v1.Id
+	29, // 34: arcforges.node.v1.JobView.requested_by:type_name -> arcforges.node.v1.ActorRef
+	38, // 35: arcforges.node.v1.JobView.created_at:type_name -> arcforges.foundation.v1.Instant
+	38, // 36: arcforges.node.v1.JobView.finished_at:type_name -> arcforges.foundation.v1.Instant
+	40, // 37: arcforges.node.v1.JobView.error:type_name -> arcforges.foundation.v1.ArcError
+	41, // 38: arcforges.node.v1.JobView.result:type_name -> arcforges.foundation.v1.AggregateRef
+	39, // 39: arcforges.node.v1.ApprovalHandle.approval_id:type_name -> arcforges.foundation.v1.Id
+	38, // 40: arcforges.node.v1.ApprovalHandle.expires_at:type_name -> arcforges.foundation.v1.Instant
+	41, // [41:41] is the sub-list for method output_type
+	41, // [41:41] is the sub-list for method input_type
+	41, // [41:41] is the sub-list for extension type_name
+	41, // [41:41] is the sub-list for extension extendee
+	0,  // [0:41] is the sub-list for field type_name
 }
 
 func init() { file_arcforges_node_v1_common_proto_init() }
@@ -2751,16 +2937,17 @@ func file_arcforges_node_v1_common_proto_init() {
 	file_arcforges_node_v1_common_proto_msgTypes[4].OneofWrappers = []any{}
 	file_arcforges_node_v1_common_proto_msgTypes[5].OneofWrappers = []any{}
 	file_arcforges_node_v1_common_proto_msgTypes[6].OneofWrappers = []any{}
-	file_arcforges_node_v1_common_proto_msgTypes[8].OneofWrappers = []any{}
+	file_arcforges_node_v1_common_proto_msgTypes[7].OneofWrappers = []any{}
 	file_arcforges_node_v1_common_proto_msgTypes[9].OneofWrappers = []any{}
 	file_arcforges_node_v1_common_proto_msgTypes[10].OneofWrappers = []any{}
+	file_arcforges_node_v1_common_proto_msgTypes[11].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_arcforges_node_v1_common_proto_rawDesc), len(file_arcforges_node_v1_common_proto_rawDesc)),
-			NumEnums:      24,
-			NumMessages:   12,
+			NumEnums:      25,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

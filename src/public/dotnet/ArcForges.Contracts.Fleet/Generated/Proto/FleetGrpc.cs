@@ -2757,7 +2757,8 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
   }
   /// <summary>
-  /// Node registry, relay tokens, viewer grants, live fleet state and remote commands.
+  /// Node registry, relay tokens, viewer grants, live fleet state, remote commands and, since AF-CTR-05, the center-routed task
+  /// methods.
   /// </summary>
   public static partial class FleetService
   {
@@ -2848,6 +2849,30 @@ namespace ArcForges.Contracts.Fleet.V1 {
     static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeCommandRequest> __Marshaller_arcforges_fleet_v1_FleetServiceCancelNodeCommandRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeCommandRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeCommandResponse> __Marshaller_arcforges_fleet_v1_FleetServiceCancelNodeCommandResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeCommandResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskRequest> __Marshaller_arcforges_fleet_v1_FleetServiceSubmitNodeTaskRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskResponse> __Marshaller_arcforges_fleet_v1_FleetServiceSubmitNodeTaskResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskRequest> __Marshaller_arcforges_fleet_v1_FleetServiceGetNodeTaskRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskResponse> __Marshaller_arcforges_fleet_v1_FleetServiceGetNodeTaskResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksRequest> __Marshaller_arcforges_fleet_v1_FleetServiceListNodeTasksRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksResponse> __Marshaller_arcforges_fleet_v1_FleetServiceListNodeTasksResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest> __Marshaller_arcforges_fleet_v1_FleetServiceWaitNodeTaskRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse> __Marshaller_arcforges_fleet_v1_FleetServiceWaitNodeTaskResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest> __Marshaller_arcforges_fleet_v1_FleetServiceReadNodeTaskOutputRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse> __Marshaller_arcforges_fleet_v1_FleetServiceReadNodeTaskOutputResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest> __Marshaller_arcforges_fleet_v1_FleetServiceCancelNodeTaskRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse> __Marshaller_arcforges_fleet_v1_FleetServiceCancelNodeTaskResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodesRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodesResponse> __Method_ListNodes = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodesRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodesResponse>(
@@ -2953,6 +2978,54 @@ namespace ArcForges.Contracts.Fleet.V1 {
         __Marshaller_arcforges_fleet_v1_FleetServiceCancelNodeCommandRequest,
         __Marshaller_arcforges_fleet_v1_FleetServiceCancelNodeCommandResponse);
 
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskResponse> __Method_SubmitNodeTask = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "SubmitNodeTask",
+        __Marshaller_arcforges_fleet_v1_FleetServiceSubmitNodeTaskRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceSubmitNodeTaskResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskResponse> __Method_GetNodeTask = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetNodeTask",
+        __Marshaller_arcforges_fleet_v1_FleetServiceGetNodeTaskRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceGetNodeTaskResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksResponse> __Method_ListNodeTasks = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ListNodeTasks",
+        __Marshaller_arcforges_fleet_v1_FleetServiceListNodeTasksRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceListNodeTasksResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse> __Method_WaitNodeTask = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "WaitNodeTask",
+        __Marshaller_arcforges_fleet_v1_FleetServiceWaitNodeTaskRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceWaitNodeTaskResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse> __Method_ReadNodeTaskOutput = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ReadNodeTaskOutput",
+        __Marshaller_arcforges_fleet_v1_FleetServiceReadNodeTaskOutputRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceReadNodeTaskOutputResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse> __Method_CancelNodeTask = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "CancelNodeTask",
+        __Marshaller_arcforges_fleet_v1_FleetServiceCancelNodeTaskRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceCancelNodeTaskResponse);
+
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
@@ -2965,11 +3038,15 @@ namespace ArcForges.Contracts.Fleet.V1 {
     {
       /// <summary>
       /// List the account's nodes with cached status summaries.
-      /// auth: account session
+      /// AF-CTR-05: one row per live enrollment, with online, last_seen_at, credential_expires_at, device_id, version, OS and
+      /// reported_name, and no summary (AF-CLD-04). Not gated (Plan decision Q20): a lapsed account still lists its nodes. A node
+      /// credential lists them only as a node-relayed caller with a valid relay assertion (Plan addendum C-N6): a bearer token alone
+      /// reads nothing of the account's nodes (AUTHENTICATION/unauthenticated, state.state relay_assertion).
+      /// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: none (implicit codes only)
+      /// errors: AUTHENTICATION/unauthenticated
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -2983,11 +3060,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// Read one node with its recent remote commands.
-      /// auth: account session
+      /// AF-CTR-05: recent_commands stays empty (routing records are not command views). Not gated (Plan decision Q20). A node
+      /// credential reads only as for ListNodes, with a valid relay assertion that names the node.
+      /// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found
+      /// errors: STATE/not_found, AUTHENTICATION/unauthenticated
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -3001,6 +3080,8 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// Rename a node in the registry (the node adopts the name on next contact).
+      /// AF-CTR-05 (Plan decision Q25): the account's name wins; the node receives it as ChannelAccepted.node_name and keeps the name
+      /// it reports (ReportNodeInfo) as FleetNode.reported_name. Not gated (Q20). A node credential is never admitted.
       /// auth: account session
       /// idempotency: command_id
       /// deadline: 5 s
@@ -3019,6 +3100,8 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// Revoke a node: credential, certificates and relay tokens. The node learns it through the relay or its next call.
+      /// AF-CTR-05: the revocation cascade closes the node's channel (4401), its in-flight routed calls end STATE/node_unreachable and
+      /// its later routed calls are STATE/not_found. Not gated (Plan decision Q20). A node credential is never admitted.
       /// auth: account session with step-up
       /// idempotency: command_id
       /// deadline: 10 s
@@ -3201,6 +3284,123 @@ namespace ArcForges.Contracts.Fleet.V1 {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
+      /// <summary>
+      /// Submit a task to one of the account's nodes. request: a TaskServiceSubmitTaskRequest of 1..253,952 bytes whose meta.command_id
+      /// equals this request's; response: its TaskServiceSubmitTaskResponse. Step-up (Plan decision PB-1): a mobile.limited session
+      /// never reaches this method; an account session needs step-up evidence on every delivery, so a resend after the first delivery
+      /// consumed its evidence needs fresh evidence (AUTHENTICATION/step_up_required) and is then routed again, where the node's command
+      /// deduplication replays the recorded outcome without a second effect (review finding N-3). STATE/invalid_state (state.reason
+      /// replay_window_passed): a resend after the node's deduplication window, answered without a second execution.
+      /// auth: account session with step-up (class fleet.submitNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskResponse> SubmitNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Read one task of a node. request: a TaskServiceGetTaskRequest of 1..3,072 bytes; response: its TaskServiceGetTaskResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskResponse> GetNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// List a node's tasks. request: a TaskServiceListTasksRequest of 1..3,072 bytes; response: its TaskServiceListTasksResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksResponse> ListNodeTasks(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Wait for a node's task. request: a TaskServiceWaitTaskRequest of 1..3,072 bytes with wait_ms at most 50,000; response: its
+      /// TaskServiceWaitTaskResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: wait_ms + 5 s, at most 55 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse> WaitNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Read a node's task output. request: a TaskServiceReadTaskOutputRequest of 1..3,072 bytes with max_bytes at most 262,144 (the
+      /// routed cap; default 256 KiB) and wait_ms at most 20,000 (Plan decision Q17); response: its TaskServiceReadTaskOutputResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s; wait_ms + 10 s with wait_ms, at most 30 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse> ReadNodeTaskOutput(global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Cancel a node's task. request: a TaskServiceCancelTaskRequest of 1..3,072 bytes whose meta.command_id equals this request's;
+      /// response: its TaskServiceCancelTaskResponse. Step-up as SubmitNodeTask (class fleet.cancelNodeTask). Another caller's task needs
+      /// an approval that a local HUMAN decides (AUTHORIZATION/approval_required); an ADOPTED task is never terminated (MR-08).
+      /// auth: account session with step-up (class fleet.cancelNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse> CancelNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
     }
 
     /// <summary>Client for FleetService</summary>
@@ -3232,11 +3432,15 @@ namespace ArcForges.Contracts.Fleet.V1 {
 
       /// <summary>
       /// List the account's nodes with cached status summaries.
-      /// auth: account session
+      /// AF-CTR-05: one row per live enrollment, with online, last_seen_at, credential_expires_at, device_id, version, OS and
+      /// reported_name, and no summary (AF-CLD-04). Not gated (Plan decision Q20): a lapsed account still lists its nodes. A node
+      /// credential lists them only as a node-relayed caller with a valid relay assertion (Plan addendum C-N6): a bearer token alone
+      /// reads nothing of the account's nodes (AUTHENTICATION/unauthenticated, state.state relay_assertion).
+      /// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: none (implicit codes only)
+      /// errors: AUTHENTICATION/unauthenticated
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -3251,11 +3455,15 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// List the account's nodes with cached status summaries.
-      /// auth: account session
+      /// AF-CTR-05: one row per live enrollment, with online, last_seen_at, credential_expires_at, device_id, version, OS and
+      /// reported_name, and no summary (AF-CLD-04). Not gated (Plan decision Q20): a lapsed account still lists its nodes. A node
+      /// credential lists them only as a node-relayed caller with a valid relay assertion (Plan addendum C-N6): a bearer token alone
+      /// reads nothing of the account's nodes (AUTHENTICATION/unauthenticated, state.state relay_assertion).
+      /// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: none (implicit codes only)
+      /// errors: AUTHENTICATION/unauthenticated
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -3268,11 +3476,15 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// List the account's nodes with cached status summaries.
-      /// auth: account session
+      /// AF-CTR-05: one row per live enrollment, with online, last_seen_at, credential_expires_at, device_id, version, OS and
+      /// reported_name, and no summary (AF-CLD-04). Not gated (Plan decision Q20): a lapsed account still lists its nodes. A node
+      /// credential lists them only as a node-relayed caller with a valid relay assertion (Plan addendum C-N6): a bearer token alone
+      /// reads nothing of the account's nodes (AUTHENTICATION/unauthenticated, state.state relay_assertion).
+      /// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: none (implicit codes only)
+      /// errors: AUTHENTICATION/unauthenticated
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -3287,11 +3499,15 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// List the account's nodes with cached status summaries.
-      /// auth: account session
+      /// AF-CTR-05: one row per live enrollment, with online, last_seen_at, credential_expires_at, device_id, version, OS and
+      /// reported_name, and no summary (AF-CLD-04). Not gated (Plan decision Q20): a lapsed account still lists its nodes. A node
+      /// credential lists them only as a node-relayed caller with a valid relay assertion (Plan addendum C-N6): a bearer token alone
+      /// reads nothing of the account's nodes (AUTHENTICATION/unauthenticated, state.state relay_assertion).
+      /// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: none (implicit codes only)
+      /// errors: AUTHENTICATION/unauthenticated
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -3304,11 +3520,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Read one node with its recent remote commands.
-      /// auth: account session
+      /// AF-CTR-05: recent_commands stays empty (routing records are not command views). Not gated (Plan decision Q20). A node
+      /// credential reads only as for ListNodes, with a valid relay assertion that names the node.
+      /// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found
+      /// errors: STATE/not_found, AUTHENTICATION/unauthenticated
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -3323,11 +3541,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Read one node with its recent remote commands.
-      /// auth: account session
+      /// AF-CTR-05: recent_commands stays empty (routing records are not command views). Not gated (Plan decision Q20). A node
+      /// credential reads only as for ListNodes, with a valid relay assertion that names the node.
+      /// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found
+      /// errors: STATE/not_found, AUTHENTICATION/unauthenticated
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -3340,11 +3560,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Read one node with its recent remote commands.
-      /// auth: account session
+      /// AF-CTR-05: recent_commands stays empty (routing records are not command views). Not gated (Plan decision Q20). A node
+      /// credential reads only as for ListNodes, with a valid relay assertion that names the node.
+      /// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found
+      /// errors: STATE/not_found, AUTHENTICATION/unauthenticated
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -3359,11 +3581,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Read one node with its recent remote commands.
-      /// auth: account session
+      /// AF-CTR-05: recent_commands stays empty (routing records are not command views). Not gated (Plan decision Q20). A node
+      /// credential reads only as for ListNodes, with a valid relay assertion that names the node.
+      /// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found
+      /// errors: STATE/not_found, AUTHENTICATION/unauthenticated
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -3376,6 +3600,8 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Rename a node in the registry (the node adopts the name on next contact).
+      /// AF-CTR-05 (Plan decision Q25): the account's name wins; the node receives it as ChannelAccepted.node_name and keeps the name
+      /// it reports (ReportNodeInfo) as FleetNode.reported_name. Not gated (Q20). A node credential is never admitted.
       /// auth: account session
       /// idempotency: command_id
       /// deadline: 5 s
@@ -3395,6 +3621,8 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Rename a node in the registry (the node adopts the name on next contact).
+      /// AF-CTR-05 (Plan decision Q25): the account's name wins; the node receives it as ChannelAccepted.node_name and keeps the name
+      /// it reports (ReportNodeInfo) as FleetNode.reported_name. Not gated (Q20). A node credential is never admitted.
       /// auth: account session
       /// idempotency: command_id
       /// deadline: 5 s
@@ -3412,6 +3640,8 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Rename a node in the registry (the node adopts the name on next contact).
+      /// AF-CTR-05 (Plan decision Q25): the account's name wins; the node receives it as ChannelAccepted.node_name and keeps the name
+      /// it reports (ReportNodeInfo) as FleetNode.reported_name. Not gated (Q20). A node credential is never admitted.
       /// auth: account session
       /// idempotency: command_id
       /// deadline: 5 s
@@ -3431,6 +3661,8 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Rename a node in the registry (the node adopts the name on next contact).
+      /// AF-CTR-05 (Plan decision Q25): the account's name wins; the node receives it as ChannelAccepted.node_name and keeps the name
+      /// it reports (ReportNodeInfo) as FleetNode.reported_name. Not gated (Q20). A node credential is never admitted.
       /// auth: account session
       /// idempotency: command_id
       /// deadline: 5 s
@@ -3448,6 +3680,8 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Revoke a node: credential, certificates and relay tokens. The node learns it through the relay or its next call.
+      /// AF-CTR-05: the revocation cascade closes the node's channel (4401), its in-flight routed calls end STATE/node_unreachable and
+      /// its later routed calls are STATE/not_found. Not gated (Plan decision Q20). A node credential is never admitted.
       /// auth: account session with step-up
       /// idempotency: command_id
       /// deadline: 10 s
@@ -3467,6 +3701,8 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Revoke a node: credential, certificates and relay tokens. The node learns it through the relay or its next call.
+      /// AF-CTR-05: the revocation cascade closes the node's channel (4401), its in-flight routed calls end STATE/node_unreachable and
+      /// its later routed calls are STATE/not_found. Not gated (Plan decision Q20). A node credential is never admitted.
       /// auth: account session with step-up
       /// idempotency: command_id
       /// deadline: 10 s
@@ -3484,6 +3720,8 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Revoke a node: credential, certificates and relay tokens. The node learns it through the relay or its next call.
+      /// AF-CTR-05: the revocation cascade closes the node's channel (4401), its in-flight routed calls end STATE/node_unreachable and
+      /// its later routed calls are STATE/not_found. Not gated (Plan decision Q20). A node credential is never admitted.
       /// auth: account session with step-up
       /// idempotency: command_id
       /// deadline: 10 s
@@ -3503,6 +3741,8 @@ namespace ArcForges.Contracts.Fleet.V1 {
       }
       /// <summary>
       /// Revoke a node: credential, certificates and relay tokens. The node learns it through the relay or its next call.
+      /// AF-CTR-05: the revocation cascade closes the node's channel (4401), its in-flight routed calls end STATE/node_unreachable and
+      /// its later routed calls are STATE/not_found. Not gated (Plan decision Q20). A node credential is never admitted.
       /// auth: account session with step-up
       /// idempotency: command_id
       /// deadline: 10 s
@@ -4142,6 +4382,474 @@ namespace ArcForges.Contracts.Fleet.V1 {
       {
         return CallInvoker.AsyncUnaryCall(__Method_CancelNodeCommand, null, options, request);
       }
+      /// <summary>
+      /// Submit a task to one of the account's nodes. request: a TaskServiceSubmitTaskRequest of 1..253,952 bytes whose meta.command_id
+      /// equals this request's; response: its TaskServiceSubmitTaskResponse. Step-up (Plan decision PB-1): a mobile.limited session
+      /// never reaches this method; an account session needs step-up evidence on every delivery, so a resend after the first delivery
+      /// consumed its evidence needs fresh evidence (AUTHENTICATION/step_up_required) and is then routed again, where the node's command
+      /// deduplication replays the recorded outcome without a second effect (review finding N-3). STATE/invalid_state (state.reason
+      /// replay_window_passed): a resend after the node's deduplication window, answered without a second execution.
+      /// auth: account session with step-up (class fleet.submitNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskResponse SubmitNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SubmitNodeTask(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Submit a task to one of the account's nodes. request: a TaskServiceSubmitTaskRequest of 1..253,952 bytes whose meta.command_id
+      /// equals this request's; response: its TaskServiceSubmitTaskResponse. Step-up (Plan decision PB-1): a mobile.limited session
+      /// never reaches this method; an account session needs step-up evidence on every delivery, so a resend after the first delivery
+      /// consumed its evidence needs fresh evidence (AUTHENTICATION/step_up_required) and is then routed again, where the node's command
+      /// deduplication replays the recorded outcome without a second effect (review finding N-3). STATE/invalid_state (state.reason
+      /// replay_window_passed): a resend after the node's deduplication window, answered without a second execution.
+      /// auth: account session with step-up (class fleet.submitNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskResponse SubmitNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_SubmitNodeTask, null, options, request);
+      }
+      /// <summary>
+      /// Submit a task to one of the account's nodes. request: a TaskServiceSubmitTaskRequest of 1..253,952 bytes whose meta.command_id
+      /// equals this request's; response: its TaskServiceSubmitTaskResponse. Step-up (Plan decision PB-1): a mobile.limited session
+      /// never reaches this method; an account session needs step-up evidence on every delivery, so a resend after the first delivery
+      /// consumed its evidence needs fresh evidence (AUTHENTICATION/step_up_required) and is then routed again, where the node's command
+      /// deduplication replays the recorded outcome without a second effect (review finding N-3). STATE/invalid_state (state.reason
+      /// replay_window_passed): a resend after the node's deduplication window, answered without a second execution.
+      /// auth: account session with step-up (class fleet.submitNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskResponse> SubmitNodeTaskAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SubmitNodeTaskAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Submit a task to one of the account's nodes. request: a TaskServiceSubmitTaskRequest of 1..253,952 bytes whose meta.command_id
+      /// equals this request's; response: its TaskServiceSubmitTaskResponse. Step-up (Plan decision PB-1): a mobile.limited session
+      /// never reaches this method; an account session needs step-up evidence on every delivery, so a resend after the first delivery
+      /// consumed its evidence needs fresh evidence (AUTHENTICATION/step_up_required) and is then routed again, where the node's command
+      /// deduplication replays the recorded outcome without a second effect (review finding N-3). STATE/invalid_state (state.reason
+      /// replay_window_passed): a resend after the node's deduplication window, answered without a second execution.
+      /// auth: account session with step-up (class fleet.submitNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskResponse> SubmitNodeTaskAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_SubmitNodeTask, null, options, request);
+      }
+      /// <summary>
+      /// Read one task of a node. request: a TaskServiceGetTaskRequest of 1..3,072 bytes; response: its TaskServiceGetTaskResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskResponse GetNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetNodeTask(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Read one task of a node. request: a TaskServiceGetTaskRequest of 1..3,072 bytes; response: its TaskServiceGetTaskResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskResponse GetNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetNodeTask, null, options, request);
+      }
+      /// <summary>
+      /// Read one task of a node. request: a TaskServiceGetTaskRequest of 1..3,072 bytes; response: its TaskServiceGetTaskResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskResponse> GetNodeTaskAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetNodeTaskAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Read one task of a node. request: a TaskServiceGetTaskRequest of 1..3,072 bytes; response: its TaskServiceGetTaskResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskResponse> GetNodeTaskAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetNodeTask, null, options, request);
+      }
+      /// <summary>
+      /// List a node's tasks. request: a TaskServiceListTasksRequest of 1..3,072 bytes; response: its TaskServiceListTasksResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksResponse ListNodeTasks(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ListNodeTasks(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// List a node's tasks. request: a TaskServiceListTasksRequest of 1..3,072 bytes; response: its TaskServiceListTasksResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksResponse ListNodeTasks(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ListNodeTasks, null, options, request);
+      }
+      /// <summary>
+      /// List a node's tasks. request: a TaskServiceListTasksRequest of 1..3,072 bytes; response: its TaskServiceListTasksResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksResponse> ListNodeTasksAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ListNodeTasksAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// List a node's tasks. request: a TaskServiceListTasksRequest of 1..3,072 bytes; response: its TaskServiceListTasksResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksResponse> ListNodeTasksAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ListNodeTasks, null, options, request);
+      }
+      /// <summary>
+      /// Wait for a node's task. request: a TaskServiceWaitTaskRequest of 1..3,072 bytes with wait_ms at most 50,000; response: its
+      /// TaskServiceWaitTaskResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: wait_ms + 5 s, at most 55 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse WaitNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return WaitNodeTask(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Wait for a node's task. request: a TaskServiceWaitTaskRequest of 1..3,072 bytes with wait_ms at most 50,000; response: its
+      /// TaskServiceWaitTaskResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: wait_ms + 5 s, at most 55 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse WaitNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_WaitNodeTask, null, options, request);
+      }
+      /// <summary>
+      /// Wait for a node's task. request: a TaskServiceWaitTaskRequest of 1..3,072 bytes with wait_ms at most 50,000; response: its
+      /// TaskServiceWaitTaskResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: wait_ms + 5 s, at most 55 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse> WaitNodeTaskAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return WaitNodeTaskAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Wait for a node's task. request: a TaskServiceWaitTaskRequest of 1..3,072 bytes with wait_ms at most 50,000; response: its
+      /// TaskServiceWaitTaskResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: wait_ms + 5 s, at most 55 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse> WaitNodeTaskAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_WaitNodeTask, null, options, request);
+      }
+      /// <summary>
+      /// Read a node's task output. request: a TaskServiceReadTaskOutputRequest of 1..3,072 bytes with max_bytes at most 262,144 (the
+      /// routed cap; default 256 KiB) and wait_ms at most 20,000 (Plan decision Q17); response: its TaskServiceReadTaskOutputResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s; wait_ms + 10 s with wait_ms, at most 30 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse ReadNodeTaskOutput(global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ReadNodeTaskOutput(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Read a node's task output. request: a TaskServiceReadTaskOutputRequest of 1..3,072 bytes with max_bytes at most 262,144 (the
+      /// routed cap; default 256 KiB) and wait_ms at most 20,000 (Plan decision Q17); response: its TaskServiceReadTaskOutputResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s; wait_ms + 10 s with wait_ms, at most 30 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse ReadNodeTaskOutput(global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ReadNodeTaskOutput, null, options, request);
+      }
+      /// <summary>
+      /// Read a node's task output. request: a TaskServiceReadTaskOutputRequest of 1..3,072 bytes with max_bytes at most 262,144 (the
+      /// routed cap; default 256 KiB) and wait_ms at most 20,000 (Plan decision Q17); response: its TaskServiceReadTaskOutputResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s; wait_ms + 10 s with wait_ms, at most 30 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse> ReadNodeTaskOutputAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ReadNodeTaskOutputAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Read a node's task output. request: a TaskServiceReadTaskOutputRequest of 1..3,072 bytes with max_bytes at most 262,144 (the
+      /// routed cap; default 256 KiB) and wait_ms at most 20,000 (Plan decision Q17); response: its TaskServiceReadTaskOutputResponse.
+      /// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: read
+      /// deadline: 10 s; wait_ms + 10 s with wait_ms, at most 30 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse> ReadNodeTaskOutputAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ReadNodeTaskOutput, null, options, request);
+      }
+      /// <summary>
+      /// Cancel a node's task. request: a TaskServiceCancelTaskRequest of 1..3,072 bytes whose meta.command_id equals this request's;
+      /// response: its TaskServiceCancelTaskResponse. Step-up as SubmitNodeTask (class fleet.cancelNodeTask). Another caller's task needs
+      /// an approval that a local HUMAN decides (AUTHORIZATION/approval_required); an ADOPTED task is never terminated (MR-08).
+      /// auth: account session with step-up (class fleet.cancelNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse CancelNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return CancelNodeTask(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Cancel a node's task. request: a TaskServiceCancelTaskRequest of 1..3,072 bytes whose meta.command_id equals this request's;
+      /// response: its TaskServiceCancelTaskResponse. Step-up as SubmitNodeTask (class fleet.cancelNodeTask). Another caller's task needs
+      /// an approval that a local HUMAN decides (AUTHORIZATION/approval_required); an ADOPTED task is never terminated (MR-08).
+      /// auth: account session with step-up (class fleet.cancelNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse CancelNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_CancelNodeTask, null, options, request);
+      }
+      /// <summary>
+      /// Cancel a node's task. request: a TaskServiceCancelTaskRequest of 1..3,072 bytes whose meta.command_id equals this request's;
+      /// response: its TaskServiceCancelTaskResponse. Step-up as SubmitNodeTask (class fleet.cancelNodeTask). Another caller's task needs
+      /// an approval that a local HUMAN decides (AUTHORIZATION/approval_required); an ADOPTED task is never terminated (MR-08).
+      /// auth: account session with step-up (class fleet.cancelNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse> CancelNodeTaskAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return CancelNodeTaskAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Cancel a node's task. request: a TaskServiceCancelTaskRequest of 1..3,072 bytes whose meta.command_id equals this request's;
+      /// response: its TaskServiceCancelTaskResponse. Step-up as SubmitNodeTask (class fleet.cancelNodeTask). Another caller's task needs
+      /// an approval that a local HUMAN decides (AUTHORIZATION/approval_required); an ADOPTED task is never terminated (MR-08).
+      /// auth: account session with step-up (class fleet.cancelNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+      /// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+      /// deadline: 10 s
+      /// stream: none
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse> CancelNodeTaskAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_CancelNodeTask, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       protected override FleetServiceClient NewInstance(ClientBaseConfiguration configuration)
@@ -4168,7 +4876,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
           .AddMethod(__Method_ListNodeCommands, serviceImpl.ListNodeCommands)
           .AddMethod(__Method_GetPushPreferences, serviceImpl.GetPushPreferences)
           .AddMethod(__Method_UpdatePushPreferences, serviceImpl.UpdatePushPreferences)
-          .AddMethod(__Method_CancelNodeCommand, serviceImpl.CancelNodeCommand).Build();
+          .AddMethod(__Method_CancelNodeCommand, serviceImpl.CancelNodeCommand)
+          .AddMethod(__Method_SubmitNodeTask, serviceImpl.SubmitNodeTask)
+          .AddMethod(__Method_GetNodeTask, serviceImpl.GetNodeTask)
+          .AddMethod(__Method_ListNodeTasks, serviceImpl.ListNodeTasks)
+          .AddMethod(__Method_WaitNodeTask, serviceImpl.WaitNodeTask)
+          .AddMethod(__Method_ReadNodeTaskOutput, serviceImpl.ReadNodeTaskOutput)
+          .AddMethod(__Method_CancelNodeTask, serviceImpl.CancelNodeTask).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -4191,6 +4905,12 @@ namespace ArcForges.Contracts.Fleet.V1 {
       serviceBinder.AddMethod(__Method_GetPushPreferences, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetPushPreferencesRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetPushPreferencesResponse>(serviceImpl.GetPushPreferences));
       serviceBinder.AddMethod(__Method_UpdatePushPreferences, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceUpdatePushPreferencesRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceUpdatePushPreferencesResponse>(serviceImpl.UpdatePushPreferences));
       serviceBinder.AddMethod(__Method_CancelNodeCommand, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeCommandRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeCommandResponse>(serviceImpl.CancelNodeCommand));
+      serviceBinder.AddMethod(__Method_SubmitNodeTask, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceSubmitNodeTaskResponse>(serviceImpl.SubmitNodeTask));
+      serviceBinder.AddMethod(__Method_GetNodeTask, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeTaskResponse>(serviceImpl.GetNodeTask));
+      serviceBinder.AddMethod(__Method_ListNodeTasks, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeTasksResponse>(serviceImpl.ListNodeTasks));
+      serviceBinder.AddMethod(__Method_WaitNodeTask, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse>(serviceImpl.WaitNodeTask));
+      serviceBinder.AddMethod(__Method_ReadNodeTaskOutput, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse>(serviceImpl.ReadNodeTaskOutput));
+      serviceBinder.AddMethod(__Method_CancelNodeTask, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse>(serviceImpl.CancelNodeTask));
     }
 
   }

@@ -16,6 +16,35 @@ option java_outer_classname = "RelayProto";
 // Relay frames (internal): node <-> FleetHub Durable Object (RelayFrame over WebSocket /v1/node),
 // viewer <-> FleetHub (ViewerFrame over WebSocket /v1/view), and FleetHub <-> C# host (HostEnvelope).
 // The Durable Object reads only frame headers and token claims; payloads are opaque to it (AD-0009 section 2).
+//
+// AF-CTR-05 (target; Plan decisions Q15, PB-3 and PB-4, the D0 review addendum D0-B1 and D0-B2; Design 11 sections 1 and 3;
+// AD-0021 sections 9 to 11): the node channel to the configured Go center is a WebSocket on GET <center>/fleet/v1/node with the
+// subprotocol arcforges.relay.v1, one binary RelayFrame per message, frame_version 1. The center sends ChannelChallenge first;
+// the node answers NodeHello with its hello proof within 10 s; the center answers ChannelAccepted, and only then sends calls
+// (ChannelCall) and relay nonces (RelayNonce). On this channel the two sides use node_hello, token_refresh, close and the members
+// 23 to 29 of RelayFrame. The other members belong to the unserved FleetHub relay of AD-0009 (history); command and
+// command_result (15, 16) carry the two legacy bare SignedBlob signatures that Design 11 section 3 names as exceptions, and
+// AF-CTR-05 nodes and centers neither send nor accept them.
+//
+// Signatures of the node channel (Design 11 section 3, "Signature domain strings"; Plan decision PB-3). Each is ES256 (ECDSA P-256
+// with SHA-256) over a fixed ASCII domain string of its own followed by its signed bytes, in IEEE P1363 form r||s (64 bytes, r and
+// s in [1, n-1], low-S: s <= n/2; the signer normalizes s and the verifier refuses a high-S signature). No signature is valid as
+// another kind, and a signature over the signed bytes without their domain string is refused.
+//   routed call (center command key):     "ArcForges relay-call v1\n" (24 bytes) || SignedHeader.header (the exact CallHeader bytes)
+//   routed result (node key):             "ArcForges relay-result v1\n" (26 bytes) || SignedHeader.header (the exact ResultHeader bytes)
+//   channel hello proof (node key):       "ArcForges relay-hello v1\n" (25 bytes) || nonce (32) || connection_id (16)
+//                                         || SHA-256(audience) (32) || node_id (16) || installation_id (16); 137 bytes in all
+//   relay assertion (relaying node key):  "ArcForges relay-origin v1\n" (26 bytes) || SHA-256(audience) (32) || relaying_node_id (16)
+//                                         || relaying_installation_id (16) || local_origin (1) || local_session_id (16) || method (1)
+//                                         || request_sha256 (32) || target_node_id (16) || command_id (16) || relay_nonce (32)
+//                                         || issued_at (12) || expires_at (12); 228 bytes in all
+// An ID is the 16 bytes of its foundation Id.value; an absent ID (the target_node_id of LIST_NODES, the command_id of a read) is
+// 16 zero bytes. local_origin and method are one byte each, the enum number. An instant is unix_seconds as 8 bytes big-endian
+// two's complement followed by nanos as 4 bytes big-endian. audience is the full canonical center URL, as for the node key proof
+// (fleet.proto, "Node key proof"), and is not sent: the center uses SHA-256 of its own canonical public base URL, the node that
+// of the center URL it is configured with. Every field has a fixed length. Header digests and signatures cover the exact
+// transmitted bytes (AD-0021 section 10): a verifier checks the signature over the bytes it received and never re-encodes a
+// decoded header. Golden vectors: fixtures/internal/af-ctr-05-relay-vectors.json.
 
 message RelayLimits {
   optional uint32 summary_frames_per_minute = 1 [json_name = "summaryFramesPerMinute"]; // default 30
@@ -51,11 +80,21 @@ message ViewerGrantClaims {
   optional string kid = 9 [json_name = "kid"];
 }
 
+// The node's first frame, the answer to ChannelChallenge (AF-CTR-05: Plan decision PB-4, D0-B2). The center checks that node_id
+// and installation_id equal the enrolled node and the installation of the bearer credential that opened this connection (else
+// it closes 4403), and verifies hello_signature against the key registered for that installation, never a key the hello names,
+// over the channel hello proof built from this connection's own nonce and connection ID; the node does not send them back, so a
+// proof over another connection's challenge fails. Only then is the connection the node's, an older connection of the node is
+// closed 4409, and calls may follow.
 message NodeHello {
   arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
   optional string version = 2 [json_name = "version"];
   optional uint64 generation = 3 [json_name = "generation"];
   optional uint64 last_seq = 4 [json_name = "lastSeq"];
+  optional string contract_version = 5 [json_name = "contractVersion"]; // validate: 1..64 chars; the Contracts cohort the node was built with
+  repeated string capabilities = 6 [json_name = "capabilities"]; // validate: <= 16 unique entries of ^[a-z][a-z0-9.-]{0,31}$, e.g. routed.v1
+  arcforges.foundation.v1.Id installation_id = 7 [json_name = "installationId"]; // validate: required; the bearer credential's installation
+  optional bytes hello_signature = 8 [json_name = "helloSignature"]; // validate: required; 64 bytes; the channel hello proof
 }
 
 message DemandSignal {
@@ -86,6 +125,11 @@ message EntitlementChanged {
 }
 
 message RelayClose {
+  // AF-CTR-05 node channel (Plan CTR5-HUB-11): 4401 credential expired or revoked (no TokenRefresh within 120 s of the bound
+  // access token's expiry, or a revocation); 4403 refused (feature, plan or account state, a node or installation mismatch, a
+  // failed hello proof, an unverifiable result); 4408 hello or heartbeat deadline; 4409 replaced by a newer proved connection of
+  // the node; 4413 frame too large; 4429 rate limited; 4500 center shutting down (reconnect after a jittered delay); 4503 kill
+  // switch (reserved, AF-CLD-04). A node treats an abnormal close (1006, 1011) like 4500.
   optional uint32 code = 1 [json_name = "code"]; // 4401 token expired, 4403 refused, 4408 idle, 4429 rate limited, 4503 kill switch
   optional string reason = 2 [json_name = "reason"];
 }
@@ -119,7 +163,176 @@ message RelayFrame {
     RelayClose close = 20 [json_name = "close"]; // either direction
     RelayAck ack = 21 [json_name = "ack"]; // either direction
     OutputTail output_tail = 22 [json_name = "outputTail"]; // node -> DO
+    ChannelCall call = 23 [json_name = "call"]; // center -> node (AF-CTR-05)
+    ChannelResult call_result = 24 [json_name = "callResult"]; // node -> center (AF-CTR-05)
+    ChannelHeartbeat heartbeat = 25 [json_name = "heartbeat"]; // either direction (AF-CTR-05)
+    ChannelAccepted accepted = 26 [json_name = "accepted"]; // center -> node (AF-CTR-05)
+    ChannelChallenge challenge = 27 [json_name = "challenge"]; // center -> node, the first frame (AF-CTR-05)
+    RelayNonceRequest relay_nonce_request = 28 [json_name = "relayNonceRequest"]; // node -> center (AF-CTR-05)
+    RelayNonce relay_nonce = 29 [json_name = "relayNonce"]; // center -> node (AF-CTR-05)
   }
+}
+
+// The center-routed methods (fleet.v1 FleetService). 1..6 are the routed task methods, the calls a center sends; LIST_NODES and
+// GET_NODE are named only by a relay assertion. The numbers 1..6 are the node store's routed_call_log.method.
+enum RoutedMethod {
+  ROUTED_METHOD_UNSPECIFIED = 0;
+  ROUTED_METHOD_SUBMIT_NODE_TASK = 1; // payload TaskServiceSubmitTaskRequest
+  ROUTED_METHOD_GET_NODE_TASK = 2; // payload TaskServiceGetTaskRequest
+  ROUTED_METHOD_LIST_NODE_TASKS = 3; // payload TaskServiceListTasksRequest
+  ROUTED_METHOD_WAIT_NODE_TASK = 4; // payload TaskServiceWaitTaskRequest
+  ROUTED_METHOD_READ_NODE_TASK_OUTPUT = 5; // payload TaskServiceReadTaskOutputRequest
+  ROUTED_METHOD_CANCEL_NODE_TASK = 6; // payload TaskServiceCancelTaskRequest
+  ROUTED_METHOD_LIST_NODES = 7; // relay assertions only
+  ROUTED_METHOD_GET_NODE = 8; // relay assertions only
+}
+
+// What the node did with a routed call; the numbers are the node store's routed_call_log.decision 1..4.
+enum RoutedOutcome {
+  ROUTED_OUTCOME_UNSPECIFIED = 0;
+  ROUTED_OUTCOME_EXECUTED = 1; // the TaskService handler ran; the payload is its response, a value or the handler's own ArcError
+  ROUTED_OUTCOME_REFUSED_BY_POLICY = 2; // the center-routed policy or the permission matrix refused, an approval raised included
+  ROUTED_OUTCOME_REFUSED_VERIFICATION = 3; // the call failed the node's verification (Design 11 T-11), a replayed call ID included
+  ROUTED_OUTCOME_EXPIRED = 4; // verified, but expired at the re-check immediately before the effect
+}
+
+// The center's first frame on a new connection (Plan decision PB-4, D0-B2). The nonce is accepted once, only on this connection,
+// and is void at the hello deadline or when the connection closes.
+message ChannelChallenge {
+  optional bytes nonce = 1 [json_name = "nonce"]; // validate: required; 32 random bytes
+  arcforges.foundation.v1.Id connection_id = 2 [json_name = "connectionId"]; // validate: required
+  arcforges.foundation.v1.Instant hello_deadline = 3 [json_name = "helloDeadline"]; // validate: required; 10 s after the upgrade; no valid NodeHello by then closes 4408
+}
+
+// The center's limits for one connection (Plan CTR5-HUB-03, CTR5-HUB-10).
+message ChannelLimits {
+  optional uint32 max_frame_bytes = 1 [json_name = "maxFrameBytes"]; // validate: required; 65,536..1,048,576 (default 1 MiB); a larger frame closes 4413
+  optional uint32 max_in_flight_calls = 2 [json_name = "maxInFlightCalls"]; // validate: required; 1..64 (default 8)
+  optional uint32 heartbeat_interval_ms = 3 [json_name = "heartbeatIntervalMs"]; // validate: required; 5,000..60,000 (default 25 s)
+  optional uint32 heartbeat_deadline_ms = 4 [json_name = "heartbeatDeadlineMs"]; // validate: required; 10,000..300,000 and above heartbeat_interval_ms (default 60 s); silence that long closes 4408
+  optional uint32 max_relay_nonces = 5 [json_name = "maxRelayNonces"]; // validate: required; 1..64 (default 8); unspent relay nonces held per connection; a newer one voids the oldest
+}
+
+// The center's answer to a proved NodeHello: the connection is now the node's.
+message ChannelAccepted {
+  arcforges.foundation.v1.Id connection_id = 1 [json_name = "connectionId"]; // validate: required; the challenge's connection ID
+  ChannelLimits limits = 2 [json_name = "limits"]; // validate: required
+  repeated string signing_kids = 3 [json_name = "signingKids"]; // validate: 1..8 unique kids of ^[A-Za-z0-9_-]{8,64}$; the command keys calls may be signed with; an unknown kid makes the node refresh its session once before it accepts calls (PN-14)
+  optional string node_name = 4 [json_name = "nodeName"]; // validate: 1..64 chars; the account's name for the node (RenameNode); the node keeps its own as FleetNode.reported_name (Plan decision Q25)
+}
+
+// Liveness, either direction: the center sends one every heartbeat_interval_ms and the node answers with the same seq.
+message ChannelHeartbeat {
+  arcforges.foundation.v1.Instant sent_at = 1 [json_name = "sentAt"]; // validate: required
+  optional uint64 seq = 2 [json_name = "seq"]; // validate: required
+}
+
+// A header and its domain-separated signature. It is never a SignedBlob: the signature covers the domain string of its kind
+// followed by header (see "Signatures of the node channel" above), never header alone.
+message SignedHeader {
+  optional bytes header = 1 [json_name = "header"]; // validate: required; 1..2,048 bytes; the exact CallHeader or ResultHeader bytes
+  optional bytes signature = 2 [json_name = "signature"]; // validate: required; 64 bytes, P1363, low-S
+  optional string kid = 3 [json_name = "kid"]; // validate: ^[A-Za-z0-9_-]{8,64}$; the command key of a call (required on ChannelCall); absent on a result, whose key is the connection's installation key
+  optional string algorithm = 4 [json_name = "algorithm"]; // validate: required; "ES256"
+}
+
+// The signed header of a routed call (Plan CTR5-SIG-01, PN-9). The center serializes it once and signs the routed-call domain
+// string followed by those bytes with its command key. Before it decodes the header or parses the payload, the node verifies the
+// signature over the bytes it received against its key set for its configured center; then, before its policy decides (Design
+// 11 T-11), it checks that kid equals SignedHeader.kid, center_url_sha256 its configured center, account_id and target_node_id
+// its own link, call_id ChannelCall.call_id and not already logged (call_replayed, also after a restart), method, request_size
+// and request_sha256 the payload, and that expires_at plus the 120 s skew has not passed, again immediately before the effect.
+message CallHeader {
+  arcforges.foundation.v1.Id call_id = 1 [json_name = "callId"]; // validate: required; random, one per call
+  optional string kid = 2 [json_name = "kid"]; // validate: required; ^[A-Za-z0-9_-]{8,64}$; equals SignedHeader.kid
+  optional bytes center_url_sha256 = 3 [json_name = "centerUrlSha256"]; // validate: required; 32 bytes: SHA-256 of the center's canonical public base URL
+  arcforges.foundation.v1.Id account_id = 4 [json_name = "accountId"]; // validate: required; the account that owns the target node
+  arcforges.foundation.v1.Id target_node_id = 5 [json_name = "targetNodeId"]; // validate: required
+  arcforges.node.v1.CenterCaller caller = 6 [json_name = "caller"]; // validate: required; filled by the center only from the verified session or relay assertion, never from a request field
+  arcforges.foundation.v1.Id command_id = 7 [json_name = "commandId"]; // validate: required for SUBMIT_NODE_TASK and CANCEL_NODE_TASK, absent otherwise; equals the payload's meta.command_id
+  optional RoutedMethod method = 8 [json_name = "method"]; // validate: required; 1..6
+  optional bytes request_sha256 = 9 [json_name = "requestSha256"]; // validate: required; 32 bytes: SHA-256 of the payload, the exact node.v1 request bytes
+  optional uint32 request_size = 10 [json_name = "requestSize"]; // validate: required; 1..253,952; the payload's length
+  arcforges.foundation.v1.Instant issued_at = 11 [json_name = "issuedAt"]; // validate: required
+  arcforges.foundation.v1.Instant expires_at = 12 [json_name = "expiresAt"]; // validate: required; issued_at < expires_at <= issued_at + 300 s (AD-0021 section 10)
+  arcforges.foundation.v1.Instant deadline = 13 [json_name = "deadline"]; // validate: required; issued_at < deadline <= expires_at; when the center stops waiting for the result
+  optional bytes relay_assertion_sha256 = 14 [json_name = "relayAssertionSha256"]; // validate: required for a NODE_RELAY caller, absent otherwise; 32 bytes: SHA-256 of the relay_assertion bytes the routed request carried
+}
+
+// A routed call, center -> node. payload is the exact node.v1 TaskService request bytes the caller sent in the routed request's
+// request field, never re-encoded (Plan decision Q9).
+message ChannelCall {
+  arcforges.foundation.v1.Id call_id = 1 [json_name = "callId"]; // validate: required; equals CallHeader.call_id
+  SignedHeader header = 2 [json_name = "header"]; // validate: required; a CallHeader under the routed-call domain string, with kid
+  optional bytes payload = 3 [json_name = "payload"]; // validate: required; 1..253,952 bytes
+}
+
+// The signed header of a routed result (Plan CTR5-SIG-03, PN-9), signed by the node key under the routed-result domain string.
+// The center verifies it against the key registered for the connection's installation, then checks call_id (an open call of this
+// connection), node_id (the connection's node), the echoed method, command_id and request_sha256, and response_size and
+// response_sha256 against the payload; any failure fails the call STATE/node_unreachable (result_unverifiable) and closes 4403.
+message ResultHeader {
+  arcforges.foundation.v1.Id call_id = 1 [json_name = "callId"]; // validate: required; ChannelCall.call_id
+  arcforges.foundation.v1.Id command_id = 2 [json_name = "commandId"]; // validate: the call header's command_id when it names one; absent for REFUSED_VERIFICATION
+  arcforges.foundation.v1.Id node_id = 3 [json_name = "nodeId"]; // validate: required; the answering node
+  optional RoutedMethod method = 4 [json_name = "method"]; // validate: required (1..6) unless REFUSED_VERIFICATION, absent then
+  optional bytes request_sha256 = 5 [json_name = "requestSha256"]; // validate: required unless REFUSED_VERIFICATION, absent then; 32 bytes, echoed
+  optional bytes response_sha256 = 6 [json_name = "responseSha256"]; // validate: required for EXECUTED, absent otherwise; 32 bytes: SHA-256 of ChannelResult.payload
+  optional uint32 response_size = 7 [json_name = "responseSize"]; // validate: required for EXECUTED, absent otherwise; 1..1,040,384; the payload's length
+  arcforges.foundation.v1.Instant executed_at = 8 [json_name = "executedAt"]; // validate: required; when the node decided
+  optional RoutedOutcome outcome = 9 [json_name = "outcome"]; // validate: required
+  arcforges.foundation.v1.ArcError error = 10 [json_name = "error"]; // validate: required unless EXECUTED, absent then; the node's refusal: category, code, retry, effect and the state reason only, never a message or details beyond them (Plan PN-6)
+}
+
+// A routed result, node -> center. For EXECUTED, payload is the exact node.v1 TaskService response bytes, which the center
+// forwards unchanged as the routed value's response; otherwise payload is empty and the center answers with ResultHeader.error.
+message ChannelResult {
+  arcforges.foundation.v1.Id call_id = 1 [json_name = "callId"]; // validate: required; equals ResultHeader.call_id
+  SignedHeader header = 2 [json_name = "header"]; // validate: required; a ResultHeader under the routed-result domain string, without kid
+  optional bytes payload = 3 [json_name = "payload"]; // validate: <= 1,040,384 bytes; empty unless EXECUTED
+}
+
+// A node asks for a relay nonce before it relays a local caller's call (Plan addendum C-N2): one nonce per call.
+message RelayNonceRequest {
+  arcforges.foundation.v1.Id request_id = 1 [json_name = "requestId"]; // validate: required; chosen by the node and echoed
+}
+
+// A relay nonce, center -> node: used once, by one relay assertion of this node; void at expires_at, or earlier when this
+// connection closes or is replaced. Relaying therefore needs an open channel of the relaying node.
+message RelayNonce {
+  arcforges.foundation.v1.Id request_id = 1 [json_name = "requestId"]; // validate: required; RelayNonceRequest.request_id
+  optional bytes nonce = 2 [json_name = "nonce"]; // validate: required; 32 random bytes
+  arcforges.foundation.v1.Instant expires_at = 3 [json_name = "expiresAt"]; // validate: required; at most 120 s after issue
+}
+
+// The relay assertion of a node-relayed call (Plan addendum D0-B1, C-N1, C-N6; Design 11 section 1, "Relay assertion"). The
+// relaying node signs the relay-origin domain string followed by the canonical bytes of these fields (see "Signatures of the
+// node channel" above), and sends the serialized assertion as the relay_assertion bytes of the routed fleet.v1 request, which
+// every node-relayed call carries, ListNodes and GetNode included. Before it serves or routes the call, the center verifies the
+// signature against the key registered for the bearer credential's installation; checks that relaying_node_id and
+// relaying_installation_id are that credential's enrolled node and installation, that the assertion has not expired and its
+// nonce is unused (and then spends the nonce), and that method, request_sha256, target_node_id and command_id equal the routed
+// request's and the request's caller its relaying_node_id and local_origin. Otherwise it refuses AUTHENTICATION/unauthenticated
+// (state.state relay_assertion, state.reason missing, signature_invalid, credential_mismatch, expired, nonce_reused or
+// request_mismatch) and routes nothing. For expired and nonce_reused the relaying node signs a new assertion with a fresh nonce
+// and resends with the same command_id (DID_NOT_HAPPEN, SAME_COMMAND; no sign-in). The center fills the call header's caller
+// only from a verified assertion.
+// request_sha256: for the six routed task methods, SHA-256 of the exact node.v1 request bytes of the routed request's request
+// field (the call header's request_sha256); for LIST_NODES and GET_NODE, SHA-256 of the routed request's top-level fields as
+// transmitted, in wire order and byte for byte, with every occurrence of the relay_assertion field left out.
+message RelayAssertion {
+  arcforges.foundation.v1.Id relaying_node_id = 1 [json_name = "relayingNodeId"]; // validate: required
+  arcforges.foundation.v1.Id relaying_installation_id = 2 [json_name = "relayingInstallationId"]; // validate: required
+  optional arcforges.node.v1.Origin local_origin = 3 [json_name = "localOrigin"]; // validate: required; HUMAN, SCRIPT or AGENT, as the relaying node classified its local caller
+  arcforges.foundation.v1.Id local_session_id = 4 [json_name = "localSessionId"]; // validate: required; the local caller's client session at the relaying node
+  optional RoutedMethod method = 5 [json_name = "method"]; // validate: required; 1..8
+  optional bytes request_sha256 = 6 [json_name = "requestSha256"]; // validate: required; 32 bytes
+  arcforges.foundation.v1.Id target_node_id = 7 [json_name = "targetNodeId"]; // validate: absent for LIST_NODES, required otherwise
+  arcforges.foundation.v1.Id command_id = 8 [json_name = "commandId"]; // validate: required for SUBMIT_NODE_TASK and CANCEL_NODE_TASK, absent otherwise
+  optional bytes relay_nonce = 9 [json_name = "relayNonce"]; // validate: required; 32 bytes; a RelayNonce of the relaying node's open channel
+  arcforges.foundation.v1.Instant issued_at = 10 [json_name = "issuedAt"]; // validate: required
+  arcforges.foundation.v1.Instant expires_at = 11 [json_name = "expiresAt"]; // validate: required; issued_at < expires_at <= issued_at + 120 s
+  optional bytes signature = 12 [json_name = "signature"]; // validate: required; 64 bytes, P1363, low-S
 }
 
 message NodeCursor {

@@ -255,7 +255,8 @@
         "osUser": {},
         "peerNodeId": {},
         "remoteCommandId": {},
-        "clientName": {}
+        "clientName": {},
+        "centerCaller": {}
       }
     },
     "arcforges.node.v1.AdapterManifest": {
@@ -1683,7 +1684,8 @@
         "sideEffectSource": {},
         "sideEffectSuggestion": {},
         "exclusiveKeys": {},
-        "sharedKeys": {}
+        "sharedKeys": {},
+        "localDiagnostic": {}
       }
     },
     "arcforges.node.v1.MemoryServiceForgetFactsRequest": {
@@ -2704,7 +2706,8 @@
         "lan": {},
         "approvals": {},
         "resultCache": {},
-        "retrySafety": {}
+        "retrySafety": {},
+        "centerRouted": {}
       }
     },
     "arcforges.node.v1.PolicyIssue": {
@@ -4837,7 +4840,11 @@
         },
         "stream": {},
         "fromOffset": {},
-        "maxBytes": {}
+        "maxBytes": {},
+        "waitMs": {
+          "min": 0,
+          "max": 20000
+        }
       }
     },
     "arcforges.node.v1.TaskServiceReadTaskOutputResponse": {
@@ -5673,6 +5680,35 @@
         "ignoredTruncated": {},
         "ignoredListDigest": {},
         "blocking": {}
+      }
+    },
+    "arcforges.node.v1.CenterCaller": {
+      "csharpType": "ArcForges.Contracts.Node.V1.CenterCaller",
+      "fields": {
+        "kind": {
+          "required": true,
+          "enumValues": [1, 2]
+        },
+        "accountId": {
+          "required": true
+        },
+        "userId": {},
+        "sessionId": {},
+        "relayingNodeId": {},
+        "localOrigin": {
+          "enumValues": [1, 2, 3]
+        },
+        "localSessionId": {}
+      },
+      "rules": ["centerCaller"]
+    },
+    "arcforges.node.v1.CenterRoutedPolicy": {
+      "csharpType": "ArcForges.Contracts.Node.V1.CenterRoutedPolicy",
+      "fields": {
+        "enabled": {},
+        "relayedFrom": {
+          "enumValues": [1, 2]
+        }
       }
     }
   }

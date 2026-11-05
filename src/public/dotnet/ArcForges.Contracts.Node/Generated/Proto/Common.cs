@@ -55,7 +55,7 @@ namespace ArcForges.Contracts.Node.V1 {
             "bmRhdGlvbi52MS5JZFIKaG9zdE5vZGVJZBIwCgJvcxgFIAEoDjIbLmFyY2Zv",
             "cmdlcy5ub2RlLnYxLk9zRmFtaWx5SAJSAm9ziAEBEjsKBGFyY2gYBiABKA4y",
             "Ii5hcmNmb3JnZXMubm9kZS52MS5DcHVBcmNoaXRlY3R1cmVIA1IEYXJjaIgB",
-            "AUIHCgVfbmFtZUIHCgVfcm9sZUIFCgNfb3NCBwoFX2FyY2gi8wMKCEFjdG9y",
+            "AUIHCgVfbmFtZUIHCgVfcm9sZUIFCgNfb3NCBwoFX2FyY2giuQQKCEFjdG9y",
             "UmVmEjYKBm9yaWdpbhgBIAEoDjIZLmFyY2Zvcmdlcy5ub2RlLnYxLk9yaWdp",
             "bkgAUgZvcmlnaW6IAQESQwoLY2xpZW50X2tpbmQYAiABKA4yHS5hcmNmb3Jn",
             "ZXMubm9kZS52MS5DbGllbnRLaW5kSAFSCmNsaWVudEtpbmSIAQESOgoKc2Vz",
@@ -65,157 +65,174 @@ namespace ArcForges.Contracts.Node.V1 {
             "KAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIKcGVlck5vZGVJZBJH",
             "ChFyZW1vdGVfY29tbWFuZF9pZBgHIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0",
             "aW9uLnYxLklkUg9yZW1vdGVDb21tYW5kSWQSJAoLY2xpZW50X25hbWUYCCAB",
-            "KAlIBFIKY2xpZW50TmFtZYgBAUIJCgdfb3JpZ2luQg4KDF9jbGllbnRfa2lu",
-            "ZEILCglfYWdlbnRfaWRCCgoIX29zX3VzZXJCDgoMX2NsaWVudF9uYW1lIpoB",
-            "Cg5TdHJlYW1Qb3NpdGlvbhIbCgZjdXJzb3IYASABKAlIAFIGY3Vyc29yiAEB",
-            "Eh8KCHNlcXVlbmNlGAIgASgESAFSCHNlcXVlbmNliAEBEiMKCmdlbmVyYXRp",
-            "b24YAyABKARIAlIKZ2VuZXJhdGlvbogBAUIJCgdfY3Vyc29yQgsKCV9zZXF1",
-            "ZW5jZUINCgtfZ2VuZXJhdGlvbiJ6CgtTdHJlYW1SZXNldBIbCgZyZWFzb24Y",
-            "ASABKAlIAFIGcmVhc29uiAEBEi4KEHNuYXBzaG90X2ZvbGxvd3MYAiABKAhI",
-            "AVIPc25hcHNob3RGb2xsb3dziAEBQgkKB19yZWFzb25CEwoRX3NuYXBzaG90",
-            "X2ZvbGxvd3MiPQoJSGVhcnRiZWF0EjAKAmF0GAEgASgLMiAuYXJjZm9yZ2Vz",
-            "LmZvdW5kYXRpb24udjEuSW5zdGFudFICYXQifwoIS2V5VmFsdWUSFwoEbmFt",
-            "ZRgBIAEoCUgAUgRuYW1liAEBEhkKBXZhbHVlGAIgASgJSAFSBXZhbHVliAEB",
-            "Eh8KCHJlZGFjdGVkGAMgASgISAJSCHJlZGFjdGVkiAEBQgcKBV9uYW1lQggK",
-            "Bl92YWx1ZUILCglfcmVkYWN0ZWQisgkKEENhcGFiaWxpdHlSZXBvcnQSNAoD",
-            "Y3B1GAEgASgOMh0uYXJjZm9yZ2VzLm5vZGUudjEuQ3B1Q29udHJvbEgAUgNj",
-            "cHWIAQESIgoKY3B1X3JlYXNvbhgCIAEoCUgBUgljcHVSZWFzb26IAQESPQoG",
-            "bWVtb3J5GAMgASgOMiAuYXJjZm9yZ2VzLm5vZGUudjEuTWVtb3J5Q29udHJv",
-            "bEgCUgZtZW1vcnmIAQESKAoNbWVtb3J5X3JlYXNvbhgEIAEoCUgDUgxtZW1v",
-            "cnlSZWFzb26IAQESPwoEcGlkcxgFIAEoDjImLmFyY2Zvcmdlcy5ub2RlLnYx",
-            "LlByb2Nlc3NDb3VudENvbnRyb2xIBFIEcGlkc4gBARIkCgtwaWRzX3JlYXNv",
-            "bhgGIAEoCUgFUgpwaWRzUmVhc29uiAEBEjEKAmlvGAcgASgOMhwuYXJjZm9y",
-            "Z2VzLm5vZGUudjEuSW9Db250cm9sSAZSAmlviAEBEiAKCWlvX3JlYXNvbhgI",
-            "IAEoCUgHUghpb1JlYXNvbogBARI6CgVwYXVzZRgJIAEoDjIfLmFyY2Zvcmdl",
-            "cy5ub2RlLnYxLlBhdXNlU3VwcG9ydEgIUgVwYXVzZYgBARImCgxwYXVzZV9y",
-            "ZWFzb24YCiABKAlICVILcGF1c2VSZWFzb26IAQESRgoJa2lsbF90cmVlGAsg",
-            "ASgOMiQuYXJjZm9yZ2VzLm5vZGUudjEuS2lsbFRyZWVHdWFyYW50ZWVIClII",
-            "a2lsbFRyZWWIAQESLQoQa2lsbF90cmVlX3JlYXNvbhgMIAEoCUgLUg5raWxs",
-            "VHJlZVJlYXNvbogBARI6CgVhZG9wdBgNIAEoDjIfLmFyY2Zvcmdlcy5ub2Rl",
-            "LnYxLkFkb3B0U3VwcG9ydEgMUgVhZG9wdIgBARImCgxhZG9wdF9yZWFzb24Y",
-            "DiABKAlIDVILYWRvcHRSZWFzb26IAQESLgoQcmVzdGFydF9zdXJ2aXZhbBgP",
-            "IAEoCEgOUg9yZXN0YXJ0U3Vydml2YWyIAQESOwoXcmVzdGFydF9zdXJ2aXZh",
-            "bF9yZWFzb24YECABKAlID1IVcmVzdGFydFN1cnZpdmFsUmVhc29uiAEBEkMK",
-            "DGV2YWx1YXRlZF9hdBgRIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYx",
-            "Lkluc3RhbnRSC2V2YWx1YXRlZEF0EkIKDnBsYXRmb3JtX2ZhY3RzGBIgAygL",
-            "MhsuYXJjZm9yZ2VzLm5vZGUudjEuS2V5VmFsdWVSDXBsYXRmb3JtRmFjdHNC",
-            "BgoEX2NwdUINCgtfY3B1X3JlYXNvbkIJCgdfbWVtb3J5QhAKDl9tZW1vcnlf",
-            "cmVhc29uQgcKBV9waWRzQg4KDF9waWRzX3JlYXNvbkIFCgNfaW9CDAoKX2lv",
-            "X3JlYXNvbkIICgZfcGF1c2VCDwoNX3BhdXNlX3JlYXNvbkIMCgpfa2lsbF90",
-            "cmVlQhMKEV9raWxsX3RyZWVfcmVhc29uQggKBl9hZG9wdEIPCg1fYWRvcHRf",
-            "cmVhc29uQhMKEV9yZXN0YXJ0X3N1cnZpdmFsQhoKGF9yZXN0YXJ0X3N1cnZp",
-            "dmFsX3JlYXNvbiKwBQoHSm9iVmlldxIyCgZqb2JfaWQYASABKAsyGy5hcmNm",
-            "b3JnZXMuZm91bmRhdGlvbi52MS5JZFIFam9iSWQSMwoEa2luZBgCIAEoDjIa",
-            "LmFyY2Zvcmdlcy5ub2RlLnYxLkpvYktpbmRIAFIEa2luZIgBARI2CgVzdGF0",
-            "ZRgDIAEoDjIbLmFyY2Zvcmdlcy5ub2RlLnYxLkpvYlN0YXRlSAFSBXN0YXRl",
-            "iAEBEi4KEHByb2dyZXNzX3BlcmNlbnQYBCABKA1IAlIPcHJvZ3Jlc3NQZXJj",
-            "ZW50iAEBEigKDXByb2dyZXNzX3RleHQYBSABKAlIA1IMcHJvZ3Jlc3NUZXh0",
-            "iAEBEjQKB3Rhc2tfaWQYBiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52",
-            "MS5JZFIGdGFza0lkEj4KDHJlcXVlc3RlZF9ieRgHIAEoCzIbLmFyY2Zvcmdl",
-            "cy5ub2RlLnYxLkFjdG9yUmVmUgtyZXF1ZXN0ZWRCeRI/CgpjcmVhdGVkX2F0",
-            "GAggASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudFIJY3Jl",
-            "YXRlZEF0EkEKC2ZpbmlzaGVkX2F0GAkgASgLMiAuYXJjZm9yZ2VzLmZvdW5k",
-            "YXRpb24udjEuSW5zdGFudFIKZmluaXNoZWRBdBI3CgVlcnJvchgKIAEoCzIh",
-            "LmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFyY0Vycm9yUgVlcnJvchI9CgZy",
-            "ZXN1bHQYCyABKAsyJS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5BZ2dyZWdh",
-            "dGVSZWZSBnJlc3VsdEIHCgVfa2luZEIICgZfc3RhdGVCEwoRX3Byb2dyZXNz",
-            "X3BlcmNlbnRCEAoOX3Byb2dyZXNzX3RleHQijwEKDkFwcHJvdmFsSGFuZGxl",
-            "EjwKC2FwcHJvdmFsX2lkGAEgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24u",
-            "djEuSWRSCmFwcHJvdmFsSWQSPwoKZXhwaXJlc19hdBgCIAEoCzIgLmFyY2Zv",
-            "cmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbnRSCWV4cGlyZXNBdCqvAQoGT3Jp",
-            "Z2luEhYKEk9SSUdJTl9VTlNQRUNJRklFRBAAEhAKDE9SSUdJTl9IVU1BThAB",
-            "EhEKDU9SSUdJTl9TQ1JJUFQQAhIQCgxPUklHSU5fQUdFTlQQAxIRCg1PUklH",
-            "SU5fUkVNT1RFEAQSDwoLT1JJR0lOX1BFRVIQBRIQCgxPUklHSU5fR1VFU1QQ",
-            "BhIPCgtPUklHSU5fSE9TVBAHEg8KC09SSUdJTl9OT0RFEAgq0wEKCkNsaWVu",
-            "dEtpbmQSGwoXQ0xJRU5UX0tJTkRfVU5TUEVDSUZJRUQQABITCg9DTElFTlRf",
-            "S0lORF9DTEkQARIXChNDTElFTlRfS0lORF9ERVNLVE9QEAISGwoXQ0xJRU5U",
-            "X0tJTkRfTUNQX0FEQVBURVIQAxIUChBDTElFTlRfS0lORF9IT09LEAQSGgoW",
-            "Q0xJRU5UX0tJTkRfU1VQRVJWSVNPUhAFEhUKEUNMSUVOVF9LSU5EX1BST0JF",
-            "EAYSFAoQQ0xJRU5UX0tJTkRfVEVTVBAHKlEKCE9zRmFtaWx5EhkKFU9TX0ZB",
-            "TUlMWV9VTlNQRUNJRklFRBAAEhUKEU9TX0ZBTUlMWV9XSU5ET1dTEAESEwoP",
-            "T1NfRkFNSUxZX0xJTlVYEAIqaQoPQ3B1QXJjaGl0ZWN0dXJlEiAKHENQVV9B",
-            "UkNISVRFQ1RVUkVfVU5TUEVDSUZJRUQQABIYChRDUFVfQVJDSElURUNUVVJF",
-            "X1g2NBABEhoKFkNQVV9BUkNISVRFQ1RVUkVfQVJNNjQQAipOCghOb2RlUm9s",
-            "ZRIZChVOT0RFX1JPTEVfVU5TUEVDSUZJRUQQABISCg5OT0RFX1JPTEVfSE9T",
-            "VBABEhMKD05PREVfUk9MRV9HVUVTVBACKpEBCghQcmlvcml0eRIYChRQUklP",
-            "UklUWV9VTlNQRUNJRklFRBAAEhgKFFBSSU9SSVRZX0lOVEVSQUNUSVZFEAES",
-            "EQoNUFJJT1JJVFlfSElHSBACEhMKD1BSSU9SSVRZX05PUk1BTBADEhAKDFBS",
-            "SU9SSVRZX0xPVxAEEhcKE1BSSU9SSVRZX0JBQ0tHUk9VTkQQBSq8AQoORXN0",
-            "aW1hdGVTb3VyY2USHwobRVNUSU1BVEVfU09VUkNFX1VOU1BFQ0lGSUVEEAAS",
-            "GAoURVNUSU1BVEVfU09VUkNFX0hJTlQQARIaChZFU1RJTUFURV9TT1VSQ0Vf",
-            "TUVNT1JZEAISGwoXRVNUSU1BVEVfU09VUkNFX0FEQVBURVIQAxIbChdFU1RJ",
-            "TUFURV9TT1VSQ0VfREVGQVVMVBAEEhkKFUVTVElNQVRFX1NPVVJDRV9MSUdI",
-            "VBAFKmEKCFNldmVyaXR5EhgKFFNFVkVSSVRZX1VOU1BFQ0lGSUVEEAASEQoN",
-            "U0VWRVJJVFlfSU5GTxABEhQKEFNFVkVSSVRZX1dBUk5JTkcQAhISCg5TRVZF",
-            "UklUWV9FUlJPUhADKmgKCkNvbmZpZGVuY2USGgoWQ09ORklERU5DRV9VTlNQ",
-            "RUNJRklFRBAAEhIKDkNPTkZJREVOQ0VfTE9XEAESFQoRQ09ORklERU5DRV9N",
-            "RURJVU0QAhITCg9DT05GSURFTkNFX0hJR0gQAypnCglSaXNrQ2xhc3MSGgoW",
-            "UklTS19DTEFTU19VTlNQRUNJRklFRBAAEhIKDlJJU0tfQ0xBU1NfTE9XEAES",
-            "FQoRUklTS19DTEFTU19NRURJVU0QAhITCg9SSVNLX0NMQVNTX0hJR0gQAyq/",
-            "AQoSUGVybWlzc2lvbkRlY2lzaW9uEiMKH1BFUk1JU1NJT05fREVDSVNJT05f",
-            "VU5TUEVDSUZJRUQQABIdChlQRVJNSVNTSU9OX0RFQ0lTSU9OX0FMTE9XEAES",
-            "IAocUEVSTUlTU0lPTl9ERUNJU0lPTl9BUFBST1ZBTBACEhwKGFBFUk1JU1NJ",
-            "T05fREVDSVNJT05fREVOWRADEiUKIVBFUk1JU1NJT05fREVDSVNJT05fUkVN",
-            "T1RFX1BPTElDWRAEKp4BCg1QcmVzc3VyZUxldmVsEh4KGlBSRVNTVVJFX0xF",
-            "VkVMX1VOU1BFQ0lGSUVEEAASGQoVUFJFU1NVUkVfTEVWRUxfTk9STUFMEAES",
-            "GAoUUFJFU1NVUkVfTEVWRUxfVElHSFQQAhIbChdQUkVTU1VSRV9MRVZFTF9Q",
-            "UkVTU1VSRRADEhsKF1BSRVNTVVJFX0xFVkVMX0NSSVRJQ0FMEAQqlwEKEURp",
-            "c2tQcmVzc3VyZUxldmVsEiMKH0RJU0tfUFJFU1NVUkVfTEVWRUxfVU5TUEVD",
-            "SUZJRUQQABIeChpESVNLX1BSRVNTVVJFX0xFVkVMX05PUk1BTBABEhsKF0RJ",
-            "U0tfUFJFU1NVUkVfTEVWRUxfTE9XEAISIAocRElTS19QUkVTU1VSRV9MRVZF",
-            "TF9DUklUSUNBTBADKpICCgxQcm9jZXNzTGFiZWwSHQoZUFJPQ0VTU19MQUJF",
-            "TF9VTlNQRUNJRklFRBAAEhkKFVBST0NFU1NfTEFCRUxfTUFOQUdFRBABEhkK",
-            "FVBST0NFU1NfTEFCRUxfQURPUFRFRBACEhkKFVBST0NFU1NfTEFCRUxfRVND",
-            "QVBFRBADEhoKFlBST0NFU1NfTEFCRUxfQllQQVNTRUQQBBIbChdQUk9DRVNT",
-            "X0xBQkVMX1VOTUFOQUdFRBAFEhoKFlBST0NFU1NfTEFCRUxfR1VFU1RfVk0Q",
-            "BhIgChxQUk9DRVNTX0xBQkVMX1NIQVJFRF9TRVJWSUNFEAcSGwoXUFJPQ0VT",
-            "U19MQUJFTF9OT0RFX1NFTEYQCCqKAQoQRW5mb3JjZWRSZXNvdXJjZRIhCh1F",
-            "TkZPUkNFRF9SRVNPVVJDRV9VTlNQRUNJRklFRBAAEhkKFUVORk9SQ0VEX1JF",
-            "U09VUkNFX0NQVRABEhwKGEVORk9SQ0VEX1JFU09VUkNFX01FTU9SWRACEhoK",
-            "FkVORk9SQ0VEX1JFU09VUkNFX1BJRFMQAyqPAQoKQ3B1Q29udHJvbBIbChdD",
-            "UFVfQ09OVFJPTF9VTlNQRUNJRklFRBAAEiYKIkNQVV9DT05UUk9MX0VORk9S",
-            "Q0VEX1NIQVJFX0FORF9DQVAQARIeChpDUFVfQ09OVFJPTF9FTkZPUkNFRF9T",
-            "SEFSRRACEhwKGENQVV9DT05UUk9MX09CU0VSVkVfT05MWRADKp8BCg1NZW1v",
-            "cnlDb250cm9sEh4KGk1FTU9SWV9DT05UUk9MX1VOU1BFQ0lGSUVEEAASKQol",
-            "TUVNT1JZX0NPTlRST0xfRU5GT1JDRURfU09GVF9BTkRfSEFSRBABEiIKHk1F",
-            "TU9SWV9DT05UUk9MX0VORk9SQ0VEX0NPTU1JVBACEh8KG01FTU9SWV9DT05U",
-            "Uk9MX09CU0VSVkVfT05MWRADKogBChNQcm9jZXNzQ291bnRDb250cm9sEiUK",
-            "IVBST0NFU1NfQ09VTlRfQ09OVFJPTF9VTlNQRUNJRklFRBAAEiIKHlBST0NF",
-            "U1NfQ09VTlRfQ09OVFJPTF9FTkZPUkNFRBABEiYKIlBST0NFU1NfQ09VTlRf",
-            "Q09OVFJPTF9PQlNFUlZFX09OTFkQAipdCglJb0NvbnRyb2wSGgoWSU9fQ09O",
-            "VFJPTF9VTlNQRUNJRklFRBAAEhsKF0lPX0NPTlRST0xfT0JTRVJWRV9PTkxZ",
-            "EAESFwoTSU9fQ09OVFJPTF9FTkZPUkNFRBACKmkKDFBhdXNlU3VwcG9ydBId",
-            "ChlQQVVTRV9TVVBQT1JUX1VOU1BFQ0lGSUVEEAASGwoXUEFVU0VfU1VQUE9S",
-            "VF9TVVBQT1JURUQQARIdChlQQVVTRV9TVVBQT1JUX1VOU1VQUE9SVEVEEAIq",
-            "gQEKEUtpbGxUcmVlR3VhcmFudGVlEiMKH0tJTExfVFJFRV9HVUFSQU5URUVf",
-            "VU5TUEVDSUZJRUQQABIiCh5LSUxMX1RSRUVfR1VBUkFOVEVFX0dVQVJBTlRF",
-            "RUQQARIjCh9LSUxMX1RSRUVfR1VBUkFOVEVFX0JFU1RfRUZGT1JUEAIqhAEK",
-            "DEFkb3B0U3VwcG9ydBIdChlBRE9QVF9TVVBQT1JUX1VOU1BFQ0lGSUVEEAAS",
-            "GwoXQURPUFRfU1VQUE9SVF9TVVBQT1JURUQQARIZChVBRE9QVF9TVVBQT1JU",
-            "X0xJTUlURUQQAhIdChlBRE9QVF9TVVBQT1JUX1VOU1VQUE9SVEVEEAMqhQMK",
-            "B0pvYktpbmQSGAoUSk9CX0tJTkRfVU5TUEVDSUZJRUQQABIdChlKT0JfS0lO",
-            "RF9TVE9SQUdFX0FOQUxZU0lTEAESHgoaSk9CX0tJTkRfQ0xFQU5VUF9FWEVD",
-            "VVRJT04QAhIcChhKT0JfS0lORF9ST09UX1JFTE9DQVRJT04QAxIcChhKT0Jf",
-            "S0lORF9XT1JLVFJFRV9DUkVBVEUQBBIcChhKT0JfS0lORF9XT1JLVFJFRV9S",
-            "RU1PVkUQBRIgChxKT0JfS0lORF9UT09MQ0hBSU5fREVURUNUSU9OEAYSGQoV",
-            "Sk9CX0tJTkRfQ0FDSEVfVkVSSUZZEAcSGgoWSk9CX0tJTkRfUkVDT1JEX0VY",
-            "UE9SVBAIEhsKF0pPQl9LSU5EX1NVUFBPUlRfQlVORExFEAkSEwoPSk9CX0tJ",
-            "TkRfRE9DVE9SEAoSHAoYSk9CX0tJTkRfVVBEQVRFX0RPV05MT0FEEAsSHgoa",
-            "Sk9CX0tJTkRfSU5URUdSQVRJT05fQVBQTFkQDCqbAQoISm9iU3RhdGUSGQoV",
-            "Sk9CX1NUQVRFX1VOU1BFQ0lGSUVEEAASFQoRSk9CX1NUQVRFX1BFTkRJTkcQ",
-            "ARIVChFKT0JfU1RBVEVfUlVOTklORxACEhcKE0pPQl9TVEFURV9TVUNDRUVE",
-            "RUQQAxIUChBKT0JfU1RBVEVfRkFJTEVEEAQSFwoTSk9CX1NUQVRFX0NBTkNF",
-            "TExFRBAFQlgKJWlvLmdpdGh1Yi5hcmNmb3JnZXMuY29udHJhY3RzLm5vZGUu",
-            "djFCD05vZGVDb21tb25Qcm90b1ABqgIbQXJjRm9yZ2VzLkNvbnRyYWN0cy5O",
-            "b2RlLlYxYgZwcm90bzM="));
+            "KAlIBFIKY2xpZW50TmFtZYgBARJECg1jZW50ZXJfY2FsbGVyGAkgASgLMh8u",
+            "YXJjZm9yZ2VzLm5vZGUudjEuQ2VudGVyQ2FsbGVyUgxjZW50ZXJDYWxsZXJC",
+            "CQoHX29yaWdpbkIOCgxfY2xpZW50X2tpbmRCCwoJX2FnZW50X2lkQgoKCF9v",
+            "c191c2VyQg4KDF9jbGllbnRfbmFtZSLlAwoMQ2VudGVyQ2FsbGVyEjwKBGtp",
+            "bmQYASABKA4yIy5hcmNmb3JnZXMubm9kZS52MS5DZW50ZXJDYWxsZXJLaW5k",
+            "SABSBGtpbmSIAQESOgoKYWNjb3VudF9pZBgCIAEoCzIbLmFyY2Zvcmdlcy5m",
+            "b3VuZGF0aW9uLnYxLklkUglhY2NvdW50SWQSNAoHdXNlcl9pZBgDIAEoCzIb",
+            "LmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUgZ1c2VySWQSOgoKc2Vzc2lv",
+            "bl9pZBgEIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUglzZXNz",
+            "aW9uSWQSRQoQcmVsYXlpbmdfbm9kZV9pZBgFIAEoCzIbLmFyY2Zvcmdlcy5m",
+            "b3VuZGF0aW9uLnYxLklkUg5yZWxheWluZ05vZGVJZBJBCgxsb2NhbF9vcmln",
+            "aW4YBiABKA4yGS5hcmNmb3JnZXMubm9kZS52MS5PcmlnaW5IAVILbG9jYWxP",
+            "cmlnaW6IAQESRQoQbG9jYWxfc2Vzc2lvbl9pZBgHIAEoCzIbLmFyY2Zvcmdl",
+            "cy5mb3VuZGF0aW9uLnYxLklkUg5sb2NhbFNlc3Npb25JZEIHCgVfa2luZEIP",
+            "Cg1fbG9jYWxfb3JpZ2luIpoBCg5TdHJlYW1Qb3NpdGlvbhIbCgZjdXJzb3IY",
+            "ASABKAlIAFIGY3Vyc29yiAEBEh8KCHNlcXVlbmNlGAIgASgESAFSCHNlcXVl",
+            "bmNliAEBEiMKCmdlbmVyYXRpb24YAyABKARIAlIKZ2VuZXJhdGlvbogBAUIJ",
+            "CgdfY3Vyc29yQgsKCV9zZXF1ZW5jZUINCgtfZ2VuZXJhdGlvbiJ6CgtTdHJl",
+            "YW1SZXNldBIbCgZyZWFzb24YASABKAlIAFIGcmVhc29uiAEBEi4KEHNuYXBz",
+            "aG90X2ZvbGxvd3MYAiABKAhIAVIPc25hcHNob3RGb2xsb3dziAEBQgkKB19y",
+            "ZWFzb25CEwoRX3NuYXBzaG90X2ZvbGxvd3MiPQoJSGVhcnRiZWF0EjAKAmF0",
+            "GAEgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudFICYXQi",
+            "fwoIS2V5VmFsdWUSFwoEbmFtZRgBIAEoCUgAUgRuYW1liAEBEhkKBXZhbHVl",
+            "GAIgASgJSAFSBXZhbHVliAEBEh8KCHJlZGFjdGVkGAMgASgISAJSCHJlZGFj",
+            "dGVkiAEBQgcKBV9uYW1lQggKBl92YWx1ZUILCglfcmVkYWN0ZWQisgkKEENh",
+            "cGFiaWxpdHlSZXBvcnQSNAoDY3B1GAEgASgOMh0uYXJjZm9yZ2VzLm5vZGUu",
+            "djEuQ3B1Q29udHJvbEgAUgNjcHWIAQESIgoKY3B1X3JlYXNvbhgCIAEoCUgB",
+            "UgljcHVSZWFzb26IAQESPQoGbWVtb3J5GAMgASgOMiAuYXJjZm9yZ2VzLm5v",
+            "ZGUudjEuTWVtb3J5Q29udHJvbEgCUgZtZW1vcnmIAQESKAoNbWVtb3J5X3Jl",
+            "YXNvbhgEIAEoCUgDUgxtZW1vcnlSZWFzb26IAQESPwoEcGlkcxgFIAEoDjIm",
+            "LmFyY2Zvcmdlcy5ub2RlLnYxLlByb2Nlc3NDb3VudENvbnRyb2xIBFIEcGlk",
+            "c4gBARIkCgtwaWRzX3JlYXNvbhgGIAEoCUgFUgpwaWRzUmVhc29uiAEBEjEK",
+            "AmlvGAcgASgOMhwuYXJjZm9yZ2VzLm5vZGUudjEuSW9Db250cm9sSAZSAmlv",
+            "iAEBEiAKCWlvX3JlYXNvbhgIIAEoCUgHUghpb1JlYXNvbogBARI6CgVwYXVz",
+            "ZRgJIAEoDjIfLmFyY2Zvcmdlcy5ub2RlLnYxLlBhdXNlU3VwcG9ydEgIUgVw",
+            "YXVzZYgBARImCgxwYXVzZV9yZWFzb24YCiABKAlICVILcGF1c2VSZWFzb26I",
+            "AQESRgoJa2lsbF90cmVlGAsgASgOMiQuYXJjZm9yZ2VzLm5vZGUudjEuS2ls",
+            "bFRyZWVHdWFyYW50ZWVIClIIa2lsbFRyZWWIAQESLQoQa2lsbF90cmVlX3Jl",
+            "YXNvbhgMIAEoCUgLUg5raWxsVHJlZVJlYXNvbogBARI6CgVhZG9wdBgNIAEo",
+            "DjIfLmFyY2Zvcmdlcy5ub2RlLnYxLkFkb3B0U3VwcG9ydEgMUgVhZG9wdIgB",
+            "ARImCgxhZG9wdF9yZWFzb24YDiABKAlIDVILYWRvcHRSZWFzb26IAQESLgoQ",
+            "cmVzdGFydF9zdXJ2aXZhbBgPIAEoCEgOUg9yZXN0YXJ0U3Vydml2YWyIAQES",
+            "OwoXcmVzdGFydF9zdXJ2aXZhbF9yZWFzb24YECABKAlID1IVcmVzdGFydFN1",
+            "cnZpdmFsUmVhc29uiAEBEkMKDGV2YWx1YXRlZF9hdBgRIAEoCzIgLmFyY2Zv",
+            "cmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbnRSC2V2YWx1YXRlZEF0EkIKDnBs",
+            "YXRmb3JtX2ZhY3RzGBIgAygLMhsuYXJjZm9yZ2VzLm5vZGUudjEuS2V5VmFs",
+            "dWVSDXBsYXRmb3JtRmFjdHNCBgoEX2NwdUINCgtfY3B1X3JlYXNvbkIJCgdf",
+            "bWVtb3J5QhAKDl9tZW1vcnlfcmVhc29uQgcKBV9waWRzQg4KDF9waWRzX3Jl",
+            "YXNvbkIFCgNfaW9CDAoKX2lvX3JlYXNvbkIICgZfcGF1c2VCDwoNX3BhdXNl",
+            "X3JlYXNvbkIMCgpfa2lsbF90cmVlQhMKEV9raWxsX3RyZWVfcmVhc29uQggK",
+            "Bl9hZG9wdEIPCg1fYWRvcHRfcmVhc29uQhMKEV9yZXN0YXJ0X3N1cnZpdmFs",
+            "QhoKGF9yZXN0YXJ0X3N1cnZpdmFsX3JlYXNvbiKwBQoHSm9iVmlldxIyCgZq",
+            "b2JfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIFam9i",
+            "SWQSMwoEa2luZBgCIAEoDjIaLmFyY2Zvcmdlcy5ub2RlLnYxLkpvYktpbmRI",
+            "AFIEa2luZIgBARI2CgVzdGF0ZRgDIAEoDjIbLmFyY2Zvcmdlcy5ub2RlLnYx",
+            "LkpvYlN0YXRlSAFSBXN0YXRliAEBEi4KEHByb2dyZXNzX3BlcmNlbnQYBCAB",
+            "KA1IAlIPcHJvZ3Jlc3NQZXJjZW50iAEBEigKDXByb2dyZXNzX3RleHQYBSAB",
+            "KAlIA1IMcHJvZ3Jlc3NUZXh0iAEBEjQKB3Rhc2tfaWQYBiABKAsyGy5hcmNm",
+            "b3JnZXMuZm91bmRhdGlvbi52MS5JZFIGdGFza0lkEj4KDHJlcXVlc3RlZF9i",
+            "eRgHIAEoCzIbLmFyY2Zvcmdlcy5ub2RlLnYxLkFjdG9yUmVmUgtyZXF1ZXN0",
+            "ZWRCeRI/CgpjcmVhdGVkX2F0GAggASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRp",
+            "b24udjEuSW5zdGFudFIJY3JlYXRlZEF0EkEKC2ZpbmlzaGVkX2F0GAkgASgL",
+            "MiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudFIKZmluaXNoZWRB",
+            "dBI3CgVlcnJvchgKIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFy",
+            "Y0Vycm9yUgVlcnJvchI9CgZyZXN1bHQYCyABKAsyJS5hcmNmb3JnZXMuZm91",
+            "bmRhdGlvbi52MS5BZ2dyZWdhdGVSZWZSBnJlc3VsdEIHCgVfa2luZEIICgZf",
+            "c3RhdGVCEwoRX3Byb2dyZXNzX3BlcmNlbnRCEAoOX3Byb2dyZXNzX3RleHQi",
+            "jwEKDkFwcHJvdmFsSGFuZGxlEjwKC2FwcHJvdmFsX2lkGAEgASgLMhsuYXJj",
+            "Zm9yZ2VzLmZvdW5kYXRpb24udjEuSWRSCmFwcHJvdmFsSWQSPwoKZXhwaXJl",
+            "c19hdBgCIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbnRS",
+            "CWV4cGlyZXNBdCqvAQoGT3JpZ2luEhYKEk9SSUdJTl9VTlNQRUNJRklFRBAA",
+            "EhAKDE9SSUdJTl9IVU1BThABEhEKDU9SSUdJTl9TQ1JJUFQQAhIQCgxPUklH",
+            "SU5fQUdFTlQQAxIRCg1PUklHSU5fUkVNT1RFEAQSDwoLT1JJR0lOX1BFRVIQ",
+            "BRIQCgxPUklHSU5fR1VFU1QQBhIPCgtPUklHSU5fSE9TVBAHEg8KC09SSUdJ",
+            "Tl9OT0RFEAgq0wEKCkNsaWVudEtpbmQSGwoXQ0xJRU5UX0tJTkRfVU5TUEVD",
+            "SUZJRUQQABITCg9DTElFTlRfS0lORF9DTEkQARIXChNDTElFTlRfS0lORF9E",
+            "RVNLVE9QEAISGwoXQ0xJRU5UX0tJTkRfTUNQX0FEQVBURVIQAxIUChBDTElF",
+            "TlRfS0lORF9IT09LEAQSGgoWQ0xJRU5UX0tJTkRfU1VQRVJWSVNPUhAFEhUK",
+            "EUNMSUVOVF9LSU5EX1BST0JFEAYSFAoQQ0xJRU5UX0tJTkRfVEVTVBAHKlEK",
+            "CE9zRmFtaWx5EhkKFU9TX0ZBTUlMWV9VTlNQRUNJRklFRBAAEhUKEU9TX0ZB",
+            "TUlMWV9XSU5ET1dTEAESEwoPT1NfRkFNSUxZX0xJTlVYEAIqaQoPQ3B1QXJj",
+            "aGl0ZWN0dXJlEiAKHENQVV9BUkNISVRFQ1RVUkVfVU5TUEVDSUZJRUQQABIY",
+            "ChRDUFVfQVJDSElURUNUVVJFX1g2NBABEhoKFkNQVV9BUkNISVRFQ1RVUkVf",
+            "QVJNNjQQAipOCghOb2RlUm9sZRIZChVOT0RFX1JPTEVfVU5TUEVDSUZJRUQQ",
+            "ABISCg5OT0RFX1JPTEVfSE9TVBABEhMKD05PREVfUk9MRV9HVUVTVBACKpEB",
+            "CghQcmlvcml0eRIYChRQUklPUklUWV9VTlNQRUNJRklFRBAAEhgKFFBSSU9S",
+            "SVRZX0lOVEVSQUNUSVZFEAESEQoNUFJJT1JJVFlfSElHSBACEhMKD1BSSU9S",
+            "SVRZX05PUk1BTBADEhAKDFBSSU9SSVRZX0xPVxAEEhcKE1BSSU9SSVRZX0JB",
+            "Q0tHUk9VTkQQBSq8AQoORXN0aW1hdGVTb3VyY2USHwobRVNUSU1BVEVfU09V",
+            "UkNFX1VOU1BFQ0lGSUVEEAASGAoURVNUSU1BVEVfU09VUkNFX0hJTlQQARIa",
+            "ChZFU1RJTUFURV9TT1VSQ0VfTUVNT1JZEAISGwoXRVNUSU1BVEVfU09VUkNF",
+            "X0FEQVBURVIQAxIbChdFU1RJTUFURV9TT1VSQ0VfREVGQVVMVBAEEhkKFUVT",
+            "VElNQVRFX1NPVVJDRV9MSUdIVBAFKmEKCFNldmVyaXR5EhgKFFNFVkVSSVRZ",
+            "X1VOU1BFQ0lGSUVEEAASEQoNU0VWRVJJVFlfSU5GTxABEhQKEFNFVkVSSVRZ",
+            "X1dBUk5JTkcQAhISCg5TRVZFUklUWV9FUlJPUhADKmgKCkNvbmZpZGVuY2US",
+            "GgoWQ09ORklERU5DRV9VTlNQRUNJRklFRBAAEhIKDkNPTkZJREVOQ0VfTE9X",
+            "EAESFQoRQ09ORklERU5DRV9NRURJVU0QAhITCg9DT05GSURFTkNFX0hJR0gQ",
+            "AypnCglSaXNrQ2xhc3MSGgoWUklTS19DTEFTU19VTlNQRUNJRklFRBAAEhIK",
+            "DlJJU0tfQ0xBU1NfTE9XEAESFQoRUklTS19DTEFTU19NRURJVU0QAhITCg9S",
+            "SVNLX0NMQVNTX0hJR0gQAyq/AQoSUGVybWlzc2lvbkRlY2lzaW9uEiMKH1BF",
+            "Uk1JU1NJT05fREVDSVNJT05fVU5TUEVDSUZJRUQQABIdChlQRVJNSVNTSU9O",
+            "X0RFQ0lTSU9OX0FMTE9XEAESIAocUEVSTUlTU0lPTl9ERUNJU0lPTl9BUFBS",
+            "T1ZBTBACEhwKGFBFUk1JU1NJT05fREVDSVNJT05fREVOWRADEiUKIVBFUk1J",
+            "U1NJT05fREVDSVNJT05fUkVNT1RFX1BPTElDWRAEKp4BCg1QcmVzc3VyZUxl",
+            "dmVsEh4KGlBSRVNTVVJFX0xFVkVMX1VOU1BFQ0lGSUVEEAASGQoVUFJFU1NV",
+            "UkVfTEVWRUxfTk9STUFMEAESGAoUUFJFU1NVUkVfTEVWRUxfVElHSFQQAhIb",
+            "ChdQUkVTU1VSRV9MRVZFTF9QUkVTU1VSRRADEhsKF1BSRVNTVVJFX0xFVkVM",
+            "X0NSSVRJQ0FMEAQqlwEKEURpc2tQcmVzc3VyZUxldmVsEiMKH0RJU0tfUFJF",
+            "U1NVUkVfTEVWRUxfVU5TUEVDSUZJRUQQABIeChpESVNLX1BSRVNTVVJFX0xF",
+            "VkVMX05PUk1BTBABEhsKF0RJU0tfUFJFU1NVUkVfTEVWRUxfTE9XEAISIAoc",
+            "RElTS19QUkVTU1VSRV9MRVZFTF9DUklUSUNBTBADKpICCgxQcm9jZXNzTGFi",
+            "ZWwSHQoZUFJPQ0VTU19MQUJFTF9VTlNQRUNJRklFRBAAEhkKFVBST0NFU1Nf",
+            "TEFCRUxfTUFOQUdFRBABEhkKFVBST0NFU1NfTEFCRUxfQURPUFRFRBACEhkK",
+            "FVBST0NFU1NfTEFCRUxfRVNDQVBFRBADEhoKFlBST0NFU1NfTEFCRUxfQllQ",
+            "QVNTRUQQBBIbChdQUk9DRVNTX0xBQkVMX1VOTUFOQUdFRBAFEhoKFlBST0NF",
+            "U1NfTEFCRUxfR1VFU1RfVk0QBhIgChxQUk9DRVNTX0xBQkVMX1NIQVJFRF9T",
+            "RVJWSUNFEAcSGwoXUFJPQ0VTU19MQUJFTF9OT0RFX1NFTEYQCCqKAQoQRW5m",
+            "b3JjZWRSZXNvdXJjZRIhCh1FTkZPUkNFRF9SRVNPVVJDRV9VTlNQRUNJRklF",
+            "RBAAEhkKFUVORk9SQ0VEX1JFU09VUkNFX0NQVRABEhwKGEVORk9SQ0VEX1JF",
+            "U09VUkNFX01FTU9SWRACEhoKFkVORk9SQ0VEX1JFU09VUkNFX1BJRFMQAyqP",
+            "AQoKQ3B1Q29udHJvbBIbChdDUFVfQ09OVFJPTF9VTlNQRUNJRklFRBAAEiYK",
+            "IkNQVV9DT05UUk9MX0VORk9SQ0VEX1NIQVJFX0FORF9DQVAQARIeChpDUFVf",
+            "Q09OVFJPTF9FTkZPUkNFRF9TSEFSRRACEhwKGENQVV9DT05UUk9MX09CU0VS",
+            "VkVfT05MWRADKp8BCg1NZW1vcnlDb250cm9sEh4KGk1FTU9SWV9DT05UUk9M",
+            "X1VOU1BFQ0lGSUVEEAASKQolTUVNT1JZX0NPTlRST0xfRU5GT1JDRURfU09G",
+            "VF9BTkRfSEFSRBABEiIKHk1FTU9SWV9DT05UUk9MX0VORk9SQ0VEX0NPTU1J",
+            "VBACEh8KG01FTU9SWV9DT05UUk9MX09CU0VSVkVfT05MWRADKogBChNQcm9j",
+            "ZXNzQ291bnRDb250cm9sEiUKIVBST0NFU1NfQ09VTlRfQ09OVFJPTF9VTlNQ",
+            "RUNJRklFRBAAEiIKHlBST0NFU1NfQ09VTlRfQ09OVFJPTF9FTkZPUkNFRBAB",
+            "EiYKIlBST0NFU1NfQ09VTlRfQ09OVFJPTF9PQlNFUlZFX09OTFkQAipdCglJ",
+            "b0NvbnRyb2wSGgoWSU9fQ09OVFJPTF9VTlNQRUNJRklFRBAAEhsKF0lPX0NP",
+            "TlRST0xfT0JTRVJWRV9PTkxZEAESFwoTSU9fQ09OVFJPTF9FTkZPUkNFRBAC",
+            "KmkKDFBhdXNlU3VwcG9ydBIdChlQQVVTRV9TVVBQT1JUX1VOU1BFQ0lGSUVE",
+            "EAASGwoXUEFVU0VfU1VQUE9SVF9TVVBQT1JURUQQARIdChlQQVVTRV9TVVBQ",
+            "T1JUX1VOU1VQUE9SVEVEEAIqgQEKEUtpbGxUcmVlR3VhcmFudGVlEiMKH0tJ",
+            "TExfVFJFRV9HVUFSQU5URUVfVU5TUEVDSUZJRUQQABIiCh5LSUxMX1RSRUVf",
+            "R1VBUkFOVEVFX0dVQVJBTlRFRUQQARIjCh9LSUxMX1RSRUVfR1VBUkFOVEVF",
+            "X0JFU1RfRUZGT1JUEAIqhAEKDEFkb3B0U3VwcG9ydBIdChlBRE9QVF9TVVBQ",
+            "T1JUX1VOU1BFQ0lGSUVEEAASGwoXQURPUFRfU1VQUE9SVF9TVVBQT1JURUQQ",
+            "ARIZChVBRE9QVF9TVVBQT1JUX0xJTUlURUQQAhIdChlBRE9QVF9TVVBQT1JU",
+            "X1VOU1VQUE9SVEVEEAMqhQMKB0pvYktpbmQSGAoUSk9CX0tJTkRfVU5TUEVD",
+            "SUZJRUQQABIdChlKT0JfS0lORF9TVE9SQUdFX0FOQUxZU0lTEAESHgoaSk9C",
+            "X0tJTkRfQ0xFQU5VUF9FWEVDVVRJT04QAhIcChhKT0JfS0lORF9ST09UX1JF",
+            "TE9DQVRJT04QAxIcChhKT0JfS0lORF9XT1JLVFJFRV9DUkVBVEUQBBIcChhK",
+            "T0JfS0lORF9XT1JLVFJFRV9SRU1PVkUQBRIgChxKT0JfS0lORF9UT09MQ0hB",
+            "SU5fREVURUNUSU9OEAYSGQoVSk9CX0tJTkRfQ0FDSEVfVkVSSUZZEAcSGgoW",
+            "Sk9CX0tJTkRfUkVDT1JEX0VYUE9SVBAIEhsKF0pPQl9LSU5EX1NVUFBPUlRf",
+            "QlVORExFEAkSEwoPSk9CX0tJTkRfRE9DVE9SEAoSHAoYSk9CX0tJTkRfVVBE",
+            "QVRFX0RPV05MT0FEEAsSHgoaSk9CX0tJTkRfSU5URUdSQVRJT05fQVBQTFkQ",
+            "DCqbAQoISm9iU3RhdGUSGQoVSk9CX1NUQVRFX1VOU1BFQ0lGSUVEEAASFQoR",
+            "Sk9CX1NUQVRFX1BFTkRJTkcQARIVChFKT0JfU1RBVEVfUlVOTklORxACEhcK",
+            "E0pPQl9TVEFURV9TVUNDRUVERUQQAxIUChBKT0JfU1RBVEVfRkFJTEVEEAQS",
+            "FwoTSk9CX1NUQVRFX0NBTkNFTExFRBAFKqUBChBDZW50ZXJDYWxsZXJLaW5k",
+            "EiIKHkNFTlRFUl9DQUxMRVJfS0lORF9VTlNQRUNJRklFRBAAEiYKIkNFTlRF",
+            "Ul9DQUxMRVJfS0lORF9BQ0NPVU5UX1NFU1NJT04QARIhCh1DRU5URVJfQ0FM",
+            "TEVSX0tJTkRfTk9ERV9SRUxBWRACEiIKHkNFTlRFUl9DQUxMRVJfS0lORF9B",
+            "R0VOVF9HUkFOVBADQlgKJWlvLmdpdGh1Yi5hcmNmb3JnZXMuY29udHJhY3Rz",
+            "Lm5vZGUudjFCD05vZGVDb21tb25Qcm90b1ABqgIbQXJjRm9yZ2VzLkNvbnRy",
+            "YWN0cy5Ob2RlLlYxYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::ArcForges.Contracts.Node.V1.Origin), typeof(global::ArcForges.Contracts.Node.V1.ClientKind), typeof(global::ArcForges.Contracts.Node.V1.OsFamily), typeof(global::ArcForges.Contracts.Node.V1.CpuArchitecture), typeof(global::ArcForges.Contracts.Node.V1.NodeRole), typeof(global::ArcForges.Contracts.Node.V1.Priority), typeof(global::ArcForges.Contracts.Node.V1.EstimateSource), typeof(global::ArcForges.Contracts.Node.V1.Severity), typeof(global::ArcForges.Contracts.Node.V1.Confidence), typeof(global::ArcForges.Contracts.Node.V1.RiskClass), typeof(global::ArcForges.Contracts.Node.V1.PermissionDecision), typeof(global::ArcForges.Contracts.Node.V1.PressureLevel), typeof(global::ArcForges.Contracts.Node.V1.DiskPressureLevel), typeof(global::ArcForges.Contracts.Node.V1.ProcessLabel), typeof(global::ArcForges.Contracts.Node.V1.EnforcedResource), typeof(global::ArcForges.Contracts.Node.V1.CpuControl), typeof(global::ArcForges.Contracts.Node.V1.MemoryControl), typeof(global::ArcForges.Contracts.Node.V1.ProcessCountControl), typeof(global::ArcForges.Contracts.Node.V1.IoControl), typeof(global::ArcForges.Contracts.Node.V1.PauseSupport), typeof(global::ArcForges.Contracts.Node.V1.KillTreeGuarantee), typeof(global::ArcForges.Contracts.Node.V1.AdoptSupport), typeof(global::ArcForges.Contracts.Node.V1.JobKind), typeof(global::ArcForges.Contracts.Node.V1.JobState), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::ArcForges.Contracts.Node.V1.Origin), typeof(global::ArcForges.Contracts.Node.V1.ClientKind), typeof(global::ArcForges.Contracts.Node.V1.OsFamily), typeof(global::ArcForges.Contracts.Node.V1.CpuArchitecture), typeof(global::ArcForges.Contracts.Node.V1.NodeRole), typeof(global::ArcForges.Contracts.Node.V1.Priority), typeof(global::ArcForges.Contracts.Node.V1.EstimateSource), typeof(global::ArcForges.Contracts.Node.V1.Severity), typeof(global::ArcForges.Contracts.Node.V1.Confidence), typeof(global::ArcForges.Contracts.Node.V1.RiskClass), typeof(global::ArcForges.Contracts.Node.V1.PermissionDecision), typeof(global::ArcForges.Contracts.Node.V1.PressureLevel), typeof(global::ArcForges.Contracts.Node.V1.DiskPressureLevel), typeof(global::ArcForges.Contracts.Node.V1.ProcessLabel), typeof(global::ArcForges.Contracts.Node.V1.EnforcedResource), typeof(global::ArcForges.Contracts.Node.V1.CpuControl), typeof(global::ArcForges.Contracts.Node.V1.MemoryControl), typeof(global::ArcForges.Contracts.Node.V1.ProcessCountControl), typeof(global::ArcForges.Contracts.Node.V1.IoControl), typeof(global::ArcForges.Contracts.Node.V1.PauseSupport), typeof(global::ArcForges.Contracts.Node.V1.KillTreeGuarantee), typeof(global::ArcForges.Contracts.Node.V1.AdoptSupport), typeof(global::ArcForges.Contracts.Node.V1.JobKind), typeof(global::ArcForges.Contracts.Node.V1.JobState), typeof(global::ArcForges.Contracts.Node.V1.CenterCallerKind), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.ResourceDemand), global::ArcForges.Contracts.Node.V1.ResourceDemand.Parser, new[]{ "CpuMillicores", "MemExpectedBytes", "MemCeilingBytes", "Source" }, new[]{ "CpuMillicores", "MemExpectedBytes", "MemCeilingBytes", "Source" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.ResourceUsage), global::ArcForges.Contracts.Node.V1.ResourceUsage.Parser, new[]{ "CpuMillicores", "CpuTimeMs", "MemBytes", "MemPeakBytes", "ProcessCount", "IoReadBytes", "IoWriteBytes" }, new[]{ "CpuMillicores", "CpuTimeMs", "MemBytes", "MemPeakBytes", "ProcessCount", "IoReadBytes", "IoWriteBytes" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.ProcessIdentity), global::ArcForges.Contracts.Node.V1.ProcessIdentity.Parser, new[]{ "Pid", "StartTime", "ImageName" }, new[]{ "Pid", "ImageName" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.NodeRef), global::ArcForges.Contracts.Node.V1.NodeRef.Parser, new[]{ "NodeId", "Name", "Role", "HostNodeId", "Os", "Arch" }, new[]{ "Name", "Role", "Os", "Arch" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.ActorRef), global::ArcForges.Contracts.Node.V1.ActorRef.Parser, new[]{ "Origin", "ClientKind", "SessionId", "AgentId", "OsUser", "PeerNodeId", "RemoteCommandId", "ClientName" }, new[]{ "Origin", "ClientKind", "AgentId", "OsUser", "ClientName" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.ActorRef), global::ArcForges.Contracts.Node.V1.ActorRef.Parser, new[]{ "Origin", "ClientKind", "SessionId", "AgentId", "OsUser", "PeerNodeId", "RemoteCommandId", "ClientName", "CenterCaller" }, new[]{ "Origin", "ClientKind", "AgentId", "OsUser", "ClientName" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.CenterCaller), global::ArcForges.Contracts.Node.V1.CenterCaller.Parser, new[]{ "Kind", "AccountId", "UserId", "SessionId", "RelayingNodeId", "LocalOrigin", "LocalSessionId" }, new[]{ "Kind", "LocalOrigin" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.StreamPosition), global::ArcForges.Contracts.Node.V1.StreamPosition.Parser, new[]{ "Cursor", "Sequence", "Generation" }, new[]{ "Cursor", "Sequence", "Generation" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.StreamReset), global::ArcForges.Contracts.Node.V1.StreamReset.Parser, new[]{ "Reason", "SnapshotFollows" }, new[]{ "Reason", "SnapshotFollows" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.Heartbeat), global::ArcForges.Contracts.Node.V1.Heartbeat.Parser, new[]{ "At" }, null, null, null, null),
@@ -453,6 +470,25 @@ namespace ArcForges.Contracts.Node.V1 {
     [pbr::OriginalName("JOB_STATE_SUCCEEDED")] Succeeded = 3,
     [pbr::OriginalName("JOB_STATE_FAILED")] Failed = 4,
     [pbr::OriginalName("JOB_STATE_CANCELLED")] Cancelled = 5,
+  }
+
+  /// <summary>
+  /// The kind of a center-routed call's caller (AF-CTR-05 target; Plan CTR5-RTE-07; Design 11 section 1, "Center-routed callers").
+  /// </summary>
+  public enum CenterCallerKind {
+    [pbr::OriginalName("CENTER_CALLER_KIND_UNSPECIFIED")] Unspecified = 0,
+    /// <summary>
+    /// an account session of the center (Web, Android)
+    /// </summary>
+    [pbr::OriginalName("CENTER_CALLER_KIND_ACCOUNT_SESSION")] AccountSession = 1,
+    /// <summary>
+    /// a node-relayed caller, as the verified relay assertion states it
+    /// </summary>
+    [pbr::OriginalName("CENTER_CALLER_KIND_NODE_RELAY")] NodeRelay = 2,
+    /// <summary>
+    /// reserved for the agent grants of AF-CTR-07; never sent before then
+    /// </summary>
+    [pbr::OriginalName("CENTER_CALLER_KIND_AGENT_GRANT")] AgentGrant = 3,
   }
 
   #endregion
@@ -2202,6 +2238,7 @@ namespace ArcForges.Contracts.Node.V1 {
       peerNodeId_ = other.peerNodeId_ != null ? other.peerNodeId_.Clone() : null;
       remoteCommandId_ = other.remoteCommandId_ != null ? other.remoteCommandId_.Clone() : null;
       clientName_ = other.clientName_;
+      centerCaller_ = other.centerCaller_ != null ? other.centerCaller_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2379,6 +2416,21 @@ namespace ArcForges.Contracts.Node.V1 {
       clientName_ = null;
     }
 
+    /// <summary>Field number for the "center_caller" field.</summary>
+    public const int CenterCallerFieldNumber = 9;
+    private global::ArcForges.Contracts.Node.V1.CenterCaller centerCaller_;
+    /// <summary>
+    /// origin REMOTE through the center (AF-CTR-05): the caller the center signed into the call; remote_command_id is then the routed command ID
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Node.V1.CenterCaller CenterCaller {
+      get { return centerCaller_; }
+      set {
+        centerCaller_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -2402,6 +2454,7 @@ namespace ArcForges.Contracts.Node.V1 {
       if (!object.Equals(PeerNodeId, other.PeerNodeId)) return false;
       if (!object.Equals(RemoteCommandId, other.RemoteCommandId)) return false;
       if (ClientName != other.ClientName) return false;
+      if (!object.Equals(CenterCaller, other.CenterCaller)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2417,6 +2470,7 @@ namespace ArcForges.Contracts.Node.V1 {
       if (peerNodeId_ != null) hash ^= PeerNodeId.GetHashCode();
       if (remoteCommandId_ != null) hash ^= RemoteCommandId.GetHashCode();
       if (HasClientName) hash ^= ClientName.GetHashCode();
+      if (centerCaller_ != null) hash ^= CenterCaller.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2467,6 +2521,10 @@ namespace ArcForges.Contracts.Node.V1 {
         output.WriteRawTag(66);
         output.WriteString(ClientName);
       }
+      if (centerCaller_ != null) {
+        output.WriteRawTag(74);
+        output.WriteMessage(CenterCaller);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2509,6 +2567,10 @@ namespace ArcForges.Contracts.Node.V1 {
         output.WriteRawTag(66);
         output.WriteString(ClientName);
       }
+      if (centerCaller_ != null) {
+        output.WriteRawTag(74);
+        output.WriteMessage(CenterCaller);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -2542,6 +2604,9 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       if (HasClientName) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ClientName);
+      }
+      if (centerCaller_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CenterCaller);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2587,6 +2652,12 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       if (other.HasClientName) {
         ClientName = other.ClientName;
+      }
+      if (other.centerCaller_ != null) {
+        if (centerCaller_ == null) {
+          CenterCaller = new global::ArcForges.Contracts.Node.V1.CenterCaller();
+        }
+        CenterCaller.MergeFrom(other.CenterCaller);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2646,6 +2717,13 @@ namespace ArcForges.Contracts.Node.V1 {
           }
           case 66: {
             ClientName = input.ReadString();
+            break;
+          }
+          case 74: {
+            if (centerCaller_ == null) {
+              CenterCaller = new global::ArcForges.Contracts.Node.V1.CenterCaller();
+            }
+            input.ReadMessage(CenterCaller);
             break;
           }
         }
@@ -2708,6 +2786,538 @@ namespace ArcForges.Contracts.Node.V1 {
             ClientName = input.ReadString();
             break;
           }
+          case 74: {
+            if (centerCaller_ == null) {
+              CenterCaller = new global::ArcForges.Contracts.Node.V1.CenterCaller();
+            }
+            input.ReadMessage(CenterCaller);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// The caller of a center-routed call as the center verified it and signed it into the call header (arcforges.relay.v1
+  /// CallHeader.caller). The center fills it only from the verified account session or relay assertion, never from a request
+  /// field. The node records it on ActorRef.center_caller and decides the call by its center-routed policy (CenterRoutedPolicy),
+  /// never by the HUMAN cells; a NODE_RELAY caller's local_origin is the target's own classification only when relaying_node_id is
+  /// the target node itself, and advisory otherwise.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class CenterCaller : pb::IMessage<CenterCaller>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<CenterCaller> _parser = new pb::MessageParser<CenterCaller>(() => new CenterCaller());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<CenterCaller> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public CenterCaller() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public CenterCaller(CenterCaller other) : this() {
+      _hasBits0 = other._hasBits0;
+      kind_ = other.kind_;
+      accountId_ = other.accountId_ != null ? other.accountId_.Clone() : null;
+      userId_ = other.userId_ != null ? other.userId_.Clone() : null;
+      sessionId_ = other.sessionId_ != null ? other.sessionId_.Clone() : null;
+      relayingNodeId_ = other.relayingNodeId_ != null ? other.relayingNodeId_.Clone() : null;
+      localOrigin_ = other.localOrigin_;
+      localSessionId_ = other.localSessionId_ != null ? other.localSessionId_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public CenterCaller Clone() {
+      return new CenterCaller(this);
+    }
+
+    /// <summary>Field number for the "kind" field.</summary>
+    public const int KindFieldNumber = 1;
+    private readonly static global::ArcForges.Contracts.Node.V1.CenterCallerKind KindDefaultValue = global::ArcForges.Contracts.Node.V1.CenterCallerKind.Unspecified;
+
+    private global::ArcForges.Contracts.Node.V1.CenterCallerKind kind_;
+    /// <summary>
+    /// validate: required; ACCOUNT_SESSION or NODE_RELAY
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Node.V1.CenterCallerKind Kind {
+      get { if ((_hasBits0 & 1) != 0) { return kind_; } else { return KindDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        kind_ = value;
+      }
+    }
+    /// <summary>Gets whether the "kind" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasKind {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "kind" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearKind() {
+      _hasBits0 &= ~1;
+    }
+
+    /// <summary>Field number for the "account_id" field.</summary>
+    public const int AccountIdFieldNumber = 2;
+    private global::ArcForges.Contracts.Foundation.V1.Id accountId_;
+    /// <summary>
+    /// validate: required
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id AccountId {
+      get { return accountId_; }
+      set {
+        accountId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "user_id" field.</summary>
+    public const int UserIdFieldNumber = 3;
+    private global::ArcForges.Contracts.Foundation.V1.Id userId_;
+    /// <summary>
+    /// validate: required for ACCOUNT_SESSION, absent otherwise
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id UserId {
+      get { return userId_; }
+      set {
+        userId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "session_id" field.</summary>
+    public const int SessionIdFieldNumber = 4;
+    private global::ArcForges.Contracts.Foundation.V1.Id sessionId_;
+    /// <summary>
+    /// validate: required for ACCOUNT_SESSION, absent otherwise; the center session
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id SessionId {
+      get { return sessionId_; }
+      set {
+        sessionId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "relaying_node_id" field.</summary>
+    public const int RelayingNodeIdFieldNumber = 5;
+    private global::ArcForges.Contracts.Foundation.V1.Id relayingNodeId_;
+    /// <summary>
+    /// validate: required for NODE_RELAY, absent otherwise
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id RelayingNodeId {
+      get { return relayingNodeId_; }
+      set {
+        relayingNodeId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "local_origin" field.</summary>
+    public const int LocalOriginFieldNumber = 6;
+    private readonly static global::ArcForges.Contracts.Node.V1.Origin LocalOriginDefaultValue = global::ArcForges.Contracts.Node.V1.Origin.Unspecified;
+
+    private global::ArcForges.Contracts.Node.V1.Origin localOrigin_;
+    /// <summary>
+    /// validate: required for NODE_RELAY, absent otherwise; HUMAN, SCRIPT or AGENT
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Node.V1.Origin LocalOrigin {
+      get { if ((_hasBits0 & 2) != 0) { return localOrigin_; } else { return LocalOriginDefaultValue; } }
+      set {
+        _hasBits0 |= 2;
+        localOrigin_ = value;
+      }
+    }
+    /// <summary>Gets whether the "local_origin" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasLocalOrigin {
+      get { return (_hasBits0 & 2) != 0; }
+    }
+    /// <summary>Clears the value of the "local_origin" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearLocalOrigin() {
+      _hasBits0 &= ~2;
+    }
+
+    /// <summary>Field number for the "local_session_id" field.</summary>
+    public const int LocalSessionIdFieldNumber = 7;
+    private global::ArcForges.Contracts.Foundation.V1.Id localSessionId_;
+    /// <summary>
+    /// validate: required for NODE_RELAY, absent otherwise; the local caller's client session at the relaying node
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id LocalSessionId {
+      get { return localSessionId_; }
+      set {
+        localSessionId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as CenterCaller);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(CenterCaller other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Kind != other.Kind) return false;
+      if (!object.Equals(AccountId, other.AccountId)) return false;
+      if (!object.Equals(UserId, other.UserId)) return false;
+      if (!object.Equals(SessionId, other.SessionId)) return false;
+      if (!object.Equals(RelayingNodeId, other.RelayingNodeId)) return false;
+      if (LocalOrigin != other.LocalOrigin) return false;
+      if (!object.Equals(LocalSessionId, other.LocalSessionId)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasKind) hash ^= Kind.GetHashCode();
+      if (accountId_ != null) hash ^= AccountId.GetHashCode();
+      if (userId_ != null) hash ^= UserId.GetHashCode();
+      if (sessionId_ != null) hash ^= SessionId.GetHashCode();
+      if (relayingNodeId_ != null) hash ^= RelayingNodeId.GetHashCode();
+      if (HasLocalOrigin) hash ^= LocalOrigin.GetHashCode();
+      if (localSessionId_ != null) hash ^= LocalSessionId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasKind) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) Kind);
+      }
+      if (accountId_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(AccountId);
+      }
+      if (userId_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(UserId);
+      }
+      if (sessionId_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(SessionId);
+      }
+      if (relayingNodeId_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(RelayingNodeId);
+      }
+      if (HasLocalOrigin) {
+        output.WriteRawTag(48);
+        output.WriteEnum((int) LocalOrigin);
+      }
+      if (localSessionId_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(LocalSessionId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasKind) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) Kind);
+      }
+      if (accountId_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(AccountId);
+      }
+      if (userId_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(UserId);
+      }
+      if (sessionId_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(SessionId);
+      }
+      if (relayingNodeId_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(RelayingNodeId);
+      }
+      if (HasLocalOrigin) {
+        output.WriteRawTag(48);
+        output.WriteEnum((int) LocalOrigin);
+      }
+      if (localSessionId_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(LocalSessionId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasKind) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Kind);
+      }
+      if (accountId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(AccountId);
+      }
+      if (userId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(UserId);
+      }
+      if (sessionId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SessionId);
+      }
+      if (relayingNodeId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RelayingNodeId);
+      }
+      if (HasLocalOrigin) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) LocalOrigin);
+      }
+      if (localSessionId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(LocalSessionId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(CenterCaller other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasKind) {
+        Kind = other.Kind;
+      }
+      if (other.accountId_ != null) {
+        if (accountId_ == null) {
+          AccountId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        AccountId.MergeFrom(other.AccountId);
+      }
+      if (other.userId_ != null) {
+        if (userId_ == null) {
+          UserId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        UserId.MergeFrom(other.UserId);
+      }
+      if (other.sessionId_ != null) {
+        if (sessionId_ == null) {
+          SessionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        SessionId.MergeFrom(other.SessionId);
+      }
+      if (other.relayingNodeId_ != null) {
+        if (relayingNodeId_ == null) {
+          RelayingNodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        RelayingNodeId.MergeFrom(other.RelayingNodeId);
+      }
+      if (other.HasLocalOrigin) {
+        LocalOrigin = other.LocalOrigin;
+      }
+      if (other.localSessionId_ != null) {
+        if (localSessionId_ == null) {
+          LocalSessionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        LocalSessionId.MergeFrom(other.LocalSessionId);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Kind = (global::ArcForges.Contracts.Node.V1.CenterCallerKind) input.ReadEnum();
+            break;
+          }
+          case 18: {
+            if (accountId_ == null) {
+              AccountId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(AccountId);
+            break;
+          }
+          case 26: {
+            if (userId_ == null) {
+              UserId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(UserId);
+            break;
+          }
+          case 34: {
+            if (sessionId_ == null) {
+              SessionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(SessionId);
+            break;
+          }
+          case 42: {
+            if (relayingNodeId_ == null) {
+              RelayingNodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(RelayingNodeId);
+            break;
+          }
+          case 48: {
+            LocalOrigin = (global::ArcForges.Contracts.Node.V1.Origin) input.ReadEnum();
+            break;
+          }
+          case 58: {
+            if (localSessionId_ == null) {
+              LocalSessionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(LocalSessionId);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Kind = (global::ArcForges.Contracts.Node.V1.CenterCallerKind) input.ReadEnum();
+            break;
+          }
+          case 18: {
+            if (accountId_ == null) {
+              AccountId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(AccountId);
+            break;
+          }
+          case 26: {
+            if (userId_ == null) {
+              UserId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(UserId);
+            break;
+          }
+          case 34: {
+            if (sessionId_ == null) {
+              SessionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(SessionId);
+            break;
+          }
+          case 42: {
+            if (relayingNodeId_ == null) {
+              RelayingNodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(RelayingNodeId);
+            break;
+          }
+          case 48: {
+            LocalOrigin = (global::ArcForges.Contracts.Node.V1.Origin) input.ReadEnum();
+            break;
+          }
+          case 58: {
+            if (localSessionId_ == null) {
+              LocalSessionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(LocalSessionId);
+            break;
+          }
         }
       }
     }
@@ -2734,7 +3344,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[5]; }
+      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3052,7 +3662,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[6]; }
+      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3317,7 +3927,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[7]; }
+      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3525,7 +4135,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[8]; }
+      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3845,7 +4455,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[9]; }
+      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4907,7 +5517,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[10]; }
+      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5609,7 +6219,7 @@ namespace ArcForges.Contracts.Node.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[11]; }
+      get { return global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

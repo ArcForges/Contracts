@@ -27,6 +27,131 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// The center-routed methods (fleet.v1 FleetService). 1..6 are the routed task methods, the calls a center sends; LIST_NODES and
+// GET_NODE are named only by a relay assertion. The numbers 1..6 are the node store's routed_call_log.method.
+type RoutedMethod int32
+
+const (
+	RoutedMethod_ROUTED_METHOD_UNSPECIFIED           RoutedMethod = 0
+	RoutedMethod_ROUTED_METHOD_SUBMIT_NODE_TASK      RoutedMethod = 1 // payload TaskServiceSubmitTaskRequest
+	RoutedMethod_ROUTED_METHOD_GET_NODE_TASK         RoutedMethod = 2 // payload TaskServiceGetTaskRequest
+	RoutedMethod_ROUTED_METHOD_LIST_NODE_TASKS       RoutedMethod = 3 // payload TaskServiceListTasksRequest
+	RoutedMethod_ROUTED_METHOD_WAIT_NODE_TASK        RoutedMethod = 4 // payload TaskServiceWaitTaskRequest
+	RoutedMethod_ROUTED_METHOD_READ_NODE_TASK_OUTPUT RoutedMethod = 5 // payload TaskServiceReadTaskOutputRequest
+	RoutedMethod_ROUTED_METHOD_CANCEL_NODE_TASK      RoutedMethod = 6 // payload TaskServiceCancelTaskRequest
+	RoutedMethod_ROUTED_METHOD_LIST_NODES            RoutedMethod = 7 // relay assertions only
+	RoutedMethod_ROUTED_METHOD_GET_NODE              RoutedMethod = 8 // relay assertions only
+)
+
+// Enum value maps for RoutedMethod.
+var (
+	RoutedMethod_name = map[int32]string{
+		0: "ROUTED_METHOD_UNSPECIFIED",
+		1: "ROUTED_METHOD_SUBMIT_NODE_TASK",
+		2: "ROUTED_METHOD_GET_NODE_TASK",
+		3: "ROUTED_METHOD_LIST_NODE_TASKS",
+		4: "ROUTED_METHOD_WAIT_NODE_TASK",
+		5: "ROUTED_METHOD_READ_NODE_TASK_OUTPUT",
+		6: "ROUTED_METHOD_CANCEL_NODE_TASK",
+		7: "ROUTED_METHOD_LIST_NODES",
+		8: "ROUTED_METHOD_GET_NODE",
+	}
+	RoutedMethod_value = map[string]int32{
+		"ROUTED_METHOD_UNSPECIFIED":           0,
+		"ROUTED_METHOD_SUBMIT_NODE_TASK":      1,
+		"ROUTED_METHOD_GET_NODE_TASK":         2,
+		"ROUTED_METHOD_LIST_NODE_TASKS":       3,
+		"ROUTED_METHOD_WAIT_NODE_TASK":        4,
+		"ROUTED_METHOD_READ_NODE_TASK_OUTPUT": 5,
+		"ROUTED_METHOD_CANCEL_NODE_TASK":      6,
+		"ROUTED_METHOD_LIST_NODES":            7,
+		"ROUTED_METHOD_GET_NODE":              8,
+	}
+)
+
+func (x RoutedMethod) Enum() *RoutedMethod {
+	p := new(RoutedMethod)
+	*p = x
+	return p
+}
+
+func (x RoutedMethod) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (RoutedMethod) Descriptor() protoreflect.EnumDescriptor {
+	return file_arcforges_relay_v1_relay_proto_enumTypes[0].Descriptor()
+}
+
+func (RoutedMethod) Type() protoreflect.EnumType {
+	return &file_arcforges_relay_v1_relay_proto_enumTypes[0]
+}
+
+func (x RoutedMethod) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RoutedMethod.Descriptor instead.
+func (RoutedMethod) EnumDescriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{0}
+}
+
+// What the node did with a routed call; the numbers are the node store's routed_call_log.decision 1..4.
+type RoutedOutcome int32
+
+const (
+	RoutedOutcome_ROUTED_OUTCOME_UNSPECIFIED          RoutedOutcome = 0
+	RoutedOutcome_ROUTED_OUTCOME_EXECUTED             RoutedOutcome = 1 // the TaskService handler ran; the payload is its response, a value or the handler's own ArcError
+	RoutedOutcome_ROUTED_OUTCOME_REFUSED_BY_POLICY    RoutedOutcome = 2 // the center-routed policy or the permission matrix refused, an approval raised included
+	RoutedOutcome_ROUTED_OUTCOME_REFUSED_VERIFICATION RoutedOutcome = 3 // the call failed the node's verification (Design 11 T-11), a replayed call ID included
+	RoutedOutcome_ROUTED_OUTCOME_EXPIRED              RoutedOutcome = 4 // verified, but expired at the re-check immediately before the effect
+)
+
+// Enum value maps for RoutedOutcome.
+var (
+	RoutedOutcome_name = map[int32]string{
+		0: "ROUTED_OUTCOME_UNSPECIFIED",
+		1: "ROUTED_OUTCOME_EXECUTED",
+		2: "ROUTED_OUTCOME_REFUSED_BY_POLICY",
+		3: "ROUTED_OUTCOME_REFUSED_VERIFICATION",
+		4: "ROUTED_OUTCOME_EXPIRED",
+	}
+	RoutedOutcome_value = map[string]int32{
+		"ROUTED_OUTCOME_UNSPECIFIED":          0,
+		"ROUTED_OUTCOME_EXECUTED":             1,
+		"ROUTED_OUTCOME_REFUSED_BY_POLICY":    2,
+		"ROUTED_OUTCOME_REFUSED_VERIFICATION": 3,
+		"ROUTED_OUTCOME_EXPIRED":              4,
+	}
+)
+
+func (x RoutedOutcome) Enum() *RoutedOutcome {
+	p := new(RoutedOutcome)
+	*p = x
+	return p
+}
+
+func (x RoutedOutcome) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (RoutedOutcome) Descriptor() protoreflect.EnumDescriptor {
+	return file_arcforges_relay_v1_relay_proto_enumTypes[1].Descriptor()
+}
+
+func (RoutedOutcome) Type() protoreflect.EnumType {
+	return &file_arcforges_relay_v1_relay_proto_enumTypes[1]
+}
+
+func (x RoutedOutcome) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RoutedOutcome.Descriptor instead.
+func (RoutedOutcome) EnumDescriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{1}
+}
+
 type RelayLimits struct {
 	state                  protoimpl.MessageState `protogen:"open.v1"`
 	SummaryFramesPerMinute *uint32                `protobuf:"varint,1,opt,name=summary_frames_per_minute,json=summaryFramesPerMinute,proto3,oneof" json:"summary_frames_per_minute,omitempty"` // default 30
@@ -321,14 +446,24 @@ func (x *ViewerGrantClaims) GetKid() string {
 	return ""
 }
 
+// The node's first frame, the answer to ChannelChallenge (AF-CTR-05: Plan decision PB-4, D0-B2). The center checks that node_id
+// and installation_id equal the enrolled node and the installation of the bearer credential that opened this connection (else
+// it closes 4403), and verifies hello_signature against the key registered for that installation, never a key the hello names,
+// over the channel hello proof built from this connection's own nonce and connection ID; the node does not send them back, so a
+// proof over another connection's challenge fails. Only then is the connection the node's, an older connection of the node is
+// closed 4409, and calls may follow.
 type NodeHello struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	NodeId        *v1.Id                 `protobuf:"bytes,1,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
-	Version       *string                `protobuf:"bytes,2,opt,name=version,proto3,oneof" json:"version,omitempty"`
-	Generation    *uint64                `protobuf:"varint,3,opt,name=generation,proto3,oneof" json:"generation,omitempty"`
-	LastSeq       *uint64                `protobuf:"varint,4,opt,name=last_seq,json=lastSeq,proto3,oneof" json:"last_seq,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	NodeId          *v1.Id                 `protobuf:"bytes,1,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
+	Version         *string                `protobuf:"bytes,2,opt,name=version,proto3,oneof" json:"version,omitempty"`
+	Generation      *uint64                `protobuf:"varint,3,opt,name=generation,proto3,oneof" json:"generation,omitempty"`
+	LastSeq         *uint64                `protobuf:"varint,4,opt,name=last_seq,json=lastSeq,proto3,oneof" json:"last_seq,omitempty"`
+	ContractVersion *string                `protobuf:"bytes,5,opt,name=contract_version,json=contractVersion,proto3,oneof" json:"contract_version,omitempty"` // validate: 1..64 chars; the Contracts cohort the node was built with
+	Capabilities    []string               `protobuf:"bytes,6,rep,name=capabilities,proto3" json:"capabilities,omitempty"`                                    // validate: <= 16 unique entries of ^[a-z][a-z0-9.-]{0,31}$, e.g. routed.v1
+	InstallationId  *v1.Id                 `protobuf:"bytes,7,opt,name=installation_id,json=installationId,proto3" json:"installation_id,omitempty"`          // validate: required; the bearer credential's installation
+	HelloSignature  []byte                 `protobuf:"bytes,8,opt,name=hello_signature,json=helloSignature,proto3,oneof" json:"hello_signature,omitempty"`    // validate: required; 64 bytes; the channel hello proof
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *NodeHello) Reset() {
@@ -387,6 +522,34 @@ func (x *NodeHello) GetLastSeq() uint64 {
 		return *x.LastSeq
 	}
 	return 0
+}
+
+func (x *NodeHello) GetContractVersion() string {
+	if x != nil && x.ContractVersion != nil {
+		return *x.ContractVersion
+	}
+	return ""
+}
+
+func (x *NodeHello) GetCapabilities() []string {
+	if x != nil {
+		return x.Capabilities
+	}
+	return nil
+}
+
+func (x *NodeHello) GetInstallationId() *v1.Id {
+	if x != nil {
+		return x.InstallationId
+	}
+	return nil
+}
+
+func (x *NodeHello) GetHelloSignature() []byte {
+	if x != nil {
+		return x.HelloSignature
+	}
+	return nil
 }
 
 type DemandSignal struct {
@@ -666,9 +829,14 @@ func (x *EntitlementChanged) GetEntitlementVersion() int64 {
 }
 
 type RelayClose struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Code          *uint32                `protobuf:"varint,1,opt,name=code,proto3,oneof" json:"code,omitempty"` // 4401 token expired, 4403 refused, 4408 idle, 4429 rate limited, 4503 kill switch
-	Reason        *string                `protobuf:"bytes,2,opt,name=reason,proto3,oneof" json:"reason,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// AF-CTR-05 node channel (Plan CTR5-HUB-11): 4401 credential expired or revoked (no TokenRefresh within 120 s of the bound
+	// access token's expiry, or a revocation); 4403 refused (feature, plan or account state, a node or installation mismatch, a
+	// failed hello proof, an unverifiable result); 4408 hello or heartbeat deadline; 4409 replaced by a newer proved connection of
+	// the node; 4413 frame too large; 4429 rate limited; 4500 center shutting down (reconnect after a jittered delay); 4503 kill
+	// switch (reserved, AF-CLD-04). A node treats an abnormal close (1006, 1011) like 4500.
+	Code          *uint32 `protobuf:"varint,1,opt,name=code,proto3,oneof" json:"code,omitempty"` // 4401 token expired, 4403 refused, 4408 idle, 4429 rate limited, 4503 kill switch
+	Reason        *string `protobuf:"bytes,2,opt,name=reason,proto3,oneof" json:"reason,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -856,6 +1024,13 @@ type RelayFrame struct {
 	//	*RelayFrame_Close
 	//	*RelayFrame_Ack
 	//	*RelayFrame_OutputTail
+	//	*RelayFrame_Call
+	//	*RelayFrame_CallResult
+	//	*RelayFrame_Heartbeat
+	//	*RelayFrame_Accepted
+	//	*RelayFrame_Challenge
+	//	*RelayFrame_RelayNonceRequest
+	//	*RelayFrame_RelayNonce
 	Frame         isRelayFrame_Frame `protobuf_oneof:"frame"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1029,6 +1204,69 @@ func (x *RelayFrame) GetOutputTail() *OutputTail {
 	return nil
 }
 
+func (x *RelayFrame) GetCall() *ChannelCall {
+	if x != nil {
+		if x, ok := x.Frame.(*RelayFrame_Call); ok {
+			return x.Call
+		}
+	}
+	return nil
+}
+
+func (x *RelayFrame) GetCallResult() *ChannelResult {
+	if x != nil {
+		if x, ok := x.Frame.(*RelayFrame_CallResult); ok {
+			return x.CallResult
+		}
+	}
+	return nil
+}
+
+func (x *RelayFrame) GetHeartbeat() *ChannelHeartbeat {
+	if x != nil {
+		if x, ok := x.Frame.(*RelayFrame_Heartbeat); ok {
+			return x.Heartbeat
+		}
+	}
+	return nil
+}
+
+func (x *RelayFrame) GetAccepted() *ChannelAccepted {
+	if x != nil {
+		if x, ok := x.Frame.(*RelayFrame_Accepted); ok {
+			return x.Accepted
+		}
+	}
+	return nil
+}
+
+func (x *RelayFrame) GetChallenge() *ChannelChallenge {
+	if x != nil {
+		if x, ok := x.Frame.(*RelayFrame_Challenge); ok {
+			return x.Challenge
+		}
+	}
+	return nil
+}
+
+func (x *RelayFrame) GetRelayNonceRequest() *RelayNonceRequest {
+	if x != nil {
+		if x, ok := x.Frame.(*RelayFrame_RelayNonceRequest); ok {
+			return x.RelayNonceRequest
+		}
+	}
+	return nil
+}
+
+func (x *RelayFrame) GetRelayNonce() *RelayNonce {
+	if x != nil {
+		if x, ok := x.Frame.(*RelayFrame_RelayNonce); ok {
+			return x.RelayNonce
+		}
+	}
+	return nil
+}
+
 type isRelayFrame_Frame interface {
 	isRelayFrame_Frame()
 }
@@ -1085,6 +1323,34 @@ type RelayFrame_OutputTail struct {
 	OutputTail *OutputTail `protobuf:"bytes,22,opt,name=output_tail,json=outputTail,proto3,oneof"` // node -> DO
 }
 
+type RelayFrame_Call struct {
+	Call *ChannelCall `protobuf:"bytes,23,opt,name=call,proto3,oneof"` // center -> node (AF-CTR-05)
+}
+
+type RelayFrame_CallResult struct {
+	CallResult *ChannelResult `protobuf:"bytes,24,opt,name=call_result,json=callResult,proto3,oneof"` // node -> center (AF-CTR-05)
+}
+
+type RelayFrame_Heartbeat struct {
+	Heartbeat *ChannelHeartbeat `protobuf:"bytes,25,opt,name=heartbeat,proto3,oneof"` // either direction (AF-CTR-05)
+}
+
+type RelayFrame_Accepted struct {
+	Accepted *ChannelAccepted `protobuf:"bytes,26,opt,name=accepted,proto3,oneof"` // center -> node (AF-CTR-05)
+}
+
+type RelayFrame_Challenge struct {
+	Challenge *ChannelChallenge `protobuf:"bytes,27,opt,name=challenge,proto3,oneof"` // center -> node, the first frame (AF-CTR-05)
+}
+
+type RelayFrame_RelayNonceRequest struct {
+	RelayNonceRequest *RelayNonceRequest `protobuf:"bytes,28,opt,name=relay_nonce_request,json=relayNonceRequest,proto3,oneof"` // node -> center (AF-CTR-05)
+}
+
+type RelayFrame_RelayNonce struct {
+	RelayNonce *RelayNonce `protobuf:"bytes,29,opt,name=relay_nonce,json=relayNonce,proto3,oneof"` // center -> node (AF-CTR-05)
+}
+
 func (*RelayFrame_NodeHello) isRelayFrame_Frame() {}
 
 func (*RelayFrame_Summary) isRelayFrame_Frame() {}
@@ -1111,6 +1377,1003 @@ func (*RelayFrame_Ack) isRelayFrame_Frame() {}
 
 func (*RelayFrame_OutputTail) isRelayFrame_Frame() {}
 
+func (*RelayFrame_Call) isRelayFrame_Frame() {}
+
+func (*RelayFrame_CallResult) isRelayFrame_Frame() {}
+
+func (*RelayFrame_Heartbeat) isRelayFrame_Frame() {}
+
+func (*RelayFrame_Accepted) isRelayFrame_Frame() {}
+
+func (*RelayFrame_Challenge) isRelayFrame_Frame() {}
+
+func (*RelayFrame_RelayNonceRequest) isRelayFrame_Frame() {}
+
+func (*RelayFrame_RelayNonce) isRelayFrame_Frame() {}
+
+// The center's first frame on a new connection (Plan decision PB-4, D0-B2). The nonce is accepted once, only on this connection,
+// and is void at the hello deadline or when the connection closes.
+type ChannelChallenge struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Nonce         []byte                 `protobuf:"bytes,1,opt,name=nonce,proto3,oneof" json:"nonce,omitempty"`                                // validate: required; 32 random bytes
+	ConnectionId  *v1.Id                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`    // validate: required
+	HelloDeadline *v1.Instant            `protobuf:"bytes,3,opt,name=hello_deadline,json=helloDeadline,proto3" json:"hello_deadline,omitempty"` // validate: required; 10 s after the upgrade; no valid NodeHello by then closes 4408
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChannelChallenge) Reset() {
+	*x = ChannelChallenge{}
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChannelChallenge) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChannelChallenge) ProtoMessage() {}
+
+func (x *ChannelChallenge) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChannelChallenge.ProtoReflect.Descriptor instead.
+func (*ChannelChallenge) Descriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *ChannelChallenge) GetNonce() []byte {
+	if x != nil {
+		return x.Nonce
+	}
+	return nil
+}
+
+func (x *ChannelChallenge) GetConnectionId() *v1.Id {
+	if x != nil {
+		return x.ConnectionId
+	}
+	return nil
+}
+
+func (x *ChannelChallenge) GetHelloDeadline() *v1.Instant {
+	if x != nil {
+		return x.HelloDeadline
+	}
+	return nil
+}
+
+// The center's limits for one connection (Plan CTR5-HUB-03, CTR5-HUB-10).
+type ChannelLimits struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	MaxFrameBytes       *uint32                `protobuf:"varint,1,opt,name=max_frame_bytes,json=maxFrameBytes,proto3,oneof" json:"max_frame_bytes,omitempty"`                   // validate: required; 65,536..1,048,576 (default 1 MiB); a larger frame closes 4413
+	MaxInFlightCalls    *uint32                `protobuf:"varint,2,opt,name=max_in_flight_calls,json=maxInFlightCalls,proto3,oneof" json:"max_in_flight_calls,omitempty"`        // validate: required; 1..64 (default 8)
+	HeartbeatIntervalMs *uint32                `protobuf:"varint,3,opt,name=heartbeat_interval_ms,json=heartbeatIntervalMs,proto3,oneof" json:"heartbeat_interval_ms,omitempty"` // validate: required; 5,000..60,000 (default 25 s)
+	HeartbeatDeadlineMs *uint32                `protobuf:"varint,4,opt,name=heartbeat_deadline_ms,json=heartbeatDeadlineMs,proto3,oneof" json:"heartbeat_deadline_ms,omitempty"` // validate: required; 10,000..300,000 and above heartbeat_interval_ms (default 60 s); silence that long closes 4408
+	MaxRelayNonces      *uint32                `protobuf:"varint,5,opt,name=max_relay_nonces,json=maxRelayNonces,proto3,oneof" json:"max_relay_nonces,omitempty"`                // validate: required; 1..64 (default 8); unspent relay nonces held per connection; a newer one voids the oldest
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *ChannelLimits) Reset() {
+	*x = ChannelLimits{}
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChannelLimits) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChannelLimits) ProtoMessage() {}
+
+func (x *ChannelLimits) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChannelLimits.ProtoReflect.Descriptor instead.
+func (*ChannelLimits) Descriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ChannelLimits) GetMaxFrameBytes() uint32 {
+	if x != nil && x.MaxFrameBytes != nil {
+		return *x.MaxFrameBytes
+	}
+	return 0
+}
+
+func (x *ChannelLimits) GetMaxInFlightCalls() uint32 {
+	if x != nil && x.MaxInFlightCalls != nil {
+		return *x.MaxInFlightCalls
+	}
+	return 0
+}
+
+func (x *ChannelLimits) GetHeartbeatIntervalMs() uint32 {
+	if x != nil && x.HeartbeatIntervalMs != nil {
+		return *x.HeartbeatIntervalMs
+	}
+	return 0
+}
+
+func (x *ChannelLimits) GetHeartbeatDeadlineMs() uint32 {
+	if x != nil && x.HeartbeatDeadlineMs != nil {
+		return *x.HeartbeatDeadlineMs
+	}
+	return 0
+}
+
+func (x *ChannelLimits) GetMaxRelayNonces() uint32 {
+	if x != nil && x.MaxRelayNonces != nil {
+		return *x.MaxRelayNonces
+	}
+	return 0
+}
+
+// The center's answer to a proved NodeHello: the connection is now the node's.
+type ChannelAccepted struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ConnectionId  *v1.Id                 `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"` // validate: required; the challenge's connection ID
+	Limits        *ChannelLimits         `protobuf:"bytes,2,opt,name=limits,proto3" json:"limits,omitempty"`                                 // validate: required
+	SigningKids   []string               `protobuf:"bytes,3,rep,name=signing_kids,json=signingKids,proto3" json:"signing_kids,omitempty"`    // validate: 1..8 unique kids of ^[A-Za-z0-9_-]{8,64}$; the command keys calls may be signed with; an unknown kid makes the node refresh its session once before it accepts calls (PN-14)
+	NodeName      *string                `protobuf:"bytes,4,opt,name=node_name,json=nodeName,proto3,oneof" json:"node_name,omitempty"`       // validate: 1..64 chars; the account's name for the node (RenameNode); the node keeps its own as FleetNode.reported_name (Plan decision Q25)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChannelAccepted) Reset() {
+	*x = ChannelAccepted{}
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChannelAccepted) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChannelAccepted) ProtoMessage() {}
+
+func (x *ChannelAccepted) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChannelAccepted.ProtoReflect.Descriptor instead.
+func (*ChannelAccepted) Descriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *ChannelAccepted) GetConnectionId() *v1.Id {
+	if x != nil {
+		return x.ConnectionId
+	}
+	return nil
+}
+
+func (x *ChannelAccepted) GetLimits() *ChannelLimits {
+	if x != nil {
+		return x.Limits
+	}
+	return nil
+}
+
+func (x *ChannelAccepted) GetSigningKids() []string {
+	if x != nil {
+		return x.SigningKids
+	}
+	return nil
+}
+
+func (x *ChannelAccepted) GetNodeName() string {
+	if x != nil && x.NodeName != nil {
+		return *x.NodeName
+	}
+	return ""
+}
+
+// Liveness, either direction: the center sends one every heartbeat_interval_ms and the node answers with the same seq.
+type ChannelHeartbeat struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SentAt        *v1.Instant            `protobuf:"bytes,1,opt,name=sent_at,json=sentAt,proto3" json:"sent_at,omitempty"` // validate: required
+	Seq           *uint64                `protobuf:"varint,2,opt,name=seq,proto3,oneof" json:"seq,omitempty"`              // validate: required
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChannelHeartbeat) Reset() {
+	*x = ChannelHeartbeat{}
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChannelHeartbeat) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChannelHeartbeat) ProtoMessage() {}
+
+func (x *ChannelHeartbeat) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChannelHeartbeat.ProtoReflect.Descriptor instead.
+func (*ChannelHeartbeat) Descriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *ChannelHeartbeat) GetSentAt() *v1.Instant {
+	if x != nil {
+		return x.SentAt
+	}
+	return nil
+}
+
+func (x *ChannelHeartbeat) GetSeq() uint64 {
+	if x != nil && x.Seq != nil {
+		return *x.Seq
+	}
+	return 0
+}
+
+// A header and its domain-separated signature. It is never a SignedBlob: the signature covers the domain string of its kind
+// followed by header (see "Signatures of the node channel" above), never header alone.
+type SignedHeader struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Header        []byte                 `protobuf:"bytes,1,opt,name=header,proto3,oneof" json:"header,omitempty"`       // validate: required; 1..2,048 bytes; the exact CallHeader or ResultHeader bytes
+	Signature     []byte                 `protobuf:"bytes,2,opt,name=signature,proto3,oneof" json:"signature,omitempty"` // validate: required; 64 bytes, P1363, low-S
+	Kid           *string                `protobuf:"bytes,3,opt,name=kid,proto3,oneof" json:"kid,omitempty"`             // validate: ^[A-Za-z0-9_-]{8,64}$; the command key of a call (required on ChannelCall); absent on a result, whose key is the connection's installation key
+	Algorithm     *string                `protobuf:"bytes,4,opt,name=algorithm,proto3,oneof" json:"algorithm,omitempty"` // validate: required; "ES256"
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SignedHeader) Reset() {
+	*x = SignedHeader{}
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SignedHeader) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignedHeader) ProtoMessage() {}
+
+func (x *SignedHeader) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignedHeader.ProtoReflect.Descriptor instead.
+func (*SignedHeader) Descriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *SignedHeader) GetHeader() []byte {
+	if x != nil {
+		return x.Header
+	}
+	return nil
+}
+
+func (x *SignedHeader) GetSignature() []byte {
+	if x != nil {
+		return x.Signature
+	}
+	return nil
+}
+
+func (x *SignedHeader) GetKid() string {
+	if x != nil && x.Kid != nil {
+		return *x.Kid
+	}
+	return ""
+}
+
+func (x *SignedHeader) GetAlgorithm() string {
+	if x != nil && x.Algorithm != nil {
+		return *x.Algorithm
+	}
+	return ""
+}
+
+// The signed header of a routed call (Plan CTR5-SIG-01, PN-9). The center serializes it once and signs the routed-call domain
+// string followed by those bytes with its command key. Before it decodes the header or parses the payload, the node verifies the
+// signature over the bytes it received against its key set for its configured center; then, before its policy decides (Design
+// 11 T-11), it checks that kid equals SignedHeader.kid, center_url_sha256 its configured center, account_id and target_node_id
+// its own link, call_id ChannelCall.call_id and not already logged (call_replayed, also after a restart), method, request_size
+// and request_sha256 the payload, and that expires_at plus the 120 s skew has not passed, again immediately before the effect.
+type CallHeader struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	CallId               *v1.Id                 `protobuf:"bytes,1,opt,name=call_id,json=callId,proto3" json:"call_id,omitempty"`                                                    // validate: required; random, one per call
+	Kid                  *string                `protobuf:"bytes,2,opt,name=kid,proto3,oneof" json:"kid,omitempty"`                                                                  // validate: required; ^[A-Za-z0-9_-]{8,64}$; equals SignedHeader.kid
+	CenterUrlSha256      []byte                 `protobuf:"bytes,3,opt,name=center_url_sha256,json=centerUrlSha256,proto3,oneof" json:"center_url_sha256,omitempty"`                 // validate: required; 32 bytes: SHA-256 of the center's canonical public base URL
+	AccountId            *v1.Id                 `protobuf:"bytes,4,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`                                           // validate: required; the account that owns the target node
+	TargetNodeId         *v1.Id                 `protobuf:"bytes,5,opt,name=target_node_id,json=targetNodeId,proto3" json:"target_node_id,omitempty"`                                // validate: required
+	Caller               *v12.CenterCaller      `protobuf:"bytes,6,opt,name=caller,proto3" json:"caller,omitempty"`                                                                  // validate: required; filled by the center only from the verified session or relay assertion, never from a request field
+	CommandId            *v1.Id                 `protobuf:"bytes,7,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`                                           // validate: required for SUBMIT_NODE_TASK and CANCEL_NODE_TASK, absent otherwise; equals the payload's meta.command_id
+	Method               *RoutedMethod          `protobuf:"varint,8,opt,name=method,proto3,enum=arcforges.relay.v1.RoutedMethod,oneof" json:"method,omitempty"`                      // validate: required; 1..6
+	RequestSha256        []byte                 `protobuf:"bytes,9,opt,name=request_sha256,json=requestSha256,proto3,oneof" json:"request_sha256,omitempty"`                         // validate: required; 32 bytes: SHA-256 of the payload, the exact node.v1 request bytes
+	RequestSize          *uint32                `protobuf:"varint,10,opt,name=request_size,json=requestSize,proto3,oneof" json:"request_size,omitempty"`                             // validate: required; 1..253,952; the payload's length
+	IssuedAt             *v1.Instant            `protobuf:"bytes,11,opt,name=issued_at,json=issuedAt,proto3" json:"issued_at,omitempty"`                                             // validate: required
+	ExpiresAt            *v1.Instant            `protobuf:"bytes,12,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`                                          // validate: required; issued_at < expires_at <= issued_at + 300 s (AD-0021 section 10)
+	Deadline             *v1.Instant            `protobuf:"bytes,13,opt,name=deadline,proto3" json:"deadline,omitempty"`                                                             // validate: required; issued_at < deadline <= expires_at; when the center stops waiting for the result
+	RelayAssertionSha256 []byte                 `protobuf:"bytes,14,opt,name=relay_assertion_sha256,json=relayAssertionSha256,proto3,oneof" json:"relay_assertion_sha256,omitempty"` // validate: required for a NODE_RELAY caller, absent otherwise; 32 bytes: SHA-256 of the relay_assertion bytes the routed request carried
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *CallHeader) Reset() {
+	*x = CallHeader{}
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CallHeader) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CallHeader) ProtoMessage() {}
+
+func (x *CallHeader) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CallHeader.ProtoReflect.Descriptor instead.
+func (*CallHeader) Descriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *CallHeader) GetCallId() *v1.Id {
+	if x != nil {
+		return x.CallId
+	}
+	return nil
+}
+
+func (x *CallHeader) GetKid() string {
+	if x != nil && x.Kid != nil {
+		return *x.Kid
+	}
+	return ""
+}
+
+func (x *CallHeader) GetCenterUrlSha256() []byte {
+	if x != nil {
+		return x.CenterUrlSha256
+	}
+	return nil
+}
+
+func (x *CallHeader) GetAccountId() *v1.Id {
+	if x != nil {
+		return x.AccountId
+	}
+	return nil
+}
+
+func (x *CallHeader) GetTargetNodeId() *v1.Id {
+	if x != nil {
+		return x.TargetNodeId
+	}
+	return nil
+}
+
+func (x *CallHeader) GetCaller() *v12.CenterCaller {
+	if x != nil {
+		return x.Caller
+	}
+	return nil
+}
+
+func (x *CallHeader) GetCommandId() *v1.Id {
+	if x != nil {
+		return x.CommandId
+	}
+	return nil
+}
+
+func (x *CallHeader) GetMethod() RoutedMethod {
+	if x != nil && x.Method != nil {
+		return *x.Method
+	}
+	return RoutedMethod_ROUTED_METHOD_UNSPECIFIED
+}
+
+func (x *CallHeader) GetRequestSha256() []byte {
+	if x != nil {
+		return x.RequestSha256
+	}
+	return nil
+}
+
+func (x *CallHeader) GetRequestSize() uint32 {
+	if x != nil && x.RequestSize != nil {
+		return *x.RequestSize
+	}
+	return 0
+}
+
+func (x *CallHeader) GetIssuedAt() *v1.Instant {
+	if x != nil {
+		return x.IssuedAt
+	}
+	return nil
+}
+
+func (x *CallHeader) GetExpiresAt() *v1.Instant {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return nil
+}
+
+func (x *CallHeader) GetDeadline() *v1.Instant {
+	if x != nil {
+		return x.Deadline
+	}
+	return nil
+}
+
+func (x *CallHeader) GetRelayAssertionSha256() []byte {
+	if x != nil {
+		return x.RelayAssertionSha256
+	}
+	return nil
+}
+
+// A routed call, center -> node. payload is the exact node.v1 TaskService request bytes the caller sent in the routed request's
+// request field, never re-encoded (Plan decision Q9).
+type ChannelCall struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CallId        *v1.Id                 `protobuf:"bytes,1,opt,name=call_id,json=callId,proto3" json:"call_id,omitempty"` // validate: required; equals CallHeader.call_id
+	Header        *SignedHeader          `protobuf:"bytes,2,opt,name=header,proto3" json:"header,omitempty"`               // validate: required; a CallHeader under the routed-call domain string, with kid
+	Payload       []byte                 `protobuf:"bytes,3,opt,name=payload,proto3,oneof" json:"payload,omitempty"`       // validate: required; 1..253,952 bytes
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChannelCall) Reset() {
+	*x = ChannelCall{}
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChannelCall) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChannelCall) ProtoMessage() {}
+
+func (x *ChannelCall) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChannelCall.ProtoReflect.Descriptor instead.
+func (*ChannelCall) Descriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *ChannelCall) GetCallId() *v1.Id {
+	if x != nil {
+		return x.CallId
+	}
+	return nil
+}
+
+func (x *ChannelCall) GetHeader() *SignedHeader {
+	if x != nil {
+		return x.Header
+	}
+	return nil
+}
+
+func (x *ChannelCall) GetPayload() []byte {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
+// The signed header of a routed result (Plan CTR5-SIG-03, PN-9), signed by the node key under the routed-result domain string.
+// The center verifies it against the key registered for the connection's installation, then checks call_id (an open call of this
+// connection), node_id (the connection's node), the echoed method, command_id and request_sha256, and response_size and
+// response_sha256 against the payload; any failure fails the call STATE/node_unreachable (result_unverifiable) and closes 4403.
+type ResultHeader struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	CallId         *v1.Id                 `protobuf:"bytes,1,opt,name=call_id,json=callId,proto3" json:"call_id,omitempty"`                                  // validate: required; ChannelCall.call_id
+	CommandId      *v1.Id                 `protobuf:"bytes,2,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`                         // validate: the call header's command_id when it names one; absent for REFUSED_VERIFICATION
+	NodeId         *v1.Id                 `protobuf:"bytes,3,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                                  // validate: required; the answering node
+	Method         *RoutedMethod          `protobuf:"varint,4,opt,name=method,proto3,enum=arcforges.relay.v1.RoutedMethod,oneof" json:"method,omitempty"`    // validate: required (1..6) unless REFUSED_VERIFICATION, absent then
+	RequestSha256  []byte                 `protobuf:"bytes,5,opt,name=request_sha256,json=requestSha256,proto3,oneof" json:"request_sha256,omitempty"`       // validate: required unless REFUSED_VERIFICATION, absent then; 32 bytes, echoed
+	ResponseSha256 []byte                 `protobuf:"bytes,6,opt,name=response_sha256,json=responseSha256,proto3,oneof" json:"response_sha256,omitempty"`    // validate: required for EXECUTED, absent otherwise; 32 bytes: SHA-256 of ChannelResult.payload
+	ResponseSize   *uint32                `protobuf:"varint,7,opt,name=response_size,json=responseSize,proto3,oneof" json:"response_size,omitempty"`         // validate: required for EXECUTED, absent otherwise; 1..1,040,384; the payload's length
+	ExecutedAt     *v1.Instant            `protobuf:"bytes,8,opt,name=executed_at,json=executedAt,proto3" json:"executed_at,omitempty"`                      // validate: required; when the node decided
+	Outcome        *RoutedOutcome         `protobuf:"varint,9,opt,name=outcome,proto3,enum=arcforges.relay.v1.RoutedOutcome,oneof" json:"outcome,omitempty"` // validate: required
+	Error          *v1.ArcError           `protobuf:"bytes,10,opt,name=error,proto3" json:"error,omitempty"`                                                 // validate: required unless EXECUTED, absent then; the node's refusal: category, code, retry, effect and the state reason only, never a message or details beyond them (Plan PN-6)
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *ResultHeader) Reset() {
+	*x = ResultHeader{}
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ResultHeader) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResultHeader) ProtoMessage() {}
+
+func (x *ResultHeader) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResultHeader.ProtoReflect.Descriptor instead.
+func (*ResultHeader) Descriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *ResultHeader) GetCallId() *v1.Id {
+	if x != nil {
+		return x.CallId
+	}
+	return nil
+}
+
+func (x *ResultHeader) GetCommandId() *v1.Id {
+	if x != nil {
+		return x.CommandId
+	}
+	return nil
+}
+
+func (x *ResultHeader) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
+func (x *ResultHeader) GetMethod() RoutedMethod {
+	if x != nil && x.Method != nil {
+		return *x.Method
+	}
+	return RoutedMethod_ROUTED_METHOD_UNSPECIFIED
+}
+
+func (x *ResultHeader) GetRequestSha256() []byte {
+	if x != nil {
+		return x.RequestSha256
+	}
+	return nil
+}
+
+func (x *ResultHeader) GetResponseSha256() []byte {
+	if x != nil {
+		return x.ResponseSha256
+	}
+	return nil
+}
+
+func (x *ResultHeader) GetResponseSize() uint32 {
+	if x != nil && x.ResponseSize != nil {
+		return *x.ResponseSize
+	}
+	return 0
+}
+
+func (x *ResultHeader) GetExecutedAt() *v1.Instant {
+	if x != nil {
+		return x.ExecutedAt
+	}
+	return nil
+}
+
+func (x *ResultHeader) GetOutcome() RoutedOutcome {
+	if x != nil && x.Outcome != nil {
+		return *x.Outcome
+	}
+	return RoutedOutcome_ROUTED_OUTCOME_UNSPECIFIED
+}
+
+func (x *ResultHeader) GetError() *v1.ArcError {
+	if x != nil {
+		return x.Error
+	}
+	return nil
+}
+
+// A routed result, node -> center. For EXECUTED, payload is the exact node.v1 TaskService response bytes, which the center
+// forwards unchanged as the routed value's response; otherwise payload is empty and the center answers with ResultHeader.error.
+type ChannelResult struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CallId        *v1.Id                 `protobuf:"bytes,1,opt,name=call_id,json=callId,proto3" json:"call_id,omitempty"` // validate: required; equals ResultHeader.call_id
+	Header        *SignedHeader          `protobuf:"bytes,2,opt,name=header,proto3" json:"header,omitempty"`               // validate: required; a ResultHeader under the routed-result domain string, without kid
+	Payload       []byte                 `protobuf:"bytes,3,opt,name=payload,proto3,oneof" json:"payload,omitempty"`       // validate: <= 1,040,384 bytes; empty unless EXECUTED
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChannelResult) Reset() {
+	*x = ChannelResult{}
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChannelResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChannelResult) ProtoMessage() {}
+
+func (x *ChannelResult) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChannelResult.ProtoReflect.Descriptor instead.
+func (*ChannelResult) Descriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *ChannelResult) GetCallId() *v1.Id {
+	if x != nil {
+		return x.CallId
+	}
+	return nil
+}
+
+func (x *ChannelResult) GetHeader() *SignedHeader {
+	if x != nil {
+		return x.Header
+	}
+	return nil
+}
+
+func (x *ChannelResult) GetPayload() []byte {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
+// A node asks for a relay nonce before it relays a local caller's call (Plan addendum C-N2): one nonce per call.
+type RelayNonceRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RequestId     *v1.Id                 `protobuf:"bytes,1,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"` // validate: required; chosen by the node and echoed
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RelayNonceRequest) Reset() {
+	*x = RelayNonceRequest{}
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RelayNonceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RelayNonceRequest) ProtoMessage() {}
+
+func (x *RelayNonceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RelayNonceRequest.ProtoReflect.Descriptor instead.
+func (*RelayNonceRequest) Descriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *RelayNonceRequest) GetRequestId() *v1.Id {
+	if x != nil {
+		return x.RequestId
+	}
+	return nil
+}
+
+// A relay nonce, center -> node: used once, by one relay assertion of this node; void at expires_at, or earlier when this
+// connection closes or is replaced. Relaying therefore needs an open channel of the relaying node.
+type RelayNonce struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RequestId     *v1.Id                 `protobuf:"bytes,1,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"` // validate: required; RelayNonceRequest.request_id
+	Nonce         []byte                 `protobuf:"bytes,2,opt,name=nonce,proto3,oneof" json:"nonce,omitempty"`                    // validate: required; 32 random bytes
+	ExpiresAt     *v1.Instant            `protobuf:"bytes,3,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"` // validate: required; at most 120 s after issue
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RelayNonce) Reset() {
+	*x = RelayNonce{}
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RelayNonce) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RelayNonce) ProtoMessage() {}
+
+func (x *RelayNonce) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RelayNonce.ProtoReflect.Descriptor instead.
+func (*RelayNonce) Descriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *RelayNonce) GetRequestId() *v1.Id {
+	if x != nil {
+		return x.RequestId
+	}
+	return nil
+}
+
+func (x *RelayNonce) GetNonce() []byte {
+	if x != nil {
+		return x.Nonce
+	}
+	return nil
+}
+
+func (x *RelayNonce) GetExpiresAt() *v1.Instant {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return nil
+}
+
+// The relay assertion of a node-relayed call (Plan addendum D0-B1, C-N1, C-N6; Design 11 section 1, "Relay assertion"). The
+// relaying node signs the relay-origin domain string followed by the canonical bytes of these fields (see "Signatures of the
+// node channel" above), and sends the serialized assertion as the relay_assertion bytes of the routed fleet.v1 request, which
+// every node-relayed call carries, ListNodes and GetNode included. Before it serves or routes the call, the center verifies the
+// signature against the key registered for the bearer credential's installation; checks that relaying_node_id and
+// relaying_installation_id are that credential's enrolled node and installation, that the assertion has not expired and its
+// nonce is unused (and then spends the nonce), and that method, request_sha256, target_node_id and command_id equal the routed
+// request's and the request's caller its relaying_node_id and local_origin. Otherwise it refuses AUTHENTICATION/unauthenticated
+// (state.state relay_assertion, state.reason missing, signature_invalid, credential_mismatch, expired, nonce_reused or
+// request_mismatch) and routes nothing. For expired and nonce_reused the relaying node signs a new assertion with a fresh nonce
+// and resends with the same command_id (DID_NOT_HAPPEN, SAME_COMMAND; no sign-in). The center fills the call header's caller
+// only from a verified assertion.
+// request_sha256: for the six routed task methods, SHA-256 of the exact node.v1 request bytes of the routed request's request
+// field (the call header's request_sha256); for LIST_NODES and GET_NODE, SHA-256 of the routed request's top-level fields as
+// transmitted, in wire order and byte for byte, with every occurrence of the relay_assertion field left out.
+type RelayAssertion struct {
+	state                  protoimpl.MessageState `protogen:"open.v1"`
+	RelayingNodeId         *v1.Id                 `protobuf:"bytes,1,opt,name=relaying_node_id,json=relayingNodeId,proto3" json:"relaying_node_id,omitempty"`                           // validate: required
+	RelayingInstallationId *v1.Id                 `protobuf:"bytes,2,opt,name=relaying_installation_id,json=relayingInstallationId,proto3" json:"relaying_installation_id,omitempty"`   // validate: required
+	LocalOrigin            *v12.Origin            `protobuf:"varint,3,opt,name=local_origin,json=localOrigin,proto3,enum=arcforges.node.v1.Origin,oneof" json:"local_origin,omitempty"` // validate: required; HUMAN, SCRIPT or AGENT, as the relaying node classified its local caller
+	LocalSessionId         *v1.Id                 `protobuf:"bytes,4,opt,name=local_session_id,json=localSessionId,proto3" json:"local_session_id,omitempty"`                           // validate: required; the local caller's client session at the relaying node
+	Method                 *RoutedMethod          `protobuf:"varint,5,opt,name=method,proto3,enum=arcforges.relay.v1.RoutedMethod,oneof" json:"method,omitempty"`                       // validate: required; 1..8
+	RequestSha256          []byte                 `protobuf:"bytes,6,opt,name=request_sha256,json=requestSha256,proto3,oneof" json:"request_sha256,omitempty"`                          // validate: required; 32 bytes
+	TargetNodeId           *v1.Id                 `protobuf:"bytes,7,opt,name=target_node_id,json=targetNodeId,proto3" json:"target_node_id,omitempty"`                                 // validate: absent for LIST_NODES, required otherwise
+	CommandId              *v1.Id                 `protobuf:"bytes,8,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`                                            // validate: required for SUBMIT_NODE_TASK and CANCEL_NODE_TASK, absent otherwise
+	RelayNonce             []byte                 `protobuf:"bytes,9,opt,name=relay_nonce,json=relayNonce,proto3,oneof" json:"relay_nonce,omitempty"`                                   // validate: required; 32 bytes; a RelayNonce of the relaying node's open channel
+	IssuedAt               *v1.Instant            `protobuf:"bytes,10,opt,name=issued_at,json=issuedAt,proto3" json:"issued_at,omitempty"`                                              // validate: required
+	ExpiresAt              *v1.Instant            `protobuf:"bytes,11,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`                                           // validate: required; issued_at < expires_at <= issued_at + 120 s
+	Signature              []byte                 `protobuf:"bytes,12,opt,name=signature,proto3,oneof" json:"signature,omitempty"`                                                      // validate: required; 64 bytes, P1363, low-S
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
+}
+
+func (x *RelayAssertion) Reset() {
+	*x = RelayAssertion{}
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RelayAssertion) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RelayAssertion) ProtoMessage() {}
+
+func (x *RelayAssertion) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RelayAssertion.ProtoReflect.Descriptor instead.
+func (*RelayAssertion) Descriptor() ([]byte, []int) {
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *RelayAssertion) GetRelayingNodeId() *v1.Id {
+	if x != nil {
+		return x.RelayingNodeId
+	}
+	return nil
+}
+
+func (x *RelayAssertion) GetRelayingInstallationId() *v1.Id {
+	if x != nil {
+		return x.RelayingInstallationId
+	}
+	return nil
+}
+
+func (x *RelayAssertion) GetLocalOrigin() v12.Origin {
+	if x != nil && x.LocalOrigin != nil {
+		return *x.LocalOrigin
+	}
+	return v12.Origin(0)
+}
+
+func (x *RelayAssertion) GetLocalSessionId() *v1.Id {
+	if x != nil {
+		return x.LocalSessionId
+	}
+	return nil
+}
+
+func (x *RelayAssertion) GetMethod() RoutedMethod {
+	if x != nil && x.Method != nil {
+		return *x.Method
+	}
+	return RoutedMethod_ROUTED_METHOD_UNSPECIFIED
+}
+
+func (x *RelayAssertion) GetRequestSha256() []byte {
+	if x != nil {
+		return x.RequestSha256
+	}
+	return nil
+}
+
+func (x *RelayAssertion) GetTargetNodeId() *v1.Id {
+	if x != nil {
+		return x.TargetNodeId
+	}
+	return nil
+}
+
+func (x *RelayAssertion) GetCommandId() *v1.Id {
+	if x != nil {
+		return x.CommandId
+	}
+	return nil
+}
+
+func (x *RelayAssertion) GetRelayNonce() []byte {
+	if x != nil {
+		return x.RelayNonce
+	}
+	return nil
+}
+
+func (x *RelayAssertion) GetIssuedAt() *v1.Instant {
+	if x != nil {
+		return x.IssuedAt
+	}
+	return nil
+}
+
+func (x *RelayAssertion) GetExpiresAt() *v1.Instant {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return nil
+}
+
+func (x *RelayAssertion) GetSignature() []byte {
+	if x != nil {
+		return x.Signature
+	}
+	return nil
+}
+
 type NodeCursor struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	NodeId        *v1.Id                 `protobuf:"bytes,1,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
@@ -1122,7 +2385,7 @@ type NodeCursor struct {
 
 func (x *NodeCursor) Reset() {
 	*x = NodeCursor{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[13]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1134,7 +2397,7 @@ func (x *NodeCursor) String() string {
 func (*NodeCursor) ProtoMessage() {}
 
 func (x *NodeCursor) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[13]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1147,7 +2410,7 @@ func (x *NodeCursor) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NodeCursor.ProtoReflect.Descriptor instead.
 func (*NodeCursor) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{13}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *NodeCursor) GetNodeId() *v1.Id {
@@ -1180,7 +2443,7 @@ type ViewerResume struct {
 
 func (x *ViewerResume) Reset() {
 	*x = ViewerResume{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[14]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1192,7 +2455,7 @@ func (x *ViewerResume) String() string {
 func (*ViewerResume) ProtoMessage() {}
 
 func (x *ViewerResume) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[14]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1205,7 +2468,7 @@ func (x *ViewerResume) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ViewerResume.ProtoReflect.Descriptor instead.
 func (*ViewerResume) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{14}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *ViewerResume) GetCursors() []*NodeCursor {
@@ -1224,7 +2487,7 @@ type GrantRefresh struct {
 
 func (x *GrantRefresh) Reset() {
 	*x = GrantRefresh{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[15]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1236,7 +2499,7 @@ func (x *GrantRefresh) String() string {
 func (*GrantRefresh) ProtoMessage() {}
 
 func (x *GrantRefresh) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[15]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1249,7 +2512,7 @@ func (x *GrantRefresh) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GrantRefresh.ProtoReflect.Descriptor instead.
 func (*GrantRefresh) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{15}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *GrantRefresh) GetGrant() string {
@@ -1269,7 +2532,7 @@ type ViewerReset struct {
 
 func (x *ViewerReset) Reset() {
 	*x = ViewerReset{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[16]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1281,7 +2544,7 @@ func (x *ViewerReset) String() string {
 func (*ViewerReset) ProtoMessage() {}
 
 func (x *ViewerReset) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[16]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1294,7 +2557,7 @@ func (x *ViewerReset) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ViewerReset.ProtoReflect.Descriptor instead.
 func (*ViewerReset) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{16}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *ViewerReset) GetNodeId() *v1.Id {
@@ -1332,7 +2595,7 @@ type ViewerFrame struct {
 
 func (x *ViewerFrame) Reset() {
 	*x = ViewerFrame{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[17]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1344,7 +2607,7 @@ func (x *ViewerFrame) String() string {
 func (*ViewerFrame) ProtoMessage() {}
 
 func (x *ViewerFrame) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[17]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1357,7 +2620,7 @@ func (x *ViewerFrame) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ViewerFrame.ProtoReflect.Descriptor instead.
 func (*ViewerFrame) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{17}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *ViewerFrame) GetFrameVersion() uint32 {
@@ -1524,7 +2787,7 @@ type CommandDeliver struct {
 
 func (x *CommandDeliver) Reset() {
 	*x = CommandDeliver{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[18]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1536,7 +2799,7 @@ func (x *CommandDeliver) String() string {
 func (*CommandDeliver) ProtoMessage() {}
 
 func (x *CommandDeliver) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[18]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1549,7 +2812,7 @@ func (x *CommandDeliver) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CommandDeliver.ProtoReflect.Descriptor instead.
 func (*CommandDeliver) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{18}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *CommandDeliver) GetNodeId() *v1.Id {
@@ -1583,7 +2846,7 @@ type CommandResultForward struct {
 
 func (x *CommandResultForward) Reset() {
 	*x = CommandResultForward{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[19]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1595,7 +2858,7 @@ func (x *CommandResultForward) String() string {
 func (*CommandResultForward) ProtoMessage() {}
 
 func (x *CommandResultForward) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[19]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1608,7 +2871,7 @@ func (x *CommandResultForward) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CommandResultForward.ProtoReflect.Descriptor instead.
 func (*CommandResultForward) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{19}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *CommandResultForward) GetNodeId() *v1.Id {
@@ -1635,7 +2898,7 @@ type CommandUndeliverable struct {
 
 func (x *CommandUndeliverable) Reset() {
 	*x = CommandUndeliverable{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[20]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1647,7 +2910,7 @@ func (x *CommandUndeliverable) String() string {
 func (*CommandUndeliverable) ProtoMessage() {}
 
 func (x *CommandUndeliverable) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[20]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1660,7 +2923,7 @@ func (x *CommandUndeliverable) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CommandUndeliverable.ProtoReflect.Descriptor instead.
 func (*CommandUndeliverable) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{20}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *CommandUndeliverable) GetCommandId() *v1.Id {
@@ -1687,7 +2950,7 @@ type EventBatchForward struct {
 
 func (x *EventBatchForward) Reset() {
 	*x = EventBatchForward{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[21]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1699,7 +2962,7 @@ func (x *EventBatchForward) String() string {
 func (*EventBatchForward) ProtoMessage() {}
 
 func (x *EventBatchForward) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[21]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1712,7 +2975,7 @@ func (x *EventBatchForward) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EventBatchForward.ProtoReflect.Descriptor instead.
 func (*EventBatchForward) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{21}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *EventBatchForward) GetNodeId() *v1.Id {
@@ -1740,7 +3003,7 @@ type PresenceChange struct {
 
 func (x *PresenceChange) Reset() {
 	*x = PresenceChange{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[22]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1752,7 +3015,7 @@ func (x *PresenceChange) String() string {
 func (*PresenceChange) ProtoMessage() {}
 
 func (x *PresenceChange) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[22]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1765,7 +3028,7 @@ func (x *PresenceChange) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PresenceChange.ProtoReflect.Descriptor instead.
 func (*PresenceChange) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{22}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *PresenceChange) GetNodeId() *v1.Id {
@@ -1804,7 +3067,7 @@ type UsageReport struct {
 
 func (x *UsageReport) Reset() {
 	*x = UsageReport{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[23]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1816,7 +3079,7 @@ func (x *UsageReport) String() string {
 func (*UsageReport) ProtoMessage() {}
 
 func (x *UsageReport) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[23]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1829,7 +3092,7 @@ func (x *UsageReport) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UsageReport.ProtoReflect.Descriptor instead.
 func (*UsageReport) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{23}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *UsageReport) GetPeriodStart() *v1.Instant {
@@ -1892,7 +3155,7 @@ type KillSwitchUpdate struct {
 
 func (x *KillSwitchUpdate) Reset() {
 	*x = KillSwitchUpdate{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[24]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1904,7 +3167,7 @@ func (x *KillSwitchUpdate) String() string {
 func (*KillSwitchUpdate) ProtoMessage() {}
 
 func (x *KillSwitchUpdate) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[24]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1917,7 +3180,7 @@ func (x *KillSwitchUpdate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KillSwitchUpdate.ProtoReflect.Descriptor instead.
 func (*KillSwitchUpdate) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{24}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *KillSwitchUpdate) GetLiveStreaming() bool {
@@ -1961,7 +3224,7 @@ type HostEnvelope struct {
 
 func (x *HostEnvelope) Reset() {
 	*x = HostEnvelope{}
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[25]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1973,7 +3236,7 @@ func (x *HostEnvelope) String() string {
 func (*HostEnvelope) ProtoMessage() {}
 
 func (x *HostEnvelope) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[25]
+	mi := &file_arcforges_relay_v1_relay_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1986,7 +3249,7 @@ func (x *HostEnvelope) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HostEnvelope.ProtoReflect.Descriptor instead.
 func (*HostEnvelope) Descriptor() ([]byte, []int) {
-	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{25}
+	return file_arcforges_relay_v1_relay_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *HostEnvelope) GetEnvelopeVersion() uint32 {
@@ -2165,18 +3428,24 @@ const file_arcforges_relay_v1_relay_proto_rawDesc = "" +
 	"\x03kid\x18\t \x01(\tH\x02R\x03kid\x88\x01\x01B\x06\n" +
 	"\x04_audB\t\n" +
 	"\a_detailB\x06\n" +
-	"\x04_kid\"\xcd\x01\n" +
+	"\x04_kid\"\xbe\x03\n" +
 	"\tNodeHello\x124\n" +
 	"\anode_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeId\x12\x1d\n" +
 	"\aversion\x18\x02 \x01(\tH\x00R\aversion\x88\x01\x01\x12#\n" +
 	"\n" +
 	"generation\x18\x03 \x01(\x04H\x01R\n" +
 	"generation\x88\x01\x01\x12\x1e\n" +
-	"\blast_seq\x18\x04 \x01(\x04H\x02R\alastSeq\x88\x01\x01B\n" +
+	"\blast_seq\x18\x04 \x01(\x04H\x02R\alastSeq\x88\x01\x01\x12.\n" +
+	"\x10contract_version\x18\x05 \x01(\tH\x03R\x0fcontractVersion\x88\x01\x01\x12\"\n" +
+	"\fcapabilities\x18\x06 \x03(\tR\fcapabilities\x12D\n" +
+	"\x0finstallation_id\x18\a \x01(\v2\x1b.arcforges.foundation.v1.IdR\x0einstallationId\x12,\n" +
+	"\x0fhello_signature\x18\b \x01(\fH\x04R\x0ehelloSignature\x88\x01\x01B\n" +
 	"\n" +
 	"\b_versionB\r\n" +
 	"\v_generationB\v\n" +
-	"\t_last_seq\"\xc3\x01\n" +
+	"\t_last_seqB\x13\n" +
+	"\x11_contract_versionB\x12\n" +
+	"\x10_hello_signature\"\xc3\x01\n" +
 	"\fDemandSignal\x12$\n" +
 	"\vinterval_ms\x18\x01 \x01(\rH\x00R\n" +
 	"intervalMs\x88\x01\x01\x12$\n" +
@@ -2228,7 +3497,7 @@ const file_arcforges_relay_v1_relay_proto_rawDesc = "" +
 	"\ttruncated\x18\x05 \x01(\bH\x01R\ttruncated\x88\x01\x01B\a\n" +
 	"\x05_dataB\f\n" +
 	"\n" +
-	"_truncated\"\xc5\a\n" +
+	"_truncated\"\xad\v\n" +
 	"\n" +
 	"RelayFrame\x12(\n" +
 	"\rframe_version\x18\x01 \x01(\rH\x01R\fframeVersion\x88\x01\x01\x12 \n" +
@@ -2248,11 +3517,150 @@ const file_arcforges_relay_v1_relay_proto_rawDesc = "" +
 	"\x05close\x18\x14 \x01(\v2\x1e.arcforges.relay.v1.RelayCloseH\x00R\x05close\x120\n" +
 	"\x03ack\x18\x15 \x01(\v2\x1c.arcforges.relay.v1.RelayAckH\x00R\x03ack\x12A\n" +
 	"\voutput_tail\x18\x16 \x01(\v2\x1e.arcforges.relay.v1.OutputTailH\x00R\n" +
-	"outputTailB\a\n" +
+	"outputTail\x125\n" +
+	"\x04call\x18\x17 \x01(\v2\x1f.arcforges.relay.v1.ChannelCallH\x00R\x04call\x12D\n" +
+	"\vcall_result\x18\x18 \x01(\v2!.arcforges.relay.v1.ChannelResultH\x00R\n" +
+	"callResult\x12D\n" +
+	"\theartbeat\x18\x19 \x01(\v2$.arcforges.relay.v1.ChannelHeartbeatH\x00R\theartbeat\x12A\n" +
+	"\baccepted\x18\x1a \x01(\v2#.arcforges.relay.v1.ChannelAcceptedH\x00R\baccepted\x12D\n" +
+	"\tchallenge\x18\x1b \x01(\v2$.arcforges.relay.v1.ChannelChallengeH\x00R\tchallenge\x12W\n" +
+	"\x13relay_nonce_request\x18\x1c \x01(\v2%.arcforges.relay.v1.RelayNonceRequestH\x00R\x11relayNonceRequest\x12A\n" +
+	"\vrelay_nonce\x18\x1d \x01(\v2\x1e.arcforges.relay.v1.RelayNonceH\x00R\n" +
+	"relayNonceB\a\n" +
 	"\x05frameB\x10\n" +
 	"\x0e_frame_versionB\f\n" +
 	"\n" +
-	"_frame_seq\"\x95\x01\n" +
+	"_frame_seq\"\xc2\x01\n" +
+	"\x10ChannelChallenge\x12\x19\n" +
+	"\x05nonce\x18\x01 \x01(\fH\x00R\x05nonce\x88\x01\x01\x12@\n" +
+	"\rconnection_id\x18\x02 \x01(\v2\x1b.arcforges.foundation.v1.IdR\fconnectionId\x12G\n" +
+	"\x0ehello_deadline\x18\x03 \x01(\v2 .arcforges.foundation.v1.InstantR\rhelloDeadlineB\b\n" +
+	"\x06_nonce\"\x86\x03\n" +
+	"\rChannelLimits\x12+\n" +
+	"\x0fmax_frame_bytes\x18\x01 \x01(\rH\x00R\rmaxFrameBytes\x88\x01\x01\x122\n" +
+	"\x13max_in_flight_calls\x18\x02 \x01(\rH\x01R\x10maxInFlightCalls\x88\x01\x01\x127\n" +
+	"\x15heartbeat_interval_ms\x18\x03 \x01(\rH\x02R\x13heartbeatIntervalMs\x88\x01\x01\x127\n" +
+	"\x15heartbeat_deadline_ms\x18\x04 \x01(\rH\x03R\x13heartbeatDeadlineMs\x88\x01\x01\x12-\n" +
+	"\x10max_relay_nonces\x18\x05 \x01(\rH\x04R\x0emaxRelayNonces\x88\x01\x01B\x12\n" +
+	"\x10_max_frame_bytesB\x16\n" +
+	"\x14_max_in_flight_callsB\x18\n" +
+	"\x16_heartbeat_interval_msB\x18\n" +
+	"\x16_heartbeat_deadline_msB\x13\n" +
+	"\x11_max_relay_nonces\"\xe1\x01\n" +
+	"\x0fChannelAccepted\x12@\n" +
+	"\rconnection_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\fconnectionId\x129\n" +
+	"\x06limits\x18\x02 \x01(\v2!.arcforges.relay.v1.ChannelLimitsR\x06limits\x12!\n" +
+	"\fsigning_kids\x18\x03 \x03(\tR\vsigningKids\x12 \n" +
+	"\tnode_name\x18\x04 \x01(\tH\x00R\bnodeName\x88\x01\x01B\f\n" +
+	"\n" +
+	"_node_name\"l\n" +
+	"\x10ChannelHeartbeat\x129\n" +
+	"\asent_at\x18\x01 \x01(\v2 .arcforges.foundation.v1.InstantR\x06sentAt\x12\x15\n" +
+	"\x03seq\x18\x02 \x01(\x04H\x00R\x03seq\x88\x01\x01B\x06\n" +
+	"\x04_seq\"\xb7\x01\n" +
+	"\fSignedHeader\x12\x1b\n" +
+	"\x06header\x18\x01 \x01(\fH\x00R\x06header\x88\x01\x01\x12!\n" +
+	"\tsignature\x18\x02 \x01(\fH\x01R\tsignature\x88\x01\x01\x12\x15\n" +
+	"\x03kid\x18\x03 \x01(\tH\x02R\x03kid\x88\x01\x01\x12!\n" +
+	"\talgorithm\x18\x04 \x01(\tH\x03R\talgorithm\x88\x01\x01B\t\n" +
+	"\a_headerB\f\n" +
+	"\n" +
+	"_signatureB\x06\n" +
+	"\x04_kidB\f\n" +
+	"\n" +
+	"_algorithm\"\xf2\x06\n" +
+	"\n" +
+	"CallHeader\x124\n" +
+	"\acall_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06callId\x12\x15\n" +
+	"\x03kid\x18\x02 \x01(\tH\x00R\x03kid\x88\x01\x01\x12/\n" +
+	"\x11center_url_sha256\x18\x03 \x01(\fH\x01R\x0fcenterUrlSha256\x88\x01\x01\x12:\n" +
+	"\n" +
+	"account_id\x18\x04 \x01(\v2\x1b.arcforges.foundation.v1.IdR\taccountId\x12A\n" +
+	"\x0etarget_node_id\x18\x05 \x01(\v2\x1b.arcforges.foundation.v1.IdR\ftargetNodeId\x127\n" +
+	"\x06caller\x18\x06 \x01(\v2\x1f.arcforges.node.v1.CenterCallerR\x06caller\x12:\n" +
+	"\n" +
+	"command_id\x18\a \x01(\v2\x1b.arcforges.foundation.v1.IdR\tcommandId\x12=\n" +
+	"\x06method\x18\b \x01(\x0e2 .arcforges.relay.v1.RoutedMethodH\x02R\x06method\x88\x01\x01\x12*\n" +
+	"\x0erequest_sha256\x18\t \x01(\fH\x03R\rrequestSha256\x88\x01\x01\x12&\n" +
+	"\frequest_size\x18\n" +
+	" \x01(\rH\x04R\vrequestSize\x88\x01\x01\x12=\n" +
+	"\tissued_at\x18\v \x01(\v2 .arcforges.foundation.v1.InstantR\bissuedAt\x12?\n" +
+	"\n" +
+	"expires_at\x18\f \x01(\v2 .arcforges.foundation.v1.InstantR\texpiresAt\x12<\n" +
+	"\bdeadline\x18\r \x01(\v2 .arcforges.foundation.v1.InstantR\bdeadline\x129\n" +
+	"\x16relay_assertion_sha256\x18\x0e \x01(\fH\x05R\x14relayAssertionSha256\x88\x01\x01B\x06\n" +
+	"\x04_kidB\x14\n" +
+	"\x12_center_url_sha256B\t\n" +
+	"\a_methodB\x11\n" +
+	"\x0f_request_sha256B\x0f\n" +
+	"\r_request_sizeB\x19\n" +
+	"\x17_relay_assertion_sha256\"\xa8\x01\n" +
+	"\vChannelCall\x124\n" +
+	"\acall_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06callId\x128\n" +
+	"\x06header\x18\x02 \x01(\v2 .arcforges.relay.v1.SignedHeaderR\x06header\x12\x1d\n" +
+	"\apayload\x18\x03 \x01(\fH\x00R\apayload\x88\x01\x01B\n" +
+	"\n" +
+	"\b_payload\"\x87\x05\n" +
+	"\fResultHeader\x124\n" +
+	"\acall_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06callId\x12:\n" +
+	"\n" +
+	"command_id\x18\x02 \x01(\v2\x1b.arcforges.foundation.v1.IdR\tcommandId\x124\n" +
+	"\anode_id\x18\x03 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeId\x12=\n" +
+	"\x06method\x18\x04 \x01(\x0e2 .arcforges.relay.v1.RoutedMethodH\x00R\x06method\x88\x01\x01\x12*\n" +
+	"\x0erequest_sha256\x18\x05 \x01(\fH\x01R\rrequestSha256\x88\x01\x01\x12,\n" +
+	"\x0fresponse_sha256\x18\x06 \x01(\fH\x02R\x0eresponseSha256\x88\x01\x01\x12(\n" +
+	"\rresponse_size\x18\a \x01(\rH\x03R\fresponseSize\x88\x01\x01\x12A\n" +
+	"\vexecuted_at\x18\b \x01(\v2 .arcforges.foundation.v1.InstantR\n" +
+	"executedAt\x12@\n" +
+	"\aoutcome\x18\t \x01(\x0e2!.arcforges.relay.v1.RoutedOutcomeH\x04R\aoutcome\x88\x01\x01\x127\n" +
+	"\x05error\x18\n" +
+	" \x01(\v2!.arcforges.foundation.v1.ArcErrorR\x05errorB\t\n" +
+	"\a_methodB\x11\n" +
+	"\x0f_request_sha256B\x12\n" +
+	"\x10_response_sha256B\x10\n" +
+	"\x0e_response_sizeB\n" +
+	"\n" +
+	"\b_outcome\"\xaa\x01\n" +
+	"\rChannelResult\x124\n" +
+	"\acall_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06callId\x128\n" +
+	"\x06header\x18\x02 \x01(\v2 .arcforges.relay.v1.SignedHeaderR\x06header\x12\x1d\n" +
+	"\apayload\x18\x03 \x01(\fH\x00R\apayload\x88\x01\x01B\n" +
+	"\n" +
+	"\b_payload\"O\n" +
+	"\x11RelayNonceRequest\x12:\n" +
+	"\n" +
+	"request_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\trequestId\"\xae\x01\n" +
+	"\n" +
+	"RelayNonce\x12:\n" +
+	"\n" +
+	"request_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\trequestId\x12\x19\n" +
+	"\x05nonce\x18\x02 \x01(\fH\x00R\x05nonce\x88\x01\x01\x12?\n" +
+	"\n" +
+	"expires_at\x18\x03 \x01(\v2 .arcforges.foundation.v1.InstantR\texpiresAtB\b\n" +
+	"\x06_nonce\"\xb8\x06\n" +
+	"\x0eRelayAssertion\x12E\n" +
+	"\x10relaying_node_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x0erelayingNodeId\x12U\n" +
+	"\x18relaying_installation_id\x18\x02 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x16relayingInstallationId\x12A\n" +
+	"\flocal_origin\x18\x03 \x01(\x0e2\x19.arcforges.node.v1.OriginH\x00R\vlocalOrigin\x88\x01\x01\x12E\n" +
+	"\x10local_session_id\x18\x04 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x0elocalSessionId\x12=\n" +
+	"\x06method\x18\x05 \x01(\x0e2 .arcforges.relay.v1.RoutedMethodH\x01R\x06method\x88\x01\x01\x12*\n" +
+	"\x0erequest_sha256\x18\x06 \x01(\fH\x02R\rrequestSha256\x88\x01\x01\x12A\n" +
+	"\x0etarget_node_id\x18\a \x01(\v2\x1b.arcforges.foundation.v1.IdR\ftargetNodeId\x12:\n" +
+	"\n" +
+	"command_id\x18\b \x01(\v2\x1b.arcforges.foundation.v1.IdR\tcommandId\x12$\n" +
+	"\vrelay_nonce\x18\t \x01(\fH\x03R\n" +
+	"relayNonce\x88\x01\x01\x12=\n" +
+	"\tissued_at\x18\n" +
+	" \x01(\v2 .arcforges.foundation.v1.InstantR\bissuedAt\x12?\n" +
+	"\n" +
+	"expires_at\x18\v \x01(\v2 .arcforges.foundation.v1.InstantR\texpiresAt\x12!\n" +
+	"\tsignature\x18\f \x01(\fH\x04R\tsignature\x88\x01\x01B\x0f\n" +
+	"\r_local_originB\t\n" +
+	"\a_methodB\x11\n" +
+	"\x0f_request_sha256B\x0e\n" +
+	"\f_relay_nonceB\f\n" +
+	"\n" +
+	"_signature\"\x95\x01\n" +
 	"\n" +
 	"NodeCursor\x124\n" +
 	"\anode_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeId\x12#\n" +
@@ -2344,7 +3752,23 @@ const file_arcforges_relay_v1_relay_proto_rawDesc = "" +
 	"\rkill_switches\x18\x0f \x01(\v2$.arcforges.relay.v1.KillSwitchUpdateH\x00R\fkillSwitches\x12P\n" +
 	"\rundeliverable\x18\x10 \x01(\v2(.arcforges.relay.v1.CommandUndeliverableH\x00R\rundeliverableB\x06\n" +
 	"\x04bodyB\x13\n" +
-	"\x11_envelope_versionBU\n" +
+	"\x11_envelope_version*\xbe\x02\n" +
+	"\fRoutedMethod\x12\x1d\n" +
+	"\x19ROUTED_METHOD_UNSPECIFIED\x10\x00\x12\"\n" +
+	"\x1eROUTED_METHOD_SUBMIT_NODE_TASK\x10\x01\x12\x1f\n" +
+	"\x1bROUTED_METHOD_GET_NODE_TASK\x10\x02\x12!\n" +
+	"\x1dROUTED_METHOD_LIST_NODE_TASKS\x10\x03\x12 \n" +
+	"\x1cROUTED_METHOD_WAIT_NODE_TASK\x10\x04\x12'\n" +
+	"#ROUTED_METHOD_READ_NODE_TASK_OUTPUT\x10\x05\x12\"\n" +
+	"\x1eROUTED_METHOD_CANCEL_NODE_TASK\x10\x06\x12\x1c\n" +
+	"\x18ROUTED_METHOD_LIST_NODES\x10\a\x12\x1a\n" +
+	"\x16ROUTED_METHOD_GET_NODE\x10\b*\xb7\x01\n" +
+	"\rRoutedOutcome\x12\x1e\n" +
+	"\x1aROUTED_OUTCOME_UNSPECIFIED\x10\x00\x12\x1b\n" +
+	"\x17ROUTED_OUTCOME_EXECUTED\x10\x01\x12$\n" +
+	" ROUTED_OUTCOME_REFUSED_BY_POLICY\x10\x02\x12'\n" +
+	"#ROUTED_OUTCOME_REFUSED_VERIFICATION\x10\x03\x12\x1a\n" +
+	"\x16ROUTED_OUTCOME_EXPIRED\x10\x04BU\n" +
 	"&io.github.arcforges.contracts.relay.v1B\n" +
 	"RelayProtoP\x01\xaa\x02\x1cArcForges.Contracts.Relay.V1b\x06proto3"
 
@@ -2360,118 +3784,181 @@ func file_arcforges_relay_v1_relay_proto_rawDescGZIP() []byte {
 	return file_arcforges_relay_v1_relay_proto_rawDescData
 }
 
-var file_arcforges_relay_v1_relay_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
+var file_arcforges_relay_v1_relay_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_arcforges_relay_v1_relay_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
 var file_arcforges_relay_v1_relay_proto_goTypes = []any{
-	(*RelayLimits)(nil),           // 0: arcforges.relay.v1.RelayLimits
-	(*RelayTokenClaims)(nil),      // 1: arcforges.relay.v1.RelayTokenClaims
-	(*ViewerGrantClaims)(nil),     // 2: arcforges.relay.v1.ViewerGrantClaims
-	(*NodeHello)(nil),             // 3: arcforges.relay.v1.NodeHello
-	(*DemandSignal)(nil),          // 4: arcforges.relay.v1.DemandSignal
-	(*PushEvent)(nil),             // 5: arcforges.relay.v1.PushEvent
-	(*EventBatch)(nil),            // 6: arcforges.relay.v1.EventBatch
-	(*TokenRefresh)(nil),          // 7: arcforges.relay.v1.TokenRefresh
-	(*EntitlementChanged)(nil),    // 8: arcforges.relay.v1.EntitlementChanged
-	(*RelayClose)(nil),            // 9: arcforges.relay.v1.RelayClose
-	(*RelayAck)(nil),              // 10: arcforges.relay.v1.RelayAck
-	(*OutputTail)(nil),            // 11: arcforges.relay.v1.OutputTail
-	(*RelayFrame)(nil),            // 12: arcforges.relay.v1.RelayFrame
-	(*NodeCursor)(nil),            // 13: arcforges.relay.v1.NodeCursor
-	(*ViewerResume)(nil),          // 14: arcforges.relay.v1.ViewerResume
-	(*GrantRefresh)(nil),          // 15: arcforges.relay.v1.GrantRefresh
-	(*ViewerReset)(nil),           // 16: arcforges.relay.v1.ViewerReset
-	(*ViewerFrame)(nil),           // 17: arcforges.relay.v1.ViewerFrame
-	(*CommandDeliver)(nil),        // 18: arcforges.relay.v1.CommandDeliver
-	(*CommandResultForward)(nil),  // 19: arcforges.relay.v1.CommandResultForward
-	(*CommandUndeliverable)(nil),  // 20: arcforges.relay.v1.CommandUndeliverable
-	(*EventBatchForward)(nil),     // 21: arcforges.relay.v1.EventBatchForward
-	(*PresenceChange)(nil),        // 22: arcforges.relay.v1.PresenceChange
-	(*UsageReport)(nil),           // 23: arcforges.relay.v1.UsageReport
-	(*KillSwitchUpdate)(nil),      // 24: arcforges.relay.v1.KillSwitchUpdate
-	(*HostEnvelope)(nil),          // 25: arcforges.relay.v1.HostEnvelope
-	(*v1.Id)(nil),                 // 26: arcforges.foundation.v1.Id
-	(*v1.Instant)(nil),            // 27: arcforges.foundation.v1.Instant
-	(v11.DetailLevel)(0),          // 28: arcforges.fleet.v1.DetailLevel
-	(v12.Severity)(0),             // 29: arcforges.node.v1.Severity
-	(*v11.StatusSummary)(nil),     // 30: arcforges.fleet.v1.StatusSummary
-	(*v11.StatusDelta)(nil),       // 31: arcforges.fleet.v1.StatusDelta
-	(*v11.NodeSnapshot)(nil),      // 32: arcforges.fleet.v1.NodeSnapshot
-	(*v11.SignedBlob)(nil),        // 33: arcforges.fleet.v1.SignedBlob
-	(*v11.NodePresence)(nil),      // 34: arcforges.fleet.v1.NodePresence
-	(*v11.RemoteCommandView)(nil), // 35: arcforges.fleet.v1.RemoteCommandView
-	(v11.NodeOnlineState)(0),      // 36: arcforges.fleet.v1.NodeOnlineState
+	(RoutedMethod)(0),             // 0: arcforges.relay.v1.RoutedMethod
+	(RoutedOutcome)(0),            // 1: arcforges.relay.v1.RoutedOutcome
+	(*RelayLimits)(nil),           // 2: arcforges.relay.v1.RelayLimits
+	(*RelayTokenClaims)(nil),      // 3: arcforges.relay.v1.RelayTokenClaims
+	(*ViewerGrantClaims)(nil),     // 4: arcforges.relay.v1.ViewerGrantClaims
+	(*NodeHello)(nil),             // 5: arcforges.relay.v1.NodeHello
+	(*DemandSignal)(nil),          // 6: arcforges.relay.v1.DemandSignal
+	(*PushEvent)(nil),             // 7: arcforges.relay.v1.PushEvent
+	(*EventBatch)(nil),            // 8: arcforges.relay.v1.EventBatch
+	(*TokenRefresh)(nil),          // 9: arcforges.relay.v1.TokenRefresh
+	(*EntitlementChanged)(nil),    // 10: arcforges.relay.v1.EntitlementChanged
+	(*RelayClose)(nil),            // 11: arcforges.relay.v1.RelayClose
+	(*RelayAck)(nil),              // 12: arcforges.relay.v1.RelayAck
+	(*OutputTail)(nil),            // 13: arcforges.relay.v1.OutputTail
+	(*RelayFrame)(nil),            // 14: arcforges.relay.v1.RelayFrame
+	(*ChannelChallenge)(nil),      // 15: arcforges.relay.v1.ChannelChallenge
+	(*ChannelLimits)(nil),         // 16: arcforges.relay.v1.ChannelLimits
+	(*ChannelAccepted)(nil),       // 17: arcforges.relay.v1.ChannelAccepted
+	(*ChannelHeartbeat)(nil),      // 18: arcforges.relay.v1.ChannelHeartbeat
+	(*SignedHeader)(nil),          // 19: arcforges.relay.v1.SignedHeader
+	(*CallHeader)(nil),            // 20: arcforges.relay.v1.CallHeader
+	(*ChannelCall)(nil),           // 21: arcforges.relay.v1.ChannelCall
+	(*ResultHeader)(nil),          // 22: arcforges.relay.v1.ResultHeader
+	(*ChannelResult)(nil),         // 23: arcforges.relay.v1.ChannelResult
+	(*RelayNonceRequest)(nil),     // 24: arcforges.relay.v1.RelayNonceRequest
+	(*RelayNonce)(nil),            // 25: arcforges.relay.v1.RelayNonce
+	(*RelayAssertion)(nil),        // 26: arcforges.relay.v1.RelayAssertion
+	(*NodeCursor)(nil),            // 27: arcforges.relay.v1.NodeCursor
+	(*ViewerResume)(nil),          // 28: arcforges.relay.v1.ViewerResume
+	(*GrantRefresh)(nil),          // 29: arcforges.relay.v1.GrantRefresh
+	(*ViewerReset)(nil),           // 30: arcforges.relay.v1.ViewerReset
+	(*ViewerFrame)(nil),           // 31: arcforges.relay.v1.ViewerFrame
+	(*CommandDeliver)(nil),        // 32: arcforges.relay.v1.CommandDeliver
+	(*CommandResultForward)(nil),  // 33: arcforges.relay.v1.CommandResultForward
+	(*CommandUndeliverable)(nil),  // 34: arcforges.relay.v1.CommandUndeliverable
+	(*EventBatchForward)(nil),     // 35: arcforges.relay.v1.EventBatchForward
+	(*PresenceChange)(nil),        // 36: arcforges.relay.v1.PresenceChange
+	(*UsageReport)(nil),           // 37: arcforges.relay.v1.UsageReport
+	(*KillSwitchUpdate)(nil),      // 38: arcforges.relay.v1.KillSwitchUpdate
+	(*HostEnvelope)(nil),          // 39: arcforges.relay.v1.HostEnvelope
+	(*v1.Id)(nil),                 // 40: arcforges.foundation.v1.Id
+	(*v1.Instant)(nil),            // 41: arcforges.foundation.v1.Instant
+	(v11.DetailLevel)(0),          // 42: arcforges.fleet.v1.DetailLevel
+	(v12.Severity)(0),             // 43: arcforges.node.v1.Severity
+	(*v11.StatusSummary)(nil),     // 44: arcforges.fleet.v1.StatusSummary
+	(*v11.StatusDelta)(nil),       // 45: arcforges.fleet.v1.StatusDelta
+	(*v11.NodeSnapshot)(nil),      // 46: arcforges.fleet.v1.NodeSnapshot
+	(*v11.SignedBlob)(nil),        // 47: arcforges.fleet.v1.SignedBlob
+	(*v12.CenterCaller)(nil),      // 48: arcforges.node.v1.CenterCaller
+	(*v1.ArcError)(nil),           // 49: arcforges.foundation.v1.ArcError
+	(v12.Origin)(0),               // 50: arcforges.node.v1.Origin
+	(*v11.NodePresence)(nil),      // 51: arcforges.fleet.v1.NodePresence
+	(*v11.RemoteCommandView)(nil), // 52: arcforges.fleet.v1.RemoteCommandView
+	(v11.NodeOnlineState)(0),      // 53: arcforges.fleet.v1.NodeOnlineState
 }
 var file_arcforges_relay_v1_relay_proto_depIdxs = []int32{
-	26, // 0: arcforges.relay.v1.RelayTokenClaims.account_id:type_name -> arcforges.foundation.v1.Id
-	26, // 1: arcforges.relay.v1.RelayTokenClaims.node_id:type_name -> arcforges.foundation.v1.Id
-	27, // 2: arcforges.relay.v1.RelayTokenClaims.issued_at:type_name -> arcforges.foundation.v1.Instant
-	27, // 3: arcforges.relay.v1.RelayTokenClaims.expires_at:type_name -> arcforges.foundation.v1.Instant
-	0,  // 4: arcforges.relay.v1.RelayTokenClaims.limits:type_name -> arcforges.relay.v1.RelayLimits
-	26, // 5: arcforges.relay.v1.ViewerGrantClaims.account_id:type_name -> arcforges.foundation.v1.Id
-	26, // 6: arcforges.relay.v1.ViewerGrantClaims.node_ids:type_name -> arcforges.foundation.v1.Id
-	28, // 7: arcforges.relay.v1.ViewerGrantClaims.detail:type_name -> arcforges.fleet.v1.DetailLevel
-	27, // 8: arcforges.relay.v1.ViewerGrantClaims.issued_at:type_name -> arcforges.foundation.v1.Instant
-	27, // 9: arcforges.relay.v1.ViewerGrantClaims.expires_at:type_name -> arcforges.foundation.v1.Instant
-	0,  // 10: arcforges.relay.v1.ViewerGrantClaims.limits:type_name -> arcforges.relay.v1.RelayLimits
-	26, // 11: arcforges.relay.v1.ViewerGrantClaims.viewer_session_id:type_name -> arcforges.foundation.v1.Id
-	26, // 12: arcforges.relay.v1.NodeHello.node_id:type_name -> arcforges.foundation.v1.Id
-	28, // 13: arcforges.relay.v1.DemandSignal.detail:type_name -> arcforges.fleet.v1.DetailLevel
-	26, // 14: arcforges.relay.v1.PushEvent.subject_id:type_name -> arcforges.foundation.v1.Id
-	29, // 15: arcforges.relay.v1.PushEvent.severity:type_name -> arcforges.node.v1.Severity
-	27, // 16: arcforges.relay.v1.PushEvent.at:type_name -> arcforges.foundation.v1.Instant
-	5,  // 17: arcforges.relay.v1.EventBatch.events:type_name -> arcforges.relay.v1.PushEvent
-	26, // 18: arcforges.relay.v1.OutputTail.node_id:type_name -> arcforges.foundation.v1.Id
-	26, // 19: arcforges.relay.v1.OutputTail.task_id:type_name -> arcforges.foundation.v1.Id
-	26, // 20: arcforges.relay.v1.OutputTail.command_id:type_name -> arcforges.foundation.v1.Id
-	3,  // 21: arcforges.relay.v1.RelayFrame.node_hello:type_name -> arcforges.relay.v1.NodeHello
-	30, // 22: arcforges.relay.v1.RelayFrame.summary:type_name -> arcforges.fleet.v1.StatusSummary
-	31, // 23: arcforges.relay.v1.RelayFrame.delta:type_name -> arcforges.fleet.v1.StatusDelta
-	32, // 24: arcforges.relay.v1.RelayFrame.snapshot:type_name -> arcforges.fleet.v1.NodeSnapshot
-	4,  // 25: arcforges.relay.v1.RelayFrame.demand:type_name -> arcforges.relay.v1.DemandSignal
-	33, // 26: arcforges.relay.v1.RelayFrame.command:type_name -> arcforges.fleet.v1.SignedBlob
-	33, // 27: arcforges.relay.v1.RelayFrame.command_result:type_name -> arcforges.fleet.v1.SignedBlob
-	6,  // 28: arcforges.relay.v1.RelayFrame.events:type_name -> arcforges.relay.v1.EventBatch
-	7,  // 29: arcforges.relay.v1.RelayFrame.token_refresh:type_name -> arcforges.relay.v1.TokenRefresh
-	8,  // 30: arcforges.relay.v1.RelayFrame.entitlement_changed:type_name -> arcforges.relay.v1.EntitlementChanged
-	9,  // 31: arcforges.relay.v1.RelayFrame.close:type_name -> arcforges.relay.v1.RelayClose
-	10, // 32: arcforges.relay.v1.RelayFrame.ack:type_name -> arcforges.relay.v1.RelayAck
-	11, // 33: arcforges.relay.v1.RelayFrame.output_tail:type_name -> arcforges.relay.v1.OutputTail
-	26, // 34: arcforges.relay.v1.NodeCursor.node_id:type_name -> arcforges.foundation.v1.Id
-	13, // 35: arcforges.relay.v1.ViewerResume.cursors:type_name -> arcforges.relay.v1.NodeCursor
-	26, // 36: arcforges.relay.v1.ViewerReset.node_id:type_name -> arcforges.foundation.v1.Id
-	14, // 37: arcforges.relay.v1.ViewerFrame.resume:type_name -> arcforges.relay.v1.ViewerResume
-	15, // 38: arcforges.relay.v1.ViewerFrame.grant_refresh:type_name -> arcforges.relay.v1.GrantRefresh
-	32, // 39: arcforges.relay.v1.ViewerFrame.snapshot:type_name -> arcforges.fleet.v1.NodeSnapshot
-	31, // 40: arcforges.relay.v1.ViewerFrame.delta:type_name -> arcforges.fleet.v1.StatusDelta
-	34, // 41: arcforges.relay.v1.ViewerFrame.presence:type_name -> arcforges.fleet.v1.NodePresence
-	16, // 42: arcforges.relay.v1.ViewerFrame.reset:type_name -> arcforges.relay.v1.ViewerReset
-	35, // 43: arcforges.relay.v1.ViewerFrame.command_update:type_name -> arcforges.fleet.v1.RemoteCommandView
-	9,  // 44: arcforges.relay.v1.ViewerFrame.close:type_name -> arcforges.relay.v1.RelayClose
-	11, // 45: arcforges.relay.v1.ViewerFrame.output_tail:type_name -> arcforges.relay.v1.OutputTail
-	26, // 46: arcforges.relay.v1.CommandDeliver.node_id:type_name -> arcforges.foundation.v1.Id
-	33, // 47: arcforges.relay.v1.CommandDeliver.command:type_name -> arcforges.fleet.v1.SignedBlob
-	27, // 48: arcforges.relay.v1.CommandDeliver.expires_at:type_name -> arcforges.foundation.v1.Instant
-	26, // 49: arcforges.relay.v1.CommandResultForward.node_id:type_name -> arcforges.foundation.v1.Id
-	33, // 50: arcforges.relay.v1.CommandResultForward.result:type_name -> arcforges.fleet.v1.SignedBlob
-	26, // 51: arcforges.relay.v1.CommandUndeliverable.command_id:type_name -> arcforges.foundation.v1.Id
-	26, // 52: arcforges.relay.v1.EventBatchForward.node_id:type_name -> arcforges.foundation.v1.Id
-	6,  // 53: arcforges.relay.v1.EventBatchForward.batch:type_name -> arcforges.relay.v1.EventBatch
-	26, // 54: arcforges.relay.v1.PresenceChange.node_id:type_name -> arcforges.foundation.v1.Id
-	36, // 55: arcforges.relay.v1.PresenceChange.state:type_name -> arcforges.fleet.v1.NodeOnlineState
-	27, // 56: arcforges.relay.v1.PresenceChange.at:type_name -> arcforges.foundation.v1.Instant
-	27, // 57: arcforges.relay.v1.UsageReport.period_start:type_name -> arcforges.foundation.v1.Instant
-	26, // 58: arcforges.relay.v1.HostEnvelope.account_id:type_name -> arcforges.foundation.v1.Id
-	21, // 59: arcforges.relay.v1.HostEnvelope.events:type_name -> arcforges.relay.v1.EventBatchForward
-	18, // 60: arcforges.relay.v1.HostEnvelope.deliver:type_name -> arcforges.relay.v1.CommandDeliver
-	19, // 61: arcforges.relay.v1.HostEnvelope.result:type_name -> arcforges.relay.v1.CommandResultForward
-	22, // 62: arcforges.relay.v1.HostEnvelope.presence:type_name -> arcforges.relay.v1.PresenceChange
-	23, // 63: arcforges.relay.v1.HostEnvelope.usage:type_name -> arcforges.relay.v1.UsageReport
-	24, // 64: arcforges.relay.v1.HostEnvelope.kill_switches:type_name -> arcforges.relay.v1.KillSwitchUpdate
-	20, // 65: arcforges.relay.v1.HostEnvelope.undeliverable:type_name -> arcforges.relay.v1.CommandUndeliverable
-	66, // [66:66] is the sub-list for method output_type
-	66, // [66:66] is the sub-list for method input_type
-	66, // [66:66] is the sub-list for extension type_name
-	66, // [66:66] is the sub-list for extension extendee
-	0,  // [0:66] is the sub-list for field type_name
+	40,  // 0: arcforges.relay.v1.RelayTokenClaims.account_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 1: arcforges.relay.v1.RelayTokenClaims.node_id:type_name -> arcforges.foundation.v1.Id
+	41,  // 2: arcforges.relay.v1.RelayTokenClaims.issued_at:type_name -> arcforges.foundation.v1.Instant
+	41,  // 3: arcforges.relay.v1.RelayTokenClaims.expires_at:type_name -> arcforges.foundation.v1.Instant
+	2,   // 4: arcforges.relay.v1.RelayTokenClaims.limits:type_name -> arcforges.relay.v1.RelayLimits
+	40,  // 5: arcforges.relay.v1.ViewerGrantClaims.account_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 6: arcforges.relay.v1.ViewerGrantClaims.node_ids:type_name -> arcforges.foundation.v1.Id
+	42,  // 7: arcforges.relay.v1.ViewerGrantClaims.detail:type_name -> arcforges.fleet.v1.DetailLevel
+	41,  // 8: arcforges.relay.v1.ViewerGrantClaims.issued_at:type_name -> arcforges.foundation.v1.Instant
+	41,  // 9: arcforges.relay.v1.ViewerGrantClaims.expires_at:type_name -> arcforges.foundation.v1.Instant
+	2,   // 10: arcforges.relay.v1.ViewerGrantClaims.limits:type_name -> arcforges.relay.v1.RelayLimits
+	40,  // 11: arcforges.relay.v1.ViewerGrantClaims.viewer_session_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 12: arcforges.relay.v1.NodeHello.node_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 13: arcforges.relay.v1.NodeHello.installation_id:type_name -> arcforges.foundation.v1.Id
+	42,  // 14: arcforges.relay.v1.DemandSignal.detail:type_name -> arcforges.fleet.v1.DetailLevel
+	40,  // 15: arcforges.relay.v1.PushEvent.subject_id:type_name -> arcforges.foundation.v1.Id
+	43,  // 16: arcforges.relay.v1.PushEvent.severity:type_name -> arcforges.node.v1.Severity
+	41,  // 17: arcforges.relay.v1.PushEvent.at:type_name -> arcforges.foundation.v1.Instant
+	7,   // 18: arcforges.relay.v1.EventBatch.events:type_name -> arcforges.relay.v1.PushEvent
+	40,  // 19: arcforges.relay.v1.OutputTail.node_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 20: arcforges.relay.v1.OutputTail.task_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 21: arcforges.relay.v1.OutputTail.command_id:type_name -> arcforges.foundation.v1.Id
+	5,   // 22: arcforges.relay.v1.RelayFrame.node_hello:type_name -> arcforges.relay.v1.NodeHello
+	44,  // 23: arcforges.relay.v1.RelayFrame.summary:type_name -> arcforges.fleet.v1.StatusSummary
+	45,  // 24: arcforges.relay.v1.RelayFrame.delta:type_name -> arcforges.fleet.v1.StatusDelta
+	46,  // 25: arcforges.relay.v1.RelayFrame.snapshot:type_name -> arcforges.fleet.v1.NodeSnapshot
+	6,   // 26: arcforges.relay.v1.RelayFrame.demand:type_name -> arcforges.relay.v1.DemandSignal
+	47,  // 27: arcforges.relay.v1.RelayFrame.command:type_name -> arcforges.fleet.v1.SignedBlob
+	47,  // 28: arcforges.relay.v1.RelayFrame.command_result:type_name -> arcforges.fleet.v1.SignedBlob
+	8,   // 29: arcforges.relay.v1.RelayFrame.events:type_name -> arcforges.relay.v1.EventBatch
+	9,   // 30: arcforges.relay.v1.RelayFrame.token_refresh:type_name -> arcforges.relay.v1.TokenRefresh
+	10,  // 31: arcforges.relay.v1.RelayFrame.entitlement_changed:type_name -> arcforges.relay.v1.EntitlementChanged
+	11,  // 32: arcforges.relay.v1.RelayFrame.close:type_name -> arcforges.relay.v1.RelayClose
+	12,  // 33: arcforges.relay.v1.RelayFrame.ack:type_name -> arcforges.relay.v1.RelayAck
+	13,  // 34: arcforges.relay.v1.RelayFrame.output_tail:type_name -> arcforges.relay.v1.OutputTail
+	21,  // 35: arcforges.relay.v1.RelayFrame.call:type_name -> arcforges.relay.v1.ChannelCall
+	23,  // 36: arcforges.relay.v1.RelayFrame.call_result:type_name -> arcforges.relay.v1.ChannelResult
+	18,  // 37: arcforges.relay.v1.RelayFrame.heartbeat:type_name -> arcforges.relay.v1.ChannelHeartbeat
+	17,  // 38: arcforges.relay.v1.RelayFrame.accepted:type_name -> arcforges.relay.v1.ChannelAccepted
+	15,  // 39: arcforges.relay.v1.RelayFrame.challenge:type_name -> arcforges.relay.v1.ChannelChallenge
+	24,  // 40: arcforges.relay.v1.RelayFrame.relay_nonce_request:type_name -> arcforges.relay.v1.RelayNonceRequest
+	25,  // 41: arcforges.relay.v1.RelayFrame.relay_nonce:type_name -> arcforges.relay.v1.RelayNonce
+	40,  // 42: arcforges.relay.v1.ChannelChallenge.connection_id:type_name -> arcforges.foundation.v1.Id
+	41,  // 43: arcforges.relay.v1.ChannelChallenge.hello_deadline:type_name -> arcforges.foundation.v1.Instant
+	40,  // 44: arcforges.relay.v1.ChannelAccepted.connection_id:type_name -> arcforges.foundation.v1.Id
+	16,  // 45: arcforges.relay.v1.ChannelAccepted.limits:type_name -> arcforges.relay.v1.ChannelLimits
+	41,  // 46: arcforges.relay.v1.ChannelHeartbeat.sent_at:type_name -> arcforges.foundation.v1.Instant
+	40,  // 47: arcforges.relay.v1.CallHeader.call_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 48: arcforges.relay.v1.CallHeader.account_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 49: arcforges.relay.v1.CallHeader.target_node_id:type_name -> arcforges.foundation.v1.Id
+	48,  // 50: arcforges.relay.v1.CallHeader.caller:type_name -> arcforges.node.v1.CenterCaller
+	40,  // 51: arcforges.relay.v1.CallHeader.command_id:type_name -> arcforges.foundation.v1.Id
+	0,   // 52: arcforges.relay.v1.CallHeader.method:type_name -> arcforges.relay.v1.RoutedMethod
+	41,  // 53: arcforges.relay.v1.CallHeader.issued_at:type_name -> arcforges.foundation.v1.Instant
+	41,  // 54: arcforges.relay.v1.CallHeader.expires_at:type_name -> arcforges.foundation.v1.Instant
+	41,  // 55: arcforges.relay.v1.CallHeader.deadline:type_name -> arcforges.foundation.v1.Instant
+	40,  // 56: arcforges.relay.v1.ChannelCall.call_id:type_name -> arcforges.foundation.v1.Id
+	19,  // 57: arcforges.relay.v1.ChannelCall.header:type_name -> arcforges.relay.v1.SignedHeader
+	40,  // 58: arcforges.relay.v1.ResultHeader.call_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 59: arcforges.relay.v1.ResultHeader.command_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 60: arcforges.relay.v1.ResultHeader.node_id:type_name -> arcforges.foundation.v1.Id
+	0,   // 61: arcforges.relay.v1.ResultHeader.method:type_name -> arcforges.relay.v1.RoutedMethod
+	41,  // 62: arcforges.relay.v1.ResultHeader.executed_at:type_name -> arcforges.foundation.v1.Instant
+	1,   // 63: arcforges.relay.v1.ResultHeader.outcome:type_name -> arcforges.relay.v1.RoutedOutcome
+	49,  // 64: arcforges.relay.v1.ResultHeader.error:type_name -> arcforges.foundation.v1.ArcError
+	40,  // 65: arcforges.relay.v1.ChannelResult.call_id:type_name -> arcforges.foundation.v1.Id
+	19,  // 66: arcforges.relay.v1.ChannelResult.header:type_name -> arcforges.relay.v1.SignedHeader
+	40,  // 67: arcforges.relay.v1.RelayNonceRequest.request_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 68: arcforges.relay.v1.RelayNonce.request_id:type_name -> arcforges.foundation.v1.Id
+	41,  // 69: arcforges.relay.v1.RelayNonce.expires_at:type_name -> arcforges.foundation.v1.Instant
+	40,  // 70: arcforges.relay.v1.RelayAssertion.relaying_node_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 71: arcforges.relay.v1.RelayAssertion.relaying_installation_id:type_name -> arcforges.foundation.v1.Id
+	50,  // 72: arcforges.relay.v1.RelayAssertion.local_origin:type_name -> arcforges.node.v1.Origin
+	40,  // 73: arcforges.relay.v1.RelayAssertion.local_session_id:type_name -> arcforges.foundation.v1.Id
+	0,   // 74: arcforges.relay.v1.RelayAssertion.method:type_name -> arcforges.relay.v1.RoutedMethod
+	40,  // 75: arcforges.relay.v1.RelayAssertion.target_node_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 76: arcforges.relay.v1.RelayAssertion.command_id:type_name -> arcforges.foundation.v1.Id
+	41,  // 77: arcforges.relay.v1.RelayAssertion.issued_at:type_name -> arcforges.foundation.v1.Instant
+	41,  // 78: arcforges.relay.v1.RelayAssertion.expires_at:type_name -> arcforges.foundation.v1.Instant
+	40,  // 79: arcforges.relay.v1.NodeCursor.node_id:type_name -> arcforges.foundation.v1.Id
+	27,  // 80: arcforges.relay.v1.ViewerResume.cursors:type_name -> arcforges.relay.v1.NodeCursor
+	40,  // 81: arcforges.relay.v1.ViewerReset.node_id:type_name -> arcforges.foundation.v1.Id
+	28,  // 82: arcforges.relay.v1.ViewerFrame.resume:type_name -> arcforges.relay.v1.ViewerResume
+	29,  // 83: arcforges.relay.v1.ViewerFrame.grant_refresh:type_name -> arcforges.relay.v1.GrantRefresh
+	46,  // 84: arcforges.relay.v1.ViewerFrame.snapshot:type_name -> arcforges.fleet.v1.NodeSnapshot
+	45,  // 85: arcforges.relay.v1.ViewerFrame.delta:type_name -> arcforges.fleet.v1.StatusDelta
+	51,  // 86: arcforges.relay.v1.ViewerFrame.presence:type_name -> arcforges.fleet.v1.NodePresence
+	30,  // 87: arcforges.relay.v1.ViewerFrame.reset:type_name -> arcforges.relay.v1.ViewerReset
+	52,  // 88: arcforges.relay.v1.ViewerFrame.command_update:type_name -> arcforges.fleet.v1.RemoteCommandView
+	11,  // 89: arcforges.relay.v1.ViewerFrame.close:type_name -> arcforges.relay.v1.RelayClose
+	13,  // 90: arcforges.relay.v1.ViewerFrame.output_tail:type_name -> arcforges.relay.v1.OutputTail
+	40,  // 91: arcforges.relay.v1.CommandDeliver.node_id:type_name -> arcforges.foundation.v1.Id
+	47,  // 92: arcforges.relay.v1.CommandDeliver.command:type_name -> arcforges.fleet.v1.SignedBlob
+	41,  // 93: arcforges.relay.v1.CommandDeliver.expires_at:type_name -> arcforges.foundation.v1.Instant
+	40,  // 94: arcforges.relay.v1.CommandResultForward.node_id:type_name -> arcforges.foundation.v1.Id
+	47,  // 95: arcforges.relay.v1.CommandResultForward.result:type_name -> arcforges.fleet.v1.SignedBlob
+	40,  // 96: arcforges.relay.v1.CommandUndeliverable.command_id:type_name -> arcforges.foundation.v1.Id
+	40,  // 97: arcforges.relay.v1.EventBatchForward.node_id:type_name -> arcforges.foundation.v1.Id
+	8,   // 98: arcforges.relay.v1.EventBatchForward.batch:type_name -> arcforges.relay.v1.EventBatch
+	40,  // 99: arcforges.relay.v1.PresenceChange.node_id:type_name -> arcforges.foundation.v1.Id
+	53,  // 100: arcforges.relay.v1.PresenceChange.state:type_name -> arcforges.fleet.v1.NodeOnlineState
+	41,  // 101: arcforges.relay.v1.PresenceChange.at:type_name -> arcforges.foundation.v1.Instant
+	41,  // 102: arcforges.relay.v1.UsageReport.period_start:type_name -> arcforges.foundation.v1.Instant
+	40,  // 103: arcforges.relay.v1.HostEnvelope.account_id:type_name -> arcforges.foundation.v1.Id
+	35,  // 104: arcforges.relay.v1.HostEnvelope.events:type_name -> arcforges.relay.v1.EventBatchForward
+	32,  // 105: arcforges.relay.v1.HostEnvelope.deliver:type_name -> arcforges.relay.v1.CommandDeliver
+	33,  // 106: arcforges.relay.v1.HostEnvelope.result:type_name -> arcforges.relay.v1.CommandResultForward
+	36,  // 107: arcforges.relay.v1.HostEnvelope.presence:type_name -> arcforges.relay.v1.PresenceChange
+	37,  // 108: arcforges.relay.v1.HostEnvelope.usage:type_name -> arcforges.relay.v1.UsageReport
+	38,  // 109: arcforges.relay.v1.HostEnvelope.kill_switches:type_name -> arcforges.relay.v1.KillSwitchUpdate
+	34,  // 110: arcforges.relay.v1.HostEnvelope.undeliverable:type_name -> arcforges.relay.v1.CommandUndeliverable
+	111, // [111:111] is the sub-list for method output_type
+	111, // [111:111] is the sub-list for method input_type
+	111, // [111:111] is the sub-list for extension type_name
+	111, // [111:111] is the sub-list for extension extendee
+	0,   // [0:111] is the sub-list for field type_name
 }
 
 func init() { file_arcforges_relay_v1_relay_proto_init() }
@@ -2504,11 +3991,29 @@ func file_arcforges_relay_v1_relay_proto_init() {
 		(*RelayFrame_Close)(nil),
 		(*RelayFrame_Ack)(nil),
 		(*RelayFrame_OutputTail)(nil),
+		(*RelayFrame_Call)(nil),
+		(*RelayFrame_CallResult)(nil),
+		(*RelayFrame_Heartbeat)(nil),
+		(*RelayFrame_Accepted)(nil),
+		(*RelayFrame_Challenge)(nil),
+		(*RelayFrame_RelayNonceRequest)(nil),
+		(*RelayFrame_RelayNonce)(nil),
 	}
 	file_arcforges_relay_v1_relay_proto_msgTypes[13].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[14].OneofWrappers = []any{}
 	file_arcforges_relay_v1_relay_proto_msgTypes[15].OneofWrappers = []any{}
 	file_arcforges_relay_v1_relay_proto_msgTypes[16].OneofWrappers = []any{}
-	file_arcforges_relay_v1_relay_proto_msgTypes[17].OneofWrappers = []any{
+	file_arcforges_relay_v1_relay_proto_msgTypes[17].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[18].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[19].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[20].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[21].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[23].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[24].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[25].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[27].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[28].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[29].OneofWrappers = []any{
 		(*ViewerFrame_Resume)(nil),
 		(*ViewerFrame_GrantRefresh)(nil),
 		(*ViewerFrame_Snapshot)(nil),
@@ -2519,11 +4024,11 @@ func file_arcforges_relay_v1_relay_proto_init() {
 		(*ViewerFrame_Close)(nil),
 		(*ViewerFrame_OutputTail)(nil),
 	}
-	file_arcforges_relay_v1_relay_proto_msgTypes[20].OneofWrappers = []any{}
-	file_arcforges_relay_v1_relay_proto_msgTypes[22].OneofWrappers = []any{}
-	file_arcforges_relay_v1_relay_proto_msgTypes[23].OneofWrappers = []any{}
-	file_arcforges_relay_v1_relay_proto_msgTypes[24].OneofWrappers = []any{}
-	file_arcforges_relay_v1_relay_proto_msgTypes[25].OneofWrappers = []any{
+	file_arcforges_relay_v1_relay_proto_msgTypes[32].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[34].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[35].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[36].OneofWrappers = []any{}
+	file_arcforges_relay_v1_relay_proto_msgTypes[37].OneofWrappers = []any{
 		(*HostEnvelope_Events)(nil),
 		(*HostEnvelope_Deliver)(nil),
 		(*HostEnvelope_Result)(nil),
@@ -2537,13 +4042,14 @@ func file_arcforges_relay_v1_relay_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_arcforges_relay_v1_relay_proto_rawDesc), len(file_arcforges_relay_v1_relay_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   26,
+			NumEnums:      2,
+			NumMessages:   38,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_arcforges_relay_v1_relay_proto_goTypes,
 		DependencyIndexes: file_arcforges_relay_v1_relay_proto_depIdxs,
+		EnumInfos:         file_arcforges_relay_v1_relay_proto_enumTypes,
 		MessageInfos:      file_arcforges_relay_v1_relay_proto_msgTypes,
 	}.Build()
 	File_arcforges_relay_v1_relay_proto = out.File

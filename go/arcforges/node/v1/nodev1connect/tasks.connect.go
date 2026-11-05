@@ -219,7 +219,12 @@ var (
 // TaskServiceClient is a client for the arcforges.node.v1.TaskService service.
 type TaskServiceClient interface {
 	// Submit a task. It is persisted before the receipt returns (AD-0006 section 1).
-	// auth: HUMAN=A SCRIPT=A AGENT=A (allowed_command_patterns) REMOTE=high
+	// Local: HUMAN only (AD-0021 section 5, Plan decision Q8): a local submission from a SCRIPT or AGENT caller is refused
+	// AUTHORIZATION/permission_denied (state.state task.submit, state.reason local_submission_human_only); a --test-mode node admits a
+	// local SCRIPT caller only while ARCFORGES_TEST_ALLOW_LOCAL_SCRIPT_SUBMIT=1 is set, and never an AGENT caller. A local submission
+	// is a diagnostic one (ManagedTask.local_diagnostic). The HUMAN, SCRIPT and AGENT cells apply to the local origin of a
+	// center-routed caller (FleetService.SubmitNodeTask; Design 11 section 1), whose REMOTE cell the center-routed policy decides.
+	// auth: HUMAN=A SCRIPT=A AGENT=A (allowed_command_patterns) REMOTE=high (center-routed policy decides); local: HUMAN only (AD-0021 section 5)
 	// idempotency: command_id; 24 h; same payload digest required
 	// deadline: 10 s
 	// stream: none
@@ -227,16 +232,17 @@ type TaskServiceClient interface {
 	// locality: node
 	// state: SM-TASK: (none) -> QUEUED | WAITING_DEPENDENCY | PLACING
 	SubmitTask(context.Context, *v1.TaskServiceSubmitTaskRequest) (*v1.TaskServiceSubmitTaskResponse, error)
-	// Read one task.
-	// auth: HUMAN=A SCRIPT=A AGENT=A (FULL only for own session) REMOTE=-
+	// Read one task. A center-routed caller (FleetService.GetNodeTask) reads the specification of its own tasks only; other tasks
+	// as summaries, with argv and working directory only while the privacy policy remote_command_lines is true (Plan PN-8).
+	// auth: HUMAN=A SCRIPT=A AGENT=A (FULL only for own session) REMOTE=low (center-routed policy decides)
 	// idempotency: read
 	// deadline: 5 s
 	// stream: none
 	// errors: STATE/not_found, AUTHORIZATION/permission_denied
 	// locality: node
 	GetTask(context.Context, *v1.TaskServiceGetTaskRequest) (*v1.TaskServiceGetTaskResponse, error)
-	// List tasks, newest first.
-	// auth: HUMAN=A SCRIPT=A AGENT=A (others' tasks as summary) REMOTE=-
+	// List tasks, newest first. A center-routed caller (FleetService.ListNodeTasks) reads as for GetTask.
+	// auth: HUMAN=A SCRIPT=A AGENT=A (others' tasks as summary) REMOTE=low (center-routed policy decides)
 	// idempotency: read
 	// deadline: 5 s
 	// stream: none
@@ -244,7 +250,8 @@ type TaskServiceClient interface {
 	// locality: node
 	ListTasks(context.Context, *v1.TaskServiceListTasksRequest) (*v1.TaskServiceListTasksResponse, error)
 	// Wait up to wait_ms for a target state. Returns the task either way (bounded wait for MCP, 08 section 2.2).
-	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+	// A center-routed caller (FleetService.WaitNodeTask) waits at most 50 s and reads as for GetTask.
+	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low (center-routed policy decides)
 	// idempotency: read
 	// deadline: wait_ms + 5 s
 	// stream: none
@@ -284,7 +291,9 @@ type TaskServiceClient interface {
 	// locality: node
 	ReleaseCallerBinding(context.Context, *v1.TaskServiceReleaseCallerBindingRequest) (*v1.TaskServiceReleaseCallerBindingResponse, error)
 	// Cancel a queued or running task through the cancellation sequence (04 section 6).
-	// auth: own: HUMAN=A SCRIPT=A AGENT=A REMOTE=medium; others: HUMAN=A SCRIPT=P AGENT=P REMOTE=medium
+	// A center-routed caller (FleetService.CancelNodeTask): own tasks A, others' tasks P (a local HUMAN decides); an ADOPTED task's
+	// cancel is process.terminate, which is D, fixed for REMOTE (MR-08): no policy, confirmation or approval reaches it.
+	// auth: own: HUMAN=A SCRIPT=A AGENT=A REMOTE=medium; others: HUMAN=A SCRIPT=P AGENT=P REMOTE=medium (center-routed policy decides; ADOPTED: process.terminate REMOTE=D)
 	// idempotency: command_id; cancelling a terminal task returns its state
 	// deadline: 10 s (returns after the request is recorded; the sequence continues)
 	// stream: none
@@ -343,10 +352,12 @@ type TaskServiceClient interface {
 	// errors: STATE/not_found, STATE/invalid_state, AUTHORIZATION/permission_denied
 	// locality: node
 	PurgeTaskRecord(context.Context, *v1.TaskServicePurgeTaskRecordRequest) (*v1.TaskServicePurgeTaskRecordResponse, error)
-	// Read captured output bytes with their index records.
-	// auth: HUMAN=A SCRIPT=A AGENT=A (own session) REMOTE=low (privacy policy decides)
+	// Read captured output bytes with their index records. With wait_ms, a read that finds no byte past from_offset of an attempt
+	// that has not finished waits up to wait_ms for new output or the attempt's end (Plan decision Q17). A center-routed caller
+	// (FleetService.ReadNodeTaskOutput) reads its own tasks' output, others' only while the privacy policy remote_output_tail is true.
+	// auth: HUMAN=A SCRIPT=A AGENT=A (own session) REMOTE=low (center-routed policy decides; privacy policy for others' tasks)
 	// idempotency: read
-	// deadline: 10 s
+	// deadline: 10 s; wait_ms + 10 s with wait_ms
 	// stream: none
 	// errors: STATE/not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
 	// locality: node
@@ -435,7 +446,12 @@ func (s TaskServiceWatchTaskOutputClientStream) Close() error {
 // TaskServiceHandler is an implementation of the arcforges.node.v1.TaskService service.
 type TaskServiceHandler interface {
 	// Submit a task. It is persisted before the receipt returns (AD-0006 section 1).
-	// auth: HUMAN=A SCRIPT=A AGENT=A (allowed_command_patterns) REMOTE=high
+	// Local: HUMAN only (AD-0021 section 5, Plan decision Q8): a local submission from a SCRIPT or AGENT caller is refused
+	// AUTHORIZATION/permission_denied (state.state task.submit, state.reason local_submission_human_only); a --test-mode node admits a
+	// local SCRIPT caller only while ARCFORGES_TEST_ALLOW_LOCAL_SCRIPT_SUBMIT=1 is set, and never an AGENT caller. A local submission
+	// is a diagnostic one (ManagedTask.local_diagnostic). The HUMAN, SCRIPT and AGENT cells apply to the local origin of a
+	// center-routed caller (FleetService.SubmitNodeTask; Design 11 section 1), whose REMOTE cell the center-routed policy decides.
+	// auth: HUMAN=A SCRIPT=A AGENT=A (allowed_command_patterns) REMOTE=high (center-routed policy decides); local: HUMAN only (AD-0021 section 5)
 	// idempotency: command_id; 24 h; same payload digest required
 	// deadline: 10 s
 	// stream: none
@@ -443,16 +459,17 @@ type TaskServiceHandler interface {
 	// locality: node
 	// state: SM-TASK: (none) -> QUEUED | WAITING_DEPENDENCY | PLACING
 	SubmitTask(context.Context, *v1.TaskServiceSubmitTaskRequest) (*v1.TaskServiceSubmitTaskResponse, error)
-	// Read one task.
-	// auth: HUMAN=A SCRIPT=A AGENT=A (FULL only for own session) REMOTE=-
+	// Read one task. A center-routed caller (FleetService.GetNodeTask) reads the specification of its own tasks only; other tasks
+	// as summaries, with argv and working directory only while the privacy policy remote_command_lines is true (Plan PN-8).
+	// auth: HUMAN=A SCRIPT=A AGENT=A (FULL only for own session) REMOTE=low (center-routed policy decides)
 	// idempotency: read
 	// deadline: 5 s
 	// stream: none
 	// errors: STATE/not_found, AUTHORIZATION/permission_denied
 	// locality: node
 	GetTask(context.Context, *v1.TaskServiceGetTaskRequest) (*v1.TaskServiceGetTaskResponse, error)
-	// List tasks, newest first.
-	// auth: HUMAN=A SCRIPT=A AGENT=A (others' tasks as summary) REMOTE=-
+	// List tasks, newest first. A center-routed caller (FleetService.ListNodeTasks) reads as for GetTask.
+	// auth: HUMAN=A SCRIPT=A AGENT=A (others' tasks as summary) REMOTE=low (center-routed policy decides)
 	// idempotency: read
 	// deadline: 5 s
 	// stream: none
@@ -460,7 +477,8 @@ type TaskServiceHandler interface {
 	// locality: node
 	ListTasks(context.Context, *v1.TaskServiceListTasksRequest) (*v1.TaskServiceListTasksResponse, error)
 	// Wait up to wait_ms for a target state. Returns the task either way (bounded wait for MCP, 08 section 2.2).
-	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+	// A center-routed caller (FleetService.WaitNodeTask) waits at most 50 s and reads as for GetTask.
+	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low (center-routed policy decides)
 	// idempotency: read
 	// deadline: wait_ms + 5 s
 	// stream: none
@@ -500,7 +518,9 @@ type TaskServiceHandler interface {
 	// locality: node
 	ReleaseCallerBinding(context.Context, *v1.TaskServiceReleaseCallerBindingRequest) (*v1.TaskServiceReleaseCallerBindingResponse, error)
 	// Cancel a queued or running task through the cancellation sequence (04 section 6).
-	// auth: own: HUMAN=A SCRIPT=A AGENT=A REMOTE=medium; others: HUMAN=A SCRIPT=P AGENT=P REMOTE=medium
+	// A center-routed caller (FleetService.CancelNodeTask): own tasks A, others' tasks P (a local HUMAN decides); an ADOPTED task's
+	// cancel is process.terminate, which is D, fixed for REMOTE (MR-08): no policy, confirmation or approval reaches it.
+	// auth: own: HUMAN=A SCRIPT=A AGENT=A REMOTE=medium; others: HUMAN=A SCRIPT=P AGENT=P REMOTE=medium (center-routed policy decides; ADOPTED: process.terminate REMOTE=D)
 	// idempotency: command_id; cancelling a terminal task returns its state
 	// deadline: 10 s (returns after the request is recorded; the sequence continues)
 	// stream: none
@@ -559,10 +579,12 @@ type TaskServiceHandler interface {
 	// errors: STATE/not_found, STATE/invalid_state, AUTHORIZATION/permission_denied
 	// locality: node
 	PurgeTaskRecord(context.Context, *v1.TaskServicePurgeTaskRecordRequest) (*v1.TaskServicePurgeTaskRecordResponse, error)
-	// Read captured output bytes with their index records.
-	// auth: HUMAN=A SCRIPT=A AGENT=A (own session) REMOTE=low (privacy policy decides)
+	// Read captured output bytes with their index records. With wait_ms, a read that finds no byte past from_offset of an attempt
+	// that has not finished waits up to wait_ms for new output or the attempt's end (Plan decision Q17). A center-routed caller
+	// (FleetService.ReadNodeTaskOutput) reads its own tasks' output, others' only while the privacy policy remote_output_tail is true.
+	// auth: HUMAN=A SCRIPT=A AGENT=A (own session) REMOTE=low (center-routed policy decides; privacy policy for others' tasks)
 	// idempotency: read
-	// deadline: 10 s
+	// deadline: 10 s; wait_ms + 10 s with wait_ms
 	// stream: none
 	// errors: STATE/not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
 	// locality: node

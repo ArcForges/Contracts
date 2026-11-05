@@ -430,6 +430,56 @@ func (MeteredBehavior) EnumDescriptor() ([]byte, []int) {
 	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{7}
 }
 
+// Where a node-relayed call may come from (AF-CTR-05 target; Plan decisions Q7 and PB-2; Design 11 section 1).
+type RelayedFrom int32
+
+const (
+	RelayedFrom_RELAYED_FROM_UNSPECIFIED RelayedFrom = 0 // read as OWN_NODE
+	RelayedFrom_RELAYED_FROM_OWN_NODE    RelayedFrom = 1 // default: a node-relayed call is admitted only when its relaying node is this node
+	RelayedFrom_RELAYED_FROM_ACCOUNT     RelayedFrom = 2 // opt-in: also from the other nodes of this node's account, their claimed local origin advisory
+)
+
+// Enum value maps for RelayedFrom.
+var (
+	RelayedFrom_name = map[int32]string{
+		0: "RELAYED_FROM_UNSPECIFIED",
+		1: "RELAYED_FROM_OWN_NODE",
+		2: "RELAYED_FROM_ACCOUNT",
+	}
+	RelayedFrom_value = map[string]int32{
+		"RELAYED_FROM_UNSPECIFIED": 0,
+		"RELAYED_FROM_OWN_NODE":    1,
+		"RELAYED_FROM_ACCOUNT":     2,
+	}
+)
+
+func (x RelayedFrom) Enum() *RelayedFrom {
+	p := new(RelayedFrom)
+	*p = x
+	return p
+}
+
+func (x RelayedFrom) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (RelayedFrom) Descriptor() protoreflect.EnumDescriptor {
+	return file_arcforges_node_v1_policy_proto_enumTypes[8].Descriptor()
+}
+
+func (RelayedFrom) Type() protoreflect.EnumType {
+	return &file_arcforges_node_v1_policy_proto_enumTypes[8]
+}
+
+func (x RelayedFrom) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RelayedFrom.Descriptor instead.
+func (RelayedFrom) EnumDescriptor() ([]byte, []int) {
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{8}
+}
+
 type ResultCacheMode int32
 
 const (
@@ -466,11 +516,11 @@ func (x ResultCacheMode) String() string {
 }
 
 func (ResultCacheMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_arcforges_node_v1_policy_proto_enumTypes[8].Descriptor()
+	return file_arcforges_node_v1_policy_proto_enumTypes[9].Descriptor()
 }
 
 func (ResultCacheMode) Type() protoreflect.EnumType {
-	return &file_arcforges_node_v1_policy_proto_enumTypes[8]
+	return &file_arcforges_node_v1_policy_proto_enumTypes[9]
 }
 
 func (x ResultCacheMode) Number() protoreflect.EnumNumber {
@@ -479,7 +529,7 @@ func (x ResultCacheMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ResultCacheMode.Descriptor instead.
 func (ResultCacheMode) EnumDescriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{8}
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{9}
 }
 
 type PolicyServiceGetPolicyRequest struct {
@@ -3211,8 +3261,8 @@ func (x *CachePolicy) GetSccachePortLast() uint32 {
 type PrivacyPolicy struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	SecretNamePatterns []string               `protobuf:"bytes,1,rep,name=secret_name_patterns,json=secretNamePatterns,proto3" json:"secret_name_patterns,omitempty"`        // defaults: architecture 04 section 2
-	RemoteCommandLines *bool                  `protobuf:"varint,2,opt,name=remote_command_lines,json=remoteCommandLines,proto3,oneof" json:"remote_command_lines,omitempty"` // default false
-	RemoteOutputTail   *bool                  `protobuf:"varint,3,opt,name=remote_output_tail,json=remoteOutputTail,proto3,oneof" json:"remote_output_tail,omitempty"`       // default false
+	RemoteCommandLines *bool                  `protobuf:"varint,2,opt,name=remote_command_lines,json=remoteCommandLines,proto3,oneof" json:"remote_command_lines,omitempty"` // default false; AF-CTR-05: also what a center-routed read returns of other callers' tasks: argv and the working directory, environment names only (Plan PN-8)
+	RemoteOutputTail   *bool                  `protobuf:"varint,3,opt,name=remote_output_tail,json=remoteOutputTail,proto3,oneof" json:"remote_output_tail,omitempty"`       // default false; AF-CTR-05: also whether a center-routed caller reads other callers' tasks' output
 	PeerCommandLines   *bool                  `protobuf:"varint,4,opt,name=peer_command_lines,json=peerCommandLines,proto3,oneof" json:"peer_command_lines,omitempty"`       // default false
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
@@ -3276,6 +3326,8 @@ func (x *PrivacyPolicy) GetPeerCommandLines() bool {
 	return false
 }
 
+// Governs only the unserved command kinds of FleetService.SendNodeCommand; it neither enables nor disables center-routed calls,
+// which CenterRoutedPolicy governs (AF-CTR-05, review finding N-4).
 type RemoteControlPolicy struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Enabled        *bool                  `protobuf:"varint,1,opt,name=enabled,proto3,oneof" json:"enabled,omitempty"`                                                 // default false
@@ -3336,6 +3388,65 @@ func (x *RemoteControlPolicy) GetAllowApprovals() bool {
 	return false
 }
 
+// Who may call this node through the center (AF-CTR-05 target; Plan decisions Q7 as amended by PB-2, PN-8; Design 11 section 1,
+// "Center-routed callers"; review finding N-4). It governs the six center-routed task methods and nothing else. Only a local
+// HUMAN changes it (operation policy.center_routed), and permission overrides for REMOTE may only narrow it. A node-relayed call
+// from another node is refused AUTHORIZATION/permission_denied (state.reason relay_own_node_only) unless relayed_from is
+// ACCOUNT; after that opt-in its claimed HUMAN or SCRIPT origin gets the SCRIPT cells, never more, and a claimed AGENT origin is
+// refused (relayed_agent_own_node_only) until AF-CTR-07. While enabled is false every routed call is refused before any effect
+// (state.reason center_routed_disabled); turning the cloud link off closes the channel.
+type CenterRoutedPolicy struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Enabled       *bool                  `protobuf:"varint,1,opt,name=enabled,proto3,oneof" json:"enabled,omitempty"`                                                               // default true while the node is signed in with its cloud link on (Plan decision Q7, Q19)
+	RelayedFrom   *RelayedFrom           `protobuf:"varint,2,opt,name=relayed_from,json=relayedFrom,proto3,enum=arcforges.node.v1.RelayedFrom,oneof" json:"relayed_from,omitempty"` // default OWN_NODE; ACCOUNT is the cross-node opt-in on this, the target, node
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CenterRoutedPolicy) Reset() {
+	*x = CenterRoutedPolicy{}
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[39]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CenterRoutedPolicy) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CenterRoutedPolicy) ProtoMessage() {}
+
+func (x *CenterRoutedPolicy) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[39]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CenterRoutedPolicy.ProtoReflect.Descriptor instead.
+func (*CenterRoutedPolicy) Descriptor() ([]byte, []int) {
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{39}
+}
+
+func (x *CenterRoutedPolicy) GetEnabled() bool {
+	if x != nil && x.Enabled != nil {
+		return *x.Enabled
+	}
+	return false
+}
+
+func (x *CenterRoutedPolicy) GetRelayedFrom() RelayedFrom {
+	if x != nil && x.RelayedFrom != nil {
+		return *x.RelayedFrom
+	}
+	return RelayedFrom_RELAYED_FROM_UNSPECIFIED
+}
+
 type TimeWindow struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	DaysMask      *uint32                `protobuf:"varint,1,opt,name=days_mask,json=daysMask,proto3,oneof" json:"days_mask,omitempty"`          // bit 0 = Monday
@@ -3347,7 +3458,7 @@ type TimeWindow struct {
 
 func (x *TimeWindow) Reset() {
 	*x = TimeWindow{}
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[39]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3359,7 +3470,7 @@ func (x *TimeWindow) String() string {
 func (*TimeWindow) ProtoMessage() {}
 
 func (x *TimeWindow) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[39]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3372,7 +3483,7 @@ func (x *TimeWindow) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TimeWindow.ProtoReflect.Descriptor instead.
 func (*TimeWindow) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{39}
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *TimeWindow) GetDaysMask() uint32 {
@@ -3408,7 +3519,7 @@ type UpdatePolicy struct {
 
 func (x *UpdatePolicy) Reset() {
 	*x = UpdatePolicy{}
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[40]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3420,7 +3531,7 @@ func (x *UpdatePolicy) String() string {
 func (*UpdatePolicy) ProtoMessage() {}
 
 func (x *UpdatePolicy) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[40]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3433,7 +3544,7 @@ func (x *UpdatePolicy) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdatePolicy.ProtoReflect.Descriptor instead.
 func (*UpdatePolicy) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{40}
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *UpdatePolicy) GetMode() UpdateMode {
@@ -3478,7 +3589,7 @@ type LanPolicy struct {
 
 func (x *LanPolicy) Reset() {
 	*x = LanPolicy{}
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[41]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3490,7 +3601,7 @@ func (x *LanPolicy) String() string {
 func (*LanPolicy) ProtoMessage() {}
 
 func (x *LanPolicy) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[41]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3503,7 +3614,7 @@ func (x *LanPolicy) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LanPolicy.ProtoReflect.Descriptor instead.
 func (*LanPolicy) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{41}
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *LanPolicy) GetEnabled() bool {
@@ -3558,7 +3669,7 @@ type ResultCachePolicy struct {
 
 func (x *ResultCachePolicy) Reset() {
 	*x = ResultCachePolicy{}
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[42]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3570,7 +3681,7 @@ func (x *ResultCachePolicy) String() string {
 func (*ResultCachePolicy) ProtoMessage() {}
 
 func (x *ResultCachePolicy) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[42]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3583,7 +3694,7 @@ func (x *ResultCachePolicy) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResultCachePolicy.ProtoReflect.Descriptor instead.
 func (*ResultCachePolicy) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{42}
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *ResultCachePolicy) GetDefaultMode() ResultCacheMode {
@@ -3612,7 +3723,7 @@ type RetrySafetyRule struct {
 
 func (x *RetrySafetyRule) Reset() {
 	*x = RetrySafetyRule{}
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[43]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3624,7 +3735,7 @@ func (x *RetrySafetyRule) String() string {
 func (*RetrySafetyRule) ProtoMessage() {}
 
 func (x *RetrySafetyRule) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[43]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3637,7 +3748,7 @@ func (x *RetrySafetyRule) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RetrySafetyRule.ProtoReflect.Descriptor instead.
 func (*RetrySafetyRule) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{43}
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *RetrySafetyRule) GetPattern() string {
@@ -3671,7 +3782,7 @@ type RetrySafetyPolicy struct {
 
 func (x *RetrySafetyPolicy) Reset() {
 	*x = RetrySafetyPolicy{}
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[44]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3683,7 +3794,7 @@ func (x *RetrySafetyPolicy) String() string {
 func (*RetrySafetyPolicy) ProtoMessage() {}
 
 func (x *RetrySafetyPolicy) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[44]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3696,7 +3807,7 @@ func (x *RetrySafetyPolicy) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RetrySafetyPolicy.ProtoReflect.Descriptor instead.
 func (*RetrySafetyPolicy) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{44}
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{45}
 }
 
 func (x *RetrySafetyPolicy) GetRules() []*RetrySafetyRule {
@@ -3724,7 +3835,7 @@ type ApprovalPolicy struct {
 
 func (x *ApprovalPolicy) Reset() {
 	*x = ApprovalPolicy{}
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[45]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3736,7 +3847,7 @@ func (x *ApprovalPolicy) String() string {
 func (*ApprovalPolicy) ProtoMessage() {}
 
 func (x *ApprovalPolicy) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[45]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3749,7 +3860,7 @@ func (x *ApprovalPolicy) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApprovalPolicy.ProtoReflect.Descriptor instead.
 func (*ApprovalPolicy) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{45}
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{46}
 }
 
 func (x *ApprovalPolicy) GetDefaultTtlMs() uint64 {
@@ -3792,13 +3903,14 @@ type PolicyDocument struct {
 	Approvals     *ApprovalPolicy        `protobuf:"bytes,15,opt,name=approvals,proto3" json:"approvals,omitempty"`
 	ResultCache   *ResultCachePolicy     `protobuf:"bytes,16,opt,name=result_cache,json=resultCache,proto3" json:"result_cache,omitempty"` // architecture 04 section 11
 	RetrySafety   *RetrySafetyPolicy     `protobuf:"bytes,17,opt,name=retry_safety,json=retrySafety,proto3" json:"retry_safety,omitempty"`
+	CenterRouted  *CenterRoutedPolicy    `protobuf:"bytes,18,opt,name=center_routed,json=centerRouted,proto3" json:"center_routed,omitempty"` // AF-CTR-05: the center-routed policy (HUMAN-edited)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *PolicyDocument) Reset() {
 	*x = PolicyDocument{}
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[46]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3810,7 +3922,7 @@ func (x *PolicyDocument) String() string {
 func (*PolicyDocument) ProtoMessage() {}
 
 func (x *PolicyDocument) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[46]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3823,7 +3935,7 @@ func (x *PolicyDocument) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PolicyDocument.ProtoReflect.Descriptor instead.
 func (*PolicyDocument) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{46}
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *PolicyDocument) GetResources() *ResourcePolicy {
@@ -3945,6 +4057,13 @@ func (x *PolicyDocument) GetRetrySafety() *RetrySafetyPolicy {
 	return nil
 }
 
+func (x *PolicyDocument) GetCenterRouted() *CenterRoutedPolicy {
+	if x != nil {
+		return x.CenterRouted
+	}
+	return nil
+}
+
 type PolicyRevision struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Revision      *v1.Revision           `protobuf:"bytes,1,opt,name=revision,proto3" json:"revision,omitempty"`
@@ -3959,7 +4078,7 @@ type PolicyRevision struct {
 
 func (x *PolicyRevision) Reset() {
 	*x = PolicyRevision{}
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[47]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[48]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3971,7 +4090,7 @@ func (x *PolicyRevision) String() string {
 func (*PolicyRevision) ProtoMessage() {}
 
 func (x *PolicyRevision) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[47]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[48]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3984,7 +4103,7 @@ func (x *PolicyRevision) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PolicyRevision.ProtoReflect.Descriptor instead.
 func (*PolicyRevision) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{47}
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{48}
 }
 
 func (x *PolicyRevision) GetRevision() *v1.Revision {
@@ -4040,7 +4159,7 @@ type PolicyIssue struct {
 
 func (x *PolicyIssue) Reset() {
 	*x = PolicyIssue{}
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[48]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[49]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4052,7 +4171,7 @@ func (x *PolicyIssue) String() string {
 func (*PolicyIssue) ProtoMessage() {}
 
 func (x *PolicyIssue) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_node_v1_policy_proto_msgTypes[48]
+	mi := &file_arcforges_node_v1_policy_proto_msgTypes[49]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4065,7 +4184,7 @@ func (x *PolicyIssue) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PolicyIssue.ProtoReflect.Descriptor instead.
 func (*PolicyIssue) Descriptor() ([]byte, []int) {
-	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{48}
+	return file_arcforges_node_v1_policy_proto_rawDescGZIP(), []int{49}
 }
 
 func (x *PolicyIssue) GetPath() string {
@@ -4443,7 +4562,13 @@ const file_arcforges_node_v1_policy_proto_rawDesc = "" +
 	"\n" +
 	"\b_enabledB\v\n" +
 	"\t_max_riskB\x12\n" +
-	"\x10_allow_approvals\"\xa8\x01\n" +
+	"\x10_allow_approvals\"\x98\x01\n" +
+	"\x12CenterRoutedPolicy\x12\x1d\n" +
+	"\aenabled\x18\x01 \x01(\bH\x00R\aenabled\x88\x01\x01\x12F\n" +
+	"\frelayed_from\x18\x02 \x01(\x0e2\x1e.arcforges.node.v1.RelayedFromH\x01R\vrelayedFrom\x88\x01\x01B\n" +
+	"\n" +
+	"\b_enabledB\x0f\n" +
+	"\r_relayed_from\"\xa8\x01\n" +
 	"\n" +
 	"TimeWindow\x12 \n" +
 	"\tdays_mask\x18\x01 \x01(\rH\x00R\bdaysMask\x88\x01\x01\x12&\n" +
@@ -4504,7 +4629,7 @@ const file_arcforges_node_v1_policy_proto_rawDesc = "" +
 	"notifyPush\x88\x01\x01B\x11\n" +
 	"\x0f_default_ttl_msB\x11\n" +
 	"\x0f_notify_desktopB\x0e\n" +
-	"\f_notify_push\"\xb5\b\n" +
+	"\f_notify_push\"\x81\t\n" +
 	"\x0ePolicyDocument\x12?\n" +
 	"\tresources\x18\x01 \x01(\v2!.arcforges.node.v1.ResourcePolicyR\tresources\x123\n" +
 	"\x05pools\x18\x02 \x03(\v2\x1d.arcforges.node.v1.PoolPolicyR\x05pools\x12D\n" +
@@ -4523,7 +4648,8 @@ const file_arcforges_node_v1_policy_proto_rawDesc = "" +
 	"\x03lan\x18\x0e \x01(\v2\x1c.arcforges.node.v1.LanPolicyR\x03lan\x12?\n" +
 	"\tapprovals\x18\x0f \x01(\v2!.arcforges.node.v1.ApprovalPolicyR\tapprovals\x12G\n" +
 	"\fresult_cache\x18\x10 \x01(\v2$.arcforges.node.v1.ResultCachePolicyR\vresultCache\x12G\n" +
-	"\fretry_safety\x18\x11 \x01(\v2$.arcforges.node.v1.RetrySafetyPolicyR\vretrySafety\"\xd4\x02\n" +
+	"\fretry_safety\x18\x11 \x01(\v2$.arcforges.node.v1.RetrySafetyPolicyR\vretrySafety\x12J\n" +
+	"\rcenter_routed\x18\x12 \x01(\v2%.arcforges.node.v1.CenterRoutedPolicyR\fcenterRouted\"\xd4\x02\n" +
 	"\x0ePolicyRevision\x12=\n" +
 	"\brevision\x18\x01 \x01(\v2!.arcforges.foundation.v1.RevisionR\brevision\x12?\n" +
 	"\n" +
@@ -4581,7 +4707,11 @@ const file_arcforges_node_v1_policy_proto_rawDesc = "" +
 	"\x0fMeteredBehavior\x12 \n" +
 	"\x1cMETERED_BEHAVIOR_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16METERED_BEHAVIOR_DEFER\x10\x01\x12\x1a\n" +
-	"\x16METERED_BEHAVIOR_ALLOW\x10\x02*\x8d\x01\n" +
+	"\x16METERED_BEHAVIOR_ALLOW\x10\x02*`\n" +
+	"\vRelayedFrom\x12\x1c\n" +
+	"\x18RELAYED_FROM_UNSPECIFIED\x10\x00\x12\x19\n" +
+	"\x15RELAYED_FROM_OWN_NODE\x10\x01\x12\x18\n" +
+	"\x14RELAYED_FROM_ACCOUNT\x10\x02*\x8d\x01\n" +
 	"\x0fResultCacheMode\x12!\n" +
 	"\x1dRESULT_CACHE_MODE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15RESULT_CACHE_MODE_OFF\x10\x01\x12\x1d\n" +
@@ -4609,8 +4739,8 @@ func file_arcforges_node_v1_policy_proto_rawDescGZIP() []byte {
 	return file_arcforges_node_v1_policy_proto_rawDescData
 }
 
-var file_arcforges_node_v1_policy_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
-var file_arcforges_node_v1_policy_proto_msgTypes = make([]protoimpl.MessageInfo, 51)
+var file_arcforges_node_v1_policy_proto_enumTypes = make([]protoimpl.EnumInfo, 10)
+var file_arcforges_node_v1_policy_proto_msgTypes = make([]protoimpl.MessageInfo, 52)
 var file_arcforges_node_v1_policy_proto_goTypes = []any{
 	(RoutingMode)(0),                                   // 0: arcforges.node.v1.RoutingMode
 	(ClientPermission)(0),                              // 1: arcforges.node.v1.ClientPermission
@@ -4620,195 +4750,199 @@ var file_arcforges_node_v1_policy_proto_goTypes = []any{
 	(AgentCleanupMode)(0),                              // 5: arcforges.node.v1.AgentCleanupMode
 	(UpdateMode)(0),                                    // 6: arcforges.node.v1.UpdateMode
 	(MeteredBehavior)(0),                               // 7: arcforges.node.v1.MeteredBehavior
-	(ResultCacheMode)(0),                               // 8: arcforges.node.v1.ResultCacheMode
-	(*PolicyServiceGetPolicyRequest)(nil),              // 9: arcforges.node.v1.PolicyServiceGetPolicyRequest
-	(*PolicyServiceGetPolicyResponse)(nil),             // 10: arcforges.node.v1.PolicyServiceGetPolicyResponse
-	(*PolicyServiceGetPolicyValue)(nil),                // 11: arcforges.node.v1.PolicyServiceGetPolicyValue
-	(*PolicyServiceGetDefaultPolicyRequest)(nil),       // 12: arcforges.node.v1.PolicyServiceGetDefaultPolicyRequest
-	(*PolicyServiceGetDefaultPolicyResponse)(nil),      // 13: arcforges.node.v1.PolicyServiceGetDefaultPolicyResponse
-	(*PolicyServiceGetDefaultPolicyValue)(nil),         // 14: arcforges.node.v1.PolicyServiceGetDefaultPolicyValue
-	(*PolicyServiceValidatePolicyRequest)(nil),         // 15: arcforges.node.v1.PolicyServiceValidatePolicyRequest
-	(*PolicyServiceValidatePolicyResponse)(nil),        // 16: arcforges.node.v1.PolicyServiceValidatePolicyResponse
-	(*PolicyServiceValidatePolicyValue)(nil),           // 17: arcforges.node.v1.PolicyServiceValidatePolicyValue
-	(*PolicyServiceUpdatePolicyRequest)(nil),           // 18: arcforges.node.v1.PolicyServiceUpdatePolicyRequest
-	(*PolicyServiceUpdatePolicyResponse)(nil),          // 19: arcforges.node.v1.PolicyServiceUpdatePolicyResponse
-	(*PolicyServiceUpdatePolicyValue)(nil),             // 20: arcforges.node.v1.PolicyServiceUpdatePolicyValue
-	(*PolicyServiceListPolicyRevisionsRequest)(nil),    // 21: arcforges.node.v1.PolicyServiceListPolicyRevisionsRequest
-	(*PolicyServiceListPolicyRevisionsResponse)(nil),   // 22: arcforges.node.v1.PolicyServiceListPolicyRevisionsResponse
-	(*PolicyServiceListPolicyRevisionsValue)(nil),      // 23: arcforges.node.v1.PolicyServiceListPolicyRevisionsValue
-	(*PolicyServiceRestorePolicyRevisionRequest)(nil),  // 24: arcforges.node.v1.PolicyServiceRestorePolicyRevisionRequest
-	(*PolicyServiceRestorePolicyRevisionResponse)(nil), // 25: arcforges.node.v1.PolicyServiceRestorePolicyRevisionResponse
-	(*PolicyServiceRestorePolicyRevisionValue)(nil),    // 26: arcforges.node.v1.PolicyServiceRestorePolicyRevisionValue
-	(*PolicyServiceExplainPermissionRequest)(nil),      // 27: arcforges.node.v1.PolicyServiceExplainPermissionRequest
-	(*PolicyServiceExplainPermissionResponse)(nil),     // 28: arcforges.node.v1.PolicyServiceExplainPermissionResponse
-	(*PolicyServiceExplainPermissionValue)(nil),        // 29: arcforges.node.v1.PolicyServiceExplainPermissionValue
-	(*PressureThresholds)(nil),                         // 30: arcforges.node.v1.PressureThresholds
-	(*ResourcePolicy)(nil),                             // 31: arcforges.node.v1.ResourcePolicy
-	(*PoolPolicy)(nil),                                 // 32: arcforges.node.v1.PoolPolicy
-	(*ParallelismRule)(nil),                            // 33: arcforges.node.v1.ParallelismRule
-	(*PermissionOverride)(nil),                         // 34: arcforges.node.v1.PermissionOverride
-	(*AgentPolicy)(nil),                                // 35: arcforges.node.v1.AgentPolicy
-	(*HeavyPattern)(nil),                               // 36: arcforges.node.v1.HeavyPattern
-	(*RoutingOverride)(nil),                            // 37: arcforges.node.v1.RoutingOverride
-	(*RoutingPolicy)(nil),                              // 38: arcforges.node.v1.RoutingPolicy
-	(*ActionRule)(nil),                                 // 39: arcforges.node.v1.ActionRule
-	(*DiagnosisPolicy)(nil),                            // 40: arcforges.node.v1.DiagnosisPolicy
-	(*RootQuota)(nil),                                  // 41: arcforges.node.v1.RootQuota
-	(*StoragePolicy)(nil),                              // 42: arcforges.node.v1.StoragePolicy
-	(*CleanupPolicy)(nil),                              // 43: arcforges.node.v1.CleanupPolicy
-	(*CacheQuota)(nil),                                 // 44: arcforges.node.v1.CacheQuota
-	(*CachePolicy)(nil),                                // 45: arcforges.node.v1.CachePolicy
-	(*PrivacyPolicy)(nil),                              // 46: arcforges.node.v1.PrivacyPolicy
-	(*RemoteControlPolicy)(nil),                        // 47: arcforges.node.v1.RemoteControlPolicy
-	(*TimeWindow)(nil),                                 // 48: arcforges.node.v1.TimeWindow
-	(*UpdatePolicy)(nil),                               // 49: arcforges.node.v1.UpdatePolicy
-	(*LanPolicy)(nil),                                  // 50: arcforges.node.v1.LanPolicy
-	(*ResultCachePolicy)(nil),                          // 51: arcforges.node.v1.ResultCachePolicy
-	(*RetrySafetyRule)(nil),                            // 52: arcforges.node.v1.RetrySafetyRule
-	(*RetrySafetyPolicy)(nil),                          // 53: arcforges.node.v1.RetrySafetyPolicy
-	(*ApprovalPolicy)(nil),                             // 54: arcforges.node.v1.ApprovalPolicy
-	(*PolicyDocument)(nil),                             // 55: arcforges.node.v1.PolicyDocument
-	(*PolicyRevision)(nil),                             // 56: arcforges.node.v1.PolicyRevision
-	(*PolicyIssue)(nil),                                // 57: arcforges.node.v1.PolicyIssue
-	nil,                                                // 58: arcforges.node.v1.StoragePolicy.QuarantineRootsEntry
-	nil,                                                // 59: arcforges.node.v1.ResultCachePolicy.WorkspaceModesEntry
-	(*v1.RequestMeta)(nil),                             // 60: arcforges.foundation.v1.RequestMeta
-	(*v1.ResponseMeta)(nil),                            // 61: arcforges.foundation.v1.ResponseMeta
-	(*v1.ArcError)(nil),                                // 62: arcforges.foundation.v1.ArcError
-	(*v1.PageRequest)(nil),                             // 63: arcforges.foundation.v1.PageRequest
-	(*v1.PageState)(nil),                               // 64: arcforges.foundation.v1.PageState
-	(*v1.Revision)(nil),                                // 65: arcforges.foundation.v1.Revision
-	(Origin)(0),                                        // 66: arcforges.node.v1.Origin
-	(PermissionDecision)(0),                            // 67: arcforges.node.v1.PermissionDecision
-	(RiskClass)(0),                                     // 68: arcforges.node.v1.RiskClass
-	(ParallelismMode)(0),                               // 69: arcforges.node.v1.ParallelismMode
-	(Priority)(0),                                      // 70: arcforges.node.v1.Priority
-	(ParallelismScope)(0),                              // 71: arcforges.node.v1.ParallelismScope
-	(*v1.Id)(nil),                                      // 72: arcforges.foundation.v1.Id
-	(*PeerPolicy)(nil),                                 // 73: arcforges.node.v1.PeerPolicy
-	(SideEffectClass)(0),                               // 74: arcforges.node.v1.SideEffectClass
-	(*v1.Instant)(nil),                                 // 75: arcforges.foundation.v1.Instant
-	(*ActorRef)(nil),                                   // 76: arcforges.node.v1.ActorRef
-	(Severity)(0),                                      // 77: arcforges.node.v1.Severity
+	(RelayedFrom)(0),                                   // 8: arcforges.node.v1.RelayedFrom
+	(ResultCacheMode)(0),                               // 9: arcforges.node.v1.ResultCacheMode
+	(*PolicyServiceGetPolicyRequest)(nil),              // 10: arcforges.node.v1.PolicyServiceGetPolicyRequest
+	(*PolicyServiceGetPolicyResponse)(nil),             // 11: arcforges.node.v1.PolicyServiceGetPolicyResponse
+	(*PolicyServiceGetPolicyValue)(nil),                // 12: arcforges.node.v1.PolicyServiceGetPolicyValue
+	(*PolicyServiceGetDefaultPolicyRequest)(nil),       // 13: arcforges.node.v1.PolicyServiceGetDefaultPolicyRequest
+	(*PolicyServiceGetDefaultPolicyResponse)(nil),      // 14: arcforges.node.v1.PolicyServiceGetDefaultPolicyResponse
+	(*PolicyServiceGetDefaultPolicyValue)(nil),         // 15: arcforges.node.v1.PolicyServiceGetDefaultPolicyValue
+	(*PolicyServiceValidatePolicyRequest)(nil),         // 16: arcforges.node.v1.PolicyServiceValidatePolicyRequest
+	(*PolicyServiceValidatePolicyResponse)(nil),        // 17: arcforges.node.v1.PolicyServiceValidatePolicyResponse
+	(*PolicyServiceValidatePolicyValue)(nil),           // 18: arcforges.node.v1.PolicyServiceValidatePolicyValue
+	(*PolicyServiceUpdatePolicyRequest)(nil),           // 19: arcforges.node.v1.PolicyServiceUpdatePolicyRequest
+	(*PolicyServiceUpdatePolicyResponse)(nil),          // 20: arcforges.node.v1.PolicyServiceUpdatePolicyResponse
+	(*PolicyServiceUpdatePolicyValue)(nil),             // 21: arcforges.node.v1.PolicyServiceUpdatePolicyValue
+	(*PolicyServiceListPolicyRevisionsRequest)(nil),    // 22: arcforges.node.v1.PolicyServiceListPolicyRevisionsRequest
+	(*PolicyServiceListPolicyRevisionsResponse)(nil),   // 23: arcforges.node.v1.PolicyServiceListPolicyRevisionsResponse
+	(*PolicyServiceListPolicyRevisionsValue)(nil),      // 24: arcforges.node.v1.PolicyServiceListPolicyRevisionsValue
+	(*PolicyServiceRestorePolicyRevisionRequest)(nil),  // 25: arcforges.node.v1.PolicyServiceRestorePolicyRevisionRequest
+	(*PolicyServiceRestorePolicyRevisionResponse)(nil), // 26: arcforges.node.v1.PolicyServiceRestorePolicyRevisionResponse
+	(*PolicyServiceRestorePolicyRevisionValue)(nil),    // 27: arcforges.node.v1.PolicyServiceRestorePolicyRevisionValue
+	(*PolicyServiceExplainPermissionRequest)(nil),      // 28: arcforges.node.v1.PolicyServiceExplainPermissionRequest
+	(*PolicyServiceExplainPermissionResponse)(nil),     // 29: arcforges.node.v1.PolicyServiceExplainPermissionResponse
+	(*PolicyServiceExplainPermissionValue)(nil),        // 30: arcforges.node.v1.PolicyServiceExplainPermissionValue
+	(*PressureThresholds)(nil),                         // 31: arcforges.node.v1.PressureThresholds
+	(*ResourcePolicy)(nil),                             // 32: arcforges.node.v1.ResourcePolicy
+	(*PoolPolicy)(nil),                                 // 33: arcforges.node.v1.PoolPolicy
+	(*ParallelismRule)(nil),                            // 34: arcforges.node.v1.ParallelismRule
+	(*PermissionOverride)(nil),                         // 35: arcforges.node.v1.PermissionOverride
+	(*AgentPolicy)(nil),                                // 36: arcforges.node.v1.AgentPolicy
+	(*HeavyPattern)(nil),                               // 37: arcforges.node.v1.HeavyPattern
+	(*RoutingOverride)(nil),                            // 38: arcforges.node.v1.RoutingOverride
+	(*RoutingPolicy)(nil),                              // 39: arcforges.node.v1.RoutingPolicy
+	(*ActionRule)(nil),                                 // 40: arcforges.node.v1.ActionRule
+	(*DiagnosisPolicy)(nil),                            // 41: arcforges.node.v1.DiagnosisPolicy
+	(*RootQuota)(nil),                                  // 42: arcforges.node.v1.RootQuota
+	(*StoragePolicy)(nil),                              // 43: arcforges.node.v1.StoragePolicy
+	(*CleanupPolicy)(nil),                              // 44: arcforges.node.v1.CleanupPolicy
+	(*CacheQuota)(nil),                                 // 45: arcforges.node.v1.CacheQuota
+	(*CachePolicy)(nil),                                // 46: arcforges.node.v1.CachePolicy
+	(*PrivacyPolicy)(nil),                              // 47: arcforges.node.v1.PrivacyPolicy
+	(*RemoteControlPolicy)(nil),                        // 48: arcforges.node.v1.RemoteControlPolicy
+	(*CenterRoutedPolicy)(nil),                         // 49: arcforges.node.v1.CenterRoutedPolicy
+	(*TimeWindow)(nil),                                 // 50: arcforges.node.v1.TimeWindow
+	(*UpdatePolicy)(nil),                               // 51: arcforges.node.v1.UpdatePolicy
+	(*LanPolicy)(nil),                                  // 52: arcforges.node.v1.LanPolicy
+	(*ResultCachePolicy)(nil),                          // 53: arcforges.node.v1.ResultCachePolicy
+	(*RetrySafetyRule)(nil),                            // 54: arcforges.node.v1.RetrySafetyRule
+	(*RetrySafetyPolicy)(nil),                          // 55: arcforges.node.v1.RetrySafetyPolicy
+	(*ApprovalPolicy)(nil),                             // 56: arcforges.node.v1.ApprovalPolicy
+	(*PolicyDocument)(nil),                             // 57: arcforges.node.v1.PolicyDocument
+	(*PolicyRevision)(nil),                             // 58: arcforges.node.v1.PolicyRevision
+	(*PolicyIssue)(nil),                                // 59: arcforges.node.v1.PolicyIssue
+	nil,                                                // 60: arcforges.node.v1.StoragePolicy.QuarantineRootsEntry
+	nil,                                                // 61: arcforges.node.v1.ResultCachePolicy.WorkspaceModesEntry
+	(*v1.RequestMeta)(nil),                             // 62: arcforges.foundation.v1.RequestMeta
+	(*v1.ResponseMeta)(nil),                            // 63: arcforges.foundation.v1.ResponseMeta
+	(*v1.ArcError)(nil),                                // 64: arcforges.foundation.v1.ArcError
+	(*v1.PageRequest)(nil),                             // 65: arcforges.foundation.v1.PageRequest
+	(*v1.PageState)(nil),                               // 66: arcforges.foundation.v1.PageState
+	(*v1.Revision)(nil),                                // 67: arcforges.foundation.v1.Revision
+	(Origin)(0),                                        // 68: arcforges.node.v1.Origin
+	(PermissionDecision)(0),                            // 69: arcforges.node.v1.PermissionDecision
+	(RiskClass)(0),                                     // 70: arcforges.node.v1.RiskClass
+	(ParallelismMode)(0),                               // 71: arcforges.node.v1.ParallelismMode
+	(Priority)(0),                                      // 72: arcforges.node.v1.Priority
+	(ParallelismScope)(0),                              // 73: arcforges.node.v1.ParallelismScope
+	(*v1.Id)(nil),                                      // 74: arcforges.foundation.v1.Id
+	(*PeerPolicy)(nil),                                 // 75: arcforges.node.v1.PeerPolicy
+	(SideEffectClass)(0),                               // 76: arcforges.node.v1.SideEffectClass
+	(*v1.Instant)(nil),                                 // 77: arcforges.foundation.v1.Instant
+	(*ActorRef)(nil),                                   // 78: arcforges.node.v1.ActorRef
+	(Severity)(0),                                      // 79: arcforges.node.v1.Severity
 }
 var file_arcforges_node_v1_policy_proto_depIdxs = []int32{
-	60,  // 0: arcforges.node.v1.PolicyServiceGetPolicyRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	61,  // 1: arcforges.node.v1.PolicyServiceGetPolicyResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	11,  // 2: arcforges.node.v1.PolicyServiceGetPolicyResponse.value:type_name -> arcforges.node.v1.PolicyServiceGetPolicyValue
-	62,  // 3: arcforges.node.v1.PolicyServiceGetPolicyResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	55,  // 4: arcforges.node.v1.PolicyServiceGetPolicyValue.document:type_name -> arcforges.node.v1.PolicyDocument
-	56,  // 5: arcforges.node.v1.PolicyServiceGetPolicyValue.revision:type_name -> arcforges.node.v1.PolicyRevision
-	60,  // 6: arcforges.node.v1.PolicyServiceGetDefaultPolicyRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	61,  // 7: arcforges.node.v1.PolicyServiceGetDefaultPolicyResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	14,  // 8: arcforges.node.v1.PolicyServiceGetDefaultPolicyResponse.value:type_name -> arcforges.node.v1.PolicyServiceGetDefaultPolicyValue
-	62,  // 9: arcforges.node.v1.PolicyServiceGetDefaultPolicyResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	55,  // 10: arcforges.node.v1.PolicyServiceGetDefaultPolicyValue.document:type_name -> arcforges.node.v1.PolicyDocument
-	60,  // 11: arcforges.node.v1.PolicyServiceValidatePolicyRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	55,  // 12: arcforges.node.v1.PolicyServiceValidatePolicyRequest.document:type_name -> arcforges.node.v1.PolicyDocument
-	61,  // 13: arcforges.node.v1.PolicyServiceValidatePolicyResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	17,  // 14: arcforges.node.v1.PolicyServiceValidatePolicyResponse.value:type_name -> arcforges.node.v1.PolicyServiceValidatePolicyValue
-	62,  // 15: arcforges.node.v1.PolicyServiceValidatePolicyResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	57,  // 16: arcforges.node.v1.PolicyServiceValidatePolicyValue.issues:type_name -> arcforges.node.v1.PolicyIssue
-	60,  // 17: arcforges.node.v1.PolicyServiceUpdatePolicyRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	55,  // 18: arcforges.node.v1.PolicyServiceUpdatePolicyRequest.document:type_name -> arcforges.node.v1.PolicyDocument
-	61,  // 19: arcforges.node.v1.PolicyServiceUpdatePolicyResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	20,  // 20: arcforges.node.v1.PolicyServiceUpdatePolicyResponse.value:type_name -> arcforges.node.v1.PolicyServiceUpdatePolicyValue
-	62,  // 21: arcforges.node.v1.PolicyServiceUpdatePolicyResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	56,  // 22: arcforges.node.v1.PolicyServiceUpdatePolicyValue.revision:type_name -> arcforges.node.v1.PolicyRevision
-	57,  // 23: arcforges.node.v1.PolicyServiceUpdatePolicyValue.warnings:type_name -> arcforges.node.v1.PolicyIssue
-	60,  // 24: arcforges.node.v1.PolicyServiceListPolicyRevisionsRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	63,  // 25: arcforges.node.v1.PolicyServiceListPolicyRevisionsRequest.page:type_name -> arcforges.foundation.v1.PageRequest
-	61,  // 26: arcforges.node.v1.PolicyServiceListPolicyRevisionsResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	23,  // 27: arcforges.node.v1.PolicyServiceListPolicyRevisionsResponse.value:type_name -> arcforges.node.v1.PolicyServiceListPolicyRevisionsValue
-	62,  // 28: arcforges.node.v1.PolicyServiceListPolicyRevisionsResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	56,  // 29: arcforges.node.v1.PolicyServiceListPolicyRevisionsValue.revisions:type_name -> arcforges.node.v1.PolicyRevision
-	64,  // 30: arcforges.node.v1.PolicyServiceListPolicyRevisionsValue.page:type_name -> arcforges.foundation.v1.PageState
-	60,  // 31: arcforges.node.v1.PolicyServiceRestorePolicyRevisionRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	65,  // 32: arcforges.node.v1.PolicyServiceRestorePolicyRevisionRequest.revision:type_name -> arcforges.foundation.v1.Revision
-	61,  // 33: arcforges.node.v1.PolicyServiceRestorePolicyRevisionResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	26,  // 34: arcforges.node.v1.PolicyServiceRestorePolicyRevisionResponse.value:type_name -> arcforges.node.v1.PolicyServiceRestorePolicyRevisionValue
-	62,  // 35: arcforges.node.v1.PolicyServiceRestorePolicyRevisionResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	56,  // 36: arcforges.node.v1.PolicyServiceRestorePolicyRevisionValue.revision:type_name -> arcforges.node.v1.PolicyRevision
-	60,  // 37: arcforges.node.v1.PolicyServiceExplainPermissionRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	66,  // 38: arcforges.node.v1.PolicyServiceExplainPermissionRequest.origin:type_name -> arcforges.node.v1.Origin
-	61,  // 39: arcforges.node.v1.PolicyServiceExplainPermissionResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	29,  // 40: arcforges.node.v1.PolicyServiceExplainPermissionResponse.value:type_name -> arcforges.node.v1.PolicyServiceExplainPermissionValue
-	62,  // 41: arcforges.node.v1.PolicyServiceExplainPermissionResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	67,  // 42: arcforges.node.v1.PolicyServiceExplainPermissionValue.decision:type_name -> arcforges.node.v1.PermissionDecision
-	68,  // 43: arcforges.node.v1.PolicyServiceExplainPermissionValue.remote_risk:type_name -> arcforges.node.v1.RiskClass
-	30,  // 44: arcforges.node.v1.ResourcePolicy.pressure:type_name -> arcforges.node.v1.PressureThresholds
-	69,  // 45: arcforges.node.v1.PoolPolicy.max_parallel_mode:type_name -> arcforges.node.v1.ParallelismMode
-	70,  // 46: arcforges.node.v1.PoolPolicy.default_priority:type_name -> arcforges.node.v1.Priority
-	71,  // 47: arcforges.node.v1.ParallelismRule.scope:type_name -> arcforges.node.v1.ParallelismScope
-	69,  // 48: arcforges.node.v1.ParallelismRule.mode:type_name -> arcforges.node.v1.ParallelismMode
-	66,  // 49: arcforges.node.v1.PermissionOverride.origin:type_name -> arcforges.node.v1.Origin
-	67,  // 50: arcforges.node.v1.PermissionOverride.decision:type_name -> arcforges.node.v1.PermissionDecision
-	72,  // 51: arcforges.node.v1.RoutingOverride.workspace_id:type_name -> arcforges.foundation.v1.Id
+	62,  // 0: arcforges.node.v1.PolicyServiceGetPolicyRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	63,  // 1: arcforges.node.v1.PolicyServiceGetPolicyResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	12,  // 2: arcforges.node.v1.PolicyServiceGetPolicyResponse.value:type_name -> arcforges.node.v1.PolicyServiceGetPolicyValue
+	64,  // 3: arcforges.node.v1.PolicyServiceGetPolicyResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	57,  // 4: arcforges.node.v1.PolicyServiceGetPolicyValue.document:type_name -> arcforges.node.v1.PolicyDocument
+	58,  // 5: arcforges.node.v1.PolicyServiceGetPolicyValue.revision:type_name -> arcforges.node.v1.PolicyRevision
+	62,  // 6: arcforges.node.v1.PolicyServiceGetDefaultPolicyRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	63,  // 7: arcforges.node.v1.PolicyServiceGetDefaultPolicyResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	15,  // 8: arcforges.node.v1.PolicyServiceGetDefaultPolicyResponse.value:type_name -> arcforges.node.v1.PolicyServiceGetDefaultPolicyValue
+	64,  // 9: arcforges.node.v1.PolicyServiceGetDefaultPolicyResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	57,  // 10: arcforges.node.v1.PolicyServiceGetDefaultPolicyValue.document:type_name -> arcforges.node.v1.PolicyDocument
+	62,  // 11: arcforges.node.v1.PolicyServiceValidatePolicyRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	57,  // 12: arcforges.node.v1.PolicyServiceValidatePolicyRequest.document:type_name -> arcforges.node.v1.PolicyDocument
+	63,  // 13: arcforges.node.v1.PolicyServiceValidatePolicyResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	18,  // 14: arcforges.node.v1.PolicyServiceValidatePolicyResponse.value:type_name -> arcforges.node.v1.PolicyServiceValidatePolicyValue
+	64,  // 15: arcforges.node.v1.PolicyServiceValidatePolicyResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	59,  // 16: arcforges.node.v1.PolicyServiceValidatePolicyValue.issues:type_name -> arcforges.node.v1.PolicyIssue
+	62,  // 17: arcforges.node.v1.PolicyServiceUpdatePolicyRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	57,  // 18: arcforges.node.v1.PolicyServiceUpdatePolicyRequest.document:type_name -> arcforges.node.v1.PolicyDocument
+	63,  // 19: arcforges.node.v1.PolicyServiceUpdatePolicyResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	21,  // 20: arcforges.node.v1.PolicyServiceUpdatePolicyResponse.value:type_name -> arcforges.node.v1.PolicyServiceUpdatePolicyValue
+	64,  // 21: arcforges.node.v1.PolicyServiceUpdatePolicyResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	58,  // 22: arcforges.node.v1.PolicyServiceUpdatePolicyValue.revision:type_name -> arcforges.node.v1.PolicyRevision
+	59,  // 23: arcforges.node.v1.PolicyServiceUpdatePolicyValue.warnings:type_name -> arcforges.node.v1.PolicyIssue
+	62,  // 24: arcforges.node.v1.PolicyServiceListPolicyRevisionsRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	65,  // 25: arcforges.node.v1.PolicyServiceListPolicyRevisionsRequest.page:type_name -> arcforges.foundation.v1.PageRequest
+	63,  // 26: arcforges.node.v1.PolicyServiceListPolicyRevisionsResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	24,  // 27: arcforges.node.v1.PolicyServiceListPolicyRevisionsResponse.value:type_name -> arcforges.node.v1.PolicyServiceListPolicyRevisionsValue
+	64,  // 28: arcforges.node.v1.PolicyServiceListPolicyRevisionsResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	58,  // 29: arcforges.node.v1.PolicyServiceListPolicyRevisionsValue.revisions:type_name -> arcforges.node.v1.PolicyRevision
+	66,  // 30: arcforges.node.v1.PolicyServiceListPolicyRevisionsValue.page:type_name -> arcforges.foundation.v1.PageState
+	62,  // 31: arcforges.node.v1.PolicyServiceRestorePolicyRevisionRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	67,  // 32: arcforges.node.v1.PolicyServiceRestorePolicyRevisionRequest.revision:type_name -> arcforges.foundation.v1.Revision
+	63,  // 33: arcforges.node.v1.PolicyServiceRestorePolicyRevisionResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	27,  // 34: arcforges.node.v1.PolicyServiceRestorePolicyRevisionResponse.value:type_name -> arcforges.node.v1.PolicyServiceRestorePolicyRevisionValue
+	64,  // 35: arcforges.node.v1.PolicyServiceRestorePolicyRevisionResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	58,  // 36: arcforges.node.v1.PolicyServiceRestorePolicyRevisionValue.revision:type_name -> arcforges.node.v1.PolicyRevision
+	62,  // 37: arcforges.node.v1.PolicyServiceExplainPermissionRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	68,  // 38: arcforges.node.v1.PolicyServiceExplainPermissionRequest.origin:type_name -> arcforges.node.v1.Origin
+	63,  // 39: arcforges.node.v1.PolicyServiceExplainPermissionResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	30,  // 40: arcforges.node.v1.PolicyServiceExplainPermissionResponse.value:type_name -> arcforges.node.v1.PolicyServiceExplainPermissionValue
+	64,  // 41: arcforges.node.v1.PolicyServiceExplainPermissionResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	69,  // 42: arcforges.node.v1.PolicyServiceExplainPermissionValue.decision:type_name -> arcforges.node.v1.PermissionDecision
+	70,  // 43: arcforges.node.v1.PolicyServiceExplainPermissionValue.remote_risk:type_name -> arcforges.node.v1.RiskClass
+	31,  // 44: arcforges.node.v1.ResourcePolicy.pressure:type_name -> arcforges.node.v1.PressureThresholds
+	71,  // 45: arcforges.node.v1.PoolPolicy.max_parallel_mode:type_name -> arcforges.node.v1.ParallelismMode
+	72,  // 46: arcforges.node.v1.PoolPolicy.default_priority:type_name -> arcforges.node.v1.Priority
+	73,  // 47: arcforges.node.v1.ParallelismRule.scope:type_name -> arcforges.node.v1.ParallelismScope
+	71,  // 48: arcforges.node.v1.ParallelismRule.mode:type_name -> arcforges.node.v1.ParallelismMode
+	68,  // 49: arcforges.node.v1.PermissionOverride.origin:type_name -> arcforges.node.v1.Origin
+	69,  // 50: arcforges.node.v1.PermissionOverride.decision:type_name -> arcforges.node.v1.PermissionDecision
+	74,  // 51: arcforges.node.v1.RoutingOverride.workspace_id:type_name -> arcforges.foundation.v1.Id
 	0,   // 52: arcforges.node.v1.RoutingOverride.mode:type_name -> arcforges.node.v1.RoutingMode
 	0,   // 53: arcforges.node.v1.RoutingPolicy.default_mode:type_name -> arcforges.node.v1.RoutingMode
-	37,  // 54: arcforges.node.v1.RoutingPolicy.overrides:type_name -> arcforges.node.v1.RoutingOverride
-	36,  // 55: arcforges.node.v1.RoutingPolicy.heavy_patterns:type_name -> arcforges.node.v1.HeavyPattern
+	38,  // 54: arcforges.node.v1.RoutingPolicy.overrides:type_name -> arcforges.node.v1.RoutingOverride
+	37,  // 55: arcforges.node.v1.RoutingPolicy.heavy_patterns:type_name -> arcforges.node.v1.HeavyPattern
 	1,   // 56: arcforges.node.v1.RoutingPolicy.rewrite_permission:type_name -> arcforges.node.v1.ClientPermission
 	3,   // 57: arcforges.node.v1.ActionRule.mode:type_name -> arcforges.node.v1.ActionMode
-	39,  // 58: arcforges.node.v1.DiagnosisPolicy.actions:type_name -> arcforges.node.v1.ActionRule
+	40,  // 58: arcforges.node.v1.DiagnosisPolicy.actions:type_name -> arcforges.node.v1.ActionRule
 	4,   // 59: arcforges.node.v1.RootQuota.kind:type_name -> arcforges.node.v1.QuotaKind
-	41,  // 60: arcforges.node.v1.StoragePolicy.quotas:type_name -> arcforges.node.v1.RootQuota
-	58,  // 61: arcforges.node.v1.StoragePolicy.quarantine_roots:type_name -> arcforges.node.v1.StoragePolicy.QuarantineRootsEntry
+	42,  // 60: arcforges.node.v1.StoragePolicy.quotas:type_name -> arcforges.node.v1.RootQuota
+	60,  // 61: arcforges.node.v1.StoragePolicy.quarantine_roots:type_name -> arcforges.node.v1.StoragePolicy.QuarantineRootsEntry
 	2,   // 62: arcforges.node.v1.StoragePolicy.disk_limit_action:type_name -> arcforges.node.v1.DiskLimitAction
 	5,   // 63: arcforges.node.v1.CleanupPolicy.agent_execute:type_name -> arcforges.node.v1.AgentCleanupMode
-	44,  // 64: arcforges.node.v1.CachePolicy.quotas:type_name -> arcforges.node.v1.CacheQuota
-	68,  // 65: arcforges.node.v1.RemoteControlPolicy.max_risk:type_name -> arcforges.node.v1.RiskClass
-	6,   // 66: arcforges.node.v1.UpdatePolicy.mode:type_name -> arcforges.node.v1.UpdateMode
-	48,  // 67: arcforges.node.v1.UpdatePolicy.windows:type_name -> arcforges.node.v1.TimeWindow
-	7,   // 68: arcforges.node.v1.UpdatePolicy.metered:type_name -> arcforges.node.v1.MeteredBehavior
-	73,  // 69: arcforges.node.v1.LanPolicy.default_peer_policy:type_name -> arcforges.node.v1.PeerPolicy
-	8,   // 70: arcforges.node.v1.ResultCachePolicy.default_mode:type_name -> arcforges.node.v1.ResultCacheMode
-	59,  // 71: arcforges.node.v1.ResultCachePolicy.workspace_modes:type_name -> arcforges.node.v1.ResultCachePolicy.WorkspaceModesEntry
-	72,  // 72: arcforges.node.v1.RetrySafetyRule.workspace_id:type_name -> arcforges.foundation.v1.Id
-	74,  // 73: arcforges.node.v1.RetrySafetyRule.side_effect:type_name -> arcforges.node.v1.SideEffectClass
-	52,  // 74: arcforges.node.v1.RetrySafetyPolicy.rules:type_name -> arcforges.node.v1.RetrySafetyRule
-	31,  // 75: arcforges.node.v1.PolicyDocument.resources:type_name -> arcforges.node.v1.ResourcePolicy
-	32,  // 76: arcforges.node.v1.PolicyDocument.pools:type_name -> arcforges.node.v1.PoolPolicy
-	33,  // 77: arcforges.node.v1.PolicyDocument.parallelism:type_name -> arcforges.node.v1.ParallelismRule
-	34,  // 78: arcforges.node.v1.PolicyDocument.permissions:type_name -> arcforges.node.v1.PermissionOverride
-	35,  // 79: arcforges.node.v1.PolicyDocument.agents:type_name -> arcforges.node.v1.AgentPolicy
-	38,  // 80: arcforges.node.v1.PolicyDocument.routing:type_name -> arcforges.node.v1.RoutingPolicy
-	40,  // 81: arcforges.node.v1.PolicyDocument.diagnosis:type_name -> arcforges.node.v1.DiagnosisPolicy
-	42,  // 82: arcforges.node.v1.PolicyDocument.storage:type_name -> arcforges.node.v1.StoragePolicy
-	43,  // 83: arcforges.node.v1.PolicyDocument.cleanup:type_name -> arcforges.node.v1.CleanupPolicy
-	45,  // 84: arcforges.node.v1.PolicyDocument.caches:type_name -> arcforges.node.v1.CachePolicy
-	46,  // 85: arcforges.node.v1.PolicyDocument.privacy:type_name -> arcforges.node.v1.PrivacyPolicy
-	47,  // 86: arcforges.node.v1.PolicyDocument.remote:type_name -> arcforges.node.v1.RemoteControlPolicy
-	49,  // 87: arcforges.node.v1.PolicyDocument.updates:type_name -> arcforges.node.v1.UpdatePolicy
-	50,  // 88: arcforges.node.v1.PolicyDocument.lan:type_name -> arcforges.node.v1.LanPolicy
-	54,  // 89: arcforges.node.v1.PolicyDocument.approvals:type_name -> arcforges.node.v1.ApprovalPolicy
-	51,  // 90: arcforges.node.v1.PolicyDocument.result_cache:type_name -> arcforges.node.v1.ResultCachePolicy
-	53,  // 91: arcforges.node.v1.PolicyDocument.retry_safety:type_name -> arcforges.node.v1.RetrySafetyPolicy
-	65,  // 92: arcforges.node.v1.PolicyRevision.revision:type_name -> arcforges.foundation.v1.Revision
-	75,  // 93: arcforges.node.v1.PolicyRevision.created_at:type_name -> arcforges.foundation.v1.Instant
-	76,  // 94: arcforges.node.v1.PolicyRevision.actor:type_name -> arcforges.node.v1.ActorRef
-	72,  // 95: arcforges.node.v1.PolicyRevision.approval_id:type_name -> arcforges.foundation.v1.Id
-	77,  // 96: arcforges.node.v1.PolicyIssue.severity:type_name -> arcforges.node.v1.Severity
-	8,   // 97: arcforges.node.v1.ResultCachePolicy.WorkspaceModesEntry.value:type_name -> arcforges.node.v1.ResultCacheMode
-	9,   // 98: arcforges.node.v1.PolicyService.GetPolicy:input_type -> arcforges.node.v1.PolicyServiceGetPolicyRequest
-	12,  // 99: arcforges.node.v1.PolicyService.GetDefaultPolicy:input_type -> arcforges.node.v1.PolicyServiceGetDefaultPolicyRequest
-	15,  // 100: arcforges.node.v1.PolicyService.ValidatePolicy:input_type -> arcforges.node.v1.PolicyServiceValidatePolicyRequest
-	18,  // 101: arcforges.node.v1.PolicyService.UpdatePolicy:input_type -> arcforges.node.v1.PolicyServiceUpdatePolicyRequest
-	21,  // 102: arcforges.node.v1.PolicyService.ListPolicyRevisions:input_type -> arcforges.node.v1.PolicyServiceListPolicyRevisionsRequest
-	24,  // 103: arcforges.node.v1.PolicyService.RestorePolicyRevision:input_type -> arcforges.node.v1.PolicyServiceRestorePolicyRevisionRequest
-	27,  // 104: arcforges.node.v1.PolicyService.ExplainPermission:input_type -> arcforges.node.v1.PolicyServiceExplainPermissionRequest
-	10,  // 105: arcforges.node.v1.PolicyService.GetPolicy:output_type -> arcforges.node.v1.PolicyServiceGetPolicyResponse
-	13,  // 106: arcforges.node.v1.PolicyService.GetDefaultPolicy:output_type -> arcforges.node.v1.PolicyServiceGetDefaultPolicyResponse
-	16,  // 107: arcforges.node.v1.PolicyService.ValidatePolicy:output_type -> arcforges.node.v1.PolicyServiceValidatePolicyResponse
-	19,  // 108: arcforges.node.v1.PolicyService.UpdatePolicy:output_type -> arcforges.node.v1.PolicyServiceUpdatePolicyResponse
-	22,  // 109: arcforges.node.v1.PolicyService.ListPolicyRevisions:output_type -> arcforges.node.v1.PolicyServiceListPolicyRevisionsResponse
-	25,  // 110: arcforges.node.v1.PolicyService.RestorePolicyRevision:output_type -> arcforges.node.v1.PolicyServiceRestorePolicyRevisionResponse
-	28,  // 111: arcforges.node.v1.PolicyService.ExplainPermission:output_type -> arcforges.node.v1.PolicyServiceExplainPermissionResponse
-	105, // [105:112] is the sub-list for method output_type
-	98,  // [98:105] is the sub-list for method input_type
-	98,  // [98:98] is the sub-list for extension type_name
-	98,  // [98:98] is the sub-list for extension extendee
-	0,   // [0:98] is the sub-list for field type_name
+	45,  // 64: arcforges.node.v1.CachePolicy.quotas:type_name -> arcforges.node.v1.CacheQuota
+	70,  // 65: arcforges.node.v1.RemoteControlPolicy.max_risk:type_name -> arcforges.node.v1.RiskClass
+	8,   // 66: arcforges.node.v1.CenterRoutedPolicy.relayed_from:type_name -> arcforges.node.v1.RelayedFrom
+	6,   // 67: arcforges.node.v1.UpdatePolicy.mode:type_name -> arcforges.node.v1.UpdateMode
+	50,  // 68: arcforges.node.v1.UpdatePolicy.windows:type_name -> arcforges.node.v1.TimeWindow
+	7,   // 69: arcforges.node.v1.UpdatePolicy.metered:type_name -> arcforges.node.v1.MeteredBehavior
+	75,  // 70: arcforges.node.v1.LanPolicy.default_peer_policy:type_name -> arcforges.node.v1.PeerPolicy
+	9,   // 71: arcforges.node.v1.ResultCachePolicy.default_mode:type_name -> arcforges.node.v1.ResultCacheMode
+	61,  // 72: arcforges.node.v1.ResultCachePolicy.workspace_modes:type_name -> arcforges.node.v1.ResultCachePolicy.WorkspaceModesEntry
+	74,  // 73: arcforges.node.v1.RetrySafetyRule.workspace_id:type_name -> arcforges.foundation.v1.Id
+	76,  // 74: arcforges.node.v1.RetrySafetyRule.side_effect:type_name -> arcforges.node.v1.SideEffectClass
+	54,  // 75: arcforges.node.v1.RetrySafetyPolicy.rules:type_name -> arcforges.node.v1.RetrySafetyRule
+	32,  // 76: arcforges.node.v1.PolicyDocument.resources:type_name -> arcforges.node.v1.ResourcePolicy
+	33,  // 77: arcforges.node.v1.PolicyDocument.pools:type_name -> arcforges.node.v1.PoolPolicy
+	34,  // 78: arcforges.node.v1.PolicyDocument.parallelism:type_name -> arcforges.node.v1.ParallelismRule
+	35,  // 79: arcforges.node.v1.PolicyDocument.permissions:type_name -> arcforges.node.v1.PermissionOverride
+	36,  // 80: arcforges.node.v1.PolicyDocument.agents:type_name -> arcforges.node.v1.AgentPolicy
+	39,  // 81: arcforges.node.v1.PolicyDocument.routing:type_name -> arcforges.node.v1.RoutingPolicy
+	41,  // 82: arcforges.node.v1.PolicyDocument.diagnosis:type_name -> arcforges.node.v1.DiagnosisPolicy
+	43,  // 83: arcforges.node.v1.PolicyDocument.storage:type_name -> arcforges.node.v1.StoragePolicy
+	44,  // 84: arcforges.node.v1.PolicyDocument.cleanup:type_name -> arcforges.node.v1.CleanupPolicy
+	46,  // 85: arcforges.node.v1.PolicyDocument.caches:type_name -> arcforges.node.v1.CachePolicy
+	47,  // 86: arcforges.node.v1.PolicyDocument.privacy:type_name -> arcforges.node.v1.PrivacyPolicy
+	48,  // 87: arcforges.node.v1.PolicyDocument.remote:type_name -> arcforges.node.v1.RemoteControlPolicy
+	51,  // 88: arcforges.node.v1.PolicyDocument.updates:type_name -> arcforges.node.v1.UpdatePolicy
+	52,  // 89: arcforges.node.v1.PolicyDocument.lan:type_name -> arcforges.node.v1.LanPolicy
+	56,  // 90: arcforges.node.v1.PolicyDocument.approvals:type_name -> arcforges.node.v1.ApprovalPolicy
+	53,  // 91: arcforges.node.v1.PolicyDocument.result_cache:type_name -> arcforges.node.v1.ResultCachePolicy
+	55,  // 92: arcforges.node.v1.PolicyDocument.retry_safety:type_name -> arcforges.node.v1.RetrySafetyPolicy
+	49,  // 93: arcforges.node.v1.PolicyDocument.center_routed:type_name -> arcforges.node.v1.CenterRoutedPolicy
+	67,  // 94: arcforges.node.v1.PolicyRevision.revision:type_name -> arcforges.foundation.v1.Revision
+	77,  // 95: arcforges.node.v1.PolicyRevision.created_at:type_name -> arcforges.foundation.v1.Instant
+	78,  // 96: arcforges.node.v1.PolicyRevision.actor:type_name -> arcforges.node.v1.ActorRef
+	74,  // 97: arcforges.node.v1.PolicyRevision.approval_id:type_name -> arcforges.foundation.v1.Id
+	79,  // 98: arcforges.node.v1.PolicyIssue.severity:type_name -> arcforges.node.v1.Severity
+	9,   // 99: arcforges.node.v1.ResultCachePolicy.WorkspaceModesEntry.value:type_name -> arcforges.node.v1.ResultCacheMode
+	10,  // 100: arcforges.node.v1.PolicyService.GetPolicy:input_type -> arcforges.node.v1.PolicyServiceGetPolicyRequest
+	13,  // 101: arcforges.node.v1.PolicyService.GetDefaultPolicy:input_type -> arcforges.node.v1.PolicyServiceGetDefaultPolicyRequest
+	16,  // 102: arcforges.node.v1.PolicyService.ValidatePolicy:input_type -> arcforges.node.v1.PolicyServiceValidatePolicyRequest
+	19,  // 103: arcforges.node.v1.PolicyService.UpdatePolicy:input_type -> arcforges.node.v1.PolicyServiceUpdatePolicyRequest
+	22,  // 104: arcforges.node.v1.PolicyService.ListPolicyRevisions:input_type -> arcforges.node.v1.PolicyServiceListPolicyRevisionsRequest
+	25,  // 105: arcforges.node.v1.PolicyService.RestorePolicyRevision:input_type -> arcforges.node.v1.PolicyServiceRestorePolicyRevisionRequest
+	28,  // 106: arcforges.node.v1.PolicyService.ExplainPermission:input_type -> arcforges.node.v1.PolicyServiceExplainPermissionRequest
+	11,  // 107: arcforges.node.v1.PolicyService.GetPolicy:output_type -> arcforges.node.v1.PolicyServiceGetPolicyResponse
+	14,  // 108: arcforges.node.v1.PolicyService.GetDefaultPolicy:output_type -> arcforges.node.v1.PolicyServiceGetDefaultPolicyResponse
+	17,  // 109: arcforges.node.v1.PolicyService.ValidatePolicy:output_type -> arcforges.node.v1.PolicyServiceValidatePolicyResponse
+	20,  // 110: arcforges.node.v1.PolicyService.UpdatePolicy:output_type -> arcforges.node.v1.PolicyServiceUpdatePolicyResponse
+	23,  // 111: arcforges.node.v1.PolicyService.ListPolicyRevisions:output_type -> arcforges.node.v1.PolicyServiceListPolicyRevisionsResponse
+	26,  // 112: arcforges.node.v1.PolicyService.RestorePolicyRevision:output_type -> arcforges.node.v1.PolicyServiceRestorePolicyRevisionResponse
+	29,  // 113: arcforges.node.v1.PolicyService.ExplainPermission:output_type -> arcforges.node.v1.PolicyServiceExplainPermissionResponse
+	107, // [107:114] is the sub-list for method output_type
+	100, // [100:107] is the sub-list for method input_type
+	100, // [100:100] is the sub-list for extension type_name
+	100, // [100:100] is the sub-list for extension extendee
+	0,   // [0:100] is the sub-list for field type_name
 }
 
 func init() { file_arcforges_node_v1_policy_proto_init() }
@@ -4878,15 +5012,16 @@ func file_arcforges_node_v1_policy_proto_init() {
 	file_arcforges_node_v1_policy_proto_msgTypes[43].OneofWrappers = []any{}
 	file_arcforges_node_v1_policy_proto_msgTypes[44].OneofWrappers = []any{}
 	file_arcforges_node_v1_policy_proto_msgTypes[45].OneofWrappers = []any{}
-	file_arcforges_node_v1_policy_proto_msgTypes[47].OneofWrappers = []any{}
+	file_arcforges_node_v1_policy_proto_msgTypes[46].OneofWrappers = []any{}
 	file_arcforges_node_v1_policy_proto_msgTypes[48].OneofWrappers = []any{}
+	file_arcforges_node_v1_policy_proto_msgTypes[49].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_arcforges_node_v1_policy_proto_rawDesc), len(file_arcforges_node_v1_policy_proto_rawDesc)),
-			NumEnums:      9,
-			NumMessages:   51,
+			NumEnums:      10,
+			NumMessages:   52,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

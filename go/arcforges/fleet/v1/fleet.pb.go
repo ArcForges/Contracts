@@ -614,6 +614,59 @@ func (MobileSessionScope) EnumDescriptor() ([]byte, []int) {
 	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{9}
 }
 
+// The kind of a routed fleet method's caller (AF-CTR-05; Plan CTR5-CALL-01).
+type CallerKind int32
+
+const (
+	CallerKind_CALLER_KIND_UNSPECIFIED     CallerKind = 0
+	CallerKind_CALLER_KIND_ACCOUNT_SESSION CallerKind = 1 // never sent: an account session sends no caller
+	CallerKind_CALLER_KIND_NODE_RELAY      CallerKind = 2 // a node-relayed caller
+	CallerKind_CALLER_KIND_AGENT_GRANT     CallerKind = 3 // reserved for the agent grants of AF-CTR-07
+)
+
+// Enum value maps for CallerKind.
+var (
+	CallerKind_name = map[int32]string{
+		0: "CALLER_KIND_UNSPECIFIED",
+		1: "CALLER_KIND_ACCOUNT_SESSION",
+		2: "CALLER_KIND_NODE_RELAY",
+		3: "CALLER_KIND_AGENT_GRANT",
+	}
+	CallerKind_value = map[string]int32{
+		"CALLER_KIND_UNSPECIFIED":     0,
+		"CALLER_KIND_ACCOUNT_SESSION": 1,
+		"CALLER_KIND_NODE_RELAY":      2,
+		"CALLER_KIND_AGENT_GRANT":     3,
+	}
+)
+
+func (x CallerKind) Enum() *CallerKind {
+	p := new(CallerKind)
+	*p = x
+	return p
+}
+
+func (x CallerKind) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CallerKind) Descriptor() protoreflect.EnumDescriptor {
+	return file_arcforges_fleet_v1_fleet_proto_enumTypes[10].Descriptor()
+}
+
+func (CallerKind) Type() protoreflect.EnumType {
+	return &file_arcforges_fleet_v1_fleet_proto_enumTypes[10]
+}
+
+func (x CallerKind) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CallerKind.Descriptor instead.
+func (CallerKind) EnumDescriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{10}
+}
+
 type NodeEnrollmentServiceBeginNodeSignInRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Meta          *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
@@ -5245,10 +5298,12 @@ func (x *NodeEnrollmentServiceCompleteSupportUploadValue) GetObjectExpiresAt() *
 }
 
 type FleetServiceListNodesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Meta          *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	Caller         *RoutedCaller          `protobuf:"bytes,10,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: a node-relayed caller only, with relay_assertion
+	RelayAssertion []byte                 `protobuf:"bytes,11,opt,name=relay_assertion,json=relayAssertion,proto3,oneof" json:"relay_assertion,omitempty"` // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion (LIST_NODES)
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *FleetServiceListNodesRequest) Reset() {
@@ -5284,6 +5339,20 @@ func (*FleetServiceListNodesRequest) Descriptor() ([]byte, []int) {
 func (x *FleetServiceListNodesRequest) GetMeta() *v1.RequestMeta {
 	if x != nil {
 		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceListNodesRequest) GetCaller() *RoutedCaller {
+	if x != nil {
+		return x.Caller
+	}
+	return nil
+}
+
+func (x *FleetServiceListNodesRequest) GetRelayAssertion() []byte {
+	if x != nil {
+		return x.RelayAssertion
 	}
 	return nil
 }
@@ -5423,11 +5492,13 @@ func (x *FleetServiceListNodesValue) GetNodes() []*FleetNode {
 }
 
 type FleetServiceGetNodeRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Meta          *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
-	NodeId        *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"` // validate: the account's node
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: the account's node
+	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: a node-relayed caller only, with relay_assertion
+	RelayAssertion []byte                 `protobuf:"bytes,12,opt,name=relay_assertion,json=relayAssertion,proto3,oneof" json:"relay_assertion,omitempty"` // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion (GET_NODE)
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *FleetServiceGetNodeRequest) Reset() {
@@ -5470,6 +5541,20 @@ func (x *FleetServiceGetNodeRequest) GetMeta() *v1.RequestMeta {
 func (x *FleetServiceGetNodeRequest) GetNodeId() *v1.Id {
 	if x != nil {
 		return x.NodeId
+	}
+	return nil
+}
+
+func (x *FleetServiceGetNodeRequest) GetCaller() *RoutedCaller {
+	if x != nil {
+		return x.Caller
+	}
+	return nil
+}
+
+func (x *FleetServiceGetNodeRequest) GetRelayAssertion() []byte {
+	if x != nil {
+		return x.RelayAssertion
 	}
 	return nil
 }
@@ -7752,6 +7837,1316 @@ func (x *FleetServiceCancelNodeCommandValue) GetCommand() *RemoteCommandView {
 	return nil
 }
 
+type FleetServiceSubmitNodeTaskRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required; a live node of the caller's account
+	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: a node-relayed caller only, with relay_assertion
+	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; 1..253,952 bytes; the exact arcforges.node.v1.TaskServiceSubmitTaskRequest bytes
+	RelayAssertion []byte                 `protobuf:"bytes,13,opt,name=relay_assertion,json=relayAssertion,proto3,oneof" json:"relay_assertion,omitempty"` // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *FleetServiceSubmitNodeTaskRequest) Reset() {
+	*x = FleetServiceSubmitNodeTaskRequest{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[107]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceSubmitNodeTaskRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceSubmitNodeTaskRequest) ProtoMessage() {}
+
+func (x *FleetServiceSubmitNodeTaskRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[107]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceSubmitNodeTaskRequest.ProtoReflect.Descriptor instead.
+func (*FleetServiceSubmitNodeTaskRequest) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{107}
+}
+
+func (x *FleetServiceSubmitNodeTaskRequest) GetMeta() *v1.RequestMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceSubmitNodeTaskRequest) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
+func (x *FleetServiceSubmitNodeTaskRequest) GetCaller() *RoutedCaller {
+	if x != nil {
+		return x.Caller
+	}
+	return nil
+}
+
+func (x *FleetServiceSubmitNodeTaskRequest) GetRequest() []byte {
+	if x != nil {
+		return x.Request
+	}
+	return nil
+}
+
+func (x *FleetServiceSubmitNodeTaskRequest) GetRelayAssertion() []byte {
+	if x != nil {
+		return x.RelayAssertion
+	}
+	return nil
+}
+
+type FleetServiceSubmitNodeTaskResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Meta  *v1.ResponseMeta       `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	// Types that are valid to be assigned to Outcome:
+	//
+	//	*FleetServiceSubmitNodeTaskResponse_Value
+	//	*FleetServiceSubmitNodeTaskResponse_Error
+	Outcome       isFleetServiceSubmitNodeTaskResponse_Outcome `protobuf_oneof:"outcome"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FleetServiceSubmitNodeTaskResponse) Reset() {
+	*x = FleetServiceSubmitNodeTaskResponse{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[108]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceSubmitNodeTaskResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceSubmitNodeTaskResponse) ProtoMessage() {}
+
+func (x *FleetServiceSubmitNodeTaskResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[108]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceSubmitNodeTaskResponse.ProtoReflect.Descriptor instead.
+func (*FleetServiceSubmitNodeTaskResponse) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{108}
+}
+
+func (x *FleetServiceSubmitNodeTaskResponse) GetMeta() *v1.ResponseMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceSubmitNodeTaskResponse) GetOutcome() isFleetServiceSubmitNodeTaskResponse_Outcome {
+	if x != nil {
+		return x.Outcome
+	}
+	return nil
+}
+
+func (x *FleetServiceSubmitNodeTaskResponse) GetValue() *FleetServiceSubmitNodeTaskValue {
+	if x != nil {
+		if x, ok := x.Outcome.(*FleetServiceSubmitNodeTaskResponse_Value); ok {
+			return x.Value
+		}
+	}
+	return nil
+}
+
+func (x *FleetServiceSubmitNodeTaskResponse) GetError() *v1.ArcError {
+	if x != nil {
+		if x, ok := x.Outcome.(*FleetServiceSubmitNodeTaskResponse_Error); ok {
+			return x.Error
+		}
+	}
+	return nil
+}
+
+type isFleetServiceSubmitNodeTaskResponse_Outcome interface {
+	isFleetServiceSubmitNodeTaskResponse_Outcome()
+}
+
+type FleetServiceSubmitNodeTaskResponse_Value struct {
+	Value *FleetServiceSubmitNodeTaskValue `protobuf:"bytes,2,opt,name=value,proto3,oneof"`
+}
+
+type FleetServiceSubmitNodeTaskResponse_Error struct {
+	Error *v1.ArcError `protobuf:"bytes,3,opt,name=error,proto3,oneof"`
+}
+
+func (*FleetServiceSubmitNodeTaskResponse_Value) isFleetServiceSubmitNodeTaskResponse_Outcome() {}
+
+func (*FleetServiceSubmitNodeTaskResponse_Error) isFleetServiceSubmitNodeTaskResponse_Outcome() {}
+
+type FleetServiceSubmitNodeTaskValue struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Response      []byte                 `protobuf:"bytes,10,opt,name=response,proto3,oneof" json:"response,omitempty"`     // validate: required; 1..1,040,384 bytes; the exact arcforges.node.v1.TaskServiceSubmitTaskResponse bytes
+	NodeId        *v1.Id                 `protobuf:"bytes,11,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"` // validate: required; the node that answered
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FleetServiceSubmitNodeTaskValue) Reset() {
+	*x = FleetServiceSubmitNodeTaskValue{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[109]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceSubmitNodeTaskValue) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceSubmitNodeTaskValue) ProtoMessage() {}
+
+func (x *FleetServiceSubmitNodeTaskValue) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[109]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceSubmitNodeTaskValue.ProtoReflect.Descriptor instead.
+func (*FleetServiceSubmitNodeTaskValue) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{109}
+}
+
+func (x *FleetServiceSubmitNodeTaskValue) GetResponse() []byte {
+	if x != nil {
+		return x.Response
+	}
+	return nil
+}
+
+func (x *FleetServiceSubmitNodeTaskValue) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
+type FleetServiceGetNodeTaskRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required; a live node of the caller's account
+	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: a node-relayed caller only, with relay_assertion
+	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; 1..3,072 bytes; the exact arcforges.node.v1.TaskServiceGetTaskRequest bytes
+	RelayAssertion []byte                 `protobuf:"bytes,13,opt,name=relay_assertion,json=relayAssertion,proto3,oneof" json:"relay_assertion,omitempty"` // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *FleetServiceGetNodeTaskRequest) Reset() {
+	*x = FleetServiceGetNodeTaskRequest{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[110]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceGetNodeTaskRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceGetNodeTaskRequest) ProtoMessage() {}
+
+func (x *FleetServiceGetNodeTaskRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[110]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceGetNodeTaskRequest.ProtoReflect.Descriptor instead.
+func (*FleetServiceGetNodeTaskRequest) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{110}
+}
+
+func (x *FleetServiceGetNodeTaskRequest) GetMeta() *v1.RequestMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceGetNodeTaskRequest) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
+func (x *FleetServiceGetNodeTaskRequest) GetCaller() *RoutedCaller {
+	if x != nil {
+		return x.Caller
+	}
+	return nil
+}
+
+func (x *FleetServiceGetNodeTaskRequest) GetRequest() []byte {
+	if x != nil {
+		return x.Request
+	}
+	return nil
+}
+
+func (x *FleetServiceGetNodeTaskRequest) GetRelayAssertion() []byte {
+	if x != nil {
+		return x.RelayAssertion
+	}
+	return nil
+}
+
+type FleetServiceGetNodeTaskResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Meta  *v1.ResponseMeta       `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	// Types that are valid to be assigned to Outcome:
+	//
+	//	*FleetServiceGetNodeTaskResponse_Value
+	//	*FleetServiceGetNodeTaskResponse_Error
+	Outcome       isFleetServiceGetNodeTaskResponse_Outcome `protobuf_oneof:"outcome"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FleetServiceGetNodeTaskResponse) Reset() {
+	*x = FleetServiceGetNodeTaskResponse{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[111]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceGetNodeTaskResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceGetNodeTaskResponse) ProtoMessage() {}
+
+func (x *FleetServiceGetNodeTaskResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[111]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceGetNodeTaskResponse.ProtoReflect.Descriptor instead.
+func (*FleetServiceGetNodeTaskResponse) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{111}
+}
+
+func (x *FleetServiceGetNodeTaskResponse) GetMeta() *v1.ResponseMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceGetNodeTaskResponse) GetOutcome() isFleetServiceGetNodeTaskResponse_Outcome {
+	if x != nil {
+		return x.Outcome
+	}
+	return nil
+}
+
+func (x *FleetServiceGetNodeTaskResponse) GetValue() *FleetServiceGetNodeTaskValue {
+	if x != nil {
+		if x, ok := x.Outcome.(*FleetServiceGetNodeTaskResponse_Value); ok {
+			return x.Value
+		}
+	}
+	return nil
+}
+
+func (x *FleetServiceGetNodeTaskResponse) GetError() *v1.ArcError {
+	if x != nil {
+		if x, ok := x.Outcome.(*FleetServiceGetNodeTaskResponse_Error); ok {
+			return x.Error
+		}
+	}
+	return nil
+}
+
+type isFleetServiceGetNodeTaskResponse_Outcome interface {
+	isFleetServiceGetNodeTaskResponse_Outcome()
+}
+
+type FleetServiceGetNodeTaskResponse_Value struct {
+	Value *FleetServiceGetNodeTaskValue `protobuf:"bytes,2,opt,name=value,proto3,oneof"`
+}
+
+type FleetServiceGetNodeTaskResponse_Error struct {
+	Error *v1.ArcError `protobuf:"bytes,3,opt,name=error,proto3,oneof"`
+}
+
+func (*FleetServiceGetNodeTaskResponse_Value) isFleetServiceGetNodeTaskResponse_Outcome() {}
+
+func (*FleetServiceGetNodeTaskResponse_Error) isFleetServiceGetNodeTaskResponse_Outcome() {}
+
+type FleetServiceGetNodeTaskValue struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Response      []byte                 `protobuf:"bytes,10,opt,name=response,proto3,oneof" json:"response,omitempty"`     // validate: required; 1..1,040,384 bytes; the exact arcforges.node.v1.TaskServiceGetTaskResponse bytes
+	NodeId        *v1.Id                 `protobuf:"bytes,11,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"` // validate: required; the node that answered
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FleetServiceGetNodeTaskValue) Reset() {
+	*x = FleetServiceGetNodeTaskValue{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[112]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceGetNodeTaskValue) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceGetNodeTaskValue) ProtoMessage() {}
+
+func (x *FleetServiceGetNodeTaskValue) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[112]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceGetNodeTaskValue.ProtoReflect.Descriptor instead.
+func (*FleetServiceGetNodeTaskValue) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{112}
+}
+
+func (x *FleetServiceGetNodeTaskValue) GetResponse() []byte {
+	if x != nil {
+		return x.Response
+	}
+	return nil
+}
+
+func (x *FleetServiceGetNodeTaskValue) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
+type FleetServiceListNodeTasksRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required; a live node of the caller's account
+	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: a node-relayed caller only, with relay_assertion
+	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; 1..3,072 bytes; the exact arcforges.node.v1.TaskServiceListTasksRequest bytes
+	RelayAssertion []byte                 `protobuf:"bytes,13,opt,name=relay_assertion,json=relayAssertion,proto3,oneof" json:"relay_assertion,omitempty"` // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *FleetServiceListNodeTasksRequest) Reset() {
+	*x = FleetServiceListNodeTasksRequest{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[113]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceListNodeTasksRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceListNodeTasksRequest) ProtoMessage() {}
+
+func (x *FleetServiceListNodeTasksRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[113]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceListNodeTasksRequest.ProtoReflect.Descriptor instead.
+func (*FleetServiceListNodeTasksRequest) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{113}
+}
+
+func (x *FleetServiceListNodeTasksRequest) GetMeta() *v1.RequestMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceListNodeTasksRequest) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
+func (x *FleetServiceListNodeTasksRequest) GetCaller() *RoutedCaller {
+	if x != nil {
+		return x.Caller
+	}
+	return nil
+}
+
+func (x *FleetServiceListNodeTasksRequest) GetRequest() []byte {
+	if x != nil {
+		return x.Request
+	}
+	return nil
+}
+
+func (x *FleetServiceListNodeTasksRequest) GetRelayAssertion() []byte {
+	if x != nil {
+		return x.RelayAssertion
+	}
+	return nil
+}
+
+type FleetServiceListNodeTasksResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Meta  *v1.ResponseMeta       `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	// Types that are valid to be assigned to Outcome:
+	//
+	//	*FleetServiceListNodeTasksResponse_Value
+	//	*FleetServiceListNodeTasksResponse_Error
+	Outcome       isFleetServiceListNodeTasksResponse_Outcome `protobuf_oneof:"outcome"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FleetServiceListNodeTasksResponse) Reset() {
+	*x = FleetServiceListNodeTasksResponse{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[114]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceListNodeTasksResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceListNodeTasksResponse) ProtoMessage() {}
+
+func (x *FleetServiceListNodeTasksResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[114]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceListNodeTasksResponse.ProtoReflect.Descriptor instead.
+func (*FleetServiceListNodeTasksResponse) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{114}
+}
+
+func (x *FleetServiceListNodeTasksResponse) GetMeta() *v1.ResponseMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceListNodeTasksResponse) GetOutcome() isFleetServiceListNodeTasksResponse_Outcome {
+	if x != nil {
+		return x.Outcome
+	}
+	return nil
+}
+
+func (x *FleetServiceListNodeTasksResponse) GetValue() *FleetServiceListNodeTasksValue {
+	if x != nil {
+		if x, ok := x.Outcome.(*FleetServiceListNodeTasksResponse_Value); ok {
+			return x.Value
+		}
+	}
+	return nil
+}
+
+func (x *FleetServiceListNodeTasksResponse) GetError() *v1.ArcError {
+	if x != nil {
+		if x, ok := x.Outcome.(*FleetServiceListNodeTasksResponse_Error); ok {
+			return x.Error
+		}
+	}
+	return nil
+}
+
+type isFleetServiceListNodeTasksResponse_Outcome interface {
+	isFleetServiceListNodeTasksResponse_Outcome()
+}
+
+type FleetServiceListNodeTasksResponse_Value struct {
+	Value *FleetServiceListNodeTasksValue `protobuf:"bytes,2,opt,name=value,proto3,oneof"`
+}
+
+type FleetServiceListNodeTasksResponse_Error struct {
+	Error *v1.ArcError `protobuf:"bytes,3,opt,name=error,proto3,oneof"`
+}
+
+func (*FleetServiceListNodeTasksResponse_Value) isFleetServiceListNodeTasksResponse_Outcome() {}
+
+func (*FleetServiceListNodeTasksResponse_Error) isFleetServiceListNodeTasksResponse_Outcome() {}
+
+type FleetServiceListNodeTasksValue struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Response      []byte                 `protobuf:"bytes,10,opt,name=response,proto3,oneof" json:"response,omitempty"`     // validate: required; 1..1,040,384 bytes; the exact arcforges.node.v1.TaskServiceListTasksResponse bytes
+	NodeId        *v1.Id                 `protobuf:"bytes,11,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"` // validate: required; the node that answered
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FleetServiceListNodeTasksValue) Reset() {
+	*x = FleetServiceListNodeTasksValue{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[115]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceListNodeTasksValue) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceListNodeTasksValue) ProtoMessage() {}
+
+func (x *FleetServiceListNodeTasksValue) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[115]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceListNodeTasksValue.ProtoReflect.Descriptor instead.
+func (*FleetServiceListNodeTasksValue) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{115}
+}
+
+func (x *FleetServiceListNodeTasksValue) GetResponse() []byte {
+	if x != nil {
+		return x.Response
+	}
+	return nil
+}
+
+func (x *FleetServiceListNodeTasksValue) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
+type FleetServiceWaitNodeTaskRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required; a live node of the caller's account
+	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: a node-relayed caller only, with relay_assertion
+	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; 1..3,072 bytes; the exact arcforges.node.v1.TaskServiceWaitTaskRequest bytes
+	RelayAssertion []byte                 `protobuf:"bytes,13,opt,name=relay_assertion,json=relayAssertion,proto3,oneof" json:"relay_assertion,omitempty"` // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *FleetServiceWaitNodeTaskRequest) Reset() {
+	*x = FleetServiceWaitNodeTaskRequest{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[116]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceWaitNodeTaskRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceWaitNodeTaskRequest) ProtoMessage() {}
+
+func (x *FleetServiceWaitNodeTaskRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[116]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceWaitNodeTaskRequest.ProtoReflect.Descriptor instead.
+func (*FleetServiceWaitNodeTaskRequest) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{116}
+}
+
+func (x *FleetServiceWaitNodeTaskRequest) GetMeta() *v1.RequestMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceWaitNodeTaskRequest) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
+func (x *FleetServiceWaitNodeTaskRequest) GetCaller() *RoutedCaller {
+	if x != nil {
+		return x.Caller
+	}
+	return nil
+}
+
+func (x *FleetServiceWaitNodeTaskRequest) GetRequest() []byte {
+	if x != nil {
+		return x.Request
+	}
+	return nil
+}
+
+func (x *FleetServiceWaitNodeTaskRequest) GetRelayAssertion() []byte {
+	if x != nil {
+		return x.RelayAssertion
+	}
+	return nil
+}
+
+type FleetServiceWaitNodeTaskResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Meta  *v1.ResponseMeta       `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	// Types that are valid to be assigned to Outcome:
+	//
+	//	*FleetServiceWaitNodeTaskResponse_Value
+	//	*FleetServiceWaitNodeTaskResponse_Error
+	Outcome       isFleetServiceWaitNodeTaskResponse_Outcome `protobuf_oneof:"outcome"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FleetServiceWaitNodeTaskResponse) Reset() {
+	*x = FleetServiceWaitNodeTaskResponse{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[117]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceWaitNodeTaskResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceWaitNodeTaskResponse) ProtoMessage() {}
+
+func (x *FleetServiceWaitNodeTaskResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[117]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceWaitNodeTaskResponse.ProtoReflect.Descriptor instead.
+func (*FleetServiceWaitNodeTaskResponse) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{117}
+}
+
+func (x *FleetServiceWaitNodeTaskResponse) GetMeta() *v1.ResponseMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceWaitNodeTaskResponse) GetOutcome() isFleetServiceWaitNodeTaskResponse_Outcome {
+	if x != nil {
+		return x.Outcome
+	}
+	return nil
+}
+
+func (x *FleetServiceWaitNodeTaskResponse) GetValue() *FleetServiceWaitNodeTaskValue {
+	if x != nil {
+		if x, ok := x.Outcome.(*FleetServiceWaitNodeTaskResponse_Value); ok {
+			return x.Value
+		}
+	}
+	return nil
+}
+
+func (x *FleetServiceWaitNodeTaskResponse) GetError() *v1.ArcError {
+	if x != nil {
+		if x, ok := x.Outcome.(*FleetServiceWaitNodeTaskResponse_Error); ok {
+			return x.Error
+		}
+	}
+	return nil
+}
+
+type isFleetServiceWaitNodeTaskResponse_Outcome interface {
+	isFleetServiceWaitNodeTaskResponse_Outcome()
+}
+
+type FleetServiceWaitNodeTaskResponse_Value struct {
+	Value *FleetServiceWaitNodeTaskValue `protobuf:"bytes,2,opt,name=value,proto3,oneof"`
+}
+
+type FleetServiceWaitNodeTaskResponse_Error struct {
+	Error *v1.ArcError `protobuf:"bytes,3,opt,name=error,proto3,oneof"`
+}
+
+func (*FleetServiceWaitNodeTaskResponse_Value) isFleetServiceWaitNodeTaskResponse_Outcome() {}
+
+func (*FleetServiceWaitNodeTaskResponse_Error) isFleetServiceWaitNodeTaskResponse_Outcome() {}
+
+type FleetServiceWaitNodeTaskValue struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Response      []byte                 `protobuf:"bytes,10,opt,name=response,proto3,oneof" json:"response,omitempty"`     // validate: required; 1..1,040,384 bytes; the exact arcforges.node.v1.TaskServiceWaitTaskResponse bytes
+	NodeId        *v1.Id                 `protobuf:"bytes,11,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"` // validate: required; the node that answered
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FleetServiceWaitNodeTaskValue) Reset() {
+	*x = FleetServiceWaitNodeTaskValue{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[118]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceWaitNodeTaskValue) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceWaitNodeTaskValue) ProtoMessage() {}
+
+func (x *FleetServiceWaitNodeTaskValue) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[118]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceWaitNodeTaskValue.ProtoReflect.Descriptor instead.
+func (*FleetServiceWaitNodeTaskValue) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{118}
+}
+
+func (x *FleetServiceWaitNodeTaskValue) GetResponse() []byte {
+	if x != nil {
+		return x.Response
+	}
+	return nil
+}
+
+func (x *FleetServiceWaitNodeTaskValue) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
+type FleetServiceReadNodeTaskOutputRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required; a live node of the caller's account
+	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: a node-relayed caller only, with relay_assertion
+	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; 1..3,072 bytes; the exact arcforges.node.v1.TaskServiceReadTaskOutputRequest bytes
+	RelayAssertion []byte                 `protobuf:"bytes,13,opt,name=relay_assertion,json=relayAssertion,proto3,oneof" json:"relay_assertion,omitempty"` // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *FleetServiceReadNodeTaskOutputRequest) Reset() {
+	*x = FleetServiceReadNodeTaskOutputRequest{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[119]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceReadNodeTaskOutputRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceReadNodeTaskOutputRequest) ProtoMessage() {}
+
+func (x *FleetServiceReadNodeTaskOutputRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[119]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceReadNodeTaskOutputRequest.ProtoReflect.Descriptor instead.
+func (*FleetServiceReadNodeTaskOutputRequest) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{119}
+}
+
+func (x *FleetServiceReadNodeTaskOutputRequest) GetMeta() *v1.RequestMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceReadNodeTaskOutputRequest) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
+func (x *FleetServiceReadNodeTaskOutputRequest) GetCaller() *RoutedCaller {
+	if x != nil {
+		return x.Caller
+	}
+	return nil
+}
+
+func (x *FleetServiceReadNodeTaskOutputRequest) GetRequest() []byte {
+	if x != nil {
+		return x.Request
+	}
+	return nil
+}
+
+func (x *FleetServiceReadNodeTaskOutputRequest) GetRelayAssertion() []byte {
+	if x != nil {
+		return x.RelayAssertion
+	}
+	return nil
+}
+
+type FleetServiceReadNodeTaskOutputResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Meta  *v1.ResponseMeta       `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	// Types that are valid to be assigned to Outcome:
+	//
+	//	*FleetServiceReadNodeTaskOutputResponse_Value
+	//	*FleetServiceReadNodeTaskOutputResponse_Error
+	Outcome       isFleetServiceReadNodeTaskOutputResponse_Outcome `protobuf_oneof:"outcome"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FleetServiceReadNodeTaskOutputResponse) Reset() {
+	*x = FleetServiceReadNodeTaskOutputResponse{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[120]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceReadNodeTaskOutputResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceReadNodeTaskOutputResponse) ProtoMessage() {}
+
+func (x *FleetServiceReadNodeTaskOutputResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[120]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceReadNodeTaskOutputResponse.ProtoReflect.Descriptor instead.
+func (*FleetServiceReadNodeTaskOutputResponse) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{120}
+}
+
+func (x *FleetServiceReadNodeTaskOutputResponse) GetMeta() *v1.ResponseMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceReadNodeTaskOutputResponse) GetOutcome() isFleetServiceReadNodeTaskOutputResponse_Outcome {
+	if x != nil {
+		return x.Outcome
+	}
+	return nil
+}
+
+func (x *FleetServiceReadNodeTaskOutputResponse) GetValue() *FleetServiceReadNodeTaskOutputValue {
+	if x != nil {
+		if x, ok := x.Outcome.(*FleetServiceReadNodeTaskOutputResponse_Value); ok {
+			return x.Value
+		}
+	}
+	return nil
+}
+
+func (x *FleetServiceReadNodeTaskOutputResponse) GetError() *v1.ArcError {
+	if x != nil {
+		if x, ok := x.Outcome.(*FleetServiceReadNodeTaskOutputResponse_Error); ok {
+			return x.Error
+		}
+	}
+	return nil
+}
+
+type isFleetServiceReadNodeTaskOutputResponse_Outcome interface {
+	isFleetServiceReadNodeTaskOutputResponse_Outcome()
+}
+
+type FleetServiceReadNodeTaskOutputResponse_Value struct {
+	Value *FleetServiceReadNodeTaskOutputValue `protobuf:"bytes,2,opt,name=value,proto3,oneof"`
+}
+
+type FleetServiceReadNodeTaskOutputResponse_Error struct {
+	Error *v1.ArcError `protobuf:"bytes,3,opt,name=error,proto3,oneof"`
+}
+
+func (*FleetServiceReadNodeTaskOutputResponse_Value) isFleetServiceReadNodeTaskOutputResponse_Outcome() {
+}
+
+func (*FleetServiceReadNodeTaskOutputResponse_Error) isFleetServiceReadNodeTaskOutputResponse_Outcome() {
+}
+
+type FleetServiceReadNodeTaskOutputValue struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Response      []byte                 `protobuf:"bytes,10,opt,name=response,proto3,oneof" json:"response,omitempty"`     // validate: required; 1..1,040,384 bytes; the exact arcforges.node.v1.TaskServiceReadTaskOutputResponse bytes
+	NodeId        *v1.Id                 `protobuf:"bytes,11,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"` // validate: required; the node that answered
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FleetServiceReadNodeTaskOutputValue) Reset() {
+	*x = FleetServiceReadNodeTaskOutputValue{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[121]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceReadNodeTaskOutputValue) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceReadNodeTaskOutputValue) ProtoMessage() {}
+
+func (x *FleetServiceReadNodeTaskOutputValue) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[121]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceReadNodeTaskOutputValue.ProtoReflect.Descriptor instead.
+func (*FleetServiceReadNodeTaskOutputValue) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{121}
+}
+
+func (x *FleetServiceReadNodeTaskOutputValue) GetResponse() []byte {
+	if x != nil {
+		return x.Response
+	}
+	return nil
+}
+
+func (x *FleetServiceReadNodeTaskOutputValue) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
+type FleetServiceCancelNodeTaskRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required; a live node of the caller's account
+	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: a node-relayed caller only, with relay_assertion
+	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; 1..3,072 bytes; the exact arcforges.node.v1.TaskServiceCancelTaskRequest bytes
+	RelayAssertion []byte                 `protobuf:"bytes,13,opt,name=relay_assertion,json=relayAssertion,proto3,oneof" json:"relay_assertion,omitempty"` // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *FleetServiceCancelNodeTaskRequest) Reset() {
+	*x = FleetServiceCancelNodeTaskRequest{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[122]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceCancelNodeTaskRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceCancelNodeTaskRequest) ProtoMessage() {}
+
+func (x *FleetServiceCancelNodeTaskRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[122]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceCancelNodeTaskRequest.ProtoReflect.Descriptor instead.
+func (*FleetServiceCancelNodeTaskRequest) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{122}
+}
+
+func (x *FleetServiceCancelNodeTaskRequest) GetMeta() *v1.RequestMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceCancelNodeTaskRequest) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
+func (x *FleetServiceCancelNodeTaskRequest) GetCaller() *RoutedCaller {
+	if x != nil {
+		return x.Caller
+	}
+	return nil
+}
+
+func (x *FleetServiceCancelNodeTaskRequest) GetRequest() []byte {
+	if x != nil {
+		return x.Request
+	}
+	return nil
+}
+
+func (x *FleetServiceCancelNodeTaskRequest) GetRelayAssertion() []byte {
+	if x != nil {
+		return x.RelayAssertion
+	}
+	return nil
+}
+
+type FleetServiceCancelNodeTaskResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Meta  *v1.ResponseMeta       `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	// Types that are valid to be assigned to Outcome:
+	//
+	//	*FleetServiceCancelNodeTaskResponse_Value
+	//	*FleetServiceCancelNodeTaskResponse_Error
+	Outcome       isFleetServiceCancelNodeTaskResponse_Outcome `protobuf_oneof:"outcome"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FleetServiceCancelNodeTaskResponse) Reset() {
+	*x = FleetServiceCancelNodeTaskResponse{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[123]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceCancelNodeTaskResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceCancelNodeTaskResponse) ProtoMessage() {}
+
+func (x *FleetServiceCancelNodeTaskResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[123]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceCancelNodeTaskResponse.ProtoReflect.Descriptor instead.
+func (*FleetServiceCancelNodeTaskResponse) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{123}
+}
+
+func (x *FleetServiceCancelNodeTaskResponse) GetMeta() *v1.ResponseMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *FleetServiceCancelNodeTaskResponse) GetOutcome() isFleetServiceCancelNodeTaskResponse_Outcome {
+	if x != nil {
+		return x.Outcome
+	}
+	return nil
+}
+
+func (x *FleetServiceCancelNodeTaskResponse) GetValue() *FleetServiceCancelNodeTaskValue {
+	if x != nil {
+		if x, ok := x.Outcome.(*FleetServiceCancelNodeTaskResponse_Value); ok {
+			return x.Value
+		}
+	}
+	return nil
+}
+
+func (x *FleetServiceCancelNodeTaskResponse) GetError() *v1.ArcError {
+	if x != nil {
+		if x, ok := x.Outcome.(*FleetServiceCancelNodeTaskResponse_Error); ok {
+			return x.Error
+		}
+	}
+	return nil
+}
+
+type isFleetServiceCancelNodeTaskResponse_Outcome interface {
+	isFleetServiceCancelNodeTaskResponse_Outcome()
+}
+
+type FleetServiceCancelNodeTaskResponse_Value struct {
+	Value *FleetServiceCancelNodeTaskValue `protobuf:"bytes,2,opt,name=value,proto3,oneof"`
+}
+
+type FleetServiceCancelNodeTaskResponse_Error struct {
+	Error *v1.ArcError `protobuf:"bytes,3,opt,name=error,proto3,oneof"`
+}
+
+func (*FleetServiceCancelNodeTaskResponse_Value) isFleetServiceCancelNodeTaskResponse_Outcome() {}
+
+func (*FleetServiceCancelNodeTaskResponse_Error) isFleetServiceCancelNodeTaskResponse_Outcome() {}
+
+type FleetServiceCancelNodeTaskValue struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Response      []byte                 `protobuf:"bytes,10,opt,name=response,proto3,oneof" json:"response,omitempty"`     // validate: required; 1..1,040,384 bytes; the exact arcforges.node.v1.TaskServiceCancelTaskResponse bytes
+	NodeId        *v1.Id                 `protobuf:"bytes,11,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"` // validate: required; the node that answered
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FleetServiceCancelNodeTaskValue) Reset() {
+	*x = FleetServiceCancelNodeTaskValue{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[124]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FleetServiceCancelNodeTaskValue) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FleetServiceCancelNodeTaskValue) ProtoMessage() {}
+
+func (x *FleetServiceCancelNodeTaskValue) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[124]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FleetServiceCancelNodeTaskValue.ProtoReflect.Descriptor instead.
+func (*FleetServiceCancelNodeTaskValue) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{124}
+}
+
+func (x *FleetServiceCancelNodeTaskValue) GetResponse() []byte {
+	if x != nil {
+		return x.Response
+	}
+	return nil
+}
+
+func (x *FleetServiceCancelNodeTaskValue) GetNodeId() *v1.Id {
+	if x != nil {
+		return x.NodeId
+	}
+	return nil
+}
+
 type StoreBillingServiceGetPlayAccountReferenceRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Meta          *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
@@ -7761,7 +9156,7 @@ type StoreBillingServiceGetPlayAccountReferenceRequest struct {
 
 func (x *StoreBillingServiceGetPlayAccountReferenceRequest) Reset() {
 	*x = StoreBillingServiceGetPlayAccountReferenceRequest{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[107]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[125]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7773,7 +9168,7 @@ func (x *StoreBillingServiceGetPlayAccountReferenceRequest) String() string {
 func (*StoreBillingServiceGetPlayAccountReferenceRequest) ProtoMessage() {}
 
 func (x *StoreBillingServiceGetPlayAccountReferenceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[107]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[125]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7786,7 +9181,7 @@ func (x *StoreBillingServiceGetPlayAccountReferenceRequest) ProtoReflect() proto
 
 // Deprecated: Use StoreBillingServiceGetPlayAccountReferenceRequest.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceGetPlayAccountReferenceRequest) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{107}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{125}
 }
 
 func (x *StoreBillingServiceGetPlayAccountReferenceRequest) GetMeta() *v1.RequestMeta {
@@ -7810,7 +9205,7 @@ type StoreBillingServiceGetPlayAccountReferenceResponse struct {
 
 func (x *StoreBillingServiceGetPlayAccountReferenceResponse) Reset() {
 	*x = StoreBillingServiceGetPlayAccountReferenceResponse{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[108]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[126]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7822,7 +9217,7 @@ func (x *StoreBillingServiceGetPlayAccountReferenceResponse) String() string {
 func (*StoreBillingServiceGetPlayAccountReferenceResponse) ProtoMessage() {}
 
 func (x *StoreBillingServiceGetPlayAccountReferenceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[108]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[126]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7835,7 +9230,7 @@ func (x *StoreBillingServiceGetPlayAccountReferenceResponse) ProtoReflect() prot
 
 // Deprecated: Use StoreBillingServiceGetPlayAccountReferenceResponse.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceGetPlayAccountReferenceResponse) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{108}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{126}
 }
 
 func (x *StoreBillingServiceGetPlayAccountReferenceResponse) GetMeta() *v1.ResponseMeta {
@@ -7897,7 +9292,7 @@ type StoreBillingServiceGetPlayAccountReferenceValue struct {
 
 func (x *StoreBillingServiceGetPlayAccountReferenceValue) Reset() {
 	*x = StoreBillingServiceGetPlayAccountReferenceValue{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[109]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[127]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7909,7 +9304,7 @@ func (x *StoreBillingServiceGetPlayAccountReferenceValue) String() string {
 func (*StoreBillingServiceGetPlayAccountReferenceValue) ProtoMessage() {}
 
 func (x *StoreBillingServiceGetPlayAccountReferenceValue) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[109]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[127]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7922,7 +9317,7 @@ func (x *StoreBillingServiceGetPlayAccountReferenceValue) ProtoReflect() protore
 
 // Deprecated: Use StoreBillingServiceGetPlayAccountReferenceValue.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceGetPlayAccountReferenceValue) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{109}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{127}
 }
 
 func (x *StoreBillingServiceGetPlayAccountReferenceValue) GetObfuscatedAccountId() string {
@@ -7942,7 +9337,7 @@ type StoreBillingServiceSubmitPlayPurchaseRequest struct {
 
 func (x *StoreBillingServiceSubmitPlayPurchaseRequest) Reset() {
 	*x = StoreBillingServiceSubmitPlayPurchaseRequest{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[110]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[128]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7954,7 +9349,7 @@ func (x *StoreBillingServiceSubmitPlayPurchaseRequest) String() string {
 func (*StoreBillingServiceSubmitPlayPurchaseRequest) ProtoMessage() {}
 
 func (x *StoreBillingServiceSubmitPlayPurchaseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[110]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[128]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7967,7 +9362,7 @@ func (x *StoreBillingServiceSubmitPlayPurchaseRequest) ProtoReflect() protorefle
 
 // Deprecated: Use StoreBillingServiceSubmitPlayPurchaseRequest.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceSubmitPlayPurchaseRequest) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{110}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{128}
 }
 
 func (x *StoreBillingServiceSubmitPlayPurchaseRequest) GetMeta() *v1.RequestMeta {
@@ -7998,7 +9393,7 @@ type StoreBillingServiceSubmitPlayPurchaseResponse struct {
 
 func (x *StoreBillingServiceSubmitPlayPurchaseResponse) Reset() {
 	*x = StoreBillingServiceSubmitPlayPurchaseResponse{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[111]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[129]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8010,7 +9405,7 @@ func (x *StoreBillingServiceSubmitPlayPurchaseResponse) String() string {
 func (*StoreBillingServiceSubmitPlayPurchaseResponse) ProtoMessage() {}
 
 func (x *StoreBillingServiceSubmitPlayPurchaseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[111]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[129]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8023,7 +9418,7 @@ func (x *StoreBillingServiceSubmitPlayPurchaseResponse) ProtoReflect() protorefl
 
 // Deprecated: Use StoreBillingServiceSubmitPlayPurchaseResponse.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceSubmitPlayPurchaseResponse) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{111}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{129}
 }
 
 func (x *StoreBillingServiceSubmitPlayPurchaseResponse) GetMeta() *v1.ResponseMeta {
@@ -8085,7 +9480,7 @@ type StoreBillingServiceSubmitPlayPurchaseValue struct {
 
 func (x *StoreBillingServiceSubmitPlayPurchaseValue) Reset() {
 	*x = StoreBillingServiceSubmitPlayPurchaseValue{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[112]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[130]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8097,7 +9492,7 @@ func (x *StoreBillingServiceSubmitPlayPurchaseValue) String() string {
 func (*StoreBillingServiceSubmitPlayPurchaseValue) ProtoMessage() {}
 
 func (x *StoreBillingServiceSubmitPlayPurchaseValue) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[112]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[130]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8110,7 +9505,7 @@ func (x *StoreBillingServiceSubmitPlayPurchaseValue) ProtoReflect() protoreflect
 
 // Deprecated: Use StoreBillingServiceSubmitPlayPurchaseValue.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceSubmitPlayPurchaseValue) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{112}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{130}
 }
 
 func (x *StoreBillingServiceSubmitPlayPurchaseValue) GetResult() *PlayPurchaseResult {
@@ -8130,7 +9525,7 @@ type StoreBillingServiceRestorePlayPurchasesRequest struct {
 
 func (x *StoreBillingServiceRestorePlayPurchasesRequest) Reset() {
 	*x = StoreBillingServiceRestorePlayPurchasesRequest{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[113]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[131]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8142,7 +9537,7 @@ func (x *StoreBillingServiceRestorePlayPurchasesRequest) String() string {
 func (*StoreBillingServiceRestorePlayPurchasesRequest) ProtoMessage() {}
 
 func (x *StoreBillingServiceRestorePlayPurchasesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[113]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[131]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8155,7 +9550,7 @@ func (x *StoreBillingServiceRestorePlayPurchasesRequest) ProtoReflect() protoref
 
 // Deprecated: Use StoreBillingServiceRestorePlayPurchasesRequest.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceRestorePlayPurchasesRequest) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{113}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{131}
 }
 
 func (x *StoreBillingServiceRestorePlayPurchasesRequest) GetMeta() *v1.RequestMeta {
@@ -8186,7 +9581,7 @@ type StoreBillingServiceRestorePlayPurchasesResponse struct {
 
 func (x *StoreBillingServiceRestorePlayPurchasesResponse) Reset() {
 	*x = StoreBillingServiceRestorePlayPurchasesResponse{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[114]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[132]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8198,7 +9593,7 @@ func (x *StoreBillingServiceRestorePlayPurchasesResponse) String() string {
 func (*StoreBillingServiceRestorePlayPurchasesResponse) ProtoMessage() {}
 
 func (x *StoreBillingServiceRestorePlayPurchasesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[114]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[132]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8211,7 +9606,7 @@ func (x *StoreBillingServiceRestorePlayPurchasesResponse) ProtoReflect() protore
 
 // Deprecated: Use StoreBillingServiceRestorePlayPurchasesResponse.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceRestorePlayPurchasesResponse) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{114}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{132}
 }
 
 func (x *StoreBillingServiceRestorePlayPurchasesResponse) GetMeta() *v1.ResponseMeta {
@@ -8273,7 +9668,7 @@ type StoreBillingServiceRestorePlayPurchasesValue struct {
 
 func (x *StoreBillingServiceRestorePlayPurchasesValue) Reset() {
 	*x = StoreBillingServiceRestorePlayPurchasesValue{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[115]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[133]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8285,7 +9680,7 @@ func (x *StoreBillingServiceRestorePlayPurchasesValue) String() string {
 func (*StoreBillingServiceRestorePlayPurchasesValue) ProtoMessage() {}
 
 func (x *StoreBillingServiceRestorePlayPurchasesValue) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[115]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[133]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8298,7 +9693,7 @@ func (x *StoreBillingServiceRestorePlayPurchasesValue) ProtoReflect() protorefle
 
 // Deprecated: Use StoreBillingServiceRestorePlayPurchasesValue.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceRestorePlayPurchasesValue) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{115}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{133}
 }
 
 func (x *StoreBillingServiceRestorePlayPurchasesValue) GetResults() []*PlayPurchaseResult {
@@ -8318,7 +9713,7 @@ type StoreBillingServiceConfirmPurchaseLinkRequest struct {
 
 func (x *StoreBillingServiceConfirmPurchaseLinkRequest) Reset() {
 	*x = StoreBillingServiceConfirmPurchaseLinkRequest{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[116]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[134]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8330,7 +9725,7 @@ func (x *StoreBillingServiceConfirmPurchaseLinkRequest) String() string {
 func (*StoreBillingServiceConfirmPurchaseLinkRequest) ProtoMessage() {}
 
 func (x *StoreBillingServiceConfirmPurchaseLinkRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[116]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[134]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8343,7 +9738,7 @@ func (x *StoreBillingServiceConfirmPurchaseLinkRequest) ProtoReflect() protorefl
 
 // Deprecated: Use StoreBillingServiceConfirmPurchaseLinkRequest.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceConfirmPurchaseLinkRequest) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{116}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{134}
 }
 
 func (x *StoreBillingServiceConfirmPurchaseLinkRequest) GetMeta() *v1.RequestMeta {
@@ -8374,7 +9769,7 @@ type StoreBillingServiceConfirmPurchaseLinkResponse struct {
 
 func (x *StoreBillingServiceConfirmPurchaseLinkResponse) Reset() {
 	*x = StoreBillingServiceConfirmPurchaseLinkResponse{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[117]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[135]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8386,7 +9781,7 @@ func (x *StoreBillingServiceConfirmPurchaseLinkResponse) String() string {
 func (*StoreBillingServiceConfirmPurchaseLinkResponse) ProtoMessage() {}
 
 func (x *StoreBillingServiceConfirmPurchaseLinkResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[117]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[135]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8399,7 +9794,7 @@ func (x *StoreBillingServiceConfirmPurchaseLinkResponse) ProtoReflect() protoref
 
 // Deprecated: Use StoreBillingServiceConfirmPurchaseLinkResponse.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceConfirmPurchaseLinkResponse) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{117}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{135}
 }
 
 func (x *StoreBillingServiceConfirmPurchaseLinkResponse) GetMeta() *v1.ResponseMeta {
@@ -8461,7 +9856,7 @@ type StoreBillingServiceConfirmPurchaseLinkValue struct {
 
 func (x *StoreBillingServiceConfirmPurchaseLinkValue) Reset() {
 	*x = StoreBillingServiceConfirmPurchaseLinkValue{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[118]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[136]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8473,7 +9868,7 @@ func (x *StoreBillingServiceConfirmPurchaseLinkValue) String() string {
 func (*StoreBillingServiceConfirmPurchaseLinkValue) ProtoMessage() {}
 
 func (x *StoreBillingServiceConfirmPurchaseLinkValue) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[118]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[136]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8486,7 +9881,7 @@ func (x *StoreBillingServiceConfirmPurchaseLinkValue) ProtoReflect() protoreflec
 
 // Deprecated: Use StoreBillingServiceConfirmPurchaseLinkValue.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceConfirmPurchaseLinkValue) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{118}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{136}
 }
 
 func (x *StoreBillingServiceConfirmPurchaseLinkValue) GetResult() *PlayPurchaseResult {
@@ -8505,7 +9900,7 @@ type StoreBillingServiceGetBillingStatusRequest struct {
 
 func (x *StoreBillingServiceGetBillingStatusRequest) Reset() {
 	*x = StoreBillingServiceGetBillingStatusRequest{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[119]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[137]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8517,7 +9912,7 @@ func (x *StoreBillingServiceGetBillingStatusRequest) String() string {
 func (*StoreBillingServiceGetBillingStatusRequest) ProtoMessage() {}
 
 func (x *StoreBillingServiceGetBillingStatusRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[119]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[137]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8530,7 +9925,7 @@ func (x *StoreBillingServiceGetBillingStatusRequest) ProtoReflect() protoreflect
 
 // Deprecated: Use StoreBillingServiceGetBillingStatusRequest.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceGetBillingStatusRequest) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{119}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{137}
 }
 
 func (x *StoreBillingServiceGetBillingStatusRequest) GetMeta() *v1.RequestMeta {
@@ -8554,7 +9949,7 @@ type StoreBillingServiceGetBillingStatusResponse struct {
 
 func (x *StoreBillingServiceGetBillingStatusResponse) Reset() {
 	*x = StoreBillingServiceGetBillingStatusResponse{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[120]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[138]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8566,7 +9961,7 @@ func (x *StoreBillingServiceGetBillingStatusResponse) String() string {
 func (*StoreBillingServiceGetBillingStatusResponse) ProtoMessage() {}
 
 func (x *StoreBillingServiceGetBillingStatusResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[120]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[138]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8579,7 +9974,7 @@ func (x *StoreBillingServiceGetBillingStatusResponse) ProtoReflect() protoreflec
 
 // Deprecated: Use StoreBillingServiceGetBillingStatusResponse.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceGetBillingStatusResponse) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{120}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{138}
 }
 
 func (x *StoreBillingServiceGetBillingStatusResponse) GetMeta() *v1.ResponseMeta {
@@ -8641,7 +10036,7 @@ type StoreBillingServiceGetBillingStatusValue struct {
 
 func (x *StoreBillingServiceGetBillingStatusValue) Reset() {
 	*x = StoreBillingServiceGetBillingStatusValue{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[121]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[139]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8653,7 +10048,7 @@ func (x *StoreBillingServiceGetBillingStatusValue) String() string {
 func (*StoreBillingServiceGetBillingStatusValue) ProtoMessage() {}
 
 func (x *StoreBillingServiceGetBillingStatusValue) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[121]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[139]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8666,7 +10061,7 @@ func (x *StoreBillingServiceGetBillingStatusValue) ProtoReflect() protoreflect.M
 
 // Deprecated: Use StoreBillingServiceGetBillingStatusValue.ProtoReflect.Descriptor instead.
 func (*StoreBillingServiceGetBillingStatusValue) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{121}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{139}
 }
 
 func (x *StoreBillingServiceGetBillingStatusValue) GetStatus() *BillingStatus {
@@ -8691,7 +10086,7 @@ type EnrollingNodeInfo struct {
 
 func (x *EnrollingNodeInfo) Reset() {
 	*x = EnrollingNodeInfo{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[122]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[140]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8703,7 +10098,7 @@ func (x *EnrollingNodeInfo) String() string {
 func (*EnrollingNodeInfo) ProtoMessage() {}
 
 func (x *EnrollingNodeInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[122]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[140]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8716,7 +10111,7 @@ func (x *EnrollingNodeInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EnrollingNodeInfo.ProtoReflect.Descriptor instead.
 func (*EnrollingNodeInfo) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{122}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{140}
 }
 
 func (x *EnrollingNodeInfo) GetNodeId() *v1.Id {
@@ -8780,7 +10175,7 @@ type AccountSummary struct {
 
 func (x *AccountSummary) Reset() {
 	*x = AccountSummary{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[123]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[141]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8792,7 +10187,7 @@ func (x *AccountSummary) String() string {
 func (*AccountSummary) ProtoMessage() {}
 
 func (x *AccountSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[123]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[141]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8805,7 +10200,7 @@ func (x *AccountSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AccountSummary.ProtoReflect.Descriptor instead.
 func (*AccountSummary) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{123}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{141}
 }
 
 func (x *AccountSummary) GetAccountId() *v1.Id {
@@ -8849,7 +10244,7 @@ type PublicKey struct {
 
 func (x *PublicKey) Reset() {
 	*x = PublicKey{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[124]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[142]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8861,7 +10256,7 @@ func (x *PublicKey) String() string {
 func (*PublicKey) ProtoMessage() {}
 
 func (x *PublicKey) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[124]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[142]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8874,7 +10269,7 @@ func (x *PublicKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PublicKey.ProtoReflect.Descriptor instead.
 func (*PublicKey) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{124}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{142}
 }
 
 func (x *PublicKey) GetKid() string {
@@ -8925,7 +10320,7 @@ type SignedBlob struct {
 
 func (x *SignedBlob) Reset() {
 	*x = SignedBlob{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[125]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[143]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8937,7 +10332,7 @@ func (x *SignedBlob) String() string {
 func (*SignedBlob) ProtoMessage() {}
 
 func (x *SignedBlob) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[125]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[143]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8950,7 +10345,7 @@ func (x *SignedBlob) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignedBlob.ProtoReflect.Descriptor instead.
 func (*SignedBlob) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{125}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{143}
 }
 
 func (x *SignedBlob) GetPayload() []byte {
@@ -8998,7 +10393,7 @@ type EntitlementClaims struct {
 
 func (x *EntitlementClaims) Reset() {
 	*x = EntitlementClaims{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[126]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[144]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9010,7 +10405,7 @@ func (x *EntitlementClaims) String() string {
 func (*EntitlementClaims) ProtoMessage() {}
 
 func (x *EntitlementClaims) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[126]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[144]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9023,7 +10418,7 @@ func (x *EntitlementClaims) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EntitlementClaims.ProtoReflect.Descriptor instead.
 func (*EntitlementClaims) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{126}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{144}
 }
 
 func (x *EntitlementClaims) GetAccountId() *v1.Id {
@@ -9101,7 +10496,7 @@ type NodeCredentials struct {
 
 func (x *NodeCredentials) Reset() {
 	*x = NodeCredentials{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[127]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[145]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9113,7 +10508,7 @@ func (x *NodeCredentials) String() string {
 func (*NodeCredentials) ProtoMessage() {}
 
 func (x *NodeCredentials) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[127]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[145]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9126,7 +10521,7 @@ func (x *NodeCredentials) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NodeCredentials.ProtoReflect.Descriptor instead.
 func (*NodeCredentials) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{127}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{145}
 }
 
 func (x *NodeCredentials) GetRefreshToken() string {
@@ -9220,7 +10615,7 @@ type MobileSessionCredentials struct {
 
 func (x *MobileSessionCredentials) Reset() {
 	*x = MobileSessionCredentials{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[128]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[146]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9232,7 +10627,7 @@ func (x *MobileSessionCredentials) String() string {
 func (*MobileSessionCredentials) ProtoMessage() {}
 
 func (x *MobileSessionCredentials) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[128]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[146]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9245,7 +10640,7 @@ func (x *MobileSessionCredentials) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MobileSessionCredentials.ProtoReflect.Descriptor instead.
 func (*MobileSessionCredentials) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{128}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{146}
 }
 
 func (x *MobileSessionCredentials) GetRefreshToken() string {
@@ -9303,7 +10698,7 @@ type NodeSignInFlowView struct {
 
 func (x *NodeSignInFlowView) Reset() {
 	*x = NodeSignInFlowView{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[129]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[147]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9315,7 +10710,7 @@ func (x *NodeSignInFlowView) String() string {
 func (*NodeSignInFlowView) ProtoMessage() {}
 
 func (x *NodeSignInFlowView) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[129]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[147]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9328,7 +10723,7 @@ func (x *NodeSignInFlowView) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NodeSignInFlowView.ProtoReflect.Descriptor instead.
 func (*NodeSignInFlowView) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{129}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{147}
 }
 
 func (x *NodeSignInFlowView) GetFlowId() *v1.Id {
@@ -9380,7 +10775,7 @@ type DeviceAuthorization struct {
 
 func (x *DeviceAuthorization) Reset() {
 	*x = DeviceAuthorization{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[130]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[148]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9392,7 +10787,7 @@ func (x *DeviceAuthorization) String() string {
 func (*DeviceAuthorization) ProtoMessage() {}
 
 func (x *DeviceAuthorization) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[130]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[148]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9405,7 +10800,7 @@ func (x *DeviceAuthorization) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeviceAuthorization.ProtoReflect.Descriptor instead.
 func (*DeviceAuthorization) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{130}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{148}
 }
 
 func (x *DeviceAuthorization) GetDeviceCode() string {
@@ -9462,7 +10857,7 @@ type PhoneInstallationInfo struct {
 
 func (x *PhoneInstallationInfo) Reset() {
 	*x = PhoneInstallationInfo{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[131]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[149]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9474,7 +10869,7 @@ func (x *PhoneInstallationInfo) String() string {
 func (*PhoneInstallationInfo) ProtoMessage() {}
 
 func (x *PhoneInstallationInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[131]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[149]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9487,7 +10882,7 @@ func (x *PhoneInstallationInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PhoneInstallationInfo.ProtoReflect.Descriptor instead.
 func (*PhoneInstallationInfo) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{131}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{149}
 }
 
 func (x *PhoneInstallationInfo) GetInstallationId() *v1.Id {
@@ -9530,7 +10925,7 @@ type PhonePairingTicket struct {
 
 func (x *PhonePairingTicket) Reset() {
 	*x = PhonePairingTicket{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[132]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[150]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9542,7 +10937,7 @@ func (x *PhonePairingTicket) String() string {
 func (*PhonePairingTicket) ProtoMessage() {}
 
 func (x *PhonePairingTicket) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[132]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[150]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9555,7 +10950,7 @@ func (x *PhonePairingTicket) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PhonePairingTicket.ProtoReflect.Descriptor instead.
 func (*PhonePairingTicket) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{132}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{150}
 }
 
 func (x *PhonePairingTicket) GetPairingId() *v1.Id {
@@ -9598,7 +10993,7 @@ type PhonePairingView struct {
 
 func (x *PhonePairingView) Reset() {
 	*x = PhonePairingView{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[133]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[151]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9610,7 +11005,7 @@ func (x *PhonePairingView) String() string {
 func (*PhonePairingView) ProtoMessage() {}
 
 func (x *PhonePairingView) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[133]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[151]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9623,7 +11018,7 @@ func (x *PhonePairingView) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PhonePairingView.ProtoReflect.Descriptor instead.
 func (*PhonePairingView) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{133}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{151}
 }
 
 func (x *PhonePairingView) GetPairingId() *v1.Id {
@@ -9667,7 +11062,7 @@ type LanHint struct {
 
 func (x *LanHint) Reset() {
 	*x = LanHint{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[134]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[152]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9679,7 +11074,7 @@ func (x *LanHint) String() string {
 func (*LanHint) ProtoMessage() {}
 
 func (x *LanHint) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[134]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[152]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9692,7 +11087,7 @@ func (x *LanHint) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LanHint.ProtoReflect.Descriptor instead.
 func (*LanHint) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{134}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{152}
 }
 
 func (x *LanHint) GetNodeId() *v1.Id {
@@ -9765,7 +11160,7 @@ type StatusSummary struct {
 
 func (x *StatusSummary) Reset() {
 	*x = StatusSummary{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[135]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[153]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9777,7 +11172,7 @@ func (x *StatusSummary) String() string {
 func (*StatusSummary) ProtoMessage() {}
 
 func (x *StatusSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[135]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[153]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9790,7 +11185,7 @@ func (x *StatusSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatusSummary.ProtoReflect.Descriptor instead.
 func (*StatusSummary) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{135}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{153}
 }
 
 func (x *StatusSummary) GetNodeId() *v1.Id {
@@ -10004,7 +11399,7 @@ type TaskSummary struct {
 
 func (x *TaskSummary) Reset() {
 	*x = TaskSummary{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[136]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[154]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10016,7 +11411,7 @@ func (x *TaskSummary) String() string {
 func (*TaskSummary) ProtoMessage() {}
 
 func (x *TaskSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[136]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[154]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10029,7 +11424,7 @@ func (x *TaskSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TaskSummary.ProtoReflect.Descriptor instead.
 func (*TaskSummary) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{136}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{154}
 }
 
 func (x *TaskSummary) GetTaskId() *v1.Id {
@@ -10189,7 +11584,7 @@ type CategoryShare struct {
 
 func (x *CategoryShare) Reset() {
 	*x = CategoryShare{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[137]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[155]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10201,7 +11596,7 @@ func (x *CategoryShare) String() string {
 func (*CategoryShare) ProtoMessage() {}
 
 func (x *CategoryShare) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[137]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[155]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10214,7 +11609,7 @@ func (x *CategoryShare) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CategoryShare.ProtoReflect.Descriptor instead.
 func (*CategoryShare) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{137}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{155}
 }
 
 func (x *CategoryShare) GetCategory() string {
@@ -10245,7 +11640,7 @@ type FindingSummary struct {
 
 func (x *FindingSummary) Reset() {
 	*x = FindingSummary{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[138]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[156]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10257,7 +11652,7 @@ func (x *FindingSummary) String() string {
 func (*FindingSummary) ProtoMessage() {}
 
 func (x *FindingSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[138]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[156]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10270,7 +11665,7 @@ func (x *FindingSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindingSummary.ProtoReflect.Descriptor instead.
 func (*FindingSummary) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{138}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{156}
 }
 
 func (x *FindingSummary) GetFindingId() *v1.Id {
@@ -10330,7 +11725,7 @@ type ApprovalSummary struct {
 
 func (x *ApprovalSummary) Reset() {
 	*x = ApprovalSummary{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[139]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[157]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10342,7 +11737,7 @@ func (x *ApprovalSummary) String() string {
 func (*ApprovalSummary) ProtoMessage() {}
 
 func (x *ApprovalSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[139]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[157]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10355,7 +11750,7 @@ func (x *ApprovalSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApprovalSummary.ProtoReflect.Descriptor instead.
 func (*ApprovalSummary) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{139}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{157}
 }
 
 func (x *ApprovalSummary) GetApprovalId() *v1.Id {
@@ -10429,7 +11824,7 @@ type SessionSummary struct {
 
 func (x *SessionSummary) Reset() {
 	*x = SessionSummary{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[140]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[158]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10441,7 +11836,7 @@ func (x *SessionSummary) String() string {
 func (*SessionSummary) ProtoMessage() {}
 
 func (x *SessionSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[140]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[158]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10454,7 +11849,7 @@ func (x *SessionSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SessionSummary.ProtoReflect.Descriptor instead.
 func (*SessionSummary) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{140}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{158}
 }
 
 func (x *SessionSummary) GetSessionId() *v1.Id {
@@ -10567,7 +11962,7 @@ type SubagentSummary struct {
 
 func (x *SubagentSummary) Reset() {
 	*x = SubagentSummary{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[141]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[159]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10579,7 +11974,7 @@ func (x *SubagentSummary) String() string {
 func (*SubagentSummary) ProtoMessage() {}
 
 func (x *SubagentSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[141]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[159]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10592,7 +11987,7 @@ func (x *SubagentSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubagentSummary.ProtoReflect.Descriptor instead.
 func (*SubagentSummary) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{141}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{159}
 }
 
 func (x *SubagentSummary) GetAgentType() string {
@@ -10641,7 +12036,7 @@ type StatusDelta struct {
 
 func (x *StatusDelta) Reset() {
 	*x = StatusDelta{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[142]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[160]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10653,7 +12048,7 @@ func (x *StatusDelta) String() string {
 func (*StatusDelta) ProtoMessage() {}
 
 func (x *StatusDelta) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[142]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[160]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10666,7 +12061,7 @@ func (x *StatusDelta) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatusDelta.ProtoReflect.Descriptor instead.
 func (*StatusDelta) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{142}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{160}
 }
 
 func (x *StatusDelta) GetNodeId() *v1.Id {
@@ -10752,7 +12147,7 @@ type NodeSnapshot struct {
 
 func (x *NodeSnapshot) Reset() {
 	*x = NodeSnapshot{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[143]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[161]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10764,7 +12159,7 @@ func (x *NodeSnapshot) String() string {
 func (*NodeSnapshot) ProtoMessage() {}
 
 func (x *NodeSnapshot) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[143]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[161]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10777,7 +12172,7 @@ func (x *NodeSnapshot) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NodeSnapshot.ProtoReflect.Descriptor instead.
 func (*NodeSnapshot) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{143}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{161}
 }
 
 func (x *NodeSnapshot) GetSummary() *StatusSummary {
@@ -10831,13 +12226,14 @@ type FleetNode struct {
 	RelayEnabled        *bool                  `protobuf:"varint,12,opt,name=relay_enabled,json=relayEnabled,proto3,oneof" json:"relay_enabled,omitempty"`
 	DeviceId            *v1.Id                 `protobuf:"bytes,13,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`                                    // the node's own device record (publicapi.v1.DeviceService)
 	CredentialExpiresAt *v1.Instant            `protobuf:"bytes,14,opt,name=credential_expires_at,json=credentialExpiresAt,proto3" json:"credential_expires_at,omitempty"` // absolute end of the node's credential; absent when signed out
+	ReportedName        *string                `protobuf:"bytes,15,opt,name=reported_name,json=reportedName,proto3,oneof" json:"reported_name,omitempty"`                  // validate: 1..64 chars; the name the node reports (ReportNodeInfo); name is the account's (RenameNode), which wins (Plan decision Q25)
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
 
 func (x *FleetNode) Reset() {
 	*x = FleetNode{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[144]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[162]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10849,7 +12245,7 @@ func (x *FleetNode) String() string {
 func (*FleetNode) ProtoMessage() {}
 
 func (x *FleetNode) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[144]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[162]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10862,7 +12258,7 @@ func (x *FleetNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FleetNode.ProtoReflect.Descriptor instead.
 func (*FleetNode) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{144}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{162}
 }
 
 func (x *FleetNode) GetNodeId() *v1.Id {
@@ -10963,6 +12359,75 @@ func (x *FleetNode) GetCredentialExpiresAt() *v1.Instant {
 	return nil
 }
 
+func (x *FleetNode) GetReportedName() string {
+	if x != nil && x.ReportedName != nil {
+		return *x.ReportedName
+	}
+	return ""
+}
+
+// A node-relayed caller of a routed fleet method: what the relaying node states. The center compares it with the verified relay
+// assertion (request_mismatch otherwise) and never trusts it on its own.
+type RoutedCaller struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Kind           *CallerKind            `protobuf:"varint,1,opt,name=kind,proto3,enum=arcforges.fleet.v1.CallerKind,oneof" json:"kind,omitempty"`                             // validate: required; NODE_RELAY
+	RelayingNodeId *v1.Id                 `protobuf:"bytes,2,opt,name=relaying_node_id,json=relayingNodeId,proto3" json:"relaying_node_id,omitempty"`                           // validate: required; the bearer credential's own node
+	LocalOrigin    *v11.Origin            `protobuf:"varint,3,opt,name=local_origin,json=localOrigin,proto3,enum=arcforges.node.v1.Origin,oneof" json:"local_origin,omitempty"` // validate: required; HUMAN, SCRIPT or AGENT, as the relaying node classified its local caller
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *RoutedCaller) Reset() {
+	*x = RoutedCaller{}
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[163]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RoutedCaller) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RoutedCaller) ProtoMessage() {}
+
+func (x *RoutedCaller) ProtoReflect() protoreflect.Message {
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[163]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RoutedCaller.ProtoReflect.Descriptor instead.
+func (*RoutedCaller) Descriptor() ([]byte, []int) {
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{163}
+}
+
+func (x *RoutedCaller) GetKind() CallerKind {
+	if x != nil && x.Kind != nil {
+		return *x.Kind
+	}
+	return CallerKind_CALLER_KIND_UNSPECIFIED
+}
+
+func (x *RoutedCaller) GetRelayingNodeId() *v1.Id {
+	if x != nil {
+		return x.RelayingNodeId
+	}
+	return nil
+}
+
+func (x *RoutedCaller) GetLocalOrigin() v11.Origin {
+	if x != nil && x.LocalOrigin != nil {
+		return *x.LocalOrigin
+	}
+	return v11.Origin(0)
+}
+
 // Commands a viewer may send to a node (AD-0009 section 5). Risk is fixed per kind.
 type NodeCommandBody struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -10986,7 +12451,7 @@ type NodeCommandBody struct {
 
 func (x *NodeCommandBody) Reset() {
 	*x = NodeCommandBody{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[145]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[164]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10998,7 +12463,7 @@ func (x *NodeCommandBody) String() string {
 func (*NodeCommandBody) ProtoMessage() {}
 
 func (x *NodeCommandBody) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[145]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[164]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11011,7 +12476,7 @@ func (x *NodeCommandBody) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NodeCommandBody.ProtoReflect.Descriptor instead.
 func (*NodeCommandBody) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{145}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{164}
 }
 
 func (x *NodeCommandBody) GetKind() isNodeCommandBody_Kind {
@@ -11199,7 +12664,7 @@ type RefreshStatusCommand struct {
 
 func (x *RefreshStatusCommand) Reset() {
 	*x = RefreshStatusCommand{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[146]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[165]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11211,7 +12676,7 @@ func (x *RefreshStatusCommand) String() string {
 func (*RefreshStatusCommand) ProtoMessage() {}
 
 func (x *RefreshStatusCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[146]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[165]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11224,7 +12689,7 @@ func (x *RefreshStatusCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshStatusCommand.ProtoReflect.Descriptor instead.
 func (*RefreshStatusCommand) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{146}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{165}
 }
 
 func (x *RefreshStatusCommand) GetDetail() DetailLevel {
@@ -11243,7 +12708,7 @@ type PauseQueueCommand struct {
 
 func (x *PauseQueueCommand) Reset() {
 	*x = PauseQueueCommand{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[147]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[166]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11255,7 +12720,7 @@ func (x *PauseQueueCommand) String() string {
 func (*PauseQueueCommand) ProtoMessage() {}
 
 func (x *PauseQueueCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[147]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[166]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11268,7 +12733,7 @@ func (x *PauseQueueCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PauseQueueCommand.ProtoReflect.Descriptor instead.
 func (*PauseQueueCommand) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{147}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{166}
 }
 
 func (x *PauseQueueCommand) GetPool() string {
@@ -11287,7 +12752,7 @@ type ResumeQueueCommand struct {
 
 func (x *ResumeQueueCommand) Reset() {
 	*x = ResumeQueueCommand{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[148]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[167]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11299,7 +12764,7 @@ func (x *ResumeQueueCommand) String() string {
 func (*ResumeQueueCommand) ProtoMessage() {}
 
 func (x *ResumeQueueCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[148]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[167]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11312,7 +12777,7 @@ func (x *ResumeQueueCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResumeQueueCommand.ProtoReflect.Descriptor instead.
 func (*ResumeQueueCommand) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{148}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{167}
 }
 
 func (x *ResumeQueueCommand) GetPool() string {
@@ -11332,7 +12797,7 @@ type CancelTaskCommand struct {
 
 func (x *CancelTaskCommand) Reset() {
 	*x = CancelTaskCommand{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[149]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[168]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11344,7 +12809,7 @@ func (x *CancelTaskCommand) String() string {
 func (*CancelTaskCommand) ProtoMessage() {}
 
 func (x *CancelTaskCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[149]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[168]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11357,7 +12822,7 @@ func (x *CancelTaskCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelTaskCommand.ProtoReflect.Descriptor instead.
 func (*CancelTaskCommand) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{149}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{168}
 }
 
 func (x *CancelTaskCommand) GetTaskId() *v1.Id {
@@ -11384,7 +12849,7 @@ type SetPriorityCommand struct {
 
 func (x *SetPriorityCommand) Reset() {
 	*x = SetPriorityCommand{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[150]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[169]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11396,7 +12861,7 @@ func (x *SetPriorityCommand) String() string {
 func (*SetPriorityCommand) ProtoMessage() {}
 
 func (x *SetPriorityCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[150]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[169]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11409,7 +12874,7 @@ func (x *SetPriorityCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetPriorityCommand.ProtoReflect.Descriptor instead.
 func (*SetPriorityCommand) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{150}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{169}
 }
 
 func (x *SetPriorityCommand) GetTaskId() *v1.Id {
@@ -11435,7 +12900,7 @@ type RunTaskCommand struct {
 
 func (x *RunTaskCommand) Reset() {
 	*x = RunTaskCommand{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[151]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[170]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11447,7 +12912,7 @@ func (x *RunTaskCommand) String() string {
 func (*RunTaskCommand) ProtoMessage() {}
 
 func (x *RunTaskCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[151]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[170]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11460,7 +12925,7 @@ func (x *RunTaskCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RunTaskCommand.ProtoReflect.Descriptor instead.
 func (*RunTaskCommand) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{151}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{170}
 }
 
 func (x *RunTaskCommand) GetSpec() *v11.TaskSpec {
@@ -11481,7 +12946,7 @@ type DecideApprovalCommand struct {
 
 func (x *DecideApprovalCommand) Reset() {
 	*x = DecideApprovalCommand{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[152]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[171]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11493,7 +12958,7 @@ func (x *DecideApprovalCommand) String() string {
 func (*DecideApprovalCommand) ProtoMessage() {}
 
 func (x *DecideApprovalCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[152]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[171]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11506,7 +12971,7 @@ func (x *DecideApprovalCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DecideApprovalCommand.ProtoReflect.Descriptor instead.
 func (*DecideApprovalCommand) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{152}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{171}
 }
 
 func (x *DecideApprovalCommand) GetApprovalId() *v1.Id {
@@ -11540,7 +13005,7 @@ type ReadOutputTailCommand struct {
 
 func (x *ReadOutputTailCommand) Reset() {
 	*x = ReadOutputTailCommand{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[153]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[172]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11552,7 +13017,7 @@ func (x *ReadOutputTailCommand) String() string {
 func (*ReadOutputTailCommand) ProtoMessage() {}
 
 func (x *ReadOutputTailCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[153]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[172]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11565,7 +13030,7 @@ func (x *ReadOutputTailCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReadOutputTailCommand.ProtoReflect.Descriptor instead.
 func (*ReadOutputTailCommand) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{153}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{172}
 }
 
 func (x *ReadOutputTailCommand) GetTaskId() *v1.Id {
@@ -11591,7 +13056,7 @@ type ApplyUpdateCommand struct {
 
 func (x *ApplyUpdateCommand) Reset() {
 	*x = ApplyUpdateCommand{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[154]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[173]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11603,7 +13068,7 @@ func (x *ApplyUpdateCommand) String() string {
 func (*ApplyUpdateCommand) ProtoMessage() {}
 
 func (x *ApplyUpdateCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[154]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[173]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11616,7 +13081,7 @@ func (x *ApplyUpdateCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApplyUpdateCommand.ProtoReflect.Descriptor instead.
 func (*ApplyUpdateCommand) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{154}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{173}
 }
 
 func (x *ApplyUpdateCommand) GetExpectedVersion() string {
@@ -11638,7 +13103,7 @@ type SetParallelismCommand struct {
 
 func (x *SetParallelismCommand) Reset() {
 	*x = SetParallelismCommand{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[155]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[174]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11650,7 +13115,7 @@ func (x *SetParallelismCommand) String() string {
 func (*SetParallelismCommand) ProtoMessage() {}
 
 func (x *SetParallelismCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[155]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[174]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11663,7 +13128,7 @@ func (x *SetParallelismCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetParallelismCommand.ProtoReflect.Descriptor instead.
 func (*SetParallelismCommand) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{155}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{174}
 }
 
 func (x *SetParallelismCommand) GetScope() v11.ParallelismScope {
@@ -11703,7 +13168,7 @@ type StopNodeCommand struct {
 
 func (x *StopNodeCommand) Reset() {
 	*x = StopNodeCommand{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[156]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[175]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11715,7 +13180,7 @@ func (x *StopNodeCommand) String() string {
 func (*StopNodeCommand) ProtoMessage() {}
 
 func (x *StopNodeCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[156]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[175]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11728,7 +13193,7 @@ func (x *StopNodeCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StopNodeCommand.ProtoReflect.Descriptor instead.
 func (*StopNodeCommand) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{156}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{175}
 }
 
 func (x *StopNodeCommand) GetCancelRunning() bool {
@@ -11757,7 +13222,7 @@ type NodeCommand struct {
 
 func (x *NodeCommand) Reset() {
 	*x = NodeCommand{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[157]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[176]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11769,7 +13234,7 @@ func (x *NodeCommand) String() string {
 func (*NodeCommand) ProtoMessage() {}
 
 func (x *NodeCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[157]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[176]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11782,7 +13247,7 @@ func (x *NodeCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NodeCommand.ProtoReflect.Descriptor instead.
 func (*NodeCommand) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{157}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{176}
 }
 
 func (x *NodeCommand) GetCommandId() *v1.Id {
@@ -11875,7 +13340,7 @@ type NodeCommandResult struct {
 
 func (x *NodeCommandResult) Reset() {
 	*x = NodeCommandResult{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[158]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[177]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11887,7 +13352,7 @@ func (x *NodeCommandResult) String() string {
 func (*NodeCommandResult) ProtoMessage() {}
 
 func (x *NodeCommandResult) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[158]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[177]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11900,7 +13365,7 @@ func (x *NodeCommandResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NodeCommandResult.ProtoReflect.Descriptor instead.
 func (*NodeCommandResult) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{158}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{177}
 }
 
 func (x *NodeCommandResult) GetCommandId() *v1.Id {
@@ -12005,7 +13470,7 @@ type RemoteCommandView struct {
 
 func (x *RemoteCommandView) Reset() {
 	*x = RemoteCommandView{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[159]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[178]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12017,7 +13482,7 @@ func (x *RemoteCommandView) String() string {
 func (*RemoteCommandView) ProtoMessage() {}
 
 func (x *RemoteCommandView) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[159]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[178]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12030,7 +13495,7 @@ func (x *RemoteCommandView) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoteCommandView.ProtoReflect.Descriptor instead.
 func (*RemoteCommandView) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{159}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{178}
 }
 
 func (x *RemoteCommandView) GetCommandId() *v1.Id {
@@ -12121,7 +13586,7 @@ type RelayTokenGrant struct {
 
 func (x *RelayTokenGrant) Reset() {
 	*x = RelayTokenGrant{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[160]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[179]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12133,7 +13598,7 @@ func (x *RelayTokenGrant) String() string {
 func (*RelayTokenGrant) ProtoMessage() {}
 
 func (x *RelayTokenGrant) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[160]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[179]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12146,7 +13611,7 @@ func (x *RelayTokenGrant) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RelayTokenGrant.ProtoReflect.Descriptor instead.
 func (*RelayTokenGrant) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{160}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{179}
 }
 
 func (x *RelayTokenGrant) GetToken() string {
@@ -12181,7 +13646,7 @@ type ViewerGrant struct {
 
 func (x *ViewerGrant) Reset() {
 	*x = ViewerGrant{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[161]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[180]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12193,7 +13658,7 @@ func (x *ViewerGrant) String() string {
 func (*ViewerGrant) ProtoMessage() {}
 
 func (x *ViewerGrant) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[161]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[180]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12206,7 +13671,7 @@ func (x *ViewerGrant) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ViewerGrant.ProtoReflect.Descriptor instead.
 func (*ViewerGrant) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{161}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{180}
 }
 
 func (x *ViewerGrant) GetGrant() string {
@@ -12241,7 +13706,7 @@ type NodePresence struct {
 
 func (x *NodePresence) Reset() {
 	*x = NodePresence{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[162]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[181]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12253,7 +13718,7 @@ func (x *NodePresence) String() string {
 func (*NodePresence) ProtoMessage() {}
 
 func (x *NodePresence) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[162]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[181]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12266,7 +13731,7 @@ func (x *NodePresence) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NodePresence.ProtoReflect.Descriptor instead.
 func (*NodePresence) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{162}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{181}
 }
 
 func (x *NodePresence) GetNodeId() *v1.Id {
@@ -12301,7 +13766,7 @@ type PushPreference struct {
 
 func (x *PushPreference) Reset() {
 	*x = PushPreference{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[163]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[182]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12313,7 +13778,7 @@ func (x *PushPreference) String() string {
 func (*PushPreference) ProtoMessage() {}
 
 func (x *PushPreference) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[163]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[182]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12326,7 +13791,7 @@ func (x *PushPreference) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PushPreference.ProtoReflect.Descriptor instead.
 func (*PushPreference) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{163}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{182}
 }
 
 func (x *PushPreference) GetKind() string {
@@ -12361,7 +13826,7 @@ type PushPreferences struct {
 
 func (x *PushPreferences) Reset() {
 	*x = PushPreferences{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[164]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[183]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12373,7 +13838,7 @@ func (x *PushPreferences) String() string {
 func (*PushPreferences) ProtoMessage() {}
 
 func (x *PushPreferences) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[164]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[183]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12386,7 +13851,7 @@ func (x *PushPreferences) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PushPreferences.ProtoReflect.Descriptor instead.
 func (*PushPreferences) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{164}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{183}
 }
 
 func (x *PushPreferences) GetPreferences() []*PushPreference {
@@ -12423,7 +13888,7 @@ type PlayPurchaseInput struct {
 
 func (x *PlayPurchaseInput) Reset() {
 	*x = PlayPurchaseInput{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[165]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[184]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12435,7 +13900,7 @@ func (x *PlayPurchaseInput) String() string {
 func (*PlayPurchaseInput) ProtoMessage() {}
 
 func (x *PlayPurchaseInput) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[165]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[184]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12448,7 +13913,7 @@ func (x *PlayPurchaseInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PlayPurchaseInput.ProtoReflect.Descriptor instead.
 func (*PlayPurchaseInput) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{165}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{184}
 }
 
 func (x *PlayPurchaseInput) GetPurchaseToken() string {
@@ -12501,7 +13966,7 @@ type SubscriptionView struct {
 
 func (x *SubscriptionView) Reset() {
 	*x = SubscriptionView{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[166]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[185]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12513,7 +13978,7 @@ func (x *SubscriptionView) String() string {
 func (*SubscriptionView) ProtoMessage() {}
 
 func (x *SubscriptionView) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[166]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[185]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12526,7 +13991,7 @@ func (x *SubscriptionView) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubscriptionView.ProtoReflect.Descriptor instead.
 func (*SubscriptionView) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{166}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{185}
 }
 
 func (x *SubscriptionView) GetSource() SubscriptionSource {
@@ -12590,7 +14055,7 @@ type PlayPurchaseResult struct {
 
 func (x *PlayPurchaseResult) Reset() {
 	*x = PlayPurchaseResult{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[167]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[186]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12602,7 +14067,7 @@ func (x *PlayPurchaseResult) String() string {
 func (*PlayPurchaseResult) ProtoMessage() {}
 
 func (x *PlayPurchaseResult) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[167]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[186]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12615,7 +14080,7 @@ func (x *PlayPurchaseResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PlayPurchaseResult.ProtoReflect.Descriptor instead.
 func (*PlayPurchaseResult) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{167}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{186}
 }
 
 func (x *PlayPurchaseResult) GetPurchaseTokenHash() string {
@@ -12659,7 +14124,7 @@ type BillingStatus struct {
 
 func (x *BillingStatus) Reset() {
 	*x = BillingStatus{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[168]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[187]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12671,7 +14136,7 @@ func (x *BillingStatus) String() string {
 func (*BillingStatus) ProtoMessage() {}
 
 func (x *BillingStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[168]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[187]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12684,7 +14149,7 @@ func (x *BillingStatus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BillingStatus.ProtoReflect.Descriptor instead.
 func (*BillingStatus) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{168}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{187}
 }
 
 func (x *BillingStatus) GetSubscriptions() []*SubscriptionView {
@@ -12733,7 +14198,7 @@ type NodeCursorInput struct {
 
 func (x *NodeCursorInput) Reset() {
 	*x = NodeCursorInput{}
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[169]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[188]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12745,7 +14210,7 @@ func (x *NodeCursorInput) String() string {
 func (*NodeCursorInput) ProtoMessage() {}
 
 func (x *NodeCursorInput) ProtoReflect() protoreflect.Message {
-	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[169]
+	mi := &file_arcforges_fleet_v1_fleet_proto_msgTypes[188]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12758,7 +14223,7 @@ func (x *NodeCursorInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NodeCursorInput.ProtoReflect.Descriptor instead.
 func (*NodeCursorInput) Descriptor() ([]byte, []int) {
-	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{169}
+	return file_arcforges_fleet_v1_fleet_proto_rawDescGZIP(), []int{188}
 }
 
 func (x *NodeCursorInput) GetNodeId() *v1.Id {
@@ -13194,9 +14659,13 @@ const file_arcforges_fleet_v1_fleet_proto_rawDesc = "" +
 	" \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06caseId\x12:\n" +
 	"\n" +
 	"message_id\x18\v \x01(\v2\x1b.arcforges.foundation.v1.IdR\tmessageId\x12L\n" +
-	"\x11object_expires_at\x18\f \x01(\v2 .arcforges.foundation.v1.InstantR\x0fobjectExpiresAt\"^\n" +
+	"\x11object_expires_at\x18\f \x01(\v2 .arcforges.foundation.v1.InstantR\x0fobjectExpiresAt\"\xda\x01\n" +
 	"\x1cFleetServiceListNodesRequest\x128\n" +
-	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04metaJ\x04\b\x02\x10\n" +
+	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x128\n" +
+	"\x06caller\x18\n" +
+	" \x01(\v2 .arcforges.fleet.v1.RoutedCallerR\x06caller\x12,\n" +
+	"\x0frelay_assertion\x18\v \x01(\fH\x00R\x0erelayAssertion\x88\x01\x01B\x12\n" +
+	"\x10_relay_assertionJ\x04\b\x02\x10\n" +
 	"\"\xee\x01\n" +
 	"\x1dFleetServiceListNodesResponse\x129\n" +
 	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12F\n" +
@@ -13206,11 +14675,14 @@ const file_arcforges_fleet_v1_fleet_proto_rawDesc = "" +
 	"\"Q\n" +
 	"\x1aFleetServiceListNodesValue\x123\n" +
 	"\x05nodes\x18\n" +
-	" \x03(\v2\x1d.arcforges.fleet.v1.FleetNodeR\x05nodes\"\x92\x01\n" +
+	" \x03(\v2\x1d.arcforges.fleet.v1.FleetNodeR\x05nodes\"\x8e\x02\n" +
 	"\x1aFleetServiceGetNodeRequest\x128\n" +
 	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x124\n" +
 	"\anode_id\x18\n" +
-	" \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeIdJ\x04\b\x02\x10\n" +
+	" \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeId\x128\n" +
+	"\x06caller\x18\v \x01(\v2 .arcforges.fleet.v1.RoutedCallerR\x06caller\x12,\n" +
+	"\x0frelay_assertion\x18\f \x01(\fH\x00R\x0erelayAssertion\x88\x01\x01B\x12\n" +
+	"\x10_relay_assertionJ\x04\b\x02\x10\n" +
 	"\"\xea\x01\n" +
 	"\x1bFleetServiceGetNodeResponse\x129\n" +
 	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12D\n" +
@@ -13387,7 +14859,139 @@ const file_arcforges_fleet_v1_fleet_proto_rawDesc = "" +
 	"\"e\n" +
 	"\"FleetServiceCancelNodeCommandValue\x12?\n" +
 	"\acommand\x18\n" +
-	" \x01(\v2%.arcforges.fleet.v1.RemoteCommandViewR\acommand\"s\n" +
+	" \x01(\v2%.arcforges.fleet.v1.RemoteCommandViewR\acommand\"\xc0\x02\n" +
+	"!FleetServiceSubmitNodeTaskRequest\x128\n" +
+	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x124\n" +
+	"\anode_id\x18\n" +
+	" \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeId\x128\n" +
+	"\x06caller\x18\v \x01(\v2 .arcforges.fleet.v1.RoutedCallerR\x06caller\x12\x1d\n" +
+	"\arequest\x18\f \x01(\fH\x00R\arequest\x88\x01\x01\x12,\n" +
+	"\x0frelay_assertion\x18\r \x01(\fH\x01R\x0erelayAssertion\x88\x01\x01B\n" +
+	"\n" +
+	"\b_requestB\x12\n" +
+	"\x10_relay_assertionJ\x04\b\x02\x10\n" +
+	"\"\xf8\x01\n" +
+	"\"FleetServiceSubmitNodeTaskResponse\x129\n" +
+	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12K\n" +
+	"\x05value\x18\x02 \x01(\v23.arcforges.fleet.v1.FleetServiceSubmitNodeTaskValueH\x00R\x05value\x129\n" +
+	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05errorB\t\n" +
+	"\aoutcomeJ\x04\b\x04\x10\n" +
+	"\"\x85\x01\n" +
+	"\x1fFleetServiceSubmitNodeTaskValue\x12\x1f\n" +
+	"\bresponse\x18\n" +
+	" \x01(\fH\x00R\bresponse\x88\x01\x01\x124\n" +
+	"\anode_id\x18\v \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeIdB\v\n" +
+	"\t_response\"\xbd\x02\n" +
+	"\x1eFleetServiceGetNodeTaskRequest\x128\n" +
+	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x124\n" +
+	"\anode_id\x18\n" +
+	" \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeId\x128\n" +
+	"\x06caller\x18\v \x01(\v2 .arcforges.fleet.v1.RoutedCallerR\x06caller\x12\x1d\n" +
+	"\arequest\x18\f \x01(\fH\x00R\arequest\x88\x01\x01\x12,\n" +
+	"\x0frelay_assertion\x18\r \x01(\fH\x01R\x0erelayAssertion\x88\x01\x01B\n" +
+	"\n" +
+	"\b_requestB\x12\n" +
+	"\x10_relay_assertionJ\x04\b\x02\x10\n" +
+	"\"\xf2\x01\n" +
+	"\x1fFleetServiceGetNodeTaskResponse\x129\n" +
+	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12H\n" +
+	"\x05value\x18\x02 \x01(\v20.arcforges.fleet.v1.FleetServiceGetNodeTaskValueH\x00R\x05value\x129\n" +
+	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05errorB\t\n" +
+	"\aoutcomeJ\x04\b\x04\x10\n" +
+	"\"\x82\x01\n" +
+	"\x1cFleetServiceGetNodeTaskValue\x12\x1f\n" +
+	"\bresponse\x18\n" +
+	" \x01(\fH\x00R\bresponse\x88\x01\x01\x124\n" +
+	"\anode_id\x18\v \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeIdB\v\n" +
+	"\t_response\"\xbf\x02\n" +
+	" FleetServiceListNodeTasksRequest\x128\n" +
+	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x124\n" +
+	"\anode_id\x18\n" +
+	" \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeId\x128\n" +
+	"\x06caller\x18\v \x01(\v2 .arcforges.fleet.v1.RoutedCallerR\x06caller\x12\x1d\n" +
+	"\arequest\x18\f \x01(\fH\x00R\arequest\x88\x01\x01\x12,\n" +
+	"\x0frelay_assertion\x18\r \x01(\fH\x01R\x0erelayAssertion\x88\x01\x01B\n" +
+	"\n" +
+	"\b_requestB\x12\n" +
+	"\x10_relay_assertionJ\x04\b\x02\x10\n" +
+	"\"\xf6\x01\n" +
+	"!FleetServiceListNodeTasksResponse\x129\n" +
+	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12J\n" +
+	"\x05value\x18\x02 \x01(\v22.arcforges.fleet.v1.FleetServiceListNodeTasksValueH\x00R\x05value\x129\n" +
+	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05errorB\t\n" +
+	"\aoutcomeJ\x04\b\x04\x10\n" +
+	"\"\x84\x01\n" +
+	"\x1eFleetServiceListNodeTasksValue\x12\x1f\n" +
+	"\bresponse\x18\n" +
+	" \x01(\fH\x00R\bresponse\x88\x01\x01\x124\n" +
+	"\anode_id\x18\v \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeIdB\v\n" +
+	"\t_response\"\xbe\x02\n" +
+	"\x1fFleetServiceWaitNodeTaskRequest\x128\n" +
+	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x124\n" +
+	"\anode_id\x18\n" +
+	" \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeId\x128\n" +
+	"\x06caller\x18\v \x01(\v2 .arcforges.fleet.v1.RoutedCallerR\x06caller\x12\x1d\n" +
+	"\arequest\x18\f \x01(\fH\x00R\arequest\x88\x01\x01\x12,\n" +
+	"\x0frelay_assertion\x18\r \x01(\fH\x01R\x0erelayAssertion\x88\x01\x01B\n" +
+	"\n" +
+	"\b_requestB\x12\n" +
+	"\x10_relay_assertionJ\x04\b\x02\x10\n" +
+	"\"\xf4\x01\n" +
+	" FleetServiceWaitNodeTaskResponse\x129\n" +
+	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12I\n" +
+	"\x05value\x18\x02 \x01(\v21.arcforges.fleet.v1.FleetServiceWaitNodeTaskValueH\x00R\x05value\x129\n" +
+	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05errorB\t\n" +
+	"\aoutcomeJ\x04\b\x04\x10\n" +
+	"\"\x83\x01\n" +
+	"\x1dFleetServiceWaitNodeTaskValue\x12\x1f\n" +
+	"\bresponse\x18\n" +
+	" \x01(\fH\x00R\bresponse\x88\x01\x01\x124\n" +
+	"\anode_id\x18\v \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeIdB\v\n" +
+	"\t_response\"\xc4\x02\n" +
+	"%FleetServiceReadNodeTaskOutputRequest\x128\n" +
+	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x124\n" +
+	"\anode_id\x18\n" +
+	" \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeId\x128\n" +
+	"\x06caller\x18\v \x01(\v2 .arcforges.fleet.v1.RoutedCallerR\x06caller\x12\x1d\n" +
+	"\arequest\x18\f \x01(\fH\x00R\arequest\x88\x01\x01\x12,\n" +
+	"\x0frelay_assertion\x18\r \x01(\fH\x01R\x0erelayAssertion\x88\x01\x01B\n" +
+	"\n" +
+	"\b_requestB\x12\n" +
+	"\x10_relay_assertionJ\x04\b\x02\x10\n" +
+	"\"\x80\x02\n" +
+	"&FleetServiceReadNodeTaskOutputResponse\x129\n" +
+	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12O\n" +
+	"\x05value\x18\x02 \x01(\v27.arcforges.fleet.v1.FleetServiceReadNodeTaskOutputValueH\x00R\x05value\x129\n" +
+	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05errorB\t\n" +
+	"\aoutcomeJ\x04\b\x04\x10\n" +
+	"\"\x89\x01\n" +
+	"#FleetServiceReadNodeTaskOutputValue\x12\x1f\n" +
+	"\bresponse\x18\n" +
+	" \x01(\fH\x00R\bresponse\x88\x01\x01\x124\n" +
+	"\anode_id\x18\v \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeIdB\v\n" +
+	"\t_response\"\xc0\x02\n" +
+	"!FleetServiceCancelNodeTaskRequest\x128\n" +
+	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x124\n" +
+	"\anode_id\x18\n" +
+	" \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeId\x128\n" +
+	"\x06caller\x18\v \x01(\v2 .arcforges.fleet.v1.RoutedCallerR\x06caller\x12\x1d\n" +
+	"\arequest\x18\f \x01(\fH\x00R\arequest\x88\x01\x01\x12,\n" +
+	"\x0frelay_assertion\x18\r \x01(\fH\x01R\x0erelayAssertion\x88\x01\x01B\n" +
+	"\n" +
+	"\b_requestB\x12\n" +
+	"\x10_relay_assertionJ\x04\b\x02\x10\n" +
+	"\"\xf8\x01\n" +
+	"\"FleetServiceCancelNodeTaskResponse\x129\n" +
+	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12K\n" +
+	"\x05value\x18\x02 \x01(\v23.arcforges.fleet.v1.FleetServiceCancelNodeTaskValueH\x00R\x05value\x129\n" +
+	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05errorB\t\n" +
+	"\aoutcomeJ\x04\b\x04\x10\n" +
+	"\"\x85\x01\n" +
+	"\x1fFleetServiceCancelNodeTaskValue\x12\x1f\n" +
+	"\bresponse\x18\n" +
+	" \x01(\fH\x00R\bresponse\x88\x01\x01\x124\n" +
+	"\anode_id\x18\v \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeIdB\v\n" +
+	"\t_response\"s\n" +
 	"1StoreBillingServiceGetPlayAccountReferenceRequest\x128\n" +
 	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04metaJ\x04\b\x02\x10\n" +
 	"\"\x98\x02\n" +
@@ -13801,7 +15405,7 @@ const file_arcforges_fleet_v1_fleet_proto_rawDesc = "" +
 	"\x05tasks\x18\x02 \x03(\v2\x1f.arcforges.fleet.v1.TaskSummaryR\x05tasks\x12>\n" +
 	"\bfindings\x18\x03 \x03(\v2\".arcforges.fleet.v1.FindingSummaryR\bfindings\x12A\n" +
 	"\tapprovals\x18\x04 \x03(\v2#.arcforges.fleet.v1.ApprovalSummaryR\tapprovals\x12>\n" +
-	"\bsessions\x18\x05 \x03(\v2\".arcforges.fleet.v1.SessionSummaryR\bsessions\"\xe8\x06\n" +
+	"\bsessions\x18\x05 \x03(\v2\".arcforges.fleet.v1.SessionSummaryR\bsessions\"\xa4\a\n" +
 	"\tFleetNode\x124\n" +
 	"\anode_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06nodeId\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x120\n" +
@@ -13820,7 +15424,8 @@ const file_arcforges_fleet_v1_fleet_proto_rawDesc = "" +
 	"\asummary\x18\v \x01(\v2!.arcforges.fleet.v1.StatusSummaryR\asummary\x12(\n" +
 	"\rrelay_enabled\x18\f \x01(\bH\x06R\frelayEnabled\x88\x01\x01\x128\n" +
 	"\tdevice_id\x18\r \x01(\v2\x1b.arcforges.foundation.v1.IdR\bdeviceId\x12T\n" +
-	"\x15credential_expires_at\x18\x0e \x01(\v2 .arcforges.foundation.v1.InstantR\x13credentialExpiresAtB\a\n" +
+	"\x15credential_expires_at\x18\x0e \x01(\v2 .arcforges.foundation.v1.InstantR\x13credentialExpiresAt\x12(\n" +
+	"\rreported_name\x18\x0f \x01(\tH\aR\freportedName\x88\x01\x01B\a\n" +
 	"\x05_nameB\x05\n" +
 	"\x03_osB\a\n" +
 	"\x05_archB\n" +
@@ -13828,7 +15433,14 @@ const file_arcforges_fleet_v1_fleet_proto_rawDesc = "" +
 	"\b_versionB\a\n" +
 	"\x05_roleB\t\n" +
 	"\a_onlineB\x10\n" +
-	"\x0e_relay_enabled\"\xe2\x06\n" +
+	"\x0e_relay_enabledB\x10\n" +
+	"\x0e_reported_name\"\xeb\x01\n" +
+	"\fRoutedCaller\x127\n" +
+	"\x04kind\x18\x01 \x01(\x0e2\x1e.arcforges.fleet.v1.CallerKindH\x00R\x04kind\x88\x01\x01\x12E\n" +
+	"\x10relaying_node_id\x18\x02 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x0erelayingNodeId\x12A\n" +
+	"\flocal_origin\x18\x03 \x01(\x0e2\x19.arcforges.node.v1.OriginH\x01R\vlocalOrigin\x88\x01\x01B\a\n" +
+	"\x05_kindB\x0f\n" +
+	"\r_local_origin\"\xe2\x06\n" +
 	"\x0fNodeCommandBody\x12D\n" +
 	"\arefresh\x18\x01 \x01(\v2(.arcforges.fleet.v1.RefreshStatusCommandH\x00R\arefresh\x12H\n" +
 	"\vpause_queue\x18\x02 \x01(\v2%.arcforges.fleet.v1.PauseQueueCommandH\x00R\n" +
@@ -14104,7 +15716,13 @@ const file_arcforges_fleet_v1_fleet_proto_rawDesc = "" +
 	"\x12MobileSessionScope\x12$\n" +
 	" MOBILE_SESSION_SCOPE_UNSPECIFIED\x10\x00\x12 \n" +
 	"\x1cMOBILE_SESSION_SCOPE_LIMITED\x10\x01\x12 \n" +
-	"\x1cMOBILE_SESSION_SCOPE_ACCOUNT\x10\x022\xd9\x1c\n" +
+	"\x1cMOBILE_SESSION_SCOPE_ACCOUNT\x10\x02*\x83\x01\n" +
+	"\n" +
+	"CallerKind\x12\x1b\n" +
+	"\x17CALLER_KIND_UNSPECIFIED\x10\x00\x12\x1f\n" +
+	"\x1bCALLER_KIND_ACCOUNT_SESSION\x10\x01\x12\x1a\n" +
+	"\x16CALLER_KIND_NODE_RELAY\x10\x02\x12\x1b\n" +
+	"\x17CALLER_KIND_AGENT_GRANT\x10\x032\xd9\x1c\n" +
 	"\x15NodeEnrollmentService\x12\x94\x01\n" +
 	"\x0fBeginNodeSignIn\x12?.arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInRequest\x1a@.arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInResponse\x12\x9a\x01\n" +
 	"\x11GetNodeSignInFlow\x12A.arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowRequest\x1aB.arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowResponse\x12\x9a\x01\n" +
@@ -14128,7 +15746,7 @@ const file_arcforges_fleet_v1_fleet_proto_rawDesc = "" +
 	"\x17RefreshEntitlementToken\x12G.arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenRequest\x1aH.arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenResponse\x12\x9d\x01\n" +
 	"\x12GetEntitlementKeys\x12B.arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysRequest\x1aC.arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysResponse\x12\x9d\x01\n" +
 	"\x12BeginSupportUpload\x12B.arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadRequest\x1aC.arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadResponse\x12\xa6\x01\n" +
-	"\x15CompleteSupportUpload\x12E.arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadRequest\x1aF.arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse2\x8e\r\n" +
+	"\x15CompleteSupportUpload\x12E.arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadRequest\x1aF.arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse2\x8f\x13\n" +
 	"\fFleetService\x12p\n" +
 	"\tListNodes\x120.arcforges.fleet.v1.FleetServiceListNodesRequest\x1a1.arcforges.fleet.v1.FleetServiceListNodesResponse\x12j\n" +
 	"\aGetNode\x12..arcforges.fleet.v1.FleetServiceGetNodeRequest\x1a/.arcforges.fleet.v1.FleetServiceGetNodeResponse\x12s\n" +
@@ -14145,7 +15763,13 @@ const file_arcforges_fleet_v1_fleet_proto_rawDesc = "" +
 	"\x10ListNodeCommands\x127.arcforges.fleet.v1.FleetServiceListNodeCommandsRequest\x1a8.arcforges.fleet.v1.FleetServiceListNodeCommandsResponse\x12\x8b\x01\n" +
 	"\x12GetPushPreferences\x129.arcforges.fleet.v1.FleetServiceGetPushPreferencesRequest\x1a:.arcforges.fleet.v1.FleetServiceGetPushPreferencesResponse\x12\x94\x01\n" +
 	"\x15UpdatePushPreferences\x12<.arcforges.fleet.v1.FleetServiceUpdatePushPreferencesRequest\x1a=.arcforges.fleet.v1.FleetServiceUpdatePushPreferencesResponse\x12\x88\x01\n" +
-	"\x11CancelNodeCommand\x128.arcforges.fleet.v1.FleetServiceCancelNodeCommandRequest\x1a9.arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse2\xb3\x06\n" +
+	"\x11CancelNodeCommand\x128.arcforges.fleet.v1.FleetServiceCancelNodeCommandRequest\x1a9.arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse\x12\x7f\n" +
+	"\x0eSubmitNodeTask\x125.arcforges.fleet.v1.FleetServiceSubmitNodeTaskRequest\x1a6.arcforges.fleet.v1.FleetServiceSubmitNodeTaskResponse\x12v\n" +
+	"\vGetNodeTask\x122.arcforges.fleet.v1.FleetServiceGetNodeTaskRequest\x1a3.arcforges.fleet.v1.FleetServiceGetNodeTaskResponse\x12|\n" +
+	"\rListNodeTasks\x124.arcforges.fleet.v1.FleetServiceListNodeTasksRequest\x1a5.arcforges.fleet.v1.FleetServiceListNodeTasksResponse\x12y\n" +
+	"\fWaitNodeTask\x123.arcforges.fleet.v1.FleetServiceWaitNodeTaskRequest\x1a4.arcforges.fleet.v1.FleetServiceWaitNodeTaskResponse\x12\x8b\x01\n" +
+	"\x12ReadNodeTaskOutput\x129.arcforges.fleet.v1.FleetServiceReadNodeTaskOutputRequest\x1a:.arcforges.fleet.v1.FleetServiceReadNodeTaskOutputResponse\x12\x7f\n" +
+	"\x0eCancelNodeTask\x125.arcforges.fleet.v1.FleetServiceCancelNodeTaskRequest\x1a6.arcforges.fleet.v1.FleetServiceCancelNodeTaskResponse2\xb3\x06\n" +
 	"\x13StoreBillingService\x12\xa8\x01\n" +
 	"\x17GetPlayAccountReference\x12E.arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceRequest\x1aF.arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceResponse\x12\x99\x01\n" +
 	"\x12SubmitPlayPurchase\x12@.arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseRequest\x1aA.arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseResponse\x12\x9f\x01\n" +
@@ -14167,8 +15791,8 @@ func file_arcforges_fleet_v1_fleet_proto_rawDescGZIP() []byte {
 	return file_arcforges_fleet_v1_fleet_proto_rawDescData
 }
 
-var file_arcforges_fleet_v1_fleet_proto_enumTypes = make([]protoimpl.EnumInfo, 10)
-var file_arcforges_fleet_v1_fleet_proto_msgTypes = make([]protoimpl.MessageInfo, 170)
+var file_arcforges_fleet_v1_fleet_proto_enumTypes = make([]protoimpl.EnumInfo, 11)
+var file_arcforges_fleet_v1_fleet_proto_msgTypes = make([]protoimpl.MessageInfo, 189)
 var file_arcforges_fleet_v1_fleet_proto_goTypes = []any{
 	(NodeOnlineState)(0),                                          // 0: arcforges.fleet.v1.NodeOnlineState
 	(DetailLevel)(0),                                              // 1: arcforges.fleet.v1.DetailLevel
@@ -14180,702 +15804,781 @@ var file_arcforges_fleet_v1_fleet_proto_goTypes = []any{
 	(SubscriptionState)(0),                                        // 7: arcforges.fleet.v1.SubscriptionState
 	(PlayLinkState)(0),                                            // 8: arcforges.fleet.v1.PlayLinkState
 	(MobileSessionScope)(0),                                       // 9: arcforges.fleet.v1.MobileSessionScope
-	(*NodeEnrollmentServiceBeginNodeSignInRequest)(nil),           // 10: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInRequest
-	(*NodeEnrollmentServiceBeginNodeSignInResponse)(nil),          // 11: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInResponse
-	(*NodeEnrollmentServiceBeginNodeSignInValue)(nil),             // 12: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInValue
-	(*NodeEnrollmentServiceGetNodeSignInFlowRequest)(nil),         // 13: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowRequest
-	(*NodeEnrollmentServiceGetNodeSignInFlowResponse)(nil),        // 14: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowResponse
-	(*NodeEnrollmentServiceGetNodeSignInFlowValue)(nil),           // 15: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowValue
-	(*NodeEnrollmentServiceApproveNodeSignInRequest)(nil),         // 16: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInRequest
-	(*NodeEnrollmentServiceApproveNodeSignInResponse)(nil),        // 17: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInResponse
-	(*NodeEnrollmentServiceApproveNodeSignInValue)(nil),           // 18: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInValue
-	(*NodeEnrollmentServiceCompleteNodeSignInRequest)(nil),        // 19: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInRequest
-	(*NodeEnrollmentServiceCompleteNodeSignInResponse)(nil),       // 20: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInResponse
-	(*NodeEnrollmentServiceCompleteNodeSignInValue)(nil),          // 21: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInValue
-	(*NodeEnrollmentServiceStartDeviceAuthorizationRequest)(nil),  // 22: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest
-	(*NodeEnrollmentServiceStartDeviceAuthorizationResponse)(nil), // 23: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse
-	(*NodeEnrollmentServiceStartDeviceAuthorizationValue)(nil),    // 24: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationValue
-	(*NodeEnrollmentServicePollDeviceAuthorizationRequest)(nil),   // 25: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationRequest
-	(*NodeEnrollmentServicePollDeviceAuthorizationResponse)(nil),  // 26: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationResponse
-	(*NodeEnrollmentServicePollDeviceAuthorizationValue)(nil),     // 27: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationValue
-	(*NodeEnrollmentServiceLookupDeviceCodeRequest)(nil),          // 28: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeRequest
-	(*NodeEnrollmentServiceLookupDeviceCodeResponse)(nil),         // 29: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeResponse
-	(*NodeEnrollmentServiceLookupDeviceCodeValue)(nil),            // 30: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeValue
-	(*NodeEnrollmentServiceApproveDeviceCodeRequest)(nil),         // 31: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeRequest
-	(*NodeEnrollmentServiceApproveDeviceCodeResponse)(nil),        // 32: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeResponse
-	(*NodeEnrollmentServiceApproveDeviceCodeValue)(nil),           // 33: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeValue
-	(*NodeEnrollmentServiceRefreshNodeSessionRequest)(nil),        // 34: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionRequest
-	(*NodeEnrollmentServiceRefreshNodeSessionResponse)(nil),       // 35: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionResponse
-	(*NodeEnrollmentServiceRefreshNodeSessionValue)(nil),          // 36: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue
-	(*NodeEnrollmentServiceReportNodeInfoRequest)(nil),            // 37: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoRequest
-	(*NodeEnrollmentServiceReportNodeInfoResponse)(nil),           // 38: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoResponse
-	(*NodeEnrollmentServiceReportNodeInfoValue)(nil),              // 39: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoValue
-	(*NodeEnrollmentServiceSignOutNodeRequest)(nil),               // 40: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeRequest
-	(*NodeEnrollmentServiceSignOutNodeResponse)(nil),              // 41: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse
-	(*NodeEnrollmentServiceSignOutNodeValue)(nil),                 // 42: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeValue
-	(*NodeEnrollmentServiceCreatePhonePairingRequest)(nil),        // 43: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingRequest
-	(*NodeEnrollmentServiceCreatePhonePairingResponse)(nil),       // 44: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingResponse
-	(*NodeEnrollmentServiceCreatePhonePairingValue)(nil),          // 45: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingValue
-	(*NodeEnrollmentServiceClaimPhonePairingRequest)(nil),         // 46: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingRequest
-	(*NodeEnrollmentServiceClaimPhonePairingResponse)(nil),        // 47: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingResponse
-	(*NodeEnrollmentServiceClaimPhonePairingValue)(nil),           // 48: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingValue
-	(*NodeEnrollmentServiceGetPhonePairingRequest)(nil),           // 49: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingRequest
-	(*NodeEnrollmentServiceGetPhonePairingResponse)(nil),          // 50: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingResponse
-	(*NodeEnrollmentServiceGetPhonePairingValue)(nil),             // 51: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingValue
-	(*NodeEnrollmentServiceConfirmPhonePairingRequest)(nil),       // 52: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingRequest
-	(*NodeEnrollmentServiceConfirmPhonePairingResponse)(nil),      // 53: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingResponse
-	(*NodeEnrollmentServiceConfirmPhonePairingValue)(nil),         // 54: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingValue
-	(*NodeEnrollmentServicePollPhonePairingRequest)(nil),          // 55: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingRequest
-	(*NodeEnrollmentServicePollPhonePairingResponse)(nil),         // 56: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingResponse
-	(*NodeEnrollmentServicePollPhonePairingValue)(nil),            // 57: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingValue
-	(*NodeEnrollmentServiceIssueNodeCertificateRequest)(nil),      // 58: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateRequest
-	(*NodeEnrollmentServiceIssueNodeCertificateResponse)(nil),     // 59: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateResponse
-	(*NodeEnrollmentServiceIssueNodeCertificateValue)(nil),        // 60: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateValue
-	(*NodeEnrollmentServiceGetLanHintsRequest)(nil),               // 61: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsRequest
-	(*NodeEnrollmentServiceGetLanHintsResponse)(nil),              // 62: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsResponse
-	(*NodeEnrollmentServiceGetLanHintsValue)(nil),                 // 63: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsValue
-	(*NodeEnrollmentServiceReportLanEndpointsRequest)(nil),        // 64: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsRequest
-	(*NodeEnrollmentServiceReportLanEndpointsResponse)(nil),       // 65: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsResponse
-	(*NodeEnrollmentServiceReportLanEndpointsValue)(nil),          // 66: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsValue
-	(*NodeEnrollmentServiceRefreshEntitlementTokenRequest)(nil),   // 67: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenRequest
-	(*NodeEnrollmentServiceRefreshEntitlementTokenResponse)(nil),  // 68: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenResponse
-	(*NodeEnrollmentServiceRefreshEntitlementTokenValue)(nil),     // 69: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenValue
-	(*NodeEnrollmentServiceGetEntitlementKeysRequest)(nil),        // 70: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysRequest
-	(*NodeEnrollmentServiceGetEntitlementKeysResponse)(nil),       // 71: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysResponse
-	(*NodeEnrollmentServiceGetEntitlementKeysValue)(nil),          // 72: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysValue
-	(*NodeEnrollmentServiceBeginSupportUploadRequest)(nil),        // 73: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadRequest
-	(*NodeEnrollmentServiceBeginSupportUploadResponse)(nil),       // 74: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadResponse
-	(*NodeEnrollmentServiceBeginSupportUploadValue)(nil),          // 75: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadValue
-	(*NodeEnrollmentServiceCompleteSupportUploadRequest)(nil),     // 76: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadRequest
-	(*NodeEnrollmentServiceCompleteSupportUploadResponse)(nil),    // 77: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse
-	(*NodeEnrollmentServiceCompleteSupportUploadValue)(nil),       // 78: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadValue
-	(*FleetServiceListNodesRequest)(nil),                          // 79: arcforges.fleet.v1.FleetServiceListNodesRequest
-	(*FleetServiceListNodesResponse)(nil),                         // 80: arcforges.fleet.v1.FleetServiceListNodesResponse
-	(*FleetServiceListNodesValue)(nil),                            // 81: arcforges.fleet.v1.FleetServiceListNodesValue
-	(*FleetServiceGetNodeRequest)(nil),                            // 82: arcforges.fleet.v1.FleetServiceGetNodeRequest
-	(*FleetServiceGetNodeResponse)(nil),                           // 83: arcforges.fleet.v1.FleetServiceGetNodeResponse
-	(*FleetServiceGetNodeValue)(nil),                              // 84: arcforges.fleet.v1.FleetServiceGetNodeValue
-	(*FleetServiceRenameNodeRequest)(nil),                         // 85: arcforges.fleet.v1.FleetServiceRenameNodeRequest
-	(*FleetServiceRenameNodeResponse)(nil),                        // 86: arcforges.fleet.v1.FleetServiceRenameNodeResponse
-	(*FleetServiceRenameNodeValue)(nil),                           // 87: arcforges.fleet.v1.FleetServiceRenameNodeValue
-	(*FleetServiceRevokeNodeRequest)(nil),                         // 88: arcforges.fleet.v1.FleetServiceRevokeNodeRequest
-	(*FleetServiceRevokeNodeResponse)(nil),                        // 89: arcforges.fleet.v1.FleetServiceRevokeNodeResponse
-	(*FleetServiceRevokeNodeValue)(nil),                           // 90: arcforges.fleet.v1.FleetServiceRevokeNodeValue
-	(*FleetServiceIssueRelayTokenRequest)(nil),                    // 91: arcforges.fleet.v1.FleetServiceIssueRelayTokenRequest
-	(*FleetServiceIssueRelayTokenResponse)(nil),                   // 92: arcforges.fleet.v1.FleetServiceIssueRelayTokenResponse
-	(*FleetServiceIssueRelayTokenValue)(nil),                      // 93: arcforges.fleet.v1.FleetServiceIssueRelayTokenValue
-	(*FleetServiceOpenFleetWatchRequest)(nil),                     // 94: arcforges.fleet.v1.FleetServiceOpenFleetWatchRequest
-	(*FleetServiceOpenFleetWatchResponse)(nil),                    // 95: arcforges.fleet.v1.FleetServiceOpenFleetWatchResponse
-	(*FleetServiceOpenFleetWatchValue)(nil),                       // 96: arcforges.fleet.v1.FleetServiceOpenFleetWatchValue
-	(*FleetServiceWatchFleetRequest)(nil),                         // 97: arcforges.fleet.v1.FleetServiceWatchFleetRequest
-	(*FleetServiceWatchFleetFrame)(nil),                           // 98: arcforges.fleet.v1.FleetServiceWatchFleetFrame
-	(*FleetServiceSendNodeCommandRequest)(nil),                    // 99: arcforges.fleet.v1.FleetServiceSendNodeCommandRequest
-	(*FleetServiceSendNodeCommandResponse)(nil),                   // 100: arcforges.fleet.v1.FleetServiceSendNodeCommandResponse
-	(*FleetServiceSendNodeCommandValue)(nil),                      // 101: arcforges.fleet.v1.FleetServiceSendNodeCommandValue
-	(*FleetServiceGetNodeCommandRequest)(nil),                     // 102: arcforges.fleet.v1.FleetServiceGetNodeCommandRequest
-	(*FleetServiceGetNodeCommandResponse)(nil),                    // 103: arcforges.fleet.v1.FleetServiceGetNodeCommandResponse
-	(*FleetServiceGetNodeCommandValue)(nil),                       // 104: arcforges.fleet.v1.FleetServiceGetNodeCommandValue
-	(*FleetServiceListNodeCommandsRequest)(nil),                   // 105: arcforges.fleet.v1.FleetServiceListNodeCommandsRequest
-	(*FleetServiceListNodeCommandsResponse)(nil),                  // 106: arcforges.fleet.v1.FleetServiceListNodeCommandsResponse
-	(*FleetServiceListNodeCommandsValue)(nil),                     // 107: arcforges.fleet.v1.FleetServiceListNodeCommandsValue
-	(*FleetServiceGetPushPreferencesRequest)(nil),                 // 108: arcforges.fleet.v1.FleetServiceGetPushPreferencesRequest
-	(*FleetServiceGetPushPreferencesResponse)(nil),                // 109: arcforges.fleet.v1.FleetServiceGetPushPreferencesResponse
-	(*FleetServiceGetPushPreferencesValue)(nil),                   // 110: arcforges.fleet.v1.FleetServiceGetPushPreferencesValue
-	(*FleetServiceUpdatePushPreferencesRequest)(nil),              // 111: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesRequest
-	(*FleetServiceUpdatePushPreferencesResponse)(nil),             // 112: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesResponse
-	(*FleetServiceUpdatePushPreferencesValue)(nil),                // 113: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesValue
-	(*FleetServiceCancelNodeCommandRequest)(nil),                  // 114: arcforges.fleet.v1.FleetServiceCancelNodeCommandRequest
-	(*FleetServiceCancelNodeCommandResponse)(nil),                 // 115: arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse
-	(*FleetServiceCancelNodeCommandValue)(nil),                    // 116: arcforges.fleet.v1.FleetServiceCancelNodeCommandValue
-	(*StoreBillingServiceGetPlayAccountReferenceRequest)(nil),     // 117: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceRequest
-	(*StoreBillingServiceGetPlayAccountReferenceResponse)(nil),    // 118: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceResponse
-	(*StoreBillingServiceGetPlayAccountReferenceValue)(nil),       // 119: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceValue
-	(*StoreBillingServiceSubmitPlayPurchaseRequest)(nil),          // 120: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseRequest
-	(*StoreBillingServiceSubmitPlayPurchaseResponse)(nil),         // 121: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseResponse
-	(*StoreBillingServiceSubmitPlayPurchaseValue)(nil),            // 122: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseValue
-	(*StoreBillingServiceRestorePlayPurchasesRequest)(nil),        // 123: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesRequest
-	(*StoreBillingServiceRestorePlayPurchasesResponse)(nil),       // 124: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesResponse
-	(*StoreBillingServiceRestorePlayPurchasesValue)(nil),          // 125: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesValue
-	(*StoreBillingServiceConfirmPurchaseLinkRequest)(nil),         // 126: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkRequest
-	(*StoreBillingServiceConfirmPurchaseLinkResponse)(nil),        // 127: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkResponse
-	(*StoreBillingServiceConfirmPurchaseLinkValue)(nil),           // 128: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkValue
-	(*StoreBillingServiceGetBillingStatusRequest)(nil),            // 129: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusRequest
-	(*StoreBillingServiceGetBillingStatusResponse)(nil),           // 130: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusResponse
-	(*StoreBillingServiceGetBillingStatusValue)(nil),              // 131: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusValue
-	(*EnrollingNodeInfo)(nil),                                     // 132: arcforges.fleet.v1.EnrollingNodeInfo
-	(*AccountSummary)(nil),                                        // 133: arcforges.fleet.v1.AccountSummary
-	(*PublicKey)(nil),                                             // 134: arcforges.fleet.v1.PublicKey
-	(*SignedBlob)(nil),                                            // 135: arcforges.fleet.v1.SignedBlob
-	(*EntitlementClaims)(nil),                                     // 136: arcforges.fleet.v1.EntitlementClaims
-	(*NodeCredentials)(nil),                                       // 137: arcforges.fleet.v1.NodeCredentials
-	(*MobileSessionCredentials)(nil),                              // 138: arcforges.fleet.v1.MobileSessionCredentials
-	(*NodeSignInFlowView)(nil),                                    // 139: arcforges.fleet.v1.NodeSignInFlowView
-	(*DeviceAuthorization)(nil),                                   // 140: arcforges.fleet.v1.DeviceAuthorization
-	(*PhoneInstallationInfo)(nil),                                 // 141: arcforges.fleet.v1.PhoneInstallationInfo
-	(*PhonePairingTicket)(nil),                                    // 142: arcforges.fleet.v1.PhonePairingTicket
-	(*PhonePairingView)(nil),                                      // 143: arcforges.fleet.v1.PhonePairingView
-	(*LanHint)(nil),                                               // 144: arcforges.fleet.v1.LanHint
-	(*StatusSummary)(nil),                                         // 145: arcforges.fleet.v1.StatusSummary
-	(*TaskSummary)(nil),                                           // 146: arcforges.fleet.v1.TaskSummary
-	(*CategoryShare)(nil),                                         // 147: arcforges.fleet.v1.CategoryShare
-	(*FindingSummary)(nil),                                        // 148: arcforges.fleet.v1.FindingSummary
-	(*ApprovalSummary)(nil),                                       // 149: arcforges.fleet.v1.ApprovalSummary
-	(*SessionSummary)(nil),                                        // 150: arcforges.fleet.v1.SessionSummary
-	(*SubagentSummary)(nil),                                       // 151: arcforges.fleet.v1.SubagentSummary
-	(*StatusDelta)(nil),                                           // 152: arcforges.fleet.v1.StatusDelta
-	(*NodeSnapshot)(nil),                                          // 153: arcforges.fleet.v1.NodeSnapshot
-	(*FleetNode)(nil),                                             // 154: arcforges.fleet.v1.FleetNode
-	(*NodeCommandBody)(nil),                                       // 155: arcforges.fleet.v1.NodeCommandBody
-	(*RefreshStatusCommand)(nil),                                  // 156: arcforges.fleet.v1.RefreshStatusCommand
-	(*PauseQueueCommand)(nil),                                     // 157: arcforges.fleet.v1.PauseQueueCommand
-	(*ResumeQueueCommand)(nil),                                    // 158: arcforges.fleet.v1.ResumeQueueCommand
-	(*CancelTaskCommand)(nil),                                     // 159: arcforges.fleet.v1.CancelTaskCommand
-	(*SetPriorityCommand)(nil),                                    // 160: arcforges.fleet.v1.SetPriorityCommand
-	(*RunTaskCommand)(nil),                                        // 161: arcforges.fleet.v1.RunTaskCommand
-	(*DecideApprovalCommand)(nil),                                 // 162: arcforges.fleet.v1.DecideApprovalCommand
-	(*ReadOutputTailCommand)(nil),                                 // 163: arcforges.fleet.v1.ReadOutputTailCommand
-	(*ApplyUpdateCommand)(nil),                                    // 164: arcforges.fleet.v1.ApplyUpdateCommand
-	(*SetParallelismCommand)(nil),                                 // 165: arcforges.fleet.v1.SetParallelismCommand
-	(*StopNodeCommand)(nil),                                       // 166: arcforges.fleet.v1.StopNodeCommand
-	(*NodeCommand)(nil),                                           // 167: arcforges.fleet.v1.NodeCommand
-	(*NodeCommandResult)(nil),                                     // 168: arcforges.fleet.v1.NodeCommandResult
-	(*RemoteCommandView)(nil),                                     // 169: arcforges.fleet.v1.RemoteCommandView
-	(*RelayTokenGrant)(nil),                                       // 170: arcforges.fleet.v1.RelayTokenGrant
-	(*ViewerGrant)(nil),                                           // 171: arcforges.fleet.v1.ViewerGrant
-	(*NodePresence)(nil),                                          // 172: arcforges.fleet.v1.NodePresence
-	(*PushPreference)(nil),                                        // 173: arcforges.fleet.v1.PushPreference
-	(*PushPreferences)(nil),                                       // 174: arcforges.fleet.v1.PushPreferences
-	(*PlayPurchaseInput)(nil),                                     // 175: arcforges.fleet.v1.PlayPurchaseInput
-	(*SubscriptionView)(nil),                                      // 176: arcforges.fleet.v1.SubscriptionView
-	(*PlayPurchaseResult)(nil),                                    // 177: arcforges.fleet.v1.PlayPurchaseResult
-	(*BillingStatus)(nil),                                         // 178: arcforges.fleet.v1.BillingStatus
-	(*NodeCursorInput)(nil),                                       // 179: arcforges.fleet.v1.NodeCursorInput
-	(*v1.RequestMeta)(nil),                                        // 180: arcforges.foundation.v1.RequestMeta
-	(*v1.ResponseMeta)(nil),                                       // 181: arcforges.foundation.v1.ResponseMeta
-	(*v1.ArcError)(nil),                                           // 182: arcforges.foundation.v1.ArcError
-	(*v1.Id)(nil),                                                 // 183: arcforges.foundation.v1.Id
-	(*v1.Instant)(nil),                                            // 184: arcforges.foundation.v1.Instant
-	(*v1.Receipt)(nil),                                            // 185: arcforges.foundation.v1.Receipt
-	(*v11.StreamPosition)(nil),                                    // 186: arcforges.node.v1.StreamPosition
-	(*v11.StreamReset)(nil),                                       // 187: arcforges.node.v1.StreamReset
-	(*v11.Heartbeat)(nil),                                         // 188: arcforges.node.v1.Heartbeat
-	(*v1.PageRequest)(nil),                                        // 189: arcforges.foundation.v1.PageRequest
-	(*v1.PageState)(nil),                                          // 190: arcforges.foundation.v1.PageState
-	(v11.OsFamily)(0),                                             // 191: arcforges.node.v1.OsFamily
-	(v11.CpuArchitecture)(0),                                      // 192: arcforges.node.v1.CpuArchitecture
-	(v11.NodeRole)(0),                                             // 193: arcforges.node.v1.NodeRole
-	(v11.NodeLifecycleState)(0),                                   // 194: arcforges.node.v1.NodeLifecycleState
-	(v11.PressureLevel)(0),                                        // 195: arcforges.node.v1.PressureLevel
-	(v11.CpuControl)(0),                                           // 196: arcforges.node.v1.CpuControl
-	(v11.MemoryControl)(0),                                        // 197: arcforges.node.v1.MemoryControl
-	(v11.UpdateState)(0),                                          // 198: arcforges.node.v1.UpdateState
-	(v11.DiskPressureLevel)(0),                                    // 199: arcforges.node.v1.DiskPressureLevel
-	(v11.TaskState)(0),                                            // 200: arcforges.node.v1.TaskState
-	(v11.Priority)(0),                                             // 201: arcforges.node.v1.Priority
-	(v11.Origin)(0),                                               // 202: arcforges.node.v1.Origin
-	(v11.TerminationReason)(0),                                    // 203: arcforges.node.v1.TerminationReason
-	(v11.Severity)(0),                                             // 204: arcforges.node.v1.Severity
-	(v11.FindingState)(0),                                         // 205: arcforges.node.v1.FindingState
-	(v11.RiskClass)(0),                                            // 206: arcforges.node.v1.RiskClass
-	(v11.SessionState)(0),                                         // 207: arcforges.node.v1.SessionState
-	(v11.RoutingMode)(0),                                          // 208: arcforges.node.v1.RoutingMode
-	(*v11.TaskSpec)(nil),                                          // 209: arcforges.node.v1.TaskSpec
-	(v11.ParallelismScope)(0),                                     // 210: arcforges.node.v1.ParallelismScope
-	(v11.ParallelismMode)(0),                                      // 211: arcforges.node.v1.ParallelismMode
-	(*v1.Revision)(nil),                                           // 212: arcforges.foundation.v1.Revision
+	(CallerKind)(0),                                               // 10: arcforges.fleet.v1.CallerKind
+	(*NodeEnrollmentServiceBeginNodeSignInRequest)(nil),           // 11: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInRequest
+	(*NodeEnrollmentServiceBeginNodeSignInResponse)(nil),          // 12: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInResponse
+	(*NodeEnrollmentServiceBeginNodeSignInValue)(nil),             // 13: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInValue
+	(*NodeEnrollmentServiceGetNodeSignInFlowRequest)(nil),         // 14: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowRequest
+	(*NodeEnrollmentServiceGetNodeSignInFlowResponse)(nil),        // 15: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowResponse
+	(*NodeEnrollmentServiceGetNodeSignInFlowValue)(nil),           // 16: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowValue
+	(*NodeEnrollmentServiceApproveNodeSignInRequest)(nil),         // 17: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInRequest
+	(*NodeEnrollmentServiceApproveNodeSignInResponse)(nil),        // 18: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInResponse
+	(*NodeEnrollmentServiceApproveNodeSignInValue)(nil),           // 19: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInValue
+	(*NodeEnrollmentServiceCompleteNodeSignInRequest)(nil),        // 20: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInRequest
+	(*NodeEnrollmentServiceCompleteNodeSignInResponse)(nil),       // 21: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInResponse
+	(*NodeEnrollmentServiceCompleteNodeSignInValue)(nil),          // 22: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInValue
+	(*NodeEnrollmentServiceStartDeviceAuthorizationRequest)(nil),  // 23: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest
+	(*NodeEnrollmentServiceStartDeviceAuthorizationResponse)(nil), // 24: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse
+	(*NodeEnrollmentServiceStartDeviceAuthorizationValue)(nil),    // 25: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationValue
+	(*NodeEnrollmentServicePollDeviceAuthorizationRequest)(nil),   // 26: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationRequest
+	(*NodeEnrollmentServicePollDeviceAuthorizationResponse)(nil),  // 27: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationResponse
+	(*NodeEnrollmentServicePollDeviceAuthorizationValue)(nil),     // 28: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationValue
+	(*NodeEnrollmentServiceLookupDeviceCodeRequest)(nil),          // 29: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeRequest
+	(*NodeEnrollmentServiceLookupDeviceCodeResponse)(nil),         // 30: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeResponse
+	(*NodeEnrollmentServiceLookupDeviceCodeValue)(nil),            // 31: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeValue
+	(*NodeEnrollmentServiceApproveDeviceCodeRequest)(nil),         // 32: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeRequest
+	(*NodeEnrollmentServiceApproveDeviceCodeResponse)(nil),        // 33: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeResponse
+	(*NodeEnrollmentServiceApproveDeviceCodeValue)(nil),           // 34: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeValue
+	(*NodeEnrollmentServiceRefreshNodeSessionRequest)(nil),        // 35: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionRequest
+	(*NodeEnrollmentServiceRefreshNodeSessionResponse)(nil),       // 36: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionResponse
+	(*NodeEnrollmentServiceRefreshNodeSessionValue)(nil),          // 37: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue
+	(*NodeEnrollmentServiceReportNodeInfoRequest)(nil),            // 38: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoRequest
+	(*NodeEnrollmentServiceReportNodeInfoResponse)(nil),           // 39: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoResponse
+	(*NodeEnrollmentServiceReportNodeInfoValue)(nil),              // 40: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoValue
+	(*NodeEnrollmentServiceSignOutNodeRequest)(nil),               // 41: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeRequest
+	(*NodeEnrollmentServiceSignOutNodeResponse)(nil),              // 42: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse
+	(*NodeEnrollmentServiceSignOutNodeValue)(nil),                 // 43: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeValue
+	(*NodeEnrollmentServiceCreatePhonePairingRequest)(nil),        // 44: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingRequest
+	(*NodeEnrollmentServiceCreatePhonePairingResponse)(nil),       // 45: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingResponse
+	(*NodeEnrollmentServiceCreatePhonePairingValue)(nil),          // 46: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingValue
+	(*NodeEnrollmentServiceClaimPhonePairingRequest)(nil),         // 47: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingRequest
+	(*NodeEnrollmentServiceClaimPhonePairingResponse)(nil),        // 48: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingResponse
+	(*NodeEnrollmentServiceClaimPhonePairingValue)(nil),           // 49: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingValue
+	(*NodeEnrollmentServiceGetPhonePairingRequest)(nil),           // 50: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingRequest
+	(*NodeEnrollmentServiceGetPhonePairingResponse)(nil),          // 51: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingResponse
+	(*NodeEnrollmentServiceGetPhonePairingValue)(nil),             // 52: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingValue
+	(*NodeEnrollmentServiceConfirmPhonePairingRequest)(nil),       // 53: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingRequest
+	(*NodeEnrollmentServiceConfirmPhonePairingResponse)(nil),      // 54: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingResponse
+	(*NodeEnrollmentServiceConfirmPhonePairingValue)(nil),         // 55: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingValue
+	(*NodeEnrollmentServicePollPhonePairingRequest)(nil),          // 56: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingRequest
+	(*NodeEnrollmentServicePollPhonePairingResponse)(nil),         // 57: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingResponse
+	(*NodeEnrollmentServicePollPhonePairingValue)(nil),            // 58: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingValue
+	(*NodeEnrollmentServiceIssueNodeCertificateRequest)(nil),      // 59: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateRequest
+	(*NodeEnrollmentServiceIssueNodeCertificateResponse)(nil),     // 60: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateResponse
+	(*NodeEnrollmentServiceIssueNodeCertificateValue)(nil),        // 61: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateValue
+	(*NodeEnrollmentServiceGetLanHintsRequest)(nil),               // 62: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsRequest
+	(*NodeEnrollmentServiceGetLanHintsResponse)(nil),              // 63: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsResponse
+	(*NodeEnrollmentServiceGetLanHintsValue)(nil),                 // 64: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsValue
+	(*NodeEnrollmentServiceReportLanEndpointsRequest)(nil),        // 65: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsRequest
+	(*NodeEnrollmentServiceReportLanEndpointsResponse)(nil),       // 66: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsResponse
+	(*NodeEnrollmentServiceReportLanEndpointsValue)(nil),          // 67: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsValue
+	(*NodeEnrollmentServiceRefreshEntitlementTokenRequest)(nil),   // 68: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenRequest
+	(*NodeEnrollmentServiceRefreshEntitlementTokenResponse)(nil),  // 69: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenResponse
+	(*NodeEnrollmentServiceRefreshEntitlementTokenValue)(nil),     // 70: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenValue
+	(*NodeEnrollmentServiceGetEntitlementKeysRequest)(nil),        // 71: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysRequest
+	(*NodeEnrollmentServiceGetEntitlementKeysResponse)(nil),       // 72: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysResponse
+	(*NodeEnrollmentServiceGetEntitlementKeysValue)(nil),          // 73: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysValue
+	(*NodeEnrollmentServiceBeginSupportUploadRequest)(nil),        // 74: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadRequest
+	(*NodeEnrollmentServiceBeginSupportUploadResponse)(nil),       // 75: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadResponse
+	(*NodeEnrollmentServiceBeginSupportUploadValue)(nil),          // 76: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadValue
+	(*NodeEnrollmentServiceCompleteSupportUploadRequest)(nil),     // 77: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadRequest
+	(*NodeEnrollmentServiceCompleteSupportUploadResponse)(nil),    // 78: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse
+	(*NodeEnrollmentServiceCompleteSupportUploadValue)(nil),       // 79: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadValue
+	(*FleetServiceListNodesRequest)(nil),                          // 80: arcforges.fleet.v1.FleetServiceListNodesRequest
+	(*FleetServiceListNodesResponse)(nil),                         // 81: arcforges.fleet.v1.FleetServiceListNodesResponse
+	(*FleetServiceListNodesValue)(nil),                            // 82: arcforges.fleet.v1.FleetServiceListNodesValue
+	(*FleetServiceGetNodeRequest)(nil),                            // 83: arcforges.fleet.v1.FleetServiceGetNodeRequest
+	(*FleetServiceGetNodeResponse)(nil),                           // 84: arcforges.fleet.v1.FleetServiceGetNodeResponse
+	(*FleetServiceGetNodeValue)(nil),                              // 85: arcforges.fleet.v1.FleetServiceGetNodeValue
+	(*FleetServiceRenameNodeRequest)(nil),                         // 86: arcforges.fleet.v1.FleetServiceRenameNodeRequest
+	(*FleetServiceRenameNodeResponse)(nil),                        // 87: arcforges.fleet.v1.FleetServiceRenameNodeResponse
+	(*FleetServiceRenameNodeValue)(nil),                           // 88: arcforges.fleet.v1.FleetServiceRenameNodeValue
+	(*FleetServiceRevokeNodeRequest)(nil),                         // 89: arcforges.fleet.v1.FleetServiceRevokeNodeRequest
+	(*FleetServiceRevokeNodeResponse)(nil),                        // 90: arcforges.fleet.v1.FleetServiceRevokeNodeResponse
+	(*FleetServiceRevokeNodeValue)(nil),                           // 91: arcforges.fleet.v1.FleetServiceRevokeNodeValue
+	(*FleetServiceIssueRelayTokenRequest)(nil),                    // 92: arcforges.fleet.v1.FleetServiceIssueRelayTokenRequest
+	(*FleetServiceIssueRelayTokenResponse)(nil),                   // 93: arcforges.fleet.v1.FleetServiceIssueRelayTokenResponse
+	(*FleetServiceIssueRelayTokenValue)(nil),                      // 94: arcforges.fleet.v1.FleetServiceIssueRelayTokenValue
+	(*FleetServiceOpenFleetWatchRequest)(nil),                     // 95: arcforges.fleet.v1.FleetServiceOpenFleetWatchRequest
+	(*FleetServiceOpenFleetWatchResponse)(nil),                    // 96: arcforges.fleet.v1.FleetServiceOpenFleetWatchResponse
+	(*FleetServiceOpenFleetWatchValue)(nil),                       // 97: arcforges.fleet.v1.FleetServiceOpenFleetWatchValue
+	(*FleetServiceWatchFleetRequest)(nil),                         // 98: arcforges.fleet.v1.FleetServiceWatchFleetRequest
+	(*FleetServiceWatchFleetFrame)(nil),                           // 99: arcforges.fleet.v1.FleetServiceWatchFleetFrame
+	(*FleetServiceSendNodeCommandRequest)(nil),                    // 100: arcforges.fleet.v1.FleetServiceSendNodeCommandRequest
+	(*FleetServiceSendNodeCommandResponse)(nil),                   // 101: arcforges.fleet.v1.FleetServiceSendNodeCommandResponse
+	(*FleetServiceSendNodeCommandValue)(nil),                      // 102: arcforges.fleet.v1.FleetServiceSendNodeCommandValue
+	(*FleetServiceGetNodeCommandRequest)(nil),                     // 103: arcforges.fleet.v1.FleetServiceGetNodeCommandRequest
+	(*FleetServiceGetNodeCommandResponse)(nil),                    // 104: arcforges.fleet.v1.FleetServiceGetNodeCommandResponse
+	(*FleetServiceGetNodeCommandValue)(nil),                       // 105: arcforges.fleet.v1.FleetServiceGetNodeCommandValue
+	(*FleetServiceListNodeCommandsRequest)(nil),                   // 106: arcforges.fleet.v1.FleetServiceListNodeCommandsRequest
+	(*FleetServiceListNodeCommandsResponse)(nil),                  // 107: arcforges.fleet.v1.FleetServiceListNodeCommandsResponse
+	(*FleetServiceListNodeCommandsValue)(nil),                     // 108: arcforges.fleet.v1.FleetServiceListNodeCommandsValue
+	(*FleetServiceGetPushPreferencesRequest)(nil),                 // 109: arcforges.fleet.v1.FleetServiceGetPushPreferencesRequest
+	(*FleetServiceGetPushPreferencesResponse)(nil),                // 110: arcforges.fleet.v1.FleetServiceGetPushPreferencesResponse
+	(*FleetServiceGetPushPreferencesValue)(nil),                   // 111: arcforges.fleet.v1.FleetServiceGetPushPreferencesValue
+	(*FleetServiceUpdatePushPreferencesRequest)(nil),              // 112: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesRequest
+	(*FleetServiceUpdatePushPreferencesResponse)(nil),             // 113: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesResponse
+	(*FleetServiceUpdatePushPreferencesValue)(nil),                // 114: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesValue
+	(*FleetServiceCancelNodeCommandRequest)(nil),                  // 115: arcforges.fleet.v1.FleetServiceCancelNodeCommandRequest
+	(*FleetServiceCancelNodeCommandResponse)(nil),                 // 116: arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse
+	(*FleetServiceCancelNodeCommandValue)(nil),                    // 117: arcforges.fleet.v1.FleetServiceCancelNodeCommandValue
+	(*FleetServiceSubmitNodeTaskRequest)(nil),                     // 118: arcforges.fleet.v1.FleetServiceSubmitNodeTaskRequest
+	(*FleetServiceSubmitNodeTaskResponse)(nil),                    // 119: arcforges.fleet.v1.FleetServiceSubmitNodeTaskResponse
+	(*FleetServiceSubmitNodeTaskValue)(nil),                       // 120: arcforges.fleet.v1.FleetServiceSubmitNodeTaskValue
+	(*FleetServiceGetNodeTaskRequest)(nil),                        // 121: arcforges.fleet.v1.FleetServiceGetNodeTaskRequest
+	(*FleetServiceGetNodeTaskResponse)(nil),                       // 122: arcforges.fleet.v1.FleetServiceGetNodeTaskResponse
+	(*FleetServiceGetNodeTaskValue)(nil),                          // 123: arcforges.fleet.v1.FleetServiceGetNodeTaskValue
+	(*FleetServiceListNodeTasksRequest)(nil),                      // 124: arcforges.fleet.v1.FleetServiceListNodeTasksRequest
+	(*FleetServiceListNodeTasksResponse)(nil),                     // 125: arcforges.fleet.v1.FleetServiceListNodeTasksResponse
+	(*FleetServiceListNodeTasksValue)(nil),                        // 126: arcforges.fleet.v1.FleetServiceListNodeTasksValue
+	(*FleetServiceWaitNodeTaskRequest)(nil),                       // 127: arcforges.fleet.v1.FleetServiceWaitNodeTaskRequest
+	(*FleetServiceWaitNodeTaskResponse)(nil),                      // 128: arcforges.fleet.v1.FleetServiceWaitNodeTaskResponse
+	(*FleetServiceWaitNodeTaskValue)(nil),                         // 129: arcforges.fleet.v1.FleetServiceWaitNodeTaskValue
+	(*FleetServiceReadNodeTaskOutputRequest)(nil),                 // 130: arcforges.fleet.v1.FleetServiceReadNodeTaskOutputRequest
+	(*FleetServiceReadNodeTaskOutputResponse)(nil),                // 131: arcforges.fleet.v1.FleetServiceReadNodeTaskOutputResponse
+	(*FleetServiceReadNodeTaskOutputValue)(nil),                   // 132: arcforges.fleet.v1.FleetServiceReadNodeTaskOutputValue
+	(*FleetServiceCancelNodeTaskRequest)(nil),                     // 133: arcforges.fleet.v1.FleetServiceCancelNodeTaskRequest
+	(*FleetServiceCancelNodeTaskResponse)(nil),                    // 134: arcforges.fleet.v1.FleetServiceCancelNodeTaskResponse
+	(*FleetServiceCancelNodeTaskValue)(nil),                       // 135: arcforges.fleet.v1.FleetServiceCancelNodeTaskValue
+	(*StoreBillingServiceGetPlayAccountReferenceRequest)(nil),     // 136: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceRequest
+	(*StoreBillingServiceGetPlayAccountReferenceResponse)(nil),    // 137: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceResponse
+	(*StoreBillingServiceGetPlayAccountReferenceValue)(nil),       // 138: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceValue
+	(*StoreBillingServiceSubmitPlayPurchaseRequest)(nil),          // 139: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseRequest
+	(*StoreBillingServiceSubmitPlayPurchaseResponse)(nil),         // 140: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseResponse
+	(*StoreBillingServiceSubmitPlayPurchaseValue)(nil),            // 141: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseValue
+	(*StoreBillingServiceRestorePlayPurchasesRequest)(nil),        // 142: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesRequest
+	(*StoreBillingServiceRestorePlayPurchasesResponse)(nil),       // 143: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesResponse
+	(*StoreBillingServiceRestorePlayPurchasesValue)(nil),          // 144: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesValue
+	(*StoreBillingServiceConfirmPurchaseLinkRequest)(nil),         // 145: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkRequest
+	(*StoreBillingServiceConfirmPurchaseLinkResponse)(nil),        // 146: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkResponse
+	(*StoreBillingServiceConfirmPurchaseLinkValue)(nil),           // 147: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkValue
+	(*StoreBillingServiceGetBillingStatusRequest)(nil),            // 148: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusRequest
+	(*StoreBillingServiceGetBillingStatusResponse)(nil),           // 149: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusResponse
+	(*StoreBillingServiceGetBillingStatusValue)(nil),              // 150: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusValue
+	(*EnrollingNodeInfo)(nil),                                     // 151: arcforges.fleet.v1.EnrollingNodeInfo
+	(*AccountSummary)(nil),                                        // 152: arcforges.fleet.v1.AccountSummary
+	(*PublicKey)(nil),                                             // 153: arcforges.fleet.v1.PublicKey
+	(*SignedBlob)(nil),                                            // 154: arcforges.fleet.v1.SignedBlob
+	(*EntitlementClaims)(nil),                                     // 155: arcforges.fleet.v1.EntitlementClaims
+	(*NodeCredentials)(nil),                                       // 156: arcforges.fleet.v1.NodeCredentials
+	(*MobileSessionCredentials)(nil),                              // 157: arcforges.fleet.v1.MobileSessionCredentials
+	(*NodeSignInFlowView)(nil),                                    // 158: arcforges.fleet.v1.NodeSignInFlowView
+	(*DeviceAuthorization)(nil),                                   // 159: arcforges.fleet.v1.DeviceAuthorization
+	(*PhoneInstallationInfo)(nil),                                 // 160: arcforges.fleet.v1.PhoneInstallationInfo
+	(*PhonePairingTicket)(nil),                                    // 161: arcforges.fleet.v1.PhonePairingTicket
+	(*PhonePairingView)(nil),                                      // 162: arcforges.fleet.v1.PhonePairingView
+	(*LanHint)(nil),                                               // 163: arcforges.fleet.v1.LanHint
+	(*StatusSummary)(nil),                                         // 164: arcforges.fleet.v1.StatusSummary
+	(*TaskSummary)(nil),                                           // 165: arcforges.fleet.v1.TaskSummary
+	(*CategoryShare)(nil),                                         // 166: arcforges.fleet.v1.CategoryShare
+	(*FindingSummary)(nil),                                        // 167: arcforges.fleet.v1.FindingSummary
+	(*ApprovalSummary)(nil),                                       // 168: arcforges.fleet.v1.ApprovalSummary
+	(*SessionSummary)(nil),                                        // 169: arcforges.fleet.v1.SessionSummary
+	(*SubagentSummary)(nil),                                       // 170: arcforges.fleet.v1.SubagentSummary
+	(*StatusDelta)(nil),                                           // 171: arcforges.fleet.v1.StatusDelta
+	(*NodeSnapshot)(nil),                                          // 172: arcforges.fleet.v1.NodeSnapshot
+	(*FleetNode)(nil),                                             // 173: arcforges.fleet.v1.FleetNode
+	(*RoutedCaller)(nil),                                          // 174: arcforges.fleet.v1.RoutedCaller
+	(*NodeCommandBody)(nil),                                       // 175: arcforges.fleet.v1.NodeCommandBody
+	(*RefreshStatusCommand)(nil),                                  // 176: arcforges.fleet.v1.RefreshStatusCommand
+	(*PauseQueueCommand)(nil),                                     // 177: arcforges.fleet.v1.PauseQueueCommand
+	(*ResumeQueueCommand)(nil),                                    // 178: arcforges.fleet.v1.ResumeQueueCommand
+	(*CancelTaskCommand)(nil),                                     // 179: arcforges.fleet.v1.CancelTaskCommand
+	(*SetPriorityCommand)(nil),                                    // 180: arcforges.fleet.v1.SetPriorityCommand
+	(*RunTaskCommand)(nil),                                        // 181: arcforges.fleet.v1.RunTaskCommand
+	(*DecideApprovalCommand)(nil),                                 // 182: arcforges.fleet.v1.DecideApprovalCommand
+	(*ReadOutputTailCommand)(nil),                                 // 183: arcforges.fleet.v1.ReadOutputTailCommand
+	(*ApplyUpdateCommand)(nil),                                    // 184: arcforges.fleet.v1.ApplyUpdateCommand
+	(*SetParallelismCommand)(nil),                                 // 185: arcforges.fleet.v1.SetParallelismCommand
+	(*StopNodeCommand)(nil),                                       // 186: arcforges.fleet.v1.StopNodeCommand
+	(*NodeCommand)(nil),                                           // 187: arcforges.fleet.v1.NodeCommand
+	(*NodeCommandResult)(nil),                                     // 188: arcforges.fleet.v1.NodeCommandResult
+	(*RemoteCommandView)(nil),                                     // 189: arcforges.fleet.v1.RemoteCommandView
+	(*RelayTokenGrant)(nil),                                       // 190: arcforges.fleet.v1.RelayTokenGrant
+	(*ViewerGrant)(nil),                                           // 191: arcforges.fleet.v1.ViewerGrant
+	(*NodePresence)(nil),                                          // 192: arcforges.fleet.v1.NodePresence
+	(*PushPreference)(nil),                                        // 193: arcforges.fleet.v1.PushPreference
+	(*PushPreferences)(nil),                                       // 194: arcforges.fleet.v1.PushPreferences
+	(*PlayPurchaseInput)(nil),                                     // 195: arcforges.fleet.v1.PlayPurchaseInput
+	(*SubscriptionView)(nil),                                      // 196: arcforges.fleet.v1.SubscriptionView
+	(*PlayPurchaseResult)(nil),                                    // 197: arcforges.fleet.v1.PlayPurchaseResult
+	(*BillingStatus)(nil),                                         // 198: arcforges.fleet.v1.BillingStatus
+	(*NodeCursorInput)(nil),                                       // 199: arcforges.fleet.v1.NodeCursorInput
+	(*v1.RequestMeta)(nil),                                        // 200: arcforges.foundation.v1.RequestMeta
+	(*v1.ResponseMeta)(nil),                                       // 201: arcforges.foundation.v1.ResponseMeta
+	(*v1.ArcError)(nil),                                           // 202: arcforges.foundation.v1.ArcError
+	(*v1.Id)(nil),                                                 // 203: arcforges.foundation.v1.Id
+	(*v1.Instant)(nil),                                            // 204: arcforges.foundation.v1.Instant
+	(*v1.Receipt)(nil),                                            // 205: arcforges.foundation.v1.Receipt
+	(*v11.StreamPosition)(nil),                                    // 206: arcforges.node.v1.StreamPosition
+	(*v11.StreamReset)(nil),                                       // 207: arcforges.node.v1.StreamReset
+	(*v11.Heartbeat)(nil),                                         // 208: arcforges.node.v1.Heartbeat
+	(*v1.PageRequest)(nil),                                        // 209: arcforges.foundation.v1.PageRequest
+	(*v1.PageState)(nil),                                          // 210: arcforges.foundation.v1.PageState
+	(v11.OsFamily)(0),                                             // 211: arcforges.node.v1.OsFamily
+	(v11.CpuArchitecture)(0),                                      // 212: arcforges.node.v1.CpuArchitecture
+	(v11.NodeRole)(0),                                             // 213: arcforges.node.v1.NodeRole
+	(v11.NodeLifecycleState)(0),                                   // 214: arcforges.node.v1.NodeLifecycleState
+	(v11.PressureLevel)(0),                                        // 215: arcforges.node.v1.PressureLevel
+	(v11.CpuControl)(0),                                           // 216: arcforges.node.v1.CpuControl
+	(v11.MemoryControl)(0),                                        // 217: arcforges.node.v1.MemoryControl
+	(v11.UpdateState)(0),                                          // 218: arcforges.node.v1.UpdateState
+	(v11.DiskPressureLevel)(0),                                    // 219: arcforges.node.v1.DiskPressureLevel
+	(v11.TaskState)(0),                                            // 220: arcforges.node.v1.TaskState
+	(v11.Priority)(0),                                             // 221: arcforges.node.v1.Priority
+	(v11.Origin)(0),                                               // 222: arcforges.node.v1.Origin
+	(v11.TerminationReason)(0),                                    // 223: arcforges.node.v1.TerminationReason
+	(v11.Severity)(0),                                             // 224: arcforges.node.v1.Severity
+	(v11.FindingState)(0),                                         // 225: arcforges.node.v1.FindingState
+	(v11.RiskClass)(0),                                            // 226: arcforges.node.v1.RiskClass
+	(v11.SessionState)(0),                                         // 227: arcforges.node.v1.SessionState
+	(v11.RoutingMode)(0),                                          // 228: arcforges.node.v1.RoutingMode
+	(*v11.TaskSpec)(nil),                                          // 229: arcforges.node.v1.TaskSpec
+	(v11.ParallelismScope)(0),                                     // 230: arcforges.node.v1.ParallelismScope
+	(v11.ParallelismMode)(0),                                      // 231: arcforges.node.v1.ParallelismMode
+	(*v1.Revision)(nil),                                           // 232: arcforges.foundation.v1.Revision
 }
 var file_arcforges_fleet_v1_fleet_proto_depIdxs = []int32{
-	180, // 0: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	132, // 1: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInRequest.node:type_name -> arcforges.fleet.v1.EnrollingNodeInfo
-	181, // 2: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	12,  // 3: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInValue
-	182, // 4: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	183, // 5: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInValue.flow_id:type_name -> arcforges.foundation.v1.Id
-	184, // 6: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInValue.expires_at:type_name -> arcforges.foundation.v1.Instant
-	180, // 7: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 8: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowRequest.flow_id:type_name -> arcforges.foundation.v1.Id
-	181, // 9: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	15,  // 10: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowValue
-	182, // 11: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	139, // 12: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowValue.flow:type_name -> arcforges.fleet.v1.NodeSignInFlowView
-	180, // 13: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 14: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInRequest.flow_id:type_name -> arcforges.foundation.v1.Id
-	181, // 15: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	18,  // 16: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInValue
-	182, // 17: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	139, // 18: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInValue.flow:type_name -> arcforges.fleet.v1.NodeSignInFlowView
-	180, // 19: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 20: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInRequest.flow_id:type_name -> arcforges.foundation.v1.Id
-	181, // 21: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	21,  // 22: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInValue
-	182, // 23: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	137, // 24: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInValue.credentials:type_name -> arcforges.fleet.v1.NodeCredentials
-	180, // 25: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	132, // 26: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest.node:type_name -> arcforges.fleet.v1.EnrollingNodeInfo
-	181, // 27: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	24,  // 28: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationValue
-	182, // 29: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	140, // 30: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationValue.authorization:type_name -> arcforges.fleet.v1.DeviceAuthorization
-	180, // 31: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 32: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	27,  // 33: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationValue
-	182, // 34: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	200, // 0: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	151, // 1: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInRequest.node:type_name -> arcforges.fleet.v1.EnrollingNodeInfo
+	201, // 2: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	13,  // 3: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInValue
+	202, // 4: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	203, // 5: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInValue.flow_id:type_name -> arcforges.foundation.v1.Id
+	204, // 6: arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInValue.expires_at:type_name -> arcforges.foundation.v1.Instant
+	200, // 7: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 8: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowRequest.flow_id:type_name -> arcforges.foundation.v1.Id
+	201, // 9: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	16,  // 10: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowValue
+	202, // 11: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	158, // 12: arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowValue.flow:type_name -> arcforges.fleet.v1.NodeSignInFlowView
+	200, // 13: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 14: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInRequest.flow_id:type_name -> arcforges.foundation.v1.Id
+	201, // 15: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	19,  // 16: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInValue
+	202, // 17: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	158, // 18: arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInValue.flow:type_name -> arcforges.fleet.v1.NodeSignInFlowView
+	200, // 19: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 20: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInRequest.flow_id:type_name -> arcforges.foundation.v1.Id
+	201, // 21: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	22,  // 22: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInValue
+	202, // 23: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	156, // 24: arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInValue.credentials:type_name -> arcforges.fleet.v1.NodeCredentials
+	200, // 25: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	151, // 26: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest.node:type_name -> arcforges.fleet.v1.EnrollingNodeInfo
+	201, // 27: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	25,  // 28: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationValue
+	202, // 29: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	159, // 30: arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationValue.authorization:type_name -> arcforges.fleet.v1.DeviceAuthorization
+	200, // 31: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 32: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	28,  // 33: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationValue
+	202, // 34: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationResponse.error:type_name -> arcforges.foundation.v1.ArcError
 	3,   // 35: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationValue.state:type_name -> arcforges.fleet.v1.DeviceAuthorizationState
-	137, // 36: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationValue.credentials:type_name -> arcforges.fleet.v1.NodeCredentials
-	180, // 37: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 38: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	30,  // 39: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeValue
-	182, // 40: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	132, // 41: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeValue.node:type_name -> arcforges.fleet.v1.EnrollingNodeInfo
-	180, // 42: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 43: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	33,  // 44: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeValue
-	182, // 45: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	185, // 46: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeValue.receipt:type_name -> arcforges.foundation.v1.Receipt
-	180, // 47: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 48: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	36,  // 49: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue
-	182, // 50: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	184, // 51: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue.access_expires_at:type_name -> arcforges.foundation.v1.Instant
-	134, // 52: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue.command_keys:type_name -> arcforges.fleet.v1.PublicKey
-	134, // 53: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue.entitlement_keys:type_name -> arcforges.fleet.v1.PublicKey
-	184, // 54: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue.session_expires_at:type_name -> arcforges.foundation.v1.Instant
-	180, // 55: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	132, // 56: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoRequest.node:type_name -> arcforges.fleet.v1.EnrollingNodeInfo
-	181, // 57: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	39,  // 58: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoValue
-	182, // 59: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	185, // 60: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoValue.receipt:type_name -> arcforges.foundation.v1.Receipt
-	180, // 61: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 62: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	42,  // 63: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeValue
-	182, // 64: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	185, // 65: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeValue.receipt:type_name -> arcforges.foundation.v1.Receipt
-	180, // 66: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 67: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	45,  // 68: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingValue
-	182, // 69: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	142, // 70: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingValue.ticket:type_name -> arcforges.fleet.v1.PhonePairingTicket
-	180, // 71: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 72: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingRequest.pairing_id:type_name -> arcforges.foundation.v1.Id
-	141, // 73: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingRequest.phone:type_name -> arcforges.fleet.v1.PhoneInstallationInfo
-	181, // 74: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	48,  // 75: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingValue
-	182, // 76: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	143, // 77: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingValue.pairing:type_name -> arcforges.fleet.v1.PhonePairingView
-	180, // 78: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 79: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingRequest.pairing_id:type_name -> arcforges.foundation.v1.Id
-	181, // 80: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	51,  // 81: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingValue
-	182, // 82: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	143, // 83: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingValue.pairing:type_name -> arcforges.fleet.v1.PhonePairingView
-	180, // 84: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 85: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingRequest.pairing_id:type_name -> arcforges.foundation.v1.Id
-	181, // 86: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	54,  // 87: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingValue
-	182, // 88: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	143, // 89: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingValue.pairing:type_name -> arcforges.fleet.v1.PhonePairingView
-	180, // 90: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 91: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingRequest.pairing_id:type_name -> arcforges.foundation.v1.Id
-	181, // 92: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	57,  // 93: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingValue
-	182, // 94: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	143, // 95: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingValue.pairing:type_name -> arcforges.fleet.v1.PhonePairingView
-	138, // 96: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingValue.credentials:type_name -> arcforges.fleet.v1.MobileSessionCredentials
-	180, // 97: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 98: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	60,  // 99: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateValue
-	182, // 100: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	180, // 101: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 102: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	63,  // 103: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsValue
-	182, // 104: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	144, // 105: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsValue.hints:type_name -> arcforges.fleet.v1.LanHint
-	180, // 106: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 107: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	66,  // 108: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsValue
-	182, // 109: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	185, // 110: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsValue.receipt:type_name -> arcforges.foundation.v1.Receipt
-	180, // 111: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 112: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	69,  // 113: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenValue
-	182, // 114: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	135, // 115: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenValue.entitlement_token:type_name -> arcforges.fleet.v1.SignedBlob
-	180, // 116: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 117: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	72,  // 118: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysValue
-	182, // 119: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	134, // 120: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysValue.entitlement_keys:type_name -> arcforges.fleet.v1.PublicKey
-	134, // 121: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysValue.command_keys:type_name -> arcforges.fleet.v1.PublicKey
-	180, // 122: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 123: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	75,  // 124: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadValue
-	182, // 125: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	183, // 126: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadValue.upload_id:type_name -> arcforges.foundation.v1.Id
-	183, // 127: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadValue.case_id:type_name -> arcforges.foundation.v1.Id
-	184, // 128: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadValue.expires_at:type_name -> arcforges.foundation.v1.Instant
-	180, // 129: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 130: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadRequest.upload_id:type_name -> arcforges.foundation.v1.Id
-	181, // 131: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	78,  // 132: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadValue
-	182, // 133: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	183, // 134: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadValue.case_id:type_name -> arcforges.foundation.v1.Id
-	183, // 135: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadValue.message_id:type_name -> arcforges.foundation.v1.Id
-	184, // 136: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadValue.object_expires_at:type_name -> arcforges.foundation.v1.Instant
-	180, // 137: arcforges.fleet.v1.FleetServiceListNodesRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 138: arcforges.fleet.v1.FleetServiceListNodesResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	81,  // 139: arcforges.fleet.v1.FleetServiceListNodesResponse.value:type_name -> arcforges.fleet.v1.FleetServiceListNodesValue
-	182, // 140: arcforges.fleet.v1.FleetServiceListNodesResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	154, // 141: arcforges.fleet.v1.FleetServiceListNodesValue.nodes:type_name -> arcforges.fleet.v1.FleetNode
-	180, // 142: arcforges.fleet.v1.FleetServiceGetNodeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 143: arcforges.fleet.v1.FleetServiceGetNodeRequest.node_id:type_name -> arcforges.foundation.v1.Id
-	181, // 144: arcforges.fleet.v1.FleetServiceGetNodeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	84,  // 145: arcforges.fleet.v1.FleetServiceGetNodeResponse.value:type_name -> arcforges.fleet.v1.FleetServiceGetNodeValue
-	182, // 146: arcforges.fleet.v1.FleetServiceGetNodeResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	154, // 147: arcforges.fleet.v1.FleetServiceGetNodeValue.node:type_name -> arcforges.fleet.v1.FleetNode
-	169, // 148: arcforges.fleet.v1.FleetServiceGetNodeValue.recent_commands:type_name -> arcforges.fleet.v1.RemoteCommandView
-	180, // 149: arcforges.fleet.v1.FleetServiceRenameNodeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 150: arcforges.fleet.v1.FleetServiceRenameNodeRequest.node_id:type_name -> arcforges.foundation.v1.Id
-	181, // 151: arcforges.fleet.v1.FleetServiceRenameNodeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	87,  // 152: arcforges.fleet.v1.FleetServiceRenameNodeResponse.value:type_name -> arcforges.fleet.v1.FleetServiceRenameNodeValue
-	182, // 153: arcforges.fleet.v1.FleetServiceRenameNodeResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	154, // 154: arcforges.fleet.v1.FleetServiceRenameNodeValue.node:type_name -> arcforges.fleet.v1.FleetNode
-	180, // 155: arcforges.fleet.v1.FleetServiceRevokeNodeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 156: arcforges.fleet.v1.FleetServiceRevokeNodeRequest.node_id:type_name -> arcforges.foundation.v1.Id
-	181, // 157: arcforges.fleet.v1.FleetServiceRevokeNodeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	90,  // 158: arcforges.fleet.v1.FleetServiceRevokeNodeResponse.value:type_name -> arcforges.fleet.v1.FleetServiceRevokeNodeValue
-	182, // 159: arcforges.fleet.v1.FleetServiceRevokeNodeResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	185, // 160: arcforges.fleet.v1.FleetServiceRevokeNodeValue.receipt:type_name -> arcforges.foundation.v1.Receipt
-	180, // 161: arcforges.fleet.v1.FleetServiceIssueRelayTokenRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 162: arcforges.fleet.v1.FleetServiceIssueRelayTokenResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	93,  // 163: arcforges.fleet.v1.FleetServiceIssueRelayTokenResponse.value:type_name -> arcforges.fleet.v1.FleetServiceIssueRelayTokenValue
-	182, // 164: arcforges.fleet.v1.FleetServiceIssueRelayTokenResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	170, // 165: arcforges.fleet.v1.FleetServiceIssueRelayTokenValue.grant:type_name -> arcforges.fleet.v1.RelayTokenGrant
-	180, // 166: arcforges.fleet.v1.FleetServiceOpenFleetWatchRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 167: arcforges.fleet.v1.FleetServiceOpenFleetWatchRequest.node_ids:type_name -> arcforges.foundation.v1.Id
-	1,   // 168: arcforges.fleet.v1.FleetServiceOpenFleetWatchRequest.detail:type_name -> arcforges.fleet.v1.DetailLevel
-	181, // 169: arcforges.fleet.v1.FleetServiceOpenFleetWatchResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	96,  // 170: arcforges.fleet.v1.FleetServiceOpenFleetWatchResponse.value:type_name -> arcforges.fleet.v1.FleetServiceOpenFleetWatchValue
-	182, // 171: arcforges.fleet.v1.FleetServiceOpenFleetWatchResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	171, // 172: arcforges.fleet.v1.FleetServiceOpenFleetWatchValue.grant:type_name -> arcforges.fleet.v1.ViewerGrant
-	180, // 173: arcforges.fleet.v1.FleetServiceWatchFleetRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 174: arcforges.fleet.v1.FleetServiceWatchFleetRequest.node_ids:type_name -> arcforges.foundation.v1.Id
-	1,   // 175: arcforges.fleet.v1.FleetServiceWatchFleetRequest.detail:type_name -> arcforges.fleet.v1.DetailLevel
-	179, // 176: arcforges.fleet.v1.FleetServiceWatchFleetRequest.cursors:type_name -> arcforges.fleet.v1.NodeCursorInput
-	181, // 177: arcforges.fleet.v1.FleetServiceWatchFleetFrame.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	186, // 178: arcforges.fleet.v1.FleetServiceWatchFleetFrame.position:type_name -> arcforges.node.v1.StreamPosition
-	187, // 179: arcforges.fleet.v1.FleetServiceWatchFleetFrame.reset:type_name -> arcforges.node.v1.StreamReset
-	188, // 180: arcforges.fleet.v1.FleetServiceWatchFleetFrame.heartbeat:type_name -> arcforges.node.v1.Heartbeat
-	182, // 181: arcforges.fleet.v1.FleetServiceWatchFleetFrame.error:type_name -> arcforges.foundation.v1.ArcError
-	153, // 182: arcforges.fleet.v1.FleetServiceWatchFleetFrame.snapshot:type_name -> arcforges.fleet.v1.NodeSnapshot
-	152, // 183: arcforges.fleet.v1.FleetServiceWatchFleetFrame.delta:type_name -> arcforges.fleet.v1.StatusDelta
-	172, // 184: arcforges.fleet.v1.FleetServiceWatchFleetFrame.presence:type_name -> arcforges.fleet.v1.NodePresence
-	169, // 185: arcforges.fleet.v1.FleetServiceWatchFleetFrame.command_update:type_name -> arcforges.fleet.v1.RemoteCommandView
-	180, // 186: arcforges.fleet.v1.FleetServiceSendNodeCommandRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 187: arcforges.fleet.v1.FleetServiceSendNodeCommandRequest.node_id:type_name -> arcforges.foundation.v1.Id
-	155, // 188: arcforges.fleet.v1.FleetServiceSendNodeCommandRequest.body:type_name -> arcforges.fleet.v1.NodeCommandBody
-	181, // 189: arcforges.fleet.v1.FleetServiceSendNodeCommandResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	101, // 190: arcforges.fleet.v1.FleetServiceSendNodeCommandResponse.value:type_name -> arcforges.fleet.v1.FleetServiceSendNodeCommandValue
-	182, // 191: arcforges.fleet.v1.FleetServiceSendNodeCommandResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	169, // 192: arcforges.fleet.v1.FleetServiceSendNodeCommandValue.command:type_name -> arcforges.fleet.v1.RemoteCommandView
-	180, // 193: arcforges.fleet.v1.FleetServiceGetNodeCommandRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 194: arcforges.fleet.v1.FleetServiceGetNodeCommandRequest.command_id:type_name -> arcforges.foundation.v1.Id
-	181, // 195: arcforges.fleet.v1.FleetServiceGetNodeCommandResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	104, // 196: arcforges.fleet.v1.FleetServiceGetNodeCommandResponse.value:type_name -> arcforges.fleet.v1.FleetServiceGetNodeCommandValue
-	182, // 197: arcforges.fleet.v1.FleetServiceGetNodeCommandResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	169, // 198: arcforges.fleet.v1.FleetServiceGetNodeCommandValue.command:type_name -> arcforges.fleet.v1.RemoteCommandView
-	180, // 199: arcforges.fleet.v1.FleetServiceListNodeCommandsRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 200: arcforges.fleet.v1.FleetServiceListNodeCommandsRequest.node_id:type_name -> arcforges.foundation.v1.Id
-	189, // 201: arcforges.fleet.v1.FleetServiceListNodeCommandsRequest.page:type_name -> arcforges.foundation.v1.PageRequest
-	181, // 202: arcforges.fleet.v1.FleetServiceListNodeCommandsResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	107, // 203: arcforges.fleet.v1.FleetServiceListNodeCommandsResponse.value:type_name -> arcforges.fleet.v1.FleetServiceListNodeCommandsValue
-	182, // 204: arcforges.fleet.v1.FleetServiceListNodeCommandsResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	169, // 205: arcforges.fleet.v1.FleetServiceListNodeCommandsValue.commands:type_name -> arcforges.fleet.v1.RemoteCommandView
-	190, // 206: arcforges.fleet.v1.FleetServiceListNodeCommandsValue.page:type_name -> arcforges.foundation.v1.PageState
-	180, // 207: arcforges.fleet.v1.FleetServiceGetPushPreferencesRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 208: arcforges.fleet.v1.FleetServiceGetPushPreferencesResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	110, // 209: arcforges.fleet.v1.FleetServiceGetPushPreferencesResponse.value:type_name -> arcforges.fleet.v1.FleetServiceGetPushPreferencesValue
-	182, // 210: arcforges.fleet.v1.FleetServiceGetPushPreferencesResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	174, // 211: arcforges.fleet.v1.FleetServiceGetPushPreferencesValue.preferences:type_name -> arcforges.fleet.v1.PushPreferences
-	180, // 212: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	173, // 213: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesRequest.preferences:type_name -> arcforges.fleet.v1.PushPreference
-	181, // 214: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	113, // 215: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesResponse.value:type_name -> arcforges.fleet.v1.FleetServiceUpdatePushPreferencesValue
-	182, // 216: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	174, // 217: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesValue.preferences:type_name -> arcforges.fleet.v1.PushPreferences
-	180, // 218: arcforges.fleet.v1.FleetServiceCancelNodeCommandRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	183, // 219: arcforges.fleet.v1.FleetServiceCancelNodeCommandRequest.command_id:type_name -> arcforges.foundation.v1.Id
-	181, // 220: arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	116, // 221: arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse.value:type_name -> arcforges.fleet.v1.FleetServiceCancelNodeCommandValue
-	182, // 222: arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	169, // 223: arcforges.fleet.v1.FleetServiceCancelNodeCommandValue.command:type_name -> arcforges.fleet.v1.RemoteCommandView
-	180, // 224: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 225: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	119, // 226: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceResponse.value:type_name -> arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceValue
-	182, // 227: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	180, // 228: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	175, // 229: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseRequest.purchase:type_name -> arcforges.fleet.v1.PlayPurchaseInput
-	181, // 230: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	122, // 231: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseResponse.value:type_name -> arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseValue
-	182, // 232: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	177, // 233: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseValue.result:type_name -> arcforges.fleet.v1.PlayPurchaseResult
-	180, // 234: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	175, // 235: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesRequest.purchases:type_name -> arcforges.fleet.v1.PlayPurchaseInput
-	181, // 236: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	125, // 237: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesResponse.value:type_name -> arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesValue
-	182, // 238: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	177, // 239: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesValue.results:type_name -> arcforges.fleet.v1.PlayPurchaseResult
-	180, // 240: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 241: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	128, // 242: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkResponse.value:type_name -> arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkValue
-	182, // 243: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	177, // 244: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkValue.result:type_name -> arcforges.fleet.v1.PlayPurchaseResult
-	180, // 245: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	181, // 246: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	131, // 247: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusResponse.value:type_name -> arcforges.fleet.v1.StoreBillingServiceGetBillingStatusValue
-	182, // 248: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	178, // 249: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusValue.status:type_name -> arcforges.fleet.v1.BillingStatus
-	183, // 250: arcforges.fleet.v1.EnrollingNodeInfo.node_id:type_name -> arcforges.foundation.v1.Id
-	191, // 251: arcforges.fleet.v1.EnrollingNodeInfo.os:type_name -> arcforges.node.v1.OsFamily
-	192, // 252: arcforges.fleet.v1.EnrollingNodeInfo.arch:type_name -> arcforges.node.v1.CpuArchitecture
-	193, // 253: arcforges.fleet.v1.EnrollingNodeInfo.role:type_name -> arcforges.node.v1.NodeRole
-	183, // 254: arcforges.fleet.v1.EnrollingNodeInfo.host_node_id:type_name -> arcforges.foundation.v1.Id
-	183, // 255: arcforges.fleet.v1.AccountSummary.account_id:type_name -> arcforges.foundation.v1.Id
-	184, // 256: arcforges.fleet.v1.PublicKey.not_before:type_name -> arcforges.foundation.v1.Instant
-	184, // 257: arcforges.fleet.v1.PublicKey.not_after:type_name -> arcforges.foundation.v1.Instant
-	183, // 258: arcforges.fleet.v1.EntitlementClaims.account_id:type_name -> arcforges.foundation.v1.Id
-	183, // 259: arcforges.fleet.v1.EntitlementClaims.node_id:type_name -> arcforges.foundation.v1.Id
-	184, // 260: arcforges.fleet.v1.EntitlementClaims.issued_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 261: arcforges.fleet.v1.EntitlementClaims.not_after:type_name -> arcforges.foundation.v1.Instant
-	183, // 262: arcforges.fleet.v1.EntitlementClaims.revoked_nodes:type_name -> arcforges.foundation.v1.Id
-	184, // 263: arcforges.fleet.v1.NodeCredentials.access_expires_at:type_name -> arcforges.foundation.v1.Instant
-	133, // 264: arcforges.fleet.v1.NodeCredentials.account:type_name -> arcforges.fleet.v1.AccountSummary
-	135, // 265: arcforges.fleet.v1.NodeCredentials.entitlement_token:type_name -> arcforges.fleet.v1.SignedBlob
-	134, // 266: arcforges.fleet.v1.NodeCredentials.command_keys:type_name -> arcforges.fleet.v1.PublicKey
-	134, // 267: arcforges.fleet.v1.NodeCredentials.entitlement_keys:type_name -> arcforges.fleet.v1.PublicKey
-	183, // 268: arcforges.fleet.v1.NodeCredentials.installation_id:type_name -> arcforges.foundation.v1.Id
-	184, // 269: arcforges.fleet.v1.NodeCredentials.session_expires_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 270: arcforges.fleet.v1.MobileSessionCredentials.access_expires_at:type_name -> arcforges.foundation.v1.Instant
-	133, // 271: arcforges.fleet.v1.MobileSessionCredentials.account:type_name -> arcforges.fleet.v1.AccountSummary
-	183, // 272: arcforges.fleet.v1.MobileSessionCredentials.installation_id:type_name -> arcforges.foundation.v1.Id
-	9,   // 273: arcforges.fleet.v1.MobileSessionCredentials.scope:type_name -> arcforges.fleet.v1.MobileSessionScope
-	183, // 274: arcforges.fleet.v1.NodeSignInFlowView.flow_id:type_name -> arcforges.foundation.v1.Id
-	132, // 275: arcforges.fleet.v1.NodeSignInFlowView.node:type_name -> arcforges.fleet.v1.EnrollingNodeInfo
-	4,   // 276: arcforges.fleet.v1.NodeSignInFlowView.state:type_name -> arcforges.fleet.v1.NodeSignInState
-	184, // 277: arcforges.fleet.v1.NodeSignInFlowView.created_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 278: arcforges.fleet.v1.NodeSignInFlowView.expires_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 279: arcforges.fleet.v1.DeviceAuthorization.expires_at:type_name -> arcforges.foundation.v1.Instant
-	183, // 280: arcforges.fleet.v1.PhoneInstallationInfo.installation_id:type_name -> arcforges.foundation.v1.Id
-	183, // 281: arcforges.fleet.v1.PhonePairingTicket.pairing_id:type_name -> arcforges.foundation.v1.Id
-	184, // 282: arcforges.fleet.v1.PhonePairingTicket.expires_at:type_name -> arcforges.foundation.v1.Instant
-	183, // 283: arcforges.fleet.v1.PhonePairingView.pairing_id:type_name -> arcforges.foundation.v1.Id
-	5,   // 284: arcforges.fleet.v1.PhonePairingView.state:type_name -> arcforges.fleet.v1.PhonePairingCloudState
-	141, // 285: arcforges.fleet.v1.PhonePairingView.phone:type_name -> arcforges.fleet.v1.PhoneInstallationInfo
-	184, // 286: arcforges.fleet.v1.PhonePairingView.expires_at:type_name -> arcforges.foundation.v1.Instant
-	183, // 287: arcforges.fleet.v1.LanHint.node_id:type_name -> arcforges.foundation.v1.Id
-	184, // 288: arcforges.fleet.v1.LanHint.reported_at:type_name -> arcforges.foundation.v1.Instant
-	183, // 289: arcforges.fleet.v1.StatusSummary.node_id:type_name -> arcforges.foundation.v1.Id
-	184, // 290: arcforges.fleet.v1.StatusSummary.at:type_name -> arcforges.foundation.v1.Instant
-	194, // 291: arcforges.fleet.v1.StatusSummary.state:type_name -> arcforges.node.v1.NodeLifecycleState
-	195, // 292: arcforges.fleet.v1.StatusSummary.pressure:type_name -> arcforges.node.v1.PressureLevel
-	196, // 293: arcforges.fleet.v1.StatusSummary.cpu_control:type_name -> arcforges.node.v1.CpuControl
-	197, // 294: arcforges.fleet.v1.StatusSummary.memory_control:type_name -> arcforges.node.v1.MemoryControl
-	198, // 295: arcforges.fleet.v1.StatusSummary.update_state:type_name -> arcforges.node.v1.UpdateState
-	199, // 296: arcforges.fleet.v1.StatusSummary.disk_level:type_name -> arcforges.node.v1.DiskPressureLevel
-	183, // 297: arcforges.fleet.v1.TaskSummary.task_id:type_name -> arcforges.foundation.v1.Id
-	200, // 298: arcforges.fleet.v1.TaskSummary.state:type_name -> arcforges.node.v1.TaskState
-	201, // 299: arcforges.fleet.v1.TaskSummary.priority:type_name -> arcforges.node.v1.Priority
-	184, // 300: arcforges.fleet.v1.TaskSummary.started_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 301: arcforges.fleet.v1.TaskSummary.finished_at:type_name -> arcforges.foundation.v1.Instant
-	202, // 302: arcforges.fleet.v1.TaskSummary.owner_origin:type_name -> arcforges.node.v1.Origin
-	183, // 303: arcforges.fleet.v1.TaskSummary.session_id:type_name -> arcforges.foundation.v1.Id
-	203, // 304: arcforges.fleet.v1.TaskSummary.termination_reason:type_name -> arcforges.node.v1.TerminationReason
-	147, // 305: arcforges.fleet.v1.TaskSummary.timeline:type_name -> arcforges.fleet.v1.CategoryShare
-	184, // 306: arcforges.fleet.v1.TaskSummary.eta:type_name -> arcforges.foundation.v1.Instant
-	183, // 307: arcforges.fleet.v1.FindingSummary.finding_id:type_name -> arcforges.foundation.v1.Id
-	204, // 308: arcforges.fleet.v1.FindingSummary.severity:type_name -> arcforges.node.v1.Severity
-	205, // 309: arcforges.fleet.v1.FindingSummary.state:type_name -> arcforges.node.v1.FindingState
-	183, // 310: arcforges.fleet.v1.ApprovalSummary.approval_id:type_name -> arcforges.foundation.v1.Id
-	206, // 311: arcforges.fleet.v1.ApprovalSummary.risk:type_name -> arcforges.node.v1.RiskClass
-	184, // 312: arcforges.fleet.v1.ApprovalSummary.created_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 313: arcforges.fleet.v1.ApprovalSummary.expires_at:type_name -> arcforges.foundation.v1.Instant
-	202, // 314: arcforges.fleet.v1.ApprovalSummary.requester_origin:type_name -> arcforges.node.v1.Origin
-	183, // 315: arcforges.fleet.v1.SessionSummary.session_id:type_name -> arcforges.foundation.v1.Id
-	207, // 316: arcforges.fleet.v1.SessionSummary.state:type_name -> arcforges.node.v1.SessionState
-	151, // 317: arcforges.fleet.v1.SessionSummary.subagents:type_name -> arcforges.fleet.v1.SubagentSummary
-	184, // 318: arcforges.fleet.v1.SessionSummary.last_event_at:type_name -> arcforges.foundation.v1.Instant
-	208, // 319: arcforges.fleet.v1.SessionSummary.routing_mode:type_name -> arcforges.node.v1.RoutingMode
-	184, // 320: arcforges.fleet.v1.SubagentSummary.started_at:type_name -> arcforges.foundation.v1.Instant
-	183, // 321: arcforges.fleet.v1.StatusDelta.node_id:type_name -> arcforges.foundation.v1.Id
-	184, // 322: arcforges.fleet.v1.StatusDelta.at:type_name -> arcforges.foundation.v1.Instant
-	145, // 323: arcforges.fleet.v1.StatusDelta.summary:type_name -> arcforges.fleet.v1.StatusSummary
-	146, // 324: arcforges.fleet.v1.StatusDelta.upserted_tasks:type_name -> arcforges.fleet.v1.TaskSummary
-	183, // 325: arcforges.fleet.v1.StatusDelta.removed_task_ids:type_name -> arcforges.foundation.v1.Id
-	148, // 326: arcforges.fleet.v1.StatusDelta.findings:type_name -> arcforges.fleet.v1.FindingSummary
-	149, // 327: arcforges.fleet.v1.StatusDelta.approvals:type_name -> arcforges.fleet.v1.ApprovalSummary
-	150, // 328: arcforges.fleet.v1.StatusDelta.sessions:type_name -> arcforges.fleet.v1.SessionSummary
-	145, // 329: arcforges.fleet.v1.NodeSnapshot.summary:type_name -> arcforges.fleet.v1.StatusSummary
-	146, // 330: arcforges.fleet.v1.NodeSnapshot.tasks:type_name -> arcforges.fleet.v1.TaskSummary
-	148, // 331: arcforges.fleet.v1.NodeSnapshot.findings:type_name -> arcforges.fleet.v1.FindingSummary
-	149, // 332: arcforges.fleet.v1.NodeSnapshot.approvals:type_name -> arcforges.fleet.v1.ApprovalSummary
-	150, // 333: arcforges.fleet.v1.NodeSnapshot.sessions:type_name -> arcforges.fleet.v1.SessionSummary
-	183, // 334: arcforges.fleet.v1.FleetNode.node_id:type_name -> arcforges.foundation.v1.Id
-	191, // 335: arcforges.fleet.v1.FleetNode.os:type_name -> arcforges.node.v1.OsFamily
-	192, // 336: arcforges.fleet.v1.FleetNode.arch:type_name -> arcforges.node.v1.CpuArchitecture
-	193, // 337: arcforges.fleet.v1.FleetNode.role:type_name -> arcforges.node.v1.NodeRole
-	183, // 338: arcforges.fleet.v1.FleetNode.host_node_id:type_name -> arcforges.foundation.v1.Id
-	0,   // 339: arcforges.fleet.v1.FleetNode.online:type_name -> arcforges.fleet.v1.NodeOnlineState
-	184, // 340: arcforges.fleet.v1.FleetNode.last_seen_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 341: arcforges.fleet.v1.FleetNode.enrolled_at:type_name -> arcforges.foundation.v1.Instant
-	145, // 342: arcforges.fleet.v1.FleetNode.summary:type_name -> arcforges.fleet.v1.StatusSummary
-	183, // 343: arcforges.fleet.v1.FleetNode.device_id:type_name -> arcforges.foundation.v1.Id
-	184, // 344: arcforges.fleet.v1.FleetNode.credential_expires_at:type_name -> arcforges.foundation.v1.Instant
-	156, // 345: arcforges.fleet.v1.NodeCommandBody.refresh:type_name -> arcforges.fleet.v1.RefreshStatusCommand
-	157, // 346: arcforges.fleet.v1.NodeCommandBody.pause_queue:type_name -> arcforges.fleet.v1.PauseQueueCommand
-	158, // 347: arcforges.fleet.v1.NodeCommandBody.resume_queue:type_name -> arcforges.fleet.v1.ResumeQueueCommand
-	159, // 348: arcforges.fleet.v1.NodeCommandBody.cancel_task:type_name -> arcforges.fleet.v1.CancelTaskCommand
-	160, // 349: arcforges.fleet.v1.NodeCommandBody.set_priority:type_name -> arcforges.fleet.v1.SetPriorityCommand
-	161, // 350: arcforges.fleet.v1.NodeCommandBody.run_task:type_name -> arcforges.fleet.v1.RunTaskCommand
-	162, // 351: arcforges.fleet.v1.NodeCommandBody.decide_approval:type_name -> arcforges.fleet.v1.DecideApprovalCommand
-	163, // 352: arcforges.fleet.v1.NodeCommandBody.read_output_tail:type_name -> arcforges.fleet.v1.ReadOutputTailCommand
-	164, // 353: arcforges.fleet.v1.NodeCommandBody.apply_update:type_name -> arcforges.fleet.v1.ApplyUpdateCommand
-	165, // 354: arcforges.fleet.v1.NodeCommandBody.set_parallelism:type_name -> arcforges.fleet.v1.SetParallelismCommand
-	166, // 355: arcforges.fleet.v1.NodeCommandBody.stop_node:type_name -> arcforges.fleet.v1.StopNodeCommand
-	1,   // 356: arcforges.fleet.v1.RefreshStatusCommand.detail:type_name -> arcforges.fleet.v1.DetailLevel
-	183, // 357: arcforges.fleet.v1.CancelTaskCommand.task_id:type_name -> arcforges.foundation.v1.Id
-	183, // 358: arcforges.fleet.v1.SetPriorityCommand.task_id:type_name -> arcforges.foundation.v1.Id
-	201, // 359: arcforges.fleet.v1.SetPriorityCommand.priority:type_name -> arcforges.node.v1.Priority
-	209, // 360: arcforges.fleet.v1.RunTaskCommand.spec:type_name -> arcforges.node.v1.TaskSpec
-	183, // 361: arcforges.fleet.v1.DecideApprovalCommand.approval_id:type_name -> arcforges.foundation.v1.Id
-	183, // 362: arcforges.fleet.v1.ReadOutputTailCommand.task_id:type_name -> arcforges.foundation.v1.Id
-	210, // 363: arcforges.fleet.v1.SetParallelismCommand.scope:type_name -> arcforges.node.v1.ParallelismScope
-	211, // 364: arcforges.fleet.v1.SetParallelismCommand.mode:type_name -> arcforges.node.v1.ParallelismMode
-	183, // 365: arcforges.fleet.v1.NodeCommand.command_id:type_name -> arcforges.foundation.v1.Id
-	183, // 366: arcforges.fleet.v1.NodeCommand.account_id:type_name -> arcforges.foundation.v1.Id
-	183, // 367: arcforges.fleet.v1.NodeCommand.node_id:type_name -> arcforges.foundation.v1.Id
-	184, // 368: arcforges.fleet.v1.NodeCommand.issued_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 369: arcforges.fleet.v1.NodeCommand.expires_at:type_name -> arcforges.foundation.v1.Instant
-	206, // 370: arcforges.fleet.v1.NodeCommand.risk:type_name -> arcforges.node.v1.RiskClass
-	183, // 371: arcforges.fleet.v1.NodeCommand.actor_user_id:type_name -> arcforges.foundation.v1.Id
-	184, // 372: arcforges.fleet.v1.NodeCommand.step_up_at:type_name -> arcforges.foundation.v1.Instant
-	155, // 373: arcforges.fleet.v1.NodeCommand.body:type_name -> arcforges.fleet.v1.NodeCommandBody
-	183, // 374: arcforges.fleet.v1.NodeCommandResult.command_id:type_name -> arcforges.foundation.v1.Id
-	183, // 375: arcforges.fleet.v1.NodeCommandResult.node_id:type_name -> arcforges.foundation.v1.Id
-	184, // 376: arcforges.fleet.v1.NodeCommandResult.executed_at:type_name -> arcforges.foundation.v1.Instant
-	185, // 377: arcforges.fleet.v1.NodeCommandResult.receipt:type_name -> arcforges.foundation.v1.Receipt
-	182, // 378: arcforges.fleet.v1.NodeCommandResult.error:type_name -> arcforges.foundation.v1.ArcError
-	183, // 379: arcforges.fleet.v1.RemoteCommandView.command_id:type_name -> arcforges.foundation.v1.Id
-	183, // 380: arcforges.fleet.v1.RemoteCommandView.node_id:type_name -> arcforges.foundation.v1.Id
-	206, // 381: arcforges.fleet.v1.RemoteCommandView.risk:type_name -> arcforges.node.v1.RiskClass
-	2,   // 382: arcforges.fleet.v1.RemoteCommandView.state:type_name -> arcforges.fleet.v1.RemoteCommandState
-	184, // 383: arcforges.fleet.v1.RemoteCommandView.created_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 384: arcforges.fleet.v1.RemoteCommandView.expires_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 385: arcforges.fleet.v1.RemoteCommandView.delivered_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 386: arcforges.fleet.v1.RemoteCommandView.completed_at:type_name -> arcforges.foundation.v1.Instant
-	168, // 387: arcforges.fleet.v1.RemoteCommandView.result:type_name -> arcforges.fleet.v1.NodeCommandResult
-	184, // 388: arcforges.fleet.v1.RelayTokenGrant.expires_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 389: arcforges.fleet.v1.ViewerGrant.expires_at:type_name -> arcforges.foundation.v1.Instant
-	183, // 390: arcforges.fleet.v1.NodePresence.node_id:type_name -> arcforges.foundation.v1.Id
-	0,   // 391: arcforges.fleet.v1.NodePresence.state:type_name -> arcforges.fleet.v1.NodeOnlineState
-	184, // 392: arcforges.fleet.v1.NodePresence.at:type_name -> arcforges.foundation.v1.Instant
-	183, // 393: arcforges.fleet.v1.PushPreference.node_id:type_name -> arcforges.foundation.v1.Id
-	173, // 394: arcforges.fleet.v1.PushPreferences.preferences:type_name -> arcforges.fleet.v1.PushPreference
-	212, // 395: arcforges.fleet.v1.PushPreferences.revision:type_name -> arcforges.foundation.v1.Revision
-	6,   // 396: arcforges.fleet.v1.SubscriptionView.source:type_name -> arcforges.fleet.v1.SubscriptionSource
-	7,   // 397: arcforges.fleet.v1.SubscriptionView.state:type_name -> arcforges.fleet.v1.SubscriptionState
-	184, // 398: arcforges.fleet.v1.SubscriptionView.renews_at:type_name -> arcforges.foundation.v1.Instant
-	184, // 399: arcforges.fleet.v1.SubscriptionView.ends_at:type_name -> arcforges.foundation.v1.Instant
-	8,   // 400: arcforges.fleet.v1.PlayPurchaseResult.link_state:type_name -> arcforges.fleet.v1.PlayLinkState
-	176, // 401: arcforges.fleet.v1.PlayPurchaseResult.subscription:type_name -> arcforges.fleet.v1.SubscriptionView
-	176, // 402: arcforges.fleet.v1.BillingStatus.subscriptions:type_name -> arcforges.fleet.v1.SubscriptionView
-	183, // 403: arcforges.fleet.v1.NodeCursorInput.node_id:type_name -> arcforges.foundation.v1.Id
-	10,  // 404: arcforges.fleet.v1.NodeEnrollmentService.BeginNodeSignIn:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInRequest
-	13,  // 405: arcforges.fleet.v1.NodeEnrollmentService.GetNodeSignInFlow:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowRequest
-	16,  // 406: arcforges.fleet.v1.NodeEnrollmentService.ApproveNodeSignIn:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInRequest
-	19,  // 407: arcforges.fleet.v1.NodeEnrollmentService.CompleteNodeSignIn:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInRequest
-	22,  // 408: arcforges.fleet.v1.NodeEnrollmentService.StartDeviceAuthorization:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest
-	25,  // 409: arcforges.fleet.v1.NodeEnrollmentService.PollDeviceAuthorization:input_type -> arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationRequest
-	28,  // 410: arcforges.fleet.v1.NodeEnrollmentService.LookupDeviceCode:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeRequest
-	31,  // 411: arcforges.fleet.v1.NodeEnrollmentService.ApproveDeviceCode:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeRequest
-	34,  // 412: arcforges.fleet.v1.NodeEnrollmentService.RefreshNodeSession:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionRequest
-	37,  // 413: arcforges.fleet.v1.NodeEnrollmentService.ReportNodeInfo:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoRequest
-	40,  // 414: arcforges.fleet.v1.NodeEnrollmentService.SignOutNode:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeRequest
-	43,  // 415: arcforges.fleet.v1.NodeEnrollmentService.CreatePhonePairing:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingRequest
-	46,  // 416: arcforges.fleet.v1.NodeEnrollmentService.ClaimPhonePairing:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingRequest
-	49,  // 417: arcforges.fleet.v1.NodeEnrollmentService.GetPhonePairing:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingRequest
-	52,  // 418: arcforges.fleet.v1.NodeEnrollmentService.ConfirmPhonePairing:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingRequest
-	55,  // 419: arcforges.fleet.v1.NodeEnrollmentService.PollPhonePairing:input_type -> arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingRequest
-	58,  // 420: arcforges.fleet.v1.NodeEnrollmentService.IssueNodeCertificate:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateRequest
-	61,  // 421: arcforges.fleet.v1.NodeEnrollmentService.GetLanHints:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsRequest
-	64,  // 422: arcforges.fleet.v1.NodeEnrollmentService.ReportLanEndpoints:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsRequest
-	67,  // 423: arcforges.fleet.v1.NodeEnrollmentService.RefreshEntitlementToken:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenRequest
-	70,  // 424: arcforges.fleet.v1.NodeEnrollmentService.GetEntitlementKeys:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysRequest
-	73,  // 425: arcforges.fleet.v1.NodeEnrollmentService.BeginSupportUpload:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadRequest
-	76,  // 426: arcforges.fleet.v1.NodeEnrollmentService.CompleteSupportUpload:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadRequest
-	79,  // 427: arcforges.fleet.v1.FleetService.ListNodes:input_type -> arcforges.fleet.v1.FleetServiceListNodesRequest
-	82,  // 428: arcforges.fleet.v1.FleetService.GetNode:input_type -> arcforges.fleet.v1.FleetServiceGetNodeRequest
-	85,  // 429: arcforges.fleet.v1.FleetService.RenameNode:input_type -> arcforges.fleet.v1.FleetServiceRenameNodeRequest
-	88,  // 430: arcforges.fleet.v1.FleetService.RevokeNode:input_type -> arcforges.fleet.v1.FleetServiceRevokeNodeRequest
-	91,  // 431: arcforges.fleet.v1.FleetService.IssueRelayToken:input_type -> arcforges.fleet.v1.FleetServiceIssueRelayTokenRequest
-	94,  // 432: arcforges.fleet.v1.FleetService.OpenFleetWatch:input_type -> arcforges.fleet.v1.FleetServiceOpenFleetWatchRequest
-	97,  // 433: arcforges.fleet.v1.FleetService.WatchFleet:input_type -> arcforges.fleet.v1.FleetServiceWatchFleetRequest
-	99,  // 434: arcforges.fleet.v1.FleetService.SendNodeCommand:input_type -> arcforges.fleet.v1.FleetServiceSendNodeCommandRequest
-	102, // 435: arcforges.fleet.v1.FleetService.GetNodeCommand:input_type -> arcforges.fleet.v1.FleetServiceGetNodeCommandRequest
-	105, // 436: arcforges.fleet.v1.FleetService.ListNodeCommands:input_type -> arcforges.fleet.v1.FleetServiceListNodeCommandsRequest
-	108, // 437: arcforges.fleet.v1.FleetService.GetPushPreferences:input_type -> arcforges.fleet.v1.FleetServiceGetPushPreferencesRequest
-	111, // 438: arcforges.fleet.v1.FleetService.UpdatePushPreferences:input_type -> arcforges.fleet.v1.FleetServiceUpdatePushPreferencesRequest
-	114, // 439: arcforges.fleet.v1.FleetService.CancelNodeCommand:input_type -> arcforges.fleet.v1.FleetServiceCancelNodeCommandRequest
-	117, // 440: arcforges.fleet.v1.StoreBillingService.GetPlayAccountReference:input_type -> arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceRequest
-	120, // 441: arcforges.fleet.v1.StoreBillingService.SubmitPlayPurchase:input_type -> arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseRequest
-	123, // 442: arcforges.fleet.v1.StoreBillingService.RestorePlayPurchases:input_type -> arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesRequest
-	126, // 443: arcforges.fleet.v1.StoreBillingService.ConfirmPurchaseLink:input_type -> arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkRequest
-	129, // 444: arcforges.fleet.v1.StoreBillingService.GetBillingStatus:input_type -> arcforges.fleet.v1.StoreBillingServiceGetBillingStatusRequest
-	11,  // 445: arcforges.fleet.v1.NodeEnrollmentService.BeginNodeSignIn:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInResponse
-	14,  // 446: arcforges.fleet.v1.NodeEnrollmentService.GetNodeSignInFlow:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowResponse
-	17,  // 447: arcforges.fleet.v1.NodeEnrollmentService.ApproveNodeSignIn:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInResponse
-	20,  // 448: arcforges.fleet.v1.NodeEnrollmentService.CompleteNodeSignIn:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInResponse
-	23,  // 449: arcforges.fleet.v1.NodeEnrollmentService.StartDeviceAuthorization:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse
-	26,  // 450: arcforges.fleet.v1.NodeEnrollmentService.PollDeviceAuthorization:output_type -> arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationResponse
-	29,  // 451: arcforges.fleet.v1.NodeEnrollmentService.LookupDeviceCode:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeResponse
-	32,  // 452: arcforges.fleet.v1.NodeEnrollmentService.ApproveDeviceCode:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeResponse
-	35,  // 453: arcforges.fleet.v1.NodeEnrollmentService.RefreshNodeSession:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionResponse
-	38,  // 454: arcforges.fleet.v1.NodeEnrollmentService.ReportNodeInfo:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoResponse
-	41,  // 455: arcforges.fleet.v1.NodeEnrollmentService.SignOutNode:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse
-	44,  // 456: arcforges.fleet.v1.NodeEnrollmentService.CreatePhonePairing:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingResponse
-	47,  // 457: arcforges.fleet.v1.NodeEnrollmentService.ClaimPhonePairing:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingResponse
-	50,  // 458: arcforges.fleet.v1.NodeEnrollmentService.GetPhonePairing:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingResponse
-	53,  // 459: arcforges.fleet.v1.NodeEnrollmentService.ConfirmPhonePairing:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingResponse
-	56,  // 460: arcforges.fleet.v1.NodeEnrollmentService.PollPhonePairing:output_type -> arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingResponse
-	59,  // 461: arcforges.fleet.v1.NodeEnrollmentService.IssueNodeCertificate:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateResponse
-	62,  // 462: arcforges.fleet.v1.NodeEnrollmentService.GetLanHints:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsResponse
-	65,  // 463: arcforges.fleet.v1.NodeEnrollmentService.ReportLanEndpoints:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsResponse
-	68,  // 464: arcforges.fleet.v1.NodeEnrollmentService.RefreshEntitlementToken:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenResponse
-	71,  // 465: arcforges.fleet.v1.NodeEnrollmentService.GetEntitlementKeys:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysResponse
-	74,  // 466: arcforges.fleet.v1.NodeEnrollmentService.BeginSupportUpload:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadResponse
-	77,  // 467: arcforges.fleet.v1.NodeEnrollmentService.CompleteSupportUpload:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse
-	80,  // 468: arcforges.fleet.v1.FleetService.ListNodes:output_type -> arcforges.fleet.v1.FleetServiceListNodesResponse
-	83,  // 469: arcforges.fleet.v1.FleetService.GetNode:output_type -> arcforges.fleet.v1.FleetServiceGetNodeResponse
-	86,  // 470: arcforges.fleet.v1.FleetService.RenameNode:output_type -> arcforges.fleet.v1.FleetServiceRenameNodeResponse
-	89,  // 471: arcforges.fleet.v1.FleetService.RevokeNode:output_type -> arcforges.fleet.v1.FleetServiceRevokeNodeResponse
-	92,  // 472: arcforges.fleet.v1.FleetService.IssueRelayToken:output_type -> arcforges.fleet.v1.FleetServiceIssueRelayTokenResponse
-	95,  // 473: arcforges.fleet.v1.FleetService.OpenFleetWatch:output_type -> arcforges.fleet.v1.FleetServiceOpenFleetWatchResponse
-	98,  // 474: arcforges.fleet.v1.FleetService.WatchFleet:output_type -> arcforges.fleet.v1.FleetServiceWatchFleetFrame
-	100, // 475: arcforges.fleet.v1.FleetService.SendNodeCommand:output_type -> arcforges.fleet.v1.FleetServiceSendNodeCommandResponse
-	103, // 476: arcforges.fleet.v1.FleetService.GetNodeCommand:output_type -> arcforges.fleet.v1.FleetServiceGetNodeCommandResponse
-	106, // 477: arcforges.fleet.v1.FleetService.ListNodeCommands:output_type -> arcforges.fleet.v1.FleetServiceListNodeCommandsResponse
-	109, // 478: arcforges.fleet.v1.FleetService.GetPushPreferences:output_type -> arcforges.fleet.v1.FleetServiceGetPushPreferencesResponse
-	112, // 479: arcforges.fleet.v1.FleetService.UpdatePushPreferences:output_type -> arcforges.fleet.v1.FleetServiceUpdatePushPreferencesResponse
-	115, // 480: arcforges.fleet.v1.FleetService.CancelNodeCommand:output_type -> arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse
-	118, // 481: arcforges.fleet.v1.StoreBillingService.GetPlayAccountReference:output_type -> arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceResponse
-	121, // 482: arcforges.fleet.v1.StoreBillingService.SubmitPlayPurchase:output_type -> arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseResponse
-	124, // 483: arcforges.fleet.v1.StoreBillingService.RestorePlayPurchases:output_type -> arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesResponse
-	127, // 484: arcforges.fleet.v1.StoreBillingService.ConfirmPurchaseLink:output_type -> arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkResponse
-	130, // 485: arcforges.fleet.v1.StoreBillingService.GetBillingStatus:output_type -> arcforges.fleet.v1.StoreBillingServiceGetBillingStatusResponse
-	445, // [445:486] is the sub-list for method output_type
-	404, // [404:445] is the sub-list for method input_type
-	404, // [404:404] is the sub-list for extension type_name
-	404, // [404:404] is the sub-list for extension extendee
-	0,   // [0:404] is the sub-list for field type_name
+	156, // 36: arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationValue.credentials:type_name -> arcforges.fleet.v1.NodeCredentials
+	200, // 37: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 38: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	31,  // 39: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeValue
+	202, // 40: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	151, // 41: arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeValue.node:type_name -> arcforges.fleet.v1.EnrollingNodeInfo
+	200, // 42: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 43: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	34,  // 44: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeValue
+	202, // 45: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	205, // 46: arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeValue.receipt:type_name -> arcforges.foundation.v1.Receipt
+	200, // 47: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 48: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	37,  // 49: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue
+	202, // 50: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	204, // 51: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue.access_expires_at:type_name -> arcforges.foundation.v1.Instant
+	153, // 52: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue.command_keys:type_name -> arcforges.fleet.v1.PublicKey
+	153, // 53: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue.entitlement_keys:type_name -> arcforges.fleet.v1.PublicKey
+	204, // 54: arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionValue.session_expires_at:type_name -> arcforges.foundation.v1.Instant
+	200, // 55: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	151, // 56: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoRequest.node:type_name -> arcforges.fleet.v1.EnrollingNodeInfo
+	201, // 57: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	40,  // 58: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoValue
+	202, // 59: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	205, // 60: arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoValue.receipt:type_name -> arcforges.foundation.v1.Receipt
+	200, // 61: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 62: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	43,  // 63: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeValue
+	202, // 64: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	205, // 65: arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeValue.receipt:type_name -> arcforges.foundation.v1.Receipt
+	200, // 66: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 67: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	46,  // 68: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingValue
+	202, // 69: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	161, // 70: arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingValue.ticket:type_name -> arcforges.fleet.v1.PhonePairingTicket
+	200, // 71: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 72: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingRequest.pairing_id:type_name -> arcforges.foundation.v1.Id
+	160, // 73: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingRequest.phone:type_name -> arcforges.fleet.v1.PhoneInstallationInfo
+	201, // 74: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	49,  // 75: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingValue
+	202, // 76: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	162, // 77: arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingValue.pairing:type_name -> arcforges.fleet.v1.PhonePairingView
+	200, // 78: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 79: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingRequest.pairing_id:type_name -> arcforges.foundation.v1.Id
+	201, // 80: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	52,  // 81: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingValue
+	202, // 82: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	162, // 83: arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingValue.pairing:type_name -> arcforges.fleet.v1.PhonePairingView
+	200, // 84: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 85: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingRequest.pairing_id:type_name -> arcforges.foundation.v1.Id
+	201, // 86: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	55,  // 87: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingValue
+	202, // 88: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	162, // 89: arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingValue.pairing:type_name -> arcforges.fleet.v1.PhonePairingView
+	200, // 90: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 91: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingRequest.pairing_id:type_name -> arcforges.foundation.v1.Id
+	201, // 92: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	58,  // 93: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingValue
+	202, // 94: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	162, // 95: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingValue.pairing:type_name -> arcforges.fleet.v1.PhonePairingView
+	157, // 96: arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingValue.credentials:type_name -> arcforges.fleet.v1.MobileSessionCredentials
+	200, // 97: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 98: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	61,  // 99: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateValue
+	202, // 100: arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	200, // 101: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 102: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	64,  // 103: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsValue
+	202, // 104: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	163, // 105: arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsValue.hints:type_name -> arcforges.fleet.v1.LanHint
+	200, // 106: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 107: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	67,  // 108: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsValue
+	202, // 109: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	205, // 110: arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsValue.receipt:type_name -> arcforges.foundation.v1.Receipt
+	200, // 111: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 112: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	70,  // 113: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenValue
+	202, // 114: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	154, // 115: arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenValue.entitlement_token:type_name -> arcforges.fleet.v1.SignedBlob
+	200, // 116: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 117: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	73,  // 118: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysValue
+	202, // 119: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	153, // 120: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysValue.entitlement_keys:type_name -> arcforges.fleet.v1.PublicKey
+	153, // 121: arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysValue.command_keys:type_name -> arcforges.fleet.v1.PublicKey
+	200, // 122: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 123: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	76,  // 124: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadValue
+	202, // 125: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	203, // 126: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadValue.upload_id:type_name -> arcforges.foundation.v1.Id
+	203, // 127: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadValue.case_id:type_name -> arcforges.foundation.v1.Id
+	204, // 128: arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadValue.expires_at:type_name -> arcforges.foundation.v1.Instant
+	200, // 129: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 130: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadRequest.upload_id:type_name -> arcforges.foundation.v1.Id
+	201, // 131: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	79,  // 132: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse.value:type_name -> arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadValue
+	202, // 133: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	203, // 134: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadValue.case_id:type_name -> arcforges.foundation.v1.Id
+	203, // 135: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadValue.message_id:type_name -> arcforges.foundation.v1.Id
+	204, // 136: arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadValue.object_expires_at:type_name -> arcforges.foundation.v1.Instant
+	200, // 137: arcforges.fleet.v1.FleetServiceListNodesRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	174, // 138: arcforges.fleet.v1.FleetServiceListNodesRequest.caller:type_name -> arcforges.fleet.v1.RoutedCaller
+	201, // 139: arcforges.fleet.v1.FleetServiceListNodesResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	82,  // 140: arcforges.fleet.v1.FleetServiceListNodesResponse.value:type_name -> arcforges.fleet.v1.FleetServiceListNodesValue
+	202, // 141: arcforges.fleet.v1.FleetServiceListNodesResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	173, // 142: arcforges.fleet.v1.FleetServiceListNodesValue.nodes:type_name -> arcforges.fleet.v1.FleetNode
+	200, // 143: arcforges.fleet.v1.FleetServiceGetNodeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 144: arcforges.fleet.v1.FleetServiceGetNodeRequest.node_id:type_name -> arcforges.foundation.v1.Id
+	174, // 145: arcforges.fleet.v1.FleetServiceGetNodeRequest.caller:type_name -> arcforges.fleet.v1.RoutedCaller
+	201, // 146: arcforges.fleet.v1.FleetServiceGetNodeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	85,  // 147: arcforges.fleet.v1.FleetServiceGetNodeResponse.value:type_name -> arcforges.fleet.v1.FleetServiceGetNodeValue
+	202, // 148: arcforges.fleet.v1.FleetServiceGetNodeResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	173, // 149: arcforges.fleet.v1.FleetServiceGetNodeValue.node:type_name -> arcforges.fleet.v1.FleetNode
+	189, // 150: arcforges.fleet.v1.FleetServiceGetNodeValue.recent_commands:type_name -> arcforges.fleet.v1.RemoteCommandView
+	200, // 151: arcforges.fleet.v1.FleetServiceRenameNodeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 152: arcforges.fleet.v1.FleetServiceRenameNodeRequest.node_id:type_name -> arcforges.foundation.v1.Id
+	201, // 153: arcforges.fleet.v1.FleetServiceRenameNodeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	88,  // 154: arcforges.fleet.v1.FleetServiceRenameNodeResponse.value:type_name -> arcforges.fleet.v1.FleetServiceRenameNodeValue
+	202, // 155: arcforges.fleet.v1.FleetServiceRenameNodeResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	173, // 156: arcforges.fleet.v1.FleetServiceRenameNodeValue.node:type_name -> arcforges.fleet.v1.FleetNode
+	200, // 157: arcforges.fleet.v1.FleetServiceRevokeNodeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 158: arcforges.fleet.v1.FleetServiceRevokeNodeRequest.node_id:type_name -> arcforges.foundation.v1.Id
+	201, // 159: arcforges.fleet.v1.FleetServiceRevokeNodeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	91,  // 160: arcforges.fleet.v1.FleetServiceRevokeNodeResponse.value:type_name -> arcforges.fleet.v1.FleetServiceRevokeNodeValue
+	202, // 161: arcforges.fleet.v1.FleetServiceRevokeNodeResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	205, // 162: arcforges.fleet.v1.FleetServiceRevokeNodeValue.receipt:type_name -> arcforges.foundation.v1.Receipt
+	200, // 163: arcforges.fleet.v1.FleetServiceIssueRelayTokenRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 164: arcforges.fleet.v1.FleetServiceIssueRelayTokenResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	94,  // 165: arcforges.fleet.v1.FleetServiceIssueRelayTokenResponse.value:type_name -> arcforges.fleet.v1.FleetServiceIssueRelayTokenValue
+	202, // 166: arcforges.fleet.v1.FleetServiceIssueRelayTokenResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	190, // 167: arcforges.fleet.v1.FleetServiceIssueRelayTokenValue.grant:type_name -> arcforges.fleet.v1.RelayTokenGrant
+	200, // 168: arcforges.fleet.v1.FleetServiceOpenFleetWatchRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 169: arcforges.fleet.v1.FleetServiceOpenFleetWatchRequest.node_ids:type_name -> arcforges.foundation.v1.Id
+	1,   // 170: arcforges.fleet.v1.FleetServiceOpenFleetWatchRequest.detail:type_name -> arcforges.fleet.v1.DetailLevel
+	201, // 171: arcforges.fleet.v1.FleetServiceOpenFleetWatchResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	97,  // 172: arcforges.fleet.v1.FleetServiceOpenFleetWatchResponse.value:type_name -> arcforges.fleet.v1.FleetServiceOpenFleetWatchValue
+	202, // 173: arcforges.fleet.v1.FleetServiceOpenFleetWatchResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	191, // 174: arcforges.fleet.v1.FleetServiceOpenFleetWatchValue.grant:type_name -> arcforges.fleet.v1.ViewerGrant
+	200, // 175: arcforges.fleet.v1.FleetServiceWatchFleetRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 176: arcforges.fleet.v1.FleetServiceWatchFleetRequest.node_ids:type_name -> arcforges.foundation.v1.Id
+	1,   // 177: arcforges.fleet.v1.FleetServiceWatchFleetRequest.detail:type_name -> arcforges.fleet.v1.DetailLevel
+	199, // 178: arcforges.fleet.v1.FleetServiceWatchFleetRequest.cursors:type_name -> arcforges.fleet.v1.NodeCursorInput
+	201, // 179: arcforges.fleet.v1.FleetServiceWatchFleetFrame.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	206, // 180: arcforges.fleet.v1.FleetServiceWatchFleetFrame.position:type_name -> arcforges.node.v1.StreamPosition
+	207, // 181: arcforges.fleet.v1.FleetServiceWatchFleetFrame.reset:type_name -> arcforges.node.v1.StreamReset
+	208, // 182: arcforges.fleet.v1.FleetServiceWatchFleetFrame.heartbeat:type_name -> arcforges.node.v1.Heartbeat
+	202, // 183: arcforges.fleet.v1.FleetServiceWatchFleetFrame.error:type_name -> arcforges.foundation.v1.ArcError
+	172, // 184: arcforges.fleet.v1.FleetServiceWatchFleetFrame.snapshot:type_name -> arcforges.fleet.v1.NodeSnapshot
+	171, // 185: arcforges.fleet.v1.FleetServiceWatchFleetFrame.delta:type_name -> arcforges.fleet.v1.StatusDelta
+	192, // 186: arcforges.fleet.v1.FleetServiceWatchFleetFrame.presence:type_name -> arcforges.fleet.v1.NodePresence
+	189, // 187: arcforges.fleet.v1.FleetServiceWatchFleetFrame.command_update:type_name -> arcforges.fleet.v1.RemoteCommandView
+	200, // 188: arcforges.fleet.v1.FleetServiceSendNodeCommandRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 189: arcforges.fleet.v1.FleetServiceSendNodeCommandRequest.node_id:type_name -> arcforges.foundation.v1.Id
+	175, // 190: arcforges.fleet.v1.FleetServiceSendNodeCommandRequest.body:type_name -> arcforges.fleet.v1.NodeCommandBody
+	201, // 191: arcforges.fleet.v1.FleetServiceSendNodeCommandResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	102, // 192: arcforges.fleet.v1.FleetServiceSendNodeCommandResponse.value:type_name -> arcforges.fleet.v1.FleetServiceSendNodeCommandValue
+	202, // 193: arcforges.fleet.v1.FleetServiceSendNodeCommandResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	189, // 194: arcforges.fleet.v1.FleetServiceSendNodeCommandValue.command:type_name -> arcforges.fleet.v1.RemoteCommandView
+	200, // 195: arcforges.fleet.v1.FleetServiceGetNodeCommandRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 196: arcforges.fleet.v1.FleetServiceGetNodeCommandRequest.command_id:type_name -> arcforges.foundation.v1.Id
+	201, // 197: arcforges.fleet.v1.FleetServiceGetNodeCommandResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	105, // 198: arcforges.fleet.v1.FleetServiceGetNodeCommandResponse.value:type_name -> arcforges.fleet.v1.FleetServiceGetNodeCommandValue
+	202, // 199: arcforges.fleet.v1.FleetServiceGetNodeCommandResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	189, // 200: arcforges.fleet.v1.FleetServiceGetNodeCommandValue.command:type_name -> arcforges.fleet.v1.RemoteCommandView
+	200, // 201: arcforges.fleet.v1.FleetServiceListNodeCommandsRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 202: arcforges.fleet.v1.FleetServiceListNodeCommandsRequest.node_id:type_name -> arcforges.foundation.v1.Id
+	209, // 203: arcforges.fleet.v1.FleetServiceListNodeCommandsRequest.page:type_name -> arcforges.foundation.v1.PageRequest
+	201, // 204: arcforges.fleet.v1.FleetServiceListNodeCommandsResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	108, // 205: arcforges.fleet.v1.FleetServiceListNodeCommandsResponse.value:type_name -> arcforges.fleet.v1.FleetServiceListNodeCommandsValue
+	202, // 206: arcforges.fleet.v1.FleetServiceListNodeCommandsResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	189, // 207: arcforges.fleet.v1.FleetServiceListNodeCommandsValue.commands:type_name -> arcforges.fleet.v1.RemoteCommandView
+	210, // 208: arcforges.fleet.v1.FleetServiceListNodeCommandsValue.page:type_name -> arcforges.foundation.v1.PageState
+	200, // 209: arcforges.fleet.v1.FleetServiceGetPushPreferencesRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 210: arcforges.fleet.v1.FleetServiceGetPushPreferencesResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	111, // 211: arcforges.fleet.v1.FleetServiceGetPushPreferencesResponse.value:type_name -> arcforges.fleet.v1.FleetServiceGetPushPreferencesValue
+	202, // 212: arcforges.fleet.v1.FleetServiceGetPushPreferencesResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	194, // 213: arcforges.fleet.v1.FleetServiceGetPushPreferencesValue.preferences:type_name -> arcforges.fleet.v1.PushPreferences
+	200, // 214: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	193, // 215: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesRequest.preferences:type_name -> arcforges.fleet.v1.PushPreference
+	201, // 216: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	114, // 217: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesResponse.value:type_name -> arcforges.fleet.v1.FleetServiceUpdatePushPreferencesValue
+	202, // 218: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	194, // 219: arcforges.fleet.v1.FleetServiceUpdatePushPreferencesValue.preferences:type_name -> arcforges.fleet.v1.PushPreferences
+	200, // 220: arcforges.fleet.v1.FleetServiceCancelNodeCommandRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 221: arcforges.fleet.v1.FleetServiceCancelNodeCommandRequest.command_id:type_name -> arcforges.foundation.v1.Id
+	201, // 222: arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	117, // 223: arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse.value:type_name -> arcforges.fleet.v1.FleetServiceCancelNodeCommandValue
+	202, // 224: arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	189, // 225: arcforges.fleet.v1.FleetServiceCancelNodeCommandValue.command:type_name -> arcforges.fleet.v1.RemoteCommandView
+	200, // 226: arcforges.fleet.v1.FleetServiceSubmitNodeTaskRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 227: arcforges.fleet.v1.FleetServiceSubmitNodeTaskRequest.node_id:type_name -> arcforges.foundation.v1.Id
+	174, // 228: arcforges.fleet.v1.FleetServiceSubmitNodeTaskRequest.caller:type_name -> arcforges.fleet.v1.RoutedCaller
+	201, // 229: arcforges.fleet.v1.FleetServiceSubmitNodeTaskResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	120, // 230: arcforges.fleet.v1.FleetServiceSubmitNodeTaskResponse.value:type_name -> arcforges.fleet.v1.FleetServiceSubmitNodeTaskValue
+	202, // 231: arcforges.fleet.v1.FleetServiceSubmitNodeTaskResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	203, // 232: arcforges.fleet.v1.FleetServiceSubmitNodeTaskValue.node_id:type_name -> arcforges.foundation.v1.Id
+	200, // 233: arcforges.fleet.v1.FleetServiceGetNodeTaskRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 234: arcforges.fleet.v1.FleetServiceGetNodeTaskRequest.node_id:type_name -> arcforges.foundation.v1.Id
+	174, // 235: arcforges.fleet.v1.FleetServiceGetNodeTaskRequest.caller:type_name -> arcforges.fleet.v1.RoutedCaller
+	201, // 236: arcforges.fleet.v1.FleetServiceGetNodeTaskResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	123, // 237: arcforges.fleet.v1.FleetServiceGetNodeTaskResponse.value:type_name -> arcforges.fleet.v1.FleetServiceGetNodeTaskValue
+	202, // 238: arcforges.fleet.v1.FleetServiceGetNodeTaskResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	203, // 239: arcforges.fleet.v1.FleetServiceGetNodeTaskValue.node_id:type_name -> arcforges.foundation.v1.Id
+	200, // 240: arcforges.fleet.v1.FleetServiceListNodeTasksRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 241: arcforges.fleet.v1.FleetServiceListNodeTasksRequest.node_id:type_name -> arcforges.foundation.v1.Id
+	174, // 242: arcforges.fleet.v1.FleetServiceListNodeTasksRequest.caller:type_name -> arcforges.fleet.v1.RoutedCaller
+	201, // 243: arcforges.fleet.v1.FleetServiceListNodeTasksResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	126, // 244: arcforges.fleet.v1.FleetServiceListNodeTasksResponse.value:type_name -> arcforges.fleet.v1.FleetServiceListNodeTasksValue
+	202, // 245: arcforges.fleet.v1.FleetServiceListNodeTasksResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	203, // 246: arcforges.fleet.v1.FleetServiceListNodeTasksValue.node_id:type_name -> arcforges.foundation.v1.Id
+	200, // 247: arcforges.fleet.v1.FleetServiceWaitNodeTaskRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 248: arcforges.fleet.v1.FleetServiceWaitNodeTaskRequest.node_id:type_name -> arcforges.foundation.v1.Id
+	174, // 249: arcforges.fleet.v1.FleetServiceWaitNodeTaskRequest.caller:type_name -> arcforges.fleet.v1.RoutedCaller
+	201, // 250: arcforges.fleet.v1.FleetServiceWaitNodeTaskResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	129, // 251: arcforges.fleet.v1.FleetServiceWaitNodeTaskResponse.value:type_name -> arcforges.fleet.v1.FleetServiceWaitNodeTaskValue
+	202, // 252: arcforges.fleet.v1.FleetServiceWaitNodeTaskResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	203, // 253: arcforges.fleet.v1.FleetServiceWaitNodeTaskValue.node_id:type_name -> arcforges.foundation.v1.Id
+	200, // 254: arcforges.fleet.v1.FleetServiceReadNodeTaskOutputRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 255: arcforges.fleet.v1.FleetServiceReadNodeTaskOutputRequest.node_id:type_name -> arcforges.foundation.v1.Id
+	174, // 256: arcforges.fleet.v1.FleetServiceReadNodeTaskOutputRequest.caller:type_name -> arcforges.fleet.v1.RoutedCaller
+	201, // 257: arcforges.fleet.v1.FleetServiceReadNodeTaskOutputResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	132, // 258: arcforges.fleet.v1.FleetServiceReadNodeTaskOutputResponse.value:type_name -> arcforges.fleet.v1.FleetServiceReadNodeTaskOutputValue
+	202, // 259: arcforges.fleet.v1.FleetServiceReadNodeTaskOutputResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	203, // 260: arcforges.fleet.v1.FleetServiceReadNodeTaskOutputValue.node_id:type_name -> arcforges.foundation.v1.Id
+	200, // 261: arcforges.fleet.v1.FleetServiceCancelNodeTaskRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	203, // 262: arcforges.fleet.v1.FleetServiceCancelNodeTaskRequest.node_id:type_name -> arcforges.foundation.v1.Id
+	174, // 263: arcforges.fleet.v1.FleetServiceCancelNodeTaskRequest.caller:type_name -> arcforges.fleet.v1.RoutedCaller
+	201, // 264: arcforges.fleet.v1.FleetServiceCancelNodeTaskResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	135, // 265: arcforges.fleet.v1.FleetServiceCancelNodeTaskResponse.value:type_name -> arcforges.fleet.v1.FleetServiceCancelNodeTaskValue
+	202, // 266: arcforges.fleet.v1.FleetServiceCancelNodeTaskResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	203, // 267: arcforges.fleet.v1.FleetServiceCancelNodeTaskValue.node_id:type_name -> arcforges.foundation.v1.Id
+	200, // 268: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 269: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	138, // 270: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceResponse.value:type_name -> arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceValue
+	202, // 271: arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	200, // 272: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	195, // 273: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseRequest.purchase:type_name -> arcforges.fleet.v1.PlayPurchaseInput
+	201, // 274: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	141, // 275: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseResponse.value:type_name -> arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseValue
+	202, // 276: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	197, // 277: arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseValue.result:type_name -> arcforges.fleet.v1.PlayPurchaseResult
+	200, // 278: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	195, // 279: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesRequest.purchases:type_name -> arcforges.fleet.v1.PlayPurchaseInput
+	201, // 280: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	144, // 281: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesResponse.value:type_name -> arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesValue
+	202, // 282: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	197, // 283: arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesValue.results:type_name -> arcforges.fleet.v1.PlayPurchaseResult
+	200, // 284: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 285: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	147, // 286: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkResponse.value:type_name -> arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkValue
+	202, // 287: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	197, // 288: arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkValue.result:type_name -> arcforges.fleet.v1.PlayPurchaseResult
+	200, // 289: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	201, // 290: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	150, // 291: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusResponse.value:type_name -> arcforges.fleet.v1.StoreBillingServiceGetBillingStatusValue
+	202, // 292: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	198, // 293: arcforges.fleet.v1.StoreBillingServiceGetBillingStatusValue.status:type_name -> arcforges.fleet.v1.BillingStatus
+	203, // 294: arcforges.fleet.v1.EnrollingNodeInfo.node_id:type_name -> arcforges.foundation.v1.Id
+	211, // 295: arcforges.fleet.v1.EnrollingNodeInfo.os:type_name -> arcforges.node.v1.OsFamily
+	212, // 296: arcforges.fleet.v1.EnrollingNodeInfo.arch:type_name -> arcforges.node.v1.CpuArchitecture
+	213, // 297: arcforges.fleet.v1.EnrollingNodeInfo.role:type_name -> arcforges.node.v1.NodeRole
+	203, // 298: arcforges.fleet.v1.EnrollingNodeInfo.host_node_id:type_name -> arcforges.foundation.v1.Id
+	203, // 299: arcforges.fleet.v1.AccountSummary.account_id:type_name -> arcforges.foundation.v1.Id
+	204, // 300: arcforges.fleet.v1.PublicKey.not_before:type_name -> arcforges.foundation.v1.Instant
+	204, // 301: arcforges.fleet.v1.PublicKey.not_after:type_name -> arcforges.foundation.v1.Instant
+	203, // 302: arcforges.fleet.v1.EntitlementClaims.account_id:type_name -> arcforges.foundation.v1.Id
+	203, // 303: arcforges.fleet.v1.EntitlementClaims.node_id:type_name -> arcforges.foundation.v1.Id
+	204, // 304: arcforges.fleet.v1.EntitlementClaims.issued_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 305: arcforges.fleet.v1.EntitlementClaims.not_after:type_name -> arcforges.foundation.v1.Instant
+	203, // 306: arcforges.fleet.v1.EntitlementClaims.revoked_nodes:type_name -> arcforges.foundation.v1.Id
+	204, // 307: arcforges.fleet.v1.NodeCredentials.access_expires_at:type_name -> arcforges.foundation.v1.Instant
+	152, // 308: arcforges.fleet.v1.NodeCredentials.account:type_name -> arcforges.fleet.v1.AccountSummary
+	154, // 309: arcforges.fleet.v1.NodeCredentials.entitlement_token:type_name -> arcforges.fleet.v1.SignedBlob
+	153, // 310: arcforges.fleet.v1.NodeCredentials.command_keys:type_name -> arcforges.fleet.v1.PublicKey
+	153, // 311: arcforges.fleet.v1.NodeCredentials.entitlement_keys:type_name -> arcforges.fleet.v1.PublicKey
+	203, // 312: arcforges.fleet.v1.NodeCredentials.installation_id:type_name -> arcforges.foundation.v1.Id
+	204, // 313: arcforges.fleet.v1.NodeCredentials.session_expires_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 314: arcforges.fleet.v1.MobileSessionCredentials.access_expires_at:type_name -> arcforges.foundation.v1.Instant
+	152, // 315: arcforges.fleet.v1.MobileSessionCredentials.account:type_name -> arcforges.fleet.v1.AccountSummary
+	203, // 316: arcforges.fleet.v1.MobileSessionCredentials.installation_id:type_name -> arcforges.foundation.v1.Id
+	9,   // 317: arcforges.fleet.v1.MobileSessionCredentials.scope:type_name -> arcforges.fleet.v1.MobileSessionScope
+	203, // 318: arcforges.fleet.v1.NodeSignInFlowView.flow_id:type_name -> arcforges.foundation.v1.Id
+	151, // 319: arcforges.fleet.v1.NodeSignInFlowView.node:type_name -> arcforges.fleet.v1.EnrollingNodeInfo
+	4,   // 320: arcforges.fleet.v1.NodeSignInFlowView.state:type_name -> arcforges.fleet.v1.NodeSignInState
+	204, // 321: arcforges.fleet.v1.NodeSignInFlowView.created_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 322: arcforges.fleet.v1.NodeSignInFlowView.expires_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 323: arcforges.fleet.v1.DeviceAuthorization.expires_at:type_name -> arcforges.foundation.v1.Instant
+	203, // 324: arcforges.fleet.v1.PhoneInstallationInfo.installation_id:type_name -> arcforges.foundation.v1.Id
+	203, // 325: arcforges.fleet.v1.PhonePairingTicket.pairing_id:type_name -> arcforges.foundation.v1.Id
+	204, // 326: arcforges.fleet.v1.PhonePairingTicket.expires_at:type_name -> arcforges.foundation.v1.Instant
+	203, // 327: arcforges.fleet.v1.PhonePairingView.pairing_id:type_name -> arcforges.foundation.v1.Id
+	5,   // 328: arcforges.fleet.v1.PhonePairingView.state:type_name -> arcforges.fleet.v1.PhonePairingCloudState
+	160, // 329: arcforges.fleet.v1.PhonePairingView.phone:type_name -> arcforges.fleet.v1.PhoneInstallationInfo
+	204, // 330: arcforges.fleet.v1.PhonePairingView.expires_at:type_name -> arcforges.foundation.v1.Instant
+	203, // 331: arcforges.fleet.v1.LanHint.node_id:type_name -> arcforges.foundation.v1.Id
+	204, // 332: arcforges.fleet.v1.LanHint.reported_at:type_name -> arcforges.foundation.v1.Instant
+	203, // 333: arcforges.fleet.v1.StatusSummary.node_id:type_name -> arcforges.foundation.v1.Id
+	204, // 334: arcforges.fleet.v1.StatusSummary.at:type_name -> arcforges.foundation.v1.Instant
+	214, // 335: arcforges.fleet.v1.StatusSummary.state:type_name -> arcforges.node.v1.NodeLifecycleState
+	215, // 336: arcforges.fleet.v1.StatusSummary.pressure:type_name -> arcforges.node.v1.PressureLevel
+	216, // 337: arcforges.fleet.v1.StatusSummary.cpu_control:type_name -> arcforges.node.v1.CpuControl
+	217, // 338: arcforges.fleet.v1.StatusSummary.memory_control:type_name -> arcforges.node.v1.MemoryControl
+	218, // 339: arcforges.fleet.v1.StatusSummary.update_state:type_name -> arcforges.node.v1.UpdateState
+	219, // 340: arcforges.fleet.v1.StatusSummary.disk_level:type_name -> arcforges.node.v1.DiskPressureLevel
+	203, // 341: arcforges.fleet.v1.TaskSummary.task_id:type_name -> arcforges.foundation.v1.Id
+	220, // 342: arcforges.fleet.v1.TaskSummary.state:type_name -> arcforges.node.v1.TaskState
+	221, // 343: arcforges.fleet.v1.TaskSummary.priority:type_name -> arcforges.node.v1.Priority
+	204, // 344: arcforges.fleet.v1.TaskSummary.started_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 345: arcforges.fleet.v1.TaskSummary.finished_at:type_name -> arcforges.foundation.v1.Instant
+	222, // 346: arcforges.fleet.v1.TaskSummary.owner_origin:type_name -> arcforges.node.v1.Origin
+	203, // 347: arcforges.fleet.v1.TaskSummary.session_id:type_name -> arcforges.foundation.v1.Id
+	223, // 348: arcforges.fleet.v1.TaskSummary.termination_reason:type_name -> arcforges.node.v1.TerminationReason
+	166, // 349: arcforges.fleet.v1.TaskSummary.timeline:type_name -> arcforges.fleet.v1.CategoryShare
+	204, // 350: arcforges.fleet.v1.TaskSummary.eta:type_name -> arcforges.foundation.v1.Instant
+	203, // 351: arcforges.fleet.v1.FindingSummary.finding_id:type_name -> arcforges.foundation.v1.Id
+	224, // 352: arcforges.fleet.v1.FindingSummary.severity:type_name -> arcforges.node.v1.Severity
+	225, // 353: arcforges.fleet.v1.FindingSummary.state:type_name -> arcforges.node.v1.FindingState
+	203, // 354: arcforges.fleet.v1.ApprovalSummary.approval_id:type_name -> arcforges.foundation.v1.Id
+	226, // 355: arcforges.fleet.v1.ApprovalSummary.risk:type_name -> arcforges.node.v1.RiskClass
+	204, // 356: arcforges.fleet.v1.ApprovalSummary.created_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 357: arcforges.fleet.v1.ApprovalSummary.expires_at:type_name -> arcforges.foundation.v1.Instant
+	222, // 358: arcforges.fleet.v1.ApprovalSummary.requester_origin:type_name -> arcforges.node.v1.Origin
+	203, // 359: arcforges.fleet.v1.SessionSummary.session_id:type_name -> arcforges.foundation.v1.Id
+	227, // 360: arcforges.fleet.v1.SessionSummary.state:type_name -> arcforges.node.v1.SessionState
+	170, // 361: arcforges.fleet.v1.SessionSummary.subagents:type_name -> arcforges.fleet.v1.SubagentSummary
+	204, // 362: arcforges.fleet.v1.SessionSummary.last_event_at:type_name -> arcforges.foundation.v1.Instant
+	228, // 363: arcforges.fleet.v1.SessionSummary.routing_mode:type_name -> arcforges.node.v1.RoutingMode
+	204, // 364: arcforges.fleet.v1.SubagentSummary.started_at:type_name -> arcforges.foundation.v1.Instant
+	203, // 365: arcforges.fleet.v1.StatusDelta.node_id:type_name -> arcforges.foundation.v1.Id
+	204, // 366: arcforges.fleet.v1.StatusDelta.at:type_name -> arcforges.foundation.v1.Instant
+	164, // 367: arcforges.fleet.v1.StatusDelta.summary:type_name -> arcforges.fleet.v1.StatusSummary
+	165, // 368: arcforges.fleet.v1.StatusDelta.upserted_tasks:type_name -> arcforges.fleet.v1.TaskSummary
+	203, // 369: arcforges.fleet.v1.StatusDelta.removed_task_ids:type_name -> arcforges.foundation.v1.Id
+	167, // 370: arcforges.fleet.v1.StatusDelta.findings:type_name -> arcforges.fleet.v1.FindingSummary
+	168, // 371: arcforges.fleet.v1.StatusDelta.approvals:type_name -> arcforges.fleet.v1.ApprovalSummary
+	169, // 372: arcforges.fleet.v1.StatusDelta.sessions:type_name -> arcforges.fleet.v1.SessionSummary
+	164, // 373: arcforges.fleet.v1.NodeSnapshot.summary:type_name -> arcforges.fleet.v1.StatusSummary
+	165, // 374: arcforges.fleet.v1.NodeSnapshot.tasks:type_name -> arcforges.fleet.v1.TaskSummary
+	167, // 375: arcforges.fleet.v1.NodeSnapshot.findings:type_name -> arcforges.fleet.v1.FindingSummary
+	168, // 376: arcforges.fleet.v1.NodeSnapshot.approvals:type_name -> arcforges.fleet.v1.ApprovalSummary
+	169, // 377: arcforges.fleet.v1.NodeSnapshot.sessions:type_name -> arcforges.fleet.v1.SessionSummary
+	203, // 378: arcforges.fleet.v1.FleetNode.node_id:type_name -> arcforges.foundation.v1.Id
+	211, // 379: arcforges.fleet.v1.FleetNode.os:type_name -> arcforges.node.v1.OsFamily
+	212, // 380: arcforges.fleet.v1.FleetNode.arch:type_name -> arcforges.node.v1.CpuArchitecture
+	213, // 381: arcforges.fleet.v1.FleetNode.role:type_name -> arcforges.node.v1.NodeRole
+	203, // 382: arcforges.fleet.v1.FleetNode.host_node_id:type_name -> arcforges.foundation.v1.Id
+	0,   // 383: arcforges.fleet.v1.FleetNode.online:type_name -> arcforges.fleet.v1.NodeOnlineState
+	204, // 384: arcforges.fleet.v1.FleetNode.last_seen_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 385: arcforges.fleet.v1.FleetNode.enrolled_at:type_name -> arcforges.foundation.v1.Instant
+	164, // 386: arcforges.fleet.v1.FleetNode.summary:type_name -> arcforges.fleet.v1.StatusSummary
+	203, // 387: arcforges.fleet.v1.FleetNode.device_id:type_name -> arcforges.foundation.v1.Id
+	204, // 388: arcforges.fleet.v1.FleetNode.credential_expires_at:type_name -> arcforges.foundation.v1.Instant
+	10,  // 389: arcforges.fleet.v1.RoutedCaller.kind:type_name -> arcforges.fleet.v1.CallerKind
+	203, // 390: arcforges.fleet.v1.RoutedCaller.relaying_node_id:type_name -> arcforges.foundation.v1.Id
+	222, // 391: arcforges.fleet.v1.RoutedCaller.local_origin:type_name -> arcforges.node.v1.Origin
+	176, // 392: arcforges.fleet.v1.NodeCommandBody.refresh:type_name -> arcforges.fleet.v1.RefreshStatusCommand
+	177, // 393: arcforges.fleet.v1.NodeCommandBody.pause_queue:type_name -> arcforges.fleet.v1.PauseQueueCommand
+	178, // 394: arcforges.fleet.v1.NodeCommandBody.resume_queue:type_name -> arcforges.fleet.v1.ResumeQueueCommand
+	179, // 395: arcforges.fleet.v1.NodeCommandBody.cancel_task:type_name -> arcforges.fleet.v1.CancelTaskCommand
+	180, // 396: arcforges.fleet.v1.NodeCommandBody.set_priority:type_name -> arcforges.fleet.v1.SetPriorityCommand
+	181, // 397: arcforges.fleet.v1.NodeCommandBody.run_task:type_name -> arcforges.fleet.v1.RunTaskCommand
+	182, // 398: arcforges.fleet.v1.NodeCommandBody.decide_approval:type_name -> arcforges.fleet.v1.DecideApprovalCommand
+	183, // 399: arcforges.fleet.v1.NodeCommandBody.read_output_tail:type_name -> arcforges.fleet.v1.ReadOutputTailCommand
+	184, // 400: arcforges.fleet.v1.NodeCommandBody.apply_update:type_name -> arcforges.fleet.v1.ApplyUpdateCommand
+	185, // 401: arcforges.fleet.v1.NodeCommandBody.set_parallelism:type_name -> arcforges.fleet.v1.SetParallelismCommand
+	186, // 402: arcforges.fleet.v1.NodeCommandBody.stop_node:type_name -> arcforges.fleet.v1.StopNodeCommand
+	1,   // 403: arcforges.fleet.v1.RefreshStatusCommand.detail:type_name -> arcforges.fleet.v1.DetailLevel
+	203, // 404: arcforges.fleet.v1.CancelTaskCommand.task_id:type_name -> arcforges.foundation.v1.Id
+	203, // 405: arcforges.fleet.v1.SetPriorityCommand.task_id:type_name -> arcforges.foundation.v1.Id
+	221, // 406: arcforges.fleet.v1.SetPriorityCommand.priority:type_name -> arcforges.node.v1.Priority
+	229, // 407: arcforges.fleet.v1.RunTaskCommand.spec:type_name -> arcforges.node.v1.TaskSpec
+	203, // 408: arcforges.fleet.v1.DecideApprovalCommand.approval_id:type_name -> arcforges.foundation.v1.Id
+	203, // 409: arcforges.fleet.v1.ReadOutputTailCommand.task_id:type_name -> arcforges.foundation.v1.Id
+	230, // 410: arcforges.fleet.v1.SetParallelismCommand.scope:type_name -> arcforges.node.v1.ParallelismScope
+	231, // 411: arcforges.fleet.v1.SetParallelismCommand.mode:type_name -> arcforges.node.v1.ParallelismMode
+	203, // 412: arcforges.fleet.v1.NodeCommand.command_id:type_name -> arcforges.foundation.v1.Id
+	203, // 413: arcforges.fleet.v1.NodeCommand.account_id:type_name -> arcforges.foundation.v1.Id
+	203, // 414: arcforges.fleet.v1.NodeCommand.node_id:type_name -> arcforges.foundation.v1.Id
+	204, // 415: arcforges.fleet.v1.NodeCommand.issued_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 416: arcforges.fleet.v1.NodeCommand.expires_at:type_name -> arcforges.foundation.v1.Instant
+	226, // 417: arcforges.fleet.v1.NodeCommand.risk:type_name -> arcforges.node.v1.RiskClass
+	203, // 418: arcforges.fleet.v1.NodeCommand.actor_user_id:type_name -> arcforges.foundation.v1.Id
+	204, // 419: arcforges.fleet.v1.NodeCommand.step_up_at:type_name -> arcforges.foundation.v1.Instant
+	175, // 420: arcforges.fleet.v1.NodeCommand.body:type_name -> arcforges.fleet.v1.NodeCommandBody
+	203, // 421: arcforges.fleet.v1.NodeCommandResult.command_id:type_name -> arcforges.foundation.v1.Id
+	203, // 422: arcforges.fleet.v1.NodeCommandResult.node_id:type_name -> arcforges.foundation.v1.Id
+	204, // 423: arcforges.fleet.v1.NodeCommandResult.executed_at:type_name -> arcforges.foundation.v1.Instant
+	205, // 424: arcforges.fleet.v1.NodeCommandResult.receipt:type_name -> arcforges.foundation.v1.Receipt
+	202, // 425: arcforges.fleet.v1.NodeCommandResult.error:type_name -> arcforges.foundation.v1.ArcError
+	203, // 426: arcforges.fleet.v1.RemoteCommandView.command_id:type_name -> arcforges.foundation.v1.Id
+	203, // 427: arcforges.fleet.v1.RemoteCommandView.node_id:type_name -> arcforges.foundation.v1.Id
+	226, // 428: arcforges.fleet.v1.RemoteCommandView.risk:type_name -> arcforges.node.v1.RiskClass
+	2,   // 429: arcforges.fleet.v1.RemoteCommandView.state:type_name -> arcforges.fleet.v1.RemoteCommandState
+	204, // 430: arcforges.fleet.v1.RemoteCommandView.created_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 431: arcforges.fleet.v1.RemoteCommandView.expires_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 432: arcforges.fleet.v1.RemoteCommandView.delivered_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 433: arcforges.fleet.v1.RemoteCommandView.completed_at:type_name -> arcforges.foundation.v1.Instant
+	188, // 434: arcforges.fleet.v1.RemoteCommandView.result:type_name -> arcforges.fleet.v1.NodeCommandResult
+	204, // 435: arcforges.fleet.v1.RelayTokenGrant.expires_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 436: arcforges.fleet.v1.ViewerGrant.expires_at:type_name -> arcforges.foundation.v1.Instant
+	203, // 437: arcforges.fleet.v1.NodePresence.node_id:type_name -> arcforges.foundation.v1.Id
+	0,   // 438: arcforges.fleet.v1.NodePresence.state:type_name -> arcforges.fleet.v1.NodeOnlineState
+	204, // 439: arcforges.fleet.v1.NodePresence.at:type_name -> arcforges.foundation.v1.Instant
+	203, // 440: arcforges.fleet.v1.PushPreference.node_id:type_name -> arcforges.foundation.v1.Id
+	193, // 441: arcforges.fleet.v1.PushPreferences.preferences:type_name -> arcforges.fleet.v1.PushPreference
+	232, // 442: arcforges.fleet.v1.PushPreferences.revision:type_name -> arcforges.foundation.v1.Revision
+	6,   // 443: arcforges.fleet.v1.SubscriptionView.source:type_name -> arcforges.fleet.v1.SubscriptionSource
+	7,   // 444: arcforges.fleet.v1.SubscriptionView.state:type_name -> arcforges.fleet.v1.SubscriptionState
+	204, // 445: arcforges.fleet.v1.SubscriptionView.renews_at:type_name -> arcforges.foundation.v1.Instant
+	204, // 446: arcforges.fleet.v1.SubscriptionView.ends_at:type_name -> arcforges.foundation.v1.Instant
+	8,   // 447: arcforges.fleet.v1.PlayPurchaseResult.link_state:type_name -> arcforges.fleet.v1.PlayLinkState
+	196, // 448: arcforges.fleet.v1.PlayPurchaseResult.subscription:type_name -> arcforges.fleet.v1.SubscriptionView
+	196, // 449: arcforges.fleet.v1.BillingStatus.subscriptions:type_name -> arcforges.fleet.v1.SubscriptionView
+	203, // 450: arcforges.fleet.v1.NodeCursorInput.node_id:type_name -> arcforges.foundation.v1.Id
+	11,  // 451: arcforges.fleet.v1.NodeEnrollmentService.BeginNodeSignIn:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInRequest
+	14,  // 452: arcforges.fleet.v1.NodeEnrollmentService.GetNodeSignInFlow:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowRequest
+	17,  // 453: arcforges.fleet.v1.NodeEnrollmentService.ApproveNodeSignIn:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInRequest
+	20,  // 454: arcforges.fleet.v1.NodeEnrollmentService.CompleteNodeSignIn:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInRequest
+	23,  // 455: arcforges.fleet.v1.NodeEnrollmentService.StartDeviceAuthorization:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest
+	26,  // 456: arcforges.fleet.v1.NodeEnrollmentService.PollDeviceAuthorization:input_type -> arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationRequest
+	29,  // 457: arcforges.fleet.v1.NodeEnrollmentService.LookupDeviceCode:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeRequest
+	32,  // 458: arcforges.fleet.v1.NodeEnrollmentService.ApproveDeviceCode:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeRequest
+	35,  // 459: arcforges.fleet.v1.NodeEnrollmentService.RefreshNodeSession:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionRequest
+	38,  // 460: arcforges.fleet.v1.NodeEnrollmentService.ReportNodeInfo:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoRequest
+	41,  // 461: arcforges.fleet.v1.NodeEnrollmentService.SignOutNode:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeRequest
+	44,  // 462: arcforges.fleet.v1.NodeEnrollmentService.CreatePhonePairing:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingRequest
+	47,  // 463: arcforges.fleet.v1.NodeEnrollmentService.ClaimPhonePairing:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingRequest
+	50,  // 464: arcforges.fleet.v1.NodeEnrollmentService.GetPhonePairing:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingRequest
+	53,  // 465: arcforges.fleet.v1.NodeEnrollmentService.ConfirmPhonePairing:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingRequest
+	56,  // 466: arcforges.fleet.v1.NodeEnrollmentService.PollPhonePairing:input_type -> arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingRequest
+	59,  // 467: arcforges.fleet.v1.NodeEnrollmentService.IssueNodeCertificate:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateRequest
+	62,  // 468: arcforges.fleet.v1.NodeEnrollmentService.GetLanHints:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsRequest
+	65,  // 469: arcforges.fleet.v1.NodeEnrollmentService.ReportLanEndpoints:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsRequest
+	68,  // 470: arcforges.fleet.v1.NodeEnrollmentService.RefreshEntitlementToken:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenRequest
+	71,  // 471: arcforges.fleet.v1.NodeEnrollmentService.GetEntitlementKeys:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysRequest
+	74,  // 472: arcforges.fleet.v1.NodeEnrollmentService.BeginSupportUpload:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadRequest
+	77,  // 473: arcforges.fleet.v1.NodeEnrollmentService.CompleteSupportUpload:input_type -> arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadRequest
+	80,  // 474: arcforges.fleet.v1.FleetService.ListNodes:input_type -> arcforges.fleet.v1.FleetServiceListNodesRequest
+	83,  // 475: arcforges.fleet.v1.FleetService.GetNode:input_type -> arcforges.fleet.v1.FleetServiceGetNodeRequest
+	86,  // 476: arcforges.fleet.v1.FleetService.RenameNode:input_type -> arcforges.fleet.v1.FleetServiceRenameNodeRequest
+	89,  // 477: arcforges.fleet.v1.FleetService.RevokeNode:input_type -> arcforges.fleet.v1.FleetServiceRevokeNodeRequest
+	92,  // 478: arcforges.fleet.v1.FleetService.IssueRelayToken:input_type -> arcforges.fleet.v1.FleetServiceIssueRelayTokenRequest
+	95,  // 479: arcforges.fleet.v1.FleetService.OpenFleetWatch:input_type -> arcforges.fleet.v1.FleetServiceOpenFleetWatchRequest
+	98,  // 480: arcforges.fleet.v1.FleetService.WatchFleet:input_type -> arcforges.fleet.v1.FleetServiceWatchFleetRequest
+	100, // 481: arcforges.fleet.v1.FleetService.SendNodeCommand:input_type -> arcforges.fleet.v1.FleetServiceSendNodeCommandRequest
+	103, // 482: arcforges.fleet.v1.FleetService.GetNodeCommand:input_type -> arcforges.fleet.v1.FleetServiceGetNodeCommandRequest
+	106, // 483: arcforges.fleet.v1.FleetService.ListNodeCommands:input_type -> arcforges.fleet.v1.FleetServiceListNodeCommandsRequest
+	109, // 484: arcforges.fleet.v1.FleetService.GetPushPreferences:input_type -> arcforges.fleet.v1.FleetServiceGetPushPreferencesRequest
+	112, // 485: arcforges.fleet.v1.FleetService.UpdatePushPreferences:input_type -> arcforges.fleet.v1.FleetServiceUpdatePushPreferencesRequest
+	115, // 486: arcforges.fleet.v1.FleetService.CancelNodeCommand:input_type -> arcforges.fleet.v1.FleetServiceCancelNodeCommandRequest
+	118, // 487: arcforges.fleet.v1.FleetService.SubmitNodeTask:input_type -> arcforges.fleet.v1.FleetServiceSubmitNodeTaskRequest
+	121, // 488: arcforges.fleet.v1.FleetService.GetNodeTask:input_type -> arcforges.fleet.v1.FleetServiceGetNodeTaskRequest
+	124, // 489: arcforges.fleet.v1.FleetService.ListNodeTasks:input_type -> arcforges.fleet.v1.FleetServiceListNodeTasksRequest
+	127, // 490: arcforges.fleet.v1.FleetService.WaitNodeTask:input_type -> arcforges.fleet.v1.FleetServiceWaitNodeTaskRequest
+	130, // 491: arcforges.fleet.v1.FleetService.ReadNodeTaskOutput:input_type -> arcforges.fleet.v1.FleetServiceReadNodeTaskOutputRequest
+	133, // 492: arcforges.fleet.v1.FleetService.CancelNodeTask:input_type -> arcforges.fleet.v1.FleetServiceCancelNodeTaskRequest
+	136, // 493: arcforges.fleet.v1.StoreBillingService.GetPlayAccountReference:input_type -> arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceRequest
+	139, // 494: arcforges.fleet.v1.StoreBillingService.SubmitPlayPurchase:input_type -> arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseRequest
+	142, // 495: arcforges.fleet.v1.StoreBillingService.RestorePlayPurchases:input_type -> arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesRequest
+	145, // 496: arcforges.fleet.v1.StoreBillingService.ConfirmPurchaseLink:input_type -> arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkRequest
+	148, // 497: arcforges.fleet.v1.StoreBillingService.GetBillingStatus:input_type -> arcforges.fleet.v1.StoreBillingServiceGetBillingStatusRequest
+	12,  // 498: arcforges.fleet.v1.NodeEnrollmentService.BeginNodeSignIn:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceBeginNodeSignInResponse
+	15,  // 499: arcforges.fleet.v1.NodeEnrollmentService.GetNodeSignInFlow:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetNodeSignInFlowResponse
+	18,  // 500: arcforges.fleet.v1.NodeEnrollmentService.ApproveNodeSignIn:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceApproveNodeSignInResponse
+	21,  // 501: arcforges.fleet.v1.NodeEnrollmentService.CompleteNodeSignIn:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceCompleteNodeSignInResponse
+	24,  // 502: arcforges.fleet.v1.NodeEnrollmentService.StartDeviceAuthorization:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse
+	27,  // 503: arcforges.fleet.v1.NodeEnrollmentService.PollDeviceAuthorization:output_type -> arcforges.fleet.v1.NodeEnrollmentServicePollDeviceAuthorizationResponse
+	30,  // 504: arcforges.fleet.v1.NodeEnrollmentService.LookupDeviceCode:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceLookupDeviceCodeResponse
+	33,  // 505: arcforges.fleet.v1.NodeEnrollmentService.ApproveDeviceCode:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceApproveDeviceCodeResponse
+	36,  // 506: arcforges.fleet.v1.NodeEnrollmentService.RefreshNodeSession:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceRefreshNodeSessionResponse
+	39,  // 507: arcforges.fleet.v1.NodeEnrollmentService.ReportNodeInfo:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceReportNodeInfoResponse
+	42,  // 508: arcforges.fleet.v1.NodeEnrollmentService.SignOutNode:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceSignOutNodeResponse
+	45,  // 509: arcforges.fleet.v1.NodeEnrollmentService.CreatePhonePairing:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceCreatePhonePairingResponse
+	48,  // 510: arcforges.fleet.v1.NodeEnrollmentService.ClaimPhonePairing:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceClaimPhonePairingResponse
+	51,  // 511: arcforges.fleet.v1.NodeEnrollmentService.GetPhonePairing:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetPhonePairingResponse
+	54,  // 512: arcforges.fleet.v1.NodeEnrollmentService.ConfirmPhonePairing:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceConfirmPhonePairingResponse
+	57,  // 513: arcforges.fleet.v1.NodeEnrollmentService.PollPhonePairing:output_type -> arcforges.fleet.v1.NodeEnrollmentServicePollPhonePairingResponse
+	60,  // 514: arcforges.fleet.v1.NodeEnrollmentService.IssueNodeCertificate:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceIssueNodeCertificateResponse
+	63,  // 515: arcforges.fleet.v1.NodeEnrollmentService.GetLanHints:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetLanHintsResponse
+	66,  // 516: arcforges.fleet.v1.NodeEnrollmentService.ReportLanEndpoints:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceReportLanEndpointsResponse
+	69,  // 517: arcforges.fleet.v1.NodeEnrollmentService.RefreshEntitlementToken:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceRefreshEntitlementTokenResponse
+	72,  // 518: arcforges.fleet.v1.NodeEnrollmentService.GetEntitlementKeys:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceGetEntitlementKeysResponse
+	75,  // 519: arcforges.fleet.v1.NodeEnrollmentService.BeginSupportUpload:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceBeginSupportUploadResponse
+	78,  // 520: arcforges.fleet.v1.NodeEnrollmentService.CompleteSupportUpload:output_type -> arcforges.fleet.v1.NodeEnrollmentServiceCompleteSupportUploadResponse
+	81,  // 521: arcforges.fleet.v1.FleetService.ListNodes:output_type -> arcforges.fleet.v1.FleetServiceListNodesResponse
+	84,  // 522: arcforges.fleet.v1.FleetService.GetNode:output_type -> arcforges.fleet.v1.FleetServiceGetNodeResponse
+	87,  // 523: arcforges.fleet.v1.FleetService.RenameNode:output_type -> arcforges.fleet.v1.FleetServiceRenameNodeResponse
+	90,  // 524: arcforges.fleet.v1.FleetService.RevokeNode:output_type -> arcforges.fleet.v1.FleetServiceRevokeNodeResponse
+	93,  // 525: arcforges.fleet.v1.FleetService.IssueRelayToken:output_type -> arcforges.fleet.v1.FleetServiceIssueRelayTokenResponse
+	96,  // 526: arcforges.fleet.v1.FleetService.OpenFleetWatch:output_type -> arcforges.fleet.v1.FleetServiceOpenFleetWatchResponse
+	99,  // 527: arcforges.fleet.v1.FleetService.WatchFleet:output_type -> arcforges.fleet.v1.FleetServiceWatchFleetFrame
+	101, // 528: arcforges.fleet.v1.FleetService.SendNodeCommand:output_type -> arcforges.fleet.v1.FleetServiceSendNodeCommandResponse
+	104, // 529: arcforges.fleet.v1.FleetService.GetNodeCommand:output_type -> arcforges.fleet.v1.FleetServiceGetNodeCommandResponse
+	107, // 530: arcforges.fleet.v1.FleetService.ListNodeCommands:output_type -> arcforges.fleet.v1.FleetServiceListNodeCommandsResponse
+	110, // 531: arcforges.fleet.v1.FleetService.GetPushPreferences:output_type -> arcforges.fleet.v1.FleetServiceGetPushPreferencesResponse
+	113, // 532: arcforges.fleet.v1.FleetService.UpdatePushPreferences:output_type -> arcforges.fleet.v1.FleetServiceUpdatePushPreferencesResponse
+	116, // 533: arcforges.fleet.v1.FleetService.CancelNodeCommand:output_type -> arcforges.fleet.v1.FleetServiceCancelNodeCommandResponse
+	119, // 534: arcforges.fleet.v1.FleetService.SubmitNodeTask:output_type -> arcforges.fleet.v1.FleetServiceSubmitNodeTaskResponse
+	122, // 535: arcforges.fleet.v1.FleetService.GetNodeTask:output_type -> arcforges.fleet.v1.FleetServiceGetNodeTaskResponse
+	125, // 536: arcforges.fleet.v1.FleetService.ListNodeTasks:output_type -> arcforges.fleet.v1.FleetServiceListNodeTasksResponse
+	128, // 537: arcforges.fleet.v1.FleetService.WaitNodeTask:output_type -> arcforges.fleet.v1.FleetServiceWaitNodeTaskResponse
+	131, // 538: arcforges.fleet.v1.FleetService.ReadNodeTaskOutput:output_type -> arcforges.fleet.v1.FleetServiceReadNodeTaskOutputResponse
+	134, // 539: arcforges.fleet.v1.FleetService.CancelNodeTask:output_type -> arcforges.fleet.v1.FleetServiceCancelNodeTaskResponse
+	137, // 540: arcforges.fleet.v1.StoreBillingService.GetPlayAccountReference:output_type -> arcforges.fleet.v1.StoreBillingServiceGetPlayAccountReferenceResponse
+	140, // 541: arcforges.fleet.v1.StoreBillingService.SubmitPlayPurchase:output_type -> arcforges.fleet.v1.StoreBillingServiceSubmitPlayPurchaseResponse
+	143, // 542: arcforges.fleet.v1.StoreBillingService.RestorePlayPurchases:output_type -> arcforges.fleet.v1.StoreBillingServiceRestorePlayPurchasesResponse
+	146, // 543: arcforges.fleet.v1.StoreBillingService.ConfirmPurchaseLink:output_type -> arcforges.fleet.v1.StoreBillingServiceConfirmPurchaseLinkResponse
+	149, // 544: arcforges.fleet.v1.StoreBillingService.GetBillingStatus:output_type -> arcforges.fleet.v1.StoreBillingServiceGetBillingStatusResponse
+	498, // [498:545] is the sub-list for method output_type
+	451, // [451:498] is the sub-list for method input_type
+	451, // [451:451] is the sub-list for extension type_name
+	451, // [451:451] is the sub-list for extension extendee
+	0,   // [0:451] is the sub-list for field type_name
 }
 
 func init() { file_arcforges_fleet_v1_fleet_proto_init() }
@@ -14995,10 +16698,12 @@ func file_arcforges_fleet_v1_fleet_proto_init() {
 		(*NodeEnrollmentServiceCompleteSupportUploadResponse_Value)(nil),
 		(*NodeEnrollmentServiceCompleteSupportUploadResponse_Error)(nil),
 	}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[69].OneofWrappers = []any{}
 	file_arcforges_fleet_v1_fleet_proto_msgTypes[70].OneofWrappers = []any{
 		(*FleetServiceListNodesResponse_Value)(nil),
 		(*FleetServiceListNodesResponse_Error)(nil),
 	}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[72].OneofWrappers = []any{}
 	file_arcforges_fleet_v1_fleet_proto_msgTypes[73].OneofWrappers = []any{
 		(*FleetServiceGetNodeResponse_Value)(nil),
 		(*FleetServiceGetNodeResponse_Error)(nil),
@@ -15055,51 +16760,88 @@ func file_arcforges_fleet_v1_fleet_proto_init() {
 		(*FleetServiceCancelNodeCommandResponse_Value)(nil),
 		(*FleetServiceCancelNodeCommandResponse_Error)(nil),
 	}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[107].OneofWrappers = []any{}
 	file_arcforges_fleet_v1_fleet_proto_msgTypes[108].OneofWrappers = []any{
+		(*FleetServiceSubmitNodeTaskResponse_Value)(nil),
+		(*FleetServiceSubmitNodeTaskResponse_Error)(nil),
+	}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[109].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[110].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[111].OneofWrappers = []any{
+		(*FleetServiceGetNodeTaskResponse_Value)(nil),
+		(*FleetServiceGetNodeTaskResponse_Error)(nil),
+	}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[112].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[113].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[114].OneofWrappers = []any{
+		(*FleetServiceListNodeTasksResponse_Value)(nil),
+		(*FleetServiceListNodeTasksResponse_Error)(nil),
+	}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[115].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[116].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[117].OneofWrappers = []any{
+		(*FleetServiceWaitNodeTaskResponse_Value)(nil),
+		(*FleetServiceWaitNodeTaskResponse_Error)(nil),
+	}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[118].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[119].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[120].OneofWrappers = []any{
+		(*FleetServiceReadNodeTaskOutputResponse_Value)(nil),
+		(*FleetServiceReadNodeTaskOutputResponse_Error)(nil),
+	}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[121].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[122].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[123].OneofWrappers = []any{
+		(*FleetServiceCancelNodeTaskResponse_Value)(nil),
+		(*FleetServiceCancelNodeTaskResponse_Error)(nil),
+	}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[124].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[126].OneofWrappers = []any{
 		(*StoreBillingServiceGetPlayAccountReferenceResponse_Value)(nil),
 		(*StoreBillingServiceGetPlayAccountReferenceResponse_Error)(nil),
 	}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[109].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[111].OneofWrappers = []any{
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[127].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[129].OneofWrappers = []any{
 		(*StoreBillingServiceSubmitPlayPurchaseResponse_Value)(nil),
 		(*StoreBillingServiceSubmitPlayPurchaseResponse_Error)(nil),
 	}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[114].OneofWrappers = []any{
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[132].OneofWrappers = []any{
 		(*StoreBillingServiceRestorePlayPurchasesResponse_Value)(nil),
 		(*StoreBillingServiceRestorePlayPurchasesResponse_Error)(nil),
 	}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[116].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[117].OneofWrappers = []any{
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[134].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[135].OneofWrappers = []any{
 		(*StoreBillingServiceConfirmPurchaseLinkResponse_Value)(nil),
 		(*StoreBillingServiceConfirmPurchaseLinkResponse_Error)(nil),
 	}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[120].OneofWrappers = []any{
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[138].OneofWrappers = []any{
 		(*StoreBillingServiceGetBillingStatusResponse_Value)(nil),
 		(*StoreBillingServiceGetBillingStatusResponse_Error)(nil),
 	}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[122].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[123].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[124].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[125].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[126].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[127].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[128].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[129].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[130].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[131].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[132].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[133].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[134].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[135].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[136].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[137].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[138].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[139].OneofWrappers = []any{}
 	file_arcforges_fleet_v1_fleet_proto_msgTypes[140].OneofWrappers = []any{}
 	file_arcforges_fleet_v1_fleet_proto_msgTypes[141].OneofWrappers = []any{}
 	file_arcforges_fleet_v1_fleet_proto_msgTypes[142].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[143].OneofWrappers = []any{}
 	file_arcforges_fleet_v1_fleet_proto_msgTypes[144].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[145].OneofWrappers = []any{
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[145].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[146].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[147].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[148].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[149].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[150].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[151].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[152].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[153].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[154].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[155].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[156].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[157].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[158].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[159].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[160].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[162].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[163].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[164].OneofWrappers = []any{
 		(*NodeCommandBody_Refresh)(nil),
 		(*NodeCommandBody_PauseQueue)(nil),
 		(*NodeCommandBody_ResumeQueue)(nil),
@@ -15112,39 +16854,39 @@ func file_arcforges_fleet_v1_fleet_proto_init() {
 		(*NodeCommandBody_SetParallelism)(nil),
 		(*NodeCommandBody_StopNode)(nil),
 	}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[146].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[147].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[148].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[149].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[150].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[152].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[153].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[154].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[155].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[156].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[157].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[158].OneofWrappers = []any{
-		(*NodeCommandResult_Receipt)(nil),
-		(*NodeCommandResult_Error)(nil),
-	}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[159].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[160].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[161].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[162].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[163].OneofWrappers = []any{}
-	file_arcforges_fleet_v1_fleet_proto_msgTypes[164].OneofWrappers = []any{}
 	file_arcforges_fleet_v1_fleet_proto_msgTypes[165].OneofWrappers = []any{}
 	file_arcforges_fleet_v1_fleet_proto_msgTypes[166].OneofWrappers = []any{}
 	file_arcforges_fleet_v1_fleet_proto_msgTypes[167].OneofWrappers = []any{}
 	file_arcforges_fleet_v1_fleet_proto_msgTypes[168].OneofWrappers = []any{}
 	file_arcforges_fleet_v1_fleet_proto_msgTypes[169].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[171].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[172].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[173].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[174].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[175].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[176].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[177].OneofWrappers = []any{
+		(*NodeCommandResult_Receipt)(nil),
+		(*NodeCommandResult_Error)(nil),
+	}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[178].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[179].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[180].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[181].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[182].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[183].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[184].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[185].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[186].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[187].OneofWrappers = []any{}
+	file_arcforges_fleet_v1_fleet_proto_msgTypes[188].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_arcforges_fleet_v1_fleet_proto_rawDesc), len(file_arcforges_fleet_v1_fleet_proto_rawDesc)),
-			NumEnums:      10,
-			NumMessages:   170,
+			NumEnums:      11,
+			NumMessages:   189,
 			NumExtensions: 0,
 			NumServices:   3,
 		},
