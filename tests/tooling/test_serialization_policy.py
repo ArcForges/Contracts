@@ -31,8 +31,9 @@ class SerializationPolicy(unittest.TestCase):
     def test_current_repository_passes(self):
         result = gate.audit(ROOT)
         self.assertEqual(result["result"], "passed")
-        # AF-CTR-03 adds the 14 strict contexts of the WebBrowserSession document (97 before).
-        self.assertEqual(result["strictJsonContexts"], 111)
+        # AF-CTR-03 adds the 14 strict contexts of the WebBrowserSession document (97 before), and AF-CTR-04 (part CM)
+        # the 6 of the MobileNativeAuth document (111 before).
+        self.assertEqual(result["strictJsonContexts"], 117)
         self.assertGreaterEqual(result["packableAotProjects"], 12)
 
     def test_forbidden_dependencies_in_every_lock_kind(self):

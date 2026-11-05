@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-11-03",
+  "reviewedOn": "2026-11-05",
   "design": {
     "commit": "212825003ed712200e585445301473233404f597",
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "f74a1ae504fdd29beaa04a3dd5e42af864df7642",
+  "sourceCommit": "552e135d7c452166f46d6ee2c5a59cae755e7bae",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -22534,6 +22534,67 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/MobileAuthorizeCallbackFailure.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["MobileAuthorizeCallbackFailure", "MobileAuthorizeCallbackFailureJsonContext"],
+      "sha256": "db77a7040acd5e66c3f864d7bae6a705156644742804c1a0022e48e5df9b5f05",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/MobileAuthorizeCallbackSuccess.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["MobileAuthorizeCallbackSuccess", "MobileAuthorizeCallbackSuccessJsonContext"],
+      "sha256": "ba3e3e9b3a21e99b414ff7f428ff62b607709c5bbef391cc8a6dc69a17b6820a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/MobileBeginRequest.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["MobileBeginRequest", "MobileInstallationClaim", "MobileBeginRequestJsonContext"],
+      "sha256": "634bacb0af2876dab2c28c1d6eb1c9cff76ecc38e99efbf729c1fffd13839a05",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/MobileBeginResponse.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["MobileBeginResponse", "MobileBeginResponseJsonContext"],
+      "sha256": "031eb707cc5343a697383a2269bbbf7a383189f8409f112bc39f27ad44c56c34",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/MobileNativeAuthRoutes.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["MobileNativeAuthRoute", "MobileNativeAuthRoutes"],
+      "sha256": "4ee2718e447ea2629d273fc18023b9c032e40a40e4531db9bac80423deae1cd2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/MobileTokenRequest.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["MobileTokenRequest", "MobileTokenRequestJsonContext"],
+      "sha256": "d7e919c3a9bbd858ba87985f9929248eb7f43e12f3a6ca7562b1d5161ab1177e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/MobileTokenResponse.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "MobileTokenResponse",
+        "MobileTokenDevice",
+        "MobileTokenInstalledProduct",
+        "MobileTokenResponseJsonContext"
+      ],
+      "sha256": "3df19985920821897fd3f43bfe801066fc569cc27567d266b871c30dda89b656",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/NativeAuthRoutes.g.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
@@ -23090,6 +23151,54 @@
       "access": "public",
       "types": ["ExtensionWorkflowJson"],
       "sha256": "8f4e35538da489d33996250dcf20be398515e3ee69d3ba8e81394d89ffabac40",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/MobileAuthorizeCallbackFailureValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["MobileAuthorizeCallbackFailureForm"],
+      "sha256": "30d591d7c577a7b7d3eeeb1286007d11583fba4385547f83591d38f336a268cd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/MobileAuthorizeCallbackSuccessValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["MobileAuthorizeCallbackSuccessForm"],
+      "sha256": "9b240e1f264c85ad577cce88272a9845b9653c32b02839cd97636b382b4904b7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/MobileBeginRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["MobileBeginRequestJson"],
+      "sha256": "e3ccf3ed73b41328074c3a774dc7c5ead5a869a1205feb2191e198412d74e170",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/MobileBeginResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["MobileBeginResponseJson"],
+      "sha256": "7dc81384859c3d0330108451ee31f132fd92cc55fef775cbc7088c13784097f3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/MobileTokenRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["MobileTokenRequestJson"],
+      "sha256": "61030b80f11612b862f62880a818dae33f13a81e26a23e62e42b97775fa0ffbf",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/MobileTokenResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["MobileTokenResponseJson"],
+      "sha256": "73350ff4e4c0f4cf9be564fb5a1c3d57c4db8f5662aedab1871bdd60d161ab9d",
       "kind": "generated"
     },
     {
@@ -47698,7 +47807,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "6636c2b693830e2157ab0993493da17dfedd02675b9e922cab8ba37d79c5aaa2"
+      "sha256": "91823eba278799f8c0bbc6b24b2ce80afbd43116a683dd8aad27af0e092a43dc"
     },
     {
       "path": "go/go.mod",
@@ -47811,6 +47920,10 @@
     {
       "path": "public/http/v1/manifest.schema.json",
       "sha256": "1f768f3d5cd7ffba35c2f2460914d6a7ab7f2b6988cb90abd02c8e49065ba844"
+    },
+    {
+      "path": "public/http/v1/mobile-native.schema.json",
+      "sha256": "90b2e829c89f19234e0d55d441e068ae32fee5763dbc09e9dc0af6d68787481a"
     },
     {
       "path": "public/http/v1/native-auth.schema.json",

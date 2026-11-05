@@ -263,6 +263,13 @@ class NamingPolicyTests(unittest.TestCase):
         self.assertEqual(web['$defs']['WebBrowserInstallationClaim']['properties']['product']['enum'],
                          branded + ['arcforges-web'])
         self.assertIn('arcforges-web', self.policy['installationProducts']['ids'])
+        # AF-CTR-04 (part CM): the native authorization of the mobile app admits exactly the arcforges-mobile product, in its
+        # claim and in the installations of the delivered device.
+        mobile = json.loads((root / 'public/http/v1/mobile-native.schema.json').read_bytes())
+        for definition in ('MobileInstallationClaim', 'MobileTokenInstalledProduct'):
+            with self.subTest(definition=definition):
+                self.assertEqual(mobile['$defs'][definition]['properties']['product']['enum'], ['arcforges-mobile'])
+        self.assertIn('arcforges-mobile', self.policy['installationProducts']['ids'])
 
     def test_wrong_owner_missing_namespace_and_lost_migration_fail(self):
         for key, value in [('owners', ['Cloud']), ('namespaces', ['Unowned']), ('legacyApplicationIds', [])]:

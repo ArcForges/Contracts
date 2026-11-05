@@ -101,6 +101,33 @@ class RouteCatalogueGuards(unittest.TestCase):
         self.assertEqual(shapes.ROUTE_VOCABULARY["cache"], {"no-store"})
         self.assertEqual(shapes.ROUTE_VOCABULARY["method"], {"GET", "POST"})
 
+    def test_the_credential_vocabulary_is_closed_and_adds_only_anonymous(self):
+        # AF-CTR-04 (part CM, MB-3): the one added credential is "anonymous", for the native JSON begin of the mobile app.
+        self.assertEqual(shapes.ROUTE_VOCABULARY["credential"], {
+            "anonymous-or-session-cookie", "preauth-flow", "session-cookie", "flow-cookie", "browser-login", "authorization-code",
+            "anonymous"})
+
+    def test_an_anonymous_route_takes_no_cookie_origin_or_csrf(self):
+        anonymous = dict(credential="anonymous", origin="none", csrf="none", setCookie="none")
+        cs, _ = catalogue(route(**anonymous))
+        self.assertIn('"anonymous"', cs)
+        for field, value in (("origin", "exact-configured"), ("csrf", "required"), ("csrf", "issues-token"),
+                             ("setCookie", "session"), ("setCookie", "clear")):
+            with self.subTest(field=field, value=value), self.assertRaisesRegex(ValueError, "anonymous route requires no Origin"):
+                catalogue(route(**{**anonymous, field: value}))
+
+
+    def test_an_anonymous_route_is_a_post_with_json_on_both_sides(self):
+        # AF-CTR-04 (part CM review N-5): anonymous is the native JSON row kind; a GET, a form body or a form or empty reply is refused.
+        anonymous = dict(credential="anonymous", origin="none", csrf="none", setCookie="none")
+        for name, changes in (("GET", dict(method="GET", path="/session/v1/demo/get", request=["FormRequest"])),
+                              ("form request", dict(request=["FormRequest"])),
+                              ("no request", dict(request=[])),
+                              ("form response", dict(response=["FormRequest"])),
+                              ("no response", dict(response=[]))):
+            with self.subTest(case=name), self.assertRaisesRegex(ValueError, "anonymous route is a POST with a JSON request"):
+                catalogue(route(**{**anonymous, **changes}))
+
 
 def form_root(**changes):
     root = {
