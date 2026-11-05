@@ -356,13 +356,16 @@ type NodeEnrollmentServiceClient interface {
 	// and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
 	// CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
 	// registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
+	// RESOURCE/quota_exceeded: the account's enrollment cap (limit.limit_name max_nodes_per_account, limit.maximum the cap) is
+	// reached when the node is enrolled; the account frees a node first.
+	// A correct code presented again revokes the flow, also after its completion (COMPLETED -> REVOKED).
 	// auth: none (flow-bound proof)
 	// idempotency: natural: code single use; reuse revokes the flow
 	// deadline: 15 s
 	// stream: none
-	// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+	// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
 	// locality: cloud
-	// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
+	// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED; COMPLETED -> REVOKED
 	CompleteNodeSignIn(context.Context, *v1.NodeEnrollmentServiceCompleteNodeSignInRequest) (*v1.NodeEnrollmentServiceCompleteNodeSignInResponse, error)
 	// Start a device-code sign-in for headless nodes (10 section 3.2).
 	// A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
@@ -377,12 +380,13 @@ type NodeEnrollmentServiceClient interface {
 	StartDeviceAuthorization(context.Context, *v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest) (*v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse, error)
 	// Poll at the given interval. APPROVED returns credentials.
 	// A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
-	// CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
+	// CONFLICT/already_exists, AUTHENTICATION/credential_revoked and RESOURCE/quota_exceeded (the enrollment cap, limit.limit_name
+	// max_nodes_per_account) mean what they mean for CompleteNodeSignIn.
 	// auth: none (device_code proof)
 	// idempotency: natural
 	// deadline: 10 s
 	// stream: none
-	// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+	// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
 	// locality: cloud
 	// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
 	PollDeviceAuthorization(context.Context, *v1.NodeEnrollmentServicePollDeviceAuthorizationRequest) (*v1.NodeEnrollmentServicePollDeviceAuthorizationResponse, error)
@@ -411,7 +415,7 @@ type NodeEnrollmentServiceClient interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
+	// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
 	// locality: cloud
 	// state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
 	ApproveDeviceCode(context.Context, *v1.NodeEnrollmentServiceApproveDeviceCodeRequest) (*v1.NodeEnrollmentServiceApproveDeviceCodeResponse, error)
@@ -433,7 +437,7 @@ type NodeEnrollmentServiceClient interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+	// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
 	// locality: cloud
 	ReportNodeInfo(context.Context, *v1.NodeEnrollmentServiceReportNodeInfoRequest) (*v1.NodeEnrollmentServiceReportNodeInfoResponse, error)
 	// Sign this node out: revoke the calling node credential; the node record, device and installation stay.
@@ -443,7 +447,7 @@ type NodeEnrollmentServiceClient interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
 	// locality: cloud
 	SignOutNode(context.Context, *v1.NodeEnrollmentServiceSignOutNodeRequest) (*v1.NodeEnrollmentServiceSignOutNodeResponse, error)
 	// Create a QR pairing so a phone can sign in as this account (10 section 3.3).
@@ -597,13 +601,16 @@ type NodeEnrollmentServiceHandler interface {
 	// and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
 	// CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
 	// registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
+	// RESOURCE/quota_exceeded: the account's enrollment cap (limit.limit_name max_nodes_per_account, limit.maximum the cap) is
+	// reached when the node is enrolled; the account frees a node first.
+	// A correct code presented again revokes the flow, also after its completion (COMPLETED -> REVOKED).
 	// auth: none (flow-bound proof)
 	// idempotency: natural: code single use; reuse revokes the flow
 	// deadline: 15 s
 	// stream: none
-	// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+	// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
 	// locality: cloud
-	// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
+	// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED; COMPLETED -> REVOKED
 	CompleteNodeSignIn(context.Context, *v1.NodeEnrollmentServiceCompleteNodeSignInRequest) (*v1.NodeEnrollmentServiceCompleteNodeSignInResponse, error)
 	// Start a device-code sign-in for headless nodes (10 section 3.2).
 	// A node_public_key that an installation holds or held is refused before approval with CONFLICT/already_exists
@@ -618,12 +625,13 @@ type NodeEnrollmentServiceHandler interface {
 	StartDeviceAuthorization(context.Context, *v1.NodeEnrollmentServiceStartDeviceAuthorizationRequest) (*v1.NodeEnrollmentServiceStartDeviceAuthorizationResponse, error)
 	// Poll at the given interval. APPROVED returns credentials.
 	// A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
-	// CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
+	// CONFLICT/already_exists, AUTHENTICATION/credential_revoked and RESOURCE/quota_exceeded (the enrollment cap, limit.limit_name
+	// max_nodes_per_account) mean what they mean for CompleteNodeSignIn.
 	// auth: none (device_code proof)
 	// idempotency: natural
 	// deadline: 10 s
 	// stream: none
-	// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+	// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
 	// locality: cloud
 	// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
 	PollDeviceAuthorization(context.Context, *v1.NodeEnrollmentServicePollDeviceAuthorizationRequest) (*v1.NodeEnrollmentServicePollDeviceAuthorizationResponse, error)
@@ -652,7 +660,7 @@ type NodeEnrollmentServiceHandler interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
+	// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
 	// locality: cloud
 	// state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
 	ApproveDeviceCode(context.Context, *v1.NodeEnrollmentServiceApproveDeviceCodeRequest) (*v1.NodeEnrollmentServiceApproveDeviceCodeResponse, error)
@@ -674,7 +682,7 @@ type NodeEnrollmentServiceHandler interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+	// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
 	// locality: cloud
 	ReportNodeInfo(context.Context, *v1.NodeEnrollmentServiceReportNodeInfoRequest) (*v1.NodeEnrollmentServiceReportNodeInfoResponse, error)
 	// Sign this node out: revoke the calling node credential; the node record, device and installation stay.
@@ -684,7 +692,7 @@ type NodeEnrollmentServiceHandler interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
 	// locality: cloud
 	SignOutNode(context.Context, *v1.NodeEnrollmentServiceSignOutNodeRequest) (*v1.NodeEnrollmentServiceSignOutNodeResponse, error)
 	// Create a QR pairing so a phone can sign in as this account (10 section 3.3).

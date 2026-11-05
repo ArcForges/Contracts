@@ -70,13 +70,16 @@ service NodeEnrollmentService {
   // and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
   // CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
   // registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
+  // RESOURCE/quota_exceeded: the account's enrollment cap (limit.limit_name max_nodes_per_account, limit.maximum the cap) is
+  // reached when the node is enrolled; the account frees a node first.
+  // A correct code presented again revokes the flow, also after its completion (COMPLETED -> REVOKED).
   // auth: none (flow-bound proof)
   // idempotency: natural: code single use; reuse revokes the flow
   // deadline: 15 s
   // stream: none
-  // errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+  // errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
   // locality: cloud
-  // state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
+  // state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED; COMPLETED -> REVOKED
   rpc CompleteNodeSignIn(NodeEnrollmentServiceCompleteNodeSignInRequest) returns (NodeEnrollmentServiceCompleteNodeSignInResponse);
 
   // Start a device-code sign-in for headless nodes (10 section 3.2).
@@ -93,12 +96,13 @@ service NodeEnrollmentService {
 
   // Poll at the given interval. APPROVED returns credentials.
   // A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
-  // CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
+  // CONFLICT/already_exists, AUTHENTICATION/credential_revoked and RESOURCE/quota_exceeded (the enrollment cap, limit.limit_name
+  // max_nodes_per_account) mean what they mean for CompleteNodeSignIn.
   // auth: none (device_code proof)
   // idempotency: natural
   // deadline: 10 s
   // stream: none
-  // errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+  // errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
   // locality: cloud
   // state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
   rpc PollDeviceAuthorization(NodeEnrollmentServicePollDeviceAuthorizationRequest) returns (NodeEnrollmentServicePollDeviceAuthorizationResponse);
@@ -129,7 +133,7 @@ service NodeEnrollmentService {
   // idempotency: command_id
   // deadline: 10 s
   // stream: none
-  // errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
+  // errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
   // locality: cloud
   // state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
   rpc ApproveDeviceCode(NodeEnrollmentServiceApproveDeviceCodeRequest) returns (NodeEnrollmentServiceApproveDeviceCodeResponse);
@@ -153,7 +157,7 @@ service NodeEnrollmentService {
   // idempotency: command_id
   // deadline: 10 s
   // stream: none
-  // errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+  // errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
   // locality: cloud
   rpc ReportNodeInfo(NodeEnrollmentServiceReportNodeInfoRequest) returns (NodeEnrollmentServiceReportNodeInfoResponse);
 
@@ -164,7 +168,7 @@ service NodeEnrollmentService {
   // idempotency: command_id
   // deadline: 10 s
   // stream: none
-  // errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+  // errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
   // locality: cloud
   rpc SignOutNode(NodeEnrollmentServiceSignOutNodeRequest) returns (NodeEnrollmentServiceSignOutNodeResponse);
 
@@ -325,7 +329,7 @@ message NodeEnrollmentServiceApproveNodeSignInRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
   arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"]; // validate: PENDING, or APPROVED with an unredeemed code (repeat approval or deny by the approving account)
-  optional bool approve = 11 [json_name = "approve"];
+  optional bool approve = 11 [json_name = "approve"]; // validate: required; true approves, false denies
 }
 message NodeEnrollmentServiceApproveNodeSignInResponse {
   arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
@@ -336,7 +340,7 @@ message NodeEnrollmentServiceApproveNodeSignInResponse {
   reserved 4 to 9;
 }
 message NodeEnrollmentServiceApproveNodeSignInValue {
-  optional string redirect_url = 10 [json_name = "redirectUrl"]; // loopback URI with code and state
+  optional string redirect_url = 10 [json_name = "redirectUrl"]; // loopback URI: on approval <redirect_uri>?code=<code>&state=<state>; on a denial <redirect_uri>?error=access_denied&state=<state>
   NodeSignInFlowView flow = 11 [json_name = "flow"];
 }
 
@@ -437,7 +441,7 @@ message NodeEnrollmentServiceApproveDeviceCodeRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
   optional string user_code = 10 [json_name = "userCode"]; // validate: as LookupDeviceCode
-  optional bool approve = 11 [json_name = "approve"];
+  optional bool approve = 11 [json_name = "approve"]; // validate: required; true approves, false denies
 }
 message NodeEnrollmentServiceApproveDeviceCodeResponse {
   arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];

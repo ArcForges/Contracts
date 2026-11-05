@@ -1436,6 +1436,7 @@ public static class ContractShapeValidation
         {
             if (!ValidUnicode(value.UserCode)) return false;
         }
+        if (!value.HasApprove) return false;
         if (value.HasApprove)
         {
         }
@@ -1496,6 +1497,7 @@ public static class ContractShapeValidation
         {
             if (!Check(value.FlowId, context)) return false;
         }
+        if (!value.HasApprove) return false;
         if (value.HasApprove)
         {
         }

@@ -171,10 +171,45 @@ names repeat with different fully qualified names (design reuse map, conflict C-
 Each RPC carries its design annotation block (`auth`, `idempotency`, `deadline`,
 `stream`, `errors`, `locality`, optional `state`); error codes are listed in
 [`fixtures/public/af-con-01-error-catalogue.json`](../fixtures/public/af-con-01-error-catalogue.json),
-copied from the design error catalogue. Within `v1`, changes are additive only, and
+copied from the design error catalogue. Within `v1`, changes are additive only on the wire, and a validator
+tightens only by a recorded decision (AF-CTR-05 part C1: the e-mail bound of Plan decision Q12 and the `approve`
+rule, below);
 [`eng/compatibility/flagship-window.json`](../eng/compatibility/flagship-window.json)
 holds the baselines the wire-compatibility gate compares every later change with.
 Pin every Contracts package of one candidate to the same exact version.
+
+**The Contracts follow-up window (AF-CTR-05 part C1).**
+
+- _Error catalogue._ `af-con-01-error-catalogue.json` (schema `af-con-01-error-catalogue.v2`) is regenerated
+  from ArcForges-Design `docs/contracts/errors.md` at `611dda6`. Each code lists its replies as explicit
+  `{effect, retry}` pairs, with the read method of a `RECONCILE` pair as `reconciliationOperation`, instead of
+  independent retry-mode and effect arrays: `AFTER_TIME` pairs with `DID_NOT_HAPPEN` or `HAPPENED`, and
+  `UNKNOWN` with `RECONCILE`, `SAME_COMMAND` or `NEVER`. `eng/check_operation_scope.py` refuses the array form
+  and `UNKNOWN` with `AFTER_TIME`. The catalogue adds `STATE/node_offline` and `STATE/node_unreachable`, the
+  codes of center-routed calls. The foundation `ErrorCategory` has no `UNAVAILABLE` value.
+- _E-mail bound (Plan decision Q12)._ The protobuf validators admit at most 254 scalars in the five e-mail
+  fields of `publicapi.v1` (`AccountProfile.primary_email`, `login_hint` of `BeginAuthentication`, and the
+  `email` of `RequestEmailCode`, `BeginRecovery` and `BeginEmailChange`), the bound the center applies. The
+  frozen closed documents `public/http/v1/browser.schema.json` and `public/http/v1/web-browser.schema.json`
+  stay byte-identical with `maxLength` 320. This divergence is deliberate: the center is stricter and refuses
+  255 to 320 scalars, so an HTTP client should apply 254 too.
+- _Worker replies without `ResponseMeta` (Plan decision Q13)._ The hosted Worker's own domain replies
+  (`not_activated`, `rate_limited`) carry `ArcError.correlation_id` but no `ResponseMeta`. The decision is
+  that the Worker adds a `ResponseMeta` with the correlation ID to its generated replies (Cloud, AF-CTR-05
+  part E1). The contracts and the generated validators are unchanged: they keep requiring `meta`. Until the
+  Worker changes, a client that validates such a reply as a response rejects it and reads the `ArcError` as
+  the refusal.
+- _WebBrowserSession error body (Plan decision Q14)._ `public/http/v1/web-browser-error.schema.json`
+  (`WebBrowserSessionError`) defines the JSON body of a refused `/session/v1/web/*` route. The
+  `WebBrowserSession` document is unchanged.
+- _Built refusals (errors.md, "Built refusals the annotations do not name yet")._ The annotations now name:
+  - `RESOURCE/quota_exceeded` on `CompleteNodeSignIn` and `PollDeviceAuthorization`;
+  - `STATE/invalid_state` (`credential_store_unavailable`) on `AccountService.SignOut`;
+  - `CONFLICT/command_id_reused` on the receipted fleet methods `ApproveDeviceCode`, `ReportNodeInfo` and
+    `SignOutNode`.
+
+  The `approve` decision of `ApproveNodeSignIn` and `ApproveDeviceCode` is `validate: required`.
+  `CompleteNodeSignIn` adds `COMPLETED -> REVOKED`. The denial's `redirect_url` is documented.
 
 **Retired WSL guest-link surfaces (ArcForges-Design
 [AD-0018](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/decisions/AD-0018-native-platforms-without-wsl-integration.md),

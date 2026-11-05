@@ -119,9 +119,11 @@ class ErrorCatalogue(unittest.TestCase):
         categories = {name[len("ERROR_CATEGORY_"):] for name in foundation_enum("ErrorCategory")} - {"UNSPECIFIED"}
         modes = {name[len("RETRY_MODE_"):] for name in foundation_enum("RetryMode")} - {"UNSPECIFIED"}
         effects = {name[len("EFFECT_CERTAINTY_"):] for name in foundation_enum("EffectCertainty")} - {"UNSPECIFIED"}
-        self.assertEqual(CATALOGUE["schemaVersion"], "af-con-01-error-catalogue.v1")
+        self.assertEqual(CATALOGUE["schemaVersion"], "af-con-01-error-catalogue.v2")
         self.assertEqual(CATALOGUE["source"]["path"], "docs/contracts/errors.md")
-        self.assertEqual(len(CATALOGUE["codes"]), 65)
+        # AF-CTR-05 (part C1): regenerated from errors.md at ArcForges-Design main 611dda6 (D0, Design #49).
+        self.assertEqual(CATALOGUE["source"]["commit"], "611dda6b79c3f8aa854fbacad19e012f1759bd19")
+        self.assertEqual(len(CATALOGUE["codes"]), 67)
         seen = set()
         for row in CATALOGUE["codes"]:
             key = row["category"] + "/" + row["code"]
@@ -130,11 +132,78 @@ class ErrorCatalogue(unittest.TestCase):
             self.assertIn(row["category"], categories, key)
             self.assertRegex(row["code"], r"^[a-z][a-z_]*$")
             self.assertEqual(row["messageKey"], f"error.{row['category'].lower()}.{row['code']}")
-            self.assertTrue(set(row["retryModes"]) <= modes, key)
-            self.assertTrue(set(row["effects"]) <= effects and row["effects"], key)
-            self.assertTrue(row["retryModes"] or row["retryAdvice"].startswith("Depends on"), key)
+            self.assertTrue(row["pairs"], key)
+            for pair in row["pairs"]:
+                self.assertIn(pair["retry"], modes, key)
+                self.assertIn(pair["effect"], effects, key)
         for codes in CATALOGUE["implicit"].values():
             self.assertTrue(set(codes) <= seen)
+        self.assertEqual(CATALOGUE["implicit"]["receiptedMutations"], ["CONFLICT/command_id_reused"])
+
+    def test_every_reply_is_an_explicit_effect_retry_pair(self):
+        # errors.md "Delivered against target": AFTER_TIME pairs with DID_NOT_HAPPEN or HAPPENED; RECONCILE, SAME_COMMAND or NEVER
+        # pair with UNKNOWN; a RECONCILE pair names its read operation (the foundation rules arcError and retryAdvice).
+        for row in CATALOGUE["codes"]:
+            key = row["category"] + "/" + row["code"]
+            self.assertNotIn("retryModes", row, key)
+            self.assertNotIn("effects", row, key)
+            for pair in row["pairs"]:
+                self.assertFalse(pair["effect"] == "UNKNOWN" and pair["retry"] == "AFTER_TIME", key)
+                self.assertEqual(pair["retry"] == "RECONCILE", "reconciliationOperation" in pair, key)
+        self.assertEqual(scope.error_catalogue_codes(CATALOGUE), {row["category"] + "/" + row["code"] for row in CATALOGUE["codes"]})
+        pairs = {row["category"] + "/" + row["code"]: [(p["effect"], p["retry"], p.get("reconciliationOperation")) for p in row["pairs"]]
+                 for row in CATALOGUE["codes"]}
+        self.assertEqual(pairs["INTERNAL/internal"], [("UNKNOWN", "NEVER", None), ("DID_NOT_HAPPEN", "AFTER_TIME", None),
+                                                      ("HAPPENED", "AFTER_TIME", None), ("HAPPENED", "SAME_COMMAND", None)])
+        self.assertEqual(pairs["STATE/peer_unreachable"], [("DID_NOT_HAPPEN", "AFTER_TIME", None),
+                                                           ("UNKNOWN", "RECONCILE", "arcforges.node.v1.PeerService/ListPeers"),
+                                                           ("UNKNOWN", "SAME_COMMAND", None)])
+        self.assertEqual(pairs["EXECUTION/provider_error"],
+                         [("UNKNOWN", "RECONCILE", "arcforges.fleet.v1.StoreBillingService/GetBillingStatus")])
+        # The D0 codes of center-routed calls (Plan decision Q2): STATE, never an UNAVAILABLE category.
+        self.assertEqual(pairs["STATE/node_offline"], [("DID_NOT_HAPPEN", "AFTER_TIME", None)])
+        self.assertEqual(pairs["STATE/node_unreachable"], [("DID_NOT_HAPPEN", "AFTER_TIME", None), ("UNKNOWN", "SAME_COMMAND", None),
+                                                           ("UNKNOWN", "NEVER", None)])
+
+    def test_independent_arrays_and_the_invalid_pair_are_refused(self):
+        def mutated(change):
+            catalogue = copy.deepcopy(CATALOGUE)
+            change(next(row for row in catalogue["codes"] if row["code"] == "peer_unreachable"))
+            return catalogue
+
+        def arrays(row):
+            row["retryModes"], row["effects"] = ["AFTER_TIME"], ["DID_NOT_HAPPEN", "UNKNOWN"]
+            del row["pairs"]
+
+        cases = {
+            "independent arrays": (arrays, "exactly the pair form keys"),
+            "arrays beside the pairs": (lambda row: row.update(retryModes=["AFTER_TIME"]), "exactly the pair form keys"),
+            "AFTER_TIME with UNKNOWN": (lambda row: row["pairs"].append({"effect": "UNKNOWN", "retry": "AFTER_TIME"}),
+                                        "UNKNOWN never pairs with AFTER_TIME"),
+            "RECONCILE without its operation": (lambda row: row["pairs"][1].pop("reconciliationOperation"),
+                                                "names its reconciliation operation"),
+            "an operation without RECONCILE": (lambda row: row["pairs"][0].update(reconciliationOperation="arcforges.node.v1.PeerService/ListPeers"),
+                                               "names its reconciliation operation"),
+            "no pair": (lambda row: row.update(pairs=[]), "at least one effect/retry pair"),
+            "a duplicate pair": (lambda row: row["pairs"].append(dict(row["pairs"][0])), "listed twice"),
+            # Review N-1: the HAPPENED half of the pair form, and the cells and pair members are single values.
+            "HAPPENED with NEVER": (lambda row: row["pairs"].append({"effect": "HAPPENED", "retry": "NEVER"}),
+                                    "HAPPENED pairs only with AFTER_TIME or SAME_COMMAND"),
+            "HAPPENED with RECONCILE": (lambda row: row["pairs"].append({"effect": "HAPPENED", "retry": "RECONCILE",
+                                                                         "reconciliationOperation": "arcforges.node.v1.PeerService/ListPeers"}),
+                                        "HAPPENED pairs only with AFTER_TIME or SAME_COMMAND"),
+            "an effect cell as an array": (lambda row: row.update(effect=["DID_NOT_HAPPEN", "UNKNOWN"]), "the effect cell is a non-empty string"),
+            "a retry advice cell as an array": (lambda row: row.update(retryAdvice=["AFTER_TIME"]), "the retryAdvice cell is a non-empty string"),
+            "a pair effect as an array": (lambda row: row["pairs"][0].update(effect=["DID_NOT_HAPPEN", "UNKNOWN"]), "single values"),
+            "a pair retry as an array": (lambda row: row["pairs"][0].update(retry=["AFTER_TIME"]), "single values"),
+        }
+        for label, (change, message) in cases.items():
+            with self.subTest(label), self.assertRaisesRegex(ValueError, message):
+                scope.error_catalogue_codes(mutated(change))
+        old = copy.deepcopy(CATALOGUE)
+        old["schemaVersion"] = "af-con-01-error-catalogue.v1"
+        with self.assertRaisesRegex(ValueError, "unsupported flagship error catalogue"):
+            scope.error_catalogue_codes(old)
 
     def test_every_annotated_method_names_only_catalogued_codes(self):
         flagship = scope.flagship_methods(ROOT, scope.proto_methods(ROOT))
@@ -172,7 +241,8 @@ class ConstraintSidecars(unittest.TestCase):
                   if rules.get("required")}
         self.assertEqual(set(messages), declared)
         self.assertEqual(actual, expected)
-        self.assertEqual(len(actual), 129)
+        # AF-CTR-05 (part C1) adds approve of ApproveNodeSignIn and ApproveDeviceCode (129 before).
+        self.assertEqual(len(actual), 131)
         for value in messages.values():
             self.assertEqual({key for rules in value["fields"].values() for key in rules} - {"required"}, set())
 

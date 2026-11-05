@@ -59,15 +59,15 @@ The AF-CTR-01 task names `foundation.v1`, `hello.v1`, `publicapi.v1`, `node.v1`,
 
 The Go tests (`go/internal/compat`) read exactly these fixtures under `fixtures/public`:
 
-| Fixture                          | What the Go tests check                                                                                                                                                      |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `wp03-01.json`                   | the 10 wire oracles byte for byte, and its positive foundation cases                                                                                                         |
-| `con-02-descriptors.json`        | the descriptor wire vectors, and the positive cases of its exchange section                                                                                                  |
-| `con-09-sync-transfer.json`      | the positive `TransferTicket` cases                                                                                                                                          |
-| `wp03-02.json`                   | the serialization vectors under the WP03.02 byte and depth limits                                                                                                            |
-| `con-03-sync-allowlist.json`     | the forward-compatible `AggregateBody` response with its unknown member, and the opaque body cases                                                                           |
-| `hello.json`                     | the Hello cases over Connect, gRPC and gRPC-Web (binary codec only)                                                                                                          |
-| `af-con-01-error-catalogue.json` | every catalogued code, with each of its retry modes and effects, as an `ArcError` Connect error detail over Connect, gRPC and gRPC-Web, cycling through all 16 Connect codes |
+| Fixture                          | What the Go tests check                                                                                                                                                     |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `wp03-01.json`                   | the 10 wire oracles byte for byte, and its positive foundation cases                                                                                                        |
+| `con-02-descriptors.json`        | the descriptor wire vectors, and the positive cases of its exchange section                                                                                                 |
+| `con-09-sync-transfer.json`      | the positive `TransferTicket` cases                                                                                                                                         |
+| `wp03-02.json`                   | the serialization vectors under the WP03.02 byte and depth limits                                                                                                           |
+| `con-03-sync-allowlist.json`     | the forward-compatible `AggregateBody` response with its unknown member, and the opaque body cases                                                                          |
+| `hello.json`                     | the Hello cases over Connect, gRPC and gRPC-Web (binary codec only)                                                                                                         |
+| `af-con-01-error-catalogue.json` | every catalogued code, with each of its effect and retry pairs, as an `ArcError` Connect error detail over Connect, gRPC and gRPC-Web, cycling through all 16 Connect codes |
 
 The positive cases of the first three files are the 234 foundation fixture cases. In Go each one
 encodes, decodes to the same value and re-encodes to the same bytes, and the exchange also reads

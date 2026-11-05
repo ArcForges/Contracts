@@ -410,13 +410,16 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
       /// CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
       /// registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
+      /// RESOURCE/quota_exceeded: the account's enrollment cap (limit.limit_name max_nodes_per_account, limit.maximum the cap) is
+      /// reached when the node is enrolled; the account frees a node first.
+      /// A correct code presented again revokes the flow, also after its completion (COMPLETED -> REVOKED).
       /// auth: none (flow-bound proof)
       /// idempotency: natural: code single use; reuse revokes the flow
       /// deadline: 15 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
       /// locality: cloud
-      /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
+      /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED; COMPLETED -> REVOKED
       /// </summary>
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
@@ -451,12 +454,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// <summary>
       /// Poll at the given interval. APPROVED returns credentials.
       /// A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
-      /// CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
+      /// CONFLICT/already_exists, AUTHENTICATION/credential_revoked and RESOURCE/quota_exceeded (the enrollment cap, limit.limit_name
+      /// max_nodes_per_account) mean what they mean for CompleteNodeSignIn.
       /// auth: none (device_code proof)
       /// idempotency: natural
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
       /// </summary>
@@ -505,7 +509,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
@@ -547,7 +551,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -567,7 +571,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -1090,13 +1094,16 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
       /// CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
       /// registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
+      /// RESOURCE/quota_exceeded: the account's enrollment cap (limit.limit_name max_nodes_per_account, limit.maximum the cap) is
+      /// reached when the node is enrolled; the account frees a node first.
+      /// A correct code presented again revokes the flow, also after its completion (COMPLETED -> REVOKED).
       /// auth: none (flow-bound proof)
       /// idempotency: natural: code single use; reuse revokes the flow
       /// deadline: 15 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
       /// locality: cloud
-      /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
+      /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED; COMPLETED -> REVOKED
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -1114,13 +1121,16 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
       /// CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
       /// registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
+      /// RESOURCE/quota_exceeded: the account's enrollment cap (limit.limit_name max_nodes_per_account, limit.maximum the cap) is
+      /// reached when the node is enrolled; the account frees a node first.
+      /// A correct code presented again revokes the flow, also after its completion (COMPLETED -> REVOKED).
       /// auth: none (flow-bound proof)
       /// idempotency: natural: code single use; reuse revokes the flow
       /// deadline: 15 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
       /// locality: cloud
-      /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
+      /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED; COMPLETED -> REVOKED
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -1136,13 +1146,16 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
       /// CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
       /// registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
+      /// RESOURCE/quota_exceeded: the account's enrollment cap (limit.limit_name max_nodes_per_account, limit.maximum the cap) is
+      /// reached when the node is enrolled; the account frees a node first.
+      /// A correct code presented again revokes the flow, also after its completion (COMPLETED -> REVOKED).
       /// auth: none (flow-bound proof)
       /// idempotency: natural: code single use; reuse revokes the flow
       /// deadline: 15 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
       /// locality: cloud
-      /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
+      /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED; COMPLETED -> REVOKED
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -1160,13 +1173,16 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// and the one-use code: a correct code presented after its lifetime consumes nothing and leaves the flow APPROVED.
       /// CONFLICT/already_exists: state.state node (the node ID is live under another account) or node_key (the key is
       /// registered). AUTHENTICATION/credential_revoked: the node key was retired; the node deletes its key and starts again.
+      /// RESOURCE/quota_exceeded: the account's enrollment cap (limit.limit_name max_nodes_per_account, limit.maximum the cap) is
+      /// reached when the node is enrolled; the account frees a node first.
+      /// A correct code presented again revokes the flow, also after its completion (COMPLETED -> REVOKED).
       /// auth: none (flow-bound proof)
       /// idempotency: natural: code single use; reuse revokes the flow
       /// deadline: 15 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+      /// errors: STATE/not_found, STATE/expired, CONFLICT/code_reused, AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
       /// locality: cloud
-      /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED
+      /// state: SM-SIGN-IN: APPROVED -> COMPLETED | REVOKED; COMPLETED -> REVOKED
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -1263,12 +1279,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// <summary>
       /// Poll at the given interval. APPROVED returns credentials.
       /// A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
-      /// CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
+      /// CONFLICT/already_exists, AUTHENTICATION/credential_revoked and RESOURCE/quota_exceeded (the enrollment cap, limit.limit_name
+      /// max_nodes_per_account) mean what they mean for CompleteNodeSignIn.
       /// auth: none (device_code proof)
       /// idempotency: natural
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
       /// </summary>
@@ -1285,12 +1302,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// <summary>
       /// Poll at the given interval. APPROVED returns credentials.
       /// A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
-      /// CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
+      /// CONFLICT/already_exists, AUTHENTICATION/credential_revoked and RESOURCE/quota_exceeded (the enrollment cap, limit.limit_name
+      /// max_nodes_per_account) mean what they mean for CompleteNodeSignIn.
       /// auth: none (device_code proof)
       /// idempotency: natural
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
       /// </summary>
@@ -1305,12 +1323,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// <summary>
       /// Poll at the given interval. APPROVED returns credentials.
       /// A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
-      /// CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
+      /// CONFLICT/already_exists, AUTHENTICATION/credential_revoked and RESOURCE/quota_exceeded (the enrollment cap, limit.limit_name
+      /// max_nodes_per_account) mean what they mean for CompleteNodeSignIn.
       /// auth: none (device_code proof)
       /// idempotency: natural
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
       /// </summary>
@@ -1327,12 +1346,13 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// <summary>
       /// Poll at the given interval. APPROVED returns credentials.
       /// A bad node key proof on an APPROVED authorization is AUTHENTICATION/unauthenticated and leaves it APPROVED.
-      /// CONFLICT/already_exists and AUTHENTICATION/credential_revoked mean what they mean for CompleteNodeSignIn.
+      /// CONFLICT/already_exists, AUTHENTICATION/credential_revoked and RESOURCE/quota_exceeded (the enrollment cap, limit.limit_name
+      /// max_nodes_per_account) mean what they mean for CompleteNodeSignIn.
       /// auth: none (device_code proof)
       /// idempotency: natural
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked
+      /// errors: STATE/not_found, RESOURCE/rate_limited, CONFLICT/already_exists, AUTHENTICATION/credential_revoked, RESOURCE/quota_exceeded
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED -> COMPLETED; PENDING -> DENIED | EXPIRED
       /// </summary>
@@ -1455,7 +1475,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
@@ -1480,7 +1500,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
@@ -1503,7 +1523,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
@@ -1528,7 +1548,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/code_invalid, STATE/expired, STATE/invalid_state, AUTHENTICATION/step_up_required, RESOURCE/quota_exceeded, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// state: SM-DEVICE-AUTH: PENDING -> APPROVED | DENIED; APPROVED -> DENIED
       /// </summary>
@@ -1632,7 +1652,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1653,7 +1673,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1672,7 +1692,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1693,7 +1713,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+      /// errors: AUTHENTICATION/unauthenticated, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1712,7 +1732,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1733,7 +1753,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1752,7 +1772,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1773,7 +1793,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied
+      /// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/credential_revoked, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: cloud
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
