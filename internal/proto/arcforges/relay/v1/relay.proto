@@ -50,8 +50,9 @@ option java_outer_classname = "RelayProto";
 // zero; every digest and nonce exactly 32 bytes; local_origin 1..3 and method 1..8; nanos 0..999,999,999. It never pads,
 // truncates or re-encodes a field to fit. A NodeHello without node_id, or with an ID of another length, closes 4403. A call
 // expires at most 300 s after issue and a relay assertion at most 120 s after issue; the 120 s skew applies on top at the node.
-// The C# validators of these messages (ArcForges.Contracts.Relay) enforce every one of these rules; the Go center applies the
-// same checks before verification.
+// The C# validators of these messages (ArcForges.Contracts.Relay) enforce every one of these rules except the presence of
+// NodeHello.node_id, which the center checks (deviation 11: an earlier field keeps its presence-only sidecar); the Go center
+// applies the same checks before verification.
 
 message RelayLimits {
   optional uint32 summary_frames_per_minute = 1 [json_name = "summaryFramesPerMinute"]; // default 30
@@ -295,14 +296,16 @@ message ResultHeader {
   arcforges.foundation.v1.ArcError error = 10 [json_name = "error"]; // validate: required unless EXECUTED, absent then; the node's refusal as closed fields only (rule routedRefusal, below)
 }
 
-// ResultHeader.error, rule routedRefusal (Plan PN-6; review A B-1). The refusal of a routed call holds closed fields only, so no
-// node text, path, argv fragment or secret can travel in it:
-// - code: a catalogue code, ^[a-z][a-z0-9_]{0,63}$; message_key exactly error.<category>.<code> (the catalogue key);
+// ResultHeader.error, rule routedRefusal (Plan PN-6; review A B-1 and N-9). The refusal of a routed call holds closed identifier
+// fields only, at most 512 bytes in all: no free text, only identifier tokens. A node can still place an identifier-shaped token
+// (a hex string, a dotted name) in state or reason; the center therefore stores and audits only the category and code.
+// - code: ^[a-z][a-z0-9_]{0,63}$, catalogued under this category (fixtures/public/af-con-01-error-catalogue.json); message_key
+//   exactly error.<category>.<code> (the catalogue key);
 // - category, retry mode, retry_at and effect as ArcError requires; reconciliation_operation absent, or exactly
 //   arcforges.node.v1.ApprovalService/GetApproval (the RECONCILE advice of AUTHORIZATION/approval_required);
 // - correlation_id as ArcError requires; it is the node's correlation, never part of a digest;
 // - details absent or details.state only: state.state and state.reason match ^[a-z0-9_.]{1,64}$ (for example task.submit and
-//   relay_own_node_only); state.native absent; state.resource absent, except for AUTHORIZATION/approval_required, whose
+//   relay_own_node_only); state.native absent; state.resource absent, except for AUTHORIZATION/approval_required only, whose
 //   resource is exactly {kind: "approval", id} (errors.md; Design 11 section 1: the approval ID that a local HUMAN decides);
 // - details.revision, details.limit and details.upgrade refused; the whole error at most 512 bytes.
 // The center never forwards the node's error bytes: it rebuilds the caller-facing ArcError of the routed method from these

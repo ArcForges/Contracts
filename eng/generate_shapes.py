@@ -1328,7 +1328,7 @@ def generate_proto_checks(check: bool) -> None:
         from foundation_semantics import COMMON_CS_HELPERS, CS_HELPERS, DESCRIPTOR_CS_HELPERS, SYNC_ADMISSION_CS
         content += "\n".join(methods) + CS_PROTO_HELPERS + COMMON_CS_HELPERS
         if any(rule in AF_CTR_05_WINDOW_RULES for name in names for rule in messages[name]["constraints"].get("rules", [])):
-            content += CS_RELAY_HELPERS
+            content += CS_RELAY_HELPERS + relay_refusal_catalogue()
         if "arcforges.foundation.v1.ContractVersion" in names:
             content += DESCRIPTOR_CS_HELPERS
         if any(n.startswith("arcforges.publicapi.") for n in names):
@@ -1377,6 +1377,16 @@ AF_CTR_05_CS_RULES = {
         if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 120)) return false;""",
 }
 
+def relay_refusal_catalogue() -> str:
+    """The catalogued CATEGORY/code pairs a routed refusal may name, from fixtures/public/af-con-01-error-catalogue.json
+    (review A N-9): the code must be catalogued under its own category."""
+    catalogue = json.loads((ROOT / "fixtures/public/af-con-01-error-catalogue.json").read_text(encoding="utf-8"))
+    entries = sorted(f"{row['category'].lower()}/{row['code']}" for row in catalogue["codes"])
+    return ("    private static readonly global::System.Collections.Generic.HashSet<string> RefusalCatalogue = "
+            "new(global::System.StringComparer.Ordinal)\n    {\n"
+            + "".join(f"        {json.dumps(entry)},\n" for entry in entries) + "    };\n")
+
+
 AF_CTR_05_WINDOW_RULES = {"callHeader", "relayAssertion", "routedRefusal"}
 CS_RELAY_HELPERS = r'''
     private static global::System.Int128 RelayNanos(global::ArcForges.Contracts.Foundation.V1.Instant value) =>
@@ -1389,12 +1399,13 @@ CS_RELAY_HELPERS = r'''
         if (error.CalculateSize() > 512 || !Matches(error.Code, "^[a-z][a-z0-9_]{0,63}$")) return false;
         var category = (int)error.Category;
         if (category is < 1 or > 9 || error.MessageKey != "error." + RefusalCategories[category] + "." + error.Code) return false;
+        if (!RefusalCatalogue.Contains(RefusalCategories[category] + "/" + error.Code)) return false;
         if (error.Retry.HasReconciliationOperation && error.Retry.ReconciliationOperation != "arcforges.node.v1.ApprovalService/GetApproval") return false;
         if (error.Details is null) return true;
         if ((int)error.Details.DetailCase != 4) return false;
         var state = error.Details.State;
         if (!Matches(state.State, "^[a-z0-9_.]{1,64}$") || !Matches(state.Reason, "^[a-z0-9_.]{1,64}$") || state.Native is not null) return false;
-        return state.Resource is null || (error.Code == "approval_required" && state.Resource.Kind == "approval");
+        return state.Resource is null || (category == 3 && error.Code == "approval_required" && state.Resource.Kind == "approval");
     }
 '''
 

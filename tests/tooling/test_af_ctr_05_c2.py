@@ -300,9 +300,16 @@ class Validators(unittest.TestCase):
                        'error.MessageKey != "error." + RefusalCategories[category] + "." + error.Code',
                        'if ((int)error.Details.DetailCase != 4) return false;',
                        '!Matches(state.State, "^[a-z0-9_.]{1,64}$") || !Matches(state.Reason, "^[a-z0-9_.]{1,64}$") || state.Native is not null',
-                       'return state.Resource is null || (error.Code == "approval_required" && state.Resource.Kind == "approval");',
+                       'return state.Resource is null || (category == 3 && error.Code == "approval_required" && state.Resource.Kind == "approval");',
+                       'if (!RefusalCatalogue.Contains(RefusalCategories[category] + "/" + error.Code)) return false;',
                        'if (!value.Caller.AccountId.Equals(value.AccountId)) return false;'):
             contains(self, relay_cs, phrase)
+        # The catalogue check is generated from the error catalogue: every CATEGORY/code pair, and nothing else (review A N-9).
+        catalogue = sorted(f"{r['category'].lower()}/{r['code']}" for r in load("fixtures/public/af-con-01-error-catalogue.json")["codes"])
+        generated = re.search(r"RefusalCatalogue = new\(global::System\.StringComparer\.Ordinal\)\n    \{\n(.*?)    \};", relay_cs, re.S)
+        self.assertIsNotNone(generated)
+        self.assertEqual(re.findall(r'"([^"]+)",', generated.group(1)), catalogue)
+        self.assertIn("authorization/approval_required", catalogue)
         fleet_cs = text("src/public/dotnet/ArcForges.Contracts.Fleet/Generated/Shapes/ProtoValidation.g.cs")
         self.assertEqual(fleet_cs.count("if ((value.Caller is null) == value.HasRelayAssertion) return false;"), 8)
 

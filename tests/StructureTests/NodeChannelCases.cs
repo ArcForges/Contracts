@@ -479,6 +479,8 @@ internal static class NodeChannelCases
         Refusal(e => e.Code = "authorization.permission_denied", false, "a dotted code");
         Refusal(e => e.MessageKey = "error.authorization.something_else", false, "a message key that is not the code's");
         Refusal(e => e.MessageKey = "/srv/build", false, "a path as message key");
+        Refusal(e => { e.Category = ErrorCategory.State; e.MessageKey = "error.state.permission_denied"; }, false, "a code under another category than its catalogue's");
+        Refusal(e => { e.Code = "not_a_catalogue_code"; e.MessageKey = "error.authorization.not_a_catalogue_code"; }, false, "a code outside the catalogue");
         var approval = new ArcError
         {
             Code = "approval_required", Category = ErrorCategory.Authorization, MessageKey = "error.authorization.approval_required",
@@ -488,6 +490,7 @@ internal static class NodeChannelCases
         };
         Refusal(e => e.MergeFrom(approval), true, "approval_required with its approval resource and GetApproval");
         Refusal(e => { e.MergeFrom(approval); e.Details.State.Resource.Kind = "task"; }, false, "approval_required with another resource kind");
+        Refusal(e => { e.MergeFrom(approval); e.Category = ErrorCategory.State; e.MessageKey = "error.state.approval_required"; }, false, "the approval resource under another category");
         Refusal(e => { e.MergeFrom(approval); e.Retry.ReconciliationOperation = "arcforges.node.v1.TaskService/GetTask"; }, false, "another reconciliation operation");
     }
 

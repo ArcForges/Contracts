@@ -165,7 +165,7 @@
       "design": "arcforges/relay/v1/relay.proto",
       "path": "internal/proto/arcforges/relay/v1/relay.proto",
       "package": "ArcForges.Contracts.Relay",
-      "sha256": "a072ff9497ceb8af9168a23fa29eccce67a57437742e38458651bdae1ca3d817"
+      "sha256": "9d8140725f7c0ac903a881e4779e73c693046a984c2ac6264d62df1893cc9d8a"
     }
   ],
   "schemaDigest": {

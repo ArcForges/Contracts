@@ -2222,12 +2222,83 @@ public static class ContractShapeValidation
         if (error.CalculateSize() > 512 || !Matches(error.Code, "^[a-z][a-z0-9_]{0,63}$")) return false;
         var category = (int)error.Category;
         if (category is < 1 or > 9 || error.MessageKey != "error." + RefusalCategories[category] + "." + error.Code) return false;
+        if (!RefusalCatalogue.Contains(RefusalCategories[category] + "/" + error.Code)) return false;
         if (error.Retry.HasReconciliationOperation && error.Retry.ReconciliationOperation != "arcforges.node.v1.ApprovalService/GetApproval") return false;
         if (error.Details is null) return true;
         if ((int)error.Details.DetailCase != 4) return false;
         var state = error.Details.State;
         if (!Matches(state.State, "^[a-z0-9_.]{1,64}$") || !Matches(state.Reason, "^[a-z0-9_.]{1,64}$") || state.Native is not null) return false;
-        return state.Resource is null || (error.Code == "approval_required" && state.Resource.Kind == "approval");
+        return state.Resource is null || (category == 3 && error.Code == "approval_required" && state.Resource.Kind == "approval");
     }
+    private static readonly global::System.Collections.Generic.HashSet<string> RefusalCatalogue = new(global::System.StringComparer.Ordinal)
+    {
+        "authentication/credential_revoked",
+        "authentication/signature_invalid",
+        "authentication/step_up_required",
+        "authentication/token_expired",
+        "authentication/unauthenticated",
+        "authorization/account_mismatch",
+        "authorization/approval_required",
+        "authorization/command_pattern_denied",
+        "authorization/peer_policy_denied",
+        "authorization/permission_denied",
+        "conflict/already_exists",
+        "conflict/code_reused",
+        "conflict/command_id_reused",
+        "conflict/digest_mismatch",
+        "conflict/purchase_already_linked",
+        "conflict/revision_conflict",
+        "entitlement/feature_not_entitled",
+        "entitlement/plan_limit_reached",
+        "execution/adopt_not_permitted",
+        "execution/integration_write_failed",
+        "execution/operation_failed",
+        "execution/provider_error",
+        "internal/internal",
+        "internal/store_corrupt",
+        "resource/disk_space",
+        "resource/enforcement_unavailable",
+        "resource/kill_switch_active",
+        "resource/overloaded",
+        "resource/queue_full",
+        "resource/quota_exceeded",
+        "resource/rate_limited",
+        "resource/too_large",
+        "state/cloud_unreachable",
+        "state/dirty_worktree",
+        "state/expired",
+        "state/in_use",
+        "state/invalid_state",
+        "state/link_down",
+        "state/managed_externally",
+        "state/node_offline",
+        "state/node_stopping",
+        "state/node_unreachable",
+        "state/not_activated",
+        "state/not_attached",
+        "state/not_found",
+        "state/not_signed_in",
+        "state/pause_unsupported",
+        "state/peer_blocked",
+        "state/peer_incompatible",
+        "state/peer_unreachable",
+        "state/plan_expired",
+        "state/purchase_pending",
+        "state/sas_mismatch",
+        "state/secrets_unavailable",
+        "state/update_in_progress",
+        "validation/code_invalid",
+        "validation/incompatible_version",
+        "validation/inputs_required",
+        "validation/invalid_argument",
+        "validation/invalid_cursor",
+        "validation/invalid_dependency",
+        "validation/invalid_policy",
+        "validation/path_not_found",
+        "validation/program_not_found",
+        "validation/purchase_invalid",
+        "validation/unsafe_batch_argument",
+        "validation/unsupported_shell",
+    };
 
 }
