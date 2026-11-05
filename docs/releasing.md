@@ -389,7 +389,7 @@ and publication status. Before merge, review the full authored/generated change
 and pass every applicable latest-head CI/security check, including candidate
 production. Offline foundation codec/validator tests and exact-value checks do
 not establish live services, installed consumers or complete product behavior.
-The committed/CI SDK pin remains `10.0.400`; a local `10.0.401` execution adapter
+The committed/CI SDK pin is `10.0.403`; a local `10.0.401` execution adapter
 must be recorded separately and cannot stand in for that configured CI result.
 
 After merge, confirm the expected source and normal required build/publication
