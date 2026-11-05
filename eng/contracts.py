@@ -66,7 +66,7 @@ def check_tools() -> None:
         raise ValueError(f"Select Node {expected_node} from .node-version before continuing")
     if run(NPM, "--version", capture=True).strip() != "11.19.0":
         raise ValueError("Use npm 11.19.0 with the pinned Node distribution")
-    if run("dotnet", "--version", capture=True).strip() != "10.0.400":
+    if run("dotnet", "--version", capture=True).strip() != "10.0.403":
         raise ValueError("Install the .NET SDK pinned in global.json")
 
 

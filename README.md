@@ -58,7 +58,7 @@ was retired from new publications at WP03.00 in the same way.
 
 ## Local quick start
 
-Install .NET SDK **10.0.400**, Node **24.21.0** (npm **11.19.0**), Python
+Install .NET SDK **10.0.403**, Node **24.21.0** (npm **11.19.0**), Python
 **3.14.7** and Go **1.27.3** (`go/toolchain.json`; generation and the Go checks use it). Reuse the installed tools. No JDK, Gradle or Kotlin toolchain is needed:
 the Kotlin and Maven channel is retired (CON.40). Version files in the root are authoritative. On Windows with fnm,
 select the pinned Node using `fnm use 24.21.0`; `fnm exec --using 24.21.0 --
