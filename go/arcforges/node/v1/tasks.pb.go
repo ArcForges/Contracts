@@ -4292,6 +4292,7 @@ type TaskServiceReadTaskOutputRequest struct {
 	Stream        *OutputStream          `protobuf:"varint,11,opt,name=stream,proto3,enum=arcforges.node.v1.OutputStream,oneof" json:"stream,omitempty"` // validate: default MERGED
 	FromOffset    *uint64                `protobuf:"varint,12,opt,name=from_offset,json=fromOffset,proto3,oneof" json:"from_offset,omitempty"`           // MERGED: offset in the merged index order
 	MaxBytes      *uint32                `protobuf:"varint,13,opt,name=max_bytes,json=maxBytes,proto3,oneof" json:"max_bytes,omitempty"`                 // validate: 1..4 MiB; default 256 KiB
+	WaitMs        *uint32                `protobuf:"varint,14,opt,name=wait_ms,json=waitMs,proto3,oneof" json:"wait_ms,omitempty"`                       // validate: 0..20,000; default 0 (no wait)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4357,6 +4358,13 @@ func (x *TaskServiceReadTaskOutputRequest) GetFromOffset() uint64 {
 func (x *TaskServiceReadTaskOutputRequest) GetMaxBytes() uint32 {
 	if x != nil && x.MaxBytes != nil {
 		return *x.MaxBytes
+	}
+	return 0
+}
+
+func (x *TaskServiceReadTaskOutputRequest) GetWaitMs() uint32 {
+	if x != nil && x.WaitMs != nil {
+		return *x.WaitMs
 	}
 	return 0
 }
@@ -7191,6 +7199,7 @@ type ManagedTask struct {
 	SideEffectSuggestion *SideEffectClass       `protobuf:"varint,24,opt,name=side_effect_suggestion,json=sideEffectSuggestion,proto3,enum=arcforges.node.v1.SideEffectClass,oneof" json:"side_effect_suggestion,omitempty"` // the adapter's suggestion when it could not assert one
 	ExclusiveKeys        []string               `protobuf:"bytes,25,rep,name=exclusive_keys,json=exclusiveKeys,proto3" json:"exclusive_keys,omitempty"`                                                                      // effective keys, including adapter keys
 	SharedKeys           []string               `protobuf:"bytes,26,rep,name=shared_keys,json=sharedKeys,proto3" json:"shared_keys,omitempty"`                                                                               // effective shared (reader) keys
+	LocalDiagnostic      *bool                  `protobuf:"varint,27,opt,name=local_diagnostic,json=localDiagnostic,proto3,oneof" json:"local_diagnostic,omitempty"`                                                         // a diagnostic local submission (AD-0021 section 5, Plan decision Q8); a center-routed call never sets it, and every view labels the task diagnostic
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -7405,6 +7414,13 @@ func (x *ManagedTask) GetSharedKeys() []string {
 		return x.SharedKeys
 	}
 	return nil
+}
+
+func (x *ManagedTask) GetLocalDiagnostic() bool {
+	if x != nil && x.LocalDiagnostic != nil {
+		return *x.LocalDiagnostic
+	}
+	return false
 }
 
 type TaskFilter struct {
@@ -8460,7 +8476,7 @@ const file_arcforges_node_v1_tasks_proto_rawDesc = "" +
 	"\"]\n" +
 	"\x1fTaskServicePurgeTaskRecordValue\x12:\n" +
 	"\areceipt\x18\n" +
-	" \x01(\v2 .arcforges.foundation.v1.ReceiptR\areceipt\"\xcd\x02\n" +
+	" \x01(\v2 .arcforges.foundation.v1.ReceiptR\areceipt\"\xf7\x02\n" +
 	" TaskServiceReadTaskOutputRequest\x128\n" +
 	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x12:\n" +
 	"\n" +
@@ -8469,11 +8485,14 @@ const file_arcforges_node_v1_tasks_proto_rawDesc = "" +
 	"\x06stream\x18\v \x01(\x0e2\x1f.arcforges.node.v1.OutputStreamH\x00R\x06stream\x88\x01\x01\x12$\n" +
 	"\vfrom_offset\x18\f \x01(\x04H\x01R\n" +
 	"fromOffset\x88\x01\x01\x12 \n" +
-	"\tmax_bytes\x18\r \x01(\rH\x02R\bmaxBytes\x88\x01\x01B\t\n" +
+	"\tmax_bytes\x18\r \x01(\rH\x02R\bmaxBytes\x88\x01\x01\x12\x1c\n" +
+	"\await_ms\x18\x0e \x01(\rH\x03R\x06waitMs\x88\x01\x01B\t\n" +
 	"\a_streamB\x0e\n" +
 	"\f_from_offsetB\f\n" +
 	"\n" +
-	"_max_bytesJ\x04\b\x02\x10\n" +
+	"_max_bytesB\n" +
+	"\n" +
+	"\b_wait_msJ\x04\b\x02\x10\n" +
 	"\"\xf5\x01\n" +
 	"!TaskServiceReadTaskOutputResponse\x129\n" +
 	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12I\n" +
@@ -8847,7 +8866,7 @@ const file_arcforges_node_v1_tasks_proto_rawDesc = "" +
 	"\t_positionB\x12\n" +
 	"\x10_blocking_reasonB\f\n" +
 	"\n" +
-	"_waited_ms\"\xa0\r\n" +
+	"_waited_ms\"\xe5\r\n" +
 	"\vManagedTask\x124\n" +
 	"\atask_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06taskId\x127\n" +
 	"\x05state\x18\x02 \x01(\x0e2\x1c.arcforges.node.v1.TaskStateH\x00R\x05state\x88\x01\x01\x12&\n" +
@@ -8881,7 +8900,8 @@ const file_arcforges_node_v1_tasks_proto_rawDesc = "" +
 	"\x16side_effect_suggestion\x18\x18 \x01(\x0e2\".arcforges.node.v1.SideEffectClassH\fR\x14sideEffectSuggestion\x88\x01\x01\x12%\n" +
 	"\x0eexclusive_keys\x18\x19 \x03(\tR\rexclusiveKeys\x12\x1f\n" +
 	"\vshared_keys\x18\x1a \x03(\tR\n" +
-	"sharedKeys\x1a9\n" +
+	"sharedKeys\x12.\n" +
+	"\x10local_diagnostic\x18\x1b \x01(\bH\rR\x0flocalDiagnostic\x88\x01\x01\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\b\n" +
@@ -8897,7 +8917,8 @@ const file_arcforges_node_v1_tasks_proto_rawDesc = "" +
 	"\x10_command_summaryB\x0e\n" +
 	"\f_side_effectB\x15\n" +
 	"\x13_side_effect_sourceB\x19\n" +
-	"\x17_side_effect_suggestion\"\xc0\x04\n" +
+	"\x17_side_effect_suggestionB\x13\n" +
+	"\x11_local_diagnostic\"\xc0\x04\n" +
 	"\n" +
 	"TaskFilter\x124\n" +
 	"\x06states\x18\x01 \x03(\x0e2\x1c.arcforges.node.v1.TaskStateR\x06states\x12:\n" +

@@ -728,27 +728,36 @@ message NodeEnrollmentServiceCompleteSupportUploadValue {
   arcforges.foundation.v1.Instant object_expires_at = 12 [json_name = "objectExpiresAt"];
 }
 
-// Node registry, relay tokens, viewer grants, live fleet state and remote commands.
+// Node registry, relay tokens, viewer grants, live fleet state, remote commands and, since AF-CTR-05, the center-routed task
+// methods.
 service FleetService {
   // List the account's nodes with cached status summaries.
-  // auth: account session
+  // AF-CTR-05: one row per live enrollment, with online, last_seen_at, credential_expires_at, device_id, version, OS and
+  // reported_name, and no summary (AF-CLD-04). Not gated (Plan decision Q20): a lapsed account still lists its nodes. A node
+  // credential lists them only as a node-relayed caller with a valid relay assertion (Plan addendum C-N6): a bearer token alone
+  // reads nothing of the account's nodes (AUTHENTICATION/unauthenticated, state.state relay_assertion).
+  // auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
   // idempotency: read
   // deadline: 5 s
   // stream: none
-  // errors: none (implicit codes only)
+  // errors: AUTHENTICATION/unauthenticated
   // locality: cloud
   rpc ListNodes(FleetServiceListNodesRequest) returns (FleetServiceListNodesResponse);
 
   // Read one node with its recent remote commands.
-  // auth: account session
+  // AF-CTR-05: recent_commands stays empty (routing records are not command views). Not gated (Plan decision Q20). A node
+  // credential reads only as for ListNodes, with a valid relay assertion that names the node.
+  // auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
   // idempotency: read
   // deadline: 5 s
   // stream: none
-  // errors: STATE/not_found
+  // errors: STATE/not_found, AUTHENTICATION/unauthenticated
   // locality: cloud
   rpc GetNode(FleetServiceGetNodeRequest) returns (FleetServiceGetNodeResponse);
 
   // Rename a node in the registry (the node adopts the name on next contact).
+  // AF-CTR-05 (Plan decision Q25): the account's name wins; the node receives it as ChannelAccepted.node_name and keeps the name
+  // it reports (ReportNodeInfo) as FleetNode.reported_name. Not gated (Q20). A node credential is never admitted.
   // auth: account session
   // idempotency: command_id
   // deadline: 5 s
@@ -758,6 +767,8 @@ service FleetService {
   rpc RenameNode(FleetServiceRenameNodeRequest) returns (FleetServiceRenameNodeResponse);
 
   // Revoke a node: credential, certificates and relay tokens. The node learns it through the relay or its next call.
+  // AF-CTR-05: the revocation cascade closes the node's channel (4401), its in-flight routed calls end STATE/node_unreachable and
+  // its later routed calls are STATE/not_found. Not gated (Plan decision Q20). A node credential is never admitted.
   // auth: account session with step-up
   // idempotency: command_id
   // deadline: 10 s
@@ -849,11 +860,103 @@ service FleetService {
   // locality: cloud
   // state: SM-REMOTE-COMMAND: ACCEPTED -> CANCELLED
   rpc CancelNodeCommand(FleetServiceCancelNodeCommandRequest) returns (FleetServiceCancelNodeCommandResponse);
+
+  // Center-routed task methods (AF-CTR-05 target; AD-0021 sections 7, 10 and 11; Design 11 section 1, "Center-routed operations"
+  // and "Center-routed callers"; Plan decisions Q1, Q2, Q6, Q9, Q17, PB-1, PB-2, PN-6, PN-9 and the D0 review addendum).
+  // - request carries the exact bytes of the named arcforges.node.v1 TaskService request. The center decodes a copy only to check
+  //   its shape, stores none of it, and forwards the bytes unchanged as the call payload, with their SHA-256 in the signed call
+  //   header (arcforges.relay.v1 CallHeader). value.response carries the exact bytes of the node's TaskService response, which the
+  //   center forwards unchanged and does not store.
+  // - Callers. An account session (Web, Android) sends neither caller nor relay_assertion. A node credential is admitted only as
+  //   the relay of its own node and sends both; a request with only one of them is invalid. caller names the credential's node and
+  //   the local origin; relay_assertion is a serialized arcforges.relay.v1.RelayAssertion (internal), which the center verifies
+  //   before it serves or routes the call, or refuses AUTHENTICATION/unauthenticated (state.state relay_assertion). For
+  //   state.reason expired or nonce_reused, the relaying node signs a new assertion with a fresh relay nonce and resends with the
+  //   same command_id (DID_NOT_HAPPEN, SAME_COMMAND; no sign-in). The center fills the call header's caller only from the verified
+  //   session or assertion, never from caller, so a bearer token alone relays and reads nothing.
+  // - The node's answer. A refusal by the node's verification or its center-routed policy is this method's error, from the node's
+  //   signed result: AUTHENTICATION/signature_invalid (a replayed call included: state.reason call_replayed), STATE/expired,
+  //   AUTHORIZATION/permission_denied (state.reason relay_own_node_only, relayed_agent_own_node_only or center_routed_disabled)
+  //   or AUTHORIZATION/approval_required. The TaskService handler's own refusal stays inside value.response.
+  // - Routing. STATE/not_found: a revoked or unknown node, or another account's (uniform). STATE/node_offline: the node has no
+  //   channel to this center process, or the process does not hold the hub lease; the call was not delivered and the center
+  //   never queues it (DID_NOT_HAPPEN, AFTER_TIME with retry_at 5 s plus jitter). STATE/node_unreachable: no verified result
+  //   (state.reason channel_closed, deadline_passed, result_unverifiable or replay_digest_differs), with the pairs of its
+  //   catalogue row: DID_NOT_HAPPEN with AFTER_TIME before delivery and for every read; UNKNOWN with SAME_COMMAND for a delivered
+  //   Submit or Cancel; UNKNOWN with NEVER for replay_digest_differs. ENTITLEMENT/feature_not_entitled comes after
+  //   authentication, ownership, the controls and the audit; RESOURCE/rate_limited names limit_name routed_calls_per_account or
+  //   routed_in_flight_per_account.
+
+  // Submit a task to one of the account's nodes. request: a TaskServiceSubmitTaskRequest of 1..253,952 bytes whose meta.command_id
+  // equals this request's; response: its TaskServiceSubmitTaskResponse. Step-up (Plan decision PB-1): a mobile.limited session
+  // never reaches this method; an account session needs step-up evidence on every delivery, so a resend after the first delivery
+  // consumed its evidence needs fresh evidence (AUTHENTICATION/step_up_required) and is then routed again, where the node's command
+  // deduplication replays the recorded outcome without a second effect (review finding N-3). STATE/invalid_state (state.reason
+  // replay_window_passed): a resend after the node's deduplication window, answered without a second execution.
+  // auth: account session with step-up (class fleet.submitNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+  // idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+  // deadline: 10 s
+  // stream: none
+  // errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+  // locality: cloud -> node
+  rpc SubmitNodeTask(FleetServiceSubmitNodeTaskRequest) returns (FleetServiceSubmitNodeTaskResponse);
+
+  // Read one task of a node. request: a TaskServiceGetTaskRequest of 1..3,072 bytes; response: its TaskServiceGetTaskResponse.
+  // auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+  // locality: cloud -> node
+  rpc GetNodeTask(FleetServiceGetNodeTaskRequest) returns (FleetServiceGetNodeTaskResponse);
+
+  // List a node's tasks. request: a TaskServiceListTasksRequest of 1..3,072 bytes; response: its TaskServiceListTasksResponse.
+  // auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+  // locality: cloud -> node
+  rpc ListNodeTasks(FleetServiceListNodeTasksRequest) returns (FleetServiceListNodeTasksResponse);
+
+  // Wait for a node's task. request: a TaskServiceWaitTaskRequest of 1..3,072 bytes with wait_ms at most 50,000; response: its
+  // TaskServiceWaitTaskResponse.
+  // auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+  // idempotency: read
+  // deadline: wait_ms + 5 s, at most 55 s
+  // stream: none
+  // errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+  // locality: cloud -> node
+  rpc WaitNodeTask(FleetServiceWaitNodeTaskRequest) returns (FleetServiceWaitNodeTaskResponse);
+
+  // Read a node's task output. request: a TaskServiceReadTaskOutputRequest of 1..3,072 bytes with max_bytes at most 262,144 (the
+  // routed cap; default 256 KiB) and wait_ms at most 20,000 (Plan decision Q17); response: its TaskServiceReadTaskOutputResponse.
+  // The node caps both again for a REMOTE caller (TaskService.ReadTaskOutput), so a missed center check cannot exceed the response bound.
+  // auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+  // idempotency: read
+  // deadline: 10 s; wait_ms + 10 s with wait_ms, at most 30 s
+  // stream: none
+  // errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+  // locality: cloud -> node
+  rpc ReadNodeTaskOutput(FleetServiceReadNodeTaskOutputRequest) returns (FleetServiceReadNodeTaskOutputResponse);
+
+  // Cancel a node's task. request: a TaskServiceCancelTaskRequest of 1..3,072 bytes whose meta.command_id equals this request's;
+  // response: its TaskServiceCancelTaskResponse. Step-up as SubmitNodeTask (class fleet.cancelNodeTask). Another caller's task needs
+  // an approval that a local HUMAN decides (AUTHORIZATION/approval_required); an ADOPTED task is never terminated (MR-08).
+  // auth: account session with step-up (class fleet.cancelNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+  // idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+  // deadline: 10 s
+  // stream: none
+  // errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+  // locality: cloud -> node
+  rpc CancelNodeTask(FleetServiceCancelNodeTaskRequest) returns (FleetServiceCancelNodeTaskResponse);
 }
 
 message FleetServiceListNodesRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
+  RoutedCaller caller = 10 [json_name = "caller"]; // validate: a node-relayed caller only, with relay_assertion
+  optional bytes relay_assertion = 11 [json_name = "relayAssertion"]; // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion (LIST_NODES)
 }
 message FleetServiceListNodesResponse {
   arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
@@ -871,6 +974,8 @@ message FleetServiceGetNodeRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: the account's node
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: a node-relayed caller only, with relay_assertion
+  optional bytes relay_assertion = 12 [json_name = "relayAssertion"]; // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion (GET_NODE)
 }
 message FleetServiceGetNodeResponse {
   arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
@@ -1078,6 +1183,132 @@ message FleetServiceCancelNodeCommandResponse {
 }
 message FleetServiceCancelNodeCommandValue {
   RemoteCommandView command = 10 [json_name = "command"];
+}
+
+message FleetServiceSubmitNodeTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required; a live node of the caller's account
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: a node-relayed caller only, with relay_assertion
+  optional bytes request = 12 [json_name = "request"]; // validate: required; 1..253,952 bytes; the exact arcforges.node.v1.TaskServiceSubmitTaskRequest bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion
+}
+message FleetServiceSubmitNodeTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceSubmitNodeTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceSubmitNodeTaskValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; 1..1,040,384 bytes; the exact arcforges.node.v1.TaskServiceSubmitTaskResponse bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the node that answered
+}
+
+message FleetServiceGetNodeTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required; a live node of the caller's account
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: a node-relayed caller only, with relay_assertion
+  optional bytes request = 12 [json_name = "request"]; // validate: required; 1..3,072 bytes; the exact arcforges.node.v1.TaskServiceGetTaskRequest bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion
+}
+message FleetServiceGetNodeTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceGetNodeTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceGetNodeTaskValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; 1..1,040,384 bytes; the exact arcforges.node.v1.TaskServiceGetTaskResponse bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the node that answered
+}
+
+message FleetServiceListNodeTasksRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required; a live node of the caller's account
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: a node-relayed caller only, with relay_assertion
+  optional bytes request = 12 [json_name = "request"]; // validate: required; 1..3,072 bytes; the exact arcforges.node.v1.TaskServiceListTasksRequest bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion
+}
+message FleetServiceListNodeTasksResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceListNodeTasksValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceListNodeTasksValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; 1..1,040,384 bytes; the exact arcforges.node.v1.TaskServiceListTasksResponse bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the node that answered
+}
+
+message FleetServiceWaitNodeTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required; a live node of the caller's account
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: a node-relayed caller only, with relay_assertion
+  optional bytes request = 12 [json_name = "request"]; // validate: required; 1..3,072 bytes; the exact arcforges.node.v1.TaskServiceWaitTaskRequest bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion
+}
+message FleetServiceWaitNodeTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceWaitNodeTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceWaitNodeTaskValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; 1..1,040,384 bytes; the exact arcforges.node.v1.TaskServiceWaitTaskResponse bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the node that answered
+}
+
+message FleetServiceReadNodeTaskOutputRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required; a live node of the caller's account
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: a node-relayed caller only, with relay_assertion
+  optional bytes request = 12 [json_name = "request"]; // validate: required; 1..3,072 bytes; the exact arcforges.node.v1.TaskServiceReadTaskOutputRequest bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion
+}
+message FleetServiceReadNodeTaskOutputResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceReadNodeTaskOutputValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceReadNodeTaskOutputValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; 1..1,040,384 bytes; the exact arcforges.node.v1.TaskServiceReadTaskOutputResponse bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the node that answered
+}
+
+message FleetServiceCancelNodeTaskRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required; a live node of the caller's account
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: a node-relayed caller only, with relay_assertion
+  optional bytes request = 12 [json_name = "request"]; // validate: required; 1..3,072 bytes; the exact arcforges.node.v1.TaskServiceCancelTaskRequest bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: with caller only, required there; 1..512 bytes; a serialized arcforges.relay.v1.RelayAssertion
+}
+message FleetServiceCancelNodeTaskResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceCancelNodeTaskValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceCancelNodeTaskValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; 1..1,040,384 bytes; the exact arcforges.node.v1.TaskServiceCancelTaskResponse bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the node that answered
 }
 
 // Google Play purchase linking, restore and the combined billing status (AD-0010 section 3).
@@ -1560,6 +1791,23 @@ message FleetNode {
   optional bool relay_enabled = 12 [json_name = "relayEnabled"];
   arcforges.foundation.v1.Id device_id = 13 [json_name = "deviceId"]; // the node's own device record (publicapi.v1.DeviceService)
   arcforges.foundation.v1.Instant credential_expires_at = 14 [json_name = "credentialExpiresAt"]; // absolute end of the node's credential; absent when signed out
+  optional string reported_name = 15 [json_name = "reportedName"]; // validate: 1..64 chars; the name the node reports (ReportNodeInfo); name is the account's (RenameNode), which wins (Plan decision Q25)
+}
+
+// The kind of a routed fleet method's caller (AF-CTR-05; Plan CTR5-CALL-01).
+enum CallerKind {
+  CALLER_KIND_UNSPECIFIED = 0;
+  CALLER_KIND_ACCOUNT_SESSION = 1; // never sent: an account session sends no caller
+  CALLER_KIND_NODE_RELAY = 2; // a node-relayed caller
+  CALLER_KIND_AGENT_GRANT = 3; // reserved for the agent grants of AF-CTR-07
+}
+
+// A node-relayed caller of a routed fleet method: what the relaying node states. The center compares it with the verified relay
+// assertion (request_mismatch otherwise) and never trusts it on its own.
+message RoutedCaller {
+  optional CallerKind kind = 1 [json_name = "kind"]; // validate: required; NODE_RELAY
+  arcforges.foundation.v1.Id relaying_node_id = 2 [json_name = "relayingNodeId"]; // validate: required; the bearer credential's own node
+  optional arcforges.node.v1.Origin local_origin = 3 [json_name = "localOrigin"]; // validate: required; HUMAN, SCRIPT or AGENT, as the relaying node classified its local caller
 }
 
 // Commands a viewer may send to a node (AD-0009 section 5). Risk is fixed per kind.

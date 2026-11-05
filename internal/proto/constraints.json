@@ -960,7 +960,25 @@
         "nodeId": {},
         "version": {},
         "generation": {},
-        "lastSeq": {}
+        "lastSeq": {},
+        "contractVersion": {
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "capabilities": {
+          "maxItems": 16,
+          "unique": true,
+          "items": {
+            "pattern": "^[a-z][a-z0-9.-]{0,31}$"
+          }
+        },
+        "installationId": {
+          "required": true
+        },
+        "helloSignature": {
+          "required": true,
+          "bytesLength": 64
+        }
       }
     },
     "arcforges.relay.v1.OutputTail": {
@@ -1002,7 +1020,11 @@
       "csharpType": "ArcForges.Contracts.Relay.V1.RelayClose",
       "fields": {
         "code": {},
-        "reason": {}
+        "reason": {},
+        "reconnectAfterMs": {
+          "min": 0,
+          "max": 300000
+        }
       }
     },
     "arcforges.relay.v1.RelayFrame": {
@@ -1022,7 +1044,14 @@
         "entitlementChanged": {},
         "close": {},
         "ack": {},
-        "outputTail": {}
+        "outputTail": {},
+        "call": {},
+        "callResult": {},
+        "heartbeat": {},
+        "accepted": {},
+        "challenge": {},
+        "relayNonceRequest": {},
+        "relayNonce": {}
       }
     },
     "arcforges.relay.v1.RelayLimits": {
@@ -1108,6 +1137,291 @@
       "fields": {
         "cursors": {}
       }
+    },
+    "arcforges.relay.v1.ChannelChallenge": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.ChannelChallenge",
+      "fields": {
+        "nonce": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "connectionId": {
+          "required": true
+        },
+        "helloDeadline": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.relay.v1.ChannelLimits": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.ChannelLimits",
+      "fields": {
+        "maxFrameBytes": {
+          "required": true,
+          "min": 1048576,
+          "max": 1048576
+        },
+        "maxInFlightCalls": {
+          "required": true,
+          "min": 1,
+          "max": 64
+        },
+        "heartbeatIntervalMs": {
+          "required": true,
+          "min": 5000,
+          "max": 60000
+        },
+        "heartbeatDeadlineMs": {
+          "required": true,
+          "min": 10000,
+          "max": 300000
+        },
+        "maxRelayNonces": {
+          "required": true,
+          "min": 1,
+          "max": 64
+        }
+      },
+      "rules": ["channelLimits"]
+    },
+    "arcforges.relay.v1.ChannelAccepted": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.ChannelAccepted",
+      "fields": {
+        "connectionId": {
+          "required": true
+        },
+        "limits": {
+          "required": true
+        },
+        "signingKids": {
+          "minItems": 1,
+          "maxItems": 8,
+          "unique": true,
+          "items": {
+            "pattern": "^[A-Za-z0-9_-]{8,64}$"
+          }
+        },
+        "nodeName": {
+          "minLength": 1,
+          "maxLength": 64
+        }
+      }
+    },
+    "arcforges.relay.v1.ChannelHeartbeat": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.ChannelHeartbeat",
+      "fields": {
+        "sentAt": {
+          "required": true
+        },
+        "seq": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.relay.v1.SignedHeader": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.SignedHeader",
+      "fields": {
+        "header": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "signature": {
+          "required": true,
+          "bytesLength": 64
+        },
+        "kid": {
+          "pattern": "^[A-Za-z0-9_-]{8,64}$"
+        },
+        "algorithm": {
+          "required": true,
+          "enumValues": ["ES256"]
+        }
+      }
+    },
+    "arcforges.relay.v1.CallHeader": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.CallHeader",
+      "fields": {
+        "callId": {
+          "required": true
+        },
+        "kid": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9_-]{8,64}$"
+        },
+        "centerUrlSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "accountId": {
+          "required": true
+        },
+        "targetNodeId": {
+          "required": true
+        },
+        "caller": {
+          "required": true
+        },
+        "commandId": {},
+        "method": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5, 6]
+        },
+        "requestSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "requestSize": {
+          "required": true,
+          "min": 1,
+          "max": 253952
+        },
+        "issuedAt": {
+          "required": true
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "deadline": {
+          "required": true
+        },
+        "relayAssertionSha256": {
+          "bytesLength": 32
+        }
+      },
+      "rules": ["callHeader"]
+    },
+    "arcforges.relay.v1.ChannelCall": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.ChannelCall",
+      "fields": {
+        "callId": {
+          "required": true
+        },
+        "header": {
+          "required": true
+        },
+        "payload": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 253952
+        }
+      },
+      "rules": ["channelCall"]
+    },
+    "arcforges.relay.v1.ResultHeader": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.ResultHeader",
+      "fields": {
+        "callId": {
+          "required": true
+        },
+        "commandId": {},
+        "nodeId": {
+          "required": true
+        },
+        "method": {
+          "enumValues": [1, 2, 3, 4, 5, 6]
+        },
+        "requestSha256": {
+          "bytesLength": 32
+        },
+        "responseSha256": {
+          "bytesLength": 32
+        },
+        "responseSize": {
+          "min": 1,
+          "max": 1040384
+        },
+        "executedAt": {
+          "required": true
+        },
+        "outcome": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "error": {}
+      },
+      "rules": ["resultHeader", "routedRefusal"]
+    },
+    "arcforges.relay.v1.ChannelResult": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.ChannelResult",
+      "fields": {
+        "callId": {
+          "required": true
+        },
+        "header": {
+          "required": true
+        },
+        "payload": {
+          "maxLength": 1040384
+        }
+      },
+      "rules": ["channelResult"]
+    },
+    "arcforges.relay.v1.RelayNonceRequest": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.RelayNonceRequest",
+      "fields": {
+        "requestId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.relay.v1.RelayNonce": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.RelayNonce",
+      "fields": {
+        "requestId": {
+          "required": true
+        },
+        "nonce": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "expiresAt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.relay.v1.RelayAssertion": {
+      "csharpType": "ArcForges.Contracts.Relay.V1.RelayAssertion",
+      "fields": {
+        "relayingNodeId": {
+          "required": true
+        },
+        "relayingInstallationId": {
+          "required": true
+        },
+        "localOrigin": {
+          "required": true,
+          "enumValues": [1, 2, 3]
+        },
+        "localSessionId": {
+          "required": true
+        },
+        "method": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5, 6, 7, 8]
+        },
+        "requestSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "targetNodeId": {},
+        "commandId": {},
+        "relayNonce": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "issuedAt": {
+          "required": true
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "signature": {
+          "required": true,
+          "bytesLength": 64
+        }
+      },
+      "rules": ["relayAssertion"]
     },
     "arcforges.local.chat.v1.ChatOperationsServiceOpenArtifactValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue",

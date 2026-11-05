@@ -67,6 +67,7 @@ ADDED_FIELDS = {
     (ACCOUNT, "SignInFlow", 13): ("optional", "string", "node_key_fingerprint", False),
 }
 # The highest field number each extended message had before C0: the additions are the next free numbers.
+C2_ADDED = {"FleetNode": {15}}
 PREVIOUS_HIGHEST = {
     "NodeEnrollmentServiceBeginNodeSignInRequest": 12, "NodeEnrollmentServiceCompleteNodeSignInRequest": 13,
     "NodeEnrollmentServiceStartDeviceAuthorizationRequest": 10, "NodeEnrollmentServicePollDeviceAuthorizationRequest": 11,
@@ -162,7 +163,8 @@ class AdditiveFields(unittest.TestCase):
             if message not in PREVIOUS_HIGHEST:
                 continue
             with self.subTest(message=message):
-                present = set(message_fields(relative, message))
+                # AF-CTR-05 (part C2) adds FleetNode.reported_name = 15 (tests/tooling/test_af_ctr_05_c2.py).
+                present = set(message_fields(relative, message)) - C2_ADDED.get(message, set())
                 self.assertEqual(present - set(range(1, PREVIOUS_HIGHEST[message] + 1)), numbers)
                 self.assertEqual(numbers, set(range(PREVIOUS_HIGHEST[message] + 1,
                                                      PREVIOUS_HIGHEST[message] + 1 + len(numbers))))

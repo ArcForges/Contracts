@@ -926,6 +926,262 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.CenterCaller.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.CenterCaller? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.CenterCaller? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if ((int)value.Kind != 1 && (int)value.Kind != 2) return false;
+        }
+        if (value.AccountId is null) return false;
+        if (!Check(value.AccountId, context)) return false;
+        if (value.UserId is not null)
+        {
+            if (!Check(value.UserId, context)) return false;
+        }
+        if (value.SessionId is not null)
+        {
+            if (!Check(value.SessionId, context)) return false;
+        }
+        if (value.RelayingNodeId is not null)
+        {
+            if (!Check(value.RelayingNodeId, context)) return false;
+        }
+        if (value.HasLocalOrigin)
+        {
+            if ((int)value.LocalOrigin != 1 && (int)value.LocalOrigin != 2 && (int)value.LocalOrigin != 3) return false;
+        }
+        if (value.LocalSessionId is not null)
+        {
+            if (!Check(value.LocalSessionId, context)) return false;
+        }
+        var accountSession = (int)value.Kind == 1;
+        if ((value.UserId is not null) != accountSession || (value.SessionId is not null) != accountSession) return false;
+        if ((value.RelayingNodeId is not null) == accountSession || value.HasLocalOrigin == accountSession || (value.LocalSessionId is not null) == accountSession) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.CallHeader.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.CallHeader? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.CallHeader? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.CallId is null) return false;
+        if (!Check(value.CallId, context)) return false;
+        if (!value.HasKid) return false;
+        if (value.HasKid)
+        {
+            if (!ValidUnicode(value.Kid)) return false;
+            if (!Matches(value.Kid, "^[A-Za-z0-9_-]{8,64}$")) return false;
+        }
+        if (!value.HasCenterUrlSha256) return false;
+        if (value.HasCenterUrlSha256)
+        {
+            if (value.CenterUrlSha256.Length != 32) return false;
+        }
+        if (value.AccountId is null) return false;
+        if (!Check(value.AccountId, context)) return false;
+        if (value.TargetNodeId is null) return false;
+        if (!Check(value.TargetNodeId, context)) return false;
+        if (value.Caller is null) return false;
+        if (!Check(value.Caller, context)) return false;
+        if (value.CommandId is not null)
+        {
+            if (!Check(value.CommandId, context)) return false;
+        }
+        if (!value.HasMethod) return false;
+        if (value.HasMethod)
+        {
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4 && (int)value.Method != 5 && (int)value.Method != 6) return false;
+        }
+        if (!value.HasRequestSha256) return false;
+        if (value.HasRequestSha256)
+        {
+            if (value.RequestSha256.Length != 32) return false;
+        }
+        if (!value.HasRequestSize) return false;
+        if (value.HasRequestSize)
+        {
+            if (value.RequestSize < 1) return false;
+            if (value.RequestSize > 253952) return false;
+        }
+        if (value.IssuedAt is null) return false;
+        if (!Check(value.IssuedAt, context)) return false;
+        if (value.ExpiresAt is null) return false;
+        if (!Check(value.ExpiresAt, context)) return false;
+        if (value.Deadline is null) return false;
+        if (!Check(value.Deadline, context)) return false;
+        if (value.HasRelayAssertionSha256)
+        {
+            if (value.RelayAssertionSha256.Length != 32) return false;
+        }
+        if ((value.CommandId is not null) != ((int)value.Method is 1 or 6)) return false;
+        if (!value.Caller.AccountId.Equals(value.AccountId)) return false;
+        if (value.HasRelayAssertionSha256 != ((int)value.Caller.Kind == 2)) return false;
+        if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 300)) return false;
+        if (RelayNanos(value.Deadline) <= RelayNanos(value.IssuedAt) || RelayNanos(value.Deadline) > RelayNanos(value.ExpiresAt)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.ChannelAccepted.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ChannelAccepted? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ChannelAccepted? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ConnectionId is null) return false;
+        if (!Check(value.ConnectionId, context)) return false;
+        if (value.Limits is null) return false;
+        if (!Check(value.Limits, context)) return false;
+        if (value.SigningKids.Count < 1) return false;
+        if (value.SigningKids.Count > 8) return false;
+        if (value.SigningKids.Distinct().Count() != value.SigningKids.Count) return false;
+        foreach (var item in value.SigningKids)
+        {
+            if (!ValidUnicode(item)) return false;
+            if (!Matches(item, "^[A-Za-z0-9_-]{8,64}$")) return false;
+        }
+        if (value.HasNodeName)
+        {
+            if (!ValidUnicode(value.NodeName)) return false;
+            if (ScalarLength(value.NodeName) < 1) return false;
+            if (ScalarLength(value.NodeName) > 64) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.ChannelCall.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ChannelCall? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ChannelCall? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.CallId is null) return false;
+        if (!Check(value.CallId, context)) return false;
+        if (value.Header is null) return false;
+        if (!Check(value.Header, context)) return false;
+        if (!value.HasPayload) return false;
+        if (value.HasPayload)
+        {
+            if (value.Payload.Length < 1) return false;
+            if (value.Payload.Length > 253952) return false;
+        }
+        if (!value.Header.HasKid) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.ChannelChallenge.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ChannelChallenge? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ChannelChallenge? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasNonce) return false;
+        if (value.HasNonce)
+        {
+            if (value.Nonce.Length != 32) return false;
+        }
+        if (value.ConnectionId is null) return false;
+        if (!Check(value.ConnectionId, context)) return false;
+        if (value.HelloDeadline is null) return false;
+        if (!Check(value.HelloDeadline, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.ChannelHeartbeat.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ChannelHeartbeat? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ChannelHeartbeat? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.SentAt is null) return false;
+        if (!Check(value.SentAt, context)) return false;
+        if (!value.HasSeq) return false;
+        if (value.HasSeq)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.ChannelLimits.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ChannelLimits? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ChannelLimits? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasMaxFrameBytes) return false;
+        if (value.HasMaxFrameBytes)
+        {
+            if (value.MaxFrameBytes < 1048576) return false;
+            if (value.MaxFrameBytes > 1048576) return false;
+        }
+        if (!value.HasMaxInFlightCalls) return false;
+        if (value.HasMaxInFlightCalls)
+        {
+            if (value.MaxInFlightCalls < 1) return false;
+            if (value.MaxInFlightCalls > 64) return false;
+        }
+        if (!value.HasHeartbeatIntervalMs) return false;
+        if (value.HasHeartbeatIntervalMs)
+        {
+            if (value.HeartbeatIntervalMs < 5000) return false;
+            if (value.HeartbeatIntervalMs > 60000) return false;
+        }
+        if (!value.HasHeartbeatDeadlineMs) return false;
+        if (value.HasHeartbeatDeadlineMs)
+        {
+            if (value.HeartbeatDeadlineMs < 10000) return false;
+            if (value.HeartbeatDeadlineMs > 300000) return false;
+        }
+        if (!value.HasMaxRelayNonces) return false;
+        if (value.HasMaxRelayNonces)
+        {
+            if (value.MaxRelayNonces < 1) return false;
+            if (value.MaxRelayNonces > 64) return false;
+        }
+        if (value.HeartbeatDeadlineMs <= value.HeartbeatIntervalMs) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.ChannelResult.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ChannelResult? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ChannelResult? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.CallId is null) return false;
+        if (!Check(value.CallId, context)) return false;
+        if (value.Header is null) return false;
+        if (!Check(value.Header, context)) return false;
+        if (value.HasPayload)
+        {
+            if (value.Payload.Length > 1040384) return false;
+        }
+        if (value.Header.HasKid) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.CommandDeliver.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.CommandDeliver? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.CommandDeliver? value, ValidationContext context)
@@ -1178,6 +1434,26 @@ public static class ContractShapeValidation
         if (value.HasLastSeq)
         {
         }
+        if (value.HasContractVersion)
+        {
+            if (!ValidUnicode(value.ContractVersion)) return false;
+            if (ScalarLength(value.ContractVersion) < 1) return false;
+            if (ScalarLength(value.ContractVersion) > 64) return false;
+        }
+        if (value.Capabilities.Count > 16) return false;
+        if (value.Capabilities.Distinct().Count() != value.Capabilities.Count) return false;
+        foreach (var item in value.Capabilities)
+        {
+            if (!ValidUnicode(item)) return false;
+            if (!Matches(item, "^[a-z][a-z0-9.-]{0,31}$")) return false;
+        }
+        if (value.InstallationId is null) return false;
+        if (!Check(value.InstallationId, context)) return false;
+        if (!value.HasHelloSignature) return false;
+        if (value.HasHelloSignature)
+        {
+            if (value.HelloSignature.Length != 64) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -1281,6 +1557,63 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.RelayAssertion.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.RelayAssertion? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.RelayAssertion? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.RelayingNodeId is null) return false;
+        if (!Check(value.RelayingNodeId, context)) return false;
+        if (value.RelayingInstallationId is null) return false;
+        if (!Check(value.RelayingInstallationId, context)) return false;
+        if (!value.HasLocalOrigin) return false;
+        if (value.HasLocalOrigin)
+        {
+            if ((int)value.LocalOrigin != 1 && (int)value.LocalOrigin != 2 && (int)value.LocalOrigin != 3) return false;
+        }
+        if (value.LocalSessionId is null) return false;
+        if (!Check(value.LocalSessionId, context)) return false;
+        if (!value.HasMethod) return false;
+        if (value.HasMethod)
+        {
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4 && (int)value.Method != 5 && (int)value.Method != 6 && (int)value.Method != 7 && (int)value.Method != 8) return false;
+        }
+        if (!value.HasRequestSha256) return false;
+        if (value.HasRequestSha256)
+        {
+            if (value.RequestSha256.Length != 32) return false;
+        }
+        if (value.TargetNodeId is not null)
+        {
+            if (!Check(value.TargetNodeId, context)) return false;
+        }
+        if (value.CommandId is not null)
+        {
+            if (!Check(value.CommandId, context)) return false;
+        }
+        if (!value.HasRelayNonce) return false;
+        if (value.HasRelayNonce)
+        {
+            if (value.RelayNonce.Length != 32) return false;
+        }
+        if (value.IssuedAt is null) return false;
+        if (!Check(value.IssuedAt, context)) return false;
+        if (value.ExpiresAt is null) return false;
+        if (!Check(value.ExpiresAt, context)) return false;
+        if (!value.HasSignature) return false;
+        if (value.HasSignature)
+        {
+            if (value.Signature.Length != 64) return false;
+        }
+        if ((value.TargetNodeId is null) != ((int)value.Method == 7)) return false;
+        if ((value.CommandId is not null) != ((int)value.Method is 1 or 6)) return false;
+        if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 120)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.RelayClose.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.RelayClose? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.RelayClose? value, ValidationContext context)
@@ -1294,6 +1627,11 @@ public static class ContractShapeValidation
         if (value.HasReason)
         {
             if (!ValidUnicode(value.Reason)) return false;
+        }
+        if (value.HasReconnectAfterMs)
+        {
+            if (value.ReconnectAfterMs < 0) return false;
+            if (value.ReconnectAfterMs > 300000) return false;
         }
         return true;
         }
@@ -1364,6 +1702,34 @@ public static class ContractShapeValidation
         {
             if (!Check(value.OutputTail, context)) return false;
         }
+        if ((int)value.FrameCase == 23)
+        {
+            if (!Check(value.Call, context)) return false;
+        }
+        if ((int)value.FrameCase == 24)
+        {
+            if (!Check(value.CallResult, context)) return false;
+        }
+        if ((int)value.FrameCase == 25)
+        {
+            if (!Check(value.Heartbeat, context)) return false;
+        }
+        if ((int)value.FrameCase == 26)
+        {
+            if (!Check(value.Accepted, context)) return false;
+        }
+        if ((int)value.FrameCase == 27)
+        {
+            if (!Check(value.Challenge, context)) return false;
+        }
+        if ((int)value.FrameCase == 28)
+        {
+            if (!Check(value.RelayNonceRequest, context)) return false;
+        }
+        if ((int)value.FrameCase == 29)
+        {
+            if (!Check(value.RelayNonce, context)) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -1393,6 +1759,39 @@ public static class ContractShapeValidation
         if (value.HasCommandsPerHour)
         {
         }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.RelayNonce.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.RelayNonce? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.RelayNonce? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.RequestId is null) return false;
+        if (!Check(value.RequestId, context)) return false;
+        if (!value.HasNonce) return false;
+        if (value.HasNonce)
+        {
+            if (value.Nonce.Length != 32) return false;
+        }
+        if (value.ExpiresAt is null) return false;
+        if (!Check(value.ExpiresAt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.RelayNonceRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.RelayNonceRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.RelayNonceRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.RequestId is null) return false;
+        if (!Check(value.RequestId, context)) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1435,6 +1834,91 @@ public static class ContractShapeValidation
         if (value.HasKid)
         {
             if (!ValidUnicode(value.Kid)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.ResultHeader.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ResultHeader? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.ResultHeader? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.CallId is null) return false;
+        if (!Check(value.CallId, context)) return false;
+        if (value.CommandId is not null)
+        {
+            if (!Check(value.CommandId, context)) return false;
+        }
+        if (value.NodeId is null) return false;
+        if (!Check(value.NodeId, context)) return false;
+        if (value.HasMethod)
+        {
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4 && (int)value.Method != 5 && (int)value.Method != 6) return false;
+        }
+        if (value.HasRequestSha256)
+        {
+            if (value.RequestSha256.Length != 32) return false;
+        }
+        if (value.HasResponseSha256)
+        {
+            if (value.ResponseSha256.Length != 32) return false;
+        }
+        if (value.HasResponseSize)
+        {
+            if (value.ResponseSize < 1) return false;
+            if (value.ResponseSize > 1040384) return false;
+        }
+        if (value.ExecutedAt is null) return false;
+        if (!Check(value.ExecutedAt, context)) return false;
+        if (!value.HasOutcome) return false;
+        if (value.HasOutcome)
+        {
+            if ((int)value.Outcome != 1 && (int)value.Outcome != 2 && (int)value.Outcome != 3 && (int)value.Outcome != 4) return false;
+        }
+        if (value.Error is not null)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        var verified = (int)value.Outcome != 3;
+        if (value.HasMethod != verified || value.HasRequestSha256 != verified || (!verified && value.CommandId is not null)) return false;
+        var executed = (int)value.Outcome == 1;
+        if (value.HasResponseSha256 != executed || value.HasResponseSize != executed || (value.Error is null) != executed) return false;
+        if (value.Error is not null && !RoutedRefusal(value.Error)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.relay.v1.SignedHeader.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.SignedHeader? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Relay.V1.SignedHeader? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasHeader) return false;
+        if (value.HasHeader)
+        {
+            if (value.Header.Length < 1) return false;
+            if (value.Header.Length > 2048) return false;
+        }
+        if (!value.HasSignature) return false;
+        if (value.HasSignature)
+        {
+            if (value.Signature.Length != 64) return false;
+        }
+        if (value.HasKid)
+        {
+            if (!ValidUnicode(value.Kid)) return false;
+            if (!Matches(value.Kid, "^[A-Za-z0-9_-]{8,64}$")) return false;
+        }
+        if (!value.HasAlgorithm) return false;
+        if (value.HasAlgorithm)
+        {
+            if (!ValidUnicode(value.Algorithm)) return false;
+            if (value.Algorithm != "ES256") return false;
         }
         return true;
         }
@@ -1727,5 +2211,94 @@ public static class ContractShapeValidation
         "entitlement.no_service_term" or "entitlement.not_entitled" or "entitlement.extra_credits_required" or "entitlement.credits_exhausted" or
         "validation.invalid_request" or "validation.ast_bounds_exceeded" or "validation.unsupported_version" or "identity.last_credential" or
         "conflict.duplicate_identifier" or "command.reused_identifier" or "state.not_found" or "state.invalid_transition" or "state.gone" or "resource.integrity_failed";
+
+    private static global::System.Int128 RelayNanos(global::ArcForges.Contracts.Foundation.V1.Instant value) =>
+        (global::System.Int128)value.UnixSeconds * 1_000_000_000 + value.Nanos;
+    private static bool RelayWindow(global::ArcForges.Contracts.Foundation.V1.Instant issued, global::ArcForges.Contracts.Foundation.V1.Instant expires, int seconds) =>
+        RelayNanos(expires) > RelayNanos(issued) && RelayNanos(expires) - RelayNanos(issued) <= (global::System.Int128)seconds * 1_000_000_000;
+    private static readonly string[] RefusalCategories = ["", "validation", "authentication", "authorization", "entitlement", "conflict", "state", "resource", "execution", "internal"];
+    private static bool RoutedRefusal(global::ArcForges.Contracts.Foundation.V1.ArcError error)
+    {
+        if (error.CalculateSize() > 512 || !Matches(error.Code, "^[a-z][a-z0-9_]{0,63}$")) return false;
+        var category = (int)error.Category;
+        if (category is < 1 or > 9 || error.MessageKey != "error." + RefusalCategories[category] + "." + error.Code) return false;
+        if (!RefusalCatalogue.Contains(RefusalCategories[category] + "/" + error.Code)) return false;
+        if (error.Retry.HasReconciliationOperation && error.Retry.ReconciliationOperation != "arcforges.node.v1.ApprovalService/GetApproval") return false;
+        if (error.Details is null) return true;
+        if ((int)error.Details.DetailCase != 4) return false;
+        var state = error.Details.State;
+        if (!Matches(state.State, "^[a-z0-9_.]{1,64}$") || !Matches(state.Reason, "^[a-z0-9_.]{1,64}$") || state.Native is not null) return false;
+        return state.Resource is null || (category == 3 && error.Code == "approval_required" && state.Resource.Kind == "approval");
+    }
+    private static readonly global::System.Collections.Generic.HashSet<string> RefusalCatalogue = new(global::System.StringComparer.Ordinal)
+    {
+        "authentication/credential_revoked",
+        "authentication/signature_invalid",
+        "authentication/step_up_required",
+        "authentication/token_expired",
+        "authentication/unauthenticated",
+        "authorization/account_mismatch",
+        "authorization/approval_required",
+        "authorization/command_pattern_denied",
+        "authorization/peer_policy_denied",
+        "authorization/permission_denied",
+        "conflict/already_exists",
+        "conflict/code_reused",
+        "conflict/command_id_reused",
+        "conflict/digest_mismatch",
+        "conflict/purchase_already_linked",
+        "conflict/revision_conflict",
+        "entitlement/feature_not_entitled",
+        "entitlement/plan_limit_reached",
+        "execution/adopt_not_permitted",
+        "execution/integration_write_failed",
+        "execution/operation_failed",
+        "execution/provider_error",
+        "internal/internal",
+        "internal/store_corrupt",
+        "resource/disk_space",
+        "resource/enforcement_unavailable",
+        "resource/kill_switch_active",
+        "resource/overloaded",
+        "resource/queue_full",
+        "resource/quota_exceeded",
+        "resource/rate_limited",
+        "resource/too_large",
+        "state/cloud_unreachable",
+        "state/dirty_worktree",
+        "state/expired",
+        "state/in_use",
+        "state/invalid_state",
+        "state/link_down",
+        "state/managed_externally",
+        "state/node_offline",
+        "state/node_stopping",
+        "state/node_unreachable",
+        "state/not_activated",
+        "state/not_attached",
+        "state/not_found",
+        "state/not_signed_in",
+        "state/pause_unsupported",
+        "state/peer_blocked",
+        "state/peer_incompatible",
+        "state/peer_unreachable",
+        "state/plan_expired",
+        "state/purchase_pending",
+        "state/sas_mismatch",
+        "state/secrets_unavailable",
+        "state/update_in_progress",
+        "validation/code_invalid",
+        "validation/incompatible_version",
+        "validation/inputs_required",
+        "validation/invalid_argument",
+        "validation/invalid_cursor",
+        "validation/invalid_dependency",
+        "validation/invalid_policy",
+        "validation/path_not_found",
+        "validation/program_not_found",
+        "validation/purchase_invalid",
+        "validation/unsafe_batch_argument",
+        "validation/unsupported_shell",
+    };
 
 }

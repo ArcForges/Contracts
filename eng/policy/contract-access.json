@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "45313c1a9b2d8d2e7a7fa7c5847835065082ab1d",
+  "sourceCommit": "1d807296dc77610dd4aeb25f99c9b34475a6b927",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -57,7 +57,7 @@
     {
       "path": "internal/proto/arcforges/relay/v1/relay.proto",
       "access": "internal",
-      "sha256": "444dd24d9eac8f97fc681466b2671afe037376e4784ceecd278d0e6a1b3c9456"
+      "sha256": "9d8140725f7c0ac903a881e4779e73c693046a984c2ac6264d62df1893cc9d8a"
     },
     {
       "path": "public/proto/arcforges/catalog/v1/catalog.proto",
@@ -77,7 +77,7 @@
     {
       "path": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public",
-      "sha256": "5441edc142ff545fcb934989ee101c29c6ffb58b51db7fa91be8225d57414b39"
+      "sha256": "551db853b19653205d6af5c57a32aa686c8e04dd98635c2a3de47688ca1199cd"
     },
     {
       "path": "public/proto/arcforges/foundation/v1/foundation.proto",
@@ -107,7 +107,7 @@
     {
       "path": "public/proto/arcforges/node/v1/common.proto",
       "access": "public",
-      "sha256": "df5171b69f34c97810f15a3b41f4c97a2e1ffe8aa817283efc671751231da53c"
+      "sha256": "7c0a2d165374cd3ad3e3206b55c44c18a0993deca5afdd56a1c78a1d7088606e"
     },
     {
       "path": "public/proto/arcforges/node/v1/diagnosis.proto",
@@ -142,7 +142,7 @@
     {
       "path": "public/proto/arcforges/node/v1/policy.proto",
       "access": "public",
-      "sha256": "1106b057b91955f50fb4581037fa7fc0d2504ae6696b8682cef1a201bc0c1602"
+      "sha256": "3824a351e4eab88375d2966a5d2ea5f58c6e5b5078138589194e3c26cff9d218"
     },
     {
       "path": "public/proto/arcforges/node/v1/queue.proto",
@@ -172,7 +172,7 @@
     {
       "path": "public/proto/arcforges/node/v1/tasks.proto",
       "access": "public",
-      "sha256": "8f81407e23fdc7771bb2e415e1197555b65a3075596c9825983d18b80f5157b5"
+      "sha256": "c8d06bd43b17b9ef275ec147b3fc84b2b030346dd6f32d6c9884c6fbffbc2e39"
     },
     {
       "path": "public/proto/arcforges/node/v1/toolchains.proto",
@@ -849,6 +849,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.fleet.v1.CallerKind",
+      "kind": "enum",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.fleet.v1.CancelTaskCommand",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
@@ -933,6 +939,24 @@
       "access": "public"
     },
     {
+      "name": "arcforges.fleet.v1.FleetServiceCancelNodeTaskRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceCancelNodeTaskResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceCancelNodeTaskValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.fleet.v1.FleetServiceGetNodeCommandRequest",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
@@ -958,6 +982,24 @@
     },
     {
       "name": "arcforges.fleet.v1.FleetServiceGetNodeResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceGetNodeTaskRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceGetNodeTaskResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceGetNodeTaskValue",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public"
@@ -1023,6 +1065,24 @@
       "access": "public"
     },
     {
+      "name": "arcforges.fleet.v1.FleetServiceListNodeTasksRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceListNodeTasksResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceListNodeTasksValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.fleet.v1.FleetServiceListNodesRequest",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
@@ -1054,6 +1114,24 @@
     },
     {
       "name": "arcforges.fleet.v1.FleetServiceOpenFleetWatchValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceReadNodeTaskOutputRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceReadNodeTaskOutputResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceReadNodeTaskOutputValue",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public"
@@ -1113,6 +1191,24 @@
       "access": "public"
     },
     {
+      "name": "arcforges.fleet.v1.FleetServiceSubmitNodeTaskRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceSubmitNodeTaskResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceSubmitNodeTaskValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.fleet.v1.FleetServiceUpdatePushPreferencesRequest",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
@@ -1126,6 +1222,24 @@
     },
     {
       "name": "arcforges.fleet.v1.FleetServiceUpdatePushPreferencesValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceWaitNodeTaskRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceWaitNodeTaskResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceWaitNodeTaskValue",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public"
@@ -1743,6 +1857,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.fleet.v1.RoutedCaller",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.fleet.v1.RunTaskCommand",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
@@ -2229,13 +2349,13 @@
       "access": "public"
     },
     {
-      "name": "arcforges.foundation.v1.VersionedRef",
+      "name": "arcforges.foundation.v1.VersionFailure",
       "kind": "message",
       "file": "public/proto/arcforges/foundation/v1/foundation.proto",
       "access": "public"
     },
     {
-      "name": "arcforges.foundation.v1.VersionFailure",
+      "name": "arcforges.foundation.v1.VersionedRef",
       "kind": "message",
       "file": "public/proto/arcforges/foundation/v1/foundation.proto",
       "access": "public"
@@ -4209,6 +4329,24 @@
       "access": "public"
     },
     {
+      "name": "arcforges.node.v1.CenterCaller",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/common.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.CenterCallerKind",
+      "kind": "enum",
+      "file": "public/proto/arcforges/node/v1/common.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.CenterRoutedPolicy",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/policy.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.node.v1.CheckStatus",
       "kind": "enum",
       "file": "public/proto/arcforges/node/v1/diagnosis.proto",
@@ -5829,6 +5967,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.node.v1.PerTaskRestore",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/caches.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.node.v1.PermissionDecision",
       "kind": "enum",
       "file": "public/proto/arcforges/node/v1/common.proto",
@@ -5838,12 +5982,6 @@
       "name": "arcforges.node.v1.PermissionOverride",
       "kind": "message",
       "file": "public/proto/arcforges/node/v1/policy.proto",
-      "access": "public"
-    },
-    {
-      "name": "arcforges.node.v1.PerTaskRestore",
-      "kind": "message",
-      "file": "public/proto/arcforges/node/v1/caches.proto",
       "access": "public"
     },
     {
@@ -6360,6 +6498,12 @@
       "name": "arcforges.node.v1.RelayState",
       "kind": "enum",
       "file": "public/proto/arcforges/node/v1/account.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.RelayedFrom",
+      "kind": "enum",
+      "file": "public/proto/arcforges/node/v1/policy.proto",
       "access": "public"
     },
     {
@@ -7761,6 +7905,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.node.v1.TimeWindow",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/policy.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.node.v1.Timeline",
       "kind": "message",
       "file": "public/proto/arcforges/node/v1/tasks.proto",
@@ -7770,12 +7920,6 @@
       "name": "arcforges.node.v1.TimelineSegment",
       "kind": "message",
       "file": "public/proto/arcforges/node/v1/tasks.proto",
-      "access": "public"
-    },
-    {
-      "name": "arcforges.node.v1.TimeWindow",
-      "kind": "message",
-      "file": "public/proto/arcforges/node/v1/policy.proto",
       "access": "public"
     },
     {
@@ -8259,13 +8403,13 @@
       "access": "internal"
     },
     {
-      "name": "arcforges.operator.v1.ConfigurationDocument",
+      "name": "arcforges.operator.v1.ConfigValidation",
       "kind": "message",
       "file": "internal/proto/arcforges/operator/v1/operator.proto",
       "access": "internal"
     },
     {
-      "name": "arcforges.operator.v1.ConfigValidation",
+      "name": "arcforges.operator.v1.ConfigurationDocument",
       "kind": "message",
       "file": "internal/proto/arcforges/operator/v1/operator.proto",
       "access": "internal"
@@ -14223,6 +14367,48 @@
       "access": "public"
     },
     {
+      "name": "arcforges.relay.v1.CallHeader",
+      "kind": "message",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.relay.v1.ChannelAccepted",
+      "kind": "message",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.relay.v1.ChannelCall",
+      "kind": "message",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.relay.v1.ChannelChallenge",
+      "kind": "message",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.relay.v1.ChannelHeartbeat",
+      "kind": "message",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.relay.v1.ChannelLimits",
+      "kind": "message",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.relay.v1.ChannelResult",
+      "kind": "message",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
       "name": "arcforges.relay.v1.CommandDeliver",
       "kind": "message",
       "file": "internal/proto/arcforges/relay/v1/relay.proto",
@@ -14319,6 +14505,12 @@
       "access": "internal"
     },
     {
+      "name": "arcforges.relay.v1.RelayAssertion",
+      "kind": "message",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
       "name": "arcforges.relay.v1.RelayClose",
       "kind": "message",
       "file": "internal/proto/arcforges/relay/v1/relay.proto",
@@ -14337,7 +14529,43 @@
       "access": "internal"
     },
     {
+      "name": "arcforges.relay.v1.RelayNonce",
+      "kind": "message",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.relay.v1.RelayNonceRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
       "name": "arcforges.relay.v1.RelayTokenClaims",
+      "kind": "message",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.relay.v1.ResultHeader",
+      "kind": "message",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.relay.v1.RoutedMethod",
+      "kind": "enum",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.relay.v1.RoutedOutcome",
+      "kind": "enum",
+      "file": "internal/proto/arcforges/relay/v1/relay.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.relay.v1.SignedHeader",
       "kind": "message",
       "file": "internal/proto/arcforges/relay/v1/relay.proto",
       "access": "internal"
@@ -17532,7 +17760,7 @@
       "package": "ArcForges.Contracts.Peer",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "8f0e80a917a71dce9bc1bfdc6ba7e407c7f3fab8293727a92a0253808fbad8a1",
+      "sha256": "61c6d51a154fd37dfb2f7bee9f6db018bd01c98afbe3e2ab7719bfe4f9f2a0ca",
       "kind": "generated"
     },
     {
@@ -17541,6 +17769,8 @@
       "access": "internal",
       "types": [
         "RelayReflection",
+        "RoutedMethod",
+        "RoutedOutcome",
         "RelayLimits",
         "RelayTokenClaims",
         "ViewerGrantClaims",
@@ -17556,6 +17786,18 @@
         "RelayFrame",
         "frame_",
         "FrameOneofCase",
+        "ChannelChallenge",
+        "ChannelLimits",
+        "ChannelAccepted",
+        "ChannelHeartbeat",
+        "SignedHeader",
+        "CallHeader",
+        "ChannelCall",
+        "ResultHeader",
+        "ChannelResult",
+        "RelayNonceRequest",
+        "RelayNonce",
+        "RelayAssertion",
         "NodeCursor",
         "ViewerResume",
         "GrantRefresh",
@@ -17574,7 +17816,7 @@
         "body_",
         "BodyOneofCase"
       ],
-      "sha256": "bedde92f608d5fa9ee585ba9d959ba87e28f217eae5a8f1dfad349b78835c665",
+      "sha256": "7e830c13d976f1d3f773d99350aaa607c872503303fa951246ce25c3c1fca74f",
       "kind": "generated"
     },
     {
@@ -17582,7 +17824,7 @@
       "package": "ArcForges.Contracts.Relay",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "85936dad9057aadba6529cfec1a1cc196fff11c0dfbec843a184817aa6789157",
+      "sha256": "ac4a24879e9829092fa4dc611b479e46a38d652784e191f8208e68b8822a0607",
       "kind": "generated"
     },
     {
@@ -18690,6 +18932,7 @@
         "SubscriptionState",
         "PlayLinkState",
         "MobileSessionScope",
+        "CallerKind",
         "NodeEnrollmentServiceBeginNodeSignInRequest",
         "NodeEnrollmentServiceBeginNodeSignInResponse",
         "outcome_",
@@ -18869,6 +19112,36 @@
         "outcome_",
         "OutcomeOneofCase",
         "FleetServiceCancelNodeCommandValue",
+        "FleetServiceSubmitNodeTaskRequest",
+        "FleetServiceSubmitNodeTaskResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceSubmitNodeTaskValue",
+        "FleetServiceGetNodeTaskRequest",
+        "FleetServiceGetNodeTaskResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceGetNodeTaskValue",
+        "FleetServiceListNodeTasksRequest",
+        "FleetServiceListNodeTasksResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceListNodeTasksValue",
+        "FleetServiceWaitNodeTaskRequest",
+        "FleetServiceWaitNodeTaskResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceWaitNodeTaskValue",
+        "FleetServiceReadNodeTaskOutputRequest",
+        "FleetServiceReadNodeTaskOutputResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceReadNodeTaskOutputValue",
+        "FleetServiceCancelNodeTaskRequest",
+        "FleetServiceCancelNodeTaskResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceCancelNodeTaskValue",
         "StoreBillingServiceGetPlayAccountReferenceRequest",
         "StoreBillingServiceGetPlayAccountReferenceResponse",
         "outcome_",
@@ -18917,6 +19190,7 @@
         "StatusDelta",
         "NodeSnapshot",
         "FleetNode",
+        "RoutedCaller",
         "NodeCommandBody",
         "kind_",
         "KindOneofCase",
@@ -18947,7 +19221,7 @@
         "BillingStatus",
         "NodeCursorInput"
       ],
-      "sha256": "70d0582ded93f4dacfcb8a70b18091e1527385518294374619f18a0d2531f963",
+      "sha256": "ddfe47f24bc6cc4b81f7e457113611b5631496f2785759601194fbdee20aed0a",
       "kind": "generated"
     },
     {
@@ -18968,7 +19242,7 @@
         "StoreBillingServiceBase",
         "StoreBillingServiceClient"
       ],
-      "sha256": "2a2978dd9df1dbf16137f775af7d9b0fcd25938161da13782a2e5d5a1d963535",
+      "sha256": "9127139801407c55f0c42c77658c7f61e9a119e77331beeb50c28e2a88caa02d",
       "kind": "generated"
     },
     {
@@ -18984,7 +19258,7 @@
       "package": "ArcForges.Contracts.Fleet",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "6142a84785466712a873f9ee71db79005850a1b37f52dcde9aae8a6af3d213d1",
+      "sha256": "e5d4e0d5111d9014c1e1993e32b514a7d39e2105419fa262f7fa17135d8c79dc",
       "kind": "generated"
     },
     {
@@ -19319,11 +19593,13 @@
         "AdoptSupport",
         "JobKind",
         "JobState",
+        "CenterCallerKind",
         "ResourceDemand",
         "ResourceUsage",
         "ProcessIdentity",
         "NodeRef",
         "ActorRef",
+        "CenterCaller",
         "StreamPosition",
         "StreamReset",
         "Heartbeat",
@@ -19332,7 +19608,7 @@
         "JobView",
         "ApprovalHandle"
       ],
-      "sha256": "8b6d7ac330cee2c06652cb55ddf0b48040b89b7f1063b15f38e3e64358ffcf60",
+      "sha256": "f9e758116cf6fc2cad8ea83b6e4486e588a67fc384c3d1a0c689a497de22a631",
       "kind": "generated"
     },
     {
@@ -19784,6 +20060,7 @@
         "AgentCleanupMode",
         "UpdateMode",
         "MeteredBehavior",
+        "RelayedFrom",
         "ResultCacheMode",
         "PolicyServiceGetPolicyRequest",
         "PolicyServiceGetPolicyResponse",
@@ -19838,6 +20115,7 @@
         "CachePolicy",
         "PrivacyPolicy",
         "RemoteControlPolicy",
+        "CenterRoutedPolicy",
         "TimeWindow",
         "UpdatePolicy",
         "LanPolicy",
@@ -19849,7 +20127,7 @@
         "PolicyRevision",
         "PolicyIssue"
       ],
-      "sha256": "d46b6ac71e89177fe627b08a2b39f6ddbb5216fbff3b618a3b8aff14c99f6eb5",
+      "sha256": "cfc097923d577c37aedb483dfe83e128979166e6f54dce857d19d6d54ef6547b",
       "kind": "generated"
     },
     {
@@ -20407,7 +20685,7 @@
         "TaskAttachStarted",
         "TaskProgressUpdate"
       ],
-      "sha256": "3b7fcb4d5a993dbb8f49719e176bd3f38b00bd98afd24213eac280205d5fefd1",
+      "sha256": "7b3cd709271f7fcc6f407d478e41138c4c953e42c94635d0f8f33d019b5fdc18",
       "kind": "generated"
     },
     {
@@ -20415,7 +20693,7 @@
       "package": "ArcForges.Contracts.Node",
       "access": "public",
       "types": ["TaskService", "__Helper_MessageCache", "TaskServiceBase", "TaskServiceClient"],
-      "sha256": "c7f5f3f4758fcb38d6f0ad41bcd0fcee497ebfa04bc109699eeb36ec984cb147",
+      "sha256": "bfd2c23114d62052f1204b36ec548ded418df5b64a1769b3224c8bf4a759b456",
       "kind": "generated"
     },
     {
@@ -20613,7 +20891,7 @@
       "package": "ArcForges.Contracts.Node",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "6408f5cf480203664a3706c8125d454fb7a080e05b43f6cf97e2be3d0f24dc1f",
+      "sha256": "c9227dd7412794df2ee9d1b26d73de3ac8f96dc2e73377cbed75a3abae00a91a",
       "kind": "generated"
     },
     {
@@ -47865,7 +48143,7 @@
     },
     {
       "path": "internal/proto/constraints.json",
-      "sha256": "8330bb09205237e7181b27544fba81361fd8df8b39ebc152a1c7071d4e3ef69c"
+      "sha256": "7e5c81bbe2fafffdfb4c34d09d4847f41f17944e100e361a8869bb86ef2beb6c"
     },
     {
       "path": "internal/proto/constraints/af-con-01-operator-read.json",
@@ -47877,7 +48155,7 @@
     },
     {
       "path": "internal/proto/constraints/af-con-01-relay.json",
-      "sha256": "da996acb5c848244109d381e0134983b2b8b8d1a3dd258146c05e293797b44fd"
+      "sha256": "c13d68a51aa4516e08446a952433168299ea74ea0419ec5f1e7833b7ef27e9dd"
     },
     {
       "path": "internal/proto/constraints/chat-baseline.json",
@@ -47993,15 +48271,15 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "c29d61262cd6714413b801aa9e1daea0a8a1e67796b80bdd6e8cb123c9bfb4e6"
+      "sha256": "0d1fbfd76d34896dc1f475e2c7f7f4d182da5017d5c81ea126ca60fccdcdc7f8"
     },
     {
       "path": "public/proto/constraints/af-con-01-fleet.json",
-      "sha256": "41f9a25ce0c28cc471dda81fb03dbd3e9e4bef04dafdf9dbf5fbebfc33946bd1"
+      "sha256": "c1cc180f3eeae3267d43d15c56abd83a73c0f7ed066571f3eaf50ddd1c51b81b"
     },
     {
       "path": "public/proto/constraints/af-con-01-node.json",
-      "sha256": "e8a21e815fd716be34a041625443b2a49825d24f61ec063d9cffce66d292bb1a"
+      "sha256": "1a542bed4ed08abc8718ed46d9c87ad5ee2c42ef9d4ae2060741974bacd18298"
     },
     {
       "path": "public/proto/constraints/af-con-01-support-access.json",

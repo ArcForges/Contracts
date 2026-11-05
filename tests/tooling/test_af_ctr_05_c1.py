@@ -74,7 +74,9 @@ class BuiltRefusalAnnotations(unittest.TestCase):
         found = annotations()
         receipted = {binding for binding, value in found.items() if binding.startswith("arcforges.fleet.v1.")
                      and "CONFLICT/command_id_reused" in value["errors"]}
-        self.assertEqual(receipted, {ENROLLMENT + method for method in RECEIPTED})
+        # AF-CTR-05 (part C2) adds the two routed mutations, receipted per account and command_id (Plan CTR5-RTE-03).
+        routed = {"arcforges.fleet.v1.FleetService/SubmitNodeTask", "arcforges.fleet.v1.FleetService/CancelNodeTask"}
+        self.assertEqual(receipted, {ENROLLMENT + method for method in RECEIPTED} | routed)
         for method in RECEIPTED:
             with self.subTest(method):
                 self.assertEqual(found[ENROLLMENT + method]["idempotency"], "command_id")

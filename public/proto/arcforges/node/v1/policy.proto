@@ -411,15 +411,36 @@ message CachePolicy {
 
 message PrivacyPolicy {
   repeated string secret_name_patterns = 1 [json_name = "secretNamePatterns"]; // defaults: architecture 04 section 2
-  optional bool remote_command_lines = 2 [json_name = "remoteCommandLines"]; // default false
-  optional bool remote_output_tail = 3 [json_name = "remoteOutputTail"]; // default false
+  optional bool remote_command_lines = 2 [json_name = "remoteCommandLines"]; // default false; AF-CTR-05: also what a center-routed read returns of other callers' tasks: argv and the working directory, environment names only (Plan PN-8)
+  optional bool remote_output_tail = 3 [json_name = "remoteOutputTail"]; // default false; AF-CTR-05: also whether a center-routed caller reads other callers' tasks' output
   optional bool peer_command_lines = 4 [json_name = "peerCommandLines"]; // default false
 }
 
+// Governs only the unserved command kinds of FleetService.SendNodeCommand; it neither enables nor disables center-routed calls,
+// which CenterRoutedPolicy governs (AF-CTR-05, review finding N-4).
 message RemoteControlPolicy {
   optional bool enabled = 1 [json_name = "enabled"]; // default false
   optional RiskClass max_risk = 2 [json_name = "maxRisk"]; // default LOW; HIGH only when set explicitly
   optional bool allow_approvals = 3 [json_name = "allowApprovals"]; // default false
+}
+
+// Where a node-relayed call may come from (AF-CTR-05 target; Plan decisions Q7 and PB-2; Design 11 section 1).
+enum RelayedFrom {
+  RELAYED_FROM_UNSPECIFIED = 0; // read as OWN_NODE
+  RELAYED_FROM_OWN_NODE = 1; // default: a node-relayed call is admitted only when its relaying node is this node
+  RELAYED_FROM_ACCOUNT = 2; // opt-in: also from the other nodes of this node's account, their claimed local origin advisory
+}
+
+// Who may call this node through the center (AF-CTR-05 target; Plan decisions Q7 as amended by PB-2, PN-8; Design 11 section 1,
+// "Center-routed callers"; review finding N-4). It governs the six center-routed task methods and nothing else. Only a local
+// HUMAN changes it (operation policy.center_routed), and permission overrides for REMOTE may only narrow it. A node-relayed call
+// from another node is refused AUTHORIZATION/permission_denied (state.reason relay_own_node_only) unless relayed_from is
+// ACCOUNT; after that opt-in its claimed HUMAN or SCRIPT origin gets the SCRIPT cells, never more, and a claimed AGENT origin is
+// refused (relayed_agent_own_node_only) until AF-CTR-07. While enabled is false every routed call is refused before any effect
+// (state.reason center_routed_disabled); turning the cloud link off closes the channel.
+message CenterRoutedPolicy {
+  optional bool enabled = 1 [json_name = "enabled"]; // default true while the node is signed in with its cloud link on (Plan decision Q7, Q19)
+  optional RelayedFrom relayed_from = 2 [json_name = "relayedFrom"]; // default OWN_NODE; ACCOUNT is the cross-node opt-in on this, the target, node
 }
 
 message TimeWindow {
@@ -492,6 +513,7 @@ message PolicyDocument {
   ApprovalPolicy approvals = 15 [json_name = "approvals"];
   ResultCachePolicy result_cache = 16 [json_name = "resultCache"]; // architecture 04 section 11
   RetrySafetyPolicy retry_safety = 17 [json_name = "retrySafety"];
+  CenterRoutedPolicy center_routed = 18 [json_name = "centerRouted"]; // AF-CTR-05: the center-routed policy (HUMAN-edited)
 }
 
 message PolicyRevision {

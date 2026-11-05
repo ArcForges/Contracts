@@ -106,7 +106,7 @@ class AdoptionRecord(unittest.TestCase):
             files = {row["path"] for row in RECORD["files"] if row["design"].split("/")[1] == area}
             services = {binding.split("/")[0] for binding, source in methods.items() if source in files}
             self.assertEqual(len(services), count, area)
-        self.assertEqual(sum(source in {row["path"] for row in RECORD["files"]} for source in methods.values()), 226)
+        self.assertEqual(sum(source in {row["path"] for row in RECORD["files"]} for source in methods.values()), 232)
 
     def test_schema_digest_of_the_compiled_package_descriptors_is_recorded(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -207,7 +207,7 @@ class ErrorCatalogue(unittest.TestCase):
 
     def test_every_annotated_method_names_only_catalogued_codes(self):
         flagship = scope.flagship_methods(ROOT, scope.proto_methods(ROOT))
-        self.assertEqual(len(flagship), 226)
+        self.assertEqual(len(flagship), 232)  # AF-CTR-05 (part C2) adds the six center-routed FleetService methods
         known = {row["category"] + "/" + row["code"] for row in CATALOGUE["codes"]}
         for method in flagship:
             named = method["annotations"]["errors"]
@@ -241,10 +241,39 @@ class ConstraintSidecars(unittest.TestCase):
                   if rules.get("required")}
         self.assertEqual(set(messages), declared)
         self.assertEqual(actual, expected)
-        # AF-CTR-05 (part C1) adds approve of ApproveNodeSignIn and ApproveDeviceCode (129 before).
-        self.assertEqual(len(actual), 131)
-        for value in messages.values():
-            self.assertEqual({key for rules in value["fields"].values() for key in rules} - {"required"}, set())
+        # AF-CTR-05 (part C1) adds approve of ApproveNodeSignIn and ApproveDeviceCode (129 before); part C2 adds the required
+        # fields of the node channel, the relay assertion and the routed methods (tests/tooling/test_af_ctr_05_c2.py).
+        self.assertEqual(len(actual), 131 + C2_REQUIRED)
+        # The flagship sidecars carry presence only, except the bounds that AF-CTR-05 part C2 declares for its own new messages
+        # and fields (plan B.6: lengths, ranges and header sizes of every new field); no earlier field gains a bound.
+        for name, value in messages.items():
+            for field, rules in value["fields"].items():
+                if set(rules) - {"required"}:
+                    with self.subTest(message=name, field=field):
+                        self.assertTrue(name in C2_BOUNDED_MESSAGES or (name, field) in C2_BOUNDED_FIELDS)
+        # Message-level relationship rules: among the earlier flagship messages only the two relayed reads of AF-CTR-05 part C2
+        # carry one (C-N6); every other rule belongs to a C2 message (review B N-4).
+        ruled = {name for name, value in messages.items() if value.get("rules")}
+        self.assertEqual(ruled - C2_BOUNDED_MESSAGES, {"arcforges.fleet.v1.FleetServiceListNodesRequest",
+                                                       "arcforges.fleet.v1.FleetServiceGetNodeRequest"})
+        self.assertEqual({name: messages[name]["rules"] for name in ruled - C2_BOUNDED_MESSAGES},
+                         {name: ["relayedCaller"] for name in ruled - C2_BOUNDED_MESSAGES})
+
+
+# AF-CTR-05 part C2: the new messages and the new fields of earlier messages whose sidecar entries carry bounds.
+C2_BOUNDED_MESSAGES = {"arcforges.relay.v1." + name for name in (
+    "ChannelChallenge", "ChannelLimits", "ChannelAccepted", "ChannelHeartbeat", "SignedHeader", "CallHeader", "ChannelCall",
+    "ResultHeader", "ChannelResult", "RelayNonceRequest", "RelayNonce", "RelayAssertion")}
+C2_BOUNDED_MESSAGES |= {"arcforges.fleet.v1.RoutedCaller", "arcforges.node.v1.CenterCaller", "arcforges.node.v1.CenterRoutedPolicy"}
+C2_BOUNDED_MESSAGES |= {f"arcforges.fleet.v1.FleetService{name}{suffix}" for suffix in ("Request", "Value") for name in (
+    "SubmitNodeTask", "GetNodeTask", "ListNodeTasks", "WaitNodeTask", "ReadNodeTaskOutput", "CancelNodeTask")}
+C2_BOUNDED_FIELDS = {("arcforges.relay.v1.NodeHello", "contractVersion"), ("arcforges.relay.v1.NodeHello", "capabilities"),
+                     ("arcforges.relay.v1.NodeHello", "helloSignature"), ("arcforges.fleet.v1.FleetNode", "reportedName"),
+                     ("arcforges.fleet.v1.FleetServiceListNodesRequest", "relayAssertion"),
+                     ("arcforges.fleet.v1.FleetServiceGetNodeRequest", "relayAssertion"),
+                     ("arcforges.node.v1.TaskServiceReadTaskOutputRequest", "waitMs"),
+                     ("arcforges.relay.v1.RelayClose", "reconnectAfterMs")}
+C2_REQUIRED = 81  # the required flags of the C2 messages and fields (212 in all)
 
 
 class OperationScopeFlagshipRule(unittest.TestCase):

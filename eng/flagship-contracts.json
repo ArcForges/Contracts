@@ -10,7 +10,7 @@
     "annotations": "docs/contracts/README.md#4-method-annotations",
     "errors": "docs/contracts/errors.md"
   },
-  "adoption": "Byte-identical copies of the design specification protos, placed per docs/contracts/README.md (node and fleet public; peer and relay internal; the additive publicapi.v1 and operator.v1 files in their reused packages). Within v1 every later change is additive only on the wire and reviewed against the wire-compatibility baselines in eng/compatibility/flagship-window.json; a validator tightens only by a recorded decision (AF-CTR-05 part C1: the e-mail bound of Plan decision Q12 and the approve rule). Since AF-CTR-04 (part C0) fleet.proto, node.proto and account.proto are the Design files at the design commit plus additive changes made here first: new fields and the SignOutNode method, comment-only annotation and specification text, and the two StopNode lines of Design bf86fc6 (MR-06); AF-CTR-05 (part C1) adds comment-only annotation text to fleet.proto and account.proto (the built refusals of errors.md and the COMPLETED -> REVOKED sign-in transition) and one validate: required rule (approve of ApproveNodeSignIn and ApproveDeviceCode). Contracts is canonical and the ArcForges-Design companion copies these three files byte for byte. The design commit stays the adoption commit.",
+  "adoption": "Byte-identical copies of the design specification protos, placed per docs/contracts/README.md (node and fleet public; peer and relay internal; the additive publicapi.v1 and operator.v1 files in their reused packages). Within v1 every later change is additive only on the wire and reviewed against the wire-compatibility baselines in eng/compatibility/flagship-window.json; a validator tightens only by a recorded decision (AF-CTR-05 part C1: the e-mail bound of Plan decision Q12 and the approve rule). Since AF-CTR-04 (part C0) fleet.proto, node.proto and account.proto are the Design files at the design commit plus additive changes made here first: new fields and the SignOutNode method, comment-only annotation and specification text, and the two StopNode lines of Design bf86fc6 (MR-06); AF-CTR-05 (part C1) adds comment-only annotation text to fleet.proto and account.proto (the built refusals of errors.md and the COMPLETED -> REVOKED sign-in transition) and one validate: required rule (approve of ApproveNodeSignIn and ApproveDeviceCode). AF-CTR-05 (part C2) adds to fleet.proto, common.proto, tasks.proto and policy.proto, and to the internal relay.proto: the six center-routed task methods of FleetService with their messages, RoutedCaller and the relay fields of ListNodes and GetNode, FleetNode.reported_name, CenterCaller and ActorRef.center_caller, ManagedTask.local_diagnostic, TaskServiceReadTaskOutputRequest.wait_ms, CenterRoutedPolicy and PolicyDocument.center_routed, the node channel messages and RelayFrame members 23 to 29, and the routed and local annotation text. Contracts is canonical and the ArcForges-Design companion copies these seven files byte for byte: fleet.proto, node.proto, account.proto, common.proto, tasks.proto, policy.proto and relay.proto. The design commit stays the adoption commit.",
   "methodAnnotations": {
     "required": ["auth", "idempotency", "deadline", "stream", "errors", "locality"],
     "optional": ["state"]
@@ -21,7 +21,7 @@
       "design": "arcforges/fleet/v1/fleet.proto",
       "path": "public/proto/arcforges/fleet/v1/fleet.proto",
       "package": "ArcForges.Contracts.Fleet",
-      "sha256": "5441edc142ff545fcb934989ee101c29c6ffb58b51db7fa91be8225d57414b39"
+      "sha256": "551db853b19653205d6af5c57a32aa686c8e04dd98635c2a3de47688ca1199cd"
     },
     {
       "design": "arcforges/node/v1/account.proto",
@@ -45,7 +45,7 @@
       "design": "arcforges/node/v1/common.proto",
       "path": "public/proto/arcforges/node/v1/common.proto",
       "package": "ArcForges.Contracts.Node",
-      "sha256": "df5171b69f34c97810f15a3b41f4c97a2e1ffe8aa817283efc671751231da53c"
+      "sha256": "7c0a2d165374cd3ad3e3206b55c44c18a0993deca5afdd56a1c78a1d7088606e"
     },
     {
       "design": "arcforges/node/v1/diagnosis.proto",
@@ -87,7 +87,7 @@
       "design": "arcforges/node/v1/policy.proto",
       "path": "public/proto/arcforges/node/v1/policy.proto",
       "package": "ArcForges.Contracts.Node",
-      "sha256": "1106b057b91955f50fb4581037fa7fc0d2504ae6696b8682cef1a201bc0c1602"
+      "sha256": "3824a351e4eab88375d2966a5d2ea5f58c6e5b5078138589194e3c26cff9d218"
     },
     {
       "design": "arcforges/node/v1/queue.proto",
@@ -123,7 +123,7 @@
       "design": "arcforges/node/v1/tasks.proto",
       "path": "public/proto/arcforges/node/v1/tasks.proto",
       "package": "ArcForges.Contracts.Node",
-      "sha256": "8f81407e23fdc7771bb2e415e1197555b65a3075596c9825983d18b80f5157b5"
+      "sha256": "c8d06bd43b17b9ef275ec147b3fc84b2b030346dd6f32d6c9884c6fbffbc2e39"
     },
     {
       "design": "arcforges/node/v1/toolchains.proto",
@@ -165,15 +165,15 @@
       "design": "arcforges/relay/v1/relay.proto",
       "path": "internal/proto/arcforges/relay/v1/relay.proto",
       "package": "ArcForges.Contracts.Relay",
-      "sha256": "444dd24d9eac8f97fc681466b2671afe037376e4784ceecd278d0e6a1b3c9456"
+      "sha256": "9d8140725f7c0ac903a881e4779e73c693046a984c2ac6264d62df1893cc9d8a"
     }
   ],
   "schemaDigest": {
-    "combined": "93f7e2e1c3f2e4f754984685720d547380b718506ef32703bc7b3a5e83462fe8",
+    "combined": "55a386d182086beca013574f165cbb3a353444902bc43f13feb8768ff237073c",
     "files": [
       {
         "file": "arcforges/fleet/v1/fleet.proto",
-        "sha256": "9822649fefe7c25250653061c107d418b7a10b6c07c61d4dcc18279d268e4ae6"
+        "sha256": "6101414128b95e516723c358a35c655ce0c5d86b093398f253c555483f121d94"
       },
       {
         "file": "arcforges/node/v1/account.proto",
@@ -189,7 +189,7 @@
       },
       {
         "file": "arcforges/node/v1/common.proto",
-        "sha256": "6313962272c9910ee68099047d13468a6eb9ec1a6a0a104e0279d2f80f685667"
+        "sha256": "74f51bcd748a7273a73e38a3f3230d7a8f1c95efd329f5b968049296c936b93d"
       },
       {
         "file": "arcforges/node/v1/diagnosis.proto",
@@ -217,7 +217,7 @@
       },
       {
         "file": "arcforges/node/v1/policy.proto",
-        "sha256": "3640be8ed39a55b49dfb6c69817fb19bc57f49c0ec5f7b3d9fb43c54474e4db7"
+        "sha256": "04299c797a8953b846385dd125c31fce704a18cb90db0bb9b185f80644630f76"
       },
       {
         "file": "arcforges/node/v1/queue.proto",
@@ -241,7 +241,7 @@
       },
       {
         "file": "arcforges/node/v1/tasks.proto",
-        "sha256": "02be05b43e22b508ae7ae907aae04a3ce4498c939df989cc2293f47911ef4d23"
+        "sha256": "d80abdc831b1024712c3ff1865ed3ba51d843f1bac4393c3bcd19f392bbb8ba4"
       },
       {
         "file": "arcforges/node/v1/toolchains.proto",
@@ -269,7 +269,7 @@
       },
       {
         "file": "arcforges/relay/v1/relay.proto",
-        "sha256": "67db015762612908e35b780cb61cf10645beb83648726223e3e0e3b17ae1d612"
+        "sha256": "bf48c94a5e0e2644281a6ca4b5efb63bd360051f686882dcc4307874a58e19f6"
       }
     ]
   }

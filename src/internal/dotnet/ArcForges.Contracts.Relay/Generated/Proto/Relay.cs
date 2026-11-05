@@ -60,145 +60,276 @@ namespace ArcForges.Contracts.Relay.V1 {
             "ByABKAsyHy5hcmNmb3JnZXMucmVsYXkudjEuUmVsYXlMaW1pdHNSBmxpbWl0",
             "cxJHChF2aWV3ZXJfc2Vzc2lvbl9pZBgIIAEoCzIbLmFyY2Zvcmdlcy5mb3Vu",
             "ZGF0aW9uLnYxLklkUg92aWV3ZXJTZXNzaW9uSWQSFQoDa2lkGAkgASgJSAJS",
-            "A2tpZIgBAUIGCgRfYXVkQgkKB19kZXRhaWxCBgoEX2tpZCLNAQoJTm9kZUhl",
+            "A2tpZIgBAUIGCgRfYXVkQgkKB19kZXRhaWxCBgoEX2tpZCK+AwoJTm9kZUhl",
             "bGxvEjQKB25vZGVfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52",
             "MS5JZFIGbm9kZUlkEh0KB3ZlcnNpb24YAiABKAlIAFIHdmVyc2lvbogBARIj",
             "CgpnZW5lcmF0aW9uGAMgASgESAFSCmdlbmVyYXRpb26IAQESHgoIbGFzdF9z",
-            "ZXEYBCABKARIAlIHbGFzdFNlcYgBAUIKCghfdmVyc2lvbkINCgtfZ2VuZXJh",
-            "dGlvbkILCglfbGFzdF9zZXEiwwEKDERlbWFuZFNpZ25hbBIkCgtpbnRlcnZh",
-            "bF9tcxgBIAEoDUgAUgppbnRlcnZhbE1ziAEBEiQKC2R1cmF0aW9uX21zGAIg",
-            "ASgNSAFSCmR1cmF0aW9uTXOIAQESPAoGZGV0YWlsGAMgASgOMh8uYXJjZm9y",
-            "Z2VzLmZsZWV0LnYxLkRldGFpbExldmVsSAJSBmRldGFpbIgBAUIOCgxfaW50",
-            "ZXJ2YWxfbXNCDgoMX2R1cmF0aW9uX21zQgkKB19kZXRhaWwiuwIKCVB1c2hF",
-            "dmVudBIXCgRraW5kGAEgASgJSABSBGtpbmSIAQESOgoKc3ViamVjdF9pZBgC",
-            "IAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUglzdWJqZWN0SWQS",
-            "GQoFdGl0bGUYAyABKAlIAVIFdGl0bGWIAQESPAoIc2V2ZXJpdHkYBCABKA4y",
-            "Gy5hcmNmb3JnZXMubm9kZS52MS5TZXZlcml0eUgCUghzZXZlcml0eYgBARIw",
-            "CgJhdBgFIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbnRS",
-            "AmF0EiAKCWRlZHVwX2tleRgGIAEoCUgDUghkZWR1cEtleYgBAUIHCgVfa2lu",
-            "ZEIICgZfdGl0bGVCCwoJX3NldmVyaXR5QgwKCl9kZWR1cF9rZXkiQwoKRXZl",
-            "bnRCYXRjaBI1CgZldmVudHMYASADKAsyHS5hcmNmb3JnZXMucmVsYXkudjEu",
-            "UHVzaEV2ZW50UgZldmVudHMiMwoMVG9rZW5SZWZyZXNoEhkKBXRva2VuGAEg",
-            "ASgJSABSBXRva2VuiAEBQggKBl90b2tlbiJiChJFbnRpdGxlbWVudENoYW5n",
-            "ZWQSNAoTZW50aXRsZW1lbnRfdmVyc2lvbhgBIAEoA0gAUhJlbnRpdGxlbWVu",
-            "dFZlcnNpb26IAQFCFgoUX2VudGl0bGVtZW50X3ZlcnNpb24iVgoKUmVsYXlD",
-            "bG9zZRIXCgRjb2RlGAEgASgNSABSBGNvZGWIAQESGwoGcmVhc29uGAIgASgJ",
-            "SAFSBnJlYXNvbogBAUIHCgVfY29kZUIJCgdfcmVhc29uIkAKCFJlbGF5QWNr",
-            "EiQKC3Rocm91Z2hfc2VxGAEgASgESABSCnRocm91Z2hTZXGIAQFCDgoMX3Ro",
-            "cm91Z2hfc2VxIocCCgpPdXRwdXRUYWlsEjQKB25vZGVfaWQYASABKAsyGy5h",
-            "cmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIGbm9kZUlkEjQKB3Rhc2tfaWQY",
-            "AiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIGdGFza0lkEjoK",
-            "CmNvbW1hbmRfaWQYAyABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5J",
-            "ZFIJY29tbWFuZElkEhcKBGRhdGEYBCABKAxIAFIEZGF0YYgBARIhCgl0cnVu",
-            "Y2F0ZWQYBSABKAhIAVIJdHJ1bmNhdGVkiAEBQgcKBV9kYXRhQgwKCl90cnVu",
-            "Y2F0ZWQixQcKClJlbGF5RnJhbWUSKAoNZnJhbWVfdmVyc2lvbhgBIAEoDUgB",
-            "UgxmcmFtZVZlcnNpb26IAQESIAoJZnJhbWVfc2VxGAIgASgESAJSCGZyYW1l",
-            "U2VxiAEBEj4KCm5vZGVfaGVsbG8YCiABKAsyHS5hcmNmb3JnZXMucmVsYXku",
-            "djEuTm9kZUhlbGxvSABSCW5vZGVIZWxsbxI9CgdzdW1tYXJ5GAsgASgLMiEu",
-            "YXJjZm9yZ2VzLmZsZWV0LnYxLlN0YXR1c1N1bW1hcnlIAFIHc3VtbWFyeRI3",
-            "CgVkZWx0YRgMIAEoCzIfLmFyY2Zvcmdlcy5mbGVldC52MS5TdGF0dXNEZWx0",
-            "YUgAUgVkZWx0YRI+CghzbmFwc2hvdBgNIAEoCzIgLmFyY2Zvcmdlcy5mbGVl",
-            "dC52MS5Ob2RlU25hcHNob3RIAFIIc25hcHNob3QSOgoGZGVtYW5kGA4gASgL",
-            "MiAuYXJjZm9yZ2VzLnJlbGF5LnYxLkRlbWFuZFNpZ25hbEgAUgZkZW1hbmQS",
-            "OgoHY29tbWFuZBgPIAEoCzIeLmFyY2Zvcmdlcy5mbGVldC52MS5TaWduZWRC",
-            "bG9iSABSB2NvbW1hbmQSRwoOY29tbWFuZF9yZXN1bHQYECABKAsyHi5hcmNm",
-            "b3JnZXMuZmxlZXQudjEuU2lnbmVkQmxvYkgAUg1jb21tYW5kUmVzdWx0EjgK",
-            "BmV2ZW50cxgRIAEoCzIeLmFyY2Zvcmdlcy5yZWxheS52MS5FdmVudEJhdGNo",
-            "SABSBmV2ZW50cxJHCg10b2tlbl9yZWZyZXNoGBIgASgLMiAuYXJjZm9yZ2Vz",
-            "LnJlbGF5LnYxLlRva2VuUmVmcmVzaEgAUgx0b2tlblJlZnJlc2gSWQoTZW50",
-            "aXRsZW1lbnRfY2hhbmdlZBgTIAEoCzImLmFyY2Zvcmdlcy5yZWxheS52MS5F",
-            "bnRpdGxlbWVudENoYW5nZWRIAFISZW50aXRsZW1lbnRDaGFuZ2VkEjYKBWNs",
-            "b3NlGBQgASgLMh4uYXJjZm9yZ2VzLnJlbGF5LnYxLlJlbGF5Q2xvc2VIAFIF",
-            "Y2xvc2USMAoDYWNrGBUgASgLMhwuYXJjZm9yZ2VzLnJlbGF5LnYxLlJlbGF5",
-            "QWNrSABSA2FjaxJBCgtvdXRwdXRfdGFpbBgWIAEoCzIeLmFyY2Zvcmdlcy5y",
-            "ZWxheS52MS5PdXRwdXRUYWlsSABSCm91dHB1dFRhaWxCBwoFZnJhbWVCEAoO",
-            "X2ZyYW1lX3ZlcnNpb25CDAoKX2ZyYW1lX3NlcSKVAQoKTm9kZUN1cnNvchI0",
-            "Cgdub2RlX2lkGAEgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRS",
-            "Bm5vZGVJZBIjCgpnZW5lcmF0aW9uGAIgASgESABSCmdlbmVyYXRpb26IAQES",
-            "FQoDc2VxGAMgASgESAFSA3NlcYgBAUINCgtfZ2VuZXJhdGlvbkIGCgRfc2Vx",
-            "IkgKDFZpZXdlclJlc3VtZRI4CgdjdXJzb3JzGAEgAygLMh4uYXJjZm9yZ2Vz",
-            "LnJlbGF5LnYxLk5vZGVDdXJzb3JSB2N1cnNvcnMiMwoMR3JhbnRSZWZyZXNo",
-            "EhkKBWdyYW50GAEgASgJSABSBWdyYW50iAEBQggKBl9ncmFudCJrCgtWaWV3",
-            "ZXJSZXNldBI0Cgdub2RlX2lkGAEgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRp",
-            "b24udjEuSWRSBm5vZGVJZBIbCgZyZWFzb24YAiABKAlIAFIGcmVhc29uiAEB",
-            "QgkKB19yZWFzb24ilAUKC1ZpZXdlckZyYW1lEigKDWZyYW1lX3ZlcnNpb24Y",
-            "ASABKA1IAVIMZnJhbWVWZXJzaW9uiAEBEjoKBnJlc3VtZRgKIAEoCzIgLmFy",
-            "Y2Zvcmdlcy5yZWxheS52MS5WaWV3ZXJSZXN1bWVIAFIGcmVzdW1lEkcKDWdy",
-            "YW50X3JlZnJlc2gYCyABKAsyIC5hcmNmb3JnZXMucmVsYXkudjEuR3JhbnRS",
-            "ZWZyZXNoSABSDGdyYW50UmVmcmVzaBI+CghzbmFwc2hvdBgMIAEoCzIgLmFy",
-            "Y2Zvcmdlcy5mbGVldC52MS5Ob2RlU25hcHNob3RIAFIIc25hcHNob3QSNwoF",
-            "ZGVsdGEYDSABKAsyHy5hcmNmb3JnZXMuZmxlZXQudjEuU3RhdHVzRGVsdGFI",
-            "AFIFZGVsdGESPgoIcHJlc2VuY2UYDiABKAsyIC5hcmNmb3JnZXMuZmxlZXQu",
-            "djEuTm9kZVByZXNlbmNlSABSCHByZXNlbmNlEjcKBXJlc2V0GA8gASgLMh8u",
-            "YXJjZm9yZ2VzLnJlbGF5LnYxLlZpZXdlclJlc2V0SABSBXJlc2V0Ek4KDmNv",
-            "bW1hbmRfdXBkYXRlGBAgASgLMiUuYXJjZm9yZ2VzLmZsZWV0LnYxLlJlbW90",
-            "ZUNvbW1hbmRWaWV3SABSDWNvbW1hbmRVcGRhdGUSNgoFY2xvc2UYESABKAsy",
-            "Hi5hcmNmb3JnZXMucmVsYXkudjEuUmVsYXlDbG9zZUgAUgVjbG9zZRJBCgtv",
-            "dXRwdXRfdGFpbBgSIAEoCzIeLmFyY2Zvcmdlcy5yZWxheS52MS5PdXRwdXRU",
-            "YWlsSABSCm91dHB1dFRhaWxCBwoFZnJhbWVCEAoOX2ZyYW1lX3ZlcnNpb24i",
-            "wQEKDkNvbW1hbmREZWxpdmVyEjQKB25vZGVfaWQYASABKAsyGy5hcmNmb3Jn",
-            "ZXMuZm91bmRhdGlvbi52MS5JZFIGbm9kZUlkEjgKB2NvbW1hbmQYAiABKAsy",
-            "Hi5hcmNmb3JnZXMuZmxlZXQudjEuU2lnbmVkQmxvYlIHY29tbWFuZBI/Cgpl",
-            "eHBpcmVzX2F0GAMgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5z",
-            "dGFudFIJZXhwaXJlc0F0IoQBChRDb21tYW5kUmVzdWx0Rm9yd2FyZBI0Cgdu",
+            "ZXEYBCABKARIAlIHbGFzdFNlcYgBARIuChBjb250cmFjdF92ZXJzaW9uGAUg",
+            "ASgJSANSD2NvbnRyYWN0VmVyc2lvbogBARIiCgxjYXBhYmlsaXRpZXMYBiAD",
+            "KAlSDGNhcGFiaWxpdGllcxJECg9pbnN0YWxsYXRpb25faWQYByABKAsyGy5h",
+            "cmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIOaW5zdGFsbGF0aW9uSWQSLAoP",
+            "aGVsbG9fc2lnbmF0dXJlGAggASgMSARSDmhlbGxvU2lnbmF0dXJliAEBQgoK",
+            "CF92ZXJzaW9uQg0KC19nZW5lcmF0aW9uQgsKCV9sYXN0X3NlcUITChFfY29u",
+            "dHJhY3RfdmVyc2lvbkISChBfaGVsbG9fc2lnbmF0dXJlIsMBCgxEZW1hbmRT",
+            "aWduYWwSJAoLaW50ZXJ2YWxfbXMYASABKA1IAFIKaW50ZXJ2YWxNc4gBARIk",
+            "CgtkdXJhdGlvbl9tcxgCIAEoDUgBUgpkdXJhdGlvbk1ziAEBEjwKBmRldGFp",
+            "bBgDIAEoDjIfLmFyY2Zvcmdlcy5mbGVldC52MS5EZXRhaWxMZXZlbEgCUgZk",
+            "ZXRhaWyIAQFCDgoMX2ludGVydmFsX21zQg4KDF9kdXJhdGlvbl9tc0IJCgdf",
+            "ZGV0YWlsIrsCCglQdXNoRXZlbnQSFwoEa2luZBgBIAEoCUgAUgRraW5kiAEB",
+            "EjoKCnN1YmplY3RfaWQYAiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52",
+            "MS5JZFIJc3ViamVjdElkEhkKBXRpdGxlGAMgASgJSAFSBXRpdGxliAEBEjwK",
+            "CHNldmVyaXR5GAQgASgOMhsuYXJjZm9yZ2VzLm5vZGUudjEuU2V2ZXJpdHlI",
+            "AlIIc2V2ZXJpdHmIAQESMAoCYXQYBSABKAsyIC5hcmNmb3JnZXMuZm91bmRh",
+            "dGlvbi52MS5JbnN0YW50UgJhdBIgCglkZWR1cF9rZXkYBiABKAlIA1IIZGVk",
+            "dXBLZXmIAQFCBwoFX2tpbmRCCAoGX3RpdGxlQgsKCV9zZXZlcml0eUIMCgpf",
+            "ZGVkdXBfa2V5IkMKCkV2ZW50QmF0Y2gSNQoGZXZlbnRzGAEgAygLMh0uYXJj",
+            "Zm9yZ2VzLnJlbGF5LnYxLlB1c2hFdmVudFIGZXZlbnRzIjMKDFRva2VuUmVm",
+            "cmVzaBIZCgV0b2tlbhgBIAEoCUgAUgV0b2tlbogBAUIICgZfdG9rZW4iYgoS",
+            "RW50aXRsZW1lbnRDaGFuZ2VkEjQKE2VudGl0bGVtZW50X3ZlcnNpb24YASAB",
+            "KANIAFISZW50aXRsZW1lbnRWZXJzaW9uiAEBQhYKFF9lbnRpdGxlbWVudF92",
+            "ZXJzaW9uIqABCgpSZWxheUNsb3NlEhcKBGNvZGUYASABKA1IAFIEY29kZYgB",
+            "ARIbCgZyZWFzb24YAiABKAlIAVIGcmVhc29uiAEBEjEKEnJlY29ubmVjdF9h",
+            "ZnRlcl9tcxgDIAEoDUgCUhByZWNvbm5lY3RBZnRlck1ziAEBQgcKBV9jb2Rl",
+            "QgkKB19yZWFzb25CFQoTX3JlY29ubmVjdF9hZnRlcl9tcyJACghSZWxheUFj",
+            "axIkCgt0aHJvdWdoX3NlcRgBIAEoBEgAUgp0aHJvdWdoU2VxiAEBQg4KDF90",
+            "aHJvdWdoX3NlcSKHAgoKT3V0cHV0VGFpbBI0Cgdub2RlX2lkGAEgASgLMhsu",
+            "YXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRSBm5vZGVJZBI0Cgd0YXNrX2lk",
+            "GAIgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRSBnRhc2tJZBI6",
+            "Cgpjb21tYW5kX2lkGAMgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEu",
+            "SWRSCWNvbW1hbmRJZBIXCgRkYXRhGAQgASgMSABSBGRhdGGIAQESIQoJdHJ1",
+            "bmNhdGVkGAUgASgISAFSCXRydW5jYXRlZIgBAUIHCgVfZGF0YUIMCgpfdHJ1",
+            "bmNhdGVkIq0LCgpSZWxheUZyYW1lEigKDWZyYW1lX3ZlcnNpb24YASABKA1I",
+            "AVIMZnJhbWVWZXJzaW9uiAEBEiAKCWZyYW1lX3NlcRgCIAEoBEgCUghmcmFt",
+            "ZVNlcYgBARI+Cgpub2RlX2hlbGxvGAogASgLMh0uYXJjZm9yZ2VzLnJlbGF5",
+            "LnYxLk5vZGVIZWxsb0gAUglub2RlSGVsbG8SPQoHc3VtbWFyeRgLIAEoCzIh",
+            "LmFyY2Zvcmdlcy5mbGVldC52MS5TdGF0dXNTdW1tYXJ5SABSB3N1bW1hcnkS",
+            "NwoFZGVsdGEYDCABKAsyHy5hcmNmb3JnZXMuZmxlZXQudjEuU3RhdHVzRGVs",
+            "dGFIAFIFZGVsdGESPgoIc25hcHNob3QYDSABKAsyIC5hcmNmb3JnZXMuZmxl",
+            "ZXQudjEuTm9kZVNuYXBzaG90SABSCHNuYXBzaG90EjoKBmRlbWFuZBgOIAEo",
+            "CzIgLmFyY2Zvcmdlcy5yZWxheS52MS5EZW1hbmRTaWduYWxIAFIGZGVtYW5k",
+            "EjoKB2NvbW1hbmQYDyABKAsyHi5hcmNmb3JnZXMuZmxlZXQudjEuU2lnbmVk",
+            "QmxvYkgAUgdjb21tYW5kEkcKDmNvbW1hbmRfcmVzdWx0GBAgASgLMh4uYXJj",
+            "Zm9yZ2VzLmZsZWV0LnYxLlNpZ25lZEJsb2JIAFINY29tbWFuZFJlc3VsdBI4",
+            "CgZldmVudHMYESABKAsyHi5hcmNmb3JnZXMucmVsYXkudjEuRXZlbnRCYXRj",
+            "aEgAUgZldmVudHMSRwoNdG9rZW5fcmVmcmVzaBgSIAEoCzIgLmFyY2Zvcmdl",
+            "cy5yZWxheS52MS5Ub2tlblJlZnJlc2hIAFIMdG9rZW5SZWZyZXNoElkKE2Vu",
+            "dGl0bGVtZW50X2NoYW5nZWQYEyABKAsyJi5hcmNmb3JnZXMucmVsYXkudjEu",
+            "RW50aXRsZW1lbnRDaGFuZ2VkSABSEmVudGl0bGVtZW50Q2hhbmdlZBI2CgVj",
+            "bG9zZRgUIAEoCzIeLmFyY2Zvcmdlcy5yZWxheS52MS5SZWxheUNsb3NlSABS",
+            "BWNsb3NlEjAKA2FjaxgVIAEoCzIcLmFyY2Zvcmdlcy5yZWxheS52MS5SZWxh",
+            "eUFja0gAUgNhY2sSQQoLb3V0cHV0X3RhaWwYFiABKAsyHi5hcmNmb3JnZXMu",
+            "cmVsYXkudjEuT3V0cHV0VGFpbEgAUgpvdXRwdXRUYWlsEjUKBGNhbGwYFyAB",
+            "KAsyHy5hcmNmb3JnZXMucmVsYXkudjEuQ2hhbm5lbENhbGxIAFIEY2FsbBJE",
+            "CgtjYWxsX3Jlc3VsdBgYIAEoCzIhLmFyY2Zvcmdlcy5yZWxheS52MS5DaGFu",
+            "bmVsUmVzdWx0SABSCmNhbGxSZXN1bHQSRAoJaGVhcnRiZWF0GBkgASgLMiQu",
+            "YXJjZm9yZ2VzLnJlbGF5LnYxLkNoYW5uZWxIZWFydGJlYXRIAFIJaGVhcnRi",
+            "ZWF0EkEKCGFjY2VwdGVkGBogASgLMiMuYXJjZm9yZ2VzLnJlbGF5LnYxLkNo",
+            "YW5uZWxBY2NlcHRlZEgAUghhY2NlcHRlZBJECgljaGFsbGVuZ2UYGyABKAsy",
+            "JC5hcmNmb3JnZXMucmVsYXkudjEuQ2hhbm5lbENoYWxsZW5nZUgAUgljaGFs",
+            "bGVuZ2USVwoTcmVsYXlfbm9uY2VfcmVxdWVzdBgcIAEoCzIlLmFyY2Zvcmdl",
+            "cy5yZWxheS52MS5SZWxheU5vbmNlUmVxdWVzdEgAUhFyZWxheU5vbmNlUmVx",
+            "dWVzdBJBCgtyZWxheV9ub25jZRgdIAEoCzIeLmFyY2Zvcmdlcy5yZWxheS52",
+            "MS5SZWxheU5vbmNlSABSCnJlbGF5Tm9uY2VCBwoFZnJhbWVCEAoOX2ZyYW1l",
+            "X3ZlcnNpb25CDAoKX2ZyYW1lX3NlcSLCAQoQQ2hhbm5lbENoYWxsZW5nZRIZ",
+            "CgVub25jZRgBIAEoDEgAUgVub25jZYgBARJACg1jb25uZWN0aW9uX2lkGAIg",
+            "ASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRSDGNvbm5lY3Rpb25J",
+            "ZBJHCg5oZWxsb19kZWFkbGluZRgDIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0",
+            "aW9uLnYxLkluc3RhbnRSDWhlbGxvRGVhZGxpbmVCCAoGX25vbmNlIoYDCg1D",
+            "aGFubmVsTGltaXRzEisKD21heF9mcmFtZV9ieXRlcxgBIAEoDUgAUg1tYXhG",
+            "cmFtZUJ5dGVziAEBEjIKE21heF9pbl9mbGlnaHRfY2FsbHMYAiABKA1IAVIQ",
+            "bWF4SW5GbGlnaHRDYWxsc4gBARI3ChVoZWFydGJlYXRfaW50ZXJ2YWxfbXMY",
+            "AyABKA1IAlITaGVhcnRiZWF0SW50ZXJ2YWxNc4gBARI3ChVoZWFydGJlYXRf",
+            "ZGVhZGxpbmVfbXMYBCABKA1IA1ITaGVhcnRiZWF0RGVhZGxpbmVNc4gBARIt",
+            "ChBtYXhfcmVsYXlfbm9uY2VzGAUgASgNSARSDm1heFJlbGF5Tm9uY2VziAEB",
+            "QhIKEF9tYXhfZnJhbWVfYnl0ZXNCFgoUX21heF9pbl9mbGlnaHRfY2FsbHNC",
+            "GAoWX2hlYXJ0YmVhdF9pbnRlcnZhbF9tc0IYChZfaGVhcnRiZWF0X2RlYWRs",
+            "aW5lX21zQhMKEV9tYXhfcmVsYXlfbm9uY2VzIuEBCg9DaGFubmVsQWNjZXB0",
+            "ZWQSQAoNY29ubmVjdGlvbl9pZBgBIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0",
+            "aW9uLnYxLklkUgxjb25uZWN0aW9uSWQSOQoGbGltaXRzGAIgASgLMiEuYXJj",
+            "Zm9yZ2VzLnJlbGF5LnYxLkNoYW5uZWxMaW1pdHNSBmxpbWl0cxIhCgxzaWdu",
+            "aW5nX2tpZHMYAyADKAlSC3NpZ25pbmdLaWRzEiAKCW5vZGVfbmFtZRgEIAEo",
+            "CUgAUghub2RlTmFtZYgBAUIMCgpfbm9kZV9uYW1lImwKEENoYW5uZWxIZWFy",
+            "dGJlYXQSOQoHc2VudF9hdBgBIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9u",
+            "LnYxLkluc3RhbnRSBnNlbnRBdBIVCgNzZXEYAiABKARIAFIDc2VxiAEBQgYK",
+            "BF9zZXEitwEKDFNpZ25lZEhlYWRlchIbCgZoZWFkZXIYASABKAxIAFIGaGVh",
+            "ZGVyiAEBEiEKCXNpZ25hdHVyZRgCIAEoDEgBUglzaWduYXR1cmWIAQESFQoD",
+            "a2lkGAMgASgJSAJSA2tpZIgBARIhCglhbGdvcml0aG0YBCABKAlIA1IJYWxn",
+            "b3JpdGhtiAEBQgkKB19oZWFkZXJCDAoKX3NpZ25hdHVyZUIGCgRfa2lkQgwK",
+            "Cl9hbGdvcml0aG0i8gYKCkNhbGxIZWFkZXISNAoHY2FsbF9pZBgBIAEoCzIb",
+            "LmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUgZjYWxsSWQSFQoDa2lkGAIg",
+            "ASgJSABSA2tpZIgBARIvChFjZW50ZXJfdXJsX3NoYTI1NhgDIAEoDEgBUg9j",
+            "ZW50ZXJVcmxTaGEyNTaIAQESOgoKYWNjb3VudF9pZBgEIAEoCzIbLmFyY2Zv",
+            "cmdlcy5mb3VuZGF0aW9uLnYxLklkUglhY2NvdW50SWQSQQoOdGFyZ2V0X25v",
+            "ZGVfaWQYBSABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIMdGFy",
+            "Z2V0Tm9kZUlkEjcKBmNhbGxlchgGIAEoCzIfLmFyY2Zvcmdlcy5ub2RlLnYx",
+            "LkNlbnRlckNhbGxlclIGY2FsbGVyEjoKCmNvbW1hbmRfaWQYByABKAsyGy5h",
+            "cmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIJY29tbWFuZElkEj0KBm1ldGhv",
+            "ZBgIIAEoDjIgLmFyY2Zvcmdlcy5yZWxheS52MS5Sb3V0ZWRNZXRob2RIAlIG",
+            "bWV0aG9kiAEBEioKDnJlcXVlc3Rfc2hhMjU2GAkgASgMSANSDXJlcXVlc3RT",
+            "aGEyNTaIAQESJgoMcmVxdWVzdF9zaXplGAogASgNSARSC3JlcXVlc3RTaXpl",
+            "iAEBEj0KCWlzc3VlZF9hdBgLIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9u",
+            "LnYxLkluc3RhbnRSCGlzc3VlZEF0Ej8KCmV4cGlyZXNfYXQYDCABKAsyIC5h",
+            "cmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50UglleHBpcmVzQXQSPAoI",
+            "ZGVhZGxpbmUYDSABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0",
+            "YW50UghkZWFkbGluZRI5ChZyZWxheV9hc3NlcnRpb25fc2hhMjU2GA4gASgM",
+            "SAVSFHJlbGF5QXNzZXJ0aW9uU2hhMjU2iAEBQgYKBF9raWRCFAoSX2NlbnRl",
+            "cl91cmxfc2hhMjU2QgkKB19tZXRob2RCEQoPX3JlcXVlc3Rfc2hhMjU2Qg8K",
+            "DV9yZXF1ZXN0X3NpemVCGQoXX3JlbGF5X2Fzc2VydGlvbl9zaGEyNTYiqAEK",
+            "C0NoYW5uZWxDYWxsEjQKB2NhbGxfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91",
+            "bmRhdGlvbi52MS5JZFIGY2FsbElkEjgKBmhlYWRlchgCIAEoCzIgLmFyY2Zv",
+            "cmdlcy5yZWxheS52MS5TaWduZWRIZWFkZXJSBmhlYWRlchIdCgdwYXlsb2Fk",
+            "GAMgASgMSABSB3BheWxvYWSIAQFCCgoIX3BheWxvYWQihwUKDFJlc3VsdEhl",
+            "YWRlchI0CgdjYWxsX2lkGAEgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24u",
+            "djEuSWRSBmNhbGxJZBI6Cgpjb21tYW5kX2lkGAIgASgLMhsuYXJjZm9yZ2Vz",
+            "LmZvdW5kYXRpb24udjEuSWRSCWNvbW1hbmRJZBI0Cgdub2RlX2lkGAMgASgL",
+            "MhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRSBm5vZGVJZBI9CgZtZXRo",
+            "b2QYBCABKA4yIC5hcmNmb3JnZXMucmVsYXkudjEuUm91dGVkTWV0aG9kSABS",
+            "Bm1ldGhvZIgBARIqCg5yZXF1ZXN0X3NoYTI1NhgFIAEoDEgBUg1yZXF1ZXN0",
+            "U2hhMjU2iAEBEiwKD3Jlc3BvbnNlX3NoYTI1NhgGIAEoDEgCUg5yZXNwb25z",
+            "ZVNoYTI1NogBARIoCg1yZXNwb25zZV9zaXplGAcgASgNSANSDHJlc3BvbnNl",
+            "U2l6ZYgBARJBCgtleGVjdXRlZF9hdBgIIAEoCzIgLmFyY2Zvcmdlcy5mb3Vu",
+            "ZGF0aW9uLnYxLkluc3RhbnRSCmV4ZWN1dGVkQXQSQAoHb3V0Y29tZRgJIAEo",
+            "DjIhLmFyY2Zvcmdlcy5yZWxheS52MS5Sb3V0ZWRPdXRjb21lSARSB291dGNv",
+            "bWWIAQESNwoFZXJyb3IYCiABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52",
+            "MS5BcmNFcnJvclIFZXJyb3JCCQoHX21ldGhvZEIRCg9fcmVxdWVzdF9zaGEy",
+            "NTZCEgoQX3Jlc3BvbnNlX3NoYTI1NkIQCg5fcmVzcG9uc2Vfc2l6ZUIKCghf",
+            "b3V0Y29tZSKqAQoNQ2hhbm5lbFJlc3VsdBI0CgdjYWxsX2lkGAEgASgLMhsu",
+            "YXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRSBmNhbGxJZBI4CgZoZWFkZXIY",
+            "AiABKAsyIC5hcmNmb3JnZXMucmVsYXkudjEuU2lnbmVkSGVhZGVyUgZoZWFk",
+            "ZXISHQoHcGF5bG9hZBgDIAEoDEgAUgdwYXlsb2FkiAEBQgoKCF9wYXlsb2Fk",
+            "Ik8KEVJlbGF5Tm9uY2VSZXF1ZXN0EjoKCnJlcXVlc3RfaWQYASABKAsyGy5h",
+            "cmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIJcmVxdWVzdElkIq4BCgpSZWxh",
+            "eU5vbmNlEjoKCnJlcXVlc3RfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRh",
+            "dGlvbi52MS5JZFIJcmVxdWVzdElkEhkKBW5vbmNlGAIgASgMSABSBW5vbmNl",
+            "iAEBEj8KCmV4cGlyZXNfYXQYAyABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlv",
+            "bi52MS5JbnN0YW50UglleHBpcmVzQXRCCAoGX25vbmNlIrgGCg5SZWxheUFz",
+            "c2VydGlvbhJFChByZWxheWluZ19ub2RlX2lkGAEgASgLMhsuYXJjZm9yZ2Vz",
+            "LmZvdW5kYXRpb24udjEuSWRSDnJlbGF5aW5nTm9kZUlkElUKGHJlbGF5aW5n",
+            "X2luc3RhbGxhdGlvbl9pZBgCIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9u",
+            "LnYxLklkUhZyZWxheWluZ0luc3RhbGxhdGlvbklkEkEKDGxvY2FsX29yaWdp",
+            "bhgDIAEoDjIZLmFyY2Zvcmdlcy5ub2RlLnYxLk9yaWdpbkgAUgtsb2NhbE9y",
+            "aWdpbogBARJFChBsb2NhbF9zZXNzaW9uX2lkGAQgASgLMhsuYXJjZm9yZ2Vz",
+            "LmZvdW5kYXRpb24udjEuSWRSDmxvY2FsU2Vzc2lvbklkEj0KBm1ldGhvZBgF",
+            "IAEoDjIgLmFyY2Zvcmdlcy5yZWxheS52MS5Sb3V0ZWRNZXRob2RIAVIGbWV0",
+            "aG9kiAEBEioKDnJlcXVlc3Rfc2hhMjU2GAYgASgMSAJSDXJlcXVlc3RTaGEy",
+            "NTaIAQESQQoOdGFyZ2V0X25vZGVfaWQYByABKAsyGy5hcmNmb3JnZXMuZm91",
+            "bmRhdGlvbi52MS5JZFIMdGFyZ2V0Tm9kZUlkEjoKCmNvbW1hbmRfaWQYCCAB",
+            "KAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIJY29tbWFuZElkEiQK",
+            "C3JlbGF5X25vbmNlGAkgASgMSANSCnJlbGF5Tm9uY2WIAQESPQoJaXNzdWVk",
+            "X2F0GAogASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudFII",
+            "aXNzdWVkQXQSPwoKZXhwaXJlc19hdBgLIAEoCzIgLmFyY2Zvcmdlcy5mb3Vu",
+            "ZGF0aW9uLnYxLkluc3RhbnRSCWV4cGlyZXNBdBIhCglzaWduYXR1cmUYDCAB",
+            "KAxIBFIJc2lnbmF0dXJliAEBQg8KDV9sb2NhbF9vcmlnaW5CCQoHX21ldGhv",
+            "ZEIRCg9fcmVxdWVzdF9zaGEyNTZCDgoMX3JlbGF5X25vbmNlQgwKCl9zaWdu",
+            "YXR1cmUilQEKCk5vZGVDdXJzb3ISNAoHbm9kZV9pZBgBIAEoCzIbLmFyY2Zv",
+            "cmdlcy5mb3VuZGF0aW9uLnYxLklkUgZub2RlSWQSIwoKZ2VuZXJhdGlvbhgC",
+            "IAEoBEgAUgpnZW5lcmF0aW9uiAEBEhUKA3NlcRgDIAEoBEgBUgNzZXGIAQFC",
+            "DQoLX2dlbmVyYXRpb25CBgoEX3NlcSJICgxWaWV3ZXJSZXN1bWUSOAoHY3Vy",
+            "c29ycxgBIAMoCzIeLmFyY2Zvcmdlcy5yZWxheS52MS5Ob2RlQ3Vyc29yUgdj",
+            "dXJzb3JzIjMKDEdyYW50UmVmcmVzaBIZCgVncmFudBgBIAEoCUgAUgVncmFu",
+            "dIgBAUIICgZfZ3JhbnQiawoLVmlld2VyUmVzZXQSNAoHbm9kZV9pZBgBIAEo",
+            "CzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUgZub2RlSWQSGwoGcmVh",
+            "c29uGAIgASgJSABSBnJlYXNvbogBAUIJCgdfcmVhc29uIpQFCgtWaWV3ZXJG",
+            "cmFtZRIoCg1mcmFtZV92ZXJzaW9uGAEgASgNSAFSDGZyYW1lVmVyc2lvbogB",
+            "ARI6CgZyZXN1bWUYCiABKAsyIC5hcmNmb3JnZXMucmVsYXkudjEuVmlld2Vy",
+            "UmVzdW1lSABSBnJlc3VtZRJHCg1ncmFudF9yZWZyZXNoGAsgASgLMiAuYXJj",
+            "Zm9yZ2VzLnJlbGF5LnYxLkdyYW50UmVmcmVzaEgAUgxncmFudFJlZnJlc2gS",
+            "PgoIc25hcHNob3QYDCABKAsyIC5hcmNmb3JnZXMuZmxlZXQudjEuTm9kZVNu",
+            "YXBzaG90SABSCHNuYXBzaG90EjcKBWRlbHRhGA0gASgLMh8uYXJjZm9yZ2Vz",
+            "LmZsZWV0LnYxLlN0YXR1c0RlbHRhSABSBWRlbHRhEj4KCHByZXNlbmNlGA4g",
+            "ASgLMiAuYXJjZm9yZ2VzLmZsZWV0LnYxLk5vZGVQcmVzZW5jZUgAUghwcmVz",
+            "ZW5jZRI3CgVyZXNldBgPIAEoCzIfLmFyY2Zvcmdlcy5yZWxheS52MS5WaWV3",
+            "ZXJSZXNldEgAUgVyZXNldBJOCg5jb21tYW5kX3VwZGF0ZRgQIAEoCzIlLmFy",
+            "Y2Zvcmdlcy5mbGVldC52MS5SZW1vdGVDb21tYW5kVmlld0gAUg1jb21tYW5k",
+            "VXBkYXRlEjYKBWNsb3NlGBEgASgLMh4uYXJjZm9yZ2VzLnJlbGF5LnYxLlJl",
+            "bGF5Q2xvc2VIAFIFY2xvc2USQQoLb3V0cHV0X3RhaWwYEiABKAsyHi5hcmNm",
+            "b3JnZXMucmVsYXkudjEuT3V0cHV0VGFpbEgAUgpvdXRwdXRUYWlsQgcKBWZy",
+            "YW1lQhAKDl9mcmFtZV92ZXJzaW9uIsEBCg5Db21tYW5kRGVsaXZlchI0Cgdu",
             "b2RlX2lkGAEgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRSBm5v",
-            "ZGVJZBI2CgZyZXN1bHQYAiABKAsyHi5hcmNmb3JnZXMuZmxlZXQudjEuU2ln",
-            "bmVkQmxvYlIGcmVzdWx0InoKFENvbW1hbmRVbmRlbGl2ZXJhYmxlEjoKCmNv",
-            "bW1hbmRfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIJ",
-            "Y29tbWFuZElkEhsKBnJlYXNvbhgCIAEoCUgAUgZyZWFzb26IAQFCCQoHX3Jl",
-            "YXNvbiJ/ChFFdmVudEJhdGNoRm9yd2FyZBI0Cgdub2RlX2lkGAEgASgLMhsu",
-            "YXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRSBm5vZGVJZBI0CgViYXRjaBgC",
-            "IAEoCzIeLmFyY2Zvcmdlcy5yZWxheS52MS5FdmVudEJhdGNoUgViYXRjaCLC",
-            "AQoOUHJlc2VuY2VDaGFuZ2USNAoHbm9kZV9pZBgBIAEoCzIbLmFyY2Zvcmdl",
-            "cy5mb3VuZGF0aW9uLnYxLklkUgZub2RlSWQSPgoFc3RhdGUYAiABKA4yIy5h",
-            "cmNmb3JnZXMuZmxlZXQudjEuTm9kZU9ubGluZVN0YXRlSABSBXN0YXRliAEB",
-            "EjAKAmF0GAMgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFu",
-            "dFICYXRCCAoGX3N0YXRlIvACCgtVc2FnZVJlcG9ydBJDCgxwZXJpb2Rfc3Rh",
-            "cnQYASABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50Ugtw",
-            "ZXJpb2RTdGFydBIgCglmcmFtZXNfaW4YAiABKA1IAFIIZnJhbWVzSW6IAQES",
-            "IgoKZnJhbWVzX291dBgDIAEoDUgBUglmcmFtZXNPdXSIAQESHgoIYnl0ZXNf",
-            "aW4YBCABKARIAlIHYnl0ZXNJbogBARIgCglieXRlc19vdXQYBSABKARIA1II",
-            "Ynl0ZXNPdXSIAQESGQoFd2FrZXMYBiABKA1IBFIFd2FrZXOIAQESJgoMdmll",
-            "d2Vyc19wZWFrGAcgASgNSAVSC3ZpZXdlcnNQZWFriAEBQgwKCl9mcmFtZXNf",
-            "aW5CDQoLX2ZyYW1lc19vdXRCCwoJX2J5dGVzX2luQgwKCl9ieXRlc19vdXRC",
-            "CAoGX3dha2VzQg8KDV92aWV3ZXJzX3BlYWsiwQEKEEtpbGxTd2l0Y2hVcGRh",
-            "dGUSKgoObGl2ZV9zdHJlYW1pbmcYASABKAhIAFINbGl2ZVN0cmVhbWluZ4gB",
-            "ARIsCg9uZXdfY29ubmVjdGlvbnMYAiABKAhIAVIObmV3Q29ubmVjdGlvbnOI",
-            "AQESHwoIY29tbWFuZHMYAyABKAhIAlIIY29tbWFuZHOIAQFCEQoPX2xpdmVf",
-            "c3RyZWFtaW5nQhIKEF9uZXdfY29ubmVjdGlvbnNCCwoJX2NvbW1hbmRzIvYE",
-            "CgxIb3N0RW52ZWxvcGUSLgoQZW52ZWxvcGVfdmVyc2lvbhgBIAEoDUgBUg9l",
-            "bnZlbG9wZVZlcnNpb26IAQESOgoKYWNjb3VudF9pZBgCIAEoCzIbLmFyY2Zv",
-            "cmdlcy5mb3VuZGF0aW9uLnYxLklkUglhY2NvdW50SWQSPwoGZXZlbnRzGAog",
-            "ASgLMiUuYXJjZm9yZ2VzLnJlbGF5LnYxLkV2ZW50QmF0Y2hGb3J3YXJkSABS",
-            "BmV2ZW50cxI+CgdkZWxpdmVyGAsgASgLMiIuYXJjZm9yZ2VzLnJlbGF5LnYx",
-            "LkNvbW1hbmREZWxpdmVySABSB2RlbGl2ZXISQgoGcmVzdWx0GAwgASgLMigu",
-            "YXJjZm9yZ2VzLnJlbGF5LnYxLkNvbW1hbmRSZXN1bHRGb3J3YXJkSABSBnJl",
-            "c3VsdBJACghwcmVzZW5jZRgNIAEoCzIiLmFyY2Zvcmdlcy5yZWxheS52MS5Q",
-            "cmVzZW5jZUNoYW5nZUgAUghwcmVzZW5jZRI3CgV1c2FnZRgOIAEoCzIfLmFy",
-            "Y2Zvcmdlcy5yZWxheS52MS5Vc2FnZVJlcG9ydEgAUgV1c2FnZRJLCg1raWxs",
-            "X3N3aXRjaGVzGA8gASgLMiQuYXJjZm9yZ2VzLnJlbGF5LnYxLktpbGxTd2l0",
-            "Y2hVcGRhdGVIAFIMa2lsbFN3aXRjaGVzElAKDXVuZGVsaXZlcmFibGUYECAB",
-            "KAsyKC5hcmNmb3JnZXMucmVsYXkudjEuQ29tbWFuZFVuZGVsaXZlcmFibGVI",
-            "AFINdW5kZWxpdmVyYWJsZUIGCgRib2R5QhMKEV9lbnZlbG9wZV92ZXJzaW9u",
-            "QlUKJmlvLmdpdGh1Yi5hcmNmb3JnZXMuY29udHJhY3RzLnJlbGF5LnYxQgpS",
-            "ZWxheVByb3RvUAGqAhxBcmNGb3JnZXMuQ29udHJhY3RzLlJlbGF5LlYxYgZw",
-            "cm90bzM="));
+            "ZGVJZBI4Cgdjb21tYW5kGAIgASgLMh4uYXJjZm9yZ2VzLmZsZWV0LnYxLlNp",
+            "Z25lZEJsb2JSB2NvbW1hbmQSPwoKZXhwaXJlc19hdBgDIAEoCzIgLmFyY2Zv",
+            "cmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbnRSCWV4cGlyZXNBdCKEAQoUQ29t",
+            "bWFuZFJlc3VsdEZvcndhcmQSNAoHbm9kZV9pZBgBIAEoCzIbLmFyY2Zvcmdl",
+            "cy5mb3VuZGF0aW9uLnYxLklkUgZub2RlSWQSNgoGcmVzdWx0GAIgASgLMh4u",
+            "YXJjZm9yZ2VzLmZsZWV0LnYxLlNpZ25lZEJsb2JSBnJlc3VsdCJ6ChRDb21t",
+            "YW5kVW5kZWxpdmVyYWJsZRI6Cgpjb21tYW5kX2lkGAEgASgLMhsuYXJjZm9y",
+            "Z2VzLmZvdW5kYXRpb24udjEuSWRSCWNvbW1hbmRJZBIbCgZyZWFzb24YAiAB",
+            "KAlIAFIGcmVhc29uiAEBQgkKB19yZWFzb24ifwoRRXZlbnRCYXRjaEZvcndh",
+            "cmQSNAoHbm9kZV9pZBgBIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYx",
+            "LklkUgZub2RlSWQSNAoFYmF0Y2gYAiABKAsyHi5hcmNmb3JnZXMucmVsYXku",
+            "djEuRXZlbnRCYXRjaFIFYmF0Y2giwgEKDlByZXNlbmNlQ2hhbmdlEjQKB25v",
+            "ZGVfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIGbm9k",
+            "ZUlkEj4KBXN0YXRlGAIgASgOMiMuYXJjZm9yZ2VzLmZsZWV0LnYxLk5vZGVP",
+            "bmxpbmVTdGF0ZUgAUgVzdGF0ZYgBARIwCgJhdBgDIAEoCzIgLmFyY2Zvcmdl",
+            "cy5mb3VuZGF0aW9uLnYxLkluc3RhbnRSAmF0QggKBl9zdGF0ZSLwAgoLVXNh",
+            "Z2VSZXBvcnQSQwoMcGVyaW9kX3N0YXJ0GAEgASgLMiAuYXJjZm9yZ2VzLmZv",
+            "dW5kYXRpb24udjEuSW5zdGFudFILcGVyaW9kU3RhcnQSIAoJZnJhbWVzX2lu",
+            "GAIgASgNSABSCGZyYW1lc0luiAEBEiIKCmZyYW1lc19vdXQYAyABKA1IAVIJ",
+            "ZnJhbWVzT3V0iAEBEh4KCGJ5dGVzX2luGAQgASgESAJSB2J5dGVzSW6IAQES",
+            "IAoJYnl0ZXNfb3V0GAUgASgESANSCGJ5dGVzT3V0iAEBEhkKBXdha2VzGAYg",
+            "ASgNSARSBXdha2VziAEBEiYKDHZpZXdlcnNfcGVhaxgHIAEoDUgFUgt2aWV3",
+            "ZXJzUGVha4gBAUIMCgpfZnJhbWVzX2luQg0KC19mcmFtZXNfb3V0QgsKCV9i",
+            "eXRlc19pbkIMCgpfYnl0ZXNfb3V0QggKBl93YWtlc0IPCg1fdmlld2Vyc19w",
+            "ZWFrIsEBChBLaWxsU3dpdGNoVXBkYXRlEioKDmxpdmVfc3RyZWFtaW5nGAEg",
+            "ASgISABSDWxpdmVTdHJlYW1pbmeIAQESLAoPbmV3X2Nvbm5lY3Rpb25zGAIg",
+            "ASgISAFSDm5ld0Nvbm5lY3Rpb25ziAEBEh8KCGNvbW1hbmRzGAMgASgISAJS",
+            "CGNvbW1hbmRziAEBQhEKD19saXZlX3N0cmVhbWluZ0ISChBfbmV3X2Nvbm5l",
+            "Y3Rpb25zQgsKCV9jb21tYW5kcyL2BAoMSG9zdEVudmVsb3BlEi4KEGVudmVs",
+            "b3BlX3ZlcnNpb24YASABKA1IAVIPZW52ZWxvcGVWZXJzaW9uiAEBEjoKCmFj",
+            "Y291bnRfaWQYAiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIJ",
+            "YWNjb3VudElkEj8KBmV2ZW50cxgKIAEoCzIlLmFyY2Zvcmdlcy5yZWxheS52",
+            "MS5FdmVudEJhdGNoRm9yd2FyZEgAUgZldmVudHMSPgoHZGVsaXZlchgLIAEo",
+            "CzIiLmFyY2Zvcmdlcy5yZWxheS52MS5Db21tYW5kRGVsaXZlckgAUgdkZWxp",
+            "dmVyEkIKBnJlc3VsdBgMIAEoCzIoLmFyY2Zvcmdlcy5yZWxheS52MS5Db21t",
+            "YW5kUmVzdWx0Rm9yd2FyZEgAUgZyZXN1bHQSQAoIcHJlc2VuY2UYDSABKAsy",
+            "Ii5hcmNmb3JnZXMucmVsYXkudjEuUHJlc2VuY2VDaGFuZ2VIAFIIcHJlc2Vu",
+            "Y2USNwoFdXNhZ2UYDiABKAsyHy5hcmNmb3JnZXMucmVsYXkudjEuVXNhZ2VS",
+            "ZXBvcnRIAFIFdXNhZ2USSwoNa2lsbF9zd2l0Y2hlcxgPIAEoCzIkLmFyY2Zv",
+            "cmdlcy5yZWxheS52MS5LaWxsU3dpdGNoVXBkYXRlSABSDGtpbGxTd2l0Y2hl",
+            "cxJQCg11bmRlbGl2ZXJhYmxlGBAgASgLMiguYXJjZm9yZ2VzLnJlbGF5LnYx",
+            "LkNvbW1hbmRVbmRlbGl2ZXJhYmxlSABSDXVuZGVsaXZlcmFibGVCBgoEYm9k",
+            "eUITChFfZW52ZWxvcGVfdmVyc2lvbiq+AgoMUm91dGVkTWV0aG9kEh0KGVJP",
+            "VVRFRF9NRVRIT0RfVU5TUEVDSUZJRUQQABIiCh5ST1VURURfTUVUSE9EX1NV",
+            "Qk1JVF9OT0RFX1RBU0sQARIfChtST1VURURfTUVUSE9EX0dFVF9OT0RFX1RB",
+            "U0sQAhIhCh1ST1VURURfTUVUSE9EX0xJU1RfTk9ERV9UQVNLUxADEiAKHFJP",
+            "VVRFRF9NRVRIT0RfV0FJVF9OT0RFX1RBU0sQBBInCiNST1VURURfTUVUSE9E",
+            "X1JFQURfTk9ERV9UQVNLX09VVFBVVBAFEiIKHlJPVVRFRF9NRVRIT0RfQ0FO",
+            "Q0VMX05PREVfVEFTSxAGEhwKGFJPVVRFRF9NRVRIT0RfTElTVF9OT0RFUxAH",
+            "EhoKFlJPVVRFRF9NRVRIT0RfR0VUX05PREUQCCq3AQoNUm91dGVkT3V0Y29t",
+            "ZRIeChpST1VURURfT1VUQ09NRV9VTlNQRUNJRklFRBAAEhsKF1JPVVRFRF9P",
+            "VVRDT01FX0VYRUNVVEVEEAESJAogUk9VVEVEX09VVENPTUVfUkVGVVNFRF9C",
+            "WV9QT0xJQ1kQAhInCiNST1VURURfT1VUQ09NRV9SRUZVU0VEX1ZFUklGSUNB",
+            "VElPThADEhoKFlJPVVRFRF9PVVRDT01FX0VYUElSRUQQBEJVCiZpby5naXRo",
+            "dWIuYXJjZm9yZ2VzLmNvbnRyYWN0cy5yZWxheS52MUIKUmVsYXlQcm90b1AB",
+            "qgIcQXJjRm9yZ2VzLkNvbnRyYWN0cy5SZWxheS5WMWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::ArcForges.Contracts.Fleet.V1.FleetReflection.Descriptor, global::ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor, global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::ArcForges.Contracts.Relay.V1.RoutedMethod), typeof(global::ArcForges.Contracts.Relay.V1.RoutedOutcome), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.RelayLimits), global::ArcForges.Contracts.Relay.V1.RelayLimits.Parser, new[]{ "SummaryFramesPerMinute", "DeltaFramesPerMinute", "BytesPerDay", "SnapshotMaxBytes", "ViewersMax", "CommandsPerHour" }, new[]{ "SummaryFramesPerMinute", "DeltaFramesPerMinute", "BytesPerDay", "SnapshotMaxBytes", "ViewersMax", "CommandsPerHour" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.RelayTokenClaims), global::ArcForges.Contracts.Relay.V1.RelayTokenClaims.Parser, new[]{ "Aud", "AccountId", "NodeId", "IssuedAt", "ExpiresAt", "KindsAllowed", "Limits", "Kid" }, new[]{ "Aud", "Kid" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.ViewerGrantClaims), global::ArcForges.Contracts.Relay.V1.ViewerGrantClaims.Parser, new[]{ "Aud", "AccountId", "NodeIds", "Detail", "IssuedAt", "ExpiresAt", "Limits", "ViewerSessionId", "Kid" }, new[]{ "Aud", "Detail", "Kid" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.NodeHello), global::ArcForges.Contracts.Relay.V1.NodeHello.Parser, new[]{ "NodeId", "Version", "Generation", "LastSeq" }, new[]{ "Version", "Generation", "LastSeq" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.NodeHello), global::ArcForges.Contracts.Relay.V1.NodeHello.Parser, new[]{ "NodeId", "Version", "Generation", "LastSeq", "ContractVersion", "Capabilities", "InstallationId", "HelloSignature" }, new[]{ "Version", "Generation", "LastSeq", "ContractVersion", "HelloSignature" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.DemandSignal), global::ArcForges.Contracts.Relay.V1.DemandSignal.Parser, new[]{ "IntervalMs", "DurationMs", "Detail" }, new[]{ "IntervalMs", "DurationMs", "Detail" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.PushEvent), global::ArcForges.Contracts.Relay.V1.PushEvent.Parser, new[]{ "Kind", "SubjectId", "Title", "Severity", "At", "DedupKey" }, new[]{ "Kind", "Title", "Severity", "DedupKey" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.EventBatch), global::ArcForges.Contracts.Relay.V1.EventBatch.Parser, new[]{ "Events" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.TokenRefresh), global::ArcForges.Contracts.Relay.V1.TokenRefresh.Parser, new[]{ "Token" }, new[]{ "Token" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.EntitlementChanged), global::ArcForges.Contracts.Relay.V1.EntitlementChanged.Parser, new[]{ "EntitlementVersion" }, new[]{ "EntitlementVersion" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.RelayClose), global::ArcForges.Contracts.Relay.V1.RelayClose.Parser, new[]{ "Code", "Reason" }, new[]{ "Code", "Reason" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.RelayClose), global::ArcForges.Contracts.Relay.V1.RelayClose.Parser, new[]{ "Code", "Reason", "ReconnectAfterMs" }, new[]{ "Code", "Reason", "ReconnectAfterMs" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.RelayAck), global::ArcForges.Contracts.Relay.V1.RelayAck.Parser, new[]{ "ThroughSeq" }, new[]{ "ThroughSeq" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.OutputTail), global::ArcForges.Contracts.Relay.V1.OutputTail.Parser, new[]{ "NodeId", "TaskId", "CommandId", "Data", "Truncated" }, new[]{ "Data", "Truncated" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.RelayFrame), global::ArcForges.Contracts.Relay.V1.RelayFrame.Parser, new[]{ "FrameVersion", "FrameSeq", "NodeHello", "Summary", "Delta", "Snapshot", "Demand", "Command", "CommandResult", "Events", "TokenRefresh", "EntitlementChanged", "Close", "Ack", "OutputTail" }, new[]{ "Frame", "FrameVersion", "FrameSeq" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.RelayFrame), global::ArcForges.Contracts.Relay.V1.RelayFrame.Parser, new[]{ "FrameVersion", "FrameSeq", "NodeHello", "Summary", "Delta", "Snapshot", "Demand", "Command", "CommandResult", "Events", "TokenRefresh", "EntitlementChanged", "Close", "Ack", "OutputTail", "Call", "CallResult", "Heartbeat", "Accepted", "Challenge", "RelayNonceRequest", "RelayNonce" }, new[]{ "Frame", "FrameVersion", "FrameSeq" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.ChannelChallenge), global::ArcForges.Contracts.Relay.V1.ChannelChallenge.Parser, new[]{ "Nonce", "ConnectionId", "HelloDeadline" }, new[]{ "Nonce" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.ChannelLimits), global::ArcForges.Contracts.Relay.V1.ChannelLimits.Parser, new[]{ "MaxFrameBytes", "MaxInFlightCalls", "HeartbeatIntervalMs", "HeartbeatDeadlineMs", "MaxRelayNonces" }, new[]{ "MaxFrameBytes", "MaxInFlightCalls", "HeartbeatIntervalMs", "HeartbeatDeadlineMs", "MaxRelayNonces" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.ChannelAccepted), global::ArcForges.Contracts.Relay.V1.ChannelAccepted.Parser, new[]{ "ConnectionId", "Limits", "SigningKids", "NodeName" }, new[]{ "NodeName" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.ChannelHeartbeat), global::ArcForges.Contracts.Relay.V1.ChannelHeartbeat.Parser, new[]{ "SentAt", "Seq" }, new[]{ "Seq" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.SignedHeader), global::ArcForges.Contracts.Relay.V1.SignedHeader.Parser, new[]{ "Header", "Signature", "Kid", "Algorithm" }, new[]{ "Header", "Signature", "Kid", "Algorithm" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.CallHeader), global::ArcForges.Contracts.Relay.V1.CallHeader.Parser, new[]{ "CallId", "Kid", "CenterUrlSha256", "AccountId", "TargetNodeId", "Caller", "CommandId", "Method", "RequestSha256", "RequestSize", "IssuedAt", "ExpiresAt", "Deadline", "RelayAssertionSha256" }, new[]{ "Kid", "CenterUrlSha256", "Method", "RequestSha256", "RequestSize", "RelayAssertionSha256" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.ChannelCall), global::ArcForges.Contracts.Relay.V1.ChannelCall.Parser, new[]{ "CallId", "Header", "Payload" }, new[]{ "Payload" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.ResultHeader), global::ArcForges.Contracts.Relay.V1.ResultHeader.Parser, new[]{ "CallId", "CommandId", "NodeId", "Method", "RequestSha256", "ResponseSha256", "ResponseSize", "ExecutedAt", "Outcome", "Error" }, new[]{ "Method", "RequestSha256", "ResponseSha256", "ResponseSize", "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.ChannelResult), global::ArcForges.Contracts.Relay.V1.ChannelResult.Parser, new[]{ "CallId", "Header", "Payload" }, new[]{ "Payload" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.RelayNonceRequest), global::ArcForges.Contracts.Relay.V1.RelayNonceRequest.Parser, new[]{ "RequestId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.RelayNonce), global::ArcForges.Contracts.Relay.V1.RelayNonce.Parser, new[]{ "RequestId", "Nonce", "ExpiresAt" }, new[]{ "Nonce" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.RelayAssertion), global::ArcForges.Contracts.Relay.V1.RelayAssertion.Parser, new[]{ "RelayingNodeId", "RelayingInstallationId", "LocalOrigin", "LocalSessionId", "Method", "RequestSha256", "TargetNodeId", "CommandId", "RelayNonce", "IssuedAt", "ExpiresAt", "Signature" }, new[]{ "LocalOrigin", "Method", "RequestSha256", "RelayNonce", "Signature" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.NodeCursor), global::ArcForges.Contracts.Relay.V1.NodeCursor.Parser, new[]{ "NodeId", "Generation", "Seq" }, new[]{ "Generation", "Seq" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.ViewerResume), global::ArcForges.Contracts.Relay.V1.ViewerResume.Parser, new[]{ "Cursors" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Relay.V1.GrantRefresh), global::ArcForges.Contracts.Relay.V1.GrantRefresh.Parser, new[]{ "Grant" }, new[]{ "Grant" }, null, null, null),
@@ -217,6 +348,72 @@ namespace ArcForges.Contracts.Relay.V1 {
     #endregion
 
   }
+  #region Enums
+  /// <summary>
+  /// The center-routed methods (fleet.v1 FleetService). 1..6 are the routed task methods, the calls a center sends; LIST_NODES and
+  /// GET_NODE are named only by a relay assertion. The numbers 1..6 are the node store's routed_call_log.method.
+  /// </summary>
+  public enum RoutedMethod {
+    [pbr::OriginalName("ROUTED_METHOD_UNSPECIFIED")] Unspecified = 0,
+    /// <summary>
+    /// payload TaskServiceSubmitTaskRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_SUBMIT_NODE_TASK")] SubmitNodeTask = 1,
+    /// <summary>
+    /// payload TaskServiceGetTaskRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_GET_NODE_TASK")] GetNodeTask = 2,
+    /// <summary>
+    /// payload TaskServiceListTasksRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_LIST_NODE_TASKS")] ListNodeTasks = 3,
+    /// <summary>
+    /// payload TaskServiceWaitTaskRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_WAIT_NODE_TASK")] WaitNodeTask = 4,
+    /// <summary>
+    /// payload TaskServiceReadTaskOutputRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_READ_NODE_TASK_OUTPUT")] ReadNodeTaskOutput = 5,
+    /// <summary>
+    /// payload TaskServiceCancelTaskRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_CANCEL_NODE_TASK")] CancelNodeTask = 6,
+    /// <summary>
+    /// relay assertions only
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_LIST_NODES")] ListNodes = 7,
+    /// <summary>
+    /// relay assertions only
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_GET_NODE")] GetNode = 8,
+  }
+
+  /// <summary>
+  /// What the node did with a routed call; the numbers are the node store's routed_call_log.decision 1..4.
+  /// </summary>
+  public enum RoutedOutcome {
+    [pbr::OriginalName("ROUTED_OUTCOME_UNSPECIFIED")] Unspecified = 0,
+    /// <summary>
+    /// the TaskService handler ran; the payload is its response, a value or the handler's own ArcError
+    /// </summary>
+    [pbr::OriginalName("ROUTED_OUTCOME_EXECUTED")] Executed = 1,
+    /// <summary>
+    /// the center-routed policy or the permission matrix refused, an approval raised included
+    /// </summary>
+    [pbr::OriginalName("ROUTED_OUTCOME_REFUSED_BY_POLICY")] RefusedByPolicy = 2,
+    /// <summary>
+    /// the call failed the node's verification (Design 11 T-11), a replayed call ID included
+    /// </summary>
+    [pbr::OriginalName("ROUTED_OUTCOME_REFUSED_VERIFICATION")] RefusedVerification = 3,
+    /// <summary>
+    /// verified, but expired at the re-check immediately before the effect
+    /// </summary>
+    [pbr::OriginalName("ROUTED_OUTCOME_EXPIRED")] Expired = 4,
+  }
+
+  #endregion
+
   #region Messages
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class RelayLimits : pb::IMessage<RelayLimits>
@@ -1809,6 +2006,14 @@ namespace ArcForges.Contracts.Relay.V1 {
 
   }
 
+  /// <summary>
+  /// The node's first frame, the answer to ChannelChallenge (AF-CTR-05: Plan decision PB-4, D0-B2). The center checks that node_id
+  /// and installation_id equal the enrolled node and the installation of the bearer credential that opened this connection (else
+  /// it closes 4403), and verifies hello_signature against the key registered for that installation, never a key the hello names,
+  /// over the channel hello proof built from this connection's own nonce and connection ID; the node does not send them back, so a
+  /// proof over another connection's challenge fails. Only then is the connection the node's, an older connection of the node is
+  /// closed 4409, and calls may follow.
+  /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class NodeHello : pb::IMessage<NodeHello>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -1850,6 +2055,10 @@ namespace ArcForges.Contracts.Relay.V1 {
       version_ = other.version_;
       generation_ = other.generation_;
       lastSeq_ = other.lastSeq_;
+      contractVersion_ = other.contractVersion_;
+      capabilities_ = other.capabilities_.Clone();
+      installationId_ = other.installationId_ != null ? other.installationId_.Clone() : null;
+      helloSignature_ = other.helloSignature_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1951,6 +2160,93 @@ namespace ArcForges.Contracts.Relay.V1 {
       _hasBits0 &= ~2;
     }
 
+    /// <summary>Field number for the "contract_version" field.</summary>
+    public const int ContractVersionFieldNumber = 5;
+    private readonly static string ContractVersionDefaultValue = "";
+
+    private string contractVersion_;
+    /// <summary>
+    /// validate: 1..64 chars; the Contracts cohort the node was built with
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string ContractVersion {
+      get { return contractVersion_ ?? ContractVersionDefaultValue; }
+      set {
+        contractVersion_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "contract_version" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasContractVersion {
+      get { return contractVersion_ != null; }
+    }
+    /// <summary>Clears the value of the "contract_version" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearContractVersion() {
+      contractVersion_ = null;
+    }
+
+    /// <summary>Field number for the "capabilities" field.</summary>
+    public const int CapabilitiesFieldNumber = 6;
+    private static readonly pb::FieldCodec<string> _repeated_capabilities_codec
+        = pb::FieldCodec.ForString(50);
+    private readonly pbc::RepeatedField<string> capabilities_ = new pbc::RepeatedField<string>();
+    /// <summary>
+    /// validate: &lt;= 16 unique entries of ^[a-z][a-z0-9.-]{0,31}$, e.g. routed.v1
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<string> Capabilities {
+      get { return capabilities_; }
+    }
+
+    /// <summary>Field number for the "installation_id" field.</summary>
+    public const int InstallationIdFieldNumber = 7;
+    private global::ArcForges.Contracts.Foundation.V1.Id installationId_;
+    /// <summary>
+    /// validate: required; the bearer credential's installation
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id InstallationId {
+      get { return installationId_; }
+      set {
+        installationId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "hello_signature" field.</summary>
+    public const int HelloSignatureFieldNumber = 8;
+    private readonly static pb::ByteString HelloSignatureDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString helloSignature_;
+    /// <summary>
+    /// validate: required; 64 bytes; the channel hello proof
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString HelloSignature {
+      get { return helloSignature_ ?? HelloSignatureDefaultValue; }
+      set {
+        helloSignature_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "hello_signature" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasHelloSignature {
+      get { return helloSignature_ != null; }
+    }
+    /// <summary>Clears the value of the "hello_signature" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearHelloSignature() {
+      helloSignature_ = null;
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -1970,6 +2266,10 @@ namespace ArcForges.Contracts.Relay.V1 {
       if (Version != other.Version) return false;
       if (Generation != other.Generation) return false;
       if (LastSeq != other.LastSeq) return false;
+      if (ContractVersion != other.ContractVersion) return false;
+      if(!capabilities_.Equals(other.capabilities_)) return false;
+      if (!object.Equals(InstallationId, other.InstallationId)) return false;
+      if (HelloSignature != other.HelloSignature) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1981,6 +2281,10 @@ namespace ArcForges.Contracts.Relay.V1 {
       if (HasVersion) hash ^= Version.GetHashCode();
       if (HasGeneration) hash ^= Generation.GetHashCode();
       if (HasLastSeq) hash ^= LastSeq.GetHashCode();
+      if (HasContractVersion) hash ^= ContractVersion.GetHashCode();
+      hash ^= capabilities_.GetHashCode();
+      if (installationId_ != null) hash ^= InstallationId.GetHashCode();
+      if (HasHelloSignature) hash ^= HelloSignature.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2015,6 +2319,19 @@ namespace ArcForges.Contracts.Relay.V1 {
         output.WriteRawTag(32);
         output.WriteUInt64(LastSeq);
       }
+      if (HasContractVersion) {
+        output.WriteRawTag(42);
+        output.WriteString(ContractVersion);
+      }
+      capabilities_.WriteTo(output, _repeated_capabilities_codec);
+      if (installationId_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(InstallationId);
+      }
+      if (HasHelloSignature) {
+        output.WriteRawTag(66);
+        output.WriteBytes(HelloSignature);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2041,6 +2358,19 @@ namespace ArcForges.Contracts.Relay.V1 {
         output.WriteRawTag(32);
         output.WriteUInt64(LastSeq);
       }
+      if (HasContractVersion) {
+        output.WriteRawTag(42);
+        output.WriteString(ContractVersion);
+      }
+      capabilities_.WriteTo(ref output, _repeated_capabilities_codec);
+      if (installationId_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(InstallationId);
+      }
+      if (HasHelloSignature) {
+        output.WriteRawTag(66);
+        output.WriteBytes(HelloSignature);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -2062,6 +2392,16 @@ namespace ArcForges.Contracts.Relay.V1 {
       }
       if (HasLastSeq) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(LastSeq);
+      }
+      if (HasContractVersion) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ContractVersion);
+      }
+      size += capabilities_.CalculateSize(_repeated_capabilities_codec);
+      if (installationId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(InstallationId);
+      }
+      if (HasHelloSignature) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(HelloSignature);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2089,6 +2429,19 @@ namespace ArcForges.Contracts.Relay.V1 {
       }
       if (other.HasLastSeq) {
         LastSeq = other.LastSeq;
+      }
+      if (other.HasContractVersion) {
+        ContractVersion = other.ContractVersion;
+      }
+      capabilities_.Add(other.capabilities_);
+      if (other.installationId_ != null) {
+        if (installationId_ == null) {
+          InstallationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        InstallationId.MergeFrom(other.InstallationId);
+      }
+      if (other.HasHelloSignature) {
+        HelloSignature = other.HelloSignature;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2128,6 +2481,25 @@ namespace ArcForges.Contracts.Relay.V1 {
             LastSeq = input.ReadUInt64();
             break;
           }
+          case 42: {
+            ContractVersion = input.ReadString();
+            break;
+          }
+          case 50: {
+            capabilities_.AddEntriesFrom(input, _repeated_capabilities_codec);
+            break;
+          }
+          case 58: {
+            if (installationId_ == null) {
+              InstallationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(InstallationId);
+            break;
+          }
+          case 66: {
+            HelloSignature = input.ReadBytes();
+            break;
+          }
         }
       }
     #endif
@@ -2164,6 +2536,25 @@ namespace ArcForges.Contracts.Relay.V1 {
           }
           case 32: {
             LastSeq = input.ReadUInt64();
+            break;
+          }
+          case 42: {
+            ContractVersion = input.ReadString();
+            break;
+          }
+          case 50: {
+            capabilities_.AddEntriesFrom(ref input, _repeated_capabilities_codec);
+            break;
+          }
+          case 58: {
+            if (installationId_ == null) {
+              InstallationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(InstallationId);
+            break;
+          }
+          case 66: {
+            HelloSignature = input.ReadBytes();
             break;
           }
         }
@@ -3151,6 +3542,11 @@ namespace ArcForges.Contracts.Relay.V1 {
 
   }
 
+  /// <summary>
+  /// On the AF-CTR-05 node channel, TokenRefresh carries an access token of the same session family that opened the connection; a
+  /// token of another node or another installation closes 4403, so the connection's installation key (the key of results and of
+  /// relay assertions) never changes during the connection (review A N-5).
+  /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class TokenRefresh : pb::IMessage<TokenRefresh>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -3617,6 +4013,7 @@ namespace ArcForges.Contracts.Relay.V1 {
       _hasBits0 = other._hasBits0;
       code_ = other.code_;
       reason_ = other.reason_;
+      reconnectAfterMs_ = other.reconnectAfterMs_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3632,7 +4029,11 @@ namespace ArcForges.Contracts.Relay.V1 {
 
     private uint code_;
     /// <summary>
-    /// 4401 token expired, 4403 refused, 4408 idle, 4429 rate limited, 4503 kill switch
+    /// AF-CTR-05 node channel (Plan CTR5-HUB-11): 4401 credential expired or revoked (no TokenRefresh within 120 s of the bound
+    /// access token's expiry, or a revocation); 4403 refused (feature, plan or account state, a node or installation mismatch, a
+    /// failed hello proof, an unverifiable result); 4408 hello or heartbeat deadline; 4409 replaced by a newer proved connection of
+    /// the node; 4413 frame too large; 4429 rate limited; 4500 center shutting down (reconnect after a jittered delay); 4503 kill
+    /// switch (reserved, AF-CLD-04). A node treats an abnormal close (1006, 1011) like 4500.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -3682,6 +4083,36 @@ namespace ArcForges.Contracts.Relay.V1 {
       reason_ = null;
     }
 
+    /// <summary>Field number for the "reconnect_after_ms" field.</summary>
+    public const int ReconnectAfterMsFieldNumber = 3;
+    private readonly static uint ReconnectAfterMsDefaultValue = 0;
+
+    private uint reconnectAfterMs_;
+    /// <summary>
+    /// validate: 0..300,000; meaningful with code 4500 only: the jittered delay the center asks the node to wait before it reconnects (Plan CTR5-HUB-11); absent or with another code, the node uses its own backoff
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint ReconnectAfterMs {
+      get { if ((_hasBits0 & 2) != 0) { return reconnectAfterMs_; } else { return ReconnectAfterMsDefaultValue; } }
+      set {
+        _hasBits0 |= 2;
+        reconnectAfterMs_ = value;
+      }
+    }
+    /// <summary>Gets whether the "reconnect_after_ms" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasReconnectAfterMs {
+      get { return (_hasBits0 & 2) != 0; }
+    }
+    /// <summary>Clears the value of the "reconnect_after_ms" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearReconnectAfterMs() {
+      _hasBits0 &= ~2;
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -3699,6 +4130,7 @@ namespace ArcForges.Contracts.Relay.V1 {
       }
       if (Code != other.Code) return false;
       if (Reason != other.Reason) return false;
+      if (ReconnectAfterMs != other.ReconnectAfterMs) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3708,6 +4140,7 @@ namespace ArcForges.Contracts.Relay.V1 {
       int hash = 1;
       if (HasCode) hash ^= Code.GetHashCode();
       if (HasReason) hash ^= Reason.GetHashCode();
+      if (HasReconnectAfterMs) hash ^= ReconnectAfterMs.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3734,6 +4167,10 @@ namespace ArcForges.Contracts.Relay.V1 {
         output.WriteRawTag(18);
         output.WriteString(Reason);
       }
+      if (HasReconnectAfterMs) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(ReconnectAfterMs);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3752,6 +4189,10 @@ namespace ArcForges.Contracts.Relay.V1 {
         output.WriteRawTag(18);
         output.WriteString(Reason);
       }
+      if (HasReconnectAfterMs) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(ReconnectAfterMs);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -3767,6 +4208,9 @@ namespace ArcForges.Contracts.Relay.V1 {
       }
       if (HasReason) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Reason);
+      }
+      if (HasReconnectAfterMs) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ReconnectAfterMs);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -3785,6 +4229,9 @@ namespace ArcForges.Contracts.Relay.V1 {
       }
       if (other.HasReason) {
         Reason = other.Reason;
+      }
+      if (other.HasReconnectAfterMs) {
+        ReconnectAfterMs = other.ReconnectAfterMs;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -3813,6 +4260,10 @@ namespace ArcForges.Contracts.Relay.V1 {
             Reason = input.ReadString();
             break;
           }
+          case 24: {
+            ReconnectAfterMs = input.ReadUInt32();
+            break;
+          }
         }
       }
     #endif
@@ -3838,6 +4289,10 @@ namespace ArcForges.Contracts.Relay.V1 {
           }
           case 18: {
             Reason = input.ReadString();
+            break;
+          }
+          case 24: {
+            ReconnectAfterMs = input.ReadUInt32();
             break;
           }
         }
@@ -4545,6 +5000,27 @@ namespace ArcForges.Contracts.Relay.V1 {
         case FrameOneofCase.OutputTail:
           OutputTail = other.OutputTail.Clone();
           break;
+        case FrameOneofCase.Call:
+          Call = other.Call.Clone();
+          break;
+        case FrameOneofCase.CallResult:
+          CallResult = other.CallResult.Clone();
+          break;
+        case FrameOneofCase.Heartbeat:
+          Heartbeat = other.Heartbeat.Clone();
+          break;
+        case FrameOneofCase.Accepted:
+          Accepted = other.Accepted.Clone();
+          break;
+        case FrameOneofCase.Challenge:
+          Challenge = other.Challenge.Clone();
+          break;
+        case FrameOneofCase.RelayNonceRequest:
+          RelayNonceRequest = other.RelayNonceRequest.Clone();
+          break;
+        case FrameOneofCase.RelayNonce:
+          RelayNonce = other.RelayNonce.Clone();
+          break;
       }
 
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -4811,6 +5287,111 @@ namespace ArcForges.Contracts.Relay.V1 {
       }
     }
 
+    /// <summary>Field number for the "call" field.</summary>
+    public const int CallFieldNumber = 23;
+    /// <summary>
+    /// center -> node (AF-CTR-05)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.ChannelCall Call {
+      get { return frameCase_ == FrameOneofCase.Call ? (global::ArcForges.Contracts.Relay.V1.ChannelCall) frame_ : null; }
+      set {
+        frame_ = value;
+        frameCase_ = value == null ? FrameOneofCase.None : FrameOneofCase.Call;
+      }
+    }
+
+    /// <summary>Field number for the "call_result" field.</summary>
+    public const int CallResultFieldNumber = 24;
+    /// <summary>
+    /// node -> center (AF-CTR-05)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.ChannelResult CallResult {
+      get { return frameCase_ == FrameOneofCase.CallResult ? (global::ArcForges.Contracts.Relay.V1.ChannelResult) frame_ : null; }
+      set {
+        frame_ = value;
+        frameCase_ = value == null ? FrameOneofCase.None : FrameOneofCase.CallResult;
+      }
+    }
+
+    /// <summary>Field number for the "heartbeat" field.</summary>
+    public const int HeartbeatFieldNumber = 25;
+    /// <summary>
+    /// either direction (AF-CTR-05)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.ChannelHeartbeat Heartbeat {
+      get { return frameCase_ == FrameOneofCase.Heartbeat ? (global::ArcForges.Contracts.Relay.V1.ChannelHeartbeat) frame_ : null; }
+      set {
+        frame_ = value;
+        frameCase_ = value == null ? FrameOneofCase.None : FrameOneofCase.Heartbeat;
+      }
+    }
+
+    /// <summary>Field number for the "accepted" field.</summary>
+    public const int AcceptedFieldNumber = 26;
+    /// <summary>
+    /// center -> node (AF-CTR-05)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.ChannelAccepted Accepted {
+      get { return frameCase_ == FrameOneofCase.Accepted ? (global::ArcForges.Contracts.Relay.V1.ChannelAccepted) frame_ : null; }
+      set {
+        frame_ = value;
+        frameCase_ = value == null ? FrameOneofCase.None : FrameOneofCase.Accepted;
+      }
+    }
+
+    /// <summary>Field number for the "challenge" field.</summary>
+    public const int ChallengeFieldNumber = 27;
+    /// <summary>
+    /// center -> node, the first frame (AF-CTR-05)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.ChannelChallenge Challenge {
+      get { return frameCase_ == FrameOneofCase.Challenge ? (global::ArcForges.Contracts.Relay.V1.ChannelChallenge) frame_ : null; }
+      set {
+        frame_ = value;
+        frameCase_ = value == null ? FrameOneofCase.None : FrameOneofCase.Challenge;
+      }
+    }
+
+    /// <summary>Field number for the "relay_nonce_request" field.</summary>
+    public const int RelayNonceRequestFieldNumber = 28;
+    /// <summary>
+    /// node -> center (AF-CTR-05)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.RelayNonceRequest RelayNonceRequest {
+      get { return frameCase_ == FrameOneofCase.RelayNonceRequest ? (global::ArcForges.Contracts.Relay.V1.RelayNonceRequest) frame_ : null; }
+      set {
+        frame_ = value;
+        frameCase_ = value == null ? FrameOneofCase.None : FrameOneofCase.RelayNonceRequest;
+      }
+    }
+
+    /// <summary>Field number for the "relay_nonce" field.</summary>
+    public const int RelayNonceFieldNumber = 29;
+    /// <summary>
+    /// center -> node (AF-CTR-05)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.RelayNonce RelayNonce {
+      get { return frameCase_ == FrameOneofCase.RelayNonce ? (global::ArcForges.Contracts.Relay.V1.RelayNonce) frame_ : null; }
+      set {
+        frame_ = value;
+        frameCase_ = value == null ? FrameOneofCase.None : FrameOneofCase.RelayNonce;
+      }
+    }
+
     private object frame_;
     /// <summary>Enum of possible cases for the "frame" oneof.</summary>
     public enum FrameOneofCase {
@@ -4828,6 +5409,13 @@ namespace ArcForges.Contracts.Relay.V1 {
       Close = 20,
       Ack = 21,
       OutputTail = 22,
+      Call = 23,
+      CallResult = 24,
+      Heartbeat = 25,
+      Accepted = 26,
+      Challenge = 27,
+      RelayNonceRequest = 28,
+      RelayNonce = 29,
     }
     private FrameOneofCase frameCase_ = FrameOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4873,6 +5461,13 @@ namespace ArcForges.Contracts.Relay.V1 {
       if (!object.Equals(Close, other.Close)) return false;
       if (!object.Equals(Ack, other.Ack)) return false;
       if (!object.Equals(OutputTail, other.OutputTail)) return false;
+      if (!object.Equals(Call, other.Call)) return false;
+      if (!object.Equals(CallResult, other.CallResult)) return false;
+      if (!object.Equals(Heartbeat, other.Heartbeat)) return false;
+      if (!object.Equals(Accepted, other.Accepted)) return false;
+      if (!object.Equals(Challenge, other.Challenge)) return false;
+      if (!object.Equals(RelayNonceRequest, other.RelayNonceRequest)) return false;
+      if (!object.Equals(RelayNonce, other.RelayNonce)) return false;
       if (FrameCase != other.FrameCase) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -4896,6 +5491,13 @@ namespace ArcForges.Contracts.Relay.V1 {
       if (frameCase_ == FrameOneofCase.Close) hash ^= Close.GetHashCode();
       if (frameCase_ == FrameOneofCase.Ack) hash ^= Ack.GetHashCode();
       if (frameCase_ == FrameOneofCase.OutputTail) hash ^= OutputTail.GetHashCode();
+      if (frameCase_ == FrameOneofCase.Call) hash ^= Call.GetHashCode();
+      if (frameCase_ == FrameOneofCase.CallResult) hash ^= CallResult.GetHashCode();
+      if (frameCase_ == FrameOneofCase.Heartbeat) hash ^= Heartbeat.GetHashCode();
+      if (frameCase_ == FrameOneofCase.Accepted) hash ^= Accepted.GetHashCode();
+      if (frameCase_ == FrameOneofCase.Challenge) hash ^= Challenge.GetHashCode();
+      if (frameCase_ == FrameOneofCase.RelayNonceRequest) hash ^= RelayNonceRequest.GetHashCode();
+      if (frameCase_ == FrameOneofCase.RelayNonce) hash ^= RelayNonce.GetHashCode();
       hash ^= (int) frameCase_;
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -4975,6 +5577,34 @@ namespace ArcForges.Contracts.Relay.V1 {
         output.WriteRawTag(178, 1);
         output.WriteMessage(OutputTail);
       }
+      if (frameCase_ == FrameOneofCase.Call) {
+        output.WriteRawTag(186, 1);
+        output.WriteMessage(Call);
+      }
+      if (frameCase_ == FrameOneofCase.CallResult) {
+        output.WriteRawTag(194, 1);
+        output.WriteMessage(CallResult);
+      }
+      if (frameCase_ == FrameOneofCase.Heartbeat) {
+        output.WriteRawTag(202, 1);
+        output.WriteMessage(Heartbeat);
+      }
+      if (frameCase_ == FrameOneofCase.Accepted) {
+        output.WriteRawTag(210, 1);
+        output.WriteMessage(Accepted);
+      }
+      if (frameCase_ == FrameOneofCase.Challenge) {
+        output.WriteRawTag(218, 1);
+        output.WriteMessage(Challenge);
+      }
+      if (frameCase_ == FrameOneofCase.RelayNonceRequest) {
+        output.WriteRawTag(226, 1);
+        output.WriteMessage(RelayNonceRequest);
+      }
+      if (frameCase_ == FrameOneofCase.RelayNonce) {
+        output.WriteRawTag(234, 1);
+        output.WriteMessage(RelayNonce);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -5045,6 +5675,34 @@ namespace ArcForges.Contracts.Relay.V1 {
         output.WriteRawTag(178, 1);
         output.WriteMessage(OutputTail);
       }
+      if (frameCase_ == FrameOneofCase.Call) {
+        output.WriteRawTag(186, 1);
+        output.WriteMessage(Call);
+      }
+      if (frameCase_ == FrameOneofCase.CallResult) {
+        output.WriteRawTag(194, 1);
+        output.WriteMessage(CallResult);
+      }
+      if (frameCase_ == FrameOneofCase.Heartbeat) {
+        output.WriteRawTag(202, 1);
+        output.WriteMessage(Heartbeat);
+      }
+      if (frameCase_ == FrameOneofCase.Accepted) {
+        output.WriteRawTag(210, 1);
+        output.WriteMessage(Accepted);
+      }
+      if (frameCase_ == FrameOneofCase.Challenge) {
+        output.WriteRawTag(218, 1);
+        output.WriteMessage(Challenge);
+      }
+      if (frameCase_ == FrameOneofCase.RelayNonceRequest) {
+        output.WriteRawTag(226, 1);
+        output.WriteMessage(RelayNonceRequest);
+      }
+      if (frameCase_ == FrameOneofCase.RelayNonce) {
+        output.WriteRawTag(234, 1);
+        output.WriteMessage(RelayNonce);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -5099,6 +5757,27 @@ namespace ArcForges.Contracts.Relay.V1 {
       }
       if (frameCase_ == FrameOneofCase.OutputTail) {
         size += 2 + pb::CodedOutputStream.ComputeMessageSize(OutputTail);
+      }
+      if (frameCase_ == FrameOneofCase.Call) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(Call);
+      }
+      if (frameCase_ == FrameOneofCase.CallResult) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(CallResult);
+      }
+      if (frameCase_ == FrameOneofCase.Heartbeat) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(Heartbeat);
+      }
+      if (frameCase_ == FrameOneofCase.Accepted) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(Accepted);
+      }
+      if (frameCase_ == FrameOneofCase.Challenge) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(Challenge);
+      }
+      if (frameCase_ == FrameOneofCase.RelayNonceRequest) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RelayNonceRequest);
+      }
+      if (frameCase_ == FrameOneofCase.RelayNonce) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RelayNonce);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -5196,6 +5875,48 @@ namespace ArcForges.Contracts.Relay.V1 {
             OutputTail = new global::ArcForges.Contracts.Relay.V1.OutputTail();
           }
           OutputTail.MergeFrom(other.OutputTail);
+          break;
+        case FrameOneofCase.Call:
+          if (Call == null) {
+            Call = new global::ArcForges.Contracts.Relay.V1.ChannelCall();
+          }
+          Call.MergeFrom(other.Call);
+          break;
+        case FrameOneofCase.CallResult:
+          if (CallResult == null) {
+            CallResult = new global::ArcForges.Contracts.Relay.V1.ChannelResult();
+          }
+          CallResult.MergeFrom(other.CallResult);
+          break;
+        case FrameOneofCase.Heartbeat:
+          if (Heartbeat == null) {
+            Heartbeat = new global::ArcForges.Contracts.Relay.V1.ChannelHeartbeat();
+          }
+          Heartbeat.MergeFrom(other.Heartbeat);
+          break;
+        case FrameOneofCase.Accepted:
+          if (Accepted == null) {
+            Accepted = new global::ArcForges.Contracts.Relay.V1.ChannelAccepted();
+          }
+          Accepted.MergeFrom(other.Accepted);
+          break;
+        case FrameOneofCase.Challenge:
+          if (Challenge == null) {
+            Challenge = new global::ArcForges.Contracts.Relay.V1.ChannelChallenge();
+          }
+          Challenge.MergeFrom(other.Challenge);
+          break;
+        case FrameOneofCase.RelayNonceRequest:
+          if (RelayNonceRequest == null) {
+            RelayNonceRequest = new global::ArcForges.Contracts.Relay.V1.RelayNonceRequest();
+          }
+          RelayNonceRequest.MergeFrom(other.RelayNonceRequest);
+          break;
+        case FrameOneofCase.RelayNonce:
+          if (RelayNonce == null) {
+            RelayNonce = new global::ArcForges.Contracts.Relay.V1.RelayNonce();
+          }
+          RelayNonce.MergeFrom(other.RelayNonce);
           break;
       }
 
@@ -5343,6 +6064,69 @@ namespace ArcForges.Contracts.Relay.V1 {
             OutputTail = subBuilder;
             break;
           }
+          case 186: {
+            global::ArcForges.Contracts.Relay.V1.ChannelCall subBuilder = new global::ArcForges.Contracts.Relay.V1.ChannelCall();
+            if (frameCase_ == FrameOneofCase.Call) {
+              subBuilder.MergeFrom(Call);
+            }
+            input.ReadMessage(subBuilder);
+            Call = subBuilder;
+            break;
+          }
+          case 194: {
+            global::ArcForges.Contracts.Relay.V1.ChannelResult subBuilder = new global::ArcForges.Contracts.Relay.V1.ChannelResult();
+            if (frameCase_ == FrameOneofCase.CallResult) {
+              subBuilder.MergeFrom(CallResult);
+            }
+            input.ReadMessage(subBuilder);
+            CallResult = subBuilder;
+            break;
+          }
+          case 202: {
+            global::ArcForges.Contracts.Relay.V1.ChannelHeartbeat subBuilder = new global::ArcForges.Contracts.Relay.V1.ChannelHeartbeat();
+            if (frameCase_ == FrameOneofCase.Heartbeat) {
+              subBuilder.MergeFrom(Heartbeat);
+            }
+            input.ReadMessage(subBuilder);
+            Heartbeat = subBuilder;
+            break;
+          }
+          case 210: {
+            global::ArcForges.Contracts.Relay.V1.ChannelAccepted subBuilder = new global::ArcForges.Contracts.Relay.V1.ChannelAccepted();
+            if (frameCase_ == FrameOneofCase.Accepted) {
+              subBuilder.MergeFrom(Accepted);
+            }
+            input.ReadMessage(subBuilder);
+            Accepted = subBuilder;
+            break;
+          }
+          case 218: {
+            global::ArcForges.Contracts.Relay.V1.ChannelChallenge subBuilder = new global::ArcForges.Contracts.Relay.V1.ChannelChallenge();
+            if (frameCase_ == FrameOneofCase.Challenge) {
+              subBuilder.MergeFrom(Challenge);
+            }
+            input.ReadMessage(subBuilder);
+            Challenge = subBuilder;
+            break;
+          }
+          case 226: {
+            global::ArcForges.Contracts.Relay.V1.RelayNonceRequest subBuilder = new global::ArcForges.Contracts.Relay.V1.RelayNonceRequest();
+            if (frameCase_ == FrameOneofCase.RelayNonceRequest) {
+              subBuilder.MergeFrom(RelayNonceRequest);
+            }
+            input.ReadMessage(subBuilder);
+            RelayNonceRequest = subBuilder;
+            break;
+          }
+          case 234: {
+            global::ArcForges.Contracts.Relay.V1.RelayNonce subBuilder = new global::ArcForges.Contracts.Relay.V1.RelayNonce();
+            if (frameCase_ == FrameOneofCase.RelayNonce) {
+              subBuilder.MergeFrom(RelayNonce);
+            }
+            input.ReadMessage(subBuilder);
+            RelayNonce = subBuilder;
+            break;
+          }
         }
       }
     #endif
@@ -5487,6 +6271,5362 @@ namespace ArcForges.Contracts.Relay.V1 {
             OutputTail = subBuilder;
             break;
           }
+          case 186: {
+            global::ArcForges.Contracts.Relay.V1.ChannelCall subBuilder = new global::ArcForges.Contracts.Relay.V1.ChannelCall();
+            if (frameCase_ == FrameOneofCase.Call) {
+              subBuilder.MergeFrom(Call);
+            }
+            input.ReadMessage(subBuilder);
+            Call = subBuilder;
+            break;
+          }
+          case 194: {
+            global::ArcForges.Contracts.Relay.V1.ChannelResult subBuilder = new global::ArcForges.Contracts.Relay.V1.ChannelResult();
+            if (frameCase_ == FrameOneofCase.CallResult) {
+              subBuilder.MergeFrom(CallResult);
+            }
+            input.ReadMessage(subBuilder);
+            CallResult = subBuilder;
+            break;
+          }
+          case 202: {
+            global::ArcForges.Contracts.Relay.V1.ChannelHeartbeat subBuilder = new global::ArcForges.Contracts.Relay.V1.ChannelHeartbeat();
+            if (frameCase_ == FrameOneofCase.Heartbeat) {
+              subBuilder.MergeFrom(Heartbeat);
+            }
+            input.ReadMessage(subBuilder);
+            Heartbeat = subBuilder;
+            break;
+          }
+          case 210: {
+            global::ArcForges.Contracts.Relay.V1.ChannelAccepted subBuilder = new global::ArcForges.Contracts.Relay.V1.ChannelAccepted();
+            if (frameCase_ == FrameOneofCase.Accepted) {
+              subBuilder.MergeFrom(Accepted);
+            }
+            input.ReadMessage(subBuilder);
+            Accepted = subBuilder;
+            break;
+          }
+          case 218: {
+            global::ArcForges.Contracts.Relay.V1.ChannelChallenge subBuilder = new global::ArcForges.Contracts.Relay.V1.ChannelChallenge();
+            if (frameCase_ == FrameOneofCase.Challenge) {
+              subBuilder.MergeFrom(Challenge);
+            }
+            input.ReadMessage(subBuilder);
+            Challenge = subBuilder;
+            break;
+          }
+          case 226: {
+            global::ArcForges.Contracts.Relay.V1.RelayNonceRequest subBuilder = new global::ArcForges.Contracts.Relay.V1.RelayNonceRequest();
+            if (frameCase_ == FrameOneofCase.RelayNonceRequest) {
+              subBuilder.MergeFrom(RelayNonceRequest);
+            }
+            input.ReadMessage(subBuilder);
+            RelayNonceRequest = subBuilder;
+            break;
+          }
+          case 234: {
+            global::ArcForges.Contracts.Relay.V1.RelayNonce subBuilder = new global::ArcForges.Contracts.Relay.V1.RelayNonce();
+            if (frameCase_ == FrameOneofCase.RelayNonce) {
+              subBuilder.MergeFrom(RelayNonce);
+            }
+            input.ReadMessage(subBuilder);
+            RelayNonce = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// The center's first frame on a new connection (Plan decision PB-4, D0-B2). The nonce is accepted once, only on this connection,
+  /// and is void at the hello deadline or when the connection closes.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChannelChallenge : pb::IMessage<ChannelChallenge>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChannelChallenge> _parser = new pb::MessageParser<ChannelChallenge>(() => new ChannelChallenge());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChannelChallenge> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[13]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelChallenge() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelChallenge(ChannelChallenge other) : this() {
+      nonce_ = other.nonce_;
+      connectionId_ = other.connectionId_ != null ? other.connectionId_.Clone() : null;
+      helloDeadline_ = other.helloDeadline_ != null ? other.helloDeadline_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelChallenge Clone() {
+      return new ChannelChallenge(this);
+    }
+
+    /// <summary>Field number for the "nonce" field.</summary>
+    public const int NonceFieldNumber = 1;
+    private readonly static pb::ByteString NonceDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString nonce_;
+    /// <summary>
+    /// validate: required; 32 random bytes
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Nonce {
+      get { return nonce_ ?? NonceDefaultValue; }
+      set {
+        nonce_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "nonce" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasNonce {
+      get { return nonce_ != null; }
+    }
+    /// <summary>Clears the value of the "nonce" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearNonce() {
+      nonce_ = null;
+    }
+
+    /// <summary>Field number for the "connection_id" field.</summary>
+    public const int ConnectionIdFieldNumber = 2;
+    private global::ArcForges.Contracts.Foundation.V1.Id connectionId_;
+    /// <summary>
+    /// validate: required
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ConnectionId {
+      get { return connectionId_; }
+      set {
+        connectionId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "hello_deadline" field.</summary>
+    public const int HelloDeadlineFieldNumber = 3;
+    private global::ArcForges.Contracts.Foundation.V1.Instant helloDeadline_;
+    /// <summary>
+    /// validate: required; 10 s after the upgrade; no valid NodeHello by then closes 4408
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant HelloDeadline {
+      get { return helloDeadline_; }
+      set {
+        helloDeadline_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChannelChallenge);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChannelChallenge other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Nonce != other.Nonce) return false;
+      if (!object.Equals(ConnectionId, other.ConnectionId)) return false;
+      if (!object.Equals(HelloDeadline, other.HelloDeadline)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasNonce) hash ^= Nonce.GetHashCode();
+      if (connectionId_ != null) hash ^= ConnectionId.GetHashCode();
+      if (helloDeadline_ != null) hash ^= HelloDeadline.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasNonce) {
+        output.WriteRawTag(10);
+        output.WriteBytes(Nonce);
+      }
+      if (connectionId_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(ConnectionId);
+      }
+      if (helloDeadline_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(HelloDeadline);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasNonce) {
+        output.WriteRawTag(10);
+        output.WriteBytes(Nonce);
+      }
+      if (connectionId_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(ConnectionId);
+      }
+      if (helloDeadline_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(HelloDeadline);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasNonce) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Nonce);
+      }
+      if (connectionId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConnectionId);
+      }
+      if (helloDeadline_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(HelloDeadline);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChannelChallenge other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasNonce) {
+        Nonce = other.Nonce;
+      }
+      if (other.connectionId_ != null) {
+        if (connectionId_ == null) {
+          ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ConnectionId.MergeFrom(other.ConnectionId);
+      }
+      if (other.helloDeadline_ != null) {
+        if (helloDeadline_ == null) {
+          HelloDeadline = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        HelloDeadline.MergeFrom(other.HelloDeadline);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Nonce = input.ReadBytes();
+            break;
+          }
+          case 18: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+          case 26: {
+            if (helloDeadline_ == null) {
+              HelloDeadline = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(HelloDeadline);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            Nonce = input.ReadBytes();
+            break;
+          }
+          case 18: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+          case 26: {
+            if (helloDeadline_ == null) {
+              HelloDeadline = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(HelloDeadline);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// The center's limits for one connection (Plan CTR5-HUB-03, CTR5-HUB-10).
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChannelLimits : pb::IMessage<ChannelLimits>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChannelLimits> _parser = new pb::MessageParser<ChannelLimits>(() => new ChannelLimits());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChannelLimits> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[14]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelLimits() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelLimits(ChannelLimits other) : this() {
+      _hasBits0 = other._hasBits0;
+      maxFrameBytes_ = other.maxFrameBytes_;
+      maxInFlightCalls_ = other.maxInFlightCalls_;
+      heartbeatIntervalMs_ = other.heartbeatIntervalMs_;
+      heartbeatDeadlineMs_ = other.heartbeatDeadlineMs_;
+      maxRelayNonces_ = other.maxRelayNonces_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelLimits Clone() {
+      return new ChannelLimits(this);
+    }
+
+    /// <summary>Field number for the "max_frame_bytes" field.</summary>
+    public const int MaxFrameBytesFieldNumber = 1;
+    private readonly static uint MaxFrameBytesDefaultValue = 0;
+
+    private uint maxFrameBytes_;
+    /// <summary>
+    /// validate: required; exactly 1,048,576 (1 MiB, Plan CTR5-HUB-03), so the largest call (253,952-byte payload) and result (1,040,384-byte payload) frames always fit; a larger frame closes 4413
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxFrameBytes {
+      get { if ((_hasBits0 & 1) != 0) { return maxFrameBytes_; } else { return MaxFrameBytesDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        maxFrameBytes_ = value;
+      }
+    }
+    /// <summary>Gets whether the "max_frame_bytes" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMaxFrameBytes {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "max_frame_bytes" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMaxFrameBytes() {
+      _hasBits0 &= ~1;
+    }
+
+    /// <summary>Field number for the "max_in_flight_calls" field.</summary>
+    public const int MaxInFlightCallsFieldNumber = 2;
+    private readonly static uint MaxInFlightCallsDefaultValue = 0;
+
+    private uint maxInFlightCalls_;
+    /// <summary>
+    /// validate: required; 1..64 (default 8)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxInFlightCalls {
+      get { if ((_hasBits0 & 2) != 0) { return maxInFlightCalls_; } else { return MaxInFlightCallsDefaultValue; } }
+      set {
+        _hasBits0 |= 2;
+        maxInFlightCalls_ = value;
+      }
+    }
+    /// <summary>Gets whether the "max_in_flight_calls" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMaxInFlightCalls {
+      get { return (_hasBits0 & 2) != 0; }
+    }
+    /// <summary>Clears the value of the "max_in_flight_calls" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMaxInFlightCalls() {
+      _hasBits0 &= ~2;
+    }
+
+    /// <summary>Field number for the "heartbeat_interval_ms" field.</summary>
+    public const int HeartbeatIntervalMsFieldNumber = 3;
+    private readonly static uint HeartbeatIntervalMsDefaultValue = 0;
+
+    private uint heartbeatIntervalMs_;
+    /// <summary>
+    /// validate: required; 5,000..60,000 (default 25 s)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint HeartbeatIntervalMs {
+      get { if ((_hasBits0 & 4) != 0) { return heartbeatIntervalMs_; } else { return HeartbeatIntervalMsDefaultValue; } }
+      set {
+        _hasBits0 |= 4;
+        heartbeatIntervalMs_ = value;
+      }
+    }
+    /// <summary>Gets whether the "heartbeat_interval_ms" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasHeartbeatIntervalMs {
+      get { return (_hasBits0 & 4) != 0; }
+    }
+    /// <summary>Clears the value of the "heartbeat_interval_ms" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearHeartbeatIntervalMs() {
+      _hasBits0 &= ~4;
+    }
+
+    /// <summary>Field number for the "heartbeat_deadline_ms" field.</summary>
+    public const int HeartbeatDeadlineMsFieldNumber = 4;
+    private readonly static uint HeartbeatDeadlineMsDefaultValue = 0;
+
+    private uint heartbeatDeadlineMs_;
+    /// <summary>
+    /// validate: required; 10,000..300,000 and above heartbeat_interval_ms (default 60 s); silence that long closes 4408
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint HeartbeatDeadlineMs {
+      get { if ((_hasBits0 & 8) != 0) { return heartbeatDeadlineMs_; } else { return HeartbeatDeadlineMsDefaultValue; } }
+      set {
+        _hasBits0 |= 8;
+        heartbeatDeadlineMs_ = value;
+      }
+    }
+    /// <summary>Gets whether the "heartbeat_deadline_ms" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasHeartbeatDeadlineMs {
+      get { return (_hasBits0 & 8) != 0; }
+    }
+    /// <summary>Clears the value of the "heartbeat_deadline_ms" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearHeartbeatDeadlineMs() {
+      _hasBits0 &= ~8;
+    }
+
+    /// <summary>Field number for the "max_relay_nonces" field.</summary>
+    public const int MaxRelayNoncesFieldNumber = 5;
+    private readonly static uint MaxRelayNoncesDefaultValue = 0;
+
+    private uint maxRelayNonces_;
+    /// <summary>
+    /// validate: required; 1..64 (default 8); unspent relay nonces held per connection; a newer one voids the oldest
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxRelayNonces {
+      get { if ((_hasBits0 & 16) != 0) { return maxRelayNonces_; } else { return MaxRelayNoncesDefaultValue; } }
+      set {
+        _hasBits0 |= 16;
+        maxRelayNonces_ = value;
+      }
+    }
+    /// <summary>Gets whether the "max_relay_nonces" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMaxRelayNonces {
+      get { return (_hasBits0 & 16) != 0; }
+    }
+    /// <summary>Clears the value of the "max_relay_nonces" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMaxRelayNonces() {
+      _hasBits0 &= ~16;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChannelLimits);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChannelLimits other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (MaxFrameBytes != other.MaxFrameBytes) return false;
+      if (MaxInFlightCalls != other.MaxInFlightCalls) return false;
+      if (HeartbeatIntervalMs != other.HeartbeatIntervalMs) return false;
+      if (HeartbeatDeadlineMs != other.HeartbeatDeadlineMs) return false;
+      if (MaxRelayNonces != other.MaxRelayNonces) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasMaxFrameBytes) hash ^= MaxFrameBytes.GetHashCode();
+      if (HasMaxInFlightCalls) hash ^= MaxInFlightCalls.GetHashCode();
+      if (HasHeartbeatIntervalMs) hash ^= HeartbeatIntervalMs.GetHashCode();
+      if (HasHeartbeatDeadlineMs) hash ^= HeartbeatDeadlineMs.GetHashCode();
+      if (HasMaxRelayNonces) hash ^= MaxRelayNonces.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasMaxFrameBytes) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(MaxFrameBytes);
+      }
+      if (HasMaxInFlightCalls) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(MaxInFlightCalls);
+      }
+      if (HasHeartbeatIntervalMs) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(HeartbeatIntervalMs);
+      }
+      if (HasHeartbeatDeadlineMs) {
+        output.WriteRawTag(32);
+        output.WriteUInt32(HeartbeatDeadlineMs);
+      }
+      if (HasMaxRelayNonces) {
+        output.WriteRawTag(40);
+        output.WriteUInt32(MaxRelayNonces);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasMaxFrameBytes) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(MaxFrameBytes);
+      }
+      if (HasMaxInFlightCalls) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(MaxInFlightCalls);
+      }
+      if (HasHeartbeatIntervalMs) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(HeartbeatIntervalMs);
+      }
+      if (HasHeartbeatDeadlineMs) {
+        output.WriteRawTag(32);
+        output.WriteUInt32(HeartbeatDeadlineMs);
+      }
+      if (HasMaxRelayNonces) {
+        output.WriteRawTag(40);
+        output.WriteUInt32(MaxRelayNonces);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasMaxFrameBytes) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxFrameBytes);
+      }
+      if (HasMaxInFlightCalls) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxInFlightCalls);
+      }
+      if (HasHeartbeatIntervalMs) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(HeartbeatIntervalMs);
+      }
+      if (HasHeartbeatDeadlineMs) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(HeartbeatDeadlineMs);
+      }
+      if (HasMaxRelayNonces) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxRelayNonces);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChannelLimits other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasMaxFrameBytes) {
+        MaxFrameBytes = other.MaxFrameBytes;
+      }
+      if (other.HasMaxInFlightCalls) {
+        MaxInFlightCalls = other.MaxInFlightCalls;
+      }
+      if (other.HasHeartbeatIntervalMs) {
+        HeartbeatIntervalMs = other.HeartbeatIntervalMs;
+      }
+      if (other.HasHeartbeatDeadlineMs) {
+        HeartbeatDeadlineMs = other.HeartbeatDeadlineMs;
+      }
+      if (other.HasMaxRelayNonces) {
+        MaxRelayNonces = other.MaxRelayNonces;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            MaxFrameBytes = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            MaxInFlightCalls = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            HeartbeatIntervalMs = input.ReadUInt32();
+            break;
+          }
+          case 32: {
+            HeartbeatDeadlineMs = input.ReadUInt32();
+            break;
+          }
+          case 40: {
+            MaxRelayNonces = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            MaxFrameBytes = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            MaxInFlightCalls = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            HeartbeatIntervalMs = input.ReadUInt32();
+            break;
+          }
+          case 32: {
+            HeartbeatDeadlineMs = input.ReadUInt32();
+            break;
+          }
+          case 40: {
+            MaxRelayNonces = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// The center's answer to a proved NodeHello: the connection is now the node's.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChannelAccepted : pb::IMessage<ChannelAccepted>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChannelAccepted> _parser = new pb::MessageParser<ChannelAccepted>(() => new ChannelAccepted());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChannelAccepted> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[15]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelAccepted() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelAccepted(ChannelAccepted other) : this() {
+      connectionId_ = other.connectionId_ != null ? other.connectionId_.Clone() : null;
+      limits_ = other.limits_ != null ? other.limits_.Clone() : null;
+      signingKids_ = other.signingKids_.Clone();
+      nodeName_ = other.nodeName_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelAccepted Clone() {
+      return new ChannelAccepted(this);
+    }
+
+    /// <summary>Field number for the "connection_id" field.</summary>
+    public const int ConnectionIdFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.Id connectionId_;
+    /// <summary>
+    /// validate: required; the challenge's connection ID
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ConnectionId {
+      get { return connectionId_; }
+      set {
+        connectionId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "limits" field.</summary>
+    public const int LimitsFieldNumber = 2;
+    private global::ArcForges.Contracts.Relay.V1.ChannelLimits limits_;
+    /// <summary>
+    /// validate: required
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.ChannelLimits Limits {
+      get { return limits_; }
+      set {
+        limits_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "signing_kids" field.</summary>
+    public const int SigningKidsFieldNumber = 3;
+    private static readonly pb::FieldCodec<string> _repeated_signingKids_codec
+        = pb::FieldCodec.ForString(26);
+    private readonly pbc::RepeatedField<string> signingKids_ = new pbc::RepeatedField<string>();
+    /// <summary>
+    /// validate: 1..8 unique kids of ^[A-Za-z0-9_-]{8,64}$; the command keys calls may be signed with; an unknown kid makes the node refresh its session once before it accepts calls (PN-14)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<string> SigningKids {
+      get { return signingKids_; }
+    }
+
+    /// <summary>Field number for the "node_name" field.</summary>
+    public const int NodeNameFieldNumber = 4;
+    private readonly static string NodeNameDefaultValue = "";
+
+    private string nodeName_;
+    /// <summary>
+    /// validate: 1..64 chars; the account's name for the node (RenameNode); the node keeps its own as FleetNode.reported_name (Plan decision Q25)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string NodeName {
+      get { return nodeName_ ?? NodeNameDefaultValue; }
+      set {
+        nodeName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "node_name" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasNodeName {
+      get { return nodeName_ != null; }
+    }
+    /// <summary>Clears the value of the "node_name" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearNodeName() {
+      nodeName_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChannelAccepted);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChannelAccepted other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(ConnectionId, other.ConnectionId)) return false;
+      if (!object.Equals(Limits, other.Limits)) return false;
+      if(!signingKids_.Equals(other.signingKids_)) return false;
+      if (NodeName != other.NodeName) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (connectionId_ != null) hash ^= ConnectionId.GetHashCode();
+      if (limits_ != null) hash ^= Limits.GetHashCode();
+      hash ^= signingKids_.GetHashCode();
+      if (HasNodeName) hash ^= NodeName.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (connectionId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(ConnectionId);
+      }
+      if (limits_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Limits);
+      }
+      signingKids_.WriteTo(output, _repeated_signingKids_codec);
+      if (HasNodeName) {
+        output.WriteRawTag(34);
+        output.WriteString(NodeName);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (connectionId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(ConnectionId);
+      }
+      if (limits_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Limits);
+      }
+      signingKids_.WriteTo(ref output, _repeated_signingKids_codec);
+      if (HasNodeName) {
+        output.WriteRawTag(34);
+        output.WriteString(NodeName);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (connectionId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConnectionId);
+      }
+      if (limits_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Limits);
+      }
+      size += signingKids_.CalculateSize(_repeated_signingKids_codec);
+      if (HasNodeName) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(NodeName);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChannelAccepted other) {
+      if (other == null) {
+        return;
+      }
+      if (other.connectionId_ != null) {
+        if (connectionId_ == null) {
+          ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ConnectionId.MergeFrom(other.ConnectionId);
+      }
+      if (other.limits_ != null) {
+        if (limits_ == null) {
+          Limits = new global::ArcForges.Contracts.Relay.V1.ChannelLimits();
+        }
+        Limits.MergeFrom(other.Limits);
+      }
+      signingKids_.Add(other.signingKids_);
+      if (other.HasNodeName) {
+        NodeName = other.NodeName;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+          case 18: {
+            if (limits_ == null) {
+              Limits = new global::ArcForges.Contracts.Relay.V1.ChannelLimits();
+            }
+            input.ReadMessage(Limits);
+            break;
+          }
+          case 26: {
+            signingKids_.AddEntriesFrom(input, _repeated_signingKids_codec);
+            break;
+          }
+          case 34: {
+            NodeName = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+          case 18: {
+            if (limits_ == null) {
+              Limits = new global::ArcForges.Contracts.Relay.V1.ChannelLimits();
+            }
+            input.ReadMessage(Limits);
+            break;
+          }
+          case 26: {
+            signingKids_.AddEntriesFrom(ref input, _repeated_signingKids_codec);
+            break;
+          }
+          case 34: {
+            NodeName = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// Liveness, either direction: the center sends one every heartbeat_interval_ms and the node answers with the same seq.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChannelHeartbeat : pb::IMessage<ChannelHeartbeat>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChannelHeartbeat> _parser = new pb::MessageParser<ChannelHeartbeat>(() => new ChannelHeartbeat());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChannelHeartbeat> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[16]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelHeartbeat() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelHeartbeat(ChannelHeartbeat other) : this() {
+      _hasBits0 = other._hasBits0;
+      sentAt_ = other.sentAt_ != null ? other.sentAt_.Clone() : null;
+      seq_ = other.seq_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelHeartbeat Clone() {
+      return new ChannelHeartbeat(this);
+    }
+
+    /// <summary>Field number for the "sent_at" field.</summary>
+    public const int SentAtFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.Instant sentAt_;
+    /// <summary>
+    /// validate: required
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant SentAt {
+      get { return sentAt_; }
+      set {
+        sentAt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "seq" field.</summary>
+    public const int SeqFieldNumber = 2;
+    private readonly static ulong SeqDefaultValue = 0UL;
+
+    private ulong seq_;
+    /// <summary>
+    /// validate: required
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong Seq {
+      get { if ((_hasBits0 & 1) != 0) { return seq_; } else { return SeqDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        seq_ = value;
+      }
+    }
+    /// <summary>Gets whether the "seq" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasSeq {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "seq" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearSeq() {
+      _hasBits0 &= ~1;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChannelHeartbeat);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChannelHeartbeat other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(SentAt, other.SentAt)) return false;
+      if (Seq != other.Seq) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (sentAt_ != null) hash ^= SentAt.GetHashCode();
+      if (HasSeq) hash ^= Seq.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (sentAt_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(SentAt);
+      }
+      if (HasSeq) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(Seq);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (sentAt_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(SentAt);
+      }
+      if (HasSeq) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(Seq);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (sentAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SentAt);
+      }
+      if (HasSeq) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Seq);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChannelHeartbeat other) {
+      if (other == null) {
+        return;
+      }
+      if (other.sentAt_ != null) {
+        if (sentAt_ == null) {
+          SentAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        SentAt.MergeFrom(other.SentAt);
+      }
+      if (other.HasSeq) {
+        Seq = other.Seq;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (sentAt_ == null) {
+              SentAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(SentAt);
+            break;
+          }
+          case 16: {
+            Seq = input.ReadUInt64();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (sentAt_ == null) {
+              SentAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(SentAt);
+            break;
+          }
+          case 16: {
+            Seq = input.ReadUInt64();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// A header and its domain-separated signature. It is never a SignedBlob: the signature covers the domain string of its kind
+  /// followed by header (see "Signatures of the node channel" above), never header alone.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class SignedHeader : pb::IMessage<SignedHeader>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<SignedHeader> _parser = new pb::MessageParser<SignedHeader>(() => new SignedHeader());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<SignedHeader> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[17]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public SignedHeader() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public SignedHeader(SignedHeader other) : this() {
+      header_ = other.header_;
+      signature_ = other.signature_;
+      kid_ = other.kid_;
+      algorithm_ = other.algorithm_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public SignedHeader Clone() {
+      return new SignedHeader(this);
+    }
+
+    /// <summary>Field number for the "header" field.</summary>
+    public const int HeaderFieldNumber = 1;
+    private readonly static pb::ByteString HeaderDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString header_;
+    /// <summary>
+    /// validate: required; 1..2,048 bytes; the exact CallHeader or ResultHeader bytes
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Header {
+      get { return header_ ?? HeaderDefaultValue; }
+      set {
+        header_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "header" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasHeader {
+      get { return header_ != null; }
+    }
+    /// <summary>Clears the value of the "header" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearHeader() {
+      header_ = null;
+    }
+
+    /// <summary>Field number for the "signature" field.</summary>
+    public const int SignatureFieldNumber = 2;
+    private readonly static pb::ByteString SignatureDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString signature_;
+    /// <summary>
+    /// validate: required; 64 bytes, P1363, low-S
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Signature {
+      get { return signature_ ?? SignatureDefaultValue; }
+      set {
+        signature_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "signature" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasSignature {
+      get { return signature_ != null; }
+    }
+    /// <summary>Clears the value of the "signature" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearSignature() {
+      signature_ = null;
+    }
+
+    /// <summary>Field number for the "kid" field.</summary>
+    public const int KidFieldNumber = 3;
+    private readonly static string KidDefaultValue = "";
+
+    private string kid_;
+    /// <summary>
+    /// validate: ^[A-Za-z0-9_-]{8,64}$; the command key of a call (required on ChannelCall); absent on a result, whose key is the connection's installation key
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Kid {
+      get { return kid_ ?? KidDefaultValue; }
+      set {
+        kid_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "kid" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasKid {
+      get { return kid_ != null; }
+    }
+    /// <summary>Clears the value of the "kid" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearKid() {
+      kid_ = null;
+    }
+
+    /// <summary>Field number for the "algorithm" field.</summary>
+    public const int AlgorithmFieldNumber = 4;
+    private readonly static string AlgorithmDefaultValue = "";
+
+    private string algorithm_;
+    /// <summary>
+    /// validate: required; "ES256"
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Algorithm {
+      get { return algorithm_ ?? AlgorithmDefaultValue; }
+      set {
+        algorithm_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "algorithm" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasAlgorithm {
+      get { return algorithm_ != null; }
+    }
+    /// <summary>Clears the value of the "algorithm" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearAlgorithm() {
+      algorithm_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as SignedHeader);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(SignedHeader other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Header != other.Header) return false;
+      if (Signature != other.Signature) return false;
+      if (Kid != other.Kid) return false;
+      if (Algorithm != other.Algorithm) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasHeader) hash ^= Header.GetHashCode();
+      if (HasSignature) hash ^= Signature.GetHashCode();
+      if (HasKid) hash ^= Kid.GetHashCode();
+      if (HasAlgorithm) hash ^= Algorithm.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasHeader) {
+        output.WriteRawTag(10);
+        output.WriteBytes(Header);
+      }
+      if (HasSignature) {
+        output.WriteRawTag(18);
+        output.WriteBytes(Signature);
+      }
+      if (HasKid) {
+        output.WriteRawTag(26);
+        output.WriteString(Kid);
+      }
+      if (HasAlgorithm) {
+        output.WriteRawTag(34);
+        output.WriteString(Algorithm);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasHeader) {
+        output.WriteRawTag(10);
+        output.WriteBytes(Header);
+      }
+      if (HasSignature) {
+        output.WriteRawTag(18);
+        output.WriteBytes(Signature);
+      }
+      if (HasKid) {
+        output.WriteRawTag(26);
+        output.WriteString(Kid);
+      }
+      if (HasAlgorithm) {
+        output.WriteRawTag(34);
+        output.WriteString(Algorithm);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasHeader) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Header);
+      }
+      if (HasSignature) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Signature);
+      }
+      if (HasKid) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Kid);
+      }
+      if (HasAlgorithm) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Algorithm);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(SignedHeader other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasHeader) {
+        Header = other.Header;
+      }
+      if (other.HasSignature) {
+        Signature = other.Signature;
+      }
+      if (other.HasKid) {
+        Kid = other.Kid;
+      }
+      if (other.HasAlgorithm) {
+        Algorithm = other.Algorithm;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Header = input.ReadBytes();
+            break;
+          }
+          case 18: {
+            Signature = input.ReadBytes();
+            break;
+          }
+          case 26: {
+            Kid = input.ReadString();
+            break;
+          }
+          case 34: {
+            Algorithm = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            Header = input.ReadBytes();
+            break;
+          }
+          case 18: {
+            Signature = input.ReadBytes();
+            break;
+          }
+          case 26: {
+            Kid = input.ReadString();
+            break;
+          }
+          case 34: {
+            Algorithm = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// The signed header of a routed call (Plan CTR5-SIG-01, PN-9). The center serializes it once and signs the routed-call domain
+  /// string followed by those bytes with its command key. Before it decodes the header or parses the payload, the node verifies the
+  /// signature over the bytes it received against its key set for its configured center; then, before its policy decides (Design
+  /// 11 T-11), it checks that kid equals SignedHeader.kid, center_url_sha256 its configured center, account_id and target_node_id
+  /// its own link, call_id ChannelCall.call_id and not already logged (call_replayed, also after a restart), method, request_size
+  /// and request_sha256 the payload, and that expires_at plus the 120 s skew has not passed, again immediately before the effect.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class CallHeader : pb::IMessage<CallHeader>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<CallHeader> _parser = new pb::MessageParser<CallHeader>(() => new CallHeader());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<CallHeader> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[18]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public CallHeader() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public CallHeader(CallHeader other) : this() {
+      _hasBits0 = other._hasBits0;
+      callId_ = other.callId_ != null ? other.callId_.Clone() : null;
+      kid_ = other.kid_;
+      centerUrlSha256_ = other.centerUrlSha256_;
+      accountId_ = other.accountId_ != null ? other.accountId_.Clone() : null;
+      targetNodeId_ = other.targetNodeId_ != null ? other.targetNodeId_.Clone() : null;
+      caller_ = other.caller_ != null ? other.caller_.Clone() : null;
+      commandId_ = other.commandId_ != null ? other.commandId_.Clone() : null;
+      method_ = other.method_;
+      requestSha256_ = other.requestSha256_;
+      requestSize_ = other.requestSize_;
+      issuedAt_ = other.issuedAt_ != null ? other.issuedAt_.Clone() : null;
+      expiresAt_ = other.expiresAt_ != null ? other.expiresAt_.Clone() : null;
+      deadline_ = other.deadline_ != null ? other.deadline_.Clone() : null;
+      relayAssertionSha256_ = other.relayAssertionSha256_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public CallHeader Clone() {
+      return new CallHeader(this);
+    }
+
+    /// <summary>Field number for the "call_id" field.</summary>
+    public const int CallIdFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.Id callId_;
+    /// <summary>
+    /// validate: required; random, one per call
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id CallId {
+      get { return callId_; }
+      set {
+        callId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "kid" field.</summary>
+    public const int KidFieldNumber = 2;
+    private readonly static string KidDefaultValue = "";
+
+    private string kid_;
+    /// <summary>
+    /// validate: required; ^[A-Za-z0-9_-]{8,64}$; equals SignedHeader.kid
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Kid {
+      get { return kid_ ?? KidDefaultValue; }
+      set {
+        kid_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "kid" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasKid {
+      get { return kid_ != null; }
+    }
+    /// <summary>Clears the value of the "kid" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearKid() {
+      kid_ = null;
+    }
+
+    /// <summary>Field number for the "center_url_sha256" field.</summary>
+    public const int CenterUrlSha256FieldNumber = 3;
+    private readonly static pb::ByteString CenterUrlSha256DefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString centerUrlSha256_;
+    /// <summary>
+    /// validate: required; 32 bytes: SHA-256 of the center's canonical public base URL
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString CenterUrlSha256 {
+      get { return centerUrlSha256_ ?? CenterUrlSha256DefaultValue; }
+      set {
+        centerUrlSha256_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "center_url_sha256" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasCenterUrlSha256 {
+      get { return centerUrlSha256_ != null; }
+    }
+    /// <summary>Clears the value of the "center_url_sha256" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearCenterUrlSha256() {
+      centerUrlSha256_ = null;
+    }
+
+    /// <summary>Field number for the "account_id" field.</summary>
+    public const int AccountIdFieldNumber = 4;
+    private global::ArcForges.Contracts.Foundation.V1.Id accountId_;
+    /// <summary>
+    /// validate: required; the account that owns the target node
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id AccountId {
+      get { return accountId_; }
+      set {
+        accountId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "target_node_id" field.</summary>
+    public const int TargetNodeIdFieldNumber = 5;
+    private global::ArcForges.Contracts.Foundation.V1.Id targetNodeId_;
+    /// <summary>
+    /// validate: required
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id TargetNodeId {
+      get { return targetNodeId_; }
+      set {
+        targetNodeId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "caller" field.</summary>
+    public const int CallerFieldNumber = 6;
+    private global::ArcForges.Contracts.Node.V1.CenterCaller caller_;
+    /// <summary>
+    /// validate: required; filled by the center only from the verified session or relay assertion, never from a request field
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Node.V1.CenterCaller Caller {
+      get { return caller_; }
+      set {
+        caller_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "command_id" field.</summary>
+    public const int CommandIdFieldNumber = 7;
+    private global::ArcForges.Contracts.Foundation.V1.Id commandId_;
+    /// <summary>
+    /// validate: required for SUBMIT_NODE_TASK and CANCEL_NODE_TASK, absent otherwise; equals the payload's meta.command_id
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id CommandId {
+      get { return commandId_; }
+      set {
+        commandId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "method" field.</summary>
+    public const int MethodFieldNumber = 8;
+    private readonly static global::ArcForges.Contracts.Relay.V1.RoutedMethod MethodDefaultValue = global::ArcForges.Contracts.Relay.V1.RoutedMethod.Unspecified;
+
+    private global::ArcForges.Contracts.Relay.V1.RoutedMethod method_;
+    /// <summary>
+    /// validate: required; 1..6
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.RoutedMethod Method {
+      get { if ((_hasBits0 & 1) != 0) { return method_; } else { return MethodDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        method_ = value;
+      }
+    }
+    /// <summary>Gets whether the "method" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMethod {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "method" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMethod() {
+      _hasBits0 &= ~1;
+    }
+
+    /// <summary>Field number for the "request_sha256" field.</summary>
+    public const int RequestSha256FieldNumber = 9;
+    private readonly static pb::ByteString RequestSha256DefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString requestSha256_;
+    /// <summary>
+    /// validate: required; 32 bytes: SHA-256 of the payload, the exact node.v1 request bytes
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString RequestSha256 {
+      get { return requestSha256_ ?? RequestSha256DefaultValue; }
+      set {
+        requestSha256_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "request_sha256" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasRequestSha256 {
+      get { return requestSha256_ != null; }
+    }
+    /// <summary>Clears the value of the "request_sha256" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearRequestSha256() {
+      requestSha256_ = null;
+    }
+
+    /// <summary>Field number for the "request_size" field.</summary>
+    public const int RequestSizeFieldNumber = 10;
+    private readonly static uint RequestSizeDefaultValue = 0;
+
+    private uint requestSize_;
+    /// <summary>
+    /// validate: required; 1..253,952; the payload's length
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint RequestSize {
+      get { if ((_hasBits0 & 2) != 0) { return requestSize_; } else { return RequestSizeDefaultValue; } }
+      set {
+        _hasBits0 |= 2;
+        requestSize_ = value;
+      }
+    }
+    /// <summary>Gets whether the "request_size" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasRequestSize {
+      get { return (_hasBits0 & 2) != 0; }
+    }
+    /// <summary>Clears the value of the "request_size" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearRequestSize() {
+      _hasBits0 &= ~2;
+    }
+
+    /// <summary>Field number for the "issued_at" field.</summary>
+    public const int IssuedAtFieldNumber = 11;
+    private global::ArcForges.Contracts.Foundation.V1.Instant issuedAt_;
+    /// <summary>
+    /// validate: required
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant IssuedAt {
+      get { return issuedAt_; }
+      set {
+        issuedAt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "expires_at" field.</summary>
+    public const int ExpiresAtFieldNumber = 12;
+    private global::ArcForges.Contracts.Foundation.V1.Instant expiresAt_;
+    /// <summary>
+    /// validate: required; issued_at &lt; expires_at &lt;= issued_at + 300 s (AD-0021 section 10)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant ExpiresAt {
+      get { return expiresAt_; }
+      set {
+        expiresAt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "deadline" field.</summary>
+    public const int DeadlineFieldNumber = 13;
+    private global::ArcForges.Contracts.Foundation.V1.Instant deadline_;
+    /// <summary>
+    /// validate: required; issued_at &lt; deadline &lt;= expires_at; when the center stops waiting for the result
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant Deadline {
+      get { return deadline_; }
+      set {
+        deadline_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "relay_assertion_sha256" field.</summary>
+    public const int RelayAssertionSha256FieldNumber = 14;
+    private readonly static pb::ByteString RelayAssertionSha256DefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString relayAssertionSha256_;
+    /// <summary>
+    /// validate: required for a NODE_RELAY caller, absent otherwise; 32 bytes: SHA-256 of the relay_assertion bytes the routed request carried; the target never receives the assertion and cannot check this digest: it links the call to the center's audit and log, and the target relies on caller.relaying_node_id, which the center signed (review A N-8)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString RelayAssertionSha256 {
+      get { return relayAssertionSha256_ ?? RelayAssertionSha256DefaultValue; }
+      set {
+        relayAssertionSha256_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "relay_assertion_sha256" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasRelayAssertionSha256 {
+      get { return relayAssertionSha256_ != null; }
+    }
+    /// <summary>Clears the value of the "relay_assertion_sha256" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearRelayAssertionSha256() {
+      relayAssertionSha256_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as CallHeader);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(CallHeader other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(CallId, other.CallId)) return false;
+      if (Kid != other.Kid) return false;
+      if (CenterUrlSha256 != other.CenterUrlSha256) return false;
+      if (!object.Equals(AccountId, other.AccountId)) return false;
+      if (!object.Equals(TargetNodeId, other.TargetNodeId)) return false;
+      if (!object.Equals(Caller, other.Caller)) return false;
+      if (!object.Equals(CommandId, other.CommandId)) return false;
+      if (Method != other.Method) return false;
+      if (RequestSha256 != other.RequestSha256) return false;
+      if (RequestSize != other.RequestSize) return false;
+      if (!object.Equals(IssuedAt, other.IssuedAt)) return false;
+      if (!object.Equals(ExpiresAt, other.ExpiresAt)) return false;
+      if (!object.Equals(Deadline, other.Deadline)) return false;
+      if (RelayAssertionSha256 != other.RelayAssertionSha256) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (callId_ != null) hash ^= CallId.GetHashCode();
+      if (HasKid) hash ^= Kid.GetHashCode();
+      if (HasCenterUrlSha256) hash ^= CenterUrlSha256.GetHashCode();
+      if (accountId_ != null) hash ^= AccountId.GetHashCode();
+      if (targetNodeId_ != null) hash ^= TargetNodeId.GetHashCode();
+      if (caller_ != null) hash ^= Caller.GetHashCode();
+      if (commandId_ != null) hash ^= CommandId.GetHashCode();
+      if (HasMethod) hash ^= Method.GetHashCode();
+      if (HasRequestSha256) hash ^= RequestSha256.GetHashCode();
+      if (HasRequestSize) hash ^= RequestSize.GetHashCode();
+      if (issuedAt_ != null) hash ^= IssuedAt.GetHashCode();
+      if (expiresAt_ != null) hash ^= ExpiresAt.GetHashCode();
+      if (deadline_ != null) hash ^= Deadline.GetHashCode();
+      if (HasRelayAssertionSha256) hash ^= RelayAssertionSha256.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (callId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CallId);
+      }
+      if (HasKid) {
+        output.WriteRawTag(18);
+        output.WriteString(Kid);
+      }
+      if (HasCenterUrlSha256) {
+        output.WriteRawTag(26);
+        output.WriteBytes(CenterUrlSha256);
+      }
+      if (accountId_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(AccountId);
+      }
+      if (targetNodeId_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(TargetNodeId);
+      }
+      if (caller_ != null) {
+        output.WriteRawTag(50);
+        output.WriteMessage(Caller);
+      }
+      if (commandId_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(CommandId);
+      }
+      if (HasMethod) {
+        output.WriteRawTag(64);
+        output.WriteEnum((int) Method);
+      }
+      if (HasRequestSha256) {
+        output.WriteRawTag(74);
+        output.WriteBytes(RequestSha256);
+      }
+      if (HasRequestSize) {
+        output.WriteRawTag(80);
+        output.WriteUInt32(RequestSize);
+      }
+      if (issuedAt_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(IssuedAt);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (deadline_ != null) {
+        output.WriteRawTag(106);
+        output.WriteMessage(Deadline);
+      }
+      if (HasRelayAssertionSha256) {
+        output.WriteRawTag(114);
+        output.WriteBytes(RelayAssertionSha256);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (callId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CallId);
+      }
+      if (HasKid) {
+        output.WriteRawTag(18);
+        output.WriteString(Kid);
+      }
+      if (HasCenterUrlSha256) {
+        output.WriteRawTag(26);
+        output.WriteBytes(CenterUrlSha256);
+      }
+      if (accountId_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(AccountId);
+      }
+      if (targetNodeId_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(TargetNodeId);
+      }
+      if (caller_ != null) {
+        output.WriteRawTag(50);
+        output.WriteMessage(Caller);
+      }
+      if (commandId_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(CommandId);
+      }
+      if (HasMethod) {
+        output.WriteRawTag(64);
+        output.WriteEnum((int) Method);
+      }
+      if (HasRequestSha256) {
+        output.WriteRawTag(74);
+        output.WriteBytes(RequestSha256);
+      }
+      if (HasRequestSize) {
+        output.WriteRawTag(80);
+        output.WriteUInt32(RequestSize);
+      }
+      if (issuedAt_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(IssuedAt);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (deadline_ != null) {
+        output.WriteRawTag(106);
+        output.WriteMessage(Deadline);
+      }
+      if (HasRelayAssertionSha256) {
+        output.WriteRawTag(114);
+        output.WriteBytes(RelayAssertionSha256);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (callId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CallId);
+      }
+      if (HasKid) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Kid);
+      }
+      if (HasCenterUrlSha256) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(CenterUrlSha256);
+      }
+      if (accountId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(AccountId);
+      }
+      if (targetNodeId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(TargetNodeId);
+      }
+      if (caller_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Caller);
+      }
+      if (commandId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CommandId);
+      }
+      if (HasMethod) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Method);
+      }
+      if (HasRequestSha256) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(RequestSha256);
+      }
+      if (HasRequestSize) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(RequestSize);
+      }
+      if (issuedAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(IssuedAt);
+      }
+      if (expiresAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExpiresAt);
+      }
+      if (deadline_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Deadline);
+      }
+      if (HasRelayAssertionSha256) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(RelayAssertionSha256);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(CallHeader other) {
+      if (other == null) {
+        return;
+      }
+      if (other.callId_ != null) {
+        if (callId_ == null) {
+          CallId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        CallId.MergeFrom(other.CallId);
+      }
+      if (other.HasKid) {
+        Kid = other.Kid;
+      }
+      if (other.HasCenterUrlSha256) {
+        CenterUrlSha256 = other.CenterUrlSha256;
+      }
+      if (other.accountId_ != null) {
+        if (accountId_ == null) {
+          AccountId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        AccountId.MergeFrom(other.AccountId);
+      }
+      if (other.targetNodeId_ != null) {
+        if (targetNodeId_ == null) {
+          TargetNodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        TargetNodeId.MergeFrom(other.TargetNodeId);
+      }
+      if (other.caller_ != null) {
+        if (caller_ == null) {
+          Caller = new global::ArcForges.Contracts.Node.V1.CenterCaller();
+        }
+        Caller.MergeFrom(other.Caller);
+      }
+      if (other.commandId_ != null) {
+        if (commandId_ == null) {
+          CommandId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        CommandId.MergeFrom(other.CommandId);
+      }
+      if (other.HasMethod) {
+        Method = other.Method;
+      }
+      if (other.HasRequestSha256) {
+        RequestSha256 = other.RequestSha256;
+      }
+      if (other.HasRequestSize) {
+        RequestSize = other.RequestSize;
+      }
+      if (other.issuedAt_ != null) {
+        if (issuedAt_ == null) {
+          IssuedAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        IssuedAt.MergeFrom(other.IssuedAt);
+      }
+      if (other.expiresAt_ != null) {
+        if (expiresAt_ == null) {
+          ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        ExpiresAt.MergeFrom(other.ExpiresAt);
+      }
+      if (other.deadline_ != null) {
+        if (deadline_ == null) {
+          Deadline = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        Deadline.MergeFrom(other.Deadline);
+      }
+      if (other.HasRelayAssertionSha256) {
+        RelayAssertionSha256 = other.RelayAssertionSha256;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (callId_ == null) {
+              CallId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CallId);
+            break;
+          }
+          case 18: {
+            Kid = input.ReadString();
+            break;
+          }
+          case 26: {
+            CenterUrlSha256 = input.ReadBytes();
+            break;
+          }
+          case 34: {
+            if (accountId_ == null) {
+              AccountId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(AccountId);
+            break;
+          }
+          case 42: {
+            if (targetNodeId_ == null) {
+              TargetNodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(TargetNodeId);
+            break;
+          }
+          case 50: {
+            if (caller_ == null) {
+              Caller = new global::ArcForges.Contracts.Node.V1.CenterCaller();
+            }
+            input.ReadMessage(Caller);
+            break;
+          }
+          case 58: {
+            if (commandId_ == null) {
+              CommandId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CommandId);
+            break;
+          }
+          case 64: {
+            Method = (global::ArcForges.Contracts.Relay.V1.RoutedMethod) input.ReadEnum();
+            break;
+          }
+          case 74: {
+            RequestSha256 = input.ReadBytes();
+            break;
+          }
+          case 80: {
+            RequestSize = input.ReadUInt32();
+            break;
+          }
+          case 90: {
+            if (issuedAt_ == null) {
+              IssuedAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(IssuedAt);
+            break;
+          }
+          case 98: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+          case 106: {
+            if (deadline_ == null) {
+              Deadline = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(Deadline);
+            break;
+          }
+          case 114: {
+            RelayAssertionSha256 = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (callId_ == null) {
+              CallId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CallId);
+            break;
+          }
+          case 18: {
+            Kid = input.ReadString();
+            break;
+          }
+          case 26: {
+            CenterUrlSha256 = input.ReadBytes();
+            break;
+          }
+          case 34: {
+            if (accountId_ == null) {
+              AccountId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(AccountId);
+            break;
+          }
+          case 42: {
+            if (targetNodeId_ == null) {
+              TargetNodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(TargetNodeId);
+            break;
+          }
+          case 50: {
+            if (caller_ == null) {
+              Caller = new global::ArcForges.Contracts.Node.V1.CenterCaller();
+            }
+            input.ReadMessage(Caller);
+            break;
+          }
+          case 58: {
+            if (commandId_ == null) {
+              CommandId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CommandId);
+            break;
+          }
+          case 64: {
+            Method = (global::ArcForges.Contracts.Relay.V1.RoutedMethod) input.ReadEnum();
+            break;
+          }
+          case 74: {
+            RequestSha256 = input.ReadBytes();
+            break;
+          }
+          case 80: {
+            RequestSize = input.ReadUInt32();
+            break;
+          }
+          case 90: {
+            if (issuedAt_ == null) {
+              IssuedAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(IssuedAt);
+            break;
+          }
+          case 98: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+          case 106: {
+            if (deadline_ == null) {
+              Deadline = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(Deadline);
+            break;
+          }
+          case 114: {
+            RelayAssertionSha256 = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// A routed call, center -> node. payload is the exact node.v1 TaskService request bytes the caller sent in the routed request's
+  /// request field, never re-encoded (Plan decision Q9).
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChannelCall : pb::IMessage<ChannelCall>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChannelCall> _parser = new pb::MessageParser<ChannelCall>(() => new ChannelCall());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChannelCall> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[19]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelCall() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelCall(ChannelCall other) : this() {
+      callId_ = other.callId_ != null ? other.callId_.Clone() : null;
+      header_ = other.header_ != null ? other.header_.Clone() : null;
+      payload_ = other.payload_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelCall Clone() {
+      return new ChannelCall(this);
+    }
+
+    /// <summary>Field number for the "call_id" field.</summary>
+    public const int CallIdFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.Id callId_;
+    /// <summary>
+    /// validate: required; equals CallHeader.call_id
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id CallId {
+      get { return callId_; }
+      set {
+        callId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "header" field.</summary>
+    public const int HeaderFieldNumber = 2;
+    private global::ArcForges.Contracts.Relay.V1.SignedHeader header_;
+    /// <summary>
+    /// validate: required; a CallHeader under the routed-call domain string, with kid
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.SignedHeader Header {
+      get { return header_; }
+      set {
+        header_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "payload" field.</summary>
+    public const int PayloadFieldNumber = 3;
+    private readonly static pb::ByteString PayloadDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString payload_;
+    /// <summary>
+    /// validate: required; 1..253,952 bytes
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Payload {
+      get { return payload_ ?? PayloadDefaultValue; }
+      set {
+        payload_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "payload" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasPayload {
+      get { return payload_ != null; }
+    }
+    /// <summary>Clears the value of the "payload" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearPayload() {
+      payload_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChannelCall);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChannelCall other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(CallId, other.CallId)) return false;
+      if (!object.Equals(Header, other.Header)) return false;
+      if (Payload != other.Payload) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (callId_ != null) hash ^= CallId.GetHashCode();
+      if (header_ != null) hash ^= Header.GetHashCode();
+      if (HasPayload) hash ^= Payload.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (callId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CallId);
+      }
+      if (header_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Header);
+      }
+      if (HasPayload) {
+        output.WriteRawTag(26);
+        output.WriteBytes(Payload);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (callId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CallId);
+      }
+      if (header_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Header);
+      }
+      if (HasPayload) {
+        output.WriteRawTag(26);
+        output.WriteBytes(Payload);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (callId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CallId);
+      }
+      if (header_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Header);
+      }
+      if (HasPayload) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Payload);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChannelCall other) {
+      if (other == null) {
+        return;
+      }
+      if (other.callId_ != null) {
+        if (callId_ == null) {
+          CallId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        CallId.MergeFrom(other.CallId);
+      }
+      if (other.header_ != null) {
+        if (header_ == null) {
+          Header = new global::ArcForges.Contracts.Relay.V1.SignedHeader();
+        }
+        Header.MergeFrom(other.Header);
+      }
+      if (other.HasPayload) {
+        Payload = other.Payload;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (callId_ == null) {
+              CallId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CallId);
+            break;
+          }
+          case 18: {
+            if (header_ == null) {
+              Header = new global::ArcForges.Contracts.Relay.V1.SignedHeader();
+            }
+            input.ReadMessage(Header);
+            break;
+          }
+          case 26: {
+            Payload = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (callId_ == null) {
+              CallId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CallId);
+            break;
+          }
+          case 18: {
+            if (header_ == null) {
+              Header = new global::ArcForges.Contracts.Relay.V1.SignedHeader();
+            }
+            input.ReadMessage(Header);
+            break;
+          }
+          case 26: {
+            Payload = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// The signed header of a routed result (Plan CTR5-SIG-03, PN-9), signed by the node key under the routed-result domain string.
+  /// The center verifies it against the key registered for the connection's installation, then checks call_id (an open call of this
+  /// connection), node_id (the connection's node), the echoed method, command_id and request_sha256, and response_size and
+  /// response_sha256 against the payload; any failure fails the call STATE/node_unreachable (result_unverifiable) and closes 4403.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ResultHeader : pb::IMessage<ResultHeader>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ResultHeader> _parser = new pb::MessageParser<ResultHeader>(() => new ResultHeader());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ResultHeader> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[20]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ResultHeader() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ResultHeader(ResultHeader other) : this() {
+      _hasBits0 = other._hasBits0;
+      callId_ = other.callId_ != null ? other.callId_.Clone() : null;
+      commandId_ = other.commandId_ != null ? other.commandId_.Clone() : null;
+      nodeId_ = other.nodeId_ != null ? other.nodeId_.Clone() : null;
+      method_ = other.method_;
+      requestSha256_ = other.requestSha256_;
+      responseSha256_ = other.responseSha256_;
+      responseSize_ = other.responseSize_;
+      executedAt_ = other.executedAt_ != null ? other.executedAt_.Clone() : null;
+      outcome_ = other.outcome_;
+      error_ = other.error_ != null ? other.error_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ResultHeader Clone() {
+      return new ResultHeader(this);
+    }
+
+    /// <summary>Field number for the "call_id" field.</summary>
+    public const int CallIdFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.Id callId_;
+    /// <summary>
+    /// validate: required; ChannelCall.call_id
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id CallId {
+      get { return callId_; }
+      set {
+        callId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "command_id" field.</summary>
+    public const int CommandIdFieldNumber = 2;
+    private global::ArcForges.Contracts.Foundation.V1.Id commandId_;
+    /// <summary>
+    /// validate: the call header's command_id when it names one; absent for REFUSED_VERIFICATION
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id CommandId {
+      get { return commandId_; }
+      set {
+        commandId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "node_id" field.</summary>
+    public const int NodeIdFieldNumber = 3;
+    private global::ArcForges.Contracts.Foundation.V1.Id nodeId_;
+    /// <summary>
+    /// validate: required; the answering node
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id NodeId {
+      get { return nodeId_; }
+      set {
+        nodeId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "method" field.</summary>
+    public const int MethodFieldNumber = 4;
+    private readonly static global::ArcForges.Contracts.Relay.V1.RoutedMethod MethodDefaultValue = global::ArcForges.Contracts.Relay.V1.RoutedMethod.Unspecified;
+
+    private global::ArcForges.Contracts.Relay.V1.RoutedMethod method_;
+    /// <summary>
+    /// validate: required (1..6) unless REFUSED_VERIFICATION, absent then
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.RoutedMethod Method {
+      get { if ((_hasBits0 & 1) != 0) { return method_; } else { return MethodDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        method_ = value;
+      }
+    }
+    /// <summary>Gets whether the "method" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMethod {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "method" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMethod() {
+      _hasBits0 &= ~1;
+    }
+
+    /// <summary>Field number for the "request_sha256" field.</summary>
+    public const int RequestSha256FieldNumber = 5;
+    private readonly static pb::ByteString RequestSha256DefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString requestSha256_;
+    /// <summary>
+    /// validate: required unless REFUSED_VERIFICATION, absent then; 32 bytes, echoed
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString RequestSha256 {
+      get { return requestSha256_ ?? RequestSha256DefaultValue; }
+      set {
+        requestSha256_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "request_sha256" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasRequestSha256 {
+      get { return requestSha256_ != null; }
+    }
+    /// <summary>Clears the value of the "request_sha256" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearRequestSha256() {
+      requestSha256_ = null;
+    }
+
+    /// <summary>Field number for the "response_sha256" field.</summary>
+    public const int ResponseSha256FieldNumber = 6;
+    private readonly static pb::ByteString ResponseSha256DefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString responseSha256_;
+    /// <summary>
+    /// validate: required for EXECUTED, absent otherwise; 32 bytes: SHA-256 of ChannelResult.payload
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString ResponseSha256 {
+      get { return responseSha256_ ?? ResponseSha256DefaultValue; }
+      set {
+        responseSha256_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "response_sha256" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasResponseSha256 {
+      get { return responseSha256_ != null; }
+    }
+    /// <summary>Clears the value of the "response_sha256" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearResponseSha256() {
+      responseSha256_ = null;
+    }
+
+    /// <summary>Field number for the "response_size" field.</summary>
+    public const int ResponseSizeFieldNumber = 7;
+    private readonly static uint ResponseSizeDefaultValue = 0;
+
+    private uint responseSize_;
+    /// <summary>
+    /// validate: required for EXECUTED, absent otherwise; 1..1,040,384; the payload's length
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint ResponseSize {
+      get { if ((_hasBits0 & 2) != 0) { return responseSize_; } else { return ResponseSizeDefaultValue; } }
+      set {
+        _hasBits0 |= 2;
+        responseSize_ = value;
+      }
+    }
+    /// <summary>Gets whether the "response_size" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasResponseSize {
+      get { return (_hasBits0 & 2) != 0; }
+    }
+    /// <summary>Clears the value of the "response_size" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearResponseSize() {
+      _hasBits0 &= ~2;
+    }
+
+    /// <summary>Field number for the "executed_at" field.</summary>
+    public const int ExecutedAtFieldNumber = 8;
+    private global::ArcForges.Contracts.Foundation.V1.Instant executedAt_;
+    /// <summary>
+    /// validate: required; when the node decided
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant ExecutedAt {
+      get { return executedAt_; }
+      set {
+        executedAt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "outcome" field.</summary>
+    public const int OutcomeFieldNumber = 9;
+    private readonly static global::ArcForges.Contracts.Relay.V1.RoutedOutcome OutcomeDefaultValue = global::ArcForges.Contracts.Relay.V1.RoutedOutcome.Unspecified;
+
+    private global::ArcForges.Contracts.Relay.V1.RoutedOutcome outcome_;
+    /// <summary>
+    /// validate: required
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.RoutedOutcome Outcome {
+      get { if ((_hasBits0 & 4) != 0) { return outcome_; } else { return OutcomeDefaultValue; } }
+      set {
+        _hasBits0 |= 4;
+        outcome_ = value;
+      }
+    }
+    /// <summary>Gets whether the "outcome" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasOutcome {
+      get { return (_hasBits0 & 4) != 0; }
+    }
+    /// <summary>Clears the value of the "outcome" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      _hasBits0 &= ~4;
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.ArcError error_;
+    /// <summary>
+    /// validate: required unless EXECUTED, absent then; the node's refusal as closed fields only (rule routedRefusal, below)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return error_; }
+      set {
+        error_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ResultHeader);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ResultHeader other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(CallId, other.CallId)) return false;
+      if (!object.Equals(CommandId, other.CommandId)) return false;
+      if (!object.Equals(NodeId, other.NodeId)) return false;
+      if (Method != other.Method) return false;
+      if (RequestSha256 != other.RequestSha256) return false;
+      if (ResponseSha256 != other.ResponseSha256) return false;
+      if (ResponseSize != other.ResponseSize) return false;
+      if (!object.Equals(ExecutedAt, other.ExecutedAt)) return false;
+      if (Outcome != other.Outcome) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (callId_ != null) hash ^= CallId.GetHashCode();
+      if (commandId_ != null) hash ^= CommandId.GetHashCode();
+      if (nodeId_ != null) hash ^= NodeId.GetHashCode();
+      if (HasMethod) hash ^= Method.GetHashCode();
+      if (HasRequestSha256) hash ^= RequestSha256.GetHashCode();
+      if (HasResponseSha256) hash ^= ResponseSha256.GetHashCode();
+      if (HasResponseSize) hash ^= ResponseSize.GetHashCode();
+      if (executedAt_ != null) hash ^= ExecutedAt.GetHashCode();
+      if (HasOutcome) hash ^= Outcome.GetHashCode();
+      if (error_ != null) hash ^= Error.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (callId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CallId);
+      }
+      if (commandId_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(CommandId);
+      }
+      if (nodeId_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(NodeId);
+      }
+      if (HasMethod) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) Method);
+      }
+      if (HasRequestSha256) {
+        output.WriteRawTag(42);
+        output.WriteBytes(RequestSha256);
+      }
+      if (HasResponseSha256) {
+        output.WriteRawTag(50);
+        output.WriteBytes(ResponseSha256);
+      }
+      if (HasResponseSize) {
+        output.WriteRawTag(56);
+        output.WriteUInt32(ResponseSize);
+      }
+      if (executedAt_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(ExecutedAt);
+      }
+      if (HasOutcome) {
+        output.WriteRawTag(72);
+        output.WriteEnum((int) Outcome);
+      }
+      if (error_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (callId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CallId);
+      }
+      if (commandId_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(CommandId);
+      }
+      if (nodeId_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(NodeId);
+      }
+      if (HasMethod) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) Method);
+      }
+      if (HasRequestSha256) {
+        output.WriteRawTag(42);
+        output.WriteBytes(RequestSha256);
+      }
+      if (HasResponseSha256) {
+        output.WriteRawTag(50);
+        output.WriteBytes(ResponseSha256);
+      }
+      if (HasResponseSize) {
+        output.WriteRawTag(56);
+        output.WriteUInt32(ResponseSize);
+      }
+      if (executedAt_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(ExecutedAt);
+      }
+      if (HasOutcome) {
+        output.WriteRawTag(72);
+        output.WriteEnum((int) Outcome);
+      }
+      if (error_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (callId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CallId);
+      }
+      if (commandId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CommandId);
+      }
+      if (nodeId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(NodeId);
+      }
+      if (HasMethod) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Method);
+      }
+      if (HasRequestSha256) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(RequestSha256);
+      }
+      if (HasResponseSha256) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(ResponseSha256);
+      }
+      if (HasResponseSize) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ResponseSize);
+      }
+      if (executedAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExecutedAt);
+      }
+      if (HasOutcome) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Outcome);
+      }
+      if (error_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ResultHeader other) {
+      if (other == null) {
+        return;
+      }
+      if (other.callId_ != null) {
+        if (callId_ == null) {
+          CallId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        CallId.MergeFrom(other.CallId);
+      }
+      if (other.commandId_ != null) {
+        if (commandId_ == null) {
+          CommandId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        CommandId.MergeFrom(other.CommandId);
+      }
+      if (other.nodeId_ != null) {
+        if (nodeId_ == null) {
+          NodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        NodeId.MergeFrom(other.NodeId);
+      }
+      if (other.HasMethod) {
+        Method = other.Method;
+      }
+      if (other.HasRequestSha256) {
+        RequestSha256 = other.RequestSha256;
+      }
+      if (other.HasResponseSha256) {
+        ResponseSha256 = other.ResponseSha256;
+      }
+      if (other.HasResponseSize) {
+        ResponseSize = other.ResponseSize;
+      }
+      if (other.executedAt_ != null) {
+        if (executedAt_ == null) {
+          ExecutedAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        ExecutedAt.MergeFrom(other.ExecutedAt);
+      }
+      if (other.HasOutcome) {
+        Outcome = other.Outcome;
+      }
+      if (other.error_ != null) {
+        if (error_ == null) {
+          Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+        }
+        Error.MergeFrom(other.Error);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (callId_ == null) {
+              CallId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CallId);
+            break;
+          }
+          case 18: {
+            if (commandId_ == null) {
+              CommandId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CommandId);
+            break;
+          }
+          case 26: {
+            if (nodeId_ == null) {
+              NodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(NodeId);
+            break;
+          }
+          case 32: {
+            Method = (global::ArcForges.Contracts.Relay.V1.RoutedMethod) input.ReadEnum();
+            break;
+          }
+          case 42: {
+            RequestSha256 = input.ReadBytes();
+            break;
+          }
+          case 50: {
+            ResponseSha256 = input.ReadBytes();
+            break;
+          }
+          case 56: {
+            ResponseSize = input.ReadUInt32();
+            break;
+          }
+          case 66: {
+            if (executedAt_ == null) {
+              ExecutedAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExecutedAt);
+            break;
+          }
+          case 72: {
+            Outcome = (global::ArcForges.Contracts.Relay.V1.RoutedOutcome) input.ReadEnum();
+            break;
+          }
+          case 82: {
+            if (error_ == null) {
+              Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            }
+            input.ReadMessage(Error);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (callId_ == null) {
+              CallId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CallId);
+            break;
+          }
+          case 18: {
+            if (commandId_ == null) {
+              CommandId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CommandId);
+            break;
+          }
+          case 26: {
+            if (nodeId_ == null) {
+              NodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(NodeId);
+            break;
+          }
+          case 32: {
+            Method = (global::ArcForges.Contracts.Relay.V1.RoutedMethod) input.ReadEnum();
+            break;
+          }
+          case 42: {
+            RequestSha256 = input.ReadBytes();
+            break;
+          }
+          case 50: {
+            ResponseSha256 = input.ReadBytes();
+            break;
+          }
+          case 56: {
+            ResponseSize = input.ReadUInt32();
+            break;
+          }
+          case 66: {
+            if (executedAt_ == null) {
+              ExecutedAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExecutedAt);
+            break;
+          }
+          case 72: {
+            Outcome = (global::ArcForges.Contracts.Relay.V1.RoutedOutcome) input.ReadEnum();
+            break;
+          }
+          case 82: {
+            if (error_ == null) {
+              Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            }
+            input.ReadMessage(Error);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// A routed result, node -> center. For EXECUTED, payload is the exact node.v1 TaskService response bytes, which the center
+  /// forwards unchanged as the routed value's response; otherwise payload is empty and the center answers with an ArcError that it
+  /// rebuilds from the closed fields of ResultHeader.error (rule routedRefusal), never with the node's error bytes.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChannelResult : pb::IMessage<ChannelResult>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChannelResult> _parser = new pb::MessageParser<ChannelResult>(() => new ChannelResult());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChannelResult> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[21]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelResult() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelResult(ChannelResult other) : this() {
+      callId_ = other.callId_ != null ? other.callId_.Clone() : null;
+      header_ = other.header_ != null ? other.header_.Clone() : null;
+      payload_ = other.payload_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChannelResult Clone() {
+      return new ChannelResult(this);
+    }
+
+    /// <summary>Field number for the "call_id" field.</summary>
+    public const int CallIdFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.Id callId_;
+    /// <summary>
+    /// validate: required; equals ResultHeader.call_id
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id CallId {
+      get { return callId_; }
+      set {
+        callId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "header" field.</summary>
+    public const int HeaderFieldNumber = 2;
+    private global::ArcForges.Contracts.Relay.V1.SignedHeader header_;
+    /// <summary>
+    /// validate: required; a ResultHeader under the routed-result domain string, without kid
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.SignedHeader Header {
+      get { return header_; }
+      set {
+        header_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "payload" field.</summary>
+    public const int PayloadFieldNumber = 3;
+    private readonly static pb::ByteString PayloadDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString payload_;
+    /// <summary>
+    /// validate: &lt;= 1,040,384 bytes; empty unless EXECUTED
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Payload {
+      get { return payload_ ?? PayloadDefaultValue; }
+      set {
+        payload_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "payload" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasPayload {
+      get { return payload_ != null; }
+    }
+    /// <summary>Clears the value of the "payload" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearPayload() {
+      payload_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChannelResult);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChannelResult other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(CallId, other.CallId)) return false;
+      if (!object.Equals(Header, other.Header)) return false;
+      if (Payload != other.Payload) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (callId_ != null) hash ^= CallId.GetHashCode();
+      if (header_ != null) hash ^= Header.GetHashCode();
+      if (HasPayload) hash ^= Payload.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (callId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CallId);
+      }
+      if (header_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Header);
+      }
+      if (HasPayload) {
+        output.WriteRawTag(26);
+        output.WriteBytes(Payload);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (callId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CallId);
+      }
+      if (header_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Header);
+      }
+      if (HasPayload) {
+        output.WriteRawTag(26);
+        output.WriteBytes(Payload);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (callId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CallId);
+      }
+      if (header_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Header);
+      }
+      if (HasPayload) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Payload);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChannelResult other) {
+      if (other == null) {
+        return;
+      }
+      if (other.callId_ != null) {
+        if (callId_ == null) {
+          CallId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        CallId.MergeFrom(other.CallId);
+      }
+      if (other.header_ != null) {
+        if (header_ == null) {
+          Header = new global::ArcForges.Contracts.Relay.V1.SignedHeader();
+        }
+        Header.MergeFrom(other.Header);
+      }
+      if (other.HasPayload) {
+        Payload = other.Payload;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (callId_ == null) {
+              CallId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CallId);
+            break;
+          }
+          case 18: {
+            if (header_ == null) {
+              Header = new global::ArcForges.Contracts.Relay.V1.SignedHeader();
+            }
+            input.ReadMessage(Header);
+            break;
+          }
+          case 26: {
+            Payload = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (callId_ == null) {
+              CallId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CallId);
+            break;
+          }
+          case 18: {
+            if (header_ == null) {
+              Header = new global::ArcForges.Contracts.Relay.V1.SignedHeader();
+            }
+            input.ReadMessage(Header);
+            break;
+          }
+          case 26: {
+            Payload = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// A node asks for a relay nonce before it relays a local caller's call (Plan addendum C-N2): one nonce per call.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class RelayNonceRequest : pb::IMessage<RelayNonceRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<RelayNonceRequest> _parser = new pb::MessageParser<RelayNonceRequest>(() => new RelayNonceRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<RelayNonceRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[22]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RelayNonceRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RelayNonceRequest(RelayNonceRequest other) : this() {
+      requestId_ = other.requestId_ != null ? other.requestId_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RelayNonceRequest Clone() {
+      return new RelayNonceRequest(this);
+    }
+
+    /// <summary>Field number for the "request_id" field.</summary>
+    public const int RequestIdFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.Id requestId_;
+    /// <summary>
+    /// validate: required; chosen by the node and echoed
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id RequestId {
+      get { return requestId_; }
+      set {
+        requestId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as RelayNonceRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(RelayNonceRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(RequestId, other.RequestId)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (requestId_ != null) hash ^= RequestId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (requestId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(RequestId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (requestId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(RequestId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (requestId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RequestId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(RelayNonceRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.requestId_ != null) {
+        if (requestId_ == null) {
+          RequestId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        RequestId.MergeFrom(other.RequestId);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (requestId_ == null) {
+              RequestId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(RequestId);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (requestId_ == null) {
+              RequestId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(RequestId);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// A relay nonce, center -> node: used once, by one relay assertion of this node; void at expires_at, or earlier when this
+  /// connection closes or is replaced. Relaying therefore needs an open channel of the relaying node.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class RelayNonce : pb::IMessage<RelayNonce>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<RelayNonce> _parser = new pb::MessageParser<RelayNonce>(() => new RelayNonce());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<RelayNonce> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[23]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RelayNonce() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RelayNonce(RelayNonce other) : this() {
+      requestId_ = other.requestId_ != null ? other.requestId_.Clone() : null;
+      nonce_ = other.nonce_;
+      expiresAt_ = other.expiresAt_ != null ? other.expiresAt_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RelayNonce Clone() {
+      return new RelayNonce(this);
+    }
+
+    /// <summary>Field number for the "request_id" field.</summary>
+    public const int RequestIdFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.Id requestId_;
+    /// <summary>
+    /// validate: required; RelayNonceRequest.request_id
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id RequestId {
+      get { return requestId_; }
+      set {
+        requestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "nonce" field.</summary>
+    public const int NonceFieldNumber = 2;
+    private readonly static pb::ByteString NonceDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString nonce_;
+    /// <summary>
+    /// validate: required; 32 random bytes
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Nonce {
+      get { return nonce_ ?? NonceDefaultValue; }
+      set {
+        nonce_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "nonce" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasNonce {
+      get { return nonce_ != null; }
+    }
+    /// <summary>Clears the value of the "nonce" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearNonce() {
+      nonce_ = null;
+    }
+
+    /// <summary>Field number for the "expires_at" field.</summary>
+    public const int ExpiresAtFieldNumber = 3;
+    private global::ArcForges.Contracts.Foundation.V1.Instant expiresAt_;
+    /// <summary>
+    /// validate: required; at most 120 s after issue
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant ExpiresAt {
+      get { return expiresAt_; }
+      set {
+        expiresAt_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as RelayNonce);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(RelayNonce other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(RequestId, other.RequestId)) return false;
+      if (Nonce != other.Nonce) return false;
+      if (!object.Equals(ExpiresAt, other.ExpiresAt)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (requestId_ != null) hash ^= RequestId.GetHashCode();
+      if (HasNonce) hash ^= Nonce.GetHashCode();
+      if (expiresAt_ != null) hash ^= ExpiresAt.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (requestId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(RequestId);
+      }
+      if (HasNonce) {
+        output.WriteRawTag(18);
+        output.WriteBytes(Nonce);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (requestId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(RequestId);
+      }
+      if (HasNonce) {
+        output.WriteRawTag(18);
+        output.WriteBytes(Nonce);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (requestId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RequestId);
+      }
+      if (HasNonce) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Nonce);
+      }
+      if (expiresAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExpiresAt);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(RelayNonce other) {
+      if (other == null) {
+        return;
+      }
+      if (other.requestId_ != null) {
+        if (requestId_ == null) {
+          RequestId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        RequestId.MergeFrom(other.RequestId);
+      }
+      if (other.HasNonce) {
+        Nonce = other.Nonce;
+      }
+      if (other.expiresAt_ != null) {
+        if (expiresAt_ == null) {
+          ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        ExpiresAt.MergeFrom(other.ExpiresAt);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (requestId_ == null) {
+              RequestId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(RequestId);
+            break;
+          }
+          case 18: {
+            Nonce = input.ReadBytes();
+            break;
+          }
+          case 26: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (requestId_ == null) {
+              RequestId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(RequestId);
+            break;
+          }
+          case 18: {
+            Nonce = input.ReadBytes();
+            break;
+          }
+          case 26: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// The relay assertion of a node-relayed call (Plan addendum D0-B1, C-N1, C-N6; Design 11 section 1, "Relay assertion"). The
+  /// relaying node signs the relay-origin domain string followed by the canonical bytes of these fields (see "Signatures of the
+  /// node channel" above), and sends the serialized assertion as the relay_assertion bytes of the routed fleet.v1 request, which
+  /// every node-relayed call carries, ListNodes and GetNode included. Before it serves or routes the call, the center verifies the
+  /// signature against the key registered for the bearer credential's installation; checks that relaying_node_id and
+  /// relaying_installation_id are that credential's enrolled node and installation, that the assertion has not expired and its
+  /// nonce is unused (and then spends the nonce), and that method, request_sha256, target_node_id and command_id equal the routed
+  /// request's and the request's caller its relaying_node_id and local_origin. Otherwise it refuses AUTHENTICATION/unauthenticated
+  /// (state.state relay_assertion, state.reason missing, signature_invalid, credential_mismatch, expired, nonce_reused or
+  /// request_mismatch) and routes nothing. For expired and nonce_reused the relaying node signs a new assertion with a fresh nonce
+  /// and resends with the same command_id (DID_NOT_HAPPEN, SAME_COMMAND; no sign-in). The center fills the call header's caller
+  /// only from a verified assertion.
+  /// request_sha256: for the six routed task methods, SHA-256 of the exact node.v1 request bytes of the routed request's request
+  /// field (the call header's request_sha256); for LIST_NODES and GET_NODE, SHA-256 of the routed request's top-level fields as
+  /// transmitted, in wire order and byte for byte, with every occurrence of the relay_assertion field left out. That digest is
+  /// defined over the binary protobuf encoding only: a node-relayed ListNodes or GetNode uses the binary codec (gRPC or binary
+  /// gRPC-Web), the digest covers the message bytes after any transport decompression, and the center digests those received
+  /// bytes, never a re-encoding of a decoded message; a relayed read in a JSON encoding is refused (request_mismatch) (review A N-1).
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class RelayAssertion : pb::IMessage<RelayAssertion>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<RelayAssertion> _parser = new pb::MessageParser<RelayAssertion>(() => new RelayAssertion());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<RelayAssertion> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[24]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RelayAssertion() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RelayAssertion(RelayAssertion other) : this() {
+      _hasBits0 = other._hasBits0;
+      relayingNodeId_ = other.relayingNodeId_ != null ? other.relayingNodeId_.Clone() : null;
+      relayingInstallationId_ = other.relayingInstallationId_ != null ? other.relayingInstallationId_.Clone() : null;
+      localOrigin_ = other.localOrigin_;
+      localSessionId_ = other.localSessionId_ != null ? other.localSessionId_.Clone() : null;
+      method_ = other.method_;
+      requestSha256_ = other.requestSha256_;
+      targetNodeId_ = other.targetNodeId_ != null ? other.targetNodeId_.Clone() : null;
+      commandId_ = other.commandId_ != null ? other.commandId_.Clone() : null;
+      relayNonce_ = other.relayNonce_;
+      issuedAt_ = other.issuedAt_ != null ? other.issuedAt_.Clone() : null;
+      expiresAt_ = other.expiresAt_ != null ? other.expiresAt_.Clone() : null;
+      signature_ = other.signature_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RelayAssertion Clone() {
+      return new RelayAssertion(this);
+    }
+
+    /// <summary>Field number for the "relaying_node_id" field.</summary>
+    public const int RelayingNodeIdFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.Id relayingNodeId_;
+    /// <summary>
+    /// validate: required
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id RelayingNodeId {
+      get { return relayingNodeId_; }
+      set {
+        relayingNodeId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "relaying_installation_id" field.</summary>
+    public const int RelayingInstallationIdFieldNumber = 2;
+    private global::ArcForges.Contracts.Foundation.V1.Id relayingInstallationId_;
+    /// <summary>
+    /// validate: required
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id RelayingInstallationId {
+      get { return relayingInstallationId_; }
+      set {
+        relayingInstallationId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "local_origin" field.</summary>
+    public const int LocalOriginFieldNumber = 3;
+    private readonly static global::ArcForges.Contracts.Node.V1.Origin LocalOriginDefaultValue = global::ArcForges.Contracts.Node.V1.Origin.Unspecified;
+
+    private global::ArcForges.Contracts.Node.V1.Origin localOrigin_;
+    /// <summary>
+    /// validate: required; HUMAN, SCRIPT or AGENT, as the relaying node classified its local caller
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Node.V1.Origin LocalOrigin {
+      get { if ((_hasBits0 & 1) != 0) { return localOrigin_; } else { return LocalOriginDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        localOrigin_ = value;
+      }
+    }
+    /// <summary>Gets whether the "local_origin" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasLocalOrigin {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "local_origin" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearLocalOrigin() {
+      _hasBits0 &= ~1;
+    }
+
+    /// <summary>Field number for the "local_session_id" field.</summary>
+    public const int LocalSessionIdFieldNumber = 4;
+    private global::ArcForges.Contracts.Foundation.V1.Id localSessionId_;
+    /// <summary>
+    /// validate: required; the local caller's client session at the relaying node
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id LocalSessionId {
+      get { return localSessionId_; }
+      set {
+        localSessionId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "method" field.</summary>
+    public const int MethodFieldNumber = 5;
+    private readonly static global::ArcForges.Contracts.Relay.V1.RoutedMethod MethodDefaultValue = global::ArcForges.Contracts.Relay.V1.RoutedMethod.Unspecified;
+
+    private global::ArcForges.Contracts.Relay.V1.RoutedMethod method_;
+    /// <summary>
+    /// validate: required; 1..8
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Relay.V1.RoutedMethod Method {
+      get { if ((_hasBits0 & 2) != 0) { return method_; } else { return MethodDefaultValue; } }
+      set {
+        _hasBits0 |= 2;
+        method_ = value;
+      }
+    }
+    /// <summary>Gets whether the "method" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMethod {
+      get { return (_hasBits0 & 2) != 0; }
+    }
+    /// <summary>Clears the value of the "method" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMethod() {
+      _hasBits0 &= ~2;
+    }
+
+    /// <summary>Field number for the "request_sha256" field.</summary>
+    public const int RequestSha256FieldNumber = 6;
+    private readonly static pb::ByteString RequestSha256DefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString requestSha256_;
+    /// <summary>
+    /// validate: required; 32 bytes
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString RequestSha256 {
+      get { return requestSha256_ ?? RequestSha256DefaultValue; }
+      set {
+        requestSha256_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "request_sha256" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasRequestSha256 {
+      get { return requestSha256_ != null; }
+    }
+    /// <summary>Clears the value of the "request_sha256" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearRequestSha256() {
+      requestSha256_ = null;
+    }
+
+    /// <summary>Field number for the "target_node_id" field.</summary>
+    public const int TargetNodeIdFieldNumber = 7;
+    private global::ArcForges.Contracts.Foundation.V1.Id targetNodeId_;
+    /// <summary>
+    /// validate: absent for LIST_NODES, required otherwise
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id TargetNodeId {
+      get { return targetNodeId_; }
+      set {
+        targetNodeId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "command_id" field.</summary>
+    public const int CommandIdFieldNumber = 8;
+    private global::ArcForges.Contracts.Foundation.V1.Id commandId_;
+    /// <summary>
+    /// validate: required for SUBMIT_NODE_TASK and CANCEL_NODE_TASK, absent otherwise
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id CommandId {
+      get { return commandId_; }
+      set {
+        commandId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "relay_nonce" field.</summary>
+    public const int RelayNonceFieldNumber = 9;
+    private readonly static pb::ByteString RelayNonceDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString relayNonce_;
+    /// <summary>
+    /// validate: required; 32 bytes; a RelayNonce of the relaying node's open channel
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString RelayNonce {
+      get { return relayNonce_ ?? RelayNonceDefaultValue; }
+      set {
+        relayNonce_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "relay_nonce" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasRelayNonce {
+      get { return relayNonce_ != null; }
+    }
+    /// <summary>Clears the value of the "relay_nonce" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearRelayNonce() {
+      relayNonce_ = null;
+    }
+
+    /// <summary>Field number for the "issued_at" field.</summary>
+    public const int IssuedAtFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Instant issuedAt_;
+    /// <summary>
+    /// validate: required
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant IssuedAt {
+      get { return issuedAt_; }
+      set {
+        issuedAt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "expires_at" field.</summary>
+    public const int ExpiresAtFieldNumber = 11;
+    private global::ArcForges.Contracts.Foundation.V1.Instant expiresAt_;
+    /// <summary>
+    /// validate: required; issued_at &lt; expires_at &lt;= issued_at + 120 s
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant ExpiresAt {
+      get { return expiresAt_; }
+      set {
+        expiresAt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "signature" field.</summary>
+    public const int SignatureFieldNumber = 12;
+    private readonly static pb::ByteString SignatureDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString signature_;
+    /// <summary>
+    /// validate: required; 64 bytes, P1363, low-S
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Signature {
+      get { return signature_ ?? SignatureDefaultValue; }
+      set {
+        signature_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "signature" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasSignature {
+      get { return signature_ != null; }
+    }
+    /// <summary>Clears the value of the "signature" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearSignature() {
+      signature_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as RelayAssertion);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(RelayAssertion other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(RelayingNodeId, other.RelayingNodeId)) return false;
+      if (!object.Equals(RelayingInstallationId, other.RelayingInstallationId)) return false;
+      if (LocalOrigin != other.LocalOrigin) return false;
+      if (!object.Equals(LocalSessionId, other.LocalSessionId)) return false;
+      if (Method != other.Method) return false;
+      if (RequestSha256 != other.RequestSha256) return false;
+      if (!object.Equals(TargetNodeId, other.TargetNodeId)) return false;
+      if (!object.Equals(CommandId, other.CommandId)) return false;
+      if (RelayNonce != other.RelayNonce) return false;
+      if (!object.Equals(IssuedAt, other.IssuedAt)) return false;
+      if (!object.Equals(ExpiresAt, other.ExpiresAt)) return false;
+      if (Signature != other.Signature) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (relayingNodeId_ != null) hash ^= RelayingNodeId.GetHashCode();
+      if (relayingInstallationId_ != null) hash ^= RelayingInstallationId.GetHashCode();
+      if (HasLocalOrigin) hash ^= LocalOrigin.GetHashCode();
+      if (localSessionId_ != null) hash ^= LocalSessionId.GetHashCode();
+      if (HasMethod) hash ^= Method.GetHashCode();
+      if (HasRequestSha256) hash ^= RequestSha256.GetHashCode();
+      if (targetNodeId_ != null) hash ^= TargetNodeId.GetHashCode();
+      if (commandId_ != null) hash ^= CommandId.GetHashCode();
+      if (HasRelayNonce) hash ^= RelayNonce.GetHashCode();
+      if (issuedAt_ != null) hash ^= IssuedAt.GetHashCode();
+      if (expiresAt_ != null) hash ^= ExpiresAt.GetHashCode();
+      if (HasSignature) hash ^= Signature.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (relayingNodeId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(RelayingNodeId);
+      }
+      if (relayingInstallationId_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(RelayingInstallationId);
+      }
+      if (HasLocalOrigin) {
+        output.WriteRawTag(24);
+        output.WriteEnum((int) LocalOrigin);
+      }
+      if (localSessionId_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(LocalSessionId);
+      }
+      if (HasMethod) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) Method);
+      }
+      if (HasRequestSha256) {
+        output.WriteRawTag(50);
+        output.WriteBytes(RequestSha256);
+      }
+      if (targetNodeId_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(TargetNodeId);
+      }
+      if (commandId_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(CommandId);
+      }
+      if (HasRelayNonce) {
+        output.WriteRawTag(74);
+        output.WriteBytes(RelayNonce);
+      }
+      if (issuedAt_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(IssuedAt);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (HasSignature) {
+        output.WriteRawTag(98);
+        output.WriteBytes(Signature);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (relayingNodeId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(RelayingNodeId);
+      }
+      if (relayingInstallationId_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(RelayingInstallationId);
+      }
+      if (HasLocalOrigin) {
+        output.WriteRawTag(24);
+        output.WriteEnum((int) LocalOrigin);
+      }
+      if (localSessionId_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(LocalSessionId);
+      }
+      if (HasMethod) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) Method);
+      }
+      if (HasRequestSha256) {
+        output.WriteRawTag(50);
+        output.WriteBytes(RequestSha256);
+      }
+      if (targetNodeId_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(TargetNodeId);
+      }
+      if (commandId_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(CommandId);
+      }
+      if (HasRelayNonce) {
+        output.WriteRawTag(74);
+        output.WriteBytes(RelayNonce);
+      }
+      if (issuedAt_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(IssuedAt);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (HasSignature) {
+        output.WriteRawTag(98);
+        output.WriteBytes(Signature);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (relayingNodeId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RelayingNodeId);
+      }
+      if (relayingInstallationId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RelayingInstallationId);
+      }
+      if (HasLocalOrigin) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) LocalOrigin);
+      }
+      if (localSessionId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(LocalSessionId);
+      }
+      if (HasMethod) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Method);
+      }
+      if (HasRequestSha256) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(RequestSha256);
+      }
+      if (targetNodeId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(TargetNodeId);
+      }
+      if (commandId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CommandId);
+      }
+      if (HasRelayNonce) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(RelayNonce);
+      }
+      if (issuedAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(IssuedAt);
+      }
+      if (expiresAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExpiresAt);
+      }
+      if (HasSignature) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Signature);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(RelayAssertion other) {
+      if (other == null) {
+        return;
+      }
+      if (other.relayingNodeId_ != null) {
+        if (relayingNodeId_ == null) {
+          RelayingNodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        RelayingNodeId.MergeFrom(other.RelayingNodeId);
+      }
+      if (other.relayingInstallationId_ != null) {
+        if (relayingInstallationId_ == null) {
+          RelayingInstallationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        RelayingInstallationId.MergeFrom(other.RelayingInstallationId);
+      }
+      if (other.HasLocalOrigin) {
+        LocalOrigin = other.LocalOrigin;
+      }
+      if (other.localSessionId_ != null) {
+        if (localSessionId_ == null) {
+          LocalSessionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        LocalSessionId.MergeFrom(other.LocalSessionId);
+      }
+      if (other.HasMethod) {
+        Method = other.Method;
+      }
+      if (other.HasRequestSha256) {
+        RequestSha256 = other.RequestSha256;
+      }
+      if (other.targetNodeId_ != null) {
+        if (targetNodeId_ == null) {
+          TargetNodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        TargetNodeId.MergeFrom(other.TargetNodeId);
+      }
+      if (other.commandId_ != null) {
+        if (commandId_ == null) {
+          CommandId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        CommandId.MergeFrom(other.CommandId);
+      }
+      if (other.HasRelayNonce) {
+        RelayNonce = other.RelayNonce;
+      }
+      if (other.issuedAt_ != null) {
+        if (issuedAt_ == null) {
+          IssuedAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        IssuedAt.MergeFrom(other.IssuedAt);
+      }
+      if (other.expiresAt_ != null) {
+        if (expiresAt_ == null) {
+          ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        ExpiresAt.MergeFrom(other.ExpiresAt);
+      }
+      if (other.HasSignature) {
+        Signature = other.Signature;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (relayingNodeId_ == null) {
+              RelayingNodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(RelayingNodeId);
+            break;
+          }
+          case 18: {
+            if (relayingInstallationId_ == null) {
+              RelayingInstallationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(RelayingInstallationId);
+            break;
+          }
+          case 24: {
+            LocalOrigin = (global::ArcForges.Contracts.Node.V1.Origin) input.ReadEnum();
+            break;
+          }
+          case 34: {
+            if (localSessionId_ == null) {
+              LocalSessionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(LocalSessionId);
+            break;
+          }
+          case 40: {
+            Method = (global::ArcForges.Contracts.Relay.V1.RoutedMethod) input.ReadEnum();
+            break;
+          }
+          case 50: {
+            RequestSha256 = input.ReadBytes();
+            break;
+          }
+          case 58: {
+            if (targetNodeId_ == null) {
+              TargetNodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(TargetNodeId);
+            break;
+          }
+          case 66: {
+            if (commandId_ == null) {
+              CommandId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CommandId);
+            break;
+          }
+          case 74: {
+            RelayNonce = input.ReadBytes();
+            break;
+          }
+          case 82: {
+            if (issuedAt_ == null) {
+              IssuedAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(IssuedAt);
+            break;
+          }
+          case 90: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+          case 98: {
+            Signature = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (relayingNodeId_ == null) {
+              RelayingNodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(RelayingNodeId);
+            break;
+          }
+          case 18: {
+            if (relayingInstallationId_ == null) {
+              RelayingInstallationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(RelayingInstallationId);
+            break;
+          }
+          case 24: {
+            LocalOrigin = (global::ArcForges.Contracts.Node.V1.Origin) input.ReadEnum();
+            break;
+          }
+          case 34: {
+            if (localSessionId_ == null) {
+              LocalSessionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(LocalSessionId);
+            break;
+          }
+          case 40: {
+            Method = (global::ArcForges.Contracts.Relay.V1.RoutedMethod) input.ReadEnum();
+            break;
+          }
+          case 50: {
+            RequestSha256 = input.ReadBytes();
+            break;
+          }
+          case 58: {
+            if (targetNodeId_ == null) {
+              TargetNodeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(TargetNodeId);
+            break;
+          }
+          case 66: {
+            if (commandId_ == null) {
+              CommandId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(CommandId);
+            break;
+          }
+          case 74: {
+            RelayNonce = input.ReadBytes();
+            break;
+          }
+          case 82: {
+            if (issuedAt_ == null) {
+              IssuedAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(IssuedAt);
+            break;
+          }
+          case 90: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+          case 98: {
+            Signature = input.ReadBytes();
+            break;
+          }
         }
       }
     }
@@ -5510,7 +11650,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[13]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[25]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5822,7 +11962,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[14]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[26]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6009,7 +12149,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[15]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[27]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6221,7 +12361,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[16]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[28]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6480,7 +12620,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[17]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[29]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7228,7 +13368,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[18]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[30]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7527,7 +13667,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[19]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[31]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7780,7 +13920,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[20]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[32]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8041,7 +14181,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[21]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[33]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8295,7 +14435,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[22]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[34]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8602,7 +14742,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[23]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[35]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9123,7 +15263,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[24]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[36]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9442,7 +15582,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[25]; }
+      get { return global::ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor.MessageTypes[37]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

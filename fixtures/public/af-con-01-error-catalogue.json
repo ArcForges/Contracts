@@ -212,6 +212,10 @@
         {
           "effect": "DID_NOT_HAPPEN",
           "retry": "NEVER"
+        },
+        {
+          "effect": "DID_NOT_HAPPEN",
+          "retry": "SAME_COMMAND"
         }
       ],
       "details": "—. AF-CTR-05 target, for a relayed call: `state.state` = `relay_assertion`, `state.reason` = `missing`, `signature_invalid`, `credential_mismatch`, `expired`, `nonce_reused` or `request_mismatch` (a request field, the `caller` included, that differs from the assertion)"

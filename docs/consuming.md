@@ -211,6 +211,38 @@ Pin every Contracts package of one candidate to the same exact version.
   The `approve` decision of `ApproveNodeSignIn` and `ApproveDeviceCode` is `validate: required`.
   `CompleteNodeSignIn` adds `COMPLETED -> REVOKED`. The denial's `redirect_url` is documented.
 
+**The node channel and the center-routed methods (AF-CTR-05 part C2).** All of it is the AF-CTR-05 target:
+the Cloud center (parts E1 and E2) and the node (parts N1 to N3) build it.
+
+- _Node channel (`relay.v1`, internal)._ A WebSocket on `GET <center>/fleet/v1/node`, subprotocol
+  `arcforges.relay.v1`, one `RelayFrame` per binary message. The center sends `ChannelChallenge` (member 27)
+  first; the node answers `NodeHello` with its hello proof (`installation_id`, `hello_signature`); the center
+  answers `ChannelAccepted` (26) with `ChannelLimits`, and only then sends calls. A call is `ChannelCall` (23)
+  with a `CallHeader` signed by the center's command key, a result `ChannelResult` (24) with a `ResultHeader`
+  signed by the node key; `ChannelHeartbeat` (25) keeps the channel alive, and `RelayNonceRequest` (28) and
+  `RelayNonce` (29) carry the one-use relay nonces. The legacy `command` and `command_result` members (15, 16)
+  are never sent.
+- _Signatures._ Each signature is ES256 in IEEE P1363 form (64 bytes, low-S) over its own domain string followed
+  by its signed bytes: `"ArcForges relay-call v1\n"` (24 bytes) and `"ArcForges relay-result v1\n"` (26) followed
+  by the exact header bytes, `"ArcForges relay-hello v1\n"` (25) and `"ArcForges relay-origin v1\n"` (26) followed
+  by fixed-length canonical fields (137 and 228 bytes in all). `relay.proto` states the layouts;
+  `fixtures/internal/af-ctr-05-relay-vectors.json` holds the golden vectors, which the Go
+  (`go/internal/compat`) and C# (`tests/StructureTests`) tests decode, rebuild and verify.
+- _Routed methods (`fleet.v1`)._ `SubmitNodeTask`, `GetNodeTask`, `ListNodeTasks`, `WaitNodeTask`,
+  `ReadNodeTaskOutput` and `CancelNodeTask` carry the exact `node.v1` TaskService request bytes in `request`
+  and return the node's response bytes in `response`. A node credential is admitted only as the relay of its own
+  node, with `caller` (`RoutedCaller`) and `relay_assertion` (a serialized `relay.v1.RelayAssertion`) together;
+  `ListNodes` and `GetNode` take the same pair. An account session sends neither. The generated validators refuse
+  one without the other. `FleetNode.reported_name` is the name the node reports; `name` stays the account's.
+- _Node additions (`node.v1`)._ `CenterCaller` and `ActorRef.center_caller`, `ManagedTask.local_diagnostic`,
+  `TaskServiceReadTaskOutputRequest.wait_ms` (at most 20 s), and `CenterRoutedPolicy` with its own `enabled`
+  switch and `relayed_from` (`OWN_NODE` by default, `ACCOUNT` as the opt-in on the target) in
+  `PolicyDocument.center_routed`. The `REMOTE` cells of the six TaskService methods and the local HUMAN-only
+  rule of `SubmitTask` are annotation text.
+- _Validators._ The new messages and fields carry their bounds in the sidecars (lengths, sizes, ranges and the
+  relationships: a call expires at most 300 s after issue, a relay assertion at most 120 s). The earlier flagship
+  fields keep presence-only sidecars. No HTTP document changes.
+
 **Retired WSL guest-link surfaces (ArcForges-Design
 [AD-0018](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/decisions/AD-0018-native-platforms-without-wsl-integration.md),
 2026-10-21).** ArcForges has no dedicated Windows–WSL integration: no guest node, host–guest link or

@@ -1441,7 +1441,13 @@
         "/arcforges.fleet.v1.FleetService/ListNodeCommands",
         "/arcforges.fleet.v1.FleetService/GetPushPreferences",
         "/arcforges.fleet.v1.FleetService/UpdatePushPreferences",
-        "/arcforges.fleet.v1.FleetService/CancelNodeCommand"
+        "/arcforges.fleet.v1.FleetService/CancelNodeCommand",
+        "/arcforges.fleet.v1.FleetService/SubmitNodeTask",
+        "/arcforges.fleet.v1.FleetService/GetNodeTask",
+        "/arcforges.fleet.v1.FleetService/ListNodeTasks",
+        "/arcforges.fleet.v1.FleetService/WaitNodeTask",
+        "/arcforges.fleet.v1.FleetService/ReadNodeTaskOutput",
+        "/arcforges.fleet.v1.FleetService/CancelNodeTask"
       ],
       "arcforges.fleet.v1.StoreBillingService": [
         "/arcforges.fleet.v1.StoreBillingService/GetPlayAccountReference",

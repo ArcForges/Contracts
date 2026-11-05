@@ -134,6 +134,21 @@ const (
 	// FleetServiceCancelNodeCommandProcedure is the procedure name of the FleetService's
 	// CancelNodeCommand RPC.
 	FleetServiceCancelNodeCommandProcedure = "/arcforges.fleet.v1.FleetService/CancelNodeCommand"
+	// FleetServiceSubmitNodeTaskProcedure is the procedure name of the FleetService's SubmitNodeTask
+	// RPC.
+	FleetServiceSubmitNodeTaskProcedure = "/arcforges.fleet.v1.FleetService/SubmitNodeTask"
+	// FleetServiceGetNodeTaskProcedure is the procedure name of the FleetService's GetNodeTask RPC.
+	FleetServiceGetNodeTaskProcedure = "/arcforges.fleet.v1.FleetService/GetNodeTask"
+	// FleetServiceListNodeTasksProcedure is the procedure name of the FleetService's ListNodeTasks RPC.
+	FleetServiceListNodeTasksProcedure = "/arcforges.fleet.v1.FleetService/ListNodeTasks"
+	// FleetServiceWaitNodeTaskProcedure is the procedure name of the FleetService's WaitNodeTask RPC.
+	FleetServiceWaitNodeTaskProcedure = "/arcforges.fleet.v1.FleetService/WaitNodeTask"
+	// FleetServiceReadNodeTaskOutputProcedure is the procedure name of the FleetService's
+	// ReadNodeTaskOutput RPC.
+	FleetServiceReadNodeTaskOutputProcedure = "/arcforges.fleet.v1.FleetService/ReadNodeTaskOutput"
+	// FleetServiceCancelNodeTaskProcedure is the procedure name of the FleetService's CancelNodeTask
+	// RPC.
+	FleetServiceCancelNodeTaskProcedure = "/arcforges.fleet.v1.FleetService/CancelNodeTask"
 	// StoreBillingServiceGetPlayAccountReferenceProcedure is the procedure name of the
 	// StoreBillingService's GetPlayAccountReference RPC.
 	StoreBillingServiceGetPlayAccountReferenceProcedure = "/arcforges.fleet.v1.StoreBillingService/GetPlayAccountReference"
@@ -1481,27 +1496,77 @@ var (
 			Procedure:  FleetServiceCancelNodeCommandProcedure,
 		}
 	})
+	fleetServiceSubmitNodeTaskSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("SubmitNodeTask"),
+			Procedure:  FleetServiceSubmitNodeTaskProcedure,
+		}
+	})
+	fleetServiceGetNodeTaskSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("GetNodeTask"),
+			Procedure:  FleetServiceGetNodeTaskProcedure,
+		}
+	})
+	fleetServiceListNodeTasksSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("ListNodeTasks"),
+			Procedure:  FleetServiceListNodeTasksProcedure,
+		}
+	})
+	fleetServiceWaitNodeTaskSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("WaitNodeTask"),
+			Procedure:  FleetServiceWaitNodeTaskProcedure,
+		}
+	})
+	fleetServiceReadNodeTaskOutputSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("ReadNodeTaskOutput"),
+			Procedure:  FleetServiceReadNodeTaskOutputProcedure,
+		}
+	})
+	fleetServiceCancelNodeTaskSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("CancelNodeTask"),
+			Procedure:  FleetServiceCancelNodeTaskProcedure,
+		}
+	})
 )
 
 // FleetServiceClient is a client for the arcforges.fleet.v1.FleetService service.
 type FleetServiceClient interface {
 	// List the account's nodes with cached status summaries.
-	// auth: account session
+	// AF-CTR-05: one row per live enrollment, with online, last_seen_at, credential_expires_at, device_id, version, OS and
+	// reported_name, and no summary (AF-CLD-04). Not gated (Plan decision Q20): a lapsed account still lists its nodes. A node
+	// credential lists them only as a node-relayed caller with a valid relay assertion (Plan addendum C-N6): a bearer token alone
+	// reads nothing of the account's nodes (AUTHENTICATION/unauthenticated, state.state relay_assertion).
+	// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
 	// idempotency: read
 	// deadline: 5 s
 	// stream: none
-	// errors: none (implicit codes only)
+	// errors: AUTHENTICATION/unauthenticated
 	// locality: cloud
 	ListNodes(context.Context, *v1.FleetServiceListNodesRequest) (*v1.FleetServiceListNodesResponse, error)
 	// Read one node with its recent remote commands.
-	// auth: account session
+	// AF-CTR-05: recent_commands stays empty (routing records are not command views). Not gated (Plan decision Q20). A node
+	// credential reads only as for ListNodes, with a valid relay assertion that names the node.
+	// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
 	// idempotency: read
 	// deadline: 5 s
 	// stream: none
-	// errors: STATE/not_found
+	// errors: STATE/not_found, AUTHENTICATION/unauthenticated
 	// locality: cloud
 	GetNode(context.Context, *v1.FleetServiceGetNodeRequest) (*v1.FleetServiceGetNodeResponse, error)
 	// Rename a node in the registry (the node adopts the name on next contact).
+	// AF-CTR-05 (Plan decision Q25): the account's name wins; the node receives it as ChannelAccepted.node_name and keeps the name
+	// it reports (ReportNodeInfo) as FleetNode.reported_name. Not gated (Q20). A node credential is never admitted.
 	// auth: account session
 	// idempotency: command_id
 	// deadline: 5 s
@@ -1510,6 +1575,8 @@ type FleetServiceClient interface {
 	// locality: cloud
 	RenameNode(context.Context, *v1.FleetServiceRenameNodeRequest) (*v1.FleetServiceRenameNodeResponse, error)
 	// Revoke a node: credential, certificates and relay tokens. The node learns it through the relay or its next call.
+	// AF-CTR-05: the revocation cascade closes the node's channel (4401), its in-flight routed calls end STATE/node_unreachable and
+	// its later routed calls are STATE/not_found. Not gated (Plan decision Q20). A node credential is never admitted.
 	// auth: account session with step-up
 	// idempotency: command_id
 	// deadline: 10 s
@@ -1592,6 +1659,64 @@ type FleetServiceClient interface {
 	// locality: cloud
 	// state: SM-REMOTE-COMMAND: ACCEPTED -> CANCELLED
 	CancelNodeCommand(context.Context, *v1.FleetServiceCancelNodeCommandRequest) (*v1.FleetServiceCancelNodeCommandResponse, error)
+	// Submit a task to one of the account's nodes. request: a TaskServiceSubmitTaskRequest of 1..253,952 bytes whose meta.command_id
+	// equals this request's; response: its TaskServiceSubmitTaskResponse. Step-up (Plan decision PB-1): a mobile.limited session
+	// never reaches this method; an account session needs step-up evidence on every delivery, so a resend after the first delivery
+	// consumed its evidence needs fresh evidence (AUTHENTICATION/step_up_required) and is then routed again, where the node's command
+	// deduplication replays the recorded outcome without a second effect (review finding N-3). STATE/invalid_state (state.reason
+	// replay_window_passed): a resend after the node's deduplication window, answered without a second execution.
+	// auth: account session with step-up (class fleet.submitNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+	// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+	// deadline: 10 s
+	// stream: none
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	SubmitNodeTask(context.Context, *v1.FleetServiceSubmitNodeTaskRequest) (*v1.FleetServiceSubmitNodeTaskResponse, error)
+	// Read one task of a node. request: a TaskServiceGetTaskRequest of 1..3,072 bytes; response: its TaskServiceGetTaskResponse.
+	// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+	// idempotency: read
+	// deadline: 10 s
+	// stream: none
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	GetNodeTask(context.Context, *v1.FleetServiceGetNodeTaskRequest) (*v1.FleetServiceGetNodeTaskResponse, error)
+	// List a node's tasks. request: a TaskServiceListTasksRequest of 1..3,072 bytes; response: its TaskServiceListTasksResponse.
+	// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+	// idempotency: read
+	// deadline: 10 s
+	// stream: none
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	ListNodeTasks(context.Context, *v1.FleetServiceListNodeTasksRequest) (*v1.FleetServiceListNodeTasksResponse, error)
+	// Wait for a node's task. request: a TaskServiceWaitTaskRequest of 1..3,072 bytes with wait_ms at most 50,000; response: its
+	// TaskServiceWaitTaskResponse.
+	// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+	// idempotency: read
+	// deadline: wait_ms + 5 s, at most 55 s
+	// stream: none
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	WaitNodeTask(context.Context, *v1.FleetServiceWaitNodeTaskRequest) (*v1.FleetServiceWaitNodeTaskResponse, error)
+	// Read a node's task output. request: a TaskServiceReadTaskOutputRequest of 1..3,072 bytes with max_bytes at most 262,144 (the
+	// routed cap; default 256 KiB) and wait_ms at most 20,000 (Plan decision Q17); response: its TaskServiceReadTaskOutputResponse.
+	// The node caps both again for a REMOTE caller (TaskService.ReadTaskOutput), so a missed center check cannot exceed the response bound.
+	// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+	// idempotency: read
+	// deadline: 10 s; wait_ms + 10 s with wait_ms, at most 30 s
+	// stream: none
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	ReadNodeTaskOutput(context.Context, *v1.FleetServiceReadNodeTaskOutputRequest) (*v1.FleetServiceReadNodeTaskOutputResponse, error)
+	// Cancel a node's task. request: a TaskServiceCancelTaskRequest of 1..3,072 bytes whose meta.command_id equals this request's;
+	// response: its TaskServiceCancelTaskResponse. Step-up as SubmitNodeTask (class fleet.cancelNodeTask). Another caller's task needs
+	// an approval that a local HUMAN decides (AUTHORIZATION/approval_required); an ADOPTED task is never terminated (MR-08).
+	// auth: account session with step-up (class fleet.cancelNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+	// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+	// deadline: 10 s
+	// stream: none
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	CancelNodeTask(context.Context, *v1.FleetServiceCancelNodeTaskRequest) (*v1.FleetServiceCancelNodeTaskResponse, error)
 }
 
 // NewFleetServiceClient constructs a client for the arcforges.fleet.v1.FleetService service.
@@ -1623,22 +1748,30 @@ func (s FleetServiceWatchFleetClientStream) Close() error {
 // FleetServiceHandler is an implementation of the arcforges.fleet.v1.FleetService service.
 type FleetServiceHandler interface {
 	// List the account's nodes with cached status summaries.
-	// auth: account session
+	// AF-CTR-05: one row per live enrollment, with online, last_seen_at, credential_expires_at, device_id, version, OS and
+	// reported_name, and no summary (AF-CLD-04). Not gated (Plan decision Q20): a lapsed account still lists its nodes. A node
+	// credential lists them only as a node-relayed caller with a valid relay assertion (Plan addendum C-N6): a bearer token alone
+	// reads nothing of the account's nodes (AUTHENTICATION/unauthenticated, state.state relay_assertion).
+	// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
 	// idempotency: read
 	// deadline: 5 s
 	// stream: none
-	// errors: none (implicit codes only)
+	// errors: AUTHENTICATION/unauthenticated
 	// locality: cloud
 	ListNodes(context.Context, *v1.FleetServiceListNodesRequest) (*v1.FleetServiceListNodesResponse, error)
 	// Read one node with its recent remote commands.
-	// auth: account session
+	// AF-CTR-05: recent_commands stays empty (routing records are not command views). Not gated (Plan decision Q20). A node
+	// credential reads only as for ListNodes, with a valid relay assertion that names the node.
+	// auth: account session; or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
 	// idempotency: read
 	// deadline: 5 s
 	// stream: none
-	// errors: STATE/not_found
+	// errors: STATE/not_found, AUTHENTICATION/unauthenticated
 	// locality: cloud
 	GetNode(context.Context, *v1.FleetServiceGetNodeRequest) (*v1.FleetServiceGetNodeResponse, error)
 	// Rename a node in the registry (the node adopts the name on next contact).
+	// AF-CTR-05 (Plan decision Q25): the account's name wins; the node receives it as ChannelAccepted.node_name and keeps the name
+	// it reports (ReportNodeInfo) as FleetNode.reported_name. Not gated (Q20). A node credential is never admitted.
 	// auth: account session
 	// idempotency: command_id
 	// deadline: 5 s
@@ -1647,6 +1780,8 @@ type FleetServiceHandler interface {
 	// locality: cloud
 	RenameNode(context.Context, *v1.FleetServiceRenameNodeRequest) (*v1.FleetServiceRenameNodeResponse, error)
 	// Revoke a node: credential, certificates and relay tokens. The node learns it through the relay or its next call.
+	// AF-CTR-05: the revocation cascade closes the node's channel (4401), its in-flight routed calls end STATE/node_unreachable and
+	// its later routed calls are STATE/not_found. Not gated (Plan decision Q20). A node credential is never admitted.
 	// auth: account session with step-up
 	// idempotency: command_id
 	// deadline: 10 s
@@ -1729,6 +1864,64 @@ type FleetServiceHandler interface {
 	// locality: cloud
 	// state: SM-REMOTE-COMMAND: ACCEPTED -> CANCELLED
 	CancelNodeCommand(context.Context, *v1.FleetServiceCancelNodeCommandRequest) (*v1.FleetServiceCancelNodeCommandResponse, error)
+	// Submit a task to one of the account's nodes. request: a TaskServiceSubmitTaskRequest of 1..253,952 bytes whose meta.command_id
+	// equals this request's; response: its TaskServiceSubmitTaskResponse. Step-up (Plan decision PB-1): a mobile.limited session
+	// never reaches this method; an account session needs step-up evidence on every delivery, so a resend after the first delivery
+	// consumed its evidence needs fresh evidence (AUTHENTICATION/step_up_required) and is then routed again, where the node's command
+	// deduplication replays the recorded outcome without a second effect (review finding N-3). STATE/invalid_state (state.reason
+	// replay_window_passed): a resend after the node's deduplication window, answered without a second execution.
+	// auth: account session with step-up (class fleet.submitNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+	// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+	// deadline: 10 s
+	// stream: none
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	SubmitNodeTask(context.Context, *v1.FleetServiceSubmitNodeTaskRequest) (*v1.FleetServiceSubmitNodeTaskResponse, error)
+	// Read one task of a node. request: a TaskServiceGetTaskRequest of 1..3,072 bytes; response: its TaskServiceGetTaskResponse.
+	// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+	// idempotency: read
+	// deadline: 10 s
+	// stream: none
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	GetNodeTask(context.Context, *v1.FleetServiceGetNodeTaskRequest) (*v1.FleetServiceGetNodeTaskResponse, error)
+	// List a node's tasks. request: a TaskServiceListTasksRequest of 1..3,072 bytes; response: its TaskServiceListTasksResponse.
+	// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+	// idempotency: read
+	// deadline: 10 s
+	// stream: none
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	ListNodeTasks(context.Context, *v1.FleetServiceListNodeTasksRequest) (*v1.FleetServiceListNodeTasksResponse, error)
+	// Wait for a node's task. request: a TaskServiceWaitTaskRequest of 1..3,072 bytes with wait_ms at most 50,000; response: its
+	// TaskServiceWaitTaskResponse.
+	// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+	// idempotency: read
+	// deadline: wait_ms + 5 s, at most 55 s
+	// stream: none
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	WaitNodeTask(context.Context, *v1.FleetServiceWaitNodeTaskRequest) (*v1.FleetServiceWaitNodeTaskResponse, error)
+	// Read a node's task output. request: a TaskServiceReadTaskOutputRequest of 1..3,072 bytes with max_bytes at most 262,144 (the
+	// routed cap; default 256 KiB) and wait_ms at most 20,000 (Plan decision Q17); response: its TaskServiceReadTaskOutputResponse.
+	// The node caps both again for a REMOTE caller (TaskService.ReadTaskOutput), so a missed center check cannot exceed the response bound.
+	// auth: account session (mobile.limited included); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+	// idempotency: read
+	// deadline: 10 s; wait_ms + 10 s with wait_ms, at most 30 s
+	// stream: none
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	ReadNodeTaskOutput(context.Context, *v1.FleetServiceReadNodeTaskOutputRequest) (*v1.FleetServiceReadNodeTaskOutputResponse, error)
+	// Cancel a node's task. request: a TaskServiceCancelTaskRequest of 1..3,072 bytes whose meta.command_id equals this request's;
+	// response: its TaskServiceCancelTaskResponse. Step-up as SubmitNodeTask (class fleet.cancelNodeTask). Another caller's task needs
+	// an approval that a local HUMAN decides (AUTHORIZATION/approval_required); an ADOPTED task is never terminated (MR-08).
+	// auth: account session with step-up (class fleet.cancelNodeTask, target node_id; a mobile.limited session upgrades first); or node credential as the relay of its own node, with caller and relay_assertion (required together; Design 11 section 1)
+	// idempotency: command_id; same request digest required; a resend is routed again and the node's command deduplication replays the outcome
+	// deadline: 10 s
+	// stream: none
+	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	CancelNodeTask(context.Context, *v1.FleetServiceCancelNodeTaskRequest) (*v1.FleetServiceCancelNodeTaskResponse, error)
 }
 
 // RegisterFleetServiceHandler registers svc as the arcforges.fleet.v1.FleetService implementation
@@ -1749,6 +1942,12 @@ func RegisterFleetServiceHandler(server *connect.Server, svc FleetServiceHandler
 		connect.Method{Spec: fleetServiceGetPushPreferencesSpec(), Handler: adapter.getPushPreferences},
 		connect.Method{Spec: fleetServiceUpdatePushPreferencesSpec(), Handler: adapter.updatePushPreferences},
 		connect.Method{Spec: fleetServiceCancelNodeCommandSpec(), Handler: adapter.cancelNodeCommand},
+		connect.Method{Spec: fleetServiceSubmitNodeTaskSpec(), Handler: adapter.submitNodeTask},
+		connect.Method{Spec: fleetServiceGetNodeTaskSpec(), Handler: adapter.getNodeTask},
+		connect.Method{Spec: fleetServiceListNodeTasksSpec(), Handler: adapter.listNodeTasks},
+		connect.Method{Spec: fleetServiceWaitNodeTaskSpec(), Handler: adapter.waitNodeTask},
+		connect.Method{Spec: fleetServiceReadNodeTaskOutputSpec(), Handler: adapter.readNodeTaskOutput},
+		connect.Method{Spec: fleetServiceCancelNodeTaskSpec(), Handler: adapter.cancelNodeTask},
 	)
 }
 
@@ -1820,6 +2019,30 @@ func (UnimplementedFleetServiceHandler) UpdatePushPreferences(context.Context, *
 
 func (UnimplementedFleetServiceHandler) CancelNodeCommand(context.Context, *v1.FleetServiceCancelNodeCommandRequest) (*v1.FleetServiceCancelNodeCommandResponse, error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.CancelNodeCommand is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) SubmitNodeTask(context.Context, *v1.FleetServiceSubmitNodeTaskRequest) (*v1.FleetServiceSubmitNodeTaskResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.SubmitNodeTask is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) GetNodeTask(context.Context, *v1.FleetServiceGetNodeTaskRequest) (*v1.FleetServiceGetNodeTaskResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.GetNodeTask is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) ListNodeTasks(context.Context, *v1.FleetServiceListNodeTasksRequest) (*v1.FleetServiceListNodeTasksResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.ListNodeTasks is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) WaitNodeTask(context.Context, *v1.FleetServiceWaitNodeTaskRequest) (*v1.FleetServiceWaitNodeTaskResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.WaitNodeTask is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) ReadNodeTaskOutput(context.Context, *v1.FleetServiceReadNodeTaskOutputRequest) (*v1.FleetServiceReadNodeTaskOutputResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.ReadNodeTaskOutput is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) CancelNodeTask(context.Context, *v1.FleetServiceCancelNodeTaskRequest) (*v1.FleetServiceCancelNodeTaskResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.CancelNodeTask is not implemented")
 }
 
 type fleetServiceClient struct {
@@ -1925,6 +2148,54 @@ func (c *fleetServiceClient) UpdatePushPreferences(ctx context.Context, req *v1.
 func (c *fleetServiceClient) CancelNodeCommand(ctx context.Context, req *v1.FleetServiceCancelNodeCommandRequest) (*v1.FleetServiceCancelNodeCommandResponse, error) {
 	var res v1.FleetServiceCancelNodeCommandResponse
 	if err := c.client.CallUnary(ctx, fleetServiceCancelNodeCommandSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) SubmitNodeTask(ctx context.Context, req *v1.FleetServiceSubmitNodeTaskRequest) (*v1.FleetServiceSubmitNodeTaskResponse, error) {
+	var res v1.FleetServiceSubmitNodeTaskResponse
+	if err := c.client.CallUnary(ctx, fleetServiceSubmitNodeTaskSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) GetNodeTask(ctx context.Context, req *v1.FleetServiceGetNodeTaskRequest) (*v1.FleetServiceGetNodeTaskResponse, error) {
+	var res v1.FleetServiceGetNodeTaskResponse
+	if err := c.client.CallUnary(ctx, fleetServiceGetNodeTaskSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) ListNodeTasks(ctx context.Context, req *v1.FleetServiceListNodeTasksRequest) (*v1.FleetServiceListNodeTasksResponse, error) {
+	var res v1.FleetServiceListNodeTasksResponse
+	if err := c.client.CallUnary(ctx, fleetServiceListNodeTasksSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) WaitNodeTask(ctx context.Context, req *v1.FleetServiceWaitNodeTaskRequest) (*v1.FleetServiceWaitNodeTaskResponse, error) {
+	var res v1.FleetServiceWaitNodeTaskResponse
+	if err := c.client.CallUnary(ctx, fleetServiceWaitNodeTaskSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) ReadNodeTaskOutput(ctx context.Context, req *v1.FleetServiceReadNodeTaskOutputRequest) (*v1.FleetServiceReadNodeTaskOutputResponse, error) {
+	var res v1.FleetServiceReadNodeTaskOutputResponse
+	if err := c.client.CallUnary(ctx, fleetServiceReadNodeTaskOutputSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) CancelNodeTask(ctx context.Context, req *v1.FleetServiceCancelNodeTaskRequest) (*v1.FleetServiceCancelNodeTaskResponse, error) {
+	var res v1.FleetServiceCancelNodeTaskResponse
+	if err := c.client.CallUnary(ctx, fleetServiceCancelNodeTaskSpec(), req, &res); err != nil {
 		return nil, err
 	}
 	return &res, nil
@@ -2078,6 +2349,78 @@ func (h fleetServiceHandler) cancelNodeCommand(ctx context.Context, _ connect.Sp
 		return err
 	}
 	res, err := h.svc.CancelNodeCommand(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) submitNodeTask(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceSubmitNodeTaskRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.SubmitNodeTask(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) getNodeTask(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceGetNodeTaskRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.GetNodeTask(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) listNodeTasks(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceListNodeTasksRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.ListNodeTasks(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) waitNodeTask(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceWaitNodeTaskRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.WaitNodeTask(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) readNodeTaskOutput(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceReadNodeTaskOutputRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.ReadNodeTaskOutput(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) cancelNodeTask(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceCancelNodeTaskRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.CancelNodeTask(ctx, &req)
 	if err != nil {
 		return err
 	}

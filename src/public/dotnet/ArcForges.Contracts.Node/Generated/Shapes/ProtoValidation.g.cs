@@ -1173,6 +1173,10 @@ public static class ContractShapeValidation
         {
             if (!ValidUnicode(value.ClientName)) return false;
         }
+        if (value.CenterCaller is not null)
+        {
+            if (!Check(value.CenterCaller, context)) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -2607,6 +2611,65 @@ public static class ContractShapeValidation
         }
         if (value.HasTaskCount)
         {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.CenterCaller.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.CenterCaller? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.CenterCaller? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if ((int)value.Kind != 1 && (int)value.Kind != 2) return false;
+        }
+        if (value.AccountId is null) return false;
+        if (!Check(value.AccountId, context)) return false;
+        if (value.UserId is not null)
+        {
+            if (!Check(value.UserId, context)) return false;
+        }
+        if (value.SessionId is not null)
+        {
+            if (!Check(value.SessionId, context)) return false;
+        }
+        if (value.RelayingNodeId is not null)
+        {
+            if (!Check(value.RelayingNodeId, context)) return false;
+        }
+        if (value.HasLocalOrigin)
+        {
+            if ((int)value.LocalOrigin != 1 && (int)value.LocalOrigin != 2 && (int)value.LocalOrigin != 3) return false;
+        }
+        if (value.LocalSessionId is not null)
+        {
+            if (!Check(value.LocalSessionId, context)) return false;
+        }
+        var accountSession = (int)value.Kind == 1;
+        if ((value.UserId is not null) != accountSession || (value.SessionId is not null) != accountSession) return false;
+        if ((value.RelayingNodeId is not null) == accountSession || value.HasLocalOrigin == accountSession || (value.LocalSessionId is not null) == accountSession) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.CenterRoutedPolicy.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.CenterRoutedPolicy? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.CenterRoutedPolicy? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.HasEnabled)
+        {
+        }
+        if (value.HasRelayedFrom)
+        {
+            if ((int)value.RelayedFrom != 1 && (int)value.RelayedFrom != 2) return false;
         }
         return true;
         }
@@ -5217,6 +5280,9 @@ public static class ContractShapeValidation
         foreach (var item in value.SharedKeys)
         {
             if (!ValidUnicode(item)) return false;
+        }
+        if (value.HasLocalDiagnostic)
+        {
         }
         return true;
         }
@@ -8039,6 +8105,10 @@ public static class ContractShapeValidation
         if (value.RetrySafety is not null)
         {
             if (!Check(value.RetrySafety, context)) return false;
+        }
+        if (value.CenterRouted is not null)
+        {
+            if (!Check(value.CenterRouted, context)) return false;
         }
         return true;
         }
@@ -13816,6 +13886,11 @@ public static class ContractShapeValidation
         }
         if (value.HasMaxBytes)
         {
+        }
+        if (value.HasWaitMs)
+        {
+            if (value.WaitMs < 0) return false;
+            if (value.WaitMs > 20000) return false;
         }
         return true;
         }
