@@ -135,22 +135,24 @@ var (
 // WorkspaceServiceClient is a client for the arcforges.node.v1.WorkspaceService service.
 type WorkspaceServiceClient interface {
 	// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
-	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+	// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+	// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
 	// idempotency: command_id; registering the same root returns the existing workspace
 	// deadline: 10 s
 	// stream: none
-	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
 	// locality: node
 	RegisterWorkspace(context.Context, *v1.WorkspaceServiceRegisterWorkspaceRequest) (*v1.WorkspaceServiceRegisterWorkspaceResponse, error)
 	// Forget a registered workspace. Files are never touched.
-	// auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+	// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+	// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
 	// idempotency: command_id
 	// deadline: 5 s
 	// stream: none
-	// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/approval_required
+	// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
 	// locality: node
 	UnregisterWorkspace(context.Context, *v1.WorkspaceServiceUnregisterWorkspaceRequest) (*v1.WorkspaceServiceUnregisterWorkspaceResponse, error)
-	// List workspaces.
+	// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
 	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
 	// idempotency: read
 	// deadline: 5 s
@@ -158,7 +160,8 @@ type WorkspaceServiceClient interface {
 	// errors: VALIDATION/invalid_cursor
 	// locality: node
 	ListWorkspaces(context.Context, *v1.WorkspaceServiceListWorkspacesRequest) (*v1.WorkspaceServiceListWorkspacesResponse, error)
-	// Read one workspace with a fresh git status summary.
+	// Read one workspace with a bounded safe fresh git status summary (06a section 1).
+	// AF-CTR-06 routes the explicit Fleet counterpart through the center.
 	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
 	// idempotency: read
 	// deadline: 10 s
@@ -228,22 +231,24 @@ func NewWorkspaceServiceClient(client *connect.Client) WorkspaceServiceClient {
 // WorkspaceServiceHandler is an implementation of the arcforges.node.v1.WorkspaceService service.
 type WorkspaceServiceHandler interface {
 	// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
-	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+	// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+	// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
 	// idempotency: command_id; registering the same root returns the existing workspace
 	// deadline: 10 s
 	// stream: none
-	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
 	// locality: node
 	RegisterWorkspace(context.Context, *v1.WorkspaceServiceRegisterWorkspaceRequest) (*v1.WorkspaceServiceRegisterWorkspaceResponse, error)
 	// Forget a registered workspace. Files are never touched.
-	// auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+	// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+	// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
 	// idempotency: command_id
 	// deadline: 5 s
 	// stream: none
-	// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/approval_required
+	// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
 	// locality: node
 	UnregisterWorkspace(context.Context, *v1.WorkspaceServiceUnregisterWorkspaceRequest) (*v1.WorkspaceServiceUnregisterWorkspaceResponse, error)
-	// List workspaces.
+	// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
 	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
 	// idempotency: read
 	// deadline: 5 s
@@ -251,7 +256,8 @@ type WorkspaceServiceHandler interface {
 	// errors: VALIDATION/invalid_cursor
 	// locality: node
 	ListWorkspaces(context.Context, *v1.WorkspaceServiceListWorkspacesRequest) (*v1.WorkspaceServiceListWorkspacesResponse, error)
-	// Read one workspace with a fresh git status summary.
+	// Read one workspace with a bounded safe fresh git status summary (06a section 1).
+	// AF-CTR-06 routes the explicit Fleet counterpart through the center.
 	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
 	// idempotency: read
 	// deadline: 10 s

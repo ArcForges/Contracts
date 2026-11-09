@@ -6,6 +6,7 @@ package arcforges.node.v1;
 
 import "arcforges/foundation/v1/foundation.proto";
 import "arcforges/node/v1/common.proto";
+import "arcforges/node/v1/files.proto";
 import "arcforges/node/v1/policy.proto";
 
 option csharp_namespace = "ArcForges.Contracts.Node.V1";
@@ -18,24 +19,26 @@ option java_outer_classname = "NodeWorkspacesProto";
 // Register workspaces and manage node-owned git worktrees.
 service WorkspaceService {
   // Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
-  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
   // idempotency: command_id; registering the same root returns the existing workspace
   // deadline: 10 s
   // stream: none
-  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
   // locality: node
   rpc RegisterWorkspace(WorkspaceServiceRegisterWorkspaceRequest) returns (WorkspaceServiceRegisterWorkspaceResponse);
 
   // Forget a registered workspace. Files are never touched.
-  // auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+  // AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
   // idempotency: command_id
   // deadline: 5 s
   // stream: none
-  // errors: STATE/not_found, STATE/in_use, AUTHORIZATION/approval_required
+  // errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
   // locality: node
   rpc UnregisterWorkspace(WorkspaceServiceUnregisterWorkspaceRequest) returns (WorkspaceServiceUnregisterWorkspaceResponse);
 
-  // List workspaces.
+  // List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
   // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
   // idempotency: read
   // deadline: 5 s
@@ -44,7 +47,8 @@ service WorkspaceService {
   // locality: node
   rpc ListWorkspaces(WorkspaceServiceListWorkspacesRequest) returns (WorkspaceServiceListWorkspacesResponse);
 
-  // Read one workspace with a fresh git status summary.
+  // Read one workspace with a bounded safe fresh git status summary (06a section 1).
+  // AF-CTR-06 routes the explicit Fleet counterpart through the center.
   // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
   // idempotency: read
   // deadline: 10 s
@@ -124,6 +128,7 @@ message WorkspaceServiceRegisterWorkspaceResponse {
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
   }
   reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded metadata observations; never workspace file bodies
 }
 message WorkspaceServiceRegisterWorkspaceValue {
   Workspace workspace = 10 [json_name = "workspace"];
@@ -141,6 +146,7 @@ message WorkspaceServiceUnregisterWorkspaceResponse {
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
   }
   reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded metadata observations; never workspace file bodies
 }
 message WorkspaceServiceUnregisterWorkspaceValue {
   arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
@@ -159,6 +165,7 @@ message WorkspaceServiceListWorkspacesResponse {
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
   }
   reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded metadata observations; never workspace file bodies
 }
 message WorkspaceServiceListWorkspacesValue {
   repeated Workspace workspaces = 10 [json_name = "workspaces"];
@@ -177,6 +184,7 @@ message WorkspaceServiceGetWorkspaceResponse {
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
   }
   reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded metadata observations; never workspace file bodies
 }
 message WorkspaceServiceGetWorkspaceValue {
   Workspace workspace = 10 [json_name = "workspace"];

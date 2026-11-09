@@ -149,6 +149,39 @@ const (
 	// FleetServiceCancelNodeTaskProcedure is the procedure name of the FleetService's CancelNodeTask
 	// RPC.
 	FleetServiceCancelNodeTaskProcedure = "/arcforges.fleet.v1.FleetService/CancelNodeTask"
+	// FleetServiceReadNodeFileProcedure is the procedure name of the FleetService's ReadNodeFile RPC.
+	FleetServiceReadNodeFileProcedure = "/arcforges.fleet.v1.FleetService/ReadNodeFile"
+	// FleetServiceWriteNodeFileProcedure is the procedure name of the FleetService's WriteNodeFile RPC.
+	FleetServiceWriteNodeFileProcedure = "/arcforges.fleet.v1.FleetService/WriteNodeFile"
+	// FleetServiceEditNodeFileProcedure is the procedure name of the FleetService's EditNodeFile RPC.
+	FleetServiceEditNodeFileProcedure = "/arcforges.fleet.v1.FleetService/EditNodeFile"
+	// FleetServiceSearchNodeFilesProcedure is the procedure name of the FleetService's SearchNodeFiles
+	// RPC.
+	FleetServiceSearchNodeFilesProcedure = "/arcforges.fleet.v1.FleetService/SearchNodeFiles"
+	// FleetServiceListNodeDirectoryProcedure is the procedure name of the FleetService's
+	// ListNodeDirectory RPC.
+	FleetServiceListNodeDirectoryProcedure = "/arcforges.fleet.v1.FleetService/ListNodeDirectory"
+	// FleetServicePlanNodeRemovalProcedure is the procedure name of the FleetService's PlanNodeRemoval
+	// RPC.
+	FleetServicePlanNodeRemovalProcedure = "/arcforges.fleet.v1.FleetService/PlanNodeRemoval"
+	// FleetServiceExecuteNodeRemovalProcedure is the procedure name of the FleetService's
+	// ExecuteNodeRemoval RPC.
+	FleetServiceExecuteNodeRemovalProcedure = "/arcforges.fleet.v1.FleetService/ExecuteNodeRemoval"
+	// FleetServiceGetNodeFileOperationProcedure is the procedure name of the FleetService's
+	// GetNodeFileOperation RPC.
+	FleetServiceGetNodeFileOperationProcedure = "/arcforges.fleet.v1.FleetService/GetNodeFileOperation"
+	// FleetServiceRegisterNodeWorkspaceProcedure is the procedure name of the FleetService's
+	// RegisterNodeWorkspace RPC.
+	FleetServiceRegisterNodeWorkspaceProcedure = "/arcforges.fleet.v1.FleetService/RegisterNodeWorkspace"
+	// FleetServiceUnregisterNodeWorkspaceProcedure is the procedure name of the FleetService's
+	// UnregisterNodeWorkspace RPC.
+	FleetServiceUnregisterNodeWorkspaceProcedure = "/arcforges.fleet.v1.FleetService/UnregisterNodeWorkspace"
+	// FleetServiceListNodeWorkspacesProcedure is the procedure name of the FleetService's
+	// ListNodeWorkspaces RPC.
+	FleetServiceListNodeWorkspacesProcedure = "/arcforges.fleet.v1.FleetService/ListNodeWorkspaces"
+	// FleetServiceGetNodeWorkspaceProcedure is the procedure name of the FleetService's
+	// GetNodeWorkspace RPC.
+	FleetServiceGetNodeWorkspaceProcedure = "/arcforges.fleet.v1.FleetService/GetNodeWorkspace"
 	// StoreBillingServiceGetPlayAccountReferenceProcedure is the procedure name of the
 	// StoreBillingService's GetPlayAccountReference RPC.
 	StoreBillingServiceGetPlayAccountReferenceProcedure = "/arcforges.fleet.v1.StoreBillingService/GetPlayAccountReference"
@@ -1538,6 +1571,90 @@ var (
 			Procedure:  FleetServiceCancelNodeTaskProcedure,
 		}
 	})
+	fleetServiceReadNodeFileSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("ReadNodeFile"),
+			Procedure:  FleetServiceReadNodeFileProcedure,
+		}
+	})
+	fleetServiceWriteNodeFileSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("WriteNodeFile"),
+			Procedure:  FleetServiceWriteNodeFileProcedure,
+		}
+	})
+	fleetServiceEditNodeFileSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("EditNodeFile"),
+			Procedure:  FleetServiceEditNodeFileProcedure,
+		}
+	})
+	fleetServiceSearchNodeFilesSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("SearchNodeFiles"),
+			Procedure:  FleetServiceSearchNodeFilesProcedure,
+		}
+	})
+	fleetServiceListNodeDirectorySpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("ListNodeDirectory"),
+			Procedure:  FleetServiceListNodeDirectoryProcedure,
+		}
+	})
+	fleetServicePlanNodeRemovalSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("PlanNodeRemoval"),
+			Procedure:  FleetServicePlanNodeRemovalProcedure,
+		}
+	})
+	fleetServiceExecuteNodeRemovalSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("ExecuteNodeRemoval"),
+			Procedure:  FleetServiceExecuteNodeRemovalProcedure,
+		}
+	})
+	fleetServiceGetNodeFileOperationSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("GetNodeFileOperation"),
+			Procedure:  FleetServiceGetNodeFileOperationProcedure,
+		}
+	})
+	fleetServiceRegisterNodeWorkspaceSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("RegisterNodeWorkspace"),
+			Procedure:  FleetServiceRegisterNodeWorkspaceProcedure,
+		}
+	})
+	fleetServiceUnregisterNodeWorkspaceSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("UnregisterNodeWorkspace"),
+			Procedure:  FleetServiceUnregisterNodeWorkspaceProcedure,
+		}
+	})
+	fleetServiceListNodeWorkspacesSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("ListNodeWorkspaces"),
+			Procedure:  FleetServiceListNodeWorkspacesProcedure,
+		}
+	})
+	fleetServiceGetNodeWorkspaceSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_arcforges_fleet_v1_fleet_proto.Services().ByName("FleetService").Methods().ByName("GetNodeWorkspace"),
+			Procedure:  FleetServiceGetNodeWorkspaceProcedure,
+		}
+	})
 )
 
 // FleetServiceClient is a client for the arcforges.fleet.v1.FleetService service.
@@ -1717,6 +1834,103 @@ type FleetServiceClient interface {
 	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
 	// locality: cloud -> node
 	CancelNodeTask(context.Context, *v1.FleetServiceCancelNodeTaskRequest) (*v1.FleetServiceCancelNodeTaskResponse, error)
+	// AF-CTR-06: bounded file/workspace methods; no local submission bypass.
+	// Route node.v1 FileService.ReadFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: read
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	ReadNodeFile(context.Context, *v1.FleetServiceReadNodeFileRequest) (*v1.FleetServiceReadNodeFileResponse, error)
+	// Route node.v1 FileService.WriteFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session with target-bound step-up (class fleet.writeNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+	// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+	// locality: cloud -> node
+	WriteNodeFile(context.Context, *v1.FleetServiceWriteNodeFileRequest) (*v1.FleetServiceWriteNodeFileResponse, error)
+	// Route node.v1 FileService.EditFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session with target-bound step-up (class fleet.editNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+	// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+	// locality: cloud -> node
+	EditNodeFile(context.Context, *v1.FleetServiceEditNodeFileRequest) (*v1.FleetServiceEditNodeFileResponse, error)
+	// Route node.v1 FileService.SearchFiles to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: read
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	SearchNodeFiles(context.Context, *v1.FleetServiceSearchNodeFilesRequest) (*v1.FleetServiceSearchNodeFilesResponse, error)
+	// Route node.v1 FileService.ListDirectory to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: read
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	ListNodeDirectory(context.Context, *v1.FleetServiceListNodeDirectoryRequest) (*v1.FleetServiceListNodeDirectoryResponse, error)
+	// Route node.v1 FileService.PlanRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+	// locality: cloud -> node
+	PlanNodeRemoval(context.Context, *v1.FleetServicePlanNodeRemovalRequest) (*v1.FleetServicePlanNodeRemovalResponse, error)
+	// Route node.v1 FileService.ExecuteRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session with target-bound step-up (class fleet.executeNodeRemoval; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+	// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+	// locality: cloud -> node
+	ExecuteNodeRemoval(context.Context, *v1.FleetServiceExecuteNodeRemovalRequest) (*v1.FleetServiceExecuteNodeRemovalResponse, error)
+	// Route node.v1 FileService.GetFileOperation to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: read
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	GetNodeFileOperation(context.Context, *v1.FleetServiceGetNodeFileOperationRequest) (*v1.FleetServiceGetNodeFileOperationResponse, error)
+	// Route node.v1 WorkspaceService.RegisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session with target-bound step-up (class fleet.registerNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+	// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+	// locality: cloud -> node
+	RegisterNodeWorkspace(context.Context, *v1.FleetServiceRegisterNodeWorkspaceRequest) (*v1.FleetServiceRegisterNodeWorkspaceResponse, error)
+	// Route node.v1 WorkspaceService.UnregisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session with target-bound step-up (class fleet.unregisterNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+	// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+	// locality: cloud -> node
+	UnregisterNodeWorkspace(context.Context, *v1.FleetServiceUnregisterNodeWorkspaceRequest) (*v1.FleetServiceUnregisterNodeWorkspaceResponse, error)
+	// Route node.v1 WorkspaceService.ListWorkspaces to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: read
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	ListNodeWorkspaces(context.Context, *v1.FleetServiceListNodeWorkspacesRequest) (*v1.FleetServiceListNodeWorkspacesResponse, error)
+	// Route node.v1 WorkspaceService.GetWorkspace to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: read
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	GetNodeWorkspace(context.Context, *v1.FleetServiceGetNodeWorkspaceRequest) (*v1.FleetServiceGetNodeWorkspaceResponse, error)
 }
 
 // NewFleetServiceClient constructs a client for the arcforges.fleet.v1.FleetService service.
@@ -1922,6 +2136,103 @@ type FleetServiceHandler interface {
 	// errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
 	// locality: cloud -> node
 	CancelNodeTask(context.Context, *v1.FleetServiceCancelNodeTaskRequest) (*v1.FleetServiceCancelNodeTaskResponse, error)
+	// AF-CTR-06: bounded file/workspace methods; no local submission bypass.
+	// Route node.v1 FileService.ReadFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: read
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	ReadNodeFile(context.Context, *v1.FleetServiceReadNodeFileRequest) (*v1.FleetServiceReadNodeFileResponse, error)
+	// Route node.v1 FileService.WriteFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session with target-bound step-up (class fleet.writeNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+	// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+	// locality: cloud -> node
+	WriteNodeFile(context.Context, *v1.FleetServiceWriteNodeFileRequest) (*v1.FleetServiceWriteNodeFileResponse, error)
+	// Route node.v1 FileService.EditFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session with target-bound step-up (class fleet.editNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+	// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+	// locality: cloud -> node
+	EditNodeFile(context.Context, *v1.FleetServiceEditNodeFileRequest) (*v1.FleetServiceEditNodeFileResponse, error)
+	// Route node.v1 FileService.SearchFiles to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: read
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	SearchNodeFiles(context.Context, *v1.FleetServiceSearchNodeFilesRequest) (*v1.FleetServiceSearchNodeFilesResponse, error)
+	// Route node.v1 FileService.ListDirectory to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: read
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	ListNodeDirectory(context.Context, *v1.FleetServiceListNodeDirectoryRequest) (*v1.FleetServiceListNodeDirectoryResponse, error)
+	// Route node.v1 FileService.PlanRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+	// locality: cloud -> node
+	PlanNodeRemoval(context.Context, *v1.FleetServicePlanNodeRemovalRequest) (*v1.FleetServicePlanNodeRemovalResponse, error)
+	// Route node.v1 FileService.ExecuteRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session with target-bound step-up (class fleet.executeNodeRemoval; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+	// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+	// locality: cloud -> node
+	ExecuteNodeRemoval(context.Context, *v1.FleetServiceExecuteNodeRemovalRequest) (*v1.FleetServiceExecuteNodeRemovalResponse, error)
+	// Route node.v1 FileService.GetFileOperation to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: read
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	GetNodeFileOperation(context.Context, *v1.FleetServiceGetNodeFileOperationRequest) (*v1.FleetServiceGetNodeFileOperationResponse, error)
+	// Route node.v1 WorkspaceService.RegisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session with target-bound step-up (class fleet.registerNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+	// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+	// locality: cloud -> node
+	RegisterNodeWorkspace(context.Context, *v1.FleetServiceRegisterNodeWorkspaceRequest) (*v1.FleetServiceRegisterNodeWorkspaceResponse, error)
+	// Route node.v1 WorkspaceService.UnregisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session with target-bound step-up (class fleet.unregisterNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+	// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+	// locality: cloud -> node
+	UnregisterNodeWorkspace(context.Context, *v1.FleetServiceUnregisterNodeWorkspaceRequest) (*v1.FleetServiceUnregisterNodeWorkspaceResponse, error)
+	// Route node.v1 WorkspaceService.ListWorkspaces to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: read
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	ListNodeWorkspaces(context.Context, *v1.FleetServiceListNodeWorkspacesRequest) (*v1.FleetServiceListNodeWorkspacesResponse, error)
+	// Route node.v1 WorkspaceService.GetWorkspace to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+	// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+	// idempotency: read
+	// deadline: 15 s
+	// stream: none
+	// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+	// locality: cloud -> node
+	GetNodeWorkspace(context.Context, *v1.FleetServiceGetNodeWorkspaceRequest) (*v1.FleetServiceGetNodeWorkspaceResponse, error)
 }
 
 // RegisterFleetServiceHandler registers svc as the arcforges.fleet.v1.FleetService implementation
@@ -1948,6 +2259,18 @@ func RegisterFleetServiceHandler(server *connect.Server, svc FleetServiceHandler
 		connect.Method{Spec: fleetServiceWaitNodeTaskSpec(), Handler: adapter.waitNodeTask},
 		connect.Method{Spec: fleetServiceReadNodeTaskOutputSpec(), Handler: adapter.readNodeTaskOutput},
 		connect.Method{Spec: fleetServiceCancelNodeTaskSpec(), Handler: adapter.cancelNodeTask},
+		connect.Method{Spec: fleetServiceReadNodeFileSpec(), Handler: adapter.readNodeFile},
+		connect.Method{Spec: fleetServiceWriteNodeFileSpec(), Handler: adapter.writeNodeFile},
+		connect.Method{Spec: fleetServiceEditNodeFileSpec(), Handler: adapter.editNodeFile},
+		connect.Method{Spec: fleetServiceSearchNodeFilesSpec(), Handler: adapter.searchNodeFiles},
+		connect.Method{Spec: fleetServiceListNodeDirectorySpec(), Handler: adapter.listNodeDirectory},
+		connect.Method{Spec: fleetServicePlanNodeRemovalSpec(), Handler: adapter.planNodeRemoval},
+		connect.Method{Spec: fleetServiceExecuteNodeRemovalSpec(), Handler: adapter.executeNodeRemoval},
+		connect.Method{Spec: fleetServiceGetNodeFileOperationSpec(), Handler: adapter.getNodeFileOperation},
+		connect.Method{Spec: fleetServiceRegisterNodeWorkspaceSpec(), Handler: adapter.registerNodeWorkspace},
+		connect.Method{Spec: fleetServiceUnregisterNodeWorkspaceSpec(), Handler: adapter.unregisterNodeWorkspace},
+		connect.Method{Spec: fleetServiceListNodeWorkspacesSpec(), Handler: adapter.listNodeWorkspaces},
+		connect.Method{Spec: fleetServiceGetNodeWorkspaceSpec(), Handler: adapter.getNodeWorkspace},
 	)
 }
 
@@ -2043,6 +2366,54 @@ func (UnimplementedFleetServiceHandler) ReadNodeTaskOutput(context.Context, *v1.
 
 func (UnimplementedFleetServiceHandler) CancelNodeTask(context.Context, *v1.FleetServiceCancelNodeTaskRequest) (*v1.FleetServiceCancelNodeTaskResponse, error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.CancelNodeTask is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) ReadNodeFile(context.Context, *v1.FleetServiceReadNodeFileRequest) (*v1.FleetServiceReadNodeFileResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.ReadNodeFile is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) WriteNodeFile(context.Context, *v1.FleetServiceWriteNodeFileRequest) (*v1.FleetServiceWriteNodeFileResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.WriteNodeFile is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) EditNodeFile(context.Context, *v1.FleetServiceEditNodeFileRequest) (*v1.FleetServiceEditNodeFileResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.EditNodeFile is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) SearchNodeFiles(context.Context, *v1.FleetServiceSearchNodeFilesRequest) (*v1.FleetServiceSearchNodeFilesResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.SearchNodeFiles is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) ListNodeDirectory(context.Context, *v1.FleetServiceListNodeDirectoryRequest) (*v1.FleetServiceListNodeDirectoryResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.ListNodeDirectory is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) PlanNodeRemoval(context.Context, *v1.FleetServicePlanNodeRemovalRequest) (*v1.FleetServicePlanNodeRemovalResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.PlanNodeRemoval is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) ExecuteNodeRemoval(context.Context, *v1.FleetServiceExecuteNodeRemovalRequest) (*v1.FleetServiceExecuteNodeRemovalResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.ExecuteNodeRemoval is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) GetNodeFileOperation(context.Context, *v1.FleetServiceGetNodeFileOperationRequest) (*v1.FleetServiceGetNodeFileOperationResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.GetNodeFileOperation is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) RegisterNodeWorkspace(context.Context, *v1.FleetServiceRegisterNodeWorkspaceRequest) (*v1.FleetServiceRegisterNodeWorkspaceResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.RegisterNodeWorkspace is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) UnregisterNodeWorkspace(context.Context, *v1.FleetServiceUnregisterNodeWorkspaceRequest) (*v1.FleetServiceUnregisterNodeWorkspaceResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.UnregisterNodeWorkspace is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) ListNodeWorkspaces(context.Context, *v1.FleetServiceListNodeWorkspacesRequest) (*v1.FleetServiceListNodeWorkspacesResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.ListNodeWorkspaces is not implemented")
+}
+
+func (UnimplementedFleetServiceHandler) GetNodeWorkspace(context.Context, *v1.FleetServiceGetNodeWorkspaceRequest) (*v1.FleetServiceGetNodeWorkspaceResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "arcforges.fleet.v1.FleetService.GetNodeWorkspace is not implemented")
 }
 
 type fleetServiceClient struct {
@@ -2196,6 +2567,102 @@ func (c *fleetServiceClient) ReadNodeTaskOutput(ctx context.Context, req *v1.Fle
 func (c *fleetServiceClient) CancelNodeTask(ctx context.Context, req *v1.FleetServiceCancelNodeTaskRequest) (*v1.FleetServiceCancelNodeTaskResponse, error) {
 	var res v1.FleetServiceCancelNodeTaskResponse
 	if err := c.client.CallUnary(ctx, fleetServiceCancelNodeTaskSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) ReadNodeFile(ctx context.Context, req *v1.FleetServiceReadNodeFileRequest) (*v1.FleetServiceReadNodeFileResponse, error) {
+	var res v1.FleetServiceReadNodeFileResponse
+	if err := c.client.CallUnary(ctx, fleetServiceReadNodeFileSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) WriteNodeFile(ctx context.Context, req *v1.FleetServiceWriteNodeFileRequest) (*v1.FleetServiceWriteNodeFileResponse, error) {
+	var res v1.FleetServiceWriteNodeFileResponse
+	if err := c.client.CallUnary(ctx, fleetServiceWriteNodeFileSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) EditNodeFile(ctx context.Context, req *v1.FleetServiceEditNodeFileRequest) (*v1.FleetServiceEditNodeFileResponse, error) {
+	var res v1.FleetServiceEditNodeFileResponse
+	if err := c.client.CallUnary(ctx, fleetServiceEditNodeFileSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) SearchNodeFiles(ctx context.Context, req *v1.FleetServiceSearchNodeFilesRequest) (*v1.FleetServiceSearchNodeFilesResponse, error) {
+	var res v1.FleetServiceSearchNodeFilesResponse
+	if err := c.client.CallUnary(ctx, fleetServiceSearchNodeFilesSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) ListNodeDirectory(ctx context.Context, req *v1.FleetServiceListNodeDirectoryRequest) (*v1.FleetServiceListNodeDirectoryResponse, error) {
+	var res v1.FleetServiceListNodeDirectoryResponse
+	if err := c.client.CallUnary(ctx, fleetServiceListNodeDirectorySpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) PlanNodeRemoval(ctx context.Context, req *v1.FleetServicePlanNodeRemovalRequest) (*v1.FleetServicePlanNodeRemovalResponse, error) {
+	var res v1.FleetServicePlanNodeRemovalResponse
+	if err := c.client.CallUnary(ctx, fleetServicePlanNodeRemovalSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) ExecuteNodeRemoval(ctx context.Context, req *v1.FleetServiceExecuteNodeRemovalRequest) (*v1.FleetServiceExecuteNodeRemovalResponse, error) {
+	var res v1.FleetServiceExecuteNodeRemovalResponse
+	if err := c.client.CallUnary(ctx, fleetServiceExecuteNodeRemovalSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) GetNodeFileOperation(ctx context.Context, req *v1.FleetServiceGetNodeFileOperationRequest) (*v1.FleetServiceGetNodeFileOperationResponse, error) {
+	var res v1.FleetServiceGetNodeFileOperationResponse
+	if err := c.client.CallUnary(ctx, fleetServiceGetNodeFileOperationSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) RegisterNodeWorkspace(ctx context.Context, req *v1.FleetServiceRegisterNodeWorkspaceRequest) (*v1.FleetServiceRegisterNodeWorkspaceResponse, error) {
+	var res v1.FleetServiceRegisterNodeWorkspaceResponse
+	if err := c.client.CallUnary(ctx, fleetServiceRegisterNodeWorkspaceSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) UnregisterNodeWorkspace(ctx context.Context, req *v1.FleetServiceUnregisterNodeWorkspaceRequest) (*v1.FleetServiceUnregisterNodeWorkspaceResponse, error) {
+	var res v1.FleetServiceUnregisterNodeWorkspaceResponse
+	if err := c.client.CallUnary(ctx, fleetServiceUnregisterNodeWorkspaceSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) ListNodeWorkspaces(ctx context.Context, req *v1.FleetServiceListNodeWorkspacesRequest) (*v1.FleetServiceListNodeWorkspacesResponse, error) {
+	var res v1.FleetServiceListNodeWorkspacesResponse
+	if err := c.client.CallUnary(ctx, fleetServiceListNodeWorkspacesSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *fleetServiceClient) GetNodeWorkspace(ctx context.Context, req *v1.FleetServiceGetNodeWorkspaceRequest) (*v1.FleetServiceGetNodeWorkspaceResponse, error) {
+	var res v1.FleetServiceGetNodeWorkspaceResponse
+	if err := c.client.CallUnary(ctx, fleetServiceGetNodeWorkspaceSpec(), req, &res); err != nil {
 		return nil, err
 	}
 	return &res, nil
@@ -2421,6 +2888,150 @@ func (h fleetServiceHandler) cancelNodeTask(ctx context.Context, _ connect.Spec,
 		return err
 	}
 	res, err := h.svc.CancelNodeTask(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) readNodeFile(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceReadNodeFileRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.ReadNodeFile(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) writeNodeFile(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceWriteNodeFileRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.WriteNodeFile(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) editNodeFile(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceEditNodeFileRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.EditNodeFile(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) searchNodeFiles(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceSearchNodeFilesRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.SearchNodeFiles(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) listNodeDirectory(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceListNodeDirectoryRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.ListNodeDirectory(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) planNodeRemoval(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServicePlanNodeRemovalRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.PlanNodeRemoval(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) executeNodeRemoval(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceExecuteNodeRemovalRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.ExecuteNodeRemoval(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) getNodeFileOperation(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceGetNodeFileOperationRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.GetNodeFileOperation(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) registerNodeWorkspace(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceRegisterNodeWorkspaceRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.RegisterNodeWorkspace(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) unregisterNodeWorkspace(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceUnregisterNodeWorkspaceRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.UnregisterNodeWorkspace(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) listNodeWorkspaces(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceListNodeWorkspacesRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.ListNodeWorkspaces(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h fleetServiceHandler) getNodeWorkspace(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.FleetServiceGetNodeWorkspaceRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.GetNodeWorkspace(ctx, &req)
 	if err != nil {
 		return err
 	}

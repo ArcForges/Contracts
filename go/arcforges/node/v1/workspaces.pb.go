@@ -311,6 +311,7 @@ type WorkspaceServiceRegisterWorkspaceResponse struct {
 	//	*WorkspaceServiceRegisterWorkspaceResponse_Value
 	//	*WorkspaceServiceRegisterWorkspaceResponse_Error
 	Outcome       isWorkspaceServiceRegisterWorkspaceResponse_Outcome `protobuf_oneof:"outcome"`
+	Audit         *FileAuditMetadata                                  `protobuf:"bytes,10,opt,name=audit,proto3" json:"audit,omitempty"` // validate: bounded metadata observations; never workspace file bodies
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -373,6 +374,13 @@ func (x *WorkspaceServiceRegisterWorkspaceResponse) GetError() *v1.ArcError {
 		if x, ok := x.Outcome.(*WorkspaceServiceRegisterWorkspaceResponse_Error); ok {
 			return x.Error
 		}
+	}
+	return nil
+}
+
+func (x *WorkspaceServiceRegisterWorkspaceResponse) GetAudit() *FileAuditMetadata {
+	if x != nil {
+		return x.Audit
 	}
 	return nil
 }
@@ -499,6 +507,7 @@ type WorkspaceServiceUnregisterWorkspaceResponse struct {
 	//	*WorkspaceServiceUnregisterWorkspaceResponse_Value
 	//	*WorkspaceServiceUnregisterWorkspaceResponse_Error
 	Outcome       isWorkspaceServiceUnregisterWorkspaceResponse_Outcome `protobuf_oneof:"outcome"`
+	Audit         *FileAuditMetadata                                    `protobuf:"bytes,10,opt,name=audit,proto3" json:"audit,omitempty"` // validate: bounded metadata observations; never workspace file bodies
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -561,6 +570,13 @@ func (x *WorkspaceServiceUnregisterWorkspaceResponse) GetError() *v1.ArcError {
 		if x, ok := x.Outcome.(*WorkspaceServiceUnregisterWorkspaceResponse_Error); ok {
 			return x.Error
 		}
+	}
+	return nil
+}
+
+func (x *WorkspaceServiceUnregisterWorkspaceResponse) GetAudit() *FileAuditMetadata {
+	if x != nil {
+		return x.Audit
 	}
 	return nil
 }
@@ -695,6 +711,7 @@ type WorkspaceServiceListWorkspacesResponse struct {
 	//	*WorkspaceServiceListWorkspacesResponse_Value
 	//	*WorkspaceServiceListWorkspacesResponse_Error
 	Outcome       isWorkspaceServiceListWorkspacesResponse_Outcome `protobuf_oneof:"outcome"`
+	Audit         *FileAuditMetadata                               `protobuf:"bytes,10,opt,name=audit,proto3" json:"audit,omitempty"` // validate: bounded metadata observations; never workspace file bodies
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -757,6 +774,13 @@ func (x *WorkspaceServiceListWorkspacesResponse) GetError() *v1.ArcError {
 		if x, ok := x.Outcome.(*WorkspaceServiceListWorkspacesResponse_Error); ok {
 			return x.Error
 		}
+	}
+	return nil
+}
+
+func (x *WorkspaceServiceListWorkspacesResponse) GetAudit() *FileAuditMetadata {
+	if x != nil {
+		return x.Audit
 	}
 	return nil
 }
@@ -891,6 +915,7 @@ type WorkspaceServiceGetWorkspaceResponse struct {
 	//	*WorkspaceServiceGetWorkspaceResponse_Value
 	//	*WorkspaceServiceGetWorkspaceResponse_Error
 	Outcome       isWorkspaceServiceGetWorkspaceResponse_Outcome `protobuf_oneof:"outcome"`
+	Audit         *FileAuditMetadata                             `protobuf:"bytes,10,opt,name=audit,proto3" json:"audit,omitempty"` // validate: bounded metadata observations; never workspace file bodies
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -953,6 +978,13 @@ func (x *WorkspaceServiceGetWorkspaceResponse) GetError() *v1.ArcError {
 		if x, ok := x.Outcome.(*WorkspaceServiceGetWorkspaceResponse_Error); ok {
 			return x.Error
 		}
+	}
+	return nil
+}
+
+func (x *WorkspaceServiceGetWorkspaceResponse) GetAudit() *FileAuditMetadata {
+	if x != nil {
+		return x.Audit
 	}
 	return nil
 }
@@ -2879,7 +2911,7 @@ var File_arcforges_node_v1_workspaces_proto protoreflect.FileDescriptor
 
 const file_arcforges_node_v1_workspaces_proto_rawDesc = "" +
 	"\n" +
-	"\"arcforges/node/v1/workspaces.proto\x12\x11arcforges.node.v1\x1a(arcforges/foundation/v1/foundation.proto\x1a\x1earcforges/node/v1/common.proto\x1a\x1earcforges/node/v1/policy.proto\"\xae\x01\n" +
+	"\"arcforges/node/v1/workspaces.proto\x12\x11arcforges.node.v1\x1a(arcforges/foundation/v1/foundation.proto\x1a\x1earcforges/node/v1/common.proto\x1a\x1darcforges/node/v1/files.proto\x1a\x1earcforges/node/v1/policy.proto\"\xae\x01\n" +
 	"(WorkspaceServiceRegisterWorkspaceRequest\x128\n" +
 	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x12\x17\n" +
 	"\x04path\x18\n" +
@@ -2887,11 +2919,13 @@ const file_arcforges_node_v1_workspaces_proto_rawDesc = "" +
 	"\x04name\x18\v \x01(\tH\x01R\x04name\x88\x01\x01B\a\n" +
 	"\x05_pathB\a\n" +
 	"\x05_nameJ\x04\b\x02\x10\n" +
-	"\"\x85\x02\n" +
+	"\"\xc1\x02\n" +
 	")WorkspaceServiceRegisterWorkspaceResponse\x129\n" +
 	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12Q\n" +
 	"\x05value\x18\x02 \x01(\v29.arcforges.node.v1.WorkspaceServiceRegisterWorkspaceValueH\x00R\x05value\x129\n" +
-	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05errorB\t\n" +
+	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05error\x12:\n" +
+	"\x05audit\x18\n" +
+	" \x01(\v2$.arcforges.node.v1.FileAuditMetadataR\x05auditB\t\n" +
 	"\aoutcomeJ\x04\b\x04\x10\n" +
 	"\"d\n" +
 	"&WorkspaceServiceRegisterWorkspaceValue\x12:\n" +
@@ -2901,11 +2935,13 @@ const file_arcforges_node_v1_workspaces_proto_rawDesc = "" +
 	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x12>\n" +
 	"\fworkspace_id\x18\n" +
 	" \x01(\v2\x1b.arcforges.foundation.v1.IdR\vworkspaceIdJ\x04\b\x02\x10\n" +
-	"\"\x89\x02\n" +
+	"\"\xc5\x02\n" +
 	"+WorkspaceServiceUnregisterWorkspaceResponse\x129\n" +
 	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12S\n" +
 	"\x05value\x18\x02 \x01(\v2;.arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceValueH\x00R\x05value\x129\n" +
-	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05errorB\t\n" +
+	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05error\x12:\n" +
+	"\x05audit\x18\n" +
+	" \x01(\v2$.arcforges.node.v1.FileAuditMetadataR\x05auditB\t\n" +
 	"\aoutcomeJ\x04\b\x04\x10\n" +
 	"\"f\n" +
 	"(WorkspaceServiceUnregisterWorkspaceValue\x12:\n" +
@@ -2916,11 +2952,13 @@ const file_arcforges_node_v1_workspaces_proto_rawDesc = "" +
 	"\x05kinds\x18\n" +
 	" \x03(\x0e2 .arcforges.node.v1.WorkspaceKindR\x05kinds\x128\n" +
 	"\x04page\x18\v \x01(\v2$.arcforges.foundation.v1.PageRequestR\x04pageJ\x04\b\x02\x10\n" +
-	"\"\xff\x01\n" +
+	"\"\xbb\x02\n" +
 	"&WorkspaceServiceListWorkspacesResponse\x129\n" +
 	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12N\n" +
 	"\x05value\x18\x02 \x01(\v26.arcforges.node.v1.WorkspaceServiceListWorkspacesValueH\x00R\x05value\x129\n" +
-	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05errorB\t\n" +
+	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05error\x12:\n" +
+	"\x05audit\x18\n" +
+	" \x01(\v2$.arcforges.node.v1.FileAuditMetadataR\x05auditB\t\n" +
 	"\aoutcomeJ\x04\b\x04\x10\n" +
 	"\"\x9b\x01\n" +
 	"#WorkspaceServiceListWorkspacesValue\x12<\n" +
@@ -2933,11 +2971,13 @@ const file_arcforges_node_v1_workspaces_proto_rawDesc = "" +
 	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04meta\x12>\n" +
 	"\fworkspace_id\x18\n" +
 	" \x01(\v2\x1b.arcforges.foundation.v1.IdR\vworkspaceIdJ\x04\b\x02\x10\n" +
-	"\"\xfb\x01\n" +
+	"\"\xb7\x02\n" +
 	"$WorkspaceServiceGetWorkspaceResponse\x129\n" +
 	"\x04meta\x18\x01 \x01(\v2%.arcforges.foundation.v1.ResponseMetaR\x04meta\x12L\n" +
 	"\x05value\x18\x02 \x01(\v24.arcforges.node.v1.WorkspaceServiceGetWorkspaceValueH\x00R\x05value\x129\n" +
-	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05errorB\t\n" +
+	"\x05error\x18\x03 \x01(\v2!.arcforges.foundation.v1.ArcErrorH\x00R\x05error\x12:\n" +
+	"\x05audit\x18\n" +
+	" \x01(\v2$.arcforges.node.v1.FileAuditMetadataR\x05auditB\t\n" +
 	"\aoutcomeJ\x04\b\x04\x10\n" +
 	"\"_\n" +
 	"!WorkspaceServiceGetWorkspaceValue\x12:\n" +
@@ -3265,130 +3305,135 @@ var file_arcforges_node_v1_workspaces_proto_goTypes = []any{
 	(*v1.RequestMeta)(nil),                                  // 38: arcforges.foundation.v1.RequestMeta
 	(*v1.ResponseMeta)(nil),                                 // 39: arcforges.foundation.v1.ResponseMeta
 	(*v1.ArcError)(nil),                                     // 40: arcforges.foundation.v1.ArcError
-	(*v1.Id)(nil),                                           // 41: arcforges.foundation.v1.Id
-	(*v1.Receipt)(nil),                                      // 42: arcforges.foundation.v1.Receipt
-	(*v1.PageRequest)(nil),                                  // 43: arcforges.foundation.v1.PageRequest
-	(*v1.PageState)(nil),                                    // 44: arcforges.foundation.v1.PageState
-	(*JobView)(nil),                                         // 45: arcforges.node.v1.JobView
-	(RoutingMode)(0),                                        // 46: arcforges.node.v1.RoutingMode
-	(*v1.Instant)(nil),                                      // 47: arcforges.foundation.v1.Instant
-	(*ActorRef)(nil),                                        // 48: arcforges.node.v1.ActorRef
+	(*FileAuditMetadata)(nil),                               // 41: arcforges.node.v1.FileAuditMetadata
+	(*v1.Id)(nil),                                           // 42: arcforges.foundation.v1.Id
+	(*v1.Receipt)(nil),                                      // 43: arcforges.foundation.v1.Receipt
+	(*v1.PageRequest)(nil),                                  // 44: arcforges.foundation.v1.PageRequest
+	(*v1.PageState)(nil),                                    // 45: arcforges.foundation.v1.PageState
+	(*JobView)(nil),                                         // 46: arcforges.node.v1.JobView
+	(RoutingMode)(0),                                        // 47: arcforges.node.v1.RoutingMode
+	(*v1.Instant)(nil),                                      // 48: arcforges.foundation.v1.Instant
+	(*ActorRef)(nil),                                        // 49: arcforges.node.v1.ActorRef
 }
 var file_arcforges_node_v1_workspaces_proto_depIdxs = []int32{
-	38, // 0: arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	39, // 1: arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	6,  // 2: arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceRegisterWorkspaceValue
-	40, // 3: arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	37, // 4: arcforges.node.v1.WorkspaceServiceRegisterWorkspaceValue.workspace:type_name -> arcforges.node.v1.Workspace
-	38, // 5: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	41, // 6: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceRequest.workspace_id:type_name -> arcforges.foundation.v1.Id
-	39, // 7: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	9,  // 8: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceValue
-	40, // 9: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	42, // 10: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceValue.receipt:type_name -> arcforges.foundation.v1.Receipt
-	38, // 11: arcforges.node.v1.WorkspaceServiceListWorkspacesRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	0,  // 12: arcforges.node.v1.WorkspaceServiceListWorkspacesRequest.kinds:type_name -> arcforges.node.v1.WorkspaceKind
-	43, // 13: arcforges.node.v1.WorkspaceServiceListWorkspacesRequest.page:type_name -> arcforges.foundation.v1.PageRequest
-	39, // 14: arcforges.node.v1.WorkspaceServiceListWorkspacesResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	12, // 15: arcforges.node.v1.WorkspaceServiceListWorkspacesResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceListWorkspacesValue
-	40, // 16: arcforges.node.v1.WorkspaceServiceListWorkspacesResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	37, // 17: arcforges.node.v1.WorkspaceServiceListWorkspacesValue.workspaces:type_name -> arcforges.node.v1.Workspace
-	44, // 18: arcforges.node.v1.WorkspaceServiceListWorkspacesValue.page:type_name -> arcforges.foundation.v1.PageState
-	38, // 19: arcforges.node.v1.WorkspaceServiceGetWorkspaceRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	41, // 20: arcforges.node.v1.WorkspaceServiceGetWorkspaceRequest.workspace_id:type_name -> arcforges.foundation.v1.Id
-	39, // 21: arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	15, // 22: arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceGetWorkspaceValue
-	40, // 23: arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	37, // 24: arcforges.node.v1.WorkspaceServiceGetWorkspaceValue.workspace:type_name -> arcforges.node.v1.Workspace
-	38, // 25: arcforges.node.v1.WorkspaceServiceCreateWorktreeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	41, // 26: arcforges.node.v1.WorkspaceServiceCreateWorktreeRequest.base_workspace_id:type_name -> arcforges.foundation.v1.Id
-	41, // 27: arcforges.node.v1.WorkspaceServiceCreateWorktreeRequest.session_id:type_name -> arcforges.foundation.v1.Id
-	39, // 28: arcforges.node.v1.WorkspaceServiceCreateWorktreeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	18, // 29: arcforges.node.v1.WorkspaceServiceCreateWorktreeResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceCreateWorktreeValue
-	40, // 30: arcforges.node.v1.WorkspaceServiceCreateWorktreeResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	37, // 31: arcforges.node.v1.WorkspaceServiceCreateWorktreeValue.workspace:type_name -> arcforges.node.v1.Workspace
-	45, // 32: arcforges.node.v1.WorkspaceServiceCreateWorktreeValue.job:type_name -> arcforges.node.v1.JobView
-	38, // 33: arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	41, // 34: arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalRequest.workspace_id:type_name -> arcforges.foundation.v1.Id
-	39, // 35: arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	21, // 36: arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalResponse.value:type_name -> arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalValue
-	40, // 37: arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	35, // 38: arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalValue.plan:type_name -> arcforges.node.v1.WorktreeRemovalPlan
-	38, // 39: arcforges.node.v1.WorkspaceServiceRemoveWorktreeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	41, // 40: arcforges.node.v1.WorkspaceServiceRemoveWorktreeRequest.workspace_id:type_name -> arcforges.foundation.v1.Id
-	3,  // 41: arcforges.node.v1.WorkspaceServiceRemoveWorktreeRequest.ignored_files:type_name -> arcforges.node.v1.IgnoredFilesDecision
-	39, // 42: arcforges.node.v1.WorkspaceServiceRemoveWorktreeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	24, // 43: arcforges.node.v1.WorkspaceServiceRemoveWorktreeResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceRemoveWorktreeValue
-	40, // 44: arcforges.node.v1.WorkspaceServiceRemoveWorktreeResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	42, // 45: arcforges.node.v1.WorkspaceServiceRemoveWorktreeValue.receipt:type_name -> arcforges.foundation.v1.Receipt
-	45, // 46: arcforges.node.v1.WorkspaceServiceRemoveWorktreeValue.job:type_name -> arcforges.node.v1.JobView
-	34, // 47: arcforges.node.v1.WorkspaceServiceRemoveWorktreeValue.archive:type_name -> arcforges.node.v1.WorktreeArchive
-	38, // 48: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	41, // 49: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesRequest.base_workspace_id:type_name -> arcforges.foundation.v1.Id
-	43, // 50: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesRequest.page:type_name -> arcforges.foundation.v1.PageRequest
-	39, // 51: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	27, // 52: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceListWorktreeArchivesValue
-	40, // 53: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	34, // 54: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesValue.archives:type_name -> arcforges.node.v1.WorktreeArchive
-	44, // 55: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesValue.page:type_name -> arcforges.foundation.v1.PageState
-	38, // 56: arcforges.node.v1.WorkspaceServiceRestoreWorktreeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	41, // 57: arcforges.node.v1.WorkspaceServiceRestoreWorktreeRequest.archive_id:type_name -> arcforges.foundation.v1.Id
-	39, // 58: arcforges.node.v1.WorkspaceServiceRestoreWorktreeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	30, // 59: arcforges.node.v1.WorkspaceServiceRestoreWorktreeResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceRestoreWorktreeValue
-	40, // 60: arcforges.node.v1.WorkspaceServiceRestoreWorktreeResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	42, // 61: arcforges.node.v1.WorkspaceServiceRestoreWorktreeValue.receipt:type_name -> arcforges.foundation.v1.Receipt
-	45, // 62: arcforges.node.v1.WorkspaceServiceRestoreWorktreeValue.job:type_name -> arcforges.node.v1.JobView
-	41, // 63: arcforges.node.v1.WorkspaceServiceRestoreWorktreeValue.workspace_id:type_name -> arcforges.foundation.v1.Id
-	38, // 64: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
-	41, // 65: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsRequest.workspace_id:type_name -> arcforges.foundation.v1.Id
-	46, // 66: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsRequest.routing_mode:type_name -> arcforges.node.v1.RoutingMode
-	2,  // 67: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsRequest.concurrency_mode:type_name -> arcforges.node.v1.WorkspaceConcurrency
-	39, // 68: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
-	33, // 69: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsValue
-	40, // 70: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsResponse.error:type_name -> arcforges.foundation.v1.ArcError
-	37, // 71: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsValue.workspace:type_name -> arcforges.node.v1.Workspace
-	41, // 72: arcforges.node.v1.WorktreeArchive.archive_id:type_name -> arcforges.foundation.v1.Id
-	41, // 73: arcforges.node.v1.WorktreeArchive.workspace_id:type_name -> arcforges.foundation.v1.Id
-	47, // 74: arcforges.node.v1.WorktreeArchive.verified_at:type_name -> arcforges.foundation.v1.Instant
-	47, // 75: arcforges.node.v1.WorktreeArchive.expires_at:type_name -> arcforges.foundation.v1.Instant
-	3,  // 76: arcforges.node.v1.WorktreeArchive.ignored_files:type_name -> arcforges.node.v1.IgnoredFilesDecision
-	41, // 77: arcforges.node.v1.Workspace.workspace_id:type_name -> arcforges.foundation.v1.Id
-	0,  // 78: arcforges.node.v1.Workspace.kind:type_name -> arcforges.node.v1.WorkspaceKind
-	1,  // 79: arcforges.node.v1.Workspace.state:type_name -> arcforges.node.v1.WorkspaceState
-	41, // 80: arcforges.node.v1.Workspace.base_workspace_id:type_name -> arcforges.foundation.v1.Id
-	48, // 81: arcforges.node.v1.Workspace.owner:type_name -> arcforges.node.v1.ActorRef
-	36, // 82: arcforges.node.v1.Workspace.git:type_name -> arcforges.node.v1.GitStatusSummary
-	46, // 83: arcforges.node.v1.Workspace.routing_mode:type_name -> arcforges.node.v1.RoutingMode
-	47, // 84: arcforges.node.v1.Workspace.created_at:type_name -> arcforges.foundation.v1.Instant
-	47, // 85: arcforges.node.v1.Workspace.last_used_at:type_name -> arcforges.foundation.v1.Instant
-	41, // 86: arcforges.node.v1.Workspace.origin_node_id:type_name -> arcforges.foundation.v1.Id
-	2,  // 87: arcforges.node.v1.Workspace.concurrency_mode:type_name -> arcforges.node.v1.WorkspaceConcurrency
-	41, // 88: arcforges.node.v1.Workspace.leased_by_attempt_id:type_name -> arcforges.foundation.v1.Id
-	4,  // 89: arcforges.node.v1.WorkspaceService.RegisterWorkspace:input_type -> arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest
-	7,  // 90: arcforges.node.v1.WorkspaceService.UnregisterWorkspace:input_type -> arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceRequest
-	10, // 91: arcforges.node.v1.WorkspaceService.ListWorkspaces:input_type -> arcforges.node.v1.WorkspaceServiceListWorkspacesRequest
-	13, // 92: arcforges.node.v1.WorkspaceService.GetWorkspace:input_type -> arcforges.node.v1.WorkspaceServiceGetWorkspaceRequest
-	16, // 93: arcforges.node.v1.WorkspaceService.CreateWorktree:input_type -> arcforges.node.v1.WorkspaceServiceCreateWorktreeRequest
-	19, // 94: arcforges.node.v1.WorkspaceService.PlanWorktreeRemoval:input_type -> arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalRequest
-	22, // 95: arcforges.node.v1.WorkspaceService.RemoveWorktree:input_type -> arcforges.node.v1.WorkspaceServiceRemoveWorktreeRequest
-	25, // 96: arcforges.node.v1.WorkspaceService.ListWorktreeArchives:input_type -> arcforges.node.v1.WorkspaceServiceListWorktreeArchivesRequest
-	28, // 97: arcforges.node.v1.WorkspaceService.RestoreWorktree:input_type -> arcforges.node.v1.WorkspaceServiceRestoreWorktreeRequest
-	31, // 98: arcforges.node.v1.WorkspaceService.UpdateWorkspaceSettings:input_type -> arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsRequest
-	5,  // 99: arcforges.node.v1.WorkspaceService.RegisterWorkspace:output_type -> arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse
-	8,  // 100: arcforges.node.v1.WorkspaceService.UnregisterWorkspace:output_type -> arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceResponse
-	11, // 101: arcforges.node.v1.WorkspaceService.ListWorkspaces:output_type -> arcforges.node.v1.WorkspaceServiceListWorkspacesResponse
-	14, // 102: arcforges.node.v1.WorkspaceService.GetWorkspace:output_type -> arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse
-	17, // 103: arcforges.node.v1.WorkspaceService.CreateWorktree:output_type -> arcforges.node.v1.WorkspaceServiceCreateWorktreeResponse
-	20, // 104: arcforges.node.v1.WorkspaceService.PlanWorktreeRemoval:output_type -> arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalResponse
-	23, // 105: arcforges.node.v1.WorkspaceService.RemoveWorktree:output_type -> arcforges.node.v1.WorkspaceServiceRemoveWorktreeResponse
-	26, // 106: arcforges.node.v1.WorkspaceService.ListWorktreeArchives:output_type -> arcforges.node.v1.WorkspaceServiceListWorktreeArchivesResponse
-	29, // 107: arcforges.node.v1.WorkspaceService.RestoreWorktree:output_type -> arcforges.node.v1.WorkspaceServiceRestoreWorktreeResponse
-	32, // 108: arcforges.node.v1.WorkspaceService.UpdateWorkspaceSettings:output_type -> arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsResponse
-	99, // [99:109] is the sub-list for method output_type
-	89, // [89:99] is the sub-list for method input_type
-	89, // [89:89] is the sub-list for extension type_name
-	89, // [89:89] is the sub-list for extension extendee
-	0,  // [0:89] is the sub-list for field type_name
+	38,  // 0: arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	39,  // 1: arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	6,   // 2: arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceRegisterWorkspaceValue
+	40,  // 3: arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	41,  // 4: arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse.audit:type_name -> arcforges.node.v1.FileAuditMetadata
+	37,  // 5: arcforges.node.v1.WorkspaceServiceRegisterWorkspaceValue.workspace:type_name -> arcforges.node.v1.Workspace
+	38,  // 6: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	42,  // 7: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceRequest.workspace_id:type_name -> arcforges.foundation.v1.Id
+	39,  // 8: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	9,   // 9: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceValue
+	40,  // 10: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	41,  // 11: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceResponse.audit:type_name -> arcforges.node.v1.FileAuditMetadata
+	43,  // 12: arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceValue.receipt:type_name -> arcforges.foundation.v1.Receipt
+	38,  // 13: arcforges.node.v1.WorkspaceServiceListWorkspacesRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	0,   // 14: arcforges.node.v1.WorkspaceServiceListWorkspacesRequest.kinds:type_name -> arcforges.node.v1.WorkspaceKind
+	44,  // 15: arcforges.node.v1.WorkspaceServiceListWorkspacesRequest.page:type_name -> arcforges.foundation.v1.PageRequest
+	39,  // 16: arcforges.node.v1.WorkspaceServiceListWorkspacesResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	12,  // 17: arcforges.node.v1.WorkspaceServiceListWorkspacesResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceListWorkspacesValue
+	40,  // 18: arcforges.node.v1.WorkspaceServiceListWorkspacesResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	41,  // 19: arcforges.node.v1.WorkspaceServiceListWorkspacesResponse.audit:type_name -> arcforges.node.v1.FileAuditMetadata
+	37,  // 20: arcforges.node.v1.WorkspaceServiceListWorkspacesValue.workspaces:type_name -> arcforges.node.v1.Workspace
+	45,  // 21: arcforges.node.v1.WorkspaceServiceListWorkspacesValue.page:type_name -> arcforges.foundation.v1.PageState
+	38,  // 22: arcforges.node.v1.WorkspaceServiceGetWorkspaceRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	42,  // 23: arcforges.node.v1.WorkspaceServiceGetWorkspaceRequest.workspace_id:type_name -> arcforges.foundation.v1.Id
+	39,  // 24: arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	15,  // 25: arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceGetWorkspaceValue
+	40,  // 26: arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	41,  // 27: arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse.audit:type_name -> arcforges.node.v1.FileAuditMetadata
+	37,  // 28: arcforges.node.v1.WorkspaceServiceGetWorkspaceValue.workspace:type_name -> arcforges.node.v1.Workspace
+	38,  // 29: arcforges.node.v1.WorkspaceServiceCreateWorktreeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	42,  // 30: arcforges.node.v1.WorkspaceServiceCreateWorktreeRequest.base_workspace_id:type_name -> arcforges.foundation.v1.Id
+	42,  // 31: arcforges.node.v1.WorkspaceServiceCreateWorktreeRequest.session_id:type_name -> arcforges.foundation.v1.Id
+	39,  // 32: arcforges.node.v1.WorkspaceServiceCreateWorktreeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	18,  // 33: arcforges.node.v1.WorkspaceServiceCreateWorktreeResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceCreateWorktreeValue
+	40,  // 34: arcforges.node.v1.WorkspaceServiceCreateWorktreeResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	37,  // 35: arcforges.node.v1.WorkspaceServiceCreateWorktreeValue.workspace:type_name -> arcforges.node.v1.Workspace
+	46,  // 36: arcforges.node.v1.WorkspaceServiceCreateWorktreeValue.job:type_name -> arcforges.node.v1.JobView
+	38,  // 37: arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	42,  // 38: arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalRequest.workspace_id:type_name -> arcforges.foundation.v1.Id
+	39,  // 39: arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	21,  // 40: arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalResponse.value:type_name -> arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalValue
+	40,  // 41: arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	35,  // 42: arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalValue.plan:type_name -> arcforges.node.v1.WorktreeRemovalPlan
+	38,  // 43: arcforges.node.v1.WorkspaceServiceRemoveWorktreeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	42,  // 44: arcforges.node.v1.WorkspaceServiceRemoveWorktreeRequest.workspace_id:type_name -> arcforges.foundation.v1.Id
+	3,   // 45: arcforges.node.v1.WorkspaceServiceRemoveWorktreeRequest.ignored_files:type_name -> arcforges.node.v1.IgnoredFilesDecision
+	39,  // 46: arcforges.node.v1.WorkspaceServiceRemoveWorktreeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	24,  // 47: arcforges.node.v1.WorkspaceServiceRemoveWorktreeResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceRemoveWorktreeValue
+	40,  // 48: arcforges.node.v1.WorkspaceServiceRemoveWorktreeResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	43,  // 49: arcforges.node.v1.WorkspaceServiceRemoveWorktreeValue.receipt:type_name -> arcforges.foundation.v1.Receipt
+	46,  // 50: arcforges.node.v1.WorkspaceServiceRemoveWorktreeValue.job:type_name -> arcforges.node.v1.JobView
+	34,  // 51: arcforges.node.v1.WorkspaceServiceRemoveWorktreeValue.archive:type_name -> arcforges.node.v1.WorktreeArchive
+	38,  // 52: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	42,  // 53: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesRequest.base_workspace_id:type_name -> arcforges.foundation.v1.Id
+	44,  // 54: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesRequest.page:type_name -> arcforges.foundation.v1.PageRequest
+	39,  // 55: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	27,  // 56: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceListWorktreeArchivesValue
+	40,  // 57: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	34,  // 58: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesValue.archives:type_name -> arcforges.node.v1.WorktreeArchive
+	45,  // 59: arcforges.node.v1.WorkspaceServiceListWorktreeArchivesValue.page:type_name -> arcforges.foundation.v1.PageState
+	38,  // 60: arcforges.node.v1.WorkspaceServiceRestoreWorktreeRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	42,  // 61: arcforges.node.v1.WorkspaceServiceRestoreWorktreeRequest.archive_id:type_name -> arcforges.foundation.v1.Id
+	39,  // 62: arcforges.node.v1.WorkspaceServiceRestoreWorktreeResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	30,  // 63: arcforges.node.v1.WorkspaceServiceRestoreWorktreeResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceRestoreWorktreeValue
+	40,  // 64: arcforges.node.v1.WorkspaceServiceRestoreWorktreeResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	43,  // 65: arcforges.node.v1.WorkspaceServiceRestoreWorktreeValue.receipt:type_name -> arcforges.foundation.v1.Receipt
+	46,  // 66: arcforges.node.v1.WorkspaceServiceRestoreWorktreeValue.job:type_name -> arcforges.node.v1.JobView
+	42,  // 67: arcforges.node.v1.WorkspaceServiceRestoreWorktreeValue.workspace_id:type_name -> arcforges.foundation.v1.Id
+	38,  // 68: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsRequest.meta:type_name -> arcforges.foundation.v1.RequestMeta
+	42,  // 69: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsRequest.workspace_id:type_name -> arcforges.foundation.v1.Id
+	47,  // 70: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsRequest.routing_mode:type_name -> arcforges.node.v1.RoutingMode
+	2,   // 71: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsRequest.concurrency_mode:type_name -> arcforges.node.v1.WorkspaceConcurrency
+	39,  // 72: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsResponse.meta:type_name -> arcforges.foundation.v1.ResponseMeta
+	33,  // 73: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsResponse.value:type_name -> arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsValue
+	40,  // 74: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsResponse.error:type_name -> arcforges.foundation.v1.ArcError
+	37,  // 75: arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsValue.workspace:type_name -> arcforges.node.v1.Workspace
+	42,  // 76: arcforges.node.v1.WorktreeArchive.archive_id:type_name -> arcforges.foundation.v1.Id
+	42,  // 77: arcforges.node.v1.WorktreeArchive.workspace_id:type_name -> arcforges.foundation.v1.Id
+	48,  // 78: arcforges.node.v1.WorktreeArchive.verified_at:type_name -> arcforges.foundation.v1.Instant
+	48,  // 79: arcforges.node.v1.WorktreeArchive.expires_at:type_name -> arcforges.foundation.v1.Instant
+	3,   // 80: arcforges.node.v1.WorktreeArchive.ignored_files:type_name -> arcforges.node.v1.IgnoredFilesDecision
+	42,  // 81: arcforges.node.v1.Workspace.workspace_id:type_name -> arcforges.foundation.v1.Id
+	0,   // 82: arcforges.node.v1.Workspace.kind:type_name -> arcforges.node.v1.WorkspaceKind
+	1,   // 83: arcforges.node.v1.Workspace.state:type_name -> arcforges.node.v1.WorkspaceState
+	42,  // 84: arcforges.node.v1.Workspace.base_workspace_id:type_name -> arcforges.foundation.v1.Id
+	49,  // 85: arcforges.node.v1.Workspace.owner:type_name -> arcforges.node.v1.ActorRef
+	36,  // 86: arcforges.node.v1.Workspace.git:type_name -> arcforges.node.v1.GitStatusSummary
+	47,  // 87: arcforges.node.v1.Workspace.routing_mode:type_name -> arcforges.node.v1.RoutingMode
+	48,  // 88: arcforges.node.v1.Workspace.created_at:type_name -> arcforges.foundation.v1.Instant
+	48,  // 89: arcforges.node.v1.Workspace.last_used_at:type_name -> arcforges.foundation.v1.Instant
+	42,  // 90: arcforges.node.v1.Workspace.origin_node_id:type_name -> arcforges.foundation.v1.Id
+	2,   // 91: arcforges.node.v1.Workspace.concurrency_mode:type_name -> arcforges.node.v1.WorkspaceConcurrency
+	42,  // 92: arcforges.node.v1.Workspace.leased_by_attempt_id:type_name -> arcforges.foundation.v1.Id
+	4,   // 93: arcforges.node.v1.WorkspaceService.RegisterWorkspace:input_type -> arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest
+	7,   // 94: arcforges.node.v1.WorkspaceService.UnregisterWorkspace:input_type -> arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceRequest
+	10,  // 95: arcforges.node.v1.WorkspaceService.ListWorkspaces:input_type -> arcforges.node.v1.WorkspaceServiceListWorkspacesRequest
+	13,  // 96: arcforges.node.v1.WorkspaceService.GetWorkspace:input_type -> arcforges.node.v1.WorkspaceServiceGetWorkspaceRequest
+	16,  // 97: arcforges.node.v1.WorkspaceService.CreateWorktree:input_type -> arcforges.node.v1.WorkspaceServiceCreateWorktreeRequest
+	19,  // 98: arcforges.node.v1.WorkspaceService.PlanWorktreeRemoval:input_type -> arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalRequest
+	22,  // 99: arcforges.node.v1.WorkspaceService.RemoveWorktree:input_type -> arcforges.node.v1.WorkspaceServiceRemoveWorktreeRequest
+	25,  // 100: arcforges.node.v1.WorkspaceService.ListWorktreeArchives:input_type -> arcforges.node.v1.WorkspaceServiceListWorktreeArchivesRequest
+	28,  // 101: arcforges.node.v1.WorkspaceService.RestoreWorktree:input_type -> arcforges.node.v1.WorkspaceServiceRestoreWorktreeRequest
+	31,  // 102: arcforges.node.v1.WorkspaceService.UpdateWorkspaceSettings:input_type -> arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsRequest
+	5,   // 103: arcforges.node.v1.WorkspaceService.RegisterWorkspace:output_type -> arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse
+	8,   // 104: arcforges.node.v1.WorkspaceService.UnregisterWorkspace:output_type -> arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceResponse
+	11,  // 105: arcforges.node.v1.WorkspaceService.ListWorkspaces:output_type -> arcforges.node.v1.WorkspaceServiceListWorkspacesResponse
+	14,  // 106: arcforges.node.v1.WorkspaceService.GetWorkspace:output_type -> arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse
+	17,  // 107: arcforges.node.v1.WorkspaceService.CreateWorktree:output_type -> arcforges.node.v1.WorkspaceServiceCreateWorktreeResponse
+	20,  // 108: arcforges.node.v1.WorkspaceService.PlanWorktreeRemoval:output_type -> arcforges.node.v1.WorkspaceServicePlanWorktreeRemovalResponse
+	23,  // 109: arcforges.node.v1.WorkspaceService.RemoveWorktree:output_type -> arcforges.node.v1.WorkspaceServiceRemoveWorktreeResponse
+	26,  // 110: arcforges.node.v1.WorkspaceService.ListWorktreeArchives:output_type -> arcforges.node.v1.WorkspaceServiceListWorktreeArchivesResponse
+	29,  // 111: arcforges.node.v1.WorkspaceService.RestoreWorktree:output_type -> arcforges.node.v1.WorkspaceServiceRestoreWorktreeResponse
+	32,  // 112: arcforges.node.v1.WorkspaceService.UpdateWorkspaceSettings:output_type -> arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsResponse
+	103, // [103:113] is the sub-list for method output_type
+	93,  // [93:103] is the sub-list for method input_type
+	93,  // [93:93] is the sub-list for extension type_name
+	93,  // [93:93] is the sub-list for extension extendee
+	0,   // [0:93] is the sub-list for field type_name
 }
 
 func init() { file_arcforges_node_v1_workspaces_proto_init() }
@@ -3397,6 +3442,7 @@ func file_arcforges_node_v1_workspaces_proto_init() {
 		return
 	}
 	file_arcforges_node_v1_common_proto_init()
+	file_arcforges_node_v1_files_proto_init()
 	file_arcforges_node_v1_policy_proto_init()
 	file_arcforges_node_v1_workspaces_proto_msgTypes[0].OneofWrappers = []any{}
 	file_arcforges_node_v1_workspaces_proto_msgTypes[1].OneofWrappers = []any{

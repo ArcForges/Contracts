@@ -1350,10 +1350,11 @@ AF_CTR_05_CS_RULES = {
     "centerCaller": """var accountSession = (int)value.Kind == 1;
         if ((value.UserId is not null) != accountSession || (value.SessionId is not null) != accountSession) return false;
         if ((value.RelayingNodeId is not null) == accountSession || value.HasLocalOrigin == accountSession || (value.LocalSessionId is not null) == accountSession) return false;""",
-    # A command ID only for SUBMIT_NODE_TASK (1) and CANCEL_NODE_TASK (6); the relay assertion digest only for a NODE_RELAY caller;
+    # A command ID only for task mutations (1,6) and AF-CTR-06 write/edit/plan/remove/register/unregister (10,11,14,15,17,18);
+    # the relay assertion digest only for a NODE_RELAY caller;
     # the caller's account is the header's; issued_at < expires_at <= issued_at + 300 s and issued_at < deadline <= expires_at
     # (AD-0021 section 10).
-    "callHeader": """if ((value.CommandId is not null) != ((int)value.Method is 1 or 6)) return false;
+    "callHeader": """if ((value.CommandId is not null) != ((int)value.Method is 1 or 6 or 10 or 11 or 14 or 15 or 17 or 18)) return false;
         if (!value.Caller.AccountId.Equals(value.AccountId)) return false;
         if (value.HasRelayAssertionSha256 != ((int)value.Caller.Kind == 2)) return false;
         if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 300)) return false;
@@ -1370,11 +1371,36 @@ AF_CTR_05_CS_RULES = {
     "channelLimits": "if (value.HeartbeatDeadlineMs <= value.HeartbeatIntervalMs) return false;",
     # The node's refusal holds closed fields only (relay.proto, "ResultHeader.error, rule routedRefusal"; Plan PN-6).
     "routedRefusal": "if (value.Error is not null && !RoutedRefusal(value.Error)) return false;",
-    # No target for LIST_NODES (7); a command ID only for SUBMIT_NODE_TASK (1) and CANCEL_NODE_TASK (6);
+    # No target for LIST_NODES (7); command IDs are required exactly for the enumerated task/file/workspace mutations;
     # issued_at < expires_at <= issued_at + 120 s (Plan addendum D0-B1).
     "relayAssertion": """if ((value.TargetNodeId is null) != ((int)value.Method == 7)) return false;
-        if ((value.CommandId is not null) != ((int)value.Method is 1 or 6)) return false;
+        if ((value.CommandId is not null) != ((int)value.Method is 1 or 6 or 10 or 11 or 14 or 15 or 17 or 18)) return false;
         if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 120)) return false;""",
+}
+
+# AF-CTR-06: new file shape and relationship checks; generated sources are never hand-edited.
+AF_CTR_06_CS_RULES = {
+    "fileAuditMetadata": r"""if (value.Observations.Select(item => (int)item.Kind).Distinct().Count() != value.Observations.Count) return false;""",
+    "filePath": r"""if (value.Path.StartsWith("/", global::System.StringComparison.Ordinal) || value.Path.Contains('\\') || value.Path.Contains('\0') || (value.Path.Length >= 2 && char.IsAsciiLetter(value.Path[0]) && value.Path[1] == ':')) return false;
+        if (value.Path.Length > 0 && value.Path.Split('/').Any(part => part.Length == 0 || part is "." or "..")) return false;""",
+    "fileReadResult": r"""if (value.Offset > ulong.MaxValue - (ulong)value.Data.Length || value.NextOffset != value.Offset + (ulong)value.Data.Length) return false;
+        if (!global::System.Security.Cryptography.CryptographicOperations.FixedTimeEquals(global::System.Security.Cryptography.SHA256.HashData(value.Data.Span), value.Sha256.Span)) return false;
+        if (value.Offset < value.FileSize ? value.NextOffset > value.FileSize || value.Data.Length == 0 : value.Data.Length != 0) return false;
+        if (value.Eof != (value.NextOffset >= value.FileSize)) return false;""",
+    "fileSearchResult": r"""if (value.Truncated && (!value.HasTruncationReason || value.TruncationReason.Length == 0)) return false;""",
+    "fileRemovalResult": r"""if ((value.QuarantineId is not null) != value.Quarantined || (value.PurgeAfter is not null) != value.Quarantined) return false;""",
+    "fileOperation": r"""var state = (int)value.State;
+        var outcome = (int)value.OutcomeCase;
+        if (state == 1 && (outcome != 0 || value.Acknowledged)) return false;
+        if (state == 2 && (outcome == 0 || value.Held || value.Acknowledged)) return false;
+        if (state == 3 && (outcome != 12 || value.Error is null || (int)value.Error.Effect != 3 || value.Held == value.Acknowledged)) return false;
+        if (outcome == 10 && (int)value.Kind == 3 || outcome == 11 && (int)value.Kind != 3) return false;""",
+    "fileRequest": r"""if (value.CalculateSize() > 245760) return false;""",
+    "fileMutationRequest": r"""if (value.Meta?.CommandId is null) return false;""",
+    "fileResponse": r"""if (value.CalculateSize() > 1040384) return false;""",
+    "fileSearchResponse": r"""if (value.CalculateSize() > 131072) return false;""",
+    "fileNonRootRequest": r"""if (value.Path.Path.Length == 0) return false;""",
+    "fileRemovalRequest": r"""if ((int)value.TargetCase == 10 && value.WorkspacePath.Path.Length == 0) return false;""",
 }
 
 def relay_refusal_catalogue() -> str:
@@ -1465,6 +1491,7 @@ def proto_cs(name: str, messages: dict) -> str:
         **cs_rules,
         **CS_RULES,
         **AF_CTR_05_CS_RULES,
+        **AF_CTR_06_CS_RULES,
     }
     for rule in profile.get("rules", []):
         if rule not in rules:

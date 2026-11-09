@@ -186,11 +186,12 @@ namespace ArcForges.Contracts.Node.V1 {
     {
       /// <summary>
       /// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
       /// idempotency: command_id; registering the same root returns the existing workspace
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
       /// locality: node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -204,11 +205,12 @@ namespace ArcForges.Contracts.Node.V1 {
 
       /// <summary>
       /// Forget a registered workspace. Files are never touched.
-      /// auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+      /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
       /// idempotency: command_id
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/approval_required
+      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
       /// locality: node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -221,7 +223,7 @@ namespace ArcForges.Contracts.Node.V1 {
       }
 
       /// <summary>
-      /// List workspaces.
+      /// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
       /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
       /// idempotency: read
       /// deadline: 5 s
@@ -239,7 +241,8 @@ namespace ArcForges.Contracts.Node.V1 {
       }
 
       /// <summary>
-      /// Read one workspace with a fresh git status summary.
+      /// Read one workspace with a bounded safe fresh git status summary (06a section 1).
+      /// AF-CTR-06 routes the explicit Fleet counterpart through the center.
       /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
       /// idempotency: read
       /// deadline: 10 s
@@ -398,11 +401,12 @@ namespace ArcForges.Contracts.Node.V1 {
 
       /// <summary>
       /// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
       /// idempotency: command_id; registering the same root returns the existing workspace
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
       /// locality: node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -417,11 +421,12 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       /// <summary>
       /// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
       /// idempotency: command_id; registering the same root returns the existing workspace
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
       /// locality: node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -434,11 +439,12 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       /// <summary>
       /// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
       /// idempotency: command_id; registering the same root returns the existing workspace
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
       /// locality: node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -453,11 +459,12 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       /// <summary>
       /// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
       /// idempotency: command_id; registering the same root returns the existing workspace
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
       /// locality: node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -470,11 +477,12 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       /// <summary>
       /// Forget a registered workspace. Files are never touched.
-      /// auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+      /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
       /// idempotency: command_id
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/approval_required
+      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
       /// locality: node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -489,11 +497,12 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       /// <summary>
       /// Forget a registered workspace. Files are never touched.
-      /// auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+      /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
       /// idempotency: command_id
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/approval_required
+      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
       /// locality: node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -506,11 +515,12 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       /// <summary>
       /// Forget a registered workspace. Files are never touched.
-      /// auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+      /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
       /// idempotency: command_id
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/approval_required
+      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
       /// locality: node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -525,11 +535,12 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       /// <summary>
       /// Forget a registered workspace. Files are never touched.
-      /// auth: HUMAN=A SCRIPT=A AGENT=P REMOTE=-
+      /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
       /// idempotency: command_id
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/approval_required
+      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
       /// locality: node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -541,7 +552,7 @@ namespace ArcForges.Contracts.Node.V1 {
         return CallInvoker.AsyncUnaryCall(__Method_UnregisterWorkspace, null, options, request);
       }
       /// <summary>
-      /// List workspaces.
+      /// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
       /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
       /// idempotency: read
       /// deadline: 5 s
@@ -560,7 +571,7 @@ namespace ArcForges.Contracts.Node.V1 {
         return ListWorkspaces(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// List workspaces.
+      /// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
       /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
       /// idempotency: read
       /// deadline: 5 s
@@ -577,7 +588,7 @@ namespace ArcForges.Contracts.Node.V1 {
         return CallInvoker.BlockingUnaryCall(__Method_ListWorkspaces, null, options, request);
       }
       /// <summary>
-      /// List workspaces.
+      /// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
       /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
       /// idempotency: read
       /// deadline: 5 s
@@ -596,7 +607,7 @@ namespace ArcForges.Contracts.Node.V1 {
         return ListWorkspacesAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// List workspaces.
+      /// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
       /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
       /// idempotency: read
       /// deadline: 5 s
@@ -613,7 +624,8 @@ namespace ArcForges.Contracts.Node.V1 {
         return CallInvoker.AsyncUnaryCall(__Method_ListWorkspaces, null, options, request);
       }
       /// <summary>
-      /// Read one workspace with a fresh git status summary.
+      /// Read one workspace with a bounded safe fresh git status summary (06a section 1).
+      /// AF-CTR-06 routes the explicit Fleet counterpart through the center.
       /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
       /// idempotency: read
       /// deadline: 10 s
@@ -632,7 +644,8 @@ namespace ArcForges.Contracts.Node.V1 {
         return GetWorkspace(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Read one workspace with a fresh git status summary.
+      /// Read one workspace with a bounded safe fresh git status summary (06a section 1).
+      /// AF-CTR-06 routes the explicit Fleet counterpart through the center.
       /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
       /// idempotency: read
       /// deadline: 10 s
@@ -649,7 +662,8 @@ namespace ArcForges.Contracts.Node.V1 {
         return CallInvoker.BlockingUnaryCall(__Method_GetWorkspace, null, options, request);
       }
       /// <summary>
-      /// Read one workspace with a fresh git status summary.
+      /// Read one workspace with a bounded safe fresh git status summary (06a section 1).
+      /// AF-CTR-06 routes the explicit Fleet counterpart through the center.
       /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
       /// idempotency: read
       /// deadline: 10 s
@@ -668,7 +682,8 @@ namespace ArcForges.Contracts.Node.V1 {
         return GetWorkspaceAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Read one workspace with a fresh git status summary.
+      /// Read one workspace with a bounded safe fresh git status summary (06a section 1).
+      /// AF-CTR-06 routes the explicit Fleet counterpart through the center.
       /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
       /// idempotency: read
       /// deadline: 10 s

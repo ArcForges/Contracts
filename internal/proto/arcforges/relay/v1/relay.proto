@@ -185,8 +185,8 @@ message RelayFrame {
   }
 }
 
-// The center-routed methods (fleet.v1 FleetService). 1..6 are the routed task methods, the calls a center sends; LIST_NODES and
-// GET_NODE are named only by a relay assertion. The numbers 1..6 are the node store's routed_call_log.method.
+// The center-routed methods (fleet.v1 FleetService). 1..6 keep the delivered task method numbers; 9..20 are AF-CTR-06 files/workspaces.
+// LIST_NODES and GET_NODE (7,8) are relay-assertion-only, never channel calls. Historical SQLite/PG constraints remain immutable.
 enum RoutedMethod {
   ROUTED_METHOD_UNSPECIFIED = 0;
   ROUTED_METHOD_SUBMIT_NODE_TASK = 1; // payload TaskServiceSubmitTaskRequest
@@ -197,6 +197,19 @@ enum RoutedMethod {
   ROUTED_METHOD_CANCEL_NODE_TASK = 6; // payload TaskServiceCancelTaskRequest
   ROUTED_METHOD_LIST_NODES = 7; // relay assertions only
   ROUTED_METHOD_GET_NODE = 8; // relay assertions only
+  // AF-CTR-06: these numbers are separate additive file/workspace log rows, never old task-method aliases.
+  ROUTED_METHOD_READ_NODE_FILE = 9; // payload FileServiceReadFileRequest
+  ROUTED_METHOD_WRITE_NODE_FILE = 10; // payload FileServiceWriteFileRequest
+  ROUTED_METHOD_EDIT_NODE_FILE = 11; // payload FileServiceEditFileRequest
+  ROUTED_METHOD_SEARCH_NODE_FILES = 12; // payload FileServiceSearchFilesRequest
+  ROUTED_METHOD_LIST_NODE_DIRECTORY = 13; // payload FileServiceListDirectoryRequest
+  ROUTED_METHOD_PLAN_NODE_REMOVAL = 14; // payload FileServicePlanRemovalRequest
+  ROUTED_METHOD_EXECUTE_NODE_REMOVAL = 15; // payload FileServiceExecuteRemovalRequest
+  ROUTED_METHOD_GET_NODE_FILE_OPERATION = 16; // payload FileServiceGetFileOperationRequest
+  ROUTED_METHOD_REGISTER_NODE_WORKSPACE = 17; // payload WorkspaceServiceRegisterWorkspaceRequest
+  ROUTED_METHOD_UNREGISTER_NODE_WORKSPACE = 18; // payload WorkspaceServiceUnregisterWorkspaceRequest
+  ROUTED_METHOD_LIST_NODE_WORKSPACES = 19; // payload WorkspaceServiceListWorkspacesRequest
+  ROUTED_METHOD_GET_NODE_WORKSPACE = 20; // payload WorkspaceServiceGetWorkspaceRequest
 }
 
 // What the node did with a routed call; the numbers are the node store's routed_call_log.decision 1..4.
@@ -261,8 +274,8 @@ message CallHeader {
   arcforges.foundation.v1.Id account_id = 4 [json_name = "accountId"]; // validate: required; the account that owns the target node
   arcforges.foundation.v1.Id target_node_id = 5 [json_name = "targetNodeId"]; // validate: required
   arcforges.node.v1.CenterCaller caller = 6 [json_name = "caller"]; // validate: required; filled by the center only from the verified session or relay assertion, never from a request field
-  arcforges.foundation.v1.Id command_id = 7 [json_name = "commandId"]; // validate: required for SUBMIT_NODE_TASK and CANCEL_NODE_TASK, absent otherwise; equals the payload's meta.command_id
-  optional RoutedMethod method = 8 [json_name = "method"]; // validate: required; 1..6
+  arcforges.foundation.v1.Id command_id = 7 [json_name = "commandId"]; // validate: required for mutation methods 1, 6, 10, 11, 14, 15, 17 and 18, absent for read methods; equals the payload's meta.command_id
+  optional RoutedMethod method = 8 [json_name = "method"]; // validate: required; 1..6 or 9..20
   optional bytes request_sha256 = 9 [json_name = "requestSha256"]; // validate: required; 32 bytes: SHA-256 of the payload, the exact node.v1 request bytes
   optional uint32 request_size = 10 [json_name = "requestSize"]; // validate: required; 1..253,952; the payload's length
   arcforges.foundation.v1.Instant issued_at = 11 [json_name = "issuedAt"]; // validate: required
@@ -287,7 +300,7 @@ message ResultHeader {
   arcforges.foundation.v1.Id call_id = 1 [json_name = "callId"]; // validate: required; ChannelCall.call_id
   arcforges.foundation.v1.Id command_id = 2 [json_name = "commandId"]; // validate: the call header's command_id when it names one; absent for REFUSED_VERIFICATION
   arcforges.foundation.v1.Id node_id = 3 [json_name = "nodeId"]; // validate: required; the answering node
-  optional RoutedMethod method = 4 [json_name = "method"]; // validate: required (1..6) unless REFUSED_VERIFICATION, absent then
+  optional RoutedMethod method = 4 [json_name = "method"]; // validate: required (1..6 or 9..20) unless REFUSED_VERIFICATION, absent then
   optional bytes request_sha256 = 5 [json_name = "requestSha256"]; // validate: required unless REFUSED_VERIFICATION, absent then; 32 bytes, echoed
   optional bytes response_sha256 = 6 [json_name = "responseSha256"]; // validate: required for EXECUTED, absent otherwise; 32 bytes: SHA-256 of ChannelResult.payload
   optional uint32 response_size = 7 [json_name = "responseSize"]; // validate: required for EXECUTED, absent otherwise; 1..1,040,384; the payload's length
@@ -356,10 +369,10 @@ message RelayAssertion {
   arcforges.foundation.v1.Id relaying_installation_id = 2 [json_name = "relayingInstallationId"]; // validate: required
   optional arcforges.node.v1.Origin local_origin = 3 [json_name = "localOrigin"]; // validate: required; HUMAN, SCRIPT or AGENT, as the relaying node classified its local caller
   arcforges.foundation.v1.Id local_session_id = 4 [json_name = "localSessionId"]; // validate: required; the local caller's client session at the relaying node
-  optional RoutedMethod method = 5 [json_name = "method"]; // validate: required; 1..8
+  optional RoutedMethod method = 5 [json_name = "method"]; // validate: required; 1..20
   optional bytes request_sha256 = 6 [json_name = "requestSha256"]; // validate: required; 32 bytes
   arcforges.foundation.v1.Id target_node_id = 7 [json_name = "targetNodeId"]; // validate: absent for LIST_NODES, required otherwise
-  arcforges.foundation.v1.Id command_id = 8 [json_name = "commandId"]; // validate: required for SUBMIT_NODE_TASK and CANCEL_NODE_TASK, absent otherwise
+  arcforges.foundation.v1.Id command_id = 8 [json_name = "commandId"]; // validate: required for mutation methods 1, 6, 10, 11, 14, 15, 17 and 18, absent for read methods
   optional bytes relay_nonce = 9 [json_name = "relayNonce"]; // validate: required; 32 bytes; a RelayNonce of the relaying node's open channel
   arcforges.foundation.v1.Instant issued_at = 10 [json_name = "issuedAt"]; // validate: required
   arcforges.foundation.v1.Instant expires_at = 11 [json_name = "expiresAt"]; // validate: required; issued_at < expires_at <= issued_at + 120 s

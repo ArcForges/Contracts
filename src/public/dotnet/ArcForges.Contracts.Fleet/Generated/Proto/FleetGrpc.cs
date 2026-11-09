@@ -2873,6 +2873,54 @@ namespace ArcForges.Contracts.Fleet.V1 {
     static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest> __Marshaller_arcforges_fleet_v1_FleetServiceCancelNodeTaskRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse> __Marshaller_arcforges_fleet_v1_FleetServiceCancelNodeTaskResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileRequest> __Marshaller_arcforges_fleet_v1_FleetServiceReadNodeFileRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileResponse> __Marshaller_arcforges_fleet_v1_FleetServiceReadNodeFileResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileRequest> __Marshaller_arcforges_fleet_v1_FleetServiceWriteNodeFileRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileResponse> __Marshaller_arcforges_fleet_v1_FleetServiceWriteNodeFileResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileRequest> __Marshaller_arcforges_fleet_v1_FleetServiceEditNodeFileRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileResponse> __Marshaller_arcforges_fleet_v1_FleetServiceEditNodeFileResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesRequest> __Marshaller_arcforges_fleet_v1_FleetServiceSearchNodeFilesRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesResponse> __Marshaller_arcforges_fleet_v1_FleetServiceSearchNodeFilesResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryRequest> __Marshaller_arcforges_fleet_v1_FleetServiceListNodeDirectoryRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryResponse> __Marshaller_arcforges_fleet_v1_FleetServiceListNodeDirectoryResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalRequest> __Marshaller_arcforges_fleet_v1_FleetServicePlanNodeRemovalRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalResponse> __Marshaller_arcforges_fleet_v1_FleetServicePlanNodeRemovalResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalRequest> __Marshaller_arcforges_fleet_v1_FleetServiceExecuteNodeRemovalRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalResponse> __Marshaller_arcforges_fleet_v1_FleetServiceExecuteNodeRemovalResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationRequest> __Marshaller_arcforges_fleet_v1_FleetServiceGetNodeFileOperationRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationResponse> __Marshaller_arcforges_fleet_v1_FleetServiceGetNodeFileOperationResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceRequest> __Marshaller_arcforges_fleet_v1_FleetServiceRegisterNodeWorkspaceRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceResponse> __Marshaller_arcforges_fleet_v1_FleetServiceRegisterNodeWorkspaceResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceRequest> __Marshaller_arcforges_fleet_v1_FleetServiceUnregisterNodeWorkspaceRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceResponse> __Marshaller_arcforges_fleet_v1_FleetServiceUnregisterNodeWorkspaceResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesRequest> __Marshaller_arcforges_fleet_v1_FleetServiceListNodeWorkspacesRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesResponse> __Marshaller_arcforges_fleet_v1_FleetServiceListNodeWorkspacesResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceRequest> __Marshaller_arcforges_fleet_v1_FleetServiceGetNodeWorkspaceRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceResponse> __Marshaller_arcforges_fleet_v1_FleetServiceGetNodeWorkspaceResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceResponse.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodesRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodesResponse> __Method_ListNodes = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodesRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodesResponse>(
@@ -3025,6 +3073,102 @@ namespace ArcForges.Contracts.Fleet.V1 {
         "CancelNodeTask",
         __Marshaller_arcforges_fleet_v1_FleetServiceCancelNodeTaskRequest,
         __Marshaller_arcforges_fleet_v1_FleetServiceCancelNodeTaskResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileResponse> __Method_ReadNodeFile = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ReadNodeFile",
+        __Marshaller_arcforges_fleet_v1_FleetServiceReadNodeFileRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceReadNodeFileResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileResponse> __Method_WriteNodeFile = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "WriteNodeFile",
+        __Marshaller_arcforges_fleet_v1_FleetServiceWriteNodeFileRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceWriteNodeFileResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileResponse> __Method_EditNodeFile = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "EditNodeFile",
+        __Marshaller_arcforges_fleet_v1_FleetServiceEditNodeFileRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceEditNodeFileResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesResponse> __Method_SearchNodeFiles = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "SearchNodeFiles",
+        __Marshaller_arcforges_fleet_v1_FleetServiceSearchNodeFilesRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceSearchNodeFilesResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryResponse> __Method_ListNodeDirectory = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ListNodeDirectory",
+        __Marshaller_arcforges_fleet_v1_FleetServiceListNodeDirectoryRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceListNodeDirectoryResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalRequest, global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalResponse> __Method_PlanNodeRemoval = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalRequest, global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "PlanNodeRemoval",
+        __Marshaller_arcforges_fleet_v1_FleetServicePlanNodeRemovalRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServicePlanNodeRemovalResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalResponse> __Method_ExecuteNodeRemoval = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ExecuteNodeRemoval",
+        __Marshaller_arcforges_fleet_v1_FleetServiceExecuteNodeRemovalRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceExecuteNodeRemovalResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationResponse> __Method_GetNodeFileOperation = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetNodeFileOperation",
+        __Marshaller_arcforges_fleet_v1_FleetServiceGetNodeFileOperationRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceGetNodeFileOperationResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceResponse> __Method_RegisterNodeWorkspace = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "RegisterNodeWorkspace",
+        __Marshaller_arcforges_fleet_v1_FleetServiceRegisterNodeWorkspaceRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceRegisterNodeWorkspaceResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceResponse> __Method_UnregisterNodeWorkspace = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "UnregisterNodeWorkspace",
+        __Marshaller_arcforges_fleet_v1_FleetServiceUnregisterNodeWorkspaceRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceUnregisterNodeWorkspaceResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesResponse> __Method_ListNodeWorkspaces = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ListNodeWorkspaces",
+        __Marshaller_arcforges_fleet_v1_FleetServiceListNodeWorkspacesRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceListNodeWorkspacesResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceResponse> __Method_GetNodeWorkspace = new grpc::Method<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetNodeWorkspace",
+        __Marshaller_arcforges_fleet_v1_FleetServiceGetNodeWorkspaceRequest,
+        __Marshaller_arcforges_fleet_v1_FleetServiceGetNodeWorkspaceResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -3398,6 +3542,223 @@ namespace ArcForges.Contracts.Fleet.V1 {
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse> CancelNodeTask(global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// AF-CTR-06: bounded file/workspace methods; no local submission bypass.
+      /// Route node.v1 FileService.ReadFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileResponse> ReadNodeFile(global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Route node.v1 FileService.WriteFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.writeNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileResponse> WriteNodeFile(global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Route node.v1 FileService.EditFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.editNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileResponse> EditNodeFile(global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Route node.v1 FileService.SearchFiles to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesResponse> SearchNodeFiles(global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Route node.v1 FileService.ListDirectory to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryResponse> ListNodeDirectory(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Route node.v1 FileService.PlanRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalResponse> PlanNodeRemoval(global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Route node.v1 FileService.ExecuteRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.executeNodeRemoval; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalResponse> ExecuteNodeRemoval(global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Route node.v1 FileService.GetFileOperation to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationResponse> GetNodeFileOperation(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Route node.v1 WorkspaceService.RegisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.registerNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceResponse> RegisterNodeWorkspace(global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Route node.v1 WorkspaceService.UnregisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.unregisterNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceResponse> UnregisterNodeWorkspace(global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Route node.v1 WorkspaceService.ListWorkspaces to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesResponse> ListNodeWorkspaces(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Route node.v1 WorkspaceService.GetWorkspace to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceResponse> GetNodeWorkspace(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -4855,6 +5216,874 @@ namespace ArcForges.Contracts.Fleet.V1 {
       {
         return CallInvoker.AsyncUnaryCall(__Method_CancelNodeTask, null, options, request);
       }
+      /// <summary>
+      /// AF-CTR-06: bounded file/workspace methods; no local submission bypass.
+      /// Route node.v1 FileService.ReadFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileResponse ReadNodeFile(global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ReadNodeFile(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// AF-CTR-06: bounded file/workspace methods; no local submission bypass.
+      /// Route node.v1 FileService.ReadFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileResponse ReadNodeFile(global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ReadNodeFile, null, options, request);
+      }
+      /// <summary>
+      /// AF-CTR-06: bounded file/workspace methods; no local submission bypass.
+      /// Route node.v1 FileService.ReadFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileResponse> ReadNodeFileAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ReadNodeFileAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// AF-CTR-06: bounded file/workspace methods; no local submission bypass.
+      /// Route node.v1 FileService.ReadFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileResponse> ReadNodeFileAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ReadNodeFile, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.WriteFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.writeNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileResponse WriteNodeFile(global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return WriteNodeFile(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.WriteFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.writeNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileResponse WriteNodeFile(global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_WriteNodeFile, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.WriteFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.writeNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileResponse> WriteNodeFileAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return WriteNodeFileAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.WriteFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.writeNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileResponse> WriteNodeFileAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_WriteNodeFile, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.EditFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.editNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileResponse EditNodeFile(global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return EditNodeFile(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.EditFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.editNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileResponse EditNodeFile(global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_EditNodeFile, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.EditFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.editNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileResponse> EditNodeFileAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return EditNodeFileAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.EditFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.editNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileResponse> EditNodeFileAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_EditNodeFile, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.SearchFiles to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesResponse SearchNodeFiles(global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SearchNodeFiles(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.SearchFiles to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesResponse SearchNodeFiles(global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_SearchNodeFiles, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.SearchFiles to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesResponse> SearchNodeFilesAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SearchNodeFilesAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.SearchFiles to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesResponse> SearchNodeFilesAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_SearchNodeFiles, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.ListDirectory to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryResponse ListNodeDirectory(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ListNodeDirectory(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.ListDirectory to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryResponse ListNodeDirectory(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ListNodeDirectory, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.ListDirectory to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryResponse> ListNodeDirectoryAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ListNodeDirectoryAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.ListDirectory to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryResponse> ListNodeDirectoryAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ListNodeDirectory, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.PlanRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalResponse PlanNodeRemoval(global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return PlanNodeRemoval(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.PlanRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalResponse PlanNodeRemoval(global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_PlanNodeRemoval, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.PlanRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalResponse> PlanNodeRemovalAsync(global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return PlanNodeRemovalAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.PlanRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalResponse> PlanNodeRemovalAsync(global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_PlanNodeRemoval, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.ExecuteRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.executeNodeRemoval; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalResponse ExecuteNodeRemoval(global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ExecuteNodeRemoval(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.ExecuteRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.executeNodeRemoval; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalResponse ExecuteNodeRemoval(global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ExecuteNodeRemoval, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.ExecuteRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.executeNodeRemoval; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalResponse> ExecuteNodeRemovalAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ExecuteNodeRemovalAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.ExecuteRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.executeNodeRemoval; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalResponse> ExecuteNodeRemovalAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ExecuteNodeRemoval, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.GetFileOperation to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationResponse GetNodeFileOperation(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetNodeFileOperation(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.GetFileOperation to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationResponse GetNodeFileOperation(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetNodeFileOperation, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 FileService.GetFileOperation to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationResponse> GetNodeFileOperationAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetNodeFileOperationAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 FileService.GetFileOperation to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationResponse> GetNodeFileOperationAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetNodeFileOperation, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.RegisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.registerNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceResponse RegisterNodeWorkspace(global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return RegisterNodeWorkspace(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.RegisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.registerNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceResponse RegisterNodeWorkspace(global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_RegisterNodeWorkspace, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.RegisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.registerNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceResponse> RegisterNodeWorkspaceAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return RegisterNodeWorkspaceAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.RegisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.registerNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceResponse> RegisterNodeWorkspaceAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_RegisterNodeWorkspace, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.UnregisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.unregisterNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceResponse UnregisterNodeWorkspace(global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return UnregisterNodeWorkspace(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.UnregisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.unregisterNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceResponse UnregisterNodeWorkspace(global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_UnregisterNodeWorkspace, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.UnregisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.unregisterNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceResponse> UnregisterNodeWorkspaceAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return UnregisterNodeWorkspaceAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.UnregisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session with target-bound step-up (class fleet.unregisterNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+      /// idempotency: command_id; exact caller and bytes, existing routing replay window applies
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceResponse> UnregisterNodeWorkspaceAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_UnregisterNodeWorkspace, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.ListWorkspaces to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesResponse ListNodeWorkspaces(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ListNodeWorkspaces(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.ListWorkspaces to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesResponse ListNodeWorkspaces(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ListNodeWorkspaces, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.ListWorkspaces to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesResponse> ListNodeWorkspacesAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ListNodeWorkspacesAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.ListWorkspaces to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesResponse> ListNodeWorkspacesAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ListNodeWorkspaces, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.GetWorkspace to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceResponse GetNodeWorkspace(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetNodeWorkspace(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.GetWorkspace to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceResponse GetNodeWorkspace(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetNodeWorkspace, null, options, request);
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.GetWorkspace to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceResponse> GetNodeWorkspaceAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetNodeWorkspaceAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Route node.v1 WorkspaceService.GetWorkspace to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+      /// auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+      /// idempotency: read
+      /// deadline: 15 s
+      /// stream: none
+      /// errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+      /// locality: cloud -> node
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceResponse> GetNodeWorkspaceAsync(global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetNodeWorkspace, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       protected override FleetServiceClient NewInstance(ClientBaseConfiguration configuration)
@@ -4887,7 +6116,19 @@ namespace ArcForges.Contracts.Fleet.V1 {
           .AddMethod(__Method_ListNodeTasks, serviceImpl.ListNodeTasks)
           .AddMethod(__Method_WaitNodeTask, serviceImpl.WaitNodeTask)
           .AddMethod(__Method_ReadNodeTaskOutput, serviceImpl.ReadNodeTaskOutput)
-          .AddMethod(__Method_CancelNodeTask, serviceImpl.CancelNodeTask).Build();
+          .AddMethod(__Method_CancelNodeTask, serviceImpl.CancelNodeTask)
+          .AddMethod(__Method_ReadNodeFile, serviceImpl.ReadNodeFile)
+          .AddMethod(__Method_WriteNodeFile, serviceImpl.WriteNodeFile)
+          .AddMethod(__Method_EditNodeFile, serviceImpl.EditNodeFile)
+          .AddMethod(__Method_SearchNodeFiles, serviceImpl.SearchNodeFiles)
+          .AddMethod(__Method_ListNodeDirectory, serviceImpl.ListNodeDirectory)
+          .AddMethod(__Method_PlanNodeRemoval, serviceImpl.PlanNodeRemoval)
+          .AddMethod(__Method_ExecuteNodeRemoval, serviceImpl.ExecuteNodeRemoval)
+          .AddMethod(__Method_GetNodeFileOperation, serviceImpl.GetNodeFileOperation)
+          .AddMethod(__Method_RegisterNodeWorkspace, serviceImpl.RegisterNodeWorkspace)
+          .AddMethod(__Method_UnregisterNodeWorkspace, serviceImpl.UnregisterNodeWorkspace)
+          .AddMethod(__Method_ListNodeWorkspaces, serviceImpl.ListNodeWorkspaces)
+          .AddMethod(__Method_GetNodeWorkspace, serviceImpl.GetNodeWorkspace).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -4916,6 +6157,18 @@ namespace ArcForges.Contracts.Fleet.V1 {
       serviceBinder.AddMethod(__Method_WaitNodeTask, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceWaitNodeTaskResponse>(serviceImpl.WaitNodeTask));
       serviceBinder.AddMethod(__Method_ReadNodeTaskOutput, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeTaskOutputResponse>(serviceImpl.ReadNodeTaskOutput));
       serviceBinder.AddMethod(__Method_CancelNodeTask, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceCancelNodeTaskResponse>(serviceImpl.CancelNodeTask));
+      serviceBinder.AddMethod(__Method_ReadNodeFile, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileResponse>(serviceImpl.ReadNodeFile));
+      serviceBinder.AddMethod(__Method_WriteNodeFile, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileResponse>(serviceImpl.WriteNodeFile));
+      serviceBinder.AddMethod(__Method_EditNodeFile, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileResponse>(serviceImpl.EditNodeFile));
+      serviceBinder.AddMethod(__Method_SearchNodeFiles, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesResponse>(serviceImpl.SearchNodeFiles));
+      serviceBinder.AddMethod(__Method_ListNodeDirectory, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryResponse>(serviceImpl.ListNodeDirectory));
+      serviceBinder.AddMethod(__Method_PlanNodeRemoval, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalRequest, global::ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalResponse>(serviceImpl.PlanNodeRemoval));
+      serviceBinder.AddMethod(__Method_ExecuteNodeRemoval, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalResponse>(serviceImpl.ExecuteNodeRemoval));
+      serviceBinder.AddMethod(__Method_GetNodeFileOperation, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationResponse>(serviceImpl.GetNodeFileOperation));
+      serviceBinder.AddMethod(__Method_RegisterNodeWorkspace, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceResponse>(serviceImpl.RegisterNodeWorkspace));
+      serviceBinder.AddMethod(__Method_UnregisterNodeWorkspace, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceResponse>(serviceImpl.UnregisterNodeWorkspace));
+      serviceBinder.AddMethod(__Method_ListNodeWorkspaces, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesResponse>(serviceImpl.ListNodeWorkspaces));
+      serviceBinder.AddMethod(__Method_GetNodeWorkspace, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceRequest, global::ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceResponse>(serviceImpl.GetNodeWorkspace));
     }
 
   }

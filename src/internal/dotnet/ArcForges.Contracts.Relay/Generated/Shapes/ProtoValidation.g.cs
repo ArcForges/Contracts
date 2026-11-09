@@ -1000,7 +1000,7 @@ public static class ContractShapeValidation
         if (!value.HasMethod) return false;
         if (value.HasMethod)
         {
-            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4 && (int)value.Method != 5 && (int)value.Method != 6) return false;
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4 && (int)value.Method != 5 && (int)value.Method != 6 && (int)value.Method != 9 && (int)value.Method != 10 && (int)value.Method != 11 && (int)value.Method != 12 && (int)value.Method != 13 && (int)value.Method != 14 && (int)value.Method != 15 && (int)value.Method != 16 && (int)value.Method != 17 && (int)value.Method != 18 && (int)value.Method != 19 && (int)value.Method != 20) return false;
         }
         if (!value.HasRequestSha256) return false;
         if (value.HasRequestSha256)
@@ -1023,7 +1023,7 @@ public static class ContractShapeValidation
         {
             if (value.RelayAssertionSha256.Length != 32) return false;
         }
-        if ((value.CommandId is not null) != ((int)value.Method is 1 or 6)) return false;
+        if ((value.CommandId is not null) != ((int)value.Method is 1 or 6 or 10 or 11 or 14 or 15 or 17 or 18)) return false;
         if (!value.Caller.AccountId.Equals(value.AccountId)) return false;
         if (value.HasRelayAssertionSha256 != ((int)value.Caller.Kind == 2)) return false;
         if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 300)) return false;
@@ -1578,7 +1578,7 @@ public static class ContractShapeValidation
         if (!value.HasMethod) return false;
         if (value.HasMethod)
         {
-            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4 && (int)value.Method != 5 && (int)value.Method != 6 && (int)value.Method != 7 && (int)value.Method != 8) return false;
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4 && (int)value.Method != 5 && (int)value.Method != 6 && (int)value.Method != 7 && (int)value.Method != 8 && (int)value.Method != 9 && (int)value.Method != 10 && (int)value.Method != 11 && (int)value.Method != 12 && (int)value.Method != 13 && (int)value.Method != 14 && (int)value.Method != 15 && (int)value.Method != 16 && (int)value.Method != 17 && (int)value.Method != 18 && (int)value.Method != 19 && (int)value.Method != 20) return false;
         }
         if (!value.HasRequestSha256) return false;
         if (value.HasRequestSha256)
@@ -1608,7 +1608,7 @@ public static class ContractShapeValidation
             if (value.Signature.Length != 64) return false;
         }
         if ((value.TargetNodeId is null) != ((int)value.Method == 7)) return false;
-        if ((value.CommandId is not null) != ((int)value.Method is 1 or 6)) return false;
+        if ((value.CommandId is not null) != ((int)value.Method is 1 or 6 or 10 or 11 or 14 or 15 or 17 or 18)) return false;
         if (!RelayWindow(value.IssuedAt, value.ExpiresAt, 120)) return false;
         return true;
         }
@@ -1856,7 +1856,7 @@ public static class ContractShapeValidation
         if (!Check(value.NodeId, context)) return false;
         if (value.HasMethod)
         {
-            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4 && (int)value.Method != 5 && (int)value.Method != 6) return false;
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4 && (int)value.Method != 5 && (int)value.Method != 6 && (int)value.Method != 9 && (int)value.Method != 10 && (int)value.Method != 11 && (int)value.Method != 12 && (int)value.Method != 13 && (int)value.Method != 14 && (int)value.Method != 15 && (int)value.Method != 16 && (int)value.Method != 17 && (int)value.Method != 18 && (int)value.Method != 19 && (int)value.Method != 20) return false;
         }
         if (value.HasRequestSha256)
         {
@@ -2246,6 +2246,8 @@ public static class ContractShapeValidation
         "conflict/code_reused",
         "conflict/command_id_reused",
         "conflict/digest_mismatch",
+        "conflict/file_changed",
+        "conflict/occurrence_mismatch",
         "conflict/purchase_already_linked",
         "conflict/revision_conflict",
         "entitlement/feature_not_entitled",
@@ -2267,6 +2269,7 @@ public static class ContractShapeValidation
         "state/cloud_unreachable",
         "state/dirty_worktree",
         "state/expired",
+        "state/file_access_denied",
         "state/in_use",
         "state/invalid_state",
         "state/link_down",

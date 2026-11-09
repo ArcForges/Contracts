@@ -27,8 +27,8 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// The center-routed methods (fleet.v1 FleetService). 1..6 are the routed task methods, the calls a center sends; LIST_NODES and
-// GET_NODE are named only by a relay assertion. The numbers 1..6 are the node store's routed_call_log.method.
+// The center-routed methods (fleet.v1 FleetService). 1..6 keep the delivered task method numbers; 9..20 are AF-CTR-06 files/workspaces.
+// LIST_NODES and GET_NODE (7,8) are relay-assertion-only, never channel calls. Historical SQLite/PG constraints remain immutable.
 type RoutedMethod int32
 
 const (
@@ -41,31 +41,68 @@ const (
 	RoutedMethod_ROUTED_METHOD_CANCEL_NODE_TASK      RoutedMethod = 6 // payload TaskServiceCancelTaskRequest
 	RoutedMethod_ROUTED_METHOD_LIST_NODES            RoutedMethod = 7 // relay assertions only
 	RoutedMethod_ROUTED_METHOD_GET_NODE              RoutedMethod = 8 // relay assertions only
+	// AF-CTR-06: these numbers are separate additive file/workspace log rows, never old task-method aliases.
+	RoutedMethod_ROUTED_METHOD_READ_NODE_FILE            RoutedMethod = 9  // payload FileServiceReadFileRequest
+	RoutedMethod_ROUTED_METHOD_WRITE_NODE_FILE           RoutedMethod = 10 // payload FileServiceWriteFileRequest
+	RoutedMethod_ROUTED_METHOD_EDIT_NODE_FILE            RoutedMethod = 11 // payload FileServiceEditFileRequest
+	RoutedMethod_ROUTED_METHOD_SEARCH_NODE_FILES         RoutedMethod = 12 // payload FileServiceSearchFilesRequest
+	RoutedMethod_ROUTED_METHOD_LIST_NODE_DIRECTORY       RoutedMethod = 13 // payload FileServiceListDirectoryRequest
+	RoutedMethod_ROUTED_METHOD_PLAN_NODE_REMOVAL         RoutedMethod = 14 // payload FileServicePlanRemovalRequest
+	RoutedMethod_ROUTED_METHOD_EXECUTE_NODE_REMOVAL      RoutedMethod = 15 // payload FileServiceExecuteRemovalRequest
+	RoutedMethod_ROUTED_METHOD_GET_NODE_FILE_OPERATION   RoutedMethod = 16 // payload FileServiceGetFileOperationRequest
+	RoutedMethod_ROUTED_METHOD_REGISTER_NODE_WORKSPACE   RoutedMethod = 17 // payload WorkspaceServiceRegisterWorkspaceRequest
+	RoutedMethod_ROUTED_METHOD_UNREGISTER_NODE_WORKSPACE RoutedMethod = 18 // payload WorkspaceServiceUnregisterWorkspaceRequest
+	RoutedMethod_ROUTED_METHOD_LIST_NODE_WORKSPACES      RoutedMethod = 19 // payload WorkspaceServiceListWorkspacesRequest
+	RoutedMethod_ROUTED_METHOD_GET_NODE_WORKSPACE        RoutedMethod = 20 // payload WorkspaceServiceGetWorkspaceRequest
 )
 
 // Enum value maps for RoutedMethod.
 var (
 	RoutedMethod_name = map[int32]string{
-		0: "ROUTED_METHOD_UNSPECIFIED",
-		1: "ROUTED_METHOD_SUBMIT_NODE_TASK",
-		2: "ROUTED_METHOD_GET_NODE_TASK",
-		3: "ROUTED_METHOD_LIST_NODE_TASKS",
-		4: "ROUTED_METHOD_WAIT_NODE_TASK",
-		5: "ROUTED_METHOD_READ_NODE_TASK_OUTPUT",
-		6: "ROUTED_METHOD_CANCEL_NODE_TASK",
-		7: "ROUTED_METHOD_LIST_NODES",
-		8: "ROUTED_METHOD_GET_NODE",
+		0:  "ROUTED_METHOD_UNSPECIFIED",
+		1:  "ROUTED_METHOD_SUBMIT_NODE_TASK",
+		2:  "ROUTED_METHOD_GET_NODE_TASK",
+		3:  "ROUTED_METHOD_LIST_NODE_TASKS",
+		4:  "ROUTED_METHOD_WAIT_NODE_TASK",
+		5:  "ROUTED_METHOD_READ_NODE_TASK_OUTPUT",
+		6:  "ROUTED_METHOD_CANCEL_NODE_TASK",
+		7:  "ROUTED_METHOD_LIST_NODES",
+		8:  "ROUTED_METHOD_GET_NODE",
+		9:  "ROUTED_METHOD_READ_NODE_FILE",
+		10: "ROUTED_METHOD_WRITE_NODE_FILE",
+		11: "ROUTED_METHOD_EDIT_NODE_FILE",
+		12: "ROUTED_METHOD_SEARCH_NODE_FILES",
+		13: "ROUTED_METHOD_LIST_NODE_DIRECTORY",
+		14: "ROUTED_METHOD_PLAN_NODE_REMOVAL",
+		15: "ROUTED_METHOD_EXECUTE_NODE_REMOVAL",
+		16: "ROUTED_METHOD_GET_NODE_FILE_OPERATION",
+		17: "ROUTED_METHOD_REGISTER_NODE_WORKSPACE",
+		18: "ROUTED_METHOD_UNREGISTER_NODE_WORKSPACE",
+		19: "ROUTED_METHOD_LIST_NODE_WORKSPACES",
+		20: "ROUTED_METHOD_GET_NODE_WORKSPACE",
 	}
 	RoutedMethod_value = map[string]int32{
-		"ROUTED_METHOD_UNSPECIFIED":           0,
-		"ROUTED_METHOD_SUBMIT_NODE_TASK":      1,
-		"ROUTED_METHOD_GET_NODE_TASK":         2,
-		"ROUTED_METHOD_LIST_NODE_TASKS":       3,
-		"ROUTED_METHOD_WAIT_NODE_TASK":        4,
-		"ROUTED_METHOD_READ_NODE_TASK_OUTPUT": 5,
-		"ROUTED_METHOD_CANCEL_NODE_TASK":      6,
-		"ROUTED_METHOD_LIST_NODES":            7,
-		"ROUTED_METHOD_GET_NODE":              8,
+		"ROUTED_METHOD_UNSPECIFIED":               0,
+		"ROUTED_METHOD_SUBMIT_NODE_TASK":          1,
+		"ROUTED_METHOD_GET_NODE_TASK":             2,
+		"ROUTED_METHOD_LIST_NODE_TASKS":           3,
+		"ROUTED_METHOD_WAIT_NODE_TASK":            4,
+		"ROUTED_METHOD_READ_NODE_TASK_OUTPUT":     5,
+		"ROUTED_METHOD_CANCEL_NODE_TASK":          6,
+		"ROUTED_METHOD_LIST_NODES":                7,
+		"ROUTED_METHOD_GET_NODE":                  8,
+		"ROUTED_METHOD_READ_NODE_FILE":            9,
+		"ROUTED_METHOD_WRITE_NODE_FILE":           10,
+		"ROUTED_METHOD_EDIT_NODE_FILE":            11,
+		"ROUTED_METHOD_SEARCH_NODE_FILES":         12,
+		"ROUTED_METHOD_LIST_NODE_DIRECTORY":       13,
+		"ROUTED_METHOD_PLAN_NODE_REMOVAL":         14,
+		"ROUTED_METHOD_EXECUTE_NODE_REMOVAL":      15,
+		"ROUTED_METHOD_GET_NODE_FILE_OPERATION":   16,
+		"ROUTED_METHOD_REGISTER_NODE_WORKSPACE":   17,
+		"ROUTED_METHOD_UNREGISTER_NODE_WORKSPACE": 18,
+		"ROUTED_METHOD_LIST_NODE_WORKSPACES":      19,
+		"ROUTED_METHOD_GET_NODE_WORKSPACE":        20,
 	}
 )
 
@@ -1747,8 +1784,8 @@ type CallHeader struct {
 	AccountId            *v1.Id                 `protobuf:"bytes,4,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`                                           // validate: required; the account that owns the target node
 	TargetNodeId         *v1.Id                 `protobuf:"bytes,5,opt,name=target_node_id,json=targetNodeId,proto3" json:"target_node_id,omitempty"`                                // validate: required
 	Caller               *v12.CenterCaller      `protobuf:"bytes,6,opt,name=caller,proto3" json:"caller,omitempty"`                                                                  // validate: required; filled by the center only from the verified session or relay assertion, never from a request field
-	CommandId            *v1.Id                 `protobuf:"bytes,7,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`                                           // validate: required for SUBMIT_NODE_TASK and CANCEL_NODE_TASK, absent otherwise; equals the payload's meta.command_id
-	Method               *RoutedMethod          `protobuf:"varint,8,opt,name=method,proto3,enum=arcforges.relay.v1.RoutedMethod,oneof" json:"method,omitempty"`                      // validate: required; 1..6
+	CommandId            *v1.Id                 `protobuf:"bytes,7,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`                                           // validate: required for mutation methods 1, 6, 10, 11, 14, 15, 17 and 18, absent for read methods; equals the payload's meta.command_id
+	Method               *RoutedMethod          `protobuf:"varint,8,opt,name=method,proto3,enum=arcforges.relay.v1.RoutedMethod,oneof" json:"method,omitempty"`                      // validate: required; 1..6 or 9..20
 	RequestSha256        []byte                 `protobuf:"bytes,9,opt,name=request_sha256,json=requestSha256,proto3,oneof" json:"request_sha256,omitempty"`                         // validate: required; 32 bytes: SHA-256 of the payload, the exact node.v1 request bytes
 	RequestSize          *uint32                `protobuf:"varint,10,opt,name=request_size,json=requestSize,proto3,oneof" json:"request_size,omitempty"`                             // validate: required; 1..253,952; the payload's length
 	IssuedAt             *v1.Instant            `protobuf:"bytes,11,opt,name=issued_at,json=issuedAt,proto3" json:"issued_at,omitempty"`                                             // validate: required
@@ -1958,7 +1995,7 @@ type ResultHeader struct {
 	CallId         *v1.Id                 `protobuf:"bytes,1,opt,name=call_id,json=callId,proto3" json:"call_id,omitempty"`                                  // validate: required; ChannelCall.call_id
 	CommandId      *v1.Id                 `protobuf:"bytes,2,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`                         // validate: the call header's command_id when it names one; absent for REFUSED_VERIFICATION
 	NodeId         *v1.Id                 `protobuf:"bytes,3,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                                  // validate: required; the answering node
-	Method         *RoutedMethod          `protobuf:"varint,4,opt,name=method,proto3,enum=arcforges.relay.v1.RoutedMethod,oneof" json:"method,omitempty"`    // validate: required (1..6) unless REFUSED_VERIFICATION, absent then
+	Method         *RoutedMethod          `protobuf:"varint,4,opt,name=method,proto3,enum=arcforges.relay.v1.RoutedMethod,oneof" json:"method,omitempty"`    // validate: required (1..6 or 9..20) unless REFUSED_VERIFICATION, absent then
 	RequestSha256  []byte                 `protobuf:"bytes,5,opt,name=request_sha256,json=requestSha256,proto3,oneof" json:"request_sha256,omitempty"`       // validate: required unless REFUSED_VERIFICATION, absent then; 32 bytes, echoed
 	ResponseSha256 []byte                 `protobuf:"bytes,6,opt,name=response_sha256,json=responseSha256,proto3,oneof" json:"response_sha256,omitempty"`    // validate: required for EXECUTED, absent otherwise; 32 bytes: SHA-256 of ChannelResult.payload
 	ResponseSize   *uint32                `protobuf:"varint,7,opt,name=response_size,json=responseSize,proto3,oneof" json:"response_size,omitempty"`         // validate: required for EXECUTED, absent otherwise; 1..1,040,384; the payload's length
@@ -2263,10 +2300,10 @@ type RelayAssertion struct {
 	RelayingInstallationId *v1.Id                 `protobuf:"bytes,2,opt,name=relaying_installation_id,json=relayingInstallationId,proto3" json:"relaying_installation_id,omitempty"`   // validate: required
 	LocalOrigin            *v12.Origin            `protobuf:"varint,3,opt,name=local_origin,json=localOrigin,proto3,enum=arcforges.node.v1.Origin,oneof" json:"local_origin,omitempty"` // validate: required; HUMAN, SCRIPT or AGENT, as the relaying node classified its local caller
 	LocalSessionId         *v1.Id                 `protobuf:"bytes,4,opt,name=local_session_id,json=localSessionId,proto3" json:"local_session_id,omitempty"`                           // validate: required; the local caller's client session at the relaying node
-	Method                 *RoutedMethod          `protobuf:"varint,5,opt,name=method,proto3,enum=arcforges.relay.v1.RoutedMethod,oneof" json:"method,omitempty"`                       // validate: required; 1..8
+	Method                 *RoutedMethod          `protobuf:"varint,5,opt,name=method,proto3,enum=arcforges.relay.v1.RoutedMethod,oneof" json:"method,omitempty"`                       // validate: required; 1..20
 	RequestSha256          []byte                 `protobuf:"bytes,6,opt,name=request_sha256,json=requestSha256,proto3,oneof" json:"request_sha256,omitempty"`                          // validate: required; 32 bytes
 	TargetNodeId           *v1.Id                 `protobuf:"bytes,7,opt,name=target_node_id,json=targetNodeId,proto3" json:"target_node_id,omitempty"`                                 // validate: absent for LIST_NODES, required otherwise
-	CommandId              *v1.Id                 `protobuf:"bytes,8,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`                                            // validate: required for SUBMIT_NODE_TASK and CANCEL_NODE_TASK, absent otherwise
+	CommandId              *v1.Id                 `protobuf:"bytes,8,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`                                            // validate: required for mutation methods 1, 6, 10, 11, 14, 15, 17 and 18, absent for read methods
 	RelayNonce             []byte                 `protobuf:"bytes,9,opt,name=relay_nonce,json=relayNonce,proto3,oneof" json:"relay_nonce,omitempty"`                                   // validate: required; 32 bytes; a RelayNonce of the relaying node's open channel
 	IssuedAt               *v1.Instant            `protobuf:"bytes,10,opt,name=issued_at,json=issuedAt,proto3" json:"issued_at,omitempty"`                                              // validate: required
 	ExpiresAt              *v1.Instant            `protobuf:"bytes,11,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`                                           // validate: required; issued_at < expires_at <= issued_at + 120 s
@@ -3769,7 +3806,7 @@ const file_arcforges_relay_v1_relay_proto_rawDesc = "" +
 	"\rkill_switches\x18\x0f \x01(\v2$.arcforges.relay.v1.KillSwitchUpdateH\x00R\fkillSwitches\x12P\n" +
 	"\rundeliverable\x18\x10 \x01(\v2(.arcforges.relay.v1.CommandUndeliverableH\x00R\rundeliverableB\x06\n" +
 	"\x04bodyB\x13\n" +
-	"\x11_envelope_version*\xbe\x02\n" +
+	"\x11_envelope_version*\x8f\x06\n" +
 	"\fRoutedMethod\x12\x1d\n" +
 	"\x19ROUTED_METHOD_UNSPECIFIED\x10\x00\x12\"\n" +
 	"\x1eROUTED_METHOD_SUBMIT_NODE_TASK\x10\x01\x12\x1f\n" +
@@ -3779,7 +3816,20 @@ const file_arcforges_relay_v1_relay_proto_rawDesc = "" +
 	"#ROUTED_METHOD_READ_NODE_TASK_OUTPUT\x10\x05\x12\"\n" +
 	"\x1eROUTED_METHOD_CANCEL_NODE_TASK\x10\x06\x12\x1c\n" +
 	"\x18ROUTED_METHOD_LIST_NODES\x10\a\x12\x1a\n" +
-	"\x16ROUTED_METHOD_GET_NODE\x10\b*\xb7\x01\n" +
+	"\x16ROUTED_METHOD_GET_NODE\x10\b\x12 \n" +
+	"\x1cROUTED_METHOD_READ_NODE_FILE\x10\t\x12!\n" +
+	"\x1dROUTED_METHOD_WRITE_NODE_FILE\x10\n" +
+	"\x12 \n" +
+	"\x1cROUTED_METHOD_EDIT_NODE_FILE\x10\v\x12#\n" +
+	"\x1fROUTED_METHOD_SEARCH_NODE_FILES\x10\f\x12%\n" +
+	"!ROUTED_METHOD_LIST_NODE_DIRECTORY\x10\r\x12#\n" +
+	"\x1fROUTED_METHOD_PLAN_NODE_REMOVAL\x10\x0e\x12&\n" +
+	"\"ROUTED_METHOD_EXECUTE_NODE_REMOVAL\x10\x0f\x12)\n" +
+	"%ROUTED_METHOD_GET_NODE_FILE_OPERATION\x10\x10\x12)\n" +
+	"%ROUTED_METHOD_REGISTER_NODE_WORKSPACE\x10\x11\x12+\n" +
+	"'ROUTED_METHOD_UNREGISTER_NODE_WORKSPACE\x10\x12\x12&\n" +
+	"\"ROUTED_METHOD_LIST_NODE_WORKSPACES\x10\x13\x12$\n" +
+	" ROUTED_METHOD_GET_NODE_WORKSPACE\x10\x14*\xb7\x01\n" +
 	"\rRoutedOutcome\x12\x1e\n" +
 	"\x1aROUTED_OUTCOME_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17ROUTED_OUTCOME_EXECUTED\x10\x01\x12$\n" +

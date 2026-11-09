@@ -400,7 +400,8 @@
         "public/proto/arcforges/node/v1/tasks.proto",
         "public/proto/arcforges/node/v1/toolchains.proto",
         "public/proto/arcforges/node/v1/updates.proto",
-        "public/proto/arcforges/node/v1/workspaces.proto"
+        "public/proto/arcforges/node/v1/workspaces.proto",
+        "public/proto/arcforges/node/v1/files.proto"
       ],
       "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "node.binpb",
@@ -487,7 +488,8 @@
         "public/proto/arcforges/fleet/v1/fleet.proto",
         "internal/proto/arcforges/relay/v1/relay.proto",
         "internal/proto/arcforges/operator/v1/operator.proto",
-        "internal/proto/arcforges/operator/v1/operator_read.proto"
+        "internal/proto/arcforges/operator/v1/operator_read.proto",
+        "public/proto/arcforges/node/v1/files.proto"
       ],
       "dependencies": [],
       "descriptor": "go-module.binpb",

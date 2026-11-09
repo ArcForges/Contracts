@@ -30,6 +30,12 @@ if (args.Length == 3 && args[1].StartsWith("--compatibility-", StringComparison.
     CompatibilityCases.Run(args[1]["--compatibility-".Length..], Path.GetFullPath(args[2]));
     return 0;
 }
+if (args.Contains("--af-ctr-06", StringComparer.Ordinal))
+{
+    NodeChannelCases.Run(root);
+    FileContractCases.Run(root);
+    return 0;
+}
 if (args.Contains("--con-02", StringComparer.Ordinal))
 {
     Con02Cases.Run(root);
@@ -140,6 +146,7 @@ Con43LocalOperationCases.Run(root);
 NodeEnrollmentCases.Run();
 FollowUpWindowCases.Run();
 NodeChannelCases.Run(root);
+FileContractCases.Run(root);
 return 0;
 
 static bool Proto<T>(JsonElement value, Func<T, bool> validate) where T : IMessage<T>, new()

@@ -3,9 +3,9 @@
   "license": "Apache-2.0",
   "source": {
     "repository": "ArcForges/ArcForges-Design",
-    "commit": "611dda6b79c3f8aa854fbacad19e012f1759bd19",
+    "commit": "d2f3f87d5bb5dc691f10734dcbb5f49eb445cf0e",
     "path": "docs/contracts/errors.md",
-    "sha256": "b2182bb75eb984f315172bfdc7eb2afb2de666237387eea9df9a2dcdae64d481"
+    "sha256": "ef7746a2caeb51e94d7cc44e44a8c9617d6a3053943f71f51db9ffde6bcb32e5"
   },
   "messageKey": "error.<category>.<code>",
   "annotationForm": "CATEGORY/code",
@@ -70,7 +70,7 @@
       "category": "VALIDATION",
       "code": "path_not_found",
       "messageKey": "error.validation.path_not_found",
-      "meaning": "A required path does not exist or is not a directory",
+      "meaning": "A required file or directory does not exist or has the wrong required type",
       "retryAdvice": "`NEVER`",
       "effect": "`DID_NOT_HAPPEN`",
       "pairs": [
@@ -435,8 +435,8 @@
       "category": "CONFLICT",
       "code": "digest_mismatch",
       "messageKey": "error.conflict.digest_mismatch",
-      "meaning": "A plan digest differs from the presented one",
-      "retryAdvice": "`NEVER` (re-plan)",
+      "meaning": "A plan digest or AF-CTR-06 file-operation acknowledgment's expected request digest differs from the recorded one",
+      "retryAdvice": "`NEVER` (re-plan, or show and review the current file operation)",
       "effect": "`DID_NOT_HAPPEN`",
       "pairs": [
         {
@@ -444,7 +444,37 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "For file-operation acknowledgment, `state.state` = `file_operation`, `state.reason` = `operation_digest_mismatch`; no body"
+    },
+    {
+      "category": "CONFLICT",
+      "code": "file_changed",
+      "messageKey": "error.conflict.file_changed",
+      "pairs": [
+        {
+          "effect": "DID_NOT_HAPPEN",
+          "retry": "NEVER"
+        }
+      ],
+      "meaning": "AF-CTR-06 target: the checked file hash, opened identity or planned path differs before any filesystem effect",
+      "retryAdvice": "`NEVER` (re-read and submit a new command)",
+      "effect": "`DID_NOT_HAPPEN`",
+      "details": "`state.state` = `file`, `state.reason` = closed mismatch kind; no file content"
+    },
+    {
+      "category": "CONFLICT",
+      "code": "occurrence_mismatch",
+      "messageKey": "error.conflict.occurrence_mismatch",
+      "pairs": [
+        {
+          "effect": "DID_NOT_HAPPEN",
+          "retry": "NEVER"
+        }
+      ],
+      "meaning": "AF-CTR-06 target: the exact edit occurrence count differs",
+      "retryAdvice": "`NEVER` (re-read and submit a new command)",
+      "effect": "`DID_NOT_HAPPEN`",
+      "details": "`state.state` = `file`, `state.reason` = `occurrence_mismatch`; no file content"
     },
     {
       "category": "CONFLICT",
@@ -610,6 +640,21 @@
         }
       ],
       "details": "`state.reason` = holder"
+    },
+    {
+      "category": "STATE",
+      "code": "file_access_denied",
+      "messageKey": "error.state.file_access_denied",
+      "pairs": [
+        {
+          "effect": "DID_NOT_HAPPEN",
+          "retry": "NEVER"
+        }
+      ],
+      "meaning": "AF-CTR-06 target: the native filesystem refuses access before any effect or cannot supply the required safe identity or path primitive",
+      "retryAdvice": "`NEVER`",
+      "effect": "`DID_NOT_HAPPEN`",
+      "details": "`state.state` = `file`, `state.reason` = closed non-secret reason"
     },
     {
       "category": "STATE",

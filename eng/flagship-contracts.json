@@ -10,7 +10,7 @@
     "annotations": "docs/contracts/README.md#4-method-annotations",
     "errors": "docs/contracts/errors.md"
   },
-  "adoption": "Byte-identical copies of the design specification protos, placed per docs/contracts/README.md (node and fleet public; peer and relay internal; the additive publicapi.v1 and operator.v1 files in their reused packages). Within v1 every later change is additive only on the wire and reviewed against the wire-compatibility baselines in eng/compatibility/flagship-window.json; a validator tightens only by a recorded decision (AF-CTR-05 part C1: the e-mail bound of Plan decision Q12 and the approve rule). Since AF-CTR-04 (part C0) fleet.proto, node.proto and account.proto are the Design files at the design commit plus additive changes made here first: new fields and the SignOutNode method, comment-only annotation and specification text, and the two StopNode lines of Design bf86fc6 (MR-06); AF-CTR-05 (part C1) adds comment-only annotation text to fleet.proto and account.proto (the built refusals of errors.md and the COMPLETED -> REVOKED sign-in transition) and one validate: required rule (approve of ApproveNodeSignIn and ApproveDeviceCode). AF-CTR-05 (part C2) adds to fleet.proto, common.proto, tasks.proto and policy.proto, and to the internal relay.proto: the six center-routed task methods of FleetService with their messages, RoutedCaller and the relay fields of ListNodes and GetNode, FleetNode.reported_name, CenterCaller and ActorRef.center_caller, ManagedTask.local_diagnostic, TaskServiceReadTaskOutputRequest.wait_ms, CenterRoutedPolicy and PolicyDocument.center_routed, the node channel messages and RelayFrame members 23 to 29, and the routed and local annotation text. Contracts is canonical and the ArcForges-Design companion copies these seven files byte for byte: fleet.proto, node.proto, account.proto, common.proto, tasks.proto, policy.proto and relay.proto. The design commit stays the adoption commit.",
+  "adoption": "Byte-identical copies of the design specification protos, placed per docs/contracts/README.md (node and fleet public; peer and relay internal; the additive publicapi.v1 and operator.v1 files in their reused packages). Within v1 every later change is additive only on the wire and reviewed against the wire-compatibility baselines in eng/compatibility/flagship-window.json; a validator tightens only by a recorded decision (AF-CTR-05 part C1: the e-mail bound of Plan decision Q12 and the approve rule). Since AF-CTR-04 (part C0) fleet.proto, node.proto and account.proto are the Design files at the design commit plus additive changes made here first: new fields and the SignOutNode method, comment-only annotation and specification text, and the two StopNode lines of Design bf86fc6 (MR-06); AF-CTR-05 (part C1) adds comment-only annotation text to fleet.proto and account.proto (the built refusals of errors.md and the COMPLETED -> REVOKED sign-in transition) and one validate: required rule (approve of ApproveNodeSignIn and ApproveDeviceCode). AF-CTR-05 (part C2) adds to fleet.proto, common.proto, tasks.proto and policy.proto, and to the internal relay.proto: the six center-routed task methods of FleetService with their messages, RoutedCaller and the relay fields of ListNodes and GetNode, FleetNode.reported_name, CenterCaller and ActorRef.center_caller, ManagedTask.local_diagnostic, TaskServiceReadTaskOutputRequest.wait_ms, CenterRoutedPolicy and PolicyDocument.center_routed, the node channel messages and RelayFrame members 23 to 29, and the routed and local annotation text. Contracts is canonical and the ArcForges-Design companion copies these seven files byte for byte: fleet.proto, node.proto, account.proto, common.proto, tasks.proto, policy.proto and relay.proto. The design commit stays the adoption commit. AF-CTR-06 adds files.proto, twelve routed Fleet envelopes, relay methods 9..20 and additive workspace audit metadata, along with shape constraints and exact HUMAN-only workspace annotations. Contracts remains canonical; its final Design companion mirrors files.proto, fleet.proto, workspaces.proto and relay.proto byte for byte. No existing wire number is changed. The original adoption commit stays historical. AF-CTR-06 draft activates the four existing workspace methods: validators now require the declared nonempty registration path and bounded name, mutation command identity and unregister workspace identity, response outcome and result presence, and unique closed workspace kinds with at most 500 results. This fulfills the existing authored shape constraints for previously unimplemented methods; native absolute-directory, HUMAN permission and root-identity enforcement remain runtime obligations. Final Design and compatibility/admission review remain pending before publication.",
   "methodAnnotations": {
     "required": ["auth", "idempotency", "deadline", "stream", "errors", "locality"],
     "optional": ["state"]
@@ -21,7 +21,7 @@
       "design": "arcforges/fleet/v1/fleet.proto",
       "path": "public/proto/arcforges/fleet/v1/fleet.proto",
       "package": "ArcForges.Contracts.Fleet",
-      "sha256": "551db853b19653205d6af5c57a32aa686c8e04dd98635c2a3de47688ca1199cd"
+      "sha256": "b0866bf2de5c65ced844ca1c25206d027c72bf06af01e79bfc8157c307e07224"
     },
     {
       "design": "arcforges/node/v1/account.proto",
@@ -141,7 +141,7 @@
       "design": "arcforges/node/v1/workspaces.proto",
       "path": "public/proto/arcforges/node/v1/workspaces.proto",
       "package": "ArcForges.Contracts.Node",
-      "sha256": "08255cf7108ee19628057bd145b0bab7551683fa6e97bf99a71e389778d3a4d0"
+      "sha256": "9ce43583fa59b006e28b76bf3f6617d234e6d08858f27c3c4b4e48970dbe6f17"
     },
     {
       "design": "arcforges/operator/v1/operator_read.proto",
@@ -165,15 +165,21 @@
       "design": "arcforges/relay/v1/relay.proto",
       "path": "internal/proto/arcforges/relay/v1/relay.proto",
       "package": "ArcForges.Contracts.Relay",
-      "sha256": "9d8140725f7c0ac903a881e4779e73c693046a984c2ac6264d62df1893cc9d8a"
+      "sha256": "707da8f8c9b8f8dbc524447722fead4d40e5b8fb1eeab503f348d9bdf2ea86e3"
+    },
+    {
+      "design": "arcforges/node/v1/files.proto",
+      "path": "public/proto/arcforges/node/v1/files.proto",
+      "package": "ArcForges.Contracts.Node",
+      "sha256": "93c4b8a42371c80c698c4a05eebed13eb36e58ca96485adfa091a58a0853643e"
     }
   ],
   "schemaDigest": {
-    "combined": "55a386d182086beca013574f165cbb3a353444902bc43f13feb8768ff237073c",
+    "combined": "78d989555f14697e2c6a38f656a089928cdc33a1f038813123a5c4958245d634",
     "files": [
       {
         "file": "arcforges/fleet/v1/fleet.proto",
-        "sha256": "6101414128b95e516723c358a35c655ce0c5d86b093398f253c555483f121d94"
+        "sha256": "94342d40c33833e85f39e822820b986e6f07c899110b68f1fcf5f85108d3d4d4"
       },
       {
         "file": "arcforges/node/v1/account.proto",
@@ -198,6 +204,10 @@
       {
         "file": "arcforges/node/v1/events.proto",
         "sha256": "26445aaa0753f9c4d528541d10d72d3f44e7c0596e09494224f411451c73ef9f"
+      },
+      {
+        "file": "arcforges/node/v1/files.proto",
+        "sha256": "59af47616fac316a5febaf48d362bf1e8096cc6f100cc77ef4fdb7a648dd5b53"
       },
       {
         "file": "arcforges/node/v1/integrations.proto",
@@ -253,7 +263,7 @@
       },
       {
         "file": "arcforges/node/v1/workspaces.proto",
-        "sha256": "a052c1c7ea25bc4fd4b651157fc60e95bade61980871aac57c14726a4f1e1b90"
+        "sha256": "9871ab845c093821be41a846bdd3a22a8eae2074f3d12b8d1d24d794006134d1"
       },
       {
         "file": "arcforges/operator/v1/operator_read.proto",
@@ -269,7 +279,7 @@
       },
       {
         "file": "arcforges/relay/v1/relay.proto",
-        "sha256": "bf48c94a5e0e2644281a6ca4b5efb63bd360051f686882dcc4307874a58e19f6"
+        "sha256": "e1335ec9a3f53cb8f49ea342577ea71d70b8bb837a4585d5411308e2f9b90f55"
       }
     ]
   }
