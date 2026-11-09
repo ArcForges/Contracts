@@ -220,7 +220,8 @@
           "min": 1
         }
       },
-      "rules": ["fileRequest", "fileNonRootRequest"]
+      "rules": ["fileRequest",
+        "fileReadRequest", "fileNonRootRequest"]
     },
     "arcforges.node.v1.FileServiceReadFileValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.FileServiceReadFileValue",
@@ -371,7 +372,8 @@
           "max": 8388608
         }
       },
-      "rules": ["fileRequest"]
+      "rules": ["fileRequest",
+        "fileReadRequest"]
     },
     "arcforges.node.v1.FileServiceSearchFilesValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.FileServiceSearchFilesValue",
@@ -426,7 +428,7 @@
         "audit": {}
       },
       "oneofRequired": ["outcome"],
-      "rules": ["fileSearchResponse"]
+      "rules": ["fileSmallResponse"]
     },
     "arcforges.node.v1.FileServiceListDirectoryRequest": {
       "csharpType": "ArcForges.Contracts.Node.V1.FileServiceListDirectoryRequest",
@@ -444,7 +446,8 @@
           "maxLength": 512
         }
       },
-      "rules": ["fileRequest"]
+      "rules": ["fileRequest",
+        "fileReadRequest"]
     },
     "arcforges.node.v1.FileServiceListDirectoryValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.FileServiceListDirectoryValue",
@@ -558,7 +561,8 @@
           "required": true
         }
       },
-      "rules": ["fileRequest"]
+      "rules": ["fileRequest",
+        "fileReadRequest"]
     },
     "arcforges.node.v1.FileServiceGetFileOperationValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.FileServiceGetFileOperationValue",

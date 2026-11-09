@@ -18,7 +18,7 @@ service FileService {
   // idempotency: read
   // deadline: 10 s
   // stream: none
-  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
   // locality: node; ordinary callers cloud -> node
   rpc ReadFile(FileServiceReadFileRequest) returns (FileServiceReadFileResponse);
 
@@ -27,7 +27,7 @@ service FileService {
   // idempotency: command_id
   // deadline: 10 s
   // stream: none
-  // errors: CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
   // locality: node; ordinary callers cloud -> node
   rpc WriteFile(FileServiceWriteFileRequest) returns (FileServiceWriteFileResponse);
 
@@ -36,7 +36,7 @@ service FileService {
   // idempotency: command_id
   // deadline: 10 s
   // stream: none
-  // errors: CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
   // locality: node; ordinary callers cloud -> node
   rpc EditFile(FileServiceEditFileRequest) returns (FileServiceEditFileResponse);
 
@@ -45,7 +45,7 @@ service FileService {
   // idempotency: read
   // deadline: 10 s
   // stream: none
-  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
   // locality: node; ordinary callers cloud -> node
   rpc SearchFiles(FileServiceSearchFilesRequest) returns (FileServiceSearchFilesResponse);
 
@@ -54,7 +54,7 @@ service FileService {
   // idempotency: read
   // deadline: 10 s
   // stream: none
-  // errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, STATE/file_access_denied
+  // errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
   // locality: node; ordinary callers cloud -> node
   rpc ListDirectory(FileServiceListDirectoryRequest) returns (FileServiceListDirectoryResponse);
 
@@ -63,7 +63,7 @@ service FileService {
   // idempotency: command_id
   // deadline: 10 s
   // stream: none
-  // errors: CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/not_found, STATE/in_use, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
   // locality: node; ordinary callers cloud -> node
   rpc PlanRemoval(FileServicePlanRemovalRequest) returns (FileServicePlanRemovalResponse);
 
@@ -72,7 +72,7 @@ service FileService {
   // idempotency: command_id
   // deadline: 10 s
   // stream: none
-  // errors: CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
+  // errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
   // locality: node; ordinary callers cloud -> node
   rpc ExecuteRemoval(FileServiceExecuteRemovalRequest) returns (FileServiceExecuteRemovalResponse);
 
@@ -81,7 +81,7 @@ service FileService {
   // idempotency: read
   // deadline: 10 s
   // stream: none
-  // errors: STATE/not_found, AUTHORIZATION/permission_denied
+  // errors: VALIDATION/invalid_argument, STATE/not_found, AUTHORIZATION/permission_denied
   // locality: node; ordinary callers cloud -> node
   rpc GetFileOperation(FileServiceGetFileOperationRequest) returns (FileServiceGetFileOperationResponse);
 
@@ -90,7 +90,7 @@ service FileService {
   // idempotency: command_id
   // deadline: 10 s
   // stream: none
-  // errors: STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+  // errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
   // locality: node
   rpc AcknowledgeFileOperation(FileServiceAcknowledgeFileOperationRequest) returns (FileServiceAcknowledgeFileOperationResponse);
 
@@ -219,14 +219,14 @@ message FileOperation {
     arcforges.foundation.v1.Id attempt_id = 8 [json_name = "attemptId"]; // validate: exactly one declared target or precondition
   }
   oneof outcome {
-    FileMutationResult mutation = 10 [json_name = "mutation"]; // validate: exactly one declared target or precondition
-    FileRemovalResult removal = 11 [json_name = "removal"]; // validate: exactly one declared target or precondition
-    arcforges.foundation.v1.ArcError error = 12 [json_name = "error"]; // validate: exactly one declared target or precondition
+    FileMutationResult mutation = 10 [json_name = "mutation"]; // validate: COMPLETED write/edit only; absent for PREPARED and UNKNOWN
+    FileRemovalResult removal = 11 [json_name = "removal"]; // validate: COMPLETED removal only; absent for PREPARED and UNKNOWN
+    arcforges.foundation.v1.ArcError error = 12 [json_name = "error"]; // validate: COMPLETED known error or UNKNOWN error with UNKNOWN effect; absent for PREPARED
   }
 }
 
 message FileServiceReadFileRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
   reserved 2 to 9;
   FilePath path = 10 [json_name = "path"]; // validate: required
   optional uint64 offset = 11 [json_name = "offset"]; // validate: required
@@ -302,7 +302,7 @@ message FileServiceEditFileResponse {
 }
 
 message FileServiceSearchFilesRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
   reserved 2 to 9;
   FilePath path = 10 [json_name = "path"]; // validate: required
   optional string pattern = 11 [json_name = "pattern"]; // validate: required
@@ -335,7 +335,7 @@ message FileServiceSearchFilesResponse {
 }
 
 message FileServiceListDirectoryRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
   reserved 2 to 9;
   FilePath path = 10 [json_name = "path"]; // validate: required
   optional uint32 page_size = 11 [json_name = "pageSize"]; // validate: optional; declared profile bounds apply
@@ -408,7 +408,7 @@ message FileServiceExecuteRemovalResponse {
 }
 
 message FileServiceGetFileOperationRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
   reserved 2 to 9;
   arcforges.foundation.v1.Id operation_command_id = 10 [json_name = "operationCommandId"]; // validate: required
 }

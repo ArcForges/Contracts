@@ -176,3 +176,51 @@ func TestCtr06FileWireOracles(t *testing.T) {
 		}
 	})
 }
+
+// TestCtr06GitQualityWire fixes the additive tag 11 encoding and preserves old
+// summaries without that tag. Codec bytes alone cannot prove a root is non-git
+// or enforce the activated workspace shapes; C# shape tests cover those rules.
+func TestCtr06GitQualityWire(t *testing.T) {
+	id := &foundationv1.Id{Value: mustHex(t, fileIDHex)}
+	noGit := &nodev1.Workspace{WorkspaceId: id}
+	fileWireOracle(t, noGit, "0a120a1000112233445566778899aabbccddeeff")
+	var decodedWorkspace nodev1.Workspace
+	if err := proto.Unmarshal(mustHex(t, "0a120a1000112233445566778899aabbccddeeff"), &decodedWorkspace); err != nil || decodedWorkspace.Git != nil {
+		t.Fatalf("absent Git summary did not stay absent: %v", err)
+	}
+
+	cases := []struct {
+		name    string
+		summary *nodev1.GitStatusSummary
+		wire    string
+	}{
+		{"legacy", &nodev1.GitStatusSummary{Branch: proto.String("main"), Dirty: proto.Bool(false)}, "0a046d61696e1800"},
+		{"complete", &nodev1.GitStatusSummary{
+			Branch: proto.String("main"), Dirty: proto.Bool(false), ModifiedFiles: proto.Uint32(0),
+			UntrackedFiles: proto.Uint32(0), Locked: proto.Bool(false),
+			Quality: nodev1.GitStatusQuality_GIT_STATUS_QUALITY_COMPLETE.Enum(),
+		}, "0a046d61696e18002000280050005801"},
+		{"unknown", &nodev1.GitStatusSummary{
+			Branch: proto.String("main"), Head: proto.String("abc"),
+			Quality: nodev1.GitStatusQuality_GIT_STATUS_QUALITY_UNKNOWN.Enum(),
+		}, "0a046d61696e12036162635802"},
+		{"truncated", &nodev1.GitStatusSummary{
+			Branch: proto.String("main"), Quality: nodev1.GitStatusQuality_GIT_STATUS_QUALITY_TRUNCATED.Enum(),
+		}, "0a046d61696e5803"},
+	}
+	for _, item := range cases {
+		t.Run(item.name, func(t *testing.T) {
+			fileWireOracle(t, item.summary, item.wire)
+			var decoded nodev1.GitStatusSummary
+			if err := proto.Unmarshal(mustHex(t, item.wire), &decoded); err != nil {
+				t.Fatal(err)
+			}
+			if item.name == "legacy" && decoded.Quality != nil {
+				t.Fatal("legacy absent quality gained presence")
+			}
+			if item.name != "legacy" && decoded.Quality == nil {
+				t.Fatal("explicit quality lost presence")
+			}
+		})
+	}
+}

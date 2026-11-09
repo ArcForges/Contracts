@@ -9441,7 +9441,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     public const int CommandIdFieldNumber = 2;
     private global::ArcForges.Contracts.Foundation.V1.Id commandId_;
     /// <summary>
-    /// validate: the call header's command_id when it names one; absent for REFUSED_VERIFICATION
+    /// validate: absent for REFUSED_VERIFICATION; for verified AF-CTR-06 methods, present for mutations and absent for reads; runtime matches the call header
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

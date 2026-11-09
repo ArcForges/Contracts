@@ -4170,7 +4170,7 @@ public static class ContractShapeValidation
         var state = (int)value.State;
         var outcome = (int)value.OutcomeCase;
         if (state == 1 && (outcome != 0 || value.Acknowledged)) return false;
-        if (state == 2 && (outcome == 0 || value.Held || value.Acknowledged)) return false;
+        if (state == 2 && (outcome == 0 || value.Held || value.Acknowledged || (outcome == 12 && (int)value.Error.Effect == 3))) return false;
         if (state == 3 && (outcome != 12 || value.Error is null || (int)value.Error.Effect != 3 || value.Held == value.Acknowledged)) return false;
         if (outcome == 10 && (int)value.Kind == 3 || outcome == 11 && (int)value.Kind != 3) return false;
         return true;
@@ -4590,6 +4590,7 @@ public static class ContractShapeValidation
         if (value.OperationCommandId is null) return false;
         if (!Check(value.OperationCommandId, context)) return false;
         if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -4661,6 +4662,7 @@ public static class ContractShapeValidation
             if (ScalarLength(value.Cursor) > 512) return false;
         }
         if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -4832,6 +4834,7 @@ public static class ContractShapeValidation
             if (value.Length < 1UL) return false;
         }
         if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is not null) return false;
         if (value.Path.Path.Length == 0) return false;
         return true;
         }
@@ -4943,6 +4946,7 @@ public static class ContractShapeValidation
             if (value.MaxScanBytes > 8388608UL) return false;
         }
         if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -5245,6 +5249,11 @@ public static class ContractShapeValidation
         if (value.HasLocked)
         {
         }
+        if (value.HasQuality)
+        {
+        }
+        if ((int)value.Quality == 1 && (!value.HasDirty || !value.HasModifiedFiles || !value.HasUntrackedFiles || !value.HasLocked)) return false;
+        if ((int)value.Quality is 2 or 3 && (value.HasDirty || value.HasModifiedFiles || value.HasUntrackedFiles || value.HasAhead || value.HasBehind || value.HasMergedIntoBase || value.HasUpstreamDeleted || value.HasLocked)) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -16666,6 +16675,7 @@ public static class ContractShapeValidation
         if (value.WorkspaceId is null) return false;
         if (!Check(value.WorkspaceId, context)) return false;
         if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -16708,6 +16718,7 @@ public static class ContractShapeValidation
         {
         if (value.Workspace is null) return false;
         if (!Check(value.Workspace, context)) return false;
+        if (value.Workspace.Git is { } git && (!git.HasQuality || (int)git.Quality is < 1 or > 3)) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -16734,6 +16745,7 @@ public static class ContractShapeValidation
             if (!Check(value.Page, context)) return false;
         }
         if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -16762,7 +16774,7 @@ public static class ContractShapeValidation
             if (!Check(value.Audit, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
-        if (value.CalculateSize() > 1040384) return false;
+        if (value.CalculateSize() > 131072) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -16783,6 +16795,7 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Page, context)) return false;
         }
+        if (value.Workspaces.Any(workspace => workspace.Git is { } git && (!git.HasQuality || (int)git.Quality is < 1 or > 3))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -16976,6 +16989,7 @@ public static class ContractShapeValidation
         {
         if (value.Workspace is null) return false;
         if (!Check(value.Workspace, context)) return false;
+        if (value.Workspace.Git is { } git && (!git.HasQuality || (int)git.Quality is < 1 or > 3)) return false;
         return true;
         }
         finally { context.Exit(value); }

@@ -65076,7 +65076,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id absent for read
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -66096,7 +66096,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id required; runtime binds it to the inner request and signed call
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -67116,7 +67116,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id required; runtime binds it to the inner request and signed call
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -68136,7 +68136,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id absent for read
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -69156,7 +69156,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id absent for read
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -70176,7 +70176,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id required; runtime binds it to the inner request and signed call
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -71196,7 +71196,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id required; runtime binds it to the inner request and signed call
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -72216,7 +72216,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id absent for read
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -73236,7 +73236,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id required; runtime binds it to the inner request and signed call
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -74256,7 +74256,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id required; runtime binds it to the inner request and signed call
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -75276,7 +75276,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id absent for read
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -76296,7 +76296,7 @@ namespace ArcForges.Contracts.Fleet.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id absent for read
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

@@ -187,12 +187,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
       /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
       /// idempotency: command_id; registering the same root returns the existing workspace
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
-      /// locality: node
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
@@ -206,12 +206,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Forget a registered workspace. Files are never touched.
       /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
       /// idempotency: command_id
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
-      /// locality: node
+      /// errors: STATE/not_found, STATE/in_use, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
@@ -224,12 +224,13 @@ namespace ArcForges.Contracts.Node.V1 {
 
       /// <summary>
       /// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// The whole serialized response is at most 131,072 bytes; a byte-limited page returns a lossless continuation.
+      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: VALIDATION/invalid_cursor
-      /// locality: node
+      /// errors: VALIDATION/invalid_cursor, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
@@ -243,12 +244,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Read one workspace with a bounded safe fresh git status summary (06a section 1).
       /// AF-CTR-06 routes the explicit Fleet counterpart through the center.
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found
-      /// locality: node
+      /// errors: STATE/not_found, VALIDATION/invalid_argument, STATE/file_access_denied, AUTHORIZATION/permission_denied
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
@@ -402,12 +403,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
       /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
       /// idempotency: command_id; registering the same root returns the existing workspace
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
-      /// locality: node
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -422,12 +423,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
       /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
       /// idempotency: command_id; registering the same root returns the existing workspace
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
-      /// locality: node
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -440,12 +441,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
       /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
       /// idempotency: command_id; registering the same root returns the existing workspace
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
-      /// locality: node
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -460,12 +461,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
       /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
       /// idempotency: command_id; registering the same root returns the existing workspace
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
-      /// locality: node
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -478,12 +479,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Forget a registered workspace. Files are never touched.
       /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
       /// idempotency: command_id
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
-      /// locality: node
+      /// errors: STATE/not_found, STATE/in_use, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -498,12 +499,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Forget a registered workspace. Files are never touched.
       /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
       /// idempotency: command_id
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
-      /// locality: node
+      /// errors: STATE/not_found, STATE/in_use, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -516,12 +517,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Forget a registered workspace. Files are never touched.
       /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
       /// idempotency: command_id
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
-      /// locality: node
+      /// errors: STATE/not_found, STATE/in_use, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -536,12 +537,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Forget a registered workspace. Files are never touched.
       /// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+      /// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
       /// idempotency: command_id
       /// deadline: 5 s
       /// stream: none
-      /// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
-      /// locality: node
+      /// errors: STATE/not_found, STATE/in_use, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -553,12 +554,13 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       /// <summary>
       /// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// The whole serialized response is at most 131,072 bytes; a byte-limited page returns a lossless continuation.
+      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: VALIDATION/invalid_cursor
-      /// locality: node
+      /// errors: VALIDATION/invalid_cursor, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -572,12 +574,13 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       /// <summary>
       /// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// The whole serialized response is at most 131,072 bytes; a byte-limited page returns a lossless continuation.
+      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: VALIDATION/invalid_cursor
-      /// locality: node
+      /// errors: VALIDATION/invalid_cursor, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -589,12 +592,13 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       /// <summary>
       /// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// The whole serialized response is at most 131,072 bytes; a byte-limited page returns a lossless continuation.
+      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: VALIDATION/invalid_cursor
-      /// locality: node
+      /// errors: VALIDATION/invalid_cursor, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -608,12 +612,13 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       /// <summary>
       /// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// The whole serialized response is at most 131,072 bytes; a byte-limited page returns a lossless continuation.
+      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
       /// idempotency: read
       /// deadline: 5 s
       /// stream: none
-      /// errors: VALIDATION/invalid_cursor
-      /// locality: node
+      /// errors: VALIDATION/invalid_cursor, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -626,12 +631,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Read one workspace with a bounded safe fresh git status summary (06a section 1).
       /// AF-CTR-06 routes the explicit Fleet counterpart through the center.
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found
-      /// locality: node
+      /// errors: STATE/not_found, VALIDATION/invalid_argument, STATE/file_access_denied, AUTHORIZATION/permission_denied
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -646,12 +651,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Read one workspace with a bounded safe fresh git status summary (06a section 1).
       /// AF-CTR-06 routes the explicit Fleet counterpart through the center.
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found
-      /// locality: node
+      /// errors: STATE/not_found, VALIDATION/invalid_argument, STATE/file_access_denied, AUTHORIZATION/permission_denied
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -664,12 +669,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Read one workspace with a bounded safe fresh git status summary (06a section 1).
       /// AF-CTR-06 routes the explicit Fleet counterpart through the center.
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found
-      /// locality: node
+      /// errors: STATE/not_found, VALIDATION/invalid_argument, STATE/file_access_denied, AUTHORIZATION/permission_denied
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -684,12 +689,12 @@ namespace ArcForges.Contracts.Node.V1 {
       /// <summary>
       /// Read one workspace with a bounded safe fresh git status summary (06a section 1).
       /// AF-CTR-06 routes the explicit Fleet counterpart through the center.
-      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+      /// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found
-      /// locality: node
+      /// errors: STATE/not_found, VALIDATION/invalid_argument, STATE/file_access_denied, AUTHORIZATION/permission_denied
+      /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>

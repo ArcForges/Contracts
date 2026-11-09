@@ -1993,7 +1993,7 @@ func (x *ChannelCall) GetPayload() []byte {
 type ResultHeader struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	CallId         *v1.Id                 `protobuf:"bytes,1,opt,name=call_id,json=callId,proto3" json:"call_id,omitempty"`                                  // validate: required; ChannelCall.call_id
-	CommandId      *v1.Id                 `protobuf:"bytes,2,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`                         // validate: the call header's command_id when it names one; absent for REFUSED_VERIFICATION
+	CommandId      *v1.Id                 `protobuf:"bytes,2,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`                         // validate: absent for REFUSED_VERIFICATION; for verified AF-CTR-06 methods, present for mutations and absent for reads; runtime matches the call header
 	NodeId         *v1.Id                 `protobuf:"bytes,3,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                                  // validate: required; the answering node
 	Method         *RoutedMethod          `protobuf:"varint,4,opt,name=method,proto3,enum=arcforges.relay.v1.RoutedMethod,oneof" json:"method,omitempty"`    // validate: required (1..6 or 9..20) unless REFUSED_VERIFICATION, absent then
 	RequestSha256  []byte                 `protobuf:"bytes,5,opt,name=request_sha256,json=requestSha256,proto3,oneof" json:"request_sha256,omitempty"`       // validate: required unless REFUSED_VERIFICATION, absent then; 32 bytes, echoed

@@ -214,7 +214,7 @@ namespace ArcForges.Contracts.Node.V1 {
             "dBgIIAEoDEgFUhFpZ25vcmVkTGlzdERpZ2VzdIgBARIaCghibG9ja2luZxgJ",
             "IAMoCVIIYmxvY2tpbmdCCAoGX2RpcnR5QgkKB19zdGFnZWRCCwoJX3Vuc3Rh",
             "Z2VkQgwKCl91bnRyYWNrZWRCFAoSX2lnbm9yZWRfdHJ1bmNhdGVkQhYKFF9p",
-            "Z25vcmVkX2xpc3RfZGlnZXN0IoAEChBHaXRTdGF0dXNTdW1tYXJ5EhsKBmJy",
+            "Z25vcmVkX2xpc3RfZGlnZXN0ItAEChBHaXRTdGF0dXNTdW1tYXJ5EhsKBmJy",
             "YW5jaBgBIAEoCUgAUgZicmFuY2iIAQESFwoEaGVhZBgCIAEoCUgBUgRoZWFk",
             "iAEBEhkKBWRpcnR5GAMgASgISAJSBWRpcnR5iAEBEioKDm1vZGlmaWVkX2Zp",
             "bGVzGAQgASgNSANSDW1vZGlmaWVkRmlsZXOIAQESLAoPdW50cmFja2VkX2Zp",
@@ -222,93 +222,98 @@ namespace ArcForges.Contracts.Node.V1 {
             "SAVSBWFoZWFkiAEBEhsKBmJlaGluZBgHIAEoDUgGUgZiZWhpbmSIAQESLQoQ",
             "bWVyZ2VkX2ludG9fYmFzZRgIIAEoCEgHUg5tZXJnZWRJbnRvQmFzZYgBARIu",
             "ChB1cHN0cmVhbV9kZWxldGVkGAkgASgISAhSD3Vwc3RyZWFtRGVsZXRlZIgB",
-            "ARIbCgZsb2NrZWQYCiABKAhICVIGbG9ja2VkiAEBQgkKB19icmFuY2hCBwoF",
-            "X2hlYWRCCAoGX2RpcnR5QhEKD19tb2RpZmllZF9maWxlc0ISChBfdW50cmFj",
-            "a2VkX2ZpbGVzQggKBl9haGVhZEIJCgdfYmVoaW5kQhMKEV9tZXJnZWRfaW50",
-            "b19iYXNlQhMKEV91cHN0cmVhbV9kZWxldGVkQgkKB19sb2NrZWQikgoKCVdv",
-            "cmtzcGFjZRI+Cgx3b3Jrc3BhY2VfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91",
-            "bmRhdGlvbi52MS5JZFILd29ya3NwYWNlSWQSOQoEa2luZBgCIAEoDjIgLmFy",
-            "Y2Zvcmdlcy5ub2RlLnYxLldvcmtzcGFjZUtpbmRIAFIEa2luZIgBARI8CgVz",
-            "dGF0ZRgDIAEoDjIhLmFyY2Zvcmdlcy5ub2RlLnYxLldvcmtzcGFjZVN0YXRl",
-            "SAFSBXN0YXRliAEBEhcKBG5hbWUYBCABKAlIAlIEbmFtZYgBARIgCglyb290",
-            "X3BhdGgYBSABKAlIA1IIcm9vdFBhdGiIAQESNAoTcmVwb3NpdG9yeV9pZGVu",
-            "dGl0eRgGIAEoCUgEUhJyZXBvc2l0b3J5SWRlbnRpdHmIAQESRwoRYmFzZV93",
-            "b3Jrc3BhY2VfaWQYByABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5J",
-            "ZFIPYmFzZVdvcmtzcGFjZUlkEh4KCGJhc2VfcmVmGAggASgJSAVSB2Jhc2VS",
-            "ZWaIAQESMQoFb3duZXIYCSABKAsyGy5hcmNmb3JnZXMubm9kZS52MS5BY3Rv",
-            "clJlZlIFb3duZXISNQoDZ2l0GAogASgLMiMuYXJjZm9yZ2VzLm5vZGUudjEu",
-            "R2l0U3RhdHVzU3VtbWFyeVIDZ2l0EkYKDHJvdXRpbmdfbW9kZRgLIAEoDjIe",
-            "LmFyY2Zvcmdlcy5ub2RlLnYxLlJvdXRpbmdNb2RlSAZSC3JvdXRpbmdNb2Rl",
-            "iAEBEj8KCmNyZWF0ZWRfYXQYDCABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlv",
-            "bi52MS5JbnN0YW50UgljcmVhdGVkQXQSQgoMbGFzdF91c2VkX2F0GA0gASgL",
-            "MiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudFIKbGFzdFVzZWRB",
-            "dBImCgxhY3RpdmVfdGFza3MYDiABKA1IB1ILYWN0aXZlVGFza3OIAQESKAoN",
-            "bGl2ZV9zZXNzaW9ucxgPIAEoDUgIUgxsaXZlU2Vzc2lvbnOIAQESQQoOb3Jp",
-            "Z2luX25vZGVfaWQYECABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5J",
-            "ZFIMb3JpZ2luTm9kZUlkEiIKCnNpemVfYnl0ZXMYESABKARICVIJc2l6ZUJ5",
-            "dGVziAEBElcKEGNvbmN1cnJlbmN5X21vZGUYEiABKA4yJy5hcmNmb3JnZXMu",
-            "bm9kZS52MS5Xb3Jrc3BhY2VDb25jdXJyZW5jeUgKUg9jb25jdXJyZW5jeU1v",
-            "ZGWIAQESJAoLcmVtb3RlX3Nsb3QYEyABKA1IC1IKcmVtb3RlU2xvdIgBARJM",
-            "ChRsZWFzZWRfYnlfYXR0ZW1wdF9pZBgUIAEoCzIbLmFyY2Zvcmdlcy5mb3Vu",
-            "ZGF0aW9uLnYxLklkUhFsZWFzZWRCeUF0dGVtcHRJZEIHCgVfa2luZEIICgZf",
-            "c3RhdGVCBwoFX25hbWVCDAoKX3Jvb3RfcGF0aEIWChRfcmVwb3NpdG9yeV9p",
-            "ZGVudGl0eUILCglfYmFzZV9yZWZCDwoNX3JvdXRpbmdfbW9kZUIPCg1fYWN0",
-            "aXZlX3Rhc2tzQhAKDl9saXZlX3Nlc3Npb25zQg0KC19zaXplX2J5dGVzQhMK",
-            "EV9jb25jdXJyZW5jeV9tb2RlQg4KDF9yZW1vdGVfc2xvdCqOAQoNV29ya3Nw",
-            "YWNlS2luZBIeChpXT1JLU1BBQ0VfS0lORF9VTlNQRUNJRklFRBAAEh0KGVdP",
-            "UktTUEFDRV9LSU5EX1JFR0lTVEVSRUQQARIjCh9XT1JLU1BBQ0VfS0lORF9N",
-            "QU5BR0VEX1dPUktUUkVFEAISGQoVV09SS1NQQUNFX0tJTkRfUkVNT1RFEAMq",
-            "+wEKDldvcmtzcGFjZVN0YXRlEh8KG1dPUktTUEFDRV9TVEFURV9VTlNQRUNJ",
-            "RklFRBAAEhwKGFdPUktTUEFDRV9TVEFURV9DUkVBVElORxABEhoKFldPUktT",
-            "UEFDRV9TVEFURV9BQ1RJVkUQAhIYChRXT1JLU1BBQ0VfU1RBVEVfSURMRRAD",
-            "EhwKGFdPUktTUEFDRV9TVEFURV9SRU1PVklORxAEEhsKF1dPUktTUEFDRV9T",
-            "VEFURV9SRU1PVkVEEAUSGgoWV09SS1NQQUNFX1NUQVRFX0ZBSUxFRBAGEh0K",
-            "GVdPUktTUEFDRV9TVEFURV9BUkNISVZJTkcQByqpAQoUV29ya3NwYWNlQ29u",
-            "Y3VycmVuY3kSJQohV09SS1NQQUNFX0NPTkNVUlJFTkNZX1VOU1BFQ0lGSUVE",
-            "EAASJgoiV09SS1NQQUNFX0NPTkNVUlJFTkNZX0FEQVBURVJfS0VZUxABEiAK",
-            "HFdPUktTUEFDRV9DT05DVVJSRU5DWV9TRVJJQUwQAhIgChxXT1JLU1BBQ0Vf",
-            "Q09OQ1VSUkVOQ1lfU0hBUkVEEAMqkAEKFElnbm9yZWRGaWxlc0RlY2lzaW9u",
-            "EiYKIklHTk9SRURfRklMRVNfREVDSVNJT05fVU5TUEVDSUZJRUQQABIiCh5J",
-            "R05PUkVEX0ZJTEVTX0RFQ0lTSU9OX0lOQ0xVREUQARIsCihJR05PUkVEX0ZJ",
-            "TEVTX0RFQ0lTSU9OX0RJU0NBUkRfQ09ORklSTUVEEAIysgsKEFdvcmtzcGFj",
-            "ZVNlcnZpY2USjgEKEVJlZ2lzdGVyV29ya3NwYWNlEjsuYXJjZm9yZ2VzLm5v",
-            "ZGUudjEuV29ya3NwYWNlU2VydmljZVJlZ2lzdGVyV29ya3NwYWNlUmVxdWVz",
-            "dBo8LmFyY2Zvcmdlcy5ub2RlLnYxLldvcmtzcGFjZVNlcnZpY2VSZWdpc3Rl",
-            "cldvcmtzcGFjZVJlc3BvbnNlEpQBChNVbnJlZ2lzdGVyV29ya3NwYWNlEj0u",
-            "YXJjZm9yZ2VzLm5vZGUudjEuV29ya3NwYWNlU2VydmljZVVucmVnaXN0ZXJX",
-            "b3Jrc3BhY2VSZXF1ZXN0Gj4uYXJjZm9yZ2VzLm5vZGUudjEuV29ya3NwYWNl",
-            "U2VydmljZVVucmVnaXN0ZXJXb3Jrc3BhY2VSZXNwb25zZRKFAQoOTGlzdFdv",
-            "cmtzcGFjZXMSOC5hcmNmb3JnZXMubm9kZS52MS5Xb3Jrc3BhY2VTZXJ2aWNl",
-            "TGlzdFdvcmtzcGFjZXNSZXF1ZXN0GjkuYXJjZm9yZ2VzLm5vZGUudjEuV29y",
-            "a3NwYWNlU2VydmljZUxpc3RXb3Jrc3BhY2VzUmVzcG9uc2USfwoMR2V0V29y",
-            "a3NwYWNlEjYuYXJjZm9yZ2VzLm5vZGUudjEuV29ya3NwYWNlU2VydmljZUdl",
-            "dFdvcmtzcGFjZVJlcXVlc3QaNy5hcmNmb3JnZXMubm9kZS52MS5Xb3Jrc3Bh",
-            "Y2VTZXJ2aWNlR2V0V29ya3NwYWNlUmVzcG9uc2UShQEKDkNyZWF0ZVdvcmt0",
-            "cmVlEjguYXJjZm9yZ2VzLm5vZGUudjEuV29ya3NwYWNlU2VydmljZUNyZWF0",
-            "ZVdvcmt0cmVlUmVxdWVzdBo5LmFyY2Zvcmdlcy5ub2RlLnYxLldvcmtzcGFj",
-            "ZVNlcnZpY2VDcmVhdGVXb3JrdHJlZVJlc3BvbnNlEpQBChNQbGFuV29ya3Ry",
-            "ZWVSZW1vdmFsEj0uYXJjZm9yZ2VzLm5vZGUudjEuV29ya3NwYWNlU2Vydmlj",
-            "ZVBsYW5Xb3JrdHJlZVJlbW92YWxSZXF1ZXN0Gj4uYXJjZm9yZ2VzLm5vZGUu",
-            "djEuV29ya3NwYWNlU2VydmljZVBsYW5Xb3JrdHJlZVJlbW92YWxSZXNwb25z",
-            "ZRKFAQoOUmVtb3ZlV29ya3RyZWUSOC5hcmNmb3JnZXMubm9kZS52MS5Xb3Jr",
-            "c3BhY2VTZXJ2aWNlUmVtb3ZlV29ya3RyZWVSZXF1ZXN0GjkuYXJjZm9yZ2Vz",
-            "Lm5vZGUudjEuV29ya3NwYWNlU2VydmljZVJlbW92ZVdvcmt0cmVlUmVzcG9u",
-            "c2USlwEKFExpc3RXb3JrdHJlZUFyY2hpdmVzEj4uYXJjZm9yZ2VzLm5vZGUu",
-            "djEuV29ya3NwYWNlU2VydmljZUxpc3RXb3JrdHJlZUFyY2hpdmVzUmVxdWVz",
-            "dBo/LmFyY2Zvcmdlcy5ub2RlLnYxLldvcmtzcGFjZVNlcnZpY2VMaXN0V29y",
-            "a3RyZWVBcmNoaXZlc1Jlc3BvbnNlEogBCg9SZXN0b3JlV29ya3RyZWUSOS5h",
-            "cmNmb3JnZXMubm9kZS52MS5Xb3Jrc3BhY2VTZXJ2aWNlUmVzdG9yZVdvcmt0",
-            "cmVlUmVxdWVzdBo6LmFyY2Zvcmdlcy5ub2RlLnYxLldvcmtzcGFjZVNlcnZp",
-            "Y2VSZXN0b3JlV29ya3RyZWVSZXNwb25zZRKgAQoXVXBkYXRlV29ya3NwYWNl",
-            "U2V0dGluZ3MSQS5hcmNmb3JnZXMubm9kZS52MS5Xb3Jrc3BhY2VTZXJ2aWNl",
-            "VXBkYXRlV29ya3NwYWNlU2V0dGluZ3NSZXF1ZXN0GkIuYXJjZm9yZ2VzLm5v",
-            "ZGUudjEuV29ya3NwYWNlU2VydmljZVVwZGF0ZVdvcmtzcGFjZVNldHRpbmdz",
-            "UmVzcG9uc2VCXAolaW8uZ2l0aHViLmFyY2Zvcmdlcy5jb250cmFjdHMubm9k",
-            "ZS52MUITTm9kZVdvcmtzcGFjZXNQcm90b1ABqgIbQXJjRm9yZ2VzLkNvbnRy",
-            "YWN0cy5Ob2RlLlYxYgZwcm90bzM="));
+            "ARIbCgZsb2NrZWQYCiABKAhICVIGbG9ja2VkiAEBEkIKB3F1YWxpdHkYCyAB",
+            "KA4yIy5hcmNmb3JnZXMubm9kZS52MS5HaXRTdGF0dXNRdWFsaXR5SApSB3F1",
+            "YWxpdHmIAQFCCQoHX2JyYW5jaEIHCgVfaGVhZEIICgZfZGlydHlCEQoPX21v",
+            "ZGlmaWVkX2ZpbGVzQhIKEF91bnRyYWNrZWRfZmlsZXNCCAoGX2FoZWFkQgkK",
+            "B19iZWhpbmRCEwoRX21lcmdlZF9pbnRvX2Jhc2VCEwoRX3Vwc3RyZWFtX2Rl",
+            "bGV0ZWRCCQoHX2xvY2tlZEIKCghfcXVhbGl0eSKSCgoJV29ya3NwYWNlEj4K",
+            "DHdvcmtzcGFjZV9pZBgBIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYx",
+            "LklkUgt3b3Jrc3BhY2VJZBI5CgRraW5kGAIgASgOMiAuYXJjZm9yZ2VzLm5v",
+            "ZGUudjEuV29ya3NwYWNlS2luZEgAUgRraW5kiAEBEjwKBXN0YXRlGAMgASgO",
+            "MiEuYXJjZm9yZ2VzLm5vZGUudjEuV29ya3NwYWNlU3RhdGVIAVIFc3RhdGWI",
+            "AQESFwoEbmFtZRgEIAEoCUgCUgRuYW1liAEBEiAKCXJvb3RfcGF0aBgFIAEo",
+            "CUgDUghyb290UGF0aIgBARI0ChNyZXBvc2l0b3J5X2lkZW50aXR5GAYgASgJ",
+            "SARSEnJlcG9zaXRvcnlJZGVudGl0eYgBARJHChFiYXNlX3dvcmtzcGFjZV9p",
+            "ZBgHIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUg9iYXNlV29y",
+            "a3NwYWNlSWQSHgoIYmFzZV9yZWYYCCABKAlIBVIHYmFzZVJlZogBARIxCgVv",
+            "d25lchgJIAEoCzIbLmFyY2Zvcmdlcy5ub2RlLnYxLkFjdG9yUmVmUgVvd25l",
+            "chI1CgNnaXQYCiABKAsyIy5hcmNmb3JnZXMubm9kZS52MS5HaXRTdGF0dXNT",
+            "dW1tYXJ5UgNnaXQSRgoMcm91dGluZ19tb2RlGAsgASgOMh4uYXJjZm9yZ2Vz",
+            "Lm5vZGUudjEuUm91dGluZ01vZGVIBlILcm91dGluZ01vZGWIAQESPwoKY3Jl",
+            "YXRlZF9hdBgMIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkluc3Rh",
+            "bnRSCWNyZWF0ZWRBdBJCCgxsYXN0X3VzZWRfYXQYDSABKAsyIC5hcmNmb3Jn",
+            "ZXMuZm91bmRhdGlvbi52MS5JbnN0YW50UgpsYXN0VXNlZEF0EiYKDGFjdGl2",
+            "ZV90YXNrcxgOIAEoDUgHUgthY3RpdmVUYXNrc4gBARIoCg1saXZlX3Nlc3Np",
+            "b25zGA8gASgNSAhSDGxpdmVTZXNzaW9uc4gBARJBCg5vcmlnaW5fbm9kZV9p",
+            "ZBgQIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUgxvcmlnaW5O",
+            "b2RlSWQSIgoKc2l6ZV9ieXRlcxgRIAEoBEgJUglzaXplQnl0ZXOIAQESVwoQ",
+            "Y29uY3VycmVuY3lfbW9kZRgSIAEoDjInLmFyY2Zvcmdlcy5ub2RlLnYxLldv",
+            "cmtzcGFjZUNvbmN1cnJlbmN5SApSD2NvbmN1cnJlbmN5TW9kZYgBARIkCgty",
+            "ZW1vdGVfc2xvdBgTIAEoDUgLUgpyZW1vdGVTbG90iAEBEkwKFGxlYXNlZF9i",
+            "eV9hdHRlbXB0X2lkGBQgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEu",
+            "SWRSEWxlYXNlZEJ5QXR0ZW1wdElkQgcKBV9raW5kQggKBl9zdGF0ZUIHCgVf",
+            "bmFtZUIMCgpfcm9vdF9wYXRoQhYKFF9yZXBvc2l0b3J5X2lkZW50aXR5QgsK",
+            "CV9iYXNlX3JlZkIPCg1fcm91dGluZ19tb2RlQg8KDV9hY3RpdmVfdGFza3NC",
+            "EAoOX2xpdmVfc2Vzc2lvbnNCDQoLX3NpemVfYnl0ZXNCEwoRX2NvbmN1cnJl",
+            "bmN5X21vZGVCDgoMX3JlbW90ZV9zbG90Ko4BCg1Xb3Jrc3BhY2VLaW5kEh4K",
+            "GldPUktTUEFDRV9LSU5EX1VOU1BFQ0lGSUVEEAASHQoZV09SS1NQQUNFX0tJ",
+            "TkRfUkVHSVNURVJFRBABEiMKH1dPUktTUEFDRV9LSU5EX01BTkFHRURfV09S",
+            "S1RSRUUQAhIZChVXT1JLU1BBQ0VfS0lORF9SRU1PVEUQAyr7AQoOV29ya3Nw",
+            "YWNlU3RhdGUSHwobV09SS1NQQUNFX1NUQVRFX1VOU1BFQ0lGSUVEEAASHAoY",
+            "V09SS1NQQUNFX1NUQVRFX0NSRUFUSU5HEAESGgoWV09SS1NQQUNFX1NUQVRF",
+            "X0FDVElWRRACEhgKFFdPUktTUEFDRV9TVEFURV9JRExFEAMSHAoYV09SS1NQ",
+            "QUNFX1NUQVRFX1JFTU9WSU5HEAQSGwoXV09SS1NQQUNFX1NUQVRFX1JFTU9W",
+            "RUQQBRIaChZXT1JLU1BBQ0VfU1RBVEVfRkFJTEVEEAYSHQoZV09SS1NQQUNF",
+            "X1NUQVRFX0FSQ0hJVklORxAHKqkBChRXb3Jrc3BhY2VDb25jdXJyZW5jeRIl",
+            "CiFXT1JLU1BBQ0VfQ09OQ1VSUkVOQ1lfVU5TUEVDSUZJRUQQABImCiJXT1JL",
+            "U1BBQ0VfQ09OQ1VSUkVOQ1lfQURBUFRFUl9LRVlTEAESIAocV09SS1NQQUNF",
+            "X0NPTkNVUlJFTkNZX1NFUklBTBACEiAKHFdPUktTUEFDRV9DT05DVVJSRU5D",
+            "WV9TSEFSRUQQAyqQAQoUSWdub3JlZEZpbGVzRGVjaXNpb24SJgoiSUdOT1JF",
+            "RF9GSUxFU19ERUNJU0lPTl9VTlNQRUNJRklFRBAAEiIKHklHTk9SRURfRklM",
+            "RVNfREVDSVNJT05fSU5DTFVERRABEiwKKElHTk9SRURfRklMRVNfREVDSVNJ",
+            "T05fRElTQ0FSRF9DT05GSVJNRUQQAiqZAQoQR2l0U3RhdHVzUXVhbGl0eRIi",
+            "Ch5HSVRfU1RBVFVTX1FVQUxJVFlfVU5TUEVDSUZJRUQQABIfChtHSVRfU1RB",
+            "VFVTX1FVQUxJVFlfQ09NUExFVEUQARIeChpHSVRfU1RBVFVTX1FVQUxJVFlf",
+            "VU5LTk9XThACEiAKHEdJVF9TVEFUVVNfUVVBTElUWV9UUlVOQ0FURUQQAzKy",
+            "CwoQV29ya3NwYWNlU2VydmljZRKOAQoRUmVnaXN0ZXJXb3Jrc3BhY2USOy5h",
+            "cmNmb3JnZXMubm9kZS52MS5Xb3Jrc3BhY2VTZXJ2aWNlUmVnaXN0ZXJXb3Jr",
+            "c3BhY2VSZXF1ZXN0GjwuYXJjZm9yZ2VzLm5vZGUudjEuV29ya3NwYWNlU2Vy",
+            "dmljZVJlZ2lzdGVyV29ya3NwYWNlUmVzcG9uc2USlAEKE1VucmVnaXN0ZXJX",
+            "b3Jrc3BhY2USPS5hcmNmb3JnZXMubm9kZS52MS5Xb3Jrc3BhY2VTZXJ2aWNl",
+            "VW5yZWdpc3RlcldvcmtzcGFjZVJlcXVlc3QaPi5hcmNmb3JnZXMubm9kZS52",
+            "MS5Xb3Jrc3BhY2VTZXJ2aWNlVW5yZWdpc3RlcldvcmtzcGFjZVJlc3BvbnNl",
+            "EoUBCg5MaXN0V29ya3NwYWNlcxI4LmFyY2Zvcmdlcy5ub2RlLnYxLldvcmtz",
+            "cGFjZVNlcnZpY2VMaXN0V29ya3NwYWNlc1JlcXVlc3QaOS5hcmNmb3JnZXMu",
+            "bm9kZS52MS5Xb3Jrc3BhY2VTZXJ2aWNlTGlzdFdvcmtzcGFjZXNSZXNwb25z",
+            "ZRJ/CgxHZXRXb3Jrc3BhY2USNi5hcmNmb3JnZXMubm9kZS52MS5Xb3Jrc3Bh",
+            "Y2VTZXJ2aWNlR2V0V29ya3NwYWNlUmVxdWVzdBo3LmFyY2Zvcmdlcy5ub2Rl",
+            "LnYxLldvcmtzcGFjZVNlcnZpY2VHZXRXb3Jrc3BhY2VSZXNwb25zZRKFAQoO",
+            "Q3JlYXRlV29ya3RyZWUSOC5hcmNmb3JnZXMubm9kZS52MS5Xb3Jrc3BhY2VT",
+            "ZXJ2aWNlQ3JlYXRlV29ya3RyZWVSZXF1ZXN0GjkuYXJjZm9yZ2VzLm5vZGUu",
+            "djEuV29ya3NwYWNlU2VydmljZUNyZWF0ZVdvcmt0cmVlUmVzcG9uc2USlAEK",
+            "E1BsYW5Xb3JrdHJlZVJlbW92YWwSPS5hcmNmb3JnZXMubm9kZS52MS5Xb3Jr",
+            "c3BhY2VTZXJ2aWNlUGxhbldvcmt0cmVlUmVtb3ZhbFJlcXVlc3QaPi5hcmNm",
+            "b3JnZXMubm9kZS52MS5Xb3Jrc3BhY2VTZXJ2aWNlUGxhbldvcmt0cmVlUmVt",
+            "b3ZhbFJlc3BvbnNlEoUBCg5SZW1vdmVXb3JrdHJlZRI4LmFyY2Zvcmdlcy5u",
+            "b2RlLnYxLldvcmtzcGFjZVNlcnZpY2VSZW1vdmVXb3JrdHJlZVJlcXVlc3Qa",
+            "OS5hcmNmb3JnZXMubm9kZS52MS5Xb3Jrc3BhY2VTZXJ2aWNlUmVtb3ZlV29y",
+            "a3RyZWVSZXNwb25zZRKXAQoUTGlzdFdvcmt0cmVlQXJjaGl2ZXMSPi5hcmNm",
+            "b3JnZXMubm9kZS52MS5Xb3Jrc3BhY2VTZXJ2aWNlTGlzdFdvcmt0cmVlQXJj",
+            "aGl2ZXNSZXF1ZXN0Gj8uYXJjZm9yZ2VzLm5vZGUudjEuV29ya3NwYWNlU2Vy",
+            "dmljZUxpc3RXb3JrdHJlZUFyY2hpdmVzUmVzcG9uc2USiAEKD1Jlc3RvcmVX",
+            "b3JrdHJlZRI5LmFyY2Zvcmdlcy5ub2RlLnYxLldvcmtzcGFjZVNlcnZpY2VS",
+            "ZXN0b3JlV29ya3RyZWVSZXF1ZXN0GjouYXJjZm9yZ2VzLm5vZGUudjEuV29y",
+            "a3NwYWNlU2VydmljZVJlc3RvcmVXb3JrdHJlZVJlc3BvbnNlEqABChdVcGRh",
+            "dGVXb3Jrc3BhY2VTZXR0aW5ncxJBLmFyY2Zvcmdlcy5ub2RlLnYxLldvcmtz",
+            "cGFjZVNlcnZpY2VVcGRhdGVXb3Jrc3BhY2VTZXR0aW5nc1JlcXVlc3QaQi5h",
+            "cmNmb3JnZXMubm9kZS52MS5Xb3Jrc3BhY2VTZXJ2aWNlVXBkYXRlV29ya3Nw",
+            "YWNlU2V0dGluZ3NSZXNwb25zZUJcCiVpby5naXRodWIuYXJjZm9yZ2VzLmNv",
+            "bnRyYWN0cy5ub2RlLnYxQhNOb2RlV29ya3NwYWNlc1Byb3RvUAGqAhtBcmNG",
+            "b3JnZXMuQ29udHJhY3RzLk5vZGUuVjFiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor, global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor, global::ArcForges.Contracts.Node.V1.FilesReflection.Descriptor, global::ArcForges.Contracts.Node.V1.PolicyReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::ArcForges.Contracts.Node.V1.WorkspaceKind), typeof(global::ArcForges.Contracts.Node.V1.WorkspaceState), typeof(global::ArcForges.Contracts.Node.V1.WorkspaceConcurrency), typeof(global::ArcForges.Contracts.Node.V1.IgnoredFilesDecision), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::ArcForges.Contracts.Node.V1.WorkspaceKind), typeof(global::ArcForges.Contracts.Node.V1.WorkspaceState), typeof(global::ArcForges.Contracts.Node.V1.WorkspaceConcurrency), typeof(global::ArcForges.Contracts.Node.V1.IgnoredFilesDecision), typeof(global::ArcForges.Contracts.Node.V1.GitStatusQuality), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.WorkspaceServiceRegisterWorkspaceRequest), global::ArcForges.Contracts.Node.V1.WorkspaceServiceRegisterWorkspaceRequest.Parser, new[]{ "Meta", "Path", "Name" }, new[]{ "Path", "Name" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.WorkspaceServiceRegisterWorkspaceResponse), global::ArcForges.Contracts.Node.V1.WorkspaceServiceRegisterWorkspaceResponse.Parser, new[]{ "Meta", "Value", "Error", "Audit" }, new[]{ "Outcome" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.WorkspaceServiceRegisterWorkspaceValue), global::ArcForges.Contracts.Node.V1.WorkspaceServiceRegisterWorkspaceValue.Parser, new[]{ "Workspace" }, null, null, null, null),
@@ -341,7 +346,7 @@ namespace ArcForges.Contracts.Node.V1 {
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.WorkspaceServiceUpdateWorkspaceSettingsValue), global::ArcForges.Contracts.Node.V1.WorkspaceServiceUpdateWorkspaceSettingsValue.Parser, new[]{ "Workspace" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.WorktreeArchive), global::ArcForges.Contracts.Node.V1.WorktreeArchive.Parser, new[]{ "ArchiveId", "WorkspaceId", "Branch", "HeadCommit", "IndexCommit", "WorktreeCommit", "BundlePath", "IgnoredArchivePath", "FileCount", "SizeBytes", "VerifiedAt", "ExpiresAt", "IntentToAddPaths", "RawArchivePath", "IgnoredFiles" }, new[]{ "Branch", "HeadCommit", "IndexCommit", "WorktreeCommit", "BundlePath", "IgnoredArchivePath", "FileCount", "SizeBytes", "RawArchivePath", "IgnoredFiles" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.WorktreeRemovalPlan), global::ArcForges.Contracts.Node.V1.WorktreeRemovalPlan.Parser, new[]{ "Dirty", "Staged", "Unstaged", "Untracked", "IntentToAddPaths", "IgnoredPaths", "IgnoredTruncated", "IgnoredListDigest", "Blocking" }, new[]{ "Dirty", "Staged", "Unstaged", "Untracked", "IgnoredTruncated", "IgnoredListDigest" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.GitStatusSummary), global::ArcForges.Contracts.Node.V1.GitStatusSummary.Parser, new[]{ "Branch", "Head", "Dirty", "ModifiedFiles", "UntrackedFiles", "Ahead", "Behind", "MergedIntoBase", "UpstreamDeleted", "Locked" }, new[]{ "Branch", "Head", "Dirty", "ModifiedFiles", "UntrackedFiles", "Ahead", "Behind", "MergedIntoBase", "UpstreamDeleted", "Locked" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.GitStatusSummary), global::ArcForges.Contracts.Node.V1.GitStatusSummary.Parser, new[]{ "Branch", "Head", "Dirty", "ModifiedFiles", "UntrackedFiles", "Ahead", "Behind", "MergedIntoBase", "UpstreamDeleted", "Locked", "Quality" }, new[]{ "Branch", "Head", "Dirty", "ModifiedFiles", "UntrackedFiles", "Ahead", "Behind", "MergedIntoBase", "UpstreamDeleted", "Locked", "Quality" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Node.V1.Workspace), global::ArcForges.Contracts.Node.V1.Workspace.Parser, new[]{ "WorkspaceId", "Kind", "State", "Name", "RootPath", "RepositoryIdentity", "BaseWorkspaceId", "BaseRef", "Owner", "Git", "RoutingMode", "CreatedAt", "LastUsedAt", "ActiveTasks", "LiveSessions", "OriginNodeId", "SizeBytes", "ConcurrencyMode", "RemoteSlot", "LeasedByAttemptId" }, new[]{ "Kind", "State", "Name", "RootPath", "RepositoryIdentity", "BaseRef", "RoutingMode", "ActiveTasks", "LiveSessions", "SizeBytes", "ConcurrencyMode", "RemoteSlot" }, null, null, null)
           }));
     }
@@ -407,6 +412,21 @@ namespace ArcForges.Contracts.Node.V1 {
     [pbr::OriginalName("IGNORED_FILES_DECISION_DISCARD_CONFIRMED")] DiscardConfirmed = 2,
   }
 
+  /// <summary>
+  /// AF-CTR-06: legacy messages may omit quality; absence is not evidence of COMPLETE.
+  /// A returned summary for Register/Get/List must explicitly be COMPLETE, UNKNOWN or TRUNCATED.
+  /// COMPLETE requires dirty, modified_files, untracked_files and locked present; other fields are conditional.
+  /// UNKNOWN/TRUNCATED omit dirty, modified_files, untracked_files, ahead, behind, merged_into_base,
+  /// upstream_deleted and locked; independently verified branch/head may remain.
+  /// Null Workspace.git in those results means the node proved the root is not a git repository.
+  /// </summary>
+  public enum GitStatusQuality {
+    [pbr::OriginalName("GIT_STATUS_QUALITY_UNSPECIFIED")] Unspecified = 0,
+    [pbr::OriginalName("GIT_STATUS_QUALITY_COMPLETE")] Complete = 1,
+    [pbr::OriginalName("GIT_STATUS_QUALITY_UNKNOWN")] Unknown = 2,
+    [pbr::OriginalName("GIT_STATUS_QUALITY_TRUNCATED")] Truncated = 3,
+  }
+
   #endregion
 
   #region Messages
@@ -460,6 +480,9 @@ namespace ArcForges.Contracts.Node.V1 {
     /// <summary>Field number for the "meta" field.</summary>
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    /// <summary>
+    /// validate: command_id required
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
@@ -1370,6 +1393,9 @@ namespace ArcForges.Contracts.Node.V1 {
     /// <summary>Field number for the "meta" field.</summary>
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    /// <summary>
+    /// validate: command_id required
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
@@ -2223,6 +2249,9 @@ namespace ArcForges.Contracts.Node.V1 {
     /// <summary>Field number for the "meta" field.</summary>
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    /// <summary>
+    /// validate: command_id absent for read
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
@@ -3131,6 +3160,9 @@ namespace ArcForges.Contracts.Node.V1 {
     /// <summary>Field number for the "meta" field.</summary>
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    /// <summary>
+    /// validate: command_id absent for read
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
@@ -11226,6 +11258,7 @@ namespace ArcForges.Contracts.Node.V1 {
       mergedIntoBase_ = other.mergedIntoBase_;
       upstreamDeleted_ = other.upstreamDeleted_;
       locked_ = other.locked_;
+      quality_ = other.quality_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -11506,6 +11539,36 @@ namespace ArcForges.Contracts.Node.V1 {
       _hasBits0 &= ~128;
     }
 
+    /// <summary>Field number for the "quality" field.</summary>
+    public const int QualityFieldNumber = 11;
+    private readonly static global::ArcForges.Contracts.Node.V1.GitStatusQuality QualityDefaultValue = global::ArcForges.Contracts.Node.V1.GitStatusQuality.Unspecified;
+
+    private global::ArcForges.Contracts.Node.V1.GitStatusQuality quality_;
+    /// <summary>
+    /// validate: AF-CTR-06 results require 1..3; missing is legacy/unknown, never COMPLETE
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Node.V1.GitStatusQuality Quality {
+      get { if ((_hasBits0 & 256) != 0) { return quality_; } else { return QualityDefaultValue; } }
+      set {
+        _hasBits0 |= 256;
+        quality_ = value;
+      }
+    }
+    /// <summary>Gets whether the "quality" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasQuality {
+      get { return (_hasBits0 & 256) != 0; }
+    }
+    /// <summary>Clears the value of the "quality" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearQuality() {
+      _hasBits0 &= ~256;
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -11531,6 +11594,7 @@ namespace ArcForges.Contracts.Node.V1 {
       if (MergedIntoBase != other.MergedIntoBase) return false;
       if (UpstreamDeleted != other.UpstreamDeleted) return false;
       if (Locked != other.Locked) return false;
+      if (Quality != other.Quality) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -11548,6 +11612,7 @@ namespace ArcForges.Contracts.Node.V1 {
       if (HasMergedIntoBase) hash ^= MergedIntoBase.GetHashCode();
       if (HasUpstreamDeleted) hash ^= UpstreamDeleted.GetHashCode();
       if (HasLocked) hash ^= Locked.GetHashCode();
+      if (HasQuality) hash ^= Quality.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -11606,6 +11671,10 @@ namespace ArcForges.Contracts.Node.V1 {
         output.WriteRawTag(80);
         output.WriteBool(Locked);
       }
+      if (HasQuality) {
+        output.WriteRawTag(88);
+        output.WriteEnum((int) Quality);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -11656,6 +11725,10 @@ namespace ArcForges.Contracts.Node.V1 {
         output.WriteRawTag(80);
         output.WriteBool(Locked);
       }
+      if (HasQuality) {
+        output.WriteRawTag(88);
+        output.WriteEnum((int) Quality);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -11695,6 +11768,9 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       if (HasLocked) {
         size += 1 + 1;
+      }
+      if (HasQuality) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Quality);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -11737,6 +11813,9 @@ namespace ArcForges.Contracts.Node.V1 {
       }
       if (other.HasLocked) {
         Locked = other.Locked;
+      }
+      if (other.HasQuality) {
+        Quality = other.Quality;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -11797,6 +11876,10 @@ namespace ArcForges.Contracts.Node.V1 {
             Locked = input.ReadBool();
             break;
           }
+          case 88: {
+            Quality = (global::ArcForges.Contracts.Node.V1.GitStatusQuality) input.ReadEnum();
+            break;
+          }
         }
       }
     #endif
@@ -11854,6 +11937,10 @@ namespace ArcForges.Contracts.Node.V1 {
           }
           case 80: {
             Locked = input.ReadBool();
+            break;
+          }
+          case 88: {
+            Quality = (global::ArcForges.Contracts.Node.V1.GitStatusQuality) input.ReadEnum();
             break;
           }
         }
@@ -12132,6 +12219,9 @@ namespace ArcForges.Contracts.Node.V1 {
     /// <summary>Field number for the "git" field.</summary>
     public const int GitFieldNumber = 10;
     private global::ArcForges.Contracts.Node.V1.GitStatusSummary git_;
+    /// <summary>
+    /// AF-CTR-06 Register/Get/List: absent only for a proven non-git root; otherwise explicit quality
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::ArcForges.Contracts.Node.V1.GitStatusSummary Git {

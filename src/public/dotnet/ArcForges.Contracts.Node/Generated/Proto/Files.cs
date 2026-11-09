@@ -4568,7 +4568,7 @@ namespace ArcForges.Contracts.Node.V1 {
     /// <summary>Field number for the "mutation" field.</summary>
     public const int MutationFieldNumber = 10;
     /// <summary>
-    /// validate: exactly one declared target or precondition
+    /// validate: COMPLETED write/edit only; absent for PREPARED and UNKNOWN
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -4583,7 +4583,7 @@ namespace ArcForges.Contracts.Node.V1 {
     /// <summary>Field number for the "removal" field.</summary>
     public const int RemovalFieldNumber = 11;
     /// <summary>
-    /// validate: exactly one declared target or precondition
+    /// validate: COMPLETED removal only; absent for PREPARED and UNKNOWN
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -4598,7 +4598,7 @@ namespace ArcForges.Contracts.Node.V1 {
     /// <summary>Field number for the "error" field.</summary>
     public const int ErrorFieldNumber = 12;
     /// <summary>
-    /// validate: exactly one declared target or precondition
+    /// validate: COMPLETED known error or UNKNOWN error with UNKNOWN effect; absent for PREPARED
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -5238,7 +5238,7 @@ namespace ArcForges.Contracts.Node.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id absent for read
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -8648,7 +8648,7 @@ namespace ArcForges.Contracts.Node.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id absent for read
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -10183,7 +10183,7 @@ namespace ArcForges.Contracts.Node.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id absent for read
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -13376,7 +13376,7 @@ namespace ArcForges.Contracts.Node.V1 {
     public const int MetaFieldNumber = 1;
     private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
     /// <summary>
-    /// validate: command_id required for a mutation
+    /// validate: command_id absent for read
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

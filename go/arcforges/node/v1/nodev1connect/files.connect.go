@@ -122,7 +122,7 @@ type FileServiceClient interface {
 	// idempotency: read
 	// deadline: 10 s
 	// stream: none
-	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
 	// locality: node; ordinary callers cloud -> node
 	ReadFile(context.Context, *v1.FileServiceReadFileRequest) (*v1.FileServiceReadFileResponse, error)
 	// Create or replace a whole file only after its exact precondition holds.
@@ -130,7 +130,7 @@ type FileServiceClient interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
 	// locality: node; ordinary callers cloud -> node
 	WriteFile(context.Context, *v1.FileServiceWriteFileRequest) (*v1.FileServiceWriteFileResponse, error)
 	// Replace the exact non-overlapping UTF-8 occurrences after checking the whole-file digest.
@@ -138,7 +138,7 @@ type FileServiceClient interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
 	// locality: node; ordinary callers cloud -> node
 	EditFile(context.Context, *v1.FileServiceEditFileRequest) (*v1.FileServiceEditFileResponse, error)
 	// Search without following links; report partial coverage explicitly and never include snippets.
@@ -146,7 +146,7 @@ type FileServiceClient interface {
 	// idempotency: read
 	// deadline: 10 s
 	// stream: none
-	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
 	// locality: node; ordinary callers cloud -> node
 	SearchFiles(context.Context, *v1.FileServiceSearchFilesRequest) (*v1.FileServiceSearchFilesResponse, error)
 	// List one bounded snapshot with a caller-bound expiring continuation.
@@ -154,7 +154,7 @@ type FileServiceClient interface {
 	// idempotency: read
 	// deadline: 10 s
 	// stream: none
-	// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, STATE/file_access_denied
+	// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
 	// locality: node; ordinary callers cloud -> node
 	ListDirectory(context.Context, *v1.FileServiceListDirectoryRequest) (*v1.FileServiceListDirectoryResponse, error)
 	// Persist a bounded exact plan of a workspace path or the caller's completed task temp; planning removes nothing.
@@ -162,7 +162,7 @@ type FileServiceClient interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/not_found, STATE/in_use, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
 	// locality: node; ordinary callers cloud -> node
 	PlanRemoval(context.Context, *v1.FileServicePlanRemovalRequest) (*v1.FileServicePlanRemovalResponse, error)
 	// Revalidate an exact plan and quarantine it; unowned paths need a real local HUMAN approval.
@@ -170,7 +170,7 @@ type FileServiceClient interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
+	// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
 	// locality: node; ordinary callers cloud -> node
 	ExecuteRemoval(context.Context, *v1.FileServiceExecuteRemovalRequest) (*v1.FileServiceExecuteRemovalResponse, error)
 	// Read metadata-only operation state as the original caller or local HUMAN.
@@ -178,7 +178,7 @@ type FileServiceClient interface {
 	// idempotency: read
 	// deadline: 10 s
 	// stream: none
-	// errors: STATE/not_found, AUTHORIZATION/permission_denied
+	// errors: VALIDATION/invalid_argument, STATE/not_found, AUTHORIZATION/permission_denied
 	// locality: node; ordinary callers cloud -> node
 	GetFileOperation(context.Context, *v1.FileServiceGetFileOperationRequest) (*v1.FileServiceGetFileOperationResponse, error)
 	// A local HUMAN acknowledges an UNKNOWN operation, releasing its hold without changing files or its uncertain outcome.
@@ -186,7 +186,7 @@ type FileServiceClient interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+	// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
 	// locality: node
 	AcknowledgeFileOperation(context.Context, *v1.FileServiceAcknowledgeFileOperationRequest) (*v1.FileServiceAcknowledgeFileOperationResponse, error)
 }
@@ -204,7 +204,7 @@ type FileServiceHandler interface {
 	// idempotency: read
 	// deadline: 10 s
 	// stream: none
-	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
 	// locality: node; ordinary callers cloud -> node
 	ReadFile(context.Context, *v1.FileServiceReadFileRequest) (*v1.FileServiceReadFileResponse, error)
 	// Create or replace a whole file only after its exact precondition holds.
@@ -212,7 +212,7 @@ type FileServiceHandler interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
 	// locality: node; ordinary callers cloud -> node
 	WriteFile(context.Context, *v1.FileServiceWriteFileRequest) (*v1.FileServiceWriteFileResponse, error)
 	// Replace the exact non-overlapping UTF-8 occurrences after checking the whole-file digest.
@@ -220,7 +220,7 @@ type FileServiceHandler interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
 	// locality: node; ordinary callers cloud -> node
 	EditFile(context.Context, *v1.FileServiceEditFileRequest) (*v1.FileServiceEditFileResponse, error)
 	// Search without following links; report partial coverage explicitly and never include snippets.
@@ -228,7 +228,7 @@ type FileServiceHandler interface {
 	// idempotency: read
 	// deadline: 10 s
 	// stream: none
-	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
 	// locality: node; ordinary callers cloud -> node
 	SearchFiles(context.Context, *v1.FileServiceSearchFilesRequest) (*v1.FileServiceSearchFilesResponse, error)
 	// List one bounded snapshot with a caller-bound expiring continuation.
@@ -236,7 +236,7 @@ type FileServiceHandler interface {
 	// idempotency: read
 	// deadline: 10 s
 	// stream: none
-	// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, STATE/file_access_denied
+	// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
 	// locality: node; ordinary callers cloud -> node
 	ListDirectory(context.Context, *v1.FileServiceListDirectoryRequest) (*v1.FileServiceListDirectoryResponse, error)
 	// Persist a bounded exact plan of a workspace path or the caller's completed task temp; planning removes nothing.
@@ -244,7 +244,7 @@ type FileServiceHandler interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/not_found, STATE/in_use, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
 	// locality: node; ordinary callers cloud -> node
 	PlanRemoval(context.Context, *v1.FileServicePlanRemovalRequest) (*v1.FileServicePlanRemovalResponse, error)
 	// Revalidate an exact plan and quarantine it; unowned paths need a real local HUMAN approval.
@@ -252,7 +252,7 @@ type FileServiceHandler interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
+	// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
 	// locality: node; ordinary callers cloud -> node
 	ExecuteRemoval(context.Context, *v1.FileServiceExecuteRemovalRequest) (*v1.FileServiceExecuteRemovalResponse, error)
 	// Read metadata-only operation state as the original caller or local HUMAN.
@@ -260,7 +260,7 @@ type FileServiceHandler interface {
 	// idempotency: read
 	// deadline: 10 s
 	// stream: none
-	// errors: STATE/not_found, AUTHORIZATION/permission_denied
+	// errors: VALIDATION/invalid_argument, STATE/not_found, AUTHORIZATION/permission_denied
 	// locality: node; ordinary callers cloud -> node
 	GetFileOperation(context.Context, *v1.FileServiceGetFileOperationRequest) (*v1.FileServiceGetFileOperationResponse, error)
 	// A local HUMAN acknowledges an UNKNOWN operation, releasing its hold without changing files or its uncertain outcome.
@@ -268,7 +268,7 @@ type FileServiceHandler interface {
 	// idempotency: command_id
 	// deadline: 10 s
 	// stream: none
-	// errors: STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+	// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
 	// locality: node
 	AcknowledgeFileOperation(context.Context, *v1.FileServiceAcknowledgeFileOperationRequest) (*v1.FileServiceAcknowledgeFileOperationResponse, error)
 }

@@ -1274,8 +1274,10 @@
         "behind": {},
         "mergedIntoBase": {},
         "upstreamDeleted": {},
-        "locked": {}
-      }
+        "locked": {},
+        "quality": {}
+      },
+      "rules": ["gitSummaryQuality"]
     },
     "arcforges.node.v1.GuestConsumer": {
       "csharpType": "ArcForges.Contracts.Node.V1.GuestConsumer",
@@ -5444,7 +5446,7 @@
           "required": true
         }
       },
-      "rules": ["fileRequest"]
+      "rules": ["fileRequest", "fileReadRequest"]
     },
     "arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceGetWorkspaceResponse",
@@ -5463,7 +5465,8 @@
         "workspace": {
           "required": true
         }
-      }
+      },
+      "rules": ["workspaceGitValue"]
     },
     "arcforges.node.v1.WorkspaceServiceListWorkspacesRequest": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceListWorkspacesRequest",
@@ -5478,7 +5481,7 @@
         },
         "page": {}
       },
-      "rules": ["fileRequest"]
+      "rules": ["fileRequest", "fileReadRequest"]
     },
     "arcforges.node.v1.WorkspaceServiceListWorkspacesResponse": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceListWorkspacesResponse",
@@ -5489,7 +5492,7 @@
         "audit": {}
       },
       "oneofRequired": ["outcome"],
-      "rules": ["fileResponse"]
+      "rules": ["fileSmallResponse"]
     },
     "arcforges.node.v1.WorkspaceServiceListWorkspacesValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceListWorkspacesValue",
@@ -5498,7 +5501,8 @@
           "maxItems": 500
         },
         "page": {}
-      }
+      },
+      "rules": ["workspaceGitList"]
     },
     "arcforges.node.v1.WorkspaceServiceListWorktreeArchivesRequest": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceListWorktreeArchivesRequest",
@@ -5576,7 +5580,8 @@
         "workspace": {
           "required": true
         }
-      }
+      },
+      "rules": ["workspaceGitValue"]
     },
     "arcforges.node.v1.WorkspaceServiceRemoveWorktreeRequest": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceRemoveWorktreeRequest",

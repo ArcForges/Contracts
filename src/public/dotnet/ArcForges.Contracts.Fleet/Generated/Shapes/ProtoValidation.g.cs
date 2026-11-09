@@ -545,6 +545,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertion.Length > 512) return false;
         }
         if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        if (value.Meta?.CommandId is null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -621,6 +622,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertion.Length > 512) return false;
         }
         if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        if (value.Meta?.CommandId is null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -752,6 +754,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertion.Length > 512) return false;
         }
         if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -974,6 +977,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertion.Length > 512) return false;
         }
         if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1219,6 +1223,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertion.Length > 512) return false;
         }
         if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1370,6 +1375,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertion.Length > 512) return false;
         }
         if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1569,6 +1575,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertion.Length > 512) return false;
         }
         if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        if (value.Meta?.CommandId is null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1645,6 +1652,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertion.Length > 512) return false;
         }
         if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1796,6 +1804,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertion.Length > 512) return false;
         }
         if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        if (value.Meta?.CommandId is null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1986,6 +1995,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertion.Length > 512) return false;
         }
         if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2196,6 +2206,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertion.Length > 512) return false;
         }
         if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        if (value.Meta?.CommandId is null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2477,6 +2488,7 @@ public static class ContractShapeValidation
             if (value.RelayAssertion.Length > 512) return false;
         }
         if ((value.Caller is null) == value.HasRelayAssertion) return false;
+        if (value.Meta?.CommandId is null) return false;
         return true;
         }
         finally { context.Exit(value); }

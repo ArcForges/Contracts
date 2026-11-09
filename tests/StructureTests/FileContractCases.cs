@@ -29,7 +29,9 @@ internal static class FileContractCases
     {
         ServiceSignatures();
         PathsAndRequests();
+        ReadCommandPresence();
         WorkspaceContracts();
+        GitSummaryQuality();
         ReadValues();
         Operations();
         Audit();
@@ -158,6 +160,28 @@ internal static class FileContractCases
         Require(!NodeShapes.IsValid(ack), "acknowledgment digest length");
     }
 
+    private static void ReadCommandPresence()
+    {
+        NodeRead(new FileServiceReadFileRequest { Path = Path(), Offset = 0, Length = 1 }, NodeShapes.IsValid);
+        NodeRead(new FileServiceSearchFilesRequest { Path = Path(""), Pattern = "a", Mode = FileSearchMode.Literal }, NodeShapes.IsValid);
+        NodeRead(new FileServiceListDirectoryRequest { Path = Path("") }, NodeShapes.IsValid);
+        NodeRead(new FileServiceGetFileOperationRequest { OperationCommandId = Id() }, NodeShapes.IsValid);
+        NodeRead(new WorkspaceServiceListWorkspacesRequest(), NodeShapes.IsValid);
+        NodeRead(new WorkspaceServiceGetWorkspaceRequest { WorkspaceId = Id() }, NodeShapes.IsValid);
+    }
+
+    private static void NodeRead<T>(T request, Func<T, bool> valid) where T : class, IMessage<T>
+    {
+        var descriptor = ((IMessage)request).Descriptor;
+        var meta = descriptor.FindFieldByNumber(1).Accessor;
+        var label = descriptor.Name;
+        Require(valid(request), label + ": read without metadata");
+        meta.SetValue(request, new RequestMeta { CorrelationId = Id() });
+        Require(valid(request), label + ": read with correlation and no command");
+        meta.SetValue(request, MutationMeta());
+        Require(!valid(request), label + ": read cannot carry command ID");
+    }
+
     private static void WorkspaceContracts()
     {
         var register = new WorkspaceServiceRegisterWorkspaceRequest { Meta = MutationMeta(), Path = "/synthetic/workspace" };
@@ -236,6 +260,13 @@ internal static class FileContractCases
         Require(NodeShapes.IsValid(listResponse), "workspace list accepts 500 records");
         listValue.Workspaces.Add(workspace.Clone());
         Require(!NodeShapes.IsValid(listResponse), "workspace list refuses more than 500 records");
+
+        // Unknown wire fields count toward the complete response limit, not merely the list items.
+        var minimal = new WorkspaceServiceListWorkspacesResponse { Value = new WorkspaceServiceListWorkspacesValue() }.ToByteArray();
+        var atSize = WorkspaceServiceListWorkspacesResponse.Parser.ParseFrom(WithUnknownPayload(minimal, 131_072));
+        var aboveSize = WorkspaceServiceListWorkspacesResponse.Parser.ParseFrom(WithUnknownPayload(minimal, 131_073));
+        Require(atSize.CalculateSize() == 131_072 && NodeShapes.IsValid(atSize), "workspace list accepts encoded 131072-byte response");
+        Require(aboveSize.CalculateSize() == 131_073 && !NodeShapes.IsValid(aboveSize), "workspace list rejects encoded 131073-byte response");
         var error = new ArcError
         {
             Code = "operation_failed", Category = ErrorCategory.Execution, MessageKey = "error.execution.operation_failed",
@@ -245,6 +276,85 @@ internal static class FileContractCases
         Require(NodeShapes.IsValid(new WorkspaceServiceUnregisterWorkspaceResponse { Error = error }), "unregister error outcome");
         Require(NodeShapes.IsValid(new WorkspaceServiceListWorkspacesResponse { Error = error }), "list error outcome");
         Require(NodeShapes.IsValid(new WorkspaceServiceGetWorkspaceResponse { Error = error }), "get error outcome");
+    }
+
+    private static void GitSummaryQuality()
+    {
+        var legacy = new GitStatusSummary { Branch = "main", Dirty = false, ModifiedFiles = 0 };
+        Require(!legacy.HasQuality && NodeShapes.IsValid(legacy), "legacy Git summary remains valid without quality");
+        Require(NodeShapes.IsValid(new Workspace { WorkspaceId = Id(), Git = legacy }), "legacy generic Workspace remains valid");
+        Require(!GitStatusSummary.Parser.ParseFrom(legacy.ToByteArray()).HasQuality, "legacy missing quality survives wire");
+
+        var complete = new GitStatusSummary
+        {
+            Quality = GitStatusQuality.Complete, Dirty = false, ModifiedFiles = 0, UntrackedFiles = 0, Locked = false,
+        };
+        var unknown = new GitStatusSummary { Quality = GitStatusQuality.Unknown, Branch = "main", Head = "abc" };
+        var truncated = new GitStatusSummary { Quality = GitStatusQuality.Truncated, Branch = "main", Head = "abc" };
+        Require(NodeShapes.IsValid(complete) && NodeShapes.IsValid(unknown) && NodeShapes.IsValid(truncated), "three explicit Git qualities");
+        Require(GitStatusSummary.Parser.ParseFrom(complete.ToByteArray()).Quality == GitStatusQuality.Complete, "complete Git quality wire");
+        Require(GitStatusSummary.Parser.ParseFrom(unknown.ToByteArray()).Quality == GitStatusQuality.Unknown, "unknown Git quality wire");
+        Require(GitStatusSummary.Parser.ParseFrom(truncated.ToByteArray()).Quality == GitStatusQuality.Truncated, "truncated Git quality wire");
+
+        Action<GitStatusSummary>[] dropRequired =
+        [
+            git => git.ClearDirty(), git => git.ClearModifiedFiles(), git => git.ClearUntrackedFiles(), git => git.ClearLocked(),
+        ];
+        foreach (var drop in dropRequired)
+        {
+            var invalid = complete.Clone();
+            drop(invalid);
+            Require(!NodeShapes.IsValid(invalid), "complete Git summary requires all four declared fields");
+        }
+        Action<GitStatusSummary>[] addPartial =
+        [
+            git => git.Dirty = false, git => git.ModifiedFiles = 0, git => git.UntrackedFiles = 0,
+            git => git.Ahead = 0, git => git.Behind = 0, git => git.MergedIntoBase = false,
+            git => git.UpstreamDeleted = false, git => git.Locked = false,
+        ];
+        foreach (var status in new[] { unknown, truncated })
+            foreach (var add in addPartial)
+            {
+                var invalid = status.Clone();
+                add(invalid);
+                Require(!NodeShapes.IsValid(invalid), "incomplete Git summary cannot present a boolean or count");
+            }
+        var optional = complete.Clone();
+        optional.Branch = "main";
+        optional.Head = "abc";
+        optional.Ahead = 0;
+        optional.Behind = 0;
+        optional.MergedIntoBase = false;
+        optional.UpstreamDeleted = false;
+        Require(NodeShapes.IsValid(optional), "complete Git summary may include optional independently applicable fields");
+
+        var workspace = new Workspace { WorkspaceId = Id() };
+        void Projections(bool valid, string label)
+        {
+            var register = new WorkspaceServiceRegisterWorkspaceValue { Workspace = workspace };
+            var get = new WorkspaceServiceGetWorkspaceValue { Workspace = workspace };
+            var list = new WorkspaceServiceListWorkspacesValue { Workspaces = { workspace } };
+            Require(NodeShapes.IsValid(register) == valid, label + ": register projection");
+            Require(NodeShapes.IsValid(get) == valid, label + ": get projection");
+            Require(NodeShapes.IsValid(list) == valid, label + ": list projection");
+            var response = new WorkspaceServiceListWorkspacesResponse { Value = list };
+            if (valid)
+                Require(NodeShapes.IsValid(WorkspaceServiceListWorkspacesResponse.Parser.ParseFrom(response.ToByteArray())), label + ": list wire round trip");
+        }
+        workspace.Git = null;
+        Projections(true, "no summary wire shape; non-git still requires runtime proof");
+        workspace.Git = complete;
+        Projections(true, "complete quality");
+        workspace.Git = unknown;
+        Projections(true, "unknown quality");
+        workspace.Git = truncated;
+        Projections(true, "truncated quality");
+        workspace.Git = legacy;
+        Projections(false, "legacy absent quality cannot count as complete in activated projection");
+        workspace.Git = new GitStatusSummary { Quality = GitStatusQuality.Unspecified };
+        Projections(false, "unspecified quality refused in activated projection");
+        workspace.Git = new GitStatusSummary { Quality = (GitStatusQuality)99 };
+        Projections(false, "unknown quality number refused in activated projection");
     }
 
     private static void ReadValues()
@@ -349,6 +459,10 @@ internal static class FileContractCases
             Retry = new RetryAdvice { Mode = RetryMode.Never }, Effect = EffectCertainty.Unknown, CorrelationId = Id(),
         };
         Require(NodeShapes.IsValid(operation), "unknown carries uncertain error and active hold");
+        invalid = operation.Clone();
+        invalid.State = FileOperationState.Completed;
+        invalid.Held = false;
+        Require(!NodeShapes.IsValid(invalid), "completed operation cannot carry an UNKNOWN effect");
         invalid = operation.Clone();
         invalid.Held = false;
         Require(!NodeShapes.IsValid(invalid), "unacknowledged unknown cannot drop hold");
@@ -495,6 +609,24 @@ internal static class FileContractCases
         node.SetValue(request, Id());
         payload.SetValue(request, nodePayload);
         Require(valid(request), label + ": account session sends neither caller nor assertion");
+        if (mutation)
+        {
+            meta.Clear(request);
+            Require(!valid(request), label + ": mutation requires outer metadata");
+            meta.SetValue(request, new RequestMeta { CorrelationId = Id() });
+            Require(!valid(request), label + ": mutation requires outer command ID");
+            meta.SetValue(request, MutationMeta());
+            Require(valid(request), label + ": mutation with outer command ID");
+        }
+        else
+        {
+            meta.Clear(request);
+            Require(valid(request), label + ": read may omit metadata");
+            meta.SetValue(request, MutationMeta());
+            Require(!valid(request), label + ": read cannot carry a command ID");
+            meta.SetValue(request, new RequestMeta { CorrelationId = Id() });
+            Require(valid(request), label + ": read with correlation and no command");
+        }
         caller.SetValue(request, new RoutedCaller { Kind = CallerKind.NodeRelay, RelayingNodeId = Id(), LocalOrigin = Origin.Human });
         Require(!valid(request), label + ": caller without assertion refused");
         assertion.SetValue(request, Bytes(1));
@@ -533,6 +665,7 @@ internal static class FileContractCases
         var data = fixture.RootElement;
         var baseCall = CallHeader.Parser.ParseFrom(Hex(data.GetProperty("routedCall"), "callHeader"));
         var baseAssertion = RelayAssertion.Parser.ParseFrom(Hex(data.GetProperty("relayAssertions")[0], "assertion"));
+        var baseResult = ResultHeader.Parser.ParseFrom(Hex(data.GetProperty("routedResult"), "resultHeader"));
         RoutedMethod[] methods =
         [
             RoutedMethod.ReadNodeFile, RoutedMethod.WriteNodeFile, RoutedMethod.EditNodeFile, RoutedMethod.SearchNodeFiles,
@@ -561,7 +694,23 @@ internal static class FileContractCases
             Require(RelayShapes.IsValid(RelayAssertion.Parser.ParseFrom(assertion.ToByteArray())), method + ": assertion codec round trip");
             assertion.CommandId = mutation[i] ? null : Id();
             Require(!RelayShapes.IsValid(assertion), method + ": wrong assertion command ID presence refused");
+
+            var result = baseResult.Clone();
+            result.Method = method;
+            result.CommandId = mutation[i] ? Id() : null;
+            Require(RelayShapes.IsValid(result), method + ": verified result command ID presence");
+            Require(RelayShapes.IsValid(ResultHeader.Parser.ParseFrom(result.ToByteArray())), method + ": result codec round trip");
+            result.CommandId = mutation[i] ? null : Id();
+            Require(!RelayShapes.IsValid(result), method + ": wrong verified result command ID presence refused");
         }
+        // Historical result shapes 1..6 are unchanged; actual call/result equality is a runtime check.
+        var legacyResult = baseResult.Clone();
+        legacyResult.Method = RoutedMethod.SubmitNodeTask;
+        legacyResult.CommandId = null;
+        Require(RelayShapes.IsValid(legacyResult), "legacy mutation result shape is not tightened");
+        legacyResult.Method = RoutedMethod.GetNodeTask;
+        legacyResult.CommandId = Id();
+        Require(RelayShapes.IsValid(legacyResult), "legacy read result shape is not tightened");
 
         var callFrame = RelayFrame.Parser.ParseFrom(Hex(data.GetProperty("routedCall"), "frame"));
         callFrame.Call.Header.Header = Bytes(2048);

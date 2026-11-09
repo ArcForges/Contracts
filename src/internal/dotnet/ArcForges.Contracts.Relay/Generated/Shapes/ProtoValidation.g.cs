@@ -1884,6 +1884,7 @@ public static class ContractShapeValidation
         }
         var verified = (int)value.Outcome != 3;
         if (value.HasMethod != verified || value.HasRequestSha256 != verified || (!verified && value.CommandId is not null)) return false;
+        if (verified && (int)value.Method is >= 9 and <= 20 && (value.CommandId is not null) != ((int)value.Method is 10 or 11 or 14 or 15 or 17 or 18)) return false;
         var executed = (int)value.Outcome == 1;
         if (value.HasResponseSha256 != executed || value.HasResponseSize != executed || (value.Error is null) != executed) return false;
         if (value.Error is not null && !RoutedRefusal(value.Error)) return false;

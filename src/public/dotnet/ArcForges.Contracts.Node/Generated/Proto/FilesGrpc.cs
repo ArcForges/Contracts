@@ -180,7 +180,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -198,7 +198,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -216,7 +216,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -234,7 +234,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -252,7 +252,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, STATE/file_access_denied
+      /// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -270,7 +270,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/not_found, STATE/in_use, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -288,7 +288,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -306,7 +306,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -324,7 +324,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: node
       /// </summary>
       /// <param name="request">The request received from the client.</param>
@@ -371,7 +371,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -390,7 +390,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -407,7 +407,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -426,7 +426,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -443,7 +443,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -462,7 +462,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -479,7 +479,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -498,7 +498,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -515,7 +515,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -534,7 +534,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -551,7 +551,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -570,7 +570,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -587,7 +587,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -606,7 +606,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -623,7 +623,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -642,7 +642,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/file_access_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -659,7 +659,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, STATE/file_access_denied
+      /// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -678,7 +678,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, STATE/file_access_denied
+      /// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -695,7 +695,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, STATE/file_access_denied
+      /// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -714,7 +714,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, STATE/file_access_denied
+      /// errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -731,7 +731,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/not_found, STATE/in_use, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -750,7 +750,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/not_found, STATE/in_use, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -767,7 +767,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/not_found, STATE/in_use, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -786,7 +786,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/not_found, STATE/in_use, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -803,7 +803,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -822,7 +822,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -839,7 +839,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -858,7 +858,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -875,7 +875,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -894,7 +894,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -911,7 +911,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -930,7 +930,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: read
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, AUTHORIZATION/permission_denied
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, AUTHORIZATION/permission_denied
       /// locality: node; ordinary callers cloud -> node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -947,7 +947,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -966,7 +966,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -983,7 +983,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -1002,7 +1002,7 @@ namespace ArcForges.Contracts.Node.V1 {
       /// idempotency: command_id
       /// deadline: 10 s
       /// stream: none
-      /// errors: STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+      /// errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
       /// locality: node
       /// </summary>
       /// <param name="request">The request to send to the server.</param>

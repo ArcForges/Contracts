@@ -298,7 +298,7 @@ message ChannelCall {
 // response_sha256 against the payload; any failure fails the call STATE/node_unreachable (result_unverifiable) and closes 4403.
 message ResultHeader {
   arcforges.foundation.v1.Id call_id = 1 [json_name = "callId"]; // validate: required; ChannelCall.call_id
-  arcforges.foundation.v1.Id command_id = 2 [json_name = "commandId"]; // validate: the call header's command_id when it names one; absent for REFUSED_VERIFICATION
+  arcforges.foundation.v1.Id command_id = 2 [json_name = "commandId"]; // validate: absent for REFUSED_VERIFICATION; for verified AF-CTR-06 methods, present for mutations and absent for reads; runtime matches the call header
   arcforges.foundation.v1.Id node_id = 3 [json_name = "nodeId"]; // validate: required; the answering node
   optional RoutedMethod method = 4 [json_name = "method"]; // validate: required (1..6 or 9..20) unless REFUSED_VERIFICATION, absent then
   optional bytes request_sha256 = 5 [json_name = "requestSha256"]; // validate: required unless REFUSED_VERIFICATION, absent then; 32 bytes, echoed

@@ -20,41 +20,42 @@ option java_outer_classname = "NodeWorkspacesProto";
 service WorkspaceService {
   // Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
   // AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
   // idempotency: command_id; registering the same root returns the existing workspace
   // deadline: 10 s
   // stream: none
-  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
-  // locality: node
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+  // locality: node; ordinary callers cloud -> node
   rpc RegisterWorkspace(WorkspaceServiceRegisterWorkspaceRequest) returns (WorkspaceServiceRegisterWorkspaceResponse);
 
   // Forget a registered workspace. Files are never touched.
   // AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+  // auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
   // idempotency: command_id
   // deadline: 5 s
   // stream: none
-  // errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
-  // locality: node
+  // errors: STATE/not_found, STATE/in_use, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+  // locality: node; ordinary callers cloud -> node
   rpc UnregisterWorkspace(WorkspaceServiceUnregisterWorkspaceRequest) returns (WorkspaceServiceUnregisterWorkspaceResponse);
 
   // List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
-  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // The whole serialized response is at most 131,072 bytes; a byte-limited page returns a lossless continuation.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
   // idempotency: read
   // deadline: 5 s
   // stream: none
-  // errors: VALIDATION/invalid_cursor
-  // locality: node
+  // errors: VALIDATION/invalid_cursor, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+  // locality: node; ordinary callers cloud -> node
   rpc ListWorkspaces(WorkspaceServiceListWorkspacesRequest) returns (WorkspaceServiceListWorkspacesResponse);
 
   // Read one workspace with a bounded safe fresh git status summary (06a section 1).
   // AF-CTR-06 routes the explicit Fleet counterpart through the center.
-  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
   // idempotency: read
   // deadline: 10 s
   // stream: none
-  // errors: STATE/not_found
-  // locality: node
+  // errors: STATE/not_found, VALIDATION/invalid_argument, STATE/file_access_denied, AUTHORIZATION/permission_denied
+  // locality: node; ordinary callers cloud -> node
   rpc GetWorkspace(WorkspaceServiceGetWorkspaceRequest) returns (WorkspaceServiceGetWorkspaceResponse);
 
   // Create a node-managed git worktree as a node job (SM-WORKTREE).
@@ -116,7 +117,7 @@ service WorkspaceService {
 }
 
 message WorkspaceServiceRegisterWorkspaceRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required
   reserved 2 to 9;
   optional string path = 10 [json_name = "path"]; // validate: absolute existing directory
   optional string name = 11 [json_name = "name"]; // validate: <= 100 chars; default directory name
@@ -135,7 +136,7 @@ message WorkspaceServiceRegisterWorkspaceValue {
 }
 
 message WorkspaceServiceUnregisterWorkspaceRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required
   reserved 2 to 9;
   arcforges.foundation.v1.Id workspace_id = 10 [json_name = "workspaceId"]; // validate: REGISTERED kind
 }
@@ -153,7 +154,7 @@ message WorkspaceServiceUnregisterWorkspaceValue {
 }
 
 message WorkspaceServiceListWorkspacesRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
   reserved 2 to 9;
   repeated WorkspaceKind kinds = 10 [json_name = "kinds"]; // validate: unique values; empty = all
   arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"]; // validate: limit 1..500
@@ -173,7 +174,7 @@ message WorkspaceServiceListWorkspacesValue {
 }
 
 message WorkspaceServiceGetWorkspaceRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
   reserved 2 to 9;
   arcforges.foundation.v1.Id workspace_id = 10 [json_name = "workspaceId"]; // validate: required
 }
@@ -375,6 +376,19 @@ message WorktreeRemovalPlan {
   repeated string blocking = 9 [json_name = "blocking"]; // reasons the worktree cannot be archived: unmerged entries, submodules or nested repositories with their own changes
 }
 
+// AF-CTR-06: legacy messages may omit quality; absence is not evidence of COMPLETE.
+// A returned summary for Register/Get/List must explicitly be COMPLETE, UNKNOWN or TRUNCATED.
+// COMPLETE requires dirty, modified_files, untracked_files and locked present; other fields are conditional.
+// UNKNOWN/TRUNCATED omit dirty, modified_files, untracked_files, ahead, behind, merged_into_base,
+// upstream_deleted and locked; independently verified branch/head may remain.
+// Null Workspace.git in those results means the node proved the root is not a git repository.
+enum GitStatusQuality {
+  GIT_STATUS_QUALITY_UNSPECIFIED = 0;
+  GIT_STATUS_QUALITY_COMPLETE = 1;
+  GIT_STATUS_QUALITY_UNKNOWN = 2;
+  GIT_STATUS_QUALITY_TRUNCATED = 3;
+}
+
 message GitStatusSummary {
   optional string branch = 1 [json_name = "branch"];
   optional string head = 2 [json_name = "head"]; // commit SHA
@@ -386,6 +400,7 @@ message GitStatusSummary {
   optional bool merged_into_base = 8 [json_name = "mergedIntoBase"];
   optional bool upstream_deleted = 9 [json_name = "upstreamDeleted"];
   optional bool locked = 10 [json_name = "locked"];
+  optional GitStatusQuality quality = 11 [json_name = "quality"]; // validate: AF-CTR-06 results require 1..3; missing is legacy/unknown, never COMPLETE
 }
 
 message Workspace {
@@ -398,7 +413,7 @@ message Workspace {
   arcforges.foundation.v1.Id base_workspace_id = 7 [json_name = "baseWorkspaceId"]; // MANAGED_WORKTREE
   optional string base_ref = 8 [json_name = "baseRef"];
   ActorRef owner = 9 [json_name = "owner"];
-  GitStatusSummary git = 10 [json_name = "git"];
+  GitStatusSummary git = 10 [json_name = "git"]; // AF-CTR-06 Register/Get/List: absent only for a proven non-git root; otherwise explicit quality
   optional RoutingMode routing_mode = 11 [json_name = "routingMode"]; // effective
   arcforges.foundation.v1.Instant created_at = 12 [json_name = "createdAt"];
   arcforges.foundation.v1.Instant last_used_at = 13 [json_name = "lastUsedAt"];

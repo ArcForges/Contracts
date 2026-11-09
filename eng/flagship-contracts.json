@@ -21,7 +21,7 @@
       "design": "arcforges/fleet/v1/fleet.proto",
       "path": "public/proto/arcforges/fleet/v1/fleet.proto",
       "package": "ArcForges.Contracts.Fleet",
-      "sha256": "b0866bf2de5c65ced844ca1c25206d027c72bf06af01e79bfc8157c307e07224"
+      "sha256": "05d59eabd6112a24e1e8066b539f436a09c833ee49d2548bf6457894041ba5f8"
     },
     {
       "design": "arcforges/node/v1/account.proto",
@@ -141,7 +141,7 @@
       "design": "arcforges/node/v1/workspaces.proto",
       "path": "public/proto/arcforges/node/v1/workspaces.proto",
       "package": "ArcForges.Contracts.Node",
-      "sha256": "9ce43583fa59b006e28b76bf3f6617d234e6d08858f27c3c4b4e48970dbe6f17"
+      "sha256": "4f83ec539d66631439a3447c565bde50222fb19211670d20e971ffffd0c62e5d"
     },
     {
       "design": "arcforges/operator/v1/operator_read.proto",
@@ -165,17 +165,17 @@
       "design": "arcforges/relay/v1/relay.proto",
       "path": "internal/proto/arcforges/relay/v1/relay.proto",
       "package": "ArcForges.Contracts.Relay",
-      "sha256": "707da8f8c9b8f8dbc524447722fead4d40e5b8fb1eeab503f348d9bdf2ea86e3"
+      "sha256": "111dc8c8637a4010054312b6b405b04095f8fc2189737268d61f7d3cab2446f8"
     },
     {
       "design": "arcforges/node/v1/files.proto",
       "path": "public/proto/arcforges/node/v1/files.proto",
       "package": "ArcForges.Contracts.Node",
-      "sha256": "93c4b8a42371c80c698c4a05eebed13eb36e58ca96485adfa091a58a0853643e"
+      "sha256": "7d8fec3a2815c588ad6f6352ba628ef5933a74fa04e36cf8f05a6b251db70294"
     }
   ],
   "schemaDigest": {
-    "combined": "78d989555f14697e2c6a38f656a089928cdc33a1f038813123a5c4958245d634",
+    "combined": "d734b687702760f7b1962a3d612aa67cb144e69d5bf6a937cceb5cf6042e9583",
     "files": [
       {
         "file": "arcforges/fleet/v1/fleet.proto",
@@ -263,7 +263,7 @@
       },
       {
         "file": "arcforges/node/v1/workspaces.proto",
-        "sha256": "9871ab845c093821be41a846bdd3a22a8eae2074f3d12b8d1d24d794006134d1"
+        "sha256": "b970a3dd43cb6032ca60b51e694cb041af0f93922dc89cfa6190f813237c6ad6"
       },
       {
         "file": "arcforges/operator/v1/operator_read.proto",

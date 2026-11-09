@@ -1215,15 +1215,15 @@ type isFileOperation_Outcome interface {
 }
 
 type FileOperation_Mutation struct {
-	Mutation *FileMutationResult `protobuf:"bytes,10,opt,name=mutation,proto3,oneof"` // validate: exactly one declared target or precondition
+	Mutation *FileMutationResult `protobuf:"bytes,10,opt,name=mutation,proto3,oneof"` // validate: COMPLETED write/edit only; absent for PREPARED and UNKNOWN
 }
 
 type FileOperation_Removal struct {
-	Removal *FileRemovalResult `protobuf:"bytes,11,opt,name=removal,proto3,oneof"` // validate: exactly one declared target or precondition
+	Removal *FileRemovalResult `protobuf:"bytes,11,opt,name=removal,proto3,oneof"` // validate: COMPLETED removal only; absent for PREPARED and UNKNOWN
 }
 
 type FileOperation_Error struct {
-	Error *v1.ArcError `protobuf:"bytes,12,opt,name=error,proto3,oneof"` // validate: exactly one declared target or precondition
+	Error *v1.ArcError `protobuf:"bytes,12,opt,name=error,proto3,oneof"` // validate: COMPLETED known error or UNKNOWN error with UNKNOWN effect; absent for PREPARED
 }
 
 func (*FileOperation_Mutation) isFileOperation_Outcome() {}
@@ -1234,7 +1234,7 @@ func (*FileOperation_Error) isFileOperation_Outcome() {}
 
 type FileServiceReadFileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Meta          *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`             // validate: command_id required for a mutation
+	Meta          *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`             // validate: command_id absent for read
 	Path          *FilePath              `protobuf:"bytes,10,opt,name=path,proto3" json:"path,omitempty"`            // validate: required
 	Offset        *uint64                `protobuf:"varint,11,opt,name=offset,proto3,oneof" json:"offset,omitempty"` // validate: required
 	Length        *uint64                `protobuf:"varint,12,opt,name=length,proto3,oneof" json:"length,omitempty"` // validate: required
@@ -1958,7 +1958,7 @@ func (*FileServiceEditFileResponse_Error) isFileServiceEditFileResponse_Outcome(
 
 type FileServiceSearchFilesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Meta          *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                               // validate: command_id required for a mutation
+	Meta          *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                               // validate: command_id absent for read
 	Path          *FilePath              `protobuf:"bytes,10,opt,name=path,proto3" json:"path,omitempty"`                                              // validate: required
 	Pattern       *string                `protobuf:"bytes,11,opt,name=pattern,proto3,oneof" json:"pattern,omitempty"`                                  // validate: required
 	Mode          *FileSearchMode        `protobuf:"varint,12,opt,name=mode,proto3,enum=arcforges.node.v1.FileSearchMode,oneof" json:"mode,omitempty"` // validate: required
@@ -2256,7 +2256,7 @@ func (*FileServiceSearchFilesResponse_Error) isFileServiceSearchFilesResponse_Ou
 
 type FileServiceListDirectoryRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Meta          *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                 // validate: command_id required for a mutation
+	Meta          *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                 // validate: command_id absent for read
 	Path          *FilePath              `protobuf:"bytes,10,opt,name=path,proto3" json:"path,omitempty"`                                // validate: required
 	PageSize      *uint32                `protobuf:"varint,11,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"` // validate: optional; declared profile bounds apply
 	Cursor        *string                `protobuf:"bytes,12,opt,name=cursor,proto3,oneof" json:"cursor,omitempty"`                      // validate: optional; declared profile bounds apply
@@ -2956,7 +2956,7 @@ func (*FileServiceExecuteRemovalResponse_Error) isFileServiceExecuteRemovalRespo
 
 type FileServiceGetFileOperationRequest struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
-	Meta               *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                          // validate: command_id required for a mutation
+	Meta               *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                          // validate: command_id absent for read
 	OperationCommandId *v1.Id                 `protobuf:"bytes,10,opt,name=operation_command_id,json=operationCommandId,proto3" json:"operation_command_id,omitempty"` // validate: required
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache

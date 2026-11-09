@@ -14250,7 +14250,7 @@ func (x *NodeCursorInput) GetSeq() uint64 {
 // AF-CTR-06 file/workspace envelopes; their bodies are generated node.v1 messages.
 type FleetServiceReadNodeFileRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required for a mutation
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id absent for read
 	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required
 	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: together with relay_assertion; absent for an account session
 	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; serialized node.v1 request; 1..245,760 bytes
@@ -14468,7 +14468,7 @@ func (x *FleetServiceReadNodeFileValue) GetNodeId() *v1.Id {
 
 type FleetServiceWriteNodeFileRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required for a mutation
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required; runtime binds it to the inner request and signed call
 	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required
 	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: together with relay_assertion; absent for an account session
 	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; serialized node.v1 request; 1..245,760 bytes
@@ -14686,7 +14686,7 @@ func (x *FleetServiceWriteNodeFileValue) GetNodeId() *v1.Id {
 
 type FleetServiceEditNodeFileRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required for a mutation
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required; runtime binds it to the inner request and signed call
 	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required
 	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: together with relay_assertion; absent for an account session
 	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; serialized node.v1 request; 1..245,760 bytes
@@ -14904,7 +14904,7 @@ func (x *FleetServiceEditNodeFileValue) GetNodeId() *v1.Id {
 
 type FleetServiceSearchNodeFilesRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required for a mutation
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id absent for read
 	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required
 	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: together with relay_assertion; absent for an account session
 	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; serialized node.v1 request; 1..245,760 bytes
@@ -15122,7 +15122,7 @@ func (x *FleetServiceSearchNodeFilesValue) GetNodeId() *v1.Id {
 
 type FleetServiceListNodeDirectoryRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required for a mutation
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id absent for read
 	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required
 	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: together with relay_assertion; absent for an account session
 	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; serialized node.v1 request; 1..245,760 bytes
@@ -15342,7 +15342,7 @@ func (x *FleetServiceListNodeDirectoryValue) GetNodeId() *v1.Id {
 
 type FleetServicePlanNodeRemovalRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required for a mutation
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required; runtime binds it to the inner request and signed call
 	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required
 	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: together with relay_assertion; absent for an account session
 	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; serialized node.v1 request; 1..245,760 bytes
@@ -15560,7 +15560,7 @@ func (x *FleetServicePlanNodeRemovalValue) GetNodeId() *v1.Id {
 
 type FleetServiceExecuteNodeRemovalRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required for a mutation
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required; runtime binds it to the inner request and signed call
 	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required
 	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: together with relay_assertion; absent for an account session
 	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; serialized node.v1 request; 1..245,760 bytes
@@ -15780,7 +15780,7 @@ func (x *FleetServiceExecuteNodeRemovalValue) GetNodeId() *v1.Id {
 
 type FleetServiceGetNodeFileOperationRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required for a mutation
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id absent for read
 	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required
 	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: together with relay_assertion; absent for an account session
 	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; serialized node.v1 request; 1..245,760 bytes
@@ -16000,7 +16000,7 @@ func (x *FleetServiceGetNodeFileOperationValue) GetNodeId() *v1.Id {
 
 type FleetServiceRegisterNodeWorkspaceRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required for a mutation
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required; runtime binds it to the inner request and signed call
 	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required
 	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: together with relay_assertion; absent for an account session
 	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; serialized node.v1 request; 1..245,760 bytes
@@ -16220,7 +16220,7 @@ func (x *FleetServiceRegisterNodeWorkspaceValue) GetNodeId() *v1.Id {
 
 type FleetServiceUnregisterNodeWorkspaceRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required for a mutation
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required; runtime binds it to the inner request and signed call
 	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required
 	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: together with relay_assertion; absent for an account session
 	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; serialized node.v1 request; 1..245,760 bytes
@@ -16440,7 +16440,7 @@ func (x *FleetServiceUnregisterNodeWorkspaceValue) GetNodeId() *v1.Id {
 
 type FleetServiceListNodeWorkspacesRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required for a mutation
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id absent for read
 	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required
 	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: together with relay_assertion; absent for an account session
 	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; serialized node.v1 request; 1..245,760 bytes
@@ -16660,7 +16660,7 @@ func (x *FleetServiceListNodeWorkspacesValue) GetNodeId() *v1.Id {
 
 type FleetServiceGetNodeWorkspaceRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id required for a mutation
+	Meta           *v1.RequestMeta        `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`                                                  // validate: command_id absent for read
 	NodeId         *v1.Id                 `protobuf:"bytes,10,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`                               // validate: required
 	Caller         *RoutedCaller          `protobuf:"bytes,11,opt,name=caller,proto3" json:"caller,omitempty"`                                             // validate: together with relay_assertion; absent for an account session
 	Request        []byte                 `protobuf:"bytes,12,opt,name=request,proto3,oneof" json:"request,omitempty"`                                     // validate: required; serialized node.v1 request; 1..245,760 bytes

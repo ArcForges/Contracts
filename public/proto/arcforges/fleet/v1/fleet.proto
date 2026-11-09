@@ -2101,7 +2101,7 @@ message NodeCursorInput {
 }
 // AF-CTR-06 file/workspace envelopes; their bodies are generated node.v1 messages.
 message FleetServiceReadNodeFileRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
   RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
@@ -2122,7 +2122,7 @@ message FleetServiceReadNodeFileValue {
 }
 
 message FleetServiceWriteNodeFileRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required; runtime binds it to the inner request and signed call
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
   RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
@@ -2143,7 +2143,7 @@ message FleetServiceWriteNodeFileValue {
 }
 
 message FleetServiceEditNodeFileRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required; runtime binds it to the inner request and signed call
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
   RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
@@ -2164,7 +2164,7 @@ message FleetServiceEditNodeFileValue {
 }
 
 message FleetServiceSearchNodeFilesRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
   RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
@@ -2185,7 +2185,7 @@ message FleetServiceSearchNodeFilesValue {
 }
 
 message FleetServiceListNodeDirectoryRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
   RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
@@ -2206,7 +2206,7 @@ message FleetServiceListNodeDirectoryValue {
 }
 
 message FleetServicePlanNodeRemovalRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required; runtime binds it to the inner request and signed call
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
   RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
@@ -2227,7 +2227,7 @@ message FleetServicePlanNodeRemovalValue {
 }
 
 message FleetServiceExecuteNodeRemovalRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required; runtime binds it to the inner request and signed call
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
   RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
@@ -2248,7 +2248,7 @@ message FleetServiceExecuteNodeRemovalValue {
 }
 
 message FleetServiceGetNodeFileOperationRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
   RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
@@ -2269,7 +2269,7 @@ message FleetServiceGetNodeFileOperationValue {
 }
 
 message FleetServiceRegisterNodeWorkspaceRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required; runtime binds it to the inner request and signed call
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
   RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
@@ -2290,7 +2290,7 @@ message FleetServiceRegisterNodeWorkspaceValue {
 }
 
 message FleetServiceUnregisterNodeWorkspaceRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required; runtime binds it to the inner request and signed call
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
   RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
@@ -2311,7 +2311,7 @@ message FleetServiceUnregisterNodeWorkspaceValue {
 }
 
 message FleetServiceListNodeWorkspacesRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
   RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
@@ -2332,7 +2332,7 @@ message FleetServiceListNodeWorkspacesValue {
 }
 
 message FleetServiceGetNodeWorkspaceRequest {
-  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
   reserved 2 to 9;
   arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
   RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session

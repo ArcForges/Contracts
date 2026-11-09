@@ -136,38 +136,39 @@ var (
 type WorkspaceServiceClient interface {
 	// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
 	// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-	// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+	// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
 	// idempotency: command_id; registering the same root returns the existing workspace
 	// deadline: 10 s
 	// stream: none
-	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
-	// locality: node
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+	// locality: node; ordinary callers cloud -> node
 	RegisterWorkspace(context.Context, *v1.WorkspaceServiceRegisterWorkspaceRequest) (*v1.WorkspaceServiceRegisterWorkspaceResponse, error)
 	// Forget a registered workspace. Files are never touched.
 	// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-	// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+	// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
 	// idempotency: command_id
 	// deadline: 5 s
 	// stream: none
-	// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
-	// locality: node
+	// errors: STATE/not_found, STATE/in_use, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+	// locality: node; ordinary callers cloud -> node
 	UnregisterWorkspace(context.Context, *v1.WorkspaceServiceUnregisterWorkspaceRequest) (*v1.WorkspaceServiceUnregisterWorkspaceResponse, error)
 	// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
-	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+	// The whole serialized response is at most 131,072 bytes; a byte-limited page returns a lossless continuation.
+	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
 	// idempotency: read
 	// deadline: 5 s
 	// stream: none
-	// errors: VALIDATION/invalid_cursor
-	// locality: node
+	// errors: VALIDATION/invalid_cursor, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+	// locality: node; ordinary callers cloud -> node
 	ListWorkspaces(context.Context, *v1.WorkspaceServiceListWorkspacesRequest) (*v1.WorkspaceServiceListWorkspacesResponse, error)
 	// Read one workspace with a bounded safe fresh git status summary (06a section 1).
 	// AF-CTR-06 routes the explicit Fleet counterpart through the center.
-	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
 	// idempotency: read
 	// deadline: 10 s
 	// stream: none
-	// errors: STATE/not_found
-	// locality: node
+	// errors: STATE/not_found, VALIDATION/invalid_argument, STATE/file_access_denied, AUTHORIZATION/permission_denied
+	// locality: node; ordinary callers cloud -> node
 	GetWorkspace(context.Context, *v1.WorkspaceServiceGetWorkspaceRequest) (*v1.WorkspaceServiceGetWorkspaceResponse, error)
 	// Create a node-managed git worktree as a node job (SM-WORKTREE).
 	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
@@ -232,38 +233,39 @@ func NewWorkspaceServiceClient(client *connect.Client) WorkspaceServiceClient {
 type WorkspaceServiceHandler interface {
 	// Register a directory (usually a git repository root) as a workspace. Never moves or changes files.
 	// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-	// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+	// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
 	// idempotency: command_id; registering the same root returns the existing workspace
 	// deadline: 10 s
 	// stream: none
-	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
-	// locality: node
+	// errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+	// locality: node; ordinary callers cloud -> node
 	RegisterWorkspace(context.Context, *v1.WorkspaceServiceRegisterWorkspaceRequest) (*v1.WorkspaceServiceRegisterWorkspaceResponse, error)
 	// Forget a registered workspace. Files are never touched.
 	// AF-CTR-06 target: fixed HUMAN-only; the center-routed method follows architecture 06a section 1.
-	// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=-
+	// auth: HUMAN=A SCRIPT=D AGENT=D REMOTE=high
 	// idempotency: command_id
 	// deadline: 5 s
 	// stream: none
-	// errors: STATE/not_found, STATE/in_use, AUTHORIZATION/permission_denied
-	// locality: node
+	// errors: STATE/not_found, STATE/in_use, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+	// locality: node; ordinary callers cloud -> node
 	UnregisterWorkspace(context.Context, *v1.WorkspaceServiceUnregisterWorkspaceRequest) (*v1.WorkspaceServiceUnregisterWorkspaceResponse, error)
 	// List workspaces. AF-CTR-06 routes the explicit Fleet counterpart through the center (06a section 1).
-	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+	// The whole serialized response is at most 131,072 bytes; a byte-limited page returns a lossless continuation.
+	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
 	// idempotency: read
 	// deadline: 5 s
 	// stream: none
-	// errors: VALIDATION/invalid_cursor
-	// locality: node
+	// errors: VALIDATION/invalid_cursor, VALIDATION/invalid_argument, AUTHORIZATION/permission_denied
+	// locality: node; ordinary callers cloud -> node
 	ListWorkspaces(context.Context, *v1.WorkspaceServiceListWorkspacesRequest) (*v1.WorkspaceServiceListWorkspacesResponse, error)
 	// Read one workspace with a bounded safe fresh git status summary (06a section 1).
 	// AF-CTR-06 routes the explicit Fleet counterpart through the center.
-	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
+	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
 	// idempotency: read
 	// deadline: 10 s
 	// stream: none
-	// errors: STATE/not_found
-	// locality: node
+	// errors: STATE/not_found, VALIDATION/invalid_argument, STATE/file_access_denied, AUTHORIZATION/permission_denied
+	// locality: node; ordinary callers cloud -> node
 	GetWorkspace(context.Context, *v1.WorkspaceServiceGetWorkspaceRequest) (*v1.WorkspaceServiceGetWorkspaceResponse, error)
 	// Create a node-managed git worktree as a node job (SM-WORKTREE).
 	// auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=-
