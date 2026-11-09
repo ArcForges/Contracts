@@ -11,8 +11,8 @@
     "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
     "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
-    "eng/contract-packages.json": "9f7277d7c19616fcb6997278d6630adc814269aa4e34c8386f3b798144a39887",
-    "eng/policy/contract-access.json": "9abb81b1433a9ac2d9e6a004edf82be077bfbfb66a78b8d2b2e8997f30c37e1b",
+    "eng/contract-packages.json": "f347dd9e047c66f36ffb2c7ea977f10129e2ccdea366e998ed68004f1641f95b",
+    "eng/policy/contract-access.json": "ecc3731abe7721c12ae15373e57d7b2ff7099c01abe16906ea8769590521f64d",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -53,6 +53,7 @@
     "eng/provenance/records/contract-bindings-af-ctr-05-r3.json": "a2acdfda3422762a45fb04f057b76adf5c28bb0278ccc8eb85607fcc44b12d5b",
     "eng/provenance/records/contract-bindings-af-ctr-05-r4.json": "29d336ea9b27c8957e35033efbb6b284c67470cb1d502f999a95f7e2d934e01a",
     "eng/provenance/records/contract-bindings-af-ctr-05-r5.json": "e260828d649d9f5668cd0e0ed4cf1ffbb2eabc5bb8086a8b51d3126e9836429e",
+    "eng/provenance/records/contract-bindings-af-ctr-06-r1.json": "476468491f1f6db7e738834fd36ac8466f3791dbf377cb266c44cba52d045349",
     "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
     "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
     "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -190,6 +191,7 @@
     "eng/provenance/records/go-bindings-af-ctr-05-r2.json": "86332810f41bcc573788d3750381ddbdeb4be1105c240bbee629aa199aeb3dc3",
     "eng/provenance/records/go-bindings-af-ctr-05-r3.json": "026223c57665a25b99cbc394e56188d3badbf0ba8f0d8421e2669247e4513c74",
     "eng/provenance/records/go-bindings-af-ctr-05-r4.json": "a368dd2a569c48de660fef5e3cef1c71066b9c389484a6d69bd0566b73642dc3",
+    "eng/provenance/records/go-bindings-af-ctr-06-r1.json": "b756d0626aebb22e507c964bae7d0615a50a052e8a87e0eb0cf96b7f2aead1a4",
     "eng/provenance/records/go-protobuf-licence-r1.json": "a9fb8d247113f025813e5562ab10e72d92d7f5055cece829b64b8e13785b0ffd",
     "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
     "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
@@ -1000,27 +1002,27 @@
     "stable": "Deliberate canonical vX.Y.Z on main ancestry; no prerelease dependency closure; Central signatures required. No tag created for validation. A canonical vX.Y.Z release also tags go/vX.Y.Z (v0 and v1 only without a reviewed /vN module path)."
   },
   "review": {
-    "owner": "Contracts maintainers (AF-CTR-04 delegated author)",
-    "reviewer": "Independent AF-CTR-05 reviewer under maintainer authorization (review record on the Contracts pull request of task/af-ctr-05-c2)",
+    "owner": "Contracts maintainers (AF-CTR-06 coordinator author assessment)",
+    "reviewer": "Independent Codex reviewer /root/ctr06_d0_review (CTR06-CONTRACTS-D1-INDEPENDENT-FINAL-SOURCE-ADMISSION-2026-11-09.md; source/reuse/dependency disposition, not formal-gate or product acceptance)",
     "decision": "approved",
-    "reviewedOn": "2026-11-05",
-    "baselineCommit": "48d63e0aad2a9db4da78b0c8d20eec759e15fb16",
-    "maintenanceAssessment": "AF-CTR-05 part C2, confirmation round of Contracts #129 (this receipt supersedes af-ctr-05-r4): the catalogue tie of the routed refusal, generated from fixtures/public/af-con-01-error-catalogue.json, and its text, after the review round: the closed routed refusal (rule routedRefusal), the caller-account rule of the call header, ChannelLimits.max_frame_bytes pinned at 1 MiB, RelayClose.reconnect_after_ms = 3 (additive, the next free number), the verifier pre-conditions and binary-encoding text of relay.proto, the GetNode and foreign-key vectors, on top of part C2: additive relay.v1, fleet.v1 and node.v1 schema (the node channel messages and RelayFrame members 23 to 29, the relay assertion and nonce frames, the six center-routed FleetService methods, RoutedCaller, CenterCaller, CenterRoutedPolicy and the new fields of NodeHello, ListNodes, GetNode, FleetNode, ActorRef, ManagedTask, TaskServiceReadTaskOutputRequest and PolicyDocument), their constraint sidecars, eight relationship rules of the first-party shape generator, the golden byte and signature vectors and their Go, C# and tooling tests. The only dependency-input changes are eng/policy/contract-access.json (refreshed generated-source and build-input hashes, the refreshed schema hashes of the changed protos, and sourceCommit) and the two provenance successors contract-bindings-af-ctr-05-r5 and go-bindings-af-ctr-05-r4. No csproj, props, lock file, package.json, go.mod, go.sum or toolchain pin changes; the Go and C# tests use only the standard libraries and the existing protobuf runtimes. The dependency closure, every coordinate, version, integrity value, licence and the framework selections are unchanged. Independent exact-head review by the named reviewer and the host verification remain mandatory before merge.",
+    "reviewedOn": "2026-11-09",
+    "baselineCommit": "e67a6b089a7270ab771a97c27aeba92c5d3b0469",
+    "maintenanceAssessment": "AF-CTR-06 adds file/workspace protobuf messages and validators, twelve Fleet routes, relay method values and generated C#/Go bindings. The package inventory adds only the public files.proto to Node and the internal Go-module generation closure; actual public/internal descriptor audit passes with no reclassification. The exact 58-coordinate dependency closure, every version/integrity/licence, toolchain and project/framework setting are unchanged, verified against all actual locks. Inputs change for that package-source inventory, contract-access schema/type/distribution graph and two first-party generated-source provenance successors. The named separate reviewer approved the source, licence and unchanged-dependency disposition against the actual pending snapshots; that report remains distinct from the final exact-head formal Linux gate, which is still mandatory. Linux strict cleanup is unresolved in consumers and is not waived or claimed by the contract package.",
     "checks": {
-      "compilation": "The official generator reproduces the regenerated C# and Go outputs bound by the two successors and every retained output (generate --check passes); the StructureTests build in Release and run the golden vectors, signatures, field numbers and validator vectors of NodeChannelCases; go test runs the same vectors with the generated Go codecs; the host verification is required at the reviewed head.",
-      "aot-trim": "No project changes its AOT or trim settings; no serializer or JSON context is added.",
-      "compatibility": "Additive on the wire only: every new field takes the next free number of its message, requests and responses keep 2..9 reserved, the RelayFrame oneof adds members 23 to 29 and FleetService appends six methods; the flagship-window baselines (fleet, node, relay) report 0 errors. No HTTP document or pinned schema changes. The new bounds apply to the new fields only; the earlier flagship fields keep presence-only sidecars.",
-      "licence-provenance": "First-party Apache-2.0 edits only; the generated outputs are bound by the immutable successors contract-bindings-af-ctr-05-r5 (427 targets) and go-bindings-af-ctr-05-r4 (90 targets); no third-party material or generator pin changes. The vectors' test keys are derived for the vectors and only their public halves are recorded.",
-      "security-sbom": "No coordinate enters or leaves the closure; locked versions, integrity values and licences are unchanged.",
-      "runtime-performance-migration": "Generated messages, services and validators, specification text and test vectors; no runtime host, migration or performance effect. The center (AF-CTR-05 E1, E2) and the node (N1 to N3) implement them later.",
-      "framework-runtime-posture": "The .NET SDK (10.0.403 since af-ctr-04-r3), Node and Go pins are unchanged by this receipt, so no major-upgrade review is triggered."
+      "compilation": "The author-time 574e25c input snapshot passed official generation/generate--check, the Release StructureTests build with zero warnings and the AF-CTR-06 targeted suite. Full StructureTests and bidirectional exchange passed the earlier author-r4.json dirty snapshot at HEAD13543599d67787671e665ddfa7e1115a645cf262, preceding the 3d71 source commit and the final protocol changes; that record binds its actual inputs and binaries and is historical evidence only. The final exact-head native pack must run the complete StructureTests, AOT probe and Go static/race/exchange before merge; those final results are not yet claimed.",
+      "aot-trim": "No csproj, serializer/runtime discovery, AOT or trim setting changed; new concrete protobuf and static validation code uses existing runtimes. Actual serialization-probe Native AOT belongs to the required native pack and is not yet claimed.",
+      "compatibility": "Wire additions append methods, enum values, messages and next free fields, preserving old tags/reservations. Four previously unimplemented workspace method validators now enforce the existing required path/identity/result declarations and bounded unique enums; this profile tightening is explicit in the adoption record and requires independent review. The flagship descriptor-window check and all relevant negative vectors remain required.",
+      "licence-provenance": "First-party Apache-2.0 source only. Separate independent review approved 429 C#/shape targets and92 Go targets, their exact source inputs and unchanged third-party generator/licence evidence. Historical receipts and retired identities remain intact. The official provenance checker must regenerate NOTICE from those actual approved records, and the final exact-head profile remains required.",
+      "security-sbom": "Actual locks yield exactly the previous 58 coordinates and integrity values. No dependency, native binary, publisher credential, network source or privileged helper is added; no dynamic wire registry, reflection serializer or body-bearing audit is introduced.",
+      "runtime-performance-migration": "This producer defines bounded messages and shape validation only; it does not implement native file operations, permission decisions, journals, database migrations or center routing. Consumers must use exact published packages and implement those behaviors with real tests. No product acceptance or performance claim is made.",
+      "framework-runtime-posture": "Existing .NET SDK10.0.403, Node24.21.0 and Go1.27.3 pins are unchanged; no framework major upgrade or new Android/runtime closure is introduced."
     },
     "frameworkVersions": {
       "dotnetSdk": "10.0.403",
       "node": "24.21.0",
       "go": "1.27.3"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-05-r4.json",
+    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-05-r5.json",
     "inputHashes": {
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
@@ -1031,8 +1033,8 @@
       "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
-      "eng/contract-packages.json": "9f7277d7c19616fcb6997278d6630adc814269aa4e34c8386f3b798144a39887",
-      "eng/policy/contract-access.json": "9abb81b1433a9ac2d9e6a004edf82be077bfbfb66a78b8d2b2e8997f30c37e1b",
+      "eng/contract-packages.json": "f347dd9e047c66f36ffb2c7ea977f10129e2ccdea366e998ed68004f1641f95b",
+      "eng/policy/contract-access.json": "ecc3731abe7721c12ae15373e57d7b2ff7099c01abe16906ea8769590521f64d",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -1073,6 +1075,7 @@
       "eng/provenance/records/contract-bindings-af-ctr-05-r3.json": "a2acdfda3422762a45fb04f057b76adf5c28bb0278ccc8eb85607fcc44b12d5b",
       "eng/provenance/records/contract-bindings-af-ctr-05-r4.json": "29d336ea9b27c8957e35033efbb6b284c67470cb1d502f999a95f7e2d934e01a",
       "eng/provenance/records/contract-bindings-af-ctr-05-r5.json": "e260828d649d9f5668cd0e0ed4cf1ffbb2eabc5bb8086a8b51d3126e9836429e",
+      "eng/provenance/records/contract-bindings-af-ctr-06-r1.json": "476468491f1f6db7e738834fd36ac8466f3791dbf377cb266c44cba52d045349",
       "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
       "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
       "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -1210,6 +1213,7 @@
       "eng/provenance/records/go-bindings-af-ctr-05-r2.json": "86332810f41bcc573788d3750381ddbdeb4be1105c240bbee629aa199aeb3dc3",
       "eng/provenance/records/go-bindings-af-ctr-05-r3.json": "026223c57665a25b99cbc394e56188d3badbf0ba8f0d8421e2669247e4513c74",
       "eng/provenance/records/go-bindings-af-ctr-05-r4.json": "a368dd2a569c48de660fef5e3cef1c71066b9c389484a6d69bd0566b73642dc3",
+      "eng/provenance/records/go-bindings-af-ctr-06-r1.json": "b756d0626aebb22e507c964bae7d0615a50a052e8a87e0eb0cf96b7f2aead1a4",
       "eng/provenance/records/go-protobuf-licence-r1.json": "a9fb8d247113f025813e5562ab10e72d92d7f5055cece829b64b8e13785b0ffd",
       "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
       "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
@@ -1274,5 +1278,5 @@
       "tests/public/SerializationProbe/packages.lock.json": "c22dac951b63b91a5b5b2f9d620cfd5601024a12c59f6b3a62176837fe8d9fa4"
     }
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-05-r5.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-06-r1.json"
 }
