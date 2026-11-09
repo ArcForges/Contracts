@@ -1274,8 +1274,10 @@
         "behind": {},
         "mergedIntoBase": {},
         "upstreamDeleted": {},
-        "locked": {}
-      }
+        "locked": {},
+        "quality": {}
+      },
+      "rules": ["gitSummaryQuality"]
     },
     "arcforges.node.v1.GuestConsumer": {
       "csharpType": "ArcForges.Contracts.Node.V1.GuestConsumer",
@@ -5443,44 +5445,64 @@
         "workspaceId": {
           "required": true
         }
-      }
+      },
+      "rules": ["fileRequest", "fileReadRequest"]
     },
     "arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceGetWorkspaceResponse",
       "fields": {
         "meta": {},
         "value": {},
-        "error": {}
-      }
+        "error": {},
+        "audit": {}
+      },
+      "oneofRequired": ["outcome"],
+      "rules": ["fileResponse"]
     },
     "arcforges.node.v1.WorkspaceServiceGetWorkspaceValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceGetWorkspaceValue",
       "fields": {
-        "workspace": {}
-      }
+        "workspace": {
+          "required": true
+        }
+      },
+      "rules": ["workspaceGitValue"]
     },
     "arcforges.node.v1.WorkspaceServiceListWorkspacesRequest": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceListWorkspacesRequest",
       "fields": {
         "meta": {},
-        "kinds": {},
+        "kinds": {
+          "unique": true,
+          "maxItems": 3,
+          "items": {
+            "enumValues": [1, 2, 3]
+          }
+        },
         "page": {}
-      }
+      },
+      "rules": ["fileRequest", "fileReadRequest"]
     },
     "arcforges.node.v1.WorkspaceServiceListWorkspacesResponse": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceListWorkspacesResponse",
       "fields": {
         "meta": {},
         "value": {},
-        "error": {}
-      }
+        "error": {},
+        "audit": {}
+      },
+      "oneofRequired": ["outcome"],
+      "rules": ["fileSmallResponse"]
     },
     "arcforges.node.v1.WorkspaceServiceListWorkspacesValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceListWorkspacesValue",
       "fields": {
-        "workspaces": {},
+        "workspaces": {
+          "maxItems": 500
+        },
         "page": {}
-      }
+      },
+      "rules": ["workspaceGitList"]
     },
     "arcforges.node.v1.WorkspaceServiceListWorktreeArchivesRequest": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceListWorktreeArchivesRequest",
@@ -5530,23 +5552,36 @@
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceRegisterWorkspaceRequest",
       "fields": {
         "meta": {},
-        "path": {},
-        "name": {}
-      }
+        "path": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 4096
+        },
+        "name": {
+          "maxLength": 100
+        }
+      },
+      "rules": ["fileRequest", "fileMutationRequest"]
     },
     "arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceRegisterWorkspaceResponse",
       "fields": {
         "meta": {},
         "value": {},
-        "error": {}
-      }
+        "error": {},
+        "audit": {}
+      },
+      "oneofRequired": ["outcome"],
+      "rules": ["fileResponse"]
     },
     "arcforges.node.v1.WorkspaceServiceRegisterWorkspaceValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceRegisterWorkspaceValue",
       "fields": {
-        "workspace": {}
-      }
+        "workspace": {
+          "required": true
+        }
+      },
+      "rules": ["workspaceGitValue"]
     },
     "arcforges.node.v1.WorkspaceServiceRemoveWorktreeRequest": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceRemoveWorktreeRequest",
@@ -5605,21 +5640,29 @@
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceUnregisterWorkspaceRequest",
       "fields": {
         "meta": {},
-        "workspaceId": {}
-      }
+        "workspaceId": {
+          "required": true
+        }
+      },
+      "rules": ["fileRequest", "fileMutationRequest"]
     },
     "arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceResponse": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceUnregisterWorkspaceResponse",
       "fields": {
         "meta": {},
         "value": {},
-        "error": {}
-      }
+        "error": {},
+        "audit": {}
+      },
+      "oneofRequired": ["outcome"],
+      "rules": ["fileResponse"]
     },
     "arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.WorkspaceServiceUnregisterWorkspaceValue",
       "fields": {
-        "receipt": {}
+        "receipt": {
+          "required": true
+        }
       }
     },
     "arcforges.node.v1.WorkspaceServiceUpdateWorkspaceSettingsRequest": {

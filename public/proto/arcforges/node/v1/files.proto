@@ -1,0 +1,450 @@
+// SPDX-License-Identifier: Apache-2.0
+// AF-CTR-06 additive v1 files; Contracts is canonical, Design companion mirrors this file.
+syntax = "proto3";
+package arcforges.node.v1;
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/node/v1/common.proto";
+option csharp_namespace = "ArcForges.Contracts.Node.V1";
+option java_package = "io.github.arcforges.contracts.node.v1";
+option java_multiple_files = true;
+option java_outer_classname = "NodeFilesProto";
+
+// AF-CTR-06 target; semantic authority: Design architecture/06a-node-files.md.
+// Ordinary clients use Fleet through the center; local file entry points are internal dispatch/test seams.
+// Only AcknowledgeFileOperation is local HUMAN management. No body is stored in an audit or approval.
+service FileService {
+  // Read a bounded raw byte range of a regular single-link file.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
+  // locality: node; ordinary callers cloud -> node
+  rpc ReadFile(FileServiceReadFileRequest) returns (FileServiceReadFileResponse);
+
+  // Create or replace a whole file only after its exact precondition holds.
+  // auth: HUMAN=A SCRIPT=P AGENT=D (explicit HUMAN policy ALLOW required) REMOTE=high
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+  // locality: node; ordinary callers cloud -> node
+  rpc WriteFile(FileServiceWriteFileRequest) returns (FileServiceWriteFileResponse);
+
+  // Replace the exact non-overlapping UTF-8 occurrences after checking the whole-file digest.
+  // auth: HUMAN=A SCRIPT=P AGENT=D (explicit HUMAN policy ALLOW required) REMOTE=high
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, CONFLICT/file_changed, CONFLICT/occurrence_mismatch, CONFLICT/command_id_reused, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/file_access_denied, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, EXECUTION/operation_failed
+  // locality: node; ordinary callers cloud -> node
+  rpc EditFile(FileServiceEditFileRequest) returns (FileServiceEditFileResponse);
+
+  // Search without following links; report partial coverage explicitly and never include snippets.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
+  // locality: node; ordinary callers cloud -> node
+  rpc SearchFiles(FileServiceSearchFilesRequest) returns (FileServiceSearchFilesResponse);
+
+  // List one bounded snapshot with a caller-bound expiring continuation.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_cursor, VALIDATION/path_not_found, VALIDATION/invalid_argument, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
+  // locality: node; ordinary callers cloud -> node
+  rpc ListDirectory(FileServiceListDirectoryRequest) returns (FileServiceListDirectoryResponse);
+
+  // Persist a bounded exact plan of a workspace path or the caller's completed task temp; planning removes nothing.
+  // auth: HUMAN=A SCRIPT=A AGENT=A (cleanup.plan policy) REMOTE=low
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/path_not_found, VALIDATION/invalid_argument, STATE/not_found, STATE/in_use, CONFLICT/command_id_reused, RESOURCE/too_large, STATE/file_access_denied, AUTHORIZATION/permission_denied
+  // locality: node; ordinary callers cloud -> node
+  rpc PlanRemoval(FileServicePlanRemovalRequest) returns (FileServicePlanRemovalResponse);
+
+  // Revalidate an exact plan and quarantine it; unowned paths need a real local HUMAN approval.
+  // auth: HUMAN=A SCRIPT=P AGENT=D (file.remove and cleanup policies, ownership and actual approval) REMOTE=high
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, CONFLICT/file_changed, CONFLICT/command_id_reused, STATE/in_use, RESOURCE/too_large, RESOURCE/enforcement_unavailable, STATE/expired, STATE/invalid_state, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/file_access_denied, EXECUTION/operation_failed
+  // locality: node; ordinary callers cloud -> node
+  rpc ExecuteRemoval(FileServiceExecuteRemovalRequest) returns (FileServiceExecuteRemovalResponse);
+
+  // Read metadata-only operation state as the original caller or local HUMAN.
+  // auth: HUMAN=A SCRIPT=A AGENT=A REMOTE=low
+  // idempotency: read
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/not_found, AUTHORIZATION/permission_denied
+  // locality: node; ordinary callers cloud -> node
+  rpc GetFileOperation(FileServiceGetFileOperationRequest) returns (FileServiceGetFileOperationResponse);
+
+  // A local HUMAN acknowledges an UNKNOWN operation, releasing its hold without changing files or its uncertain outcome.
+  // auth: HUMAN=A (local only) SCRIPT=D AGENT=D REMOTE=-
+  // idempotency: command_id
+  // deadline: 10 s
+  // stream: none
+  // errors: VALIDATION/invalid_argument, STATE/not_found, CONFLICT/digest_mismatch, AUTHORIZATION/permission_denied, CONFLICT/command_id_reused
+  // locality: node
+  rpc AcknowledgeFileOperation(FileServiceAcknowledgeFileOperationRequest) returns (FileServiceAcknowledgeFileOperationResponse);
+
+}
+
+enum FileEntryKind {
+  FILE_ENTRY_KIND_UNSPECIFIED = 0;
+  FILE_ENTRY_KIND_FILE = 1;
+  FILE_ENTRY_KIND_DIRECTORY = 2;
+  FILE_ENTRY_KIND_LINK = 3;
+  FILE_ENTRY_KIND_OTHER = 4;
+}
+enum FileSearchMode {
+  FILE_SEARCH_MODE_UNSPECIFIED = 0;
+  FILE_SEARCH_MODE_LITERAL = 1;
+  FILE_SEARCH_MODE_REGEX = 2;
+}
+enum FileOperationKind {
+  FILE_OPERATION_KIND_UNSPECIFIED = 0;
+  FILE_OPERATION_KIND_WRITE = 1;
+  FILE_OPERATION_KIND_EDIT = 2;
+  FILE_OPERATION_KIND_REMOVAL = 3;
+}
+enum FileOperationState {
+  FILE_OPERATION_STATE_UNSPECIFIED = 0;
+  FILE_OPERATION_STATE_PREPARED = 1;
+  FILE_OPERATION_STATE_COMPLETED = 2;
+  FILE_OPERATION_STATE_UNKNOWN = 3; // acknowledgment does not turn uncertainty into success
+}
+
+// Audit observations carry bounded counts and digests, never bodies, search patterns or match text.
+enum FileAuditKind {
+  FILE_AUDIT_KIND_UNSPECIFIED = 0;
+  FILE_AUDIT_KIND_READ_BYTES = 1;
+  FILE_AUDIT_KIND_INPUT_BYTES = 2;
+  FILE_AUDIT_KIND_WRITTEN_BYTES = 3;
+  FILE_AUDIT_KIND_SEARCH_TRANSCRIPT = 4;
+  FILE_AUDIT_KIND_DIRECTORY_METADATA = 5;
+  FILE_AUDIT_KIND_WORKSPACE_METADATA = 6;
+  FILE_AUDIT_KIND_OPERATION_METADATA = 7;
+}
+message FileAuditObservation {
+  optional FileAuditKind kind = 1 [json_name = "kind"]; // validate: required; 1..7; names the precise digest scope
+  optional uint64 size_bytes = 2 [json_name = "sizeBytes"]; // validate: required; actual file bytes, or specified metadata transcript bytes
+  optional bytes sha256 = 3 [json_name = "sha256"]; // validate: required; 32 bytes
+  optional uint64 digest_input_bytes = 4 [json_name = "digestInputBytes"]; // validate: required; exact bytes fed to SHA-256
+  optional uint32 item_count = 5 [json_name = "itemCount"]; // validate: <= 10,001; number of framed scan files or metadata records
+}
+message FileAuditMetadata {
+  repeated FileAuditObservation observations = 1 [json_name = "observations"]; // validate: <= 4; unique kinds
+}
+
+message FilePath {
+  arcforges.foundation.v1.Id workspace_id = 1 [json_name = "workspaceId"]; // validate: required
+  optional string path = 2 [json_name = "path"]; // validate: required
+}
+
+message FileMutationResult {
+  arcforges.foundation.v1.Id command_id = 1 [json_name = "commandId"]; // validate: required
+  optional uint64 size_bytes = 2 [json_name = "sizeBytes"]; // validate: required
+  optional bytes sha256 = 3 [json_name = "sha256"]; // validate: required
+  optional uint32 replacements = 4 [json_name = "replacements"]; // validate: optional; declared profile bounds apply
+}
+
+message FileMatch {
+  optional string path = 1 [json_name = "path"]; // validate: required
+  optional uint64 byte_offset = 2 [json_name = "byteOffset"]; // validate: required
+  optional uint32 byte_length = 3 [json_name = "byteLength"]; // validate: required
+}
+
+message FileScanProblem {
+  optional string path = 1 [json_name = "path"]; // validate: required
+  optional string reason = 2 [json_name = "reason"]; // validate: required
+}
+
+message FileDirectoryEntry {
+  optional string name = 1 [json_name = "name"]; // validate: required
+  optional FileEntryKind kind = 2 [json_name = "kind"]; // validate: required
+  optional uint64 size_bytes = 3 [json_name = "sizeBytes"]; // validate: optional; declared profile bounds apply
+}
+
+message FileRemovalItem {
+  optional string path = 1 [json_name = "path"]; // validate: required
+  optional FileEntryKind kind = 2 [json_name = "kind"]; // validate: required
+  optional uint64 size_bytes = 3 [json_name = "sizeBytes"]; // validate: required
+  optional bytes sha256 = 4 [json_name = "sha256"]; // validate: optional; declared profile bounds apply
+  optional bytes identity_sha256 = 5 [json_name = "identitySha256"]; // validate: required
+  optional bool owner_verified = 6 [json_name = "ownerVerified"]; // validate: required
+}
+
+message FileRemovalPlan {
+  arcforges.foundation.v1.Id plan_id = 1 [json_name = "planId"]; // validate: required
+  optional bytes digest = 2 [json_name = "digest"]; // validate: required
+  arcforges.foundation.v1.Instant expires_at = 3 [json_name = "expiresAt"]; // validate: required
+  repeated FileRemovalItem items = 4 [json_name = "items"]; // validate: optional; declared profile bounds apply
+  optional uint64 total_bytes = 5 [json_name = "totalBytes"]; // validate: required
+  optional bool requires_approval = 6 [json_name = "requiresApproval"]; // validate: required
+  optional bool quarantine_available = 7 [json_name = "quarantineAvailable"]; // validate: required
+  optional RiskClass risk = 8 [json_name = "risk"]; // validate: required
+  oneof target {
+    FilePath workspace_path = 10 [json_name = "workspacePath"]; // validate: exactly one declared target or precondition
+    arcforges.foundation.v1.Id attempt_id = 11 [json_name = "attemptId"]; // validate: exactly one declared target or precondition
+  }
+}
+
+message FileRemovalResult {
+  arcforges.foundation.v1.Id plan_id = 1 [json_name = "planId"]; // validate: required
+  optional bool quarantined = 2 [json_name = "quarantined"]; // validate: required
+  arcforges.foundation.v1.Id quarantine_id = 3 [json_name = "quarantineId"]; // validate: optional; declared profile bounds apply
+  arcforges.foundation.v1.Instant purge_after = 4 [json_name = "purgeAfter"]; // validate: optional; declared profile bounds apply
+  optional uint32 items_removed = 5 [json_name = "itemsRemoved"]; // validate: required
+  optional uint64 total_bytes = 6 [json_name = "totalBytes"]; // validate: required
+}
+
+message FileOperation {
+  arcforges.foundation.v1.Id command_id = 1 [json_name = "commandId"]; // validate: required
+  optional FileOperationKind kind = 2 [json_name = "kind"]; // validate: required
+  optional FileOperationState state = 3 [json_name = "state"]; // validate: required
+  optional bytes request_sha256 = 4 [json_name = "requestSha256"]; // validate: required
+  arcforges.foundation.v1.Instant created_at = 5 [json_name = "createdAt"]; // validate: required
+  arcforges.foundation.v1.Instant updated_at = 6 [json_name = "updatedAt"]; // validate: required
+  optional bool acknowledged = 13 [json_name = "acknowledged"]; // validate: required
+  optional bool held = 14 [json_name = "held"]; // validate: required
+  oneof target {
+    FilePath workspace_path = 7 [json_name = "workspacePath"]; // validate: exactly one declared target or precondition
+    arcforges.foundation.v1.Id attempt_id = 8 [json_name = "attemptId"]; // validate: exactly one declared target or precondition
+  }
+  oneof outcome {
+    FileMutationResult mutation = 10 [json_name = "mutation"]; // validate: COMPLETED write/edit only; absent for PREPARED and UNKNOWN
+    FileRemovalResult removal = 11 [json_name = "removal"]; // validate: COMPLETED removal only; absent for PREPARED and UNKNOWN
+    arcforges.foundation.v1.ArcError error = 12 [json_name = "error"]; // validate: COMPLETED known error or UNKNOWN error with UNKNOWN effect; absent for PREPARED
+  }
+}
+
+message FileServiceReadFileRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
+  reserved 2 to 9;
+  FilePath path = 10 [json_name = "path"]; // validate: required
+  optional uint64 offset = 11 [json_name = "offset"]; // validate: required
+  optional uint64 length = 12 [json_name = "length"]; // validate: required
+}
+
+message FileServiceReadFileValue {
+  optional bytes data = 10 [json_name = "data"]; // validate: required
+  optional uint64 offset = 11 [json_name = "offset"]; // validate: required
+  optional uint64 next_offset = 12 [json_name = "nextOffset"]; // validate: required
+  optional bool eof = 13 [json_name = "eof"]; // validate: required
+  optional bytes sha256 = 14 [json_name = "sha256"]; // validate: required
+  optional uint64 file_size = 15 [json_name = "fileSize"]; // validate: required
+}
+
+message FileServiceReadFileResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"]; // validate: optional; declared profile bounds apply
+  oneof outcome {
+    FileServiceReadFileValue value = 2 [json_name = "value"]; // validate: exactly one declared target or precondition
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"]; // validate: exactly one declared target or precondition
+  }
+  reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded observations; also present after an applicable post-read failure
+}
+
+message FileServiceWriteFileRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  reserved 2 to 9;
+  FilePath path = 10 [json_name = "path"]; // validate: required
+  optional bytes data = 11 [json_name = "data"]; // validate: required
+  oneof precondition {
+    bytes expected_sha256 = 12 [json_name = "expectedSha256"]; // validate: exactly one declared target or precondition
+    bool expected_absent = 13 [json_name = "expectedAbsent"]; // validate: exactly one declared target or precondition
+  }
+}
+
+message FileServiceWriteFileValue {
+  FileMutationResult result = 10 [json_name = "result"]; // validate: required
+}
+
+message FileServiceWriteFileResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"]; // validate: optional; declared profile bounds apply
+  oneof outcome {
+    FileServiceWriteFileValue value = 2 [json_name = "value"]; // validate: exactly one declared target or precondition
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"]; // validate: exactly one declared target or precondition
+  }
+  reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded observations; also present after an applicable post-read failure
+}
+
+message FileServiceEditFileRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  reserved 2 to 9;
+  FilePath path = 10 [json_name = "path"]; // validate: required
+  optional string old_text = 11 [json_name = "oldText"]; // validate: required
+  optional string new_text = 12 [json_name = "newText"]; // validate: required
+  optional uint32 expected_occurrences = 13 [json_name = "expectedOccurrences"]; // validate: required
+  optional bytes expected_sha256 = 14 [json_name = "expectedSha256"]; // validate: required
+}
+
+message FileServiceEditFileValue {
+  FileMutationResult result = 10 [json_name = "result"]; // validate: required
+}
+
+message FileServiceEditFileResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"]; // validate: optional; declared profile bounds apply
+  oneof outcome {
+    FileServiceEditFileValue value = 2 [json_name = "value"]; // validate: exactly one declared target or precondition
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"]; // validate: exactly one declared target or precondition
+  }
+  reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded observations; also present after an applicable post-read failure
+}
+
+message FileServiceSearchFilesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
+  reserved 2 to 9;
+  FilePath path = 10 [json_name = "path"]; // validate: required
+  optional string pattern = 11 [json_name = "pattern"]; // validate: required
+  optional FileSearchMode mode = 12 [json_name = "mode"]; // validate: required
+  optional uint32 max_matches = 13 [json_name = "maxMatches"]; // validate: optional; declared profile bounds apply
+  optional uint64 max_scan_bytes = 14 [json_name = "maxScanBytes"]; // validate: optional; declared profile bounds apply
+}
+
+message FileServiceSearchFilesValue {
+  repeated FileMatch matches = 10 [json_name = "matches"]; // validate: optional; declared profile bounds apply
+  optional uint32 visited_entries = 11 [json_name = "visitedEntries"]; // validate: required
+  optional uint64 scanned_bytes = 12 [json_name = "scannedBytes"]; // validate: required
+  optional uint32 skipped_files = 13 [json_name = "skippedFiles"]; // validate: required
+  optional bool truncated = 14 [json_name = "truncated"]; // validate: required
+  optional string truncation_reason = 15 [json_name = "truncationReason"]; // validate: optional; declared profile bounds apply
+  repeated FileScanProblem problems = 16 [json_name = "problems"]; // validate: optional; declared profile bounds apply
+  optional bytes scan_digest = 17 [json_name = "scanDigest"]; // validate: required; 32-byte ordered actual scan transcript digest
+  optional uint64 scan_transcript_bytes = 18 [json_name = "scanTranscriptBytes"]; // validate: required; exact digest input length
+  optional uint32 scan_file_count = 19 [json_name = "scanFileCount"]; // validate: required; actual nonempty frames
+}
+
+message FileServiceSearchFilesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"]; // validate: optional; declared profile bounds apply
+  oneof outcome {
+    FileServiceSearchFilesValue value = 2 [json_name = "value"]; // validate: exactly one declared target or precondition
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"]; // validate: exactly one declared target or precondition
+  }
+  reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded observations; also present after an applicable post-read failure
+}
+
+message FileServiceListDirectoryRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
+  reserved 2 to 9;
+  FilePath path = 10 [json_name = "path"]; // validate: required
+  optional uint32 page_size = 11 [json_name = "pageSize"]; // validate: optional; declared profile bounds apply
+  optional string cursor = 12 [json_name = "cursor"]; // validate: optional; declared profile bounds apply
+}
+
+message FileServiceListDirectoryValue {
+  repeated FileDirectoryEntry entries = 10 [json_name = "entries"]; // validate: optional; declared profile bounds apply
+  optional string next_cursor = 11 [json_name = "nextCursor"]; // validate: optional; declared profile bounds apply
+  optional bool truncated = 12 [json_name = "truncated"]; // validate: required
+  optional uint32 snapshot_entries = 13 [json_name = "snapshotEntries"]; // validate: required
+  repeated FileScanProblem problems = 14 [json_name = "problems"]; // validate: optional; declared profile bounds apply
+  optional bytes metadata_digest = 15 [json_name = "metadataDigest"]; // validate: required; 32 bytes; directory metadata, never file content
+  optional uint64 metadata_bytes = 16 [json_name = "metadataBytes"]; // validate: required; exact directory transcript length
+}
+
+message FileServiceListDirectoryResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"]; // validate: optional; declared profile bounds apply
+  oneof outcome {
+    FileServiceListDirectoryValue value = 2 [json_name = "value"]; // validate: exactly one declared target or precondition
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"]; // validate: exactly one declared target or precondition
+  }
+  reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded observations; also present after an applicable post-read failure
+}
+
+message FileServicePlanRemovalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  reserved 2 to 9;
+  oneof target {
+    FilePath workspace_path = 10 [json_name = "workspacePath"]; // validate: exactly one declared target or precondition
+    arcforges.foundation.v1.Id attempt_id = 11 [json_name = "attemptId"]; // validate: exactly one declared target or precondition
+  }
+}
+
+message FileServicePlanRemovalValue {
+  FileRemovalPlan plan = 10 [json_name = "plan"]; // validate: required
+}
+
+message FileServicePlanRemovalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"]; // validate: optional; declared profile bounds apply
+  oneof outcome {
+    FileServicePlanRemovalValue value = 2 [json_name = "value"]; // validate: exactly one declared target or precondition
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"]; // validate: exactly one declared target or precondition
+  }
+  reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded observations; also present after an applicable post-read failure
+}
+
+message FileServiceExecuteRemovalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id plan_id = 10 [json_name = "planId"]; // validate: required
+  optional bytes plan_digest = 11 [json_name = "planDigest"]; // validate: required
+  optional bool delete_without_quarantine = 12 [json_name = "deleteWithoutQuarantine"]; // validate: optional; declared profile bounds apply
+}
+
+message FileServiceExecuteRemovalValue {
+  FileRemovalResult result = 10 [json_name = "result"]; // validate: required
+}
+
+message FileServiceExecuteRemovalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"]; // validate: optional; declared profile bounds apply
+  oneof outcome {
+    FileServiceExecuteRemovalValue value = 2 [json_name = "value"]; // validate: exactly one declared target or precondition
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"]; // validate: exactly one declared target or precondition
+  }
+  reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded observations; also present after an applicable post-read failure
+}
+
+message FileServiceGetFileOperationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id operation_command_id = 10 [json_name = "operationCommandId"]; // validate: required
+}
+
+message FileServiceGetFileOperationValue {
+  FileOperation operation = 10 [json_name = "operation"]; // validate: required
+}
+
+message FileServiceGetFileOperationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"]; // validate: optional; declared profile bounds apply
+  oneof outcome {
+    FileServiceGetFileOperationValue value = 2 [json_name = "value"]; // validate: exactly one declared target or precondition
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"]; // validate: exactly one declared target or precondition
+  }
+  reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded observations; also present after an applicable post-read failure
+}
+
+message FileServiceAcknowledgeFileOperationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required for a mutation
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id operation_command_id = 10 [json_name = "operationCommandId"]; // validate: required
+  optional bytes operation_digest = 11 [json_name = "operationDigest"]; // validate: required
+}
+
+message FileServiceAcknowledgeFileOperationValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"]; // validate: required
+  FileOperation operation = 11 [json_name = "operation"]; // validate: required
+}
+
+message FileServiceAcknowledgeFileOperationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"]; // validate: optional; declared profile bounds apply
+  oneof outcome {
+    FileServiceAcknowledgeFileOperationValue value = 2 [json_name = "value"]; // validate: exactly one declared target or precondition
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"]; // validate: exactly one declared target or precondition
+  }
+  reserved 4 to 9;
+  FileAuditMetadata audit = 10 [json_name = "audit"]; // validate: bounded observations; also present after an applicable post-read failure
+}

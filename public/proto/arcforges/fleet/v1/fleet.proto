@@ -950,6 +950,116 @@ service FleetService {
   // errors: AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, STATE/not_found, STATE/node_offline, STATE/node_unreachable, STATE/expired, STATE/invalid_state, ENTITLEMENT/feature_not_entitled, RESOURCE/rate_limited, CONFLICT/command_id_reused, VALIDATION/invalid_argument
   // locality: cloud -> node
   rpc CancelNodeTask(FleetServiceCancelNodeTaskRequest) returns (FleetServiceCancelNodeTaskResponse);
+
+  // AF-CTR-06: bounded file/workspace methods; no local submission bypass.
+  // Route node.v1 FileService.ReadFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+  // auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+  // idempotency: read
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+  // locality: cloud -> node
+  rpc ReadNodeFile(FleetServiceReadNodeFileRequest) returns (FleetServiceReadNodeFileResponse);
+
+  // Route node.v1 FileService.WriteFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+  // auth: account session with target-bound step-up (class fleet.writeNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+  // idempotency: command_id; exact caller and bytes, existing routing replay window applies
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+  // locality: cloud -> node
+  rpc WriteNodeFile(FleetServiceWriteNodeFileRequest) returns (FleetServiceWriteNodeFileResponse);
+
+  // Route node.v1 FileService.EditFile to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+  // auth: account session with target-bound step-up (class fleet.editNodeFile; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+  // idempotency: command_id; exact caller and bytes, existing routing replay window applies
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+  // locality: cloud -> node
+  rpc EditNodeFile(FleetServiceEditNodeFileRequest) returns (FleetServiceEditNodeFileResponse);
+
+  // Route node.v1 FileService.SearchFiles to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+  // auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+  // idempotency: read
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+  // locality: cloud -> node
+  rpc SearchNodeFiles(FleetServiceSearchNodeFilesRequest) returns (FleetServiceSearchNodeFilesResponse);
+
+  // Route node.v1 FileService.ListDirectory to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+  // auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+  // idempotency: read
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+  // locality: cloud -> node
+  rpc ListNodeDirectory(FleetServiceListNodeDirectoryRequest) returns (FleetServiceListNodeDirectoryResponse);
+
+  // Route node.v1 FileService.PlanRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+  // auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+  // idempotency: command_id; exact caller and bytes, existing routing replay window applies
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+  // locality: cloud -> node
+  rpc PlanNodeRemoval(FleetServicePlanNodeRemovalRequest) returns (FleetServicePlanNodeRemovalResponse);
+
+  // Route node.v1 FileService.ExecuteRemoval to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+  // auth: account session with target-bound step-up (class fleet.executeNodeRemoval; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+  // idempotency: command_id; exact caller and bytes, existing routing replay window applies
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+  // locality: cloud -> node
+  rpc ExecuteNodeRemoval(FleetServiceExecuteNodeRemovalRequest) returns (FleetServiceExecuteNodeRemovalResponse);
+
+  // Route node.v1 FileService.GetFileOperation to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+  // auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+  // idempotency: read
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+  // locality: cloud -> node
+  rpc GetNodeFileOperation(FleetServiceGetNodeFileOperationRequest) returns (FleetServiceGetNodeFileOperationResponse);
+
+  // Route node.v1 WorkspaceService.RegisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+  // auth: account session with target-bound step-up (class fleet.registerNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+  // idempotency: command_id; exact caller and bytes, existing routing replay window applies
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+  // locality: cloud -> node
+  rpc RegisterNodeWorkspace(FleetServiceRegisterNodeWorkspaceRequest) returns (FleetServiceRegisterNodeWorkspaceResponse);
+
+  // Route node.v1 WorkspaceService.UnregisterWorkspace to the explicitly selected node. Payload is the serialized node request. Registration changes are fixed HUMAN-only; a relay must be the target's own local HUMAN. The center never persists file bodies or forwards a client token to the node.
+  // auth: account session with target-bound step-up (class fleet.unregisterNodeWorkspace; mobile.limited upgrades first), or a verified node relay assertion under target-local policy
+  // idempotency: command_id; exact caller and bytes, existing routing replay window applies
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument, CONFLICT/command_id_reused
+  // locality: cloud -> node
+  rpc UnregisterNodeWorkspace(FleetServiceUnregisterNodeWorkspaceRequest) returns (FleetServiceUnregisterNodeWorkspaceResponse);
+
+  // Route node.v1 WorkspaceService.ListWorkspaces to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+  // auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+  // idempotency: read
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+  // locality: cloud -> node
+  rpc ListNodeWorkspaces(FleetServiceListNodeWorkspacesRequest) returns (FleetServiceListNodeWorkspacesResponse);
+
+  // Route node.v1 WorkspaceService.GetWorkspace to the explicitly selected node. Payload is the serialized node request. The center never persists file bodies or forwards a client token to the node.
+  // auth: account session (mobile.limited allowed), or a verified node relay assertion under target-local policy
+  // idempotency: read
+  // deadline: 15 s
+  // stream: none
+  // errors: STATE/node_offline, STATE/node_unreachable, STATE/invalid_state, AUTHENTICATION/unauthenticated, AUTHENTICATION/step_up_required, AUTHENTICATION/signature_invalid, AUTHORIZATION/permission_denied, AUTHORIZATION/approval_required, ENTITLEMENT/feature_not_entitled, STATE/expired, RESOURCE/rate_limited, VALIDATION/invalid_argument
+  // locality: cloud -> node
+  rpc GetNodeWorkspace(FleetServiceGetNodeWorkspaceRequest) returns (FleetServiceGetNodeWorkspaceResponse);
+
 }
 
 message FleetServiceListNodesRequest {
@@ -1988,4 +2098,256 @@ message NodeCursorInput {
   arcforges.foundation.v1.Id node_id = 1 [json_name = "nodeId"];
   optional uint64 generation = 2 [json_name = "generation"];
   optional uint64 seq = 3 [json_name = "seq"];
+}
+// AF-CTR-06 file/workspace envelopes; their bodies are generated node.v1 messages.
+message FleetServiceReadNodeFileRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
+  optional bytes request = 12 [json_name = "request"]; // validate: required; serialized node.v1 request; 1..245,760 bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: 1..512 bytes; required exactly with caller
+}
+message FleetServiceReadNodeFileResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceReadNodeFileValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceReadNodeFileValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; the serialized node response; 1..1,040,384 bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the selected node
+}
+
+message FleetServiceWriteNodeFileRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required; runtime binds it to the inner request and signed call
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
+  optional bytes request = 12 [json_name = "request"]; // validate: required; serialized node.v1 request; 1..245,760 bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: 1..512 bytes; required exactly with caller
+}
+message FleetServiceWriteNodeFileResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceWriteNodeFileValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceWriteNodeFileValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; the serialized node response; 1..1,040,384 bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the selected node
+}
+
+message FleetServiceEditNodeFileRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required; runtime binds it to the inner request and signed call
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
+  optional bytes request = 12 [json_name = "request"]; // validate: required; serialized node.v1 request; 1..245,760 bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: 1..512 bytes; required exactly with caller
+}
+message FleetServiceEditNodeFileResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceEditNodeFileValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceEditNodeFileValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; the serialized node response; 1..1,040,384 bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the selected node
+}
+
+message FleetServiceSearchNodeFilesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
+  optional bytes request = 12 [json_name = "request"]; // validate: required; serialized node.v1 request; 1..245,760 bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: 1..512 bytes; required exactly with caller
+}
+message FleetServiceSearchNodeFilesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceSearchNodeFilesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceSearchNodeFilesValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; the serialized node response; 1..1,040,384 bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the selected node
+}
+
+message FleetServiceListNodeDirectoryRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
+  optional bytes request = 12 [json_name = "request"]; // validate: required; serialized node.v1 request; 1..245,760 bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: 1..512 bytes; required exactly with caller
+}
+message FleetServiceListNodeDirectoryResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceListNodeDirectoryValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceListNodeDirectoryValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; the serialized node response; 1..1,040,384 bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the selected node
+}
+
+message FleetServicePlanNodeRemovalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required; runtime binds it to the inner request and signed call
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
+  optional bytes request = 12 [json_name = "request"]; // validate: required; serialized node.v1 request; 1..245,760 bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: 1..512 bytes; required exactly with caller
+}
+message FleetServicePlanNodeRemovalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServicePlanNodeRemovalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServicePlanNodeRemovalValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; the serialized node response; 1..1,040,384 bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the selected node
+}
+
+message FleetServiceExecuteNodeRemovalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required; runtime binds it to the inner request and signed call
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
+  optional bytes request = 12 [json_name = "request"]; // validate: required; serialized node.v1 request; 1..245,760 bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: 1..512 bytes; required exactly with caller
+}
+message FleetServiceExecuteNodeRemovalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceExecuteNodeRemovalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceExecuteNodeRemovalValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; the serialized node response; 1..1,040,384 bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the selected node
+}
+
+message FleetServiceGetNodeFileOperationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
+  optional bytes request = 12 [json_name = "request"]; // validate: required; serialized node.v1 request; 1..245,760 bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: 1..512 bytes; required exactly with caller
+}
+message FleetServiceGetNodeFileOperationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceGetNodeFileOperationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceGetNodeFileOperationValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; the serialized node response; 1..1,040,384 bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the selected node
+}
+
+message FleetServiceRegisterNodeWorkspaceRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required; runtime binds it to the inner request and signed call
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
+  optional bytes request = 12 [json_name = "request"]; // validate: required; serialized node.v1 request; 1..245,760 bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: 1..512 bytes; required exactly with caller
+}
+message FleetServiceRegisterNodeWorkspaceResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceRegisterNodeWorkspaceValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceRegisterNodeWorkspaceValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; the serialized node response; 1..1,040,384 bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the selected node
+}
+
+message FleetServiceUnregisterNodeWorkspaceRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id required; runtime binds it to the inner request and signed call
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
+  optional bytes request = 12 [json_name = "request"]; // validate: required; serialized node.v1 request; 1..245,760 bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: 1..512 bytes; required exactly with caller
+}
+message FleetServiceUnregisterNodeWorkspaceResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceUnregisterNodeWorkspaceValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceUnregisterNodeWorkspaceValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; the serialized node response; 1..1,040,384 bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the selected node
+}
+
+message FleetServiceListNodeWorkspacesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
+  optional bytes request = 12 [json_name = "request"]; // validate: required; serialized node.v1 request; 1..245,760 bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: 1..512 bytes; required exactly with caller
+}
+message FleetServiceListNodeWorkspacesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceListNodeWorkspacesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceListNodeWorkspacesValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; the serialized node response; 1..1,040,384 bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the selected node
+}
+
+message FleetServiceGetNodeWorkspaceRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: command_id absent for read
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id node_id = 10 [json_name = "nodeId"]; // validate: required
+  RoutedCaller caller = 11 [json_name = "caller"]; // validate: together with relay_assertion; absent for an account session
+  optional bytes request = 12 [json_name = "request"]; // validate: required; serialized node.v1 request; 1..245,760 bytes
+  optional bytes relay_assertion = 13 [json_name = "relayAssertion"]; // validate: 1..512 bytes; required exactly with caller
+}
+message FleetServiceGetNodeWorkspaceResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    FleetServiceGetNodeWorkspaceValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message FleetServiceGetNodeWorkspaceValue {
+  optional bytes response = 10 [json_name = "response"]; // validate: required; the serialized node response; 1..1,040,384 bytes
+  arcforges.foundation.v1.Id node_id = 11 [json_name = "nodeId"]; // validate: required; the selected node
 }

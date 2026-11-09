@@ -288,20 +288,31 @@ namespace ArcForges.Contracts.Relay.V1 {
             "cmdlcy5yZWxheS52MS5LaWxsU3dpdGNoVXBkYXRlSABSDGtpbGxTd2l0Y2hl",
             "cxJQCg11bmRlbGl2ZXJhYmxlGBAgASgLMiguYXJjZm9yZ2VzLnJlbGF5LnYx",
             "LkNvbW1hbmRVbmRlbGl2ZXJhYmxlSABSDXVuZGVsaXZlcmFibGVCBgoEYm9k",
-            "eUITChFfZW52ZWxvcGVfdmVyc2lvbiq+AgoMUm91dGVkTWV0aG9kEh0KGVJP",
+            "eUITChFfZW52ZWxvcGVfdmVyc2lvbiqPBgoMUm91dGVkTWV0aG9kEh0KGVJP",
             "VVRFRF9NRVRIT0RfVU5TUEVDSUZJRUQQABIiCh5ST1VURURfTUVUSE9EX1NV",
             "Qk1JVF9OT0RFX1RBU0sQARIfChtST1VURURfTUVUSE9EX0dFVF9OT0RFX1RB",
             "U0sQAhIhCh1ST1VURURfTUVUSE9EX0xJU1RfTk9ERV9UQVNLUxADEiAKHFJP",
             "VVRFRF9NRVRIT0RfV0FJVF9OT0RFX1RBU0sQBBInCiNST1VURURfTUVUSE9E",
             "X1JFQURfTk9ERV9UQVNLX09VVFBVVBAFEiIKHlJPVVRFRF9NRVRIT0RfQ0FO",
             "Q0VMX05PREVfVEFTSxAGEhwKGFJPVVRFRF9NRVRIT0RfTElTVF9OT0RFUxAH",
-            "EhoKFlJPVVRFRF9NRVRIT0RfR0VUX05PREUQCCq3AQoNUm91dGVkT3V0Y29t",
-            "ZRIeChpST1VURURfT1VUQ09NRV9VTlNQRUNJRklFRBAAEhsKF1JPVVRFRF9P",
-            "VVRDT01FX0VYRUNVVEVEEAESJAogUk9VVEVEX09VVENPTUVfUkVGVVNFRF9C",
-            "WV9QT0xJQ1kQAhInCiNST1VURURfT1VUQ09NRV9SRUZVU0VEX1ZFUklGSUNB",
-            "VElPThADEhoKFlJPVVRFRF9PVVRDT01FX0VYUElSRUQQBEJVCiZpby5naXRo",
-            "dWIuYXJjZm9yZ2VzLmNvbnRyYWN0cy5yZWxheS52MUIKUmVsYXlQcm90b1AB",
-            "qgIcQXJjRm9yZ2VzLkNvbnRyYWN0cy5SZWxheS5WMWIGcHJvdG8z"));
+            "EhoKFlJPVVRFRF9NRVRIT0RfR0VUX05PREUQCBIgChxST1VURURfTUVUSE9E",
+            "X1JFQURfTk9ERV9GSUxFEAkSIQodUk9VVEVEX01FVEhPRF9XUklURV9OT0RF",
+            "X0ZJTEUQChIgChxST1VURURfTUVUSE9EX0VESVRfTk9ERV9GSUxFEAsSIwof",
+            "Uk9VVEVEX01FVEhPRF9TRUFSQ0hfTk9ERV9GSUxFUxAMEiUKIVJPVVRFRF9N",
+            "RVRIT0RfTElTVF9OT0RFX0RJUkVDVE9SWRANEiMKH1JPVVRFRF9NRVRIT0Rf",
+            "UExBTl9OT0RFX1JFTU9WQUwQDhImCiJST1VURURfTUVUSE9EX0VYRUNVVEVf",
+            "Tk9ERV9SRU1PVkFMEA8SKQolUk9VVEVEX01FVEhPRF9HRVRfTk9ERV9GSUxF",
+            "X09QRVJBVElPThAQEikKJVJPVVRFRF9NRVRIT0RfUkVHSVNURVJfTk9ERV9X",
+            "T1JLU1BBQ0UQERIrCidST1VURURfTUVUSE9EX1VOUkVHSVNURVJfTk9ERV9X",
+            "T1JLU1BBQ0UQEhImCiJST1VURURfTUVUSE9EX0xJU1RfTk9ERV9XT1JLU1BB",
+            "Q0VTEBMSJAogUk9VVEVEX01FVEhPRF9HRVRfTk9ERV9XT1JLU1BBQ0UQFCq3",
+            "AQoNUm91dGVkT3V0Y29tZRIeChpST1VURURfT1VUQ09NRV9VTlNQRUNJRklF",
+            "RBAAEhsKF1JPVVRFRF9PVVRDT01FX0VYRUNVVEVEEAESJAogUk9VVEVEX09V",
+            "VENPTUVfUkVGVVNFRF9CWV9QT0xJQ1kQAhInCiNST1VURURfT1VUQ09NRV9S",
+            "RUZVU0VEX1ZFUklGSUNBVElPThADEhoKFlJPVVRFRF9PVVRDT01FX0VYUElS",
+            "RUQQBEJVCiZpby5naXRodWIuYXJjZm9yZ2VzLmNvbnRyYWN0cy5yZWxheS52",
+            "MUIKUmVsYXlQcm90b1ABqgIcQXJjRm9yZ2VzLkNvbnRyYWN0cy5SZWxheS5W",
+            "MWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::ArcForges.Contracts.Fleet.V1.FleetReflection.Descriptor, global::ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor, global::ArcForges.Contracts.Node.V1.CommonReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::ArcForges.Contracts.Relay.V1.RoutedMethod), typeof(global::ArcForges.Contracts.Relay.V1.RoutedOutcome), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -350,8 +361,8 @@ namespace ArcForges.Contracts.Relay.V1 {
   }
   #region Enums
   /// <summary>
-  /// The center-routed methods (fleet.v1 FleetService). 1..6 are the routed task methods, the calls a center sends; LIST_NODES and
-  /// GET_NODE are named only by a relay assertion. The numbers 1..6 are the node store's routed_call_log.method.
+  /// The center-routed methods (fleet.v1 FleetService). 1..6 keep the delivered task method numbers; 9..20 are AF-CTR-06 files/workspaces.
+  /// LIST_NODES and GET_NODE (7,8) are relay-assertion-only, never channel calls. Historical SQLite/PG constraints remain immutable.
   /// </summary>
   public enum RoutedMethod {
     [pbr::OriginalName("ROUTED_METHOD_UNSPECIFIED")] Unspecified = 0,
@@ -387,6 +398,54 @@ namespace ArcForges.Contracts.Relay.V1 {
     /// relay assertions only
     /// </summary>
     [pbr::OriginalName("ROUTED_METHOD_GET_NODE")] GetNode = 8,
+    /// <summary>
+    /// AF-CTR-06: these numbers are separate additive file/workspace log rows, never old task-method aliases.
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_READ_NODE_FILE")] ReadNodeFile = 9,
+    /// <summary>
+    /// payload FileServiceWriteFileRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_WRITE_NODE_FILE")] WriteNodeFile = 10,
+    /// <summary>
+    /// payload FileServiceEditFileRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_EDIT_NODE_FILE")] EditNodeFile = 11,
+    /// <summary>
+    /// payload FileServiceSearchFilesRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_SEARCH_NODE_FILES")] SearchNodeFiles = 12,
+    /// <summary>
+    /// payload FileServiceListDirectoryRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_LIST_NODE_DIRECTORY")] ListNodeDirectory = 13,
+    /// <summary>
+    /// payload FileServicePlanRemovalRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_PLAN_NODE_REMOVAL")] PlanNodeRemoval = 14,
+    /// <summary>
+    /// payload FileServiceExecuteRemovalRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_EXECUTE_NODE_REMOVAL")] ExecuteNodeRemoval = 15,
+    /// <summary>
+    /// payload FileServiceGetFileOperationRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_GET_NODE_FILE_OPERATION")] GetNodeFileOperation = 16,
+    /// <summary>
+    /// payload WorkspaceServiceRegisterWorkspaceRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_REGISTER_NODE_WORKSPACE")] RegisterNodeWorkspace = 17,
+    /// <summary>
+    /// payload WorkspaceServiceUnregisterWorkspaceRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_UNREGISTER_NODE_WORKSPACE")] UnregisterNodeWorkspace = 18,
+    /// <summary>
+    /// payload WorkspaceServiceListWorkspacesRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_LIST_NODE_WORKSPACES")] ListNodeWorkspaces = 19,
+    /// <summary>
+    /// payload WorkspaceServiceGetWorkspaceRequest
+    /// </summary>
+    [pbr::OriginalName("ROUTED_METHOD_GET_NODE_WORKSPACE")] GetNodeWorkspace = 20,
   }
 
   /// <summary>
@@ -8285,7 +8344,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     public const int CommandIdFieldNumber = 7;
     private global::ArcForges.Contracts.Foundation.V1.Id commandId_;
     /// <summary>
-    /// validate: required for SUBMIT_NODE_TASK and CANCEL_NODE_TASK, absent otherwise; equals the payload's meta.command_id
+    /// validate: required for mutation methods 1, 6, 10, 11, 14, 15, 17 and 18, absent for read methods; equals the payload's meta.command_id
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -8302,7 +8361,7 @@ namespace ArcForges.Contracts.Relay.V1 {
 
     private global::ArcForges.Contracts.Relay.V1.RoutedMethod method_;
     /// <summary>
-    /// validate: required; 1..6
+    /// validate: required; 1..6 or 9..20
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -9382,7 +9441,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     public const int CommandIdFieldNumber = 2;
     private global::ArcForges.Contracts.Foundation.V1.Id commandId_;
     /// <summary>
-    /// validate: the call header's command_id when it names one; absent for REFUSED_VERIFICATION
+    /// validate: absent for REFUSED_VERIFICATION; for verified AF-CTR-06 methods, present for mutations and absent for reads; runtime matches the call header
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -9414,7 +9473,7 @@ namespace ArcForges.Contracts.Relay.V1 {
 
     private global::ArcForges.Contracts.Relay.V1.RoutedMethod method_;
     /// <summary>
-    /// validate: required (1..6) unless REFUSED_VERIFICATION, absent then
+    /// validate: required (1..6 or 9..20) unless REFUSED_VERIFICATION, absent then
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -10995,7 +11054,7 @@ namespace ArcForges.Contracts.Relay.V1 {
 
     private global::ArcForges.Contracts.Relay.V1.RoutedMethod method_;
     /// <summary>
-    /// validate: required; 1..8
+    /// validate: required; 1..20
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -11067,7 +11126,7 @@ namespace ArcForges.Contracts.Relay.V1 {
     public const int CommandIdFieldNumber = 8;
     private global::ArcForges.Contracts.Foundation.V1.Id commandId_;
     /// <summary>
-    /// validate: required for SUBMIT_NODE_TASK and CANCEL_NODE_TASK, absent otherwise
+    /// validate: required for mutation methods 1, 6, 10, 11, 14, 15, 17 and 18, absent for read methods
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

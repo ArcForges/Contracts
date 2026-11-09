@@ -10,6 +10,7 @@ import shutil
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "eng"))
@@ -48,7 +49,7 @@ NEW_PACKAGES = {
     "ArcForges.Contracts.Peer": ["ArcForges.Contracts.Foundation", "ArcForges.Contracts.Node"],
     "ArcForges.Contracts.Relay": ["ArcForges.Contracts.Foundation", "ArcForges.Contracts.Node", "ArcForges.Contracts.Fleet"],
 }
-SERVICE_COUNTS = {"node": 19, "fleet": 3, "peer": 6, "relay": 0, "publicapi": 1, "operator": 1}
+SERVICE_COUNTS = {"node": 20, "fleet": 3, "peer": 6, "relay": 0, "publicapi": 1, "operator": 1}
 
 
 def foundation_enum(name):
@@ -61,7 +62,7 @@ class AdoptionRecord(unittest.TestCase):
     def test_every_adopted_file_is_byte_identical_and_placed_by_the_design(self):
         self.assertEqual(RECORD["schemaVersion"], "flagship-contracts.v1")
         self.assertEqual(RECORD["design"]["commit"], "78f0f5a4bb614c184e51da9a2d3030595f4f5976")
-        self.assertEqual(len(RECORD["files"]), 25)
+        self.assertEqual(len(RECORD["files"]), 26)
         for row in RECORD["files"]:
             area = row["design"].split("/")[1]
             package, access, namespace = PLACEMENT[area]
@@ -80,7 +81,7 @@ class AdoptionRecord(unittest.TestCase):
         actual |= {"public/proto/arcforges/publicapi/v1/support_access.proto",
                    "internal/proto/arcforges/operator/v1/operator_read.proto"}
         self.assertEqual({row["path"] for row in RECORD["files"]}, actual)
-        self.assertEqual(sum(row["design"].startswith("arcforges/node/") for row in RECORD["files"]), 20)
+        self.assertEqual(sum(row["design"].startswith("arcforges/node/") for row in RECORD["files"]), 21)
 
     def test_packages_have_the_design_access_and_own_exactly_their_files(self):
         catalog = {row["id"]: row for row in load("eng/contract-packages.json")["packages"]}
@@ -106,7 +107,7 @@ class AdoptionRecord(unittest.TestCase):
             files = {row["path"] for row in RECORD["files"] if row["design"].split("/")[1] == area}
             services = {binding.split("/")[0] for binding, source in methods.items() if source in files}
             self.assertEqual(len(services), count, area)
-        self.assertEqual(sum(source in {row["path"] for row in RECORD["files"]} for source in methods.values()), 232)
+        self.assertEqual(sum(source in {row["path"] for row in RECORD["files"]} for source in methods.values()), 253)
 
     def test_schema_digest_of_the_compiled_package_descriptors_is_recorded(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -121,9 +122,9 @@ class ErrorCatalogue(unittest.TestCase):
         effects = {name[len("EFFECT_CERTAINTY_"):] for name in foundation_enum("EffectCertainty")} - {"UNSPECIFIED"}
         self.assertEqual(CATALOGUE["schemaVersion"], "af-con-01-error-catalogue.v2")
         self.assertEqual(CATALOGUE["source"]["path"], "docs/contracts/errors.md")
-        # AF-CTR-05 (part C1): regenerated from errors.md at ArcForges-Design main 611dda6 (D0, Design #49).
-        self.assertEqual(CATALOGUE["source"]["commit"], "611dda6b79c3f8aa854fbacad19e012f1759bd19")
-        self.assertEqual(len(CATALOGUE["codes"]), 67)
+        # AF-CTR-06: exact approved errors source (D0 Design #51), retaining all prior catalogue codes.
+        self.assertEqual(CATALOGUE["source"]["commit"], "f0206cdad77d179ea300ea41f672790f3c698783")
+        self.assertEqual(len(CATALOGUE["codes"]), 70)
         seen = set()
         for row in CATALOGUE["codes"]:
             key = row["category"] + "/" + row["code"]
@@ -207,7 +208,7 @@ class ErrorCatalogue(unittest.TestCase):
 
     def test_every_annotated_method_names_only_catalogued_codes(self):
         flagship = scope.flagship_methods(ROOT, scope.proto_methods(ROOT))
-        self.assertEqual(len(flagship), 232)  # AF-CTR-05 (part C2) adds the six center-routed FleetService methods
+        self.assertEqual(len(flagship), 253)  # AF-CTR-06 adds nine Node and twelve Fleet methods, preserving the older 232.
         known = {row["category"] + "/" + row["code"] for row in CATALOGUE["codes"]}
         for method in flagship:
             named = method["annotations"]["errors"]
@@ -217,11 +218,12 @@ class ErrorCatalogue(unittest.TestCase):
 
 class ConstraintSidecars(unittest.TestCase):
     """Sidecars hold the field inventory of every adopted message and exactly the unconditional
-    `validate: required` annotations; every other validate comment stays specification text."""
+    required annotations and the explicitly activated AF-CTR-06 workspace profile."""
 
     SHARDS = ["public/proto/constraints/af-con-01-node.json", "public/proto/constraints/af-con-01-fleet.json",
               "public/proto/constraints/af-con-01-support-access.json", "internal/proto/constraints/af-con-01-peer.json",
-              "internal/proto/constraints/af-con-01-relay.json", "internal/proto/constraints/af-con-01-operator-read.json"]
+              "internal/proto/constraints/af-con-01-relay.json", "internal/proto/constraints/af-con-01-operator-read.json",
+              "public/proto/constraints/af-ctr-06-files.json", "public/proto/constraints/af-ctr-06-fleet.json"]
 
     def test_required_flags_equal_the_unconditional_required_annotations(self):
         messages = {}
@@ -240,24 +242,64 @@ class ConstraintSidecars(unittest.TestCase):
         actual = {(name, field) for name, value in messages.items() for field, rules in value["fields"].items()
                   if rules.get("required")}
         self.assertEqual(set(messages), declared)
-        self.assertEqual(actual, expected)
+        # Exactly five legacy fields are required by the reviewed activated workspace profile.
+        self.assertEqual(actual, expected | C6_WORKSPACE_REQUIRED)
         # AF-CTR-05 (part C1) adds approve of ApproveNodeSignIn and ApproveDeviceCode (129 before); part C2 adds the required
         # fields of the node channel, the relay assertion and the routed methods (tests/tooling/test_af_ctr_05_c2.py).
-        self.assertEqual(len(actual), 131 + C2_REQUIRED)
-        # The flagship sidecars carry presence only, except the bounds that AF-CTR-05 part C2 declares for its own new messages
-        # and fields (plan B.6: lengths, ranges and header sizes of every new field); no earlier field gains a bound.
+        self.assertEqual(len(actual), 131 + C2_REQUIRED + C6_REQUIRED)
+        # Bounds are confined to the reviewed C2 fields/messages and the explicit AF-CTR-06 file,
+        # Fleet and activated workspace profile; unrelated earlier fields remain presence-only.
         for name, value in messages.items():
             for field, rules in value["fields"].items():
                 if set(rules) - {"required"}:
                     with self.subTest(message=name, field=field):
-                        self.assertTrue(name in C2_BOUNDED_MESSAGES or (name, field) in C2_BOUNDED_FIELDS)
-        # Message-level relationship rules: among the earlier flagship messages only the two relayed reads of AF-CTR-05 part C2
-        # carry one (C-N6); every other rule belongs to a C2 message (review B N-4).
+                        self.assertTrue(name in C2_BOUNDED_MESSAGES | C6_BOUNDED_MESSAGES
+                                        or (name, field) in C2_BOUNDED_FIELDS | C6_LEGACY_FIELD_BOUNDS.keys())
+                        if (name, field) in C6_LEGACY_FIELD_BOUNDS:
+                            self.assertEqual(rules, C6_LEGACY_FIELD_BOUNDS[(name, field)])
+        # Outside the explicit C2/C6 profile, only the two earlier relayed reads carry a
+        # relationship rule (C-N6); their exact relayedCaller rule remains unchanged.
         ruled = {name for name, value in messages.items() if value.get("rules")}
-        self.assertEqual(ruled - C2_BOUNDED_MESSAGES, {"arcforges.fleet.v1.FleetServiceListNodesRequest",
-                                                       "arcforges.fleet.v1.FleetServiceGetNodeRequest"})
-        self.assertEqual({name: messages[name]["rules"] for name in ruled - C2_BOUNDED_MESSAGES},
-                         {name: ["relayedCaller"] for name in ruled - C2_BOUNDED_MESSAGES})
+        expected_legacy_rules = {
+            "arcforges.fleet.v1.FleetServiceListNodesRequest": ["relayedCaller"],
+            "arcforges.fleet.v1.FleetServiceGetNodeRequest": ["relayedCaller"],
+            **C6_LEGACY_RULES,
+        }
+        self.assertEqual({name: messages[name]["rules"]
+                          for name in ruled - (C2_BOUNDED_MESSAGES | C6_BOUNDED_MESSAGES)},
+                         {name: rules for name, rules in expected_legacy_rules.items() if rules})
+        for name, rules in C6_LEGACY_RULES.items():
+            self.assertEqual(messages[name].get("rules", []), rules)
+        for name in C6_LEGACY_RESPONSE_ONEOFS:
+            self.assertEqual(messages[name]["oneofRequired"], ["outcome"])
+        for (name, field), rules in C6_LEGACY_FIELD_BOUNDS.items():
+            self.assertEqual(messages[name]["fields"][field], rules)
+
+    def test_legacy_profile_still_rejects_unreviewed_bounds_and_missing_rules(self):
+        # These reviewer-found mutations passed with a whole-message legacy exemption.
+        # Run a separate TestCase oracle directly, so subTest failures raise normally.
+        original_load = load
+        path = "public/proto/constraints/af-con-01-node.json"
+        for mutation in ("extra_branch_bound", "missing_quality_rule", "weaker_path_bound", "missing_outcome"):
+            with self.subTest(mutation=mutation):
+                changed = copy.deepcopy(original_load(path))
+                summary = changed["messages"]["arcforges.node.v1.GitStatusSummary"]
+                if mutation == "extra_branch_bound":
+                    summary["fields"]["branch"]["maxUtf8Bytes"] = 1
+                elif mutation == "missing_quality_rule":
+                    summary["rules"].remove("gitSummaryQuality")
+                elif mutation == "weaker_path_bound":
+                    changed["messages"]["arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest"]["fields"]["path"]["maxUtf8Bytes"] = 8192
+                else:
+                    changed["messages"]["arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse"]["oneofRequired"] = []
+
+                def changed_load(relative):
+                    return changed if relative == path else original_load(relative)
+
+                probe = ConstraintSidecars("test_required_flags_equal_the_unconditional_required_annotations")
+                with mock.patch.object(sys.modules[__name__], "load", side_effect=changed_load):
+                    with self.assertRaises(AssertionError):
+                        probe.test_required_flags_equal_the_unconditional_required_annotations()
 
 
 # AF-CTR-05 part C2: the new messages and the new fields of earlier messages whose sidecar entries carry bounds.
@@ -274,6 +316,50 @@ C2_BOUNDED_FIELDS = {("arcforges.relay.v1.NodeHello", "contractVersion"), ("arcf
                      ("arcforges.node.v1.TaskServiceReadTaskOutputRequest", "waitMs"),
                      ("arcforges.relay.v1.RelayClose", "reconnectAfterMs")}
 C2_REQUIRED = 81  # the required flags of the C2 messages and fields (212 in all)
+
+
+# AF-CTR-06 independent exact scope oracle; every legacy C2 value above remains unchanged.
+C6_FILE_METHODS = ('ReadFile', 'WriteFile', 'EditFile', 'SearchFiles', 'ListDirectory', 'PlanRemoval', 'ExecuteRemoval', 'GetFileOperation', 'AcknowledgeFileOperation')
+C6_FLEET_METHODS = ('ReadNodeFile', 'WriteNodeFile', 'EditNodeFile', 'SearchNodeFiles', 'ListNodeDirectory', 'PlanNodeRemoval', 'ExecuteNodeRemoval', 'GetNodeFileOperation', 'RegisterNodeWorkspace', 'UnregisterNodeWorkspace', 'ListNodeWorkspaces', 'GetNodeWorkspace')
+C6_BOUNDED_MESSAGES = {"arcforges.node.v1." + name for name in ('FilePath', 'FileMutationResult', 'FileMatch', 'FileScanProblem', 'FileDirectoryEntry', 'FileRemovalItem', 'FileRemovalPlan', 'FileRemovalResult', 'FileOperation', 'FileAuditObservation', 'FileAuditMetadata')}
+C6_BOUNDED_MESSAGES |= {f"arcforges.node.v1.FileService{name}{suffix}" for name in C6_FILE_METHODS for suffix in ("Request", "Value", "Response")}
+C6_BOUNDED_MESSAGES |= {f"arcforges.fleet.v1.FleetService{name}{suffix}" for name in C6_FLEET_METHODS for suffix in ("Request", "Value", "Response")}
+# Earlier workspace/Git messages gain only these exact reviewed fields/rules.
+C6_LEGACY_FIELD_BOUNDS = {
+    ("arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest", "path"):
+        {"required": True, "minLength": 1, "maxUtf8Bytes": 4096},
+    ("arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest", "name"): {"maxLength": 100},
+    ("arcforges.node.v1.WorkspaceServiceListWorkspacesRequest", "kinds"):
+        {"unique": True, "maxItems": 3, "items": {"enumValues": [1, 2, 3]}},
+    ("arcforges.node.v1.WorkspaceServiceListWorkspacesValue", "workspaces"): {"maxItems": 500},
+}
+C6_LEGACY_RULES = {
+    "arcforges.node.v1.GitStatusSummary": ["gitSummaryQuality"],
+    "arcforges.node.v1.WorkspaceServiceGetWorkspaceRequest": ["fileRequest", "fileReadRequest"],
+    "arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse": ["fileResponse"],
+    "arcforges.node.v1.WorkspaceServiceGetWorkspaceValue": ["workspaceGitValue"],
+    "arcforges.node.v1.WorkspaceServiceListWorkspacesRequest": ["fileRequest", "fileReadRequest"],
+    "arcforges.node.v1.WorkspaceServiceListWorkspacesResponse": ["fileSmallResponse"],
+    "arcforges.node.v1.WorkspaceServiceListWorkspacesValue": ["workspaceGitList"],
+    "arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest": ["fileRequest", "fileMutationRequest"],
+    "arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse": ["fileResponse"],
+    "arcforges.node.v1.WorkspaceServiceRegisterWorkspaceValue": ["workspaceGitValue"],
+    "arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceRequest": ["fileRequest", "fileMutationRequest"],
+    "arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceResponse": ["fileResponse"],
+    "arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceValue": [],
+}
+C6_LEGACY_RESPONSE_ONEOFS = {
+    f"arcforges.node.v1.WorkspaceService{name}Response"
+    for name in ("RegisterWorkspace", "UnregisterWorkspace", "ListWorkspaces", "GetWorkspace")
+}
+C6_WORKSPACE_REQUIRED = {
+    ('arcforges.node.v1.WorkspaceServiceGetWorkspaceValue', 'workspace'),
+    ('arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest', 'path'),
+    ('arcforges.node.v1.WorkspaceServiceRegisterWorkspaceValue', 'workspace'),
+    ('arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceRequest', 'workspaceId'),
+    ('arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceValue', 'receipt'),
+}
+C6_REQUIRED = 136  # 83 file + 48 Fleet fields and exactly five activated workspace fields.
 
 
 class OperationScopeFlagshipRule(unittest.TestCase):

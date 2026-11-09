@@ -29,5 +29,6 @@ public static class ContractServices
         global::ArcForges.Contracts.Node.V1.ToolchainService.Descriptor,
         global::ArcForges.Contracts.Node.V1.UpdateService.Descriptor,
         global::ArcForges.Contracts.Node.V1.WorkspaceService.Descriptor,
+        global::ArcForges.Contracts.Node.V1.FileService.Descriptor,
     ];
 }

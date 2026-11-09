@@ -285,11 +285,24 @@ internal static class NodeChannelCases
             "relayed_from: OWN_NODE is 1, ACCOUNT the opt-in, absent reads as OWN_NODE");
         var service = FleetReflection.Descriptor.Services.Single(s => s.Name == "FleetService");
         var names = service.Methods.Select(m => m.Name).ToList();
-        Require(names.Count == 19 && names.Skip(13).SequenceEqual(["SubmitNodeTask", "GetNodeTask", "ListNodeTasks", "WaitNodeTask", "ReadNodeTaskOutput", "CancelNodeTask"]),
-            "the six routed methods follow the 13 earlier FleetService methods");
-        foreach (var method in service.Methods.Skip(13))
-            Require(!method.IsClientStreaming && !method.IsServerStreaming && method.InputType.Name == $"FleetService{method.Name}Request"
-                && method.OutputType.Name == $"FleetService{method.Name}Response", method.Name + " is unary with its own messages");
+        string[] expected =
+        [
+            "ListNodes", "GetNode", "RenameNode", "RevokeNode", "IssueRelayToken", "OpenFleetWatch", "WatchFleet",
+            "SendNodeCommand", "GetNodeCommand", "ListNodeCommands", "GetPushPreferences", "UpdatePushPreferences", "CancelNodeCommand",
+            "SubmitNodeTask", "GetNodeTask", "ListNodeTasks", "WaitNodeTask", "ReadNodeTaskOutput", "CancelNodeTask",
+            "ReadNodeFile", "WriteNodeFile", "EditNodeFile", "SearchNodeFiles", "ListNodeDirectory", "PlanNodeRemoval",
+            "ExecuteNodeRemoval", "GetNodeFileOperation", "RegisterNodeWorkspace", "UnregisterNodeWorkspace",
+            "ListNodeWorkspaces", "GetNodeWorkspace",
+        ];
+        Require(names.SequenceEqual(expected), "the 19 established and 12 AF-CTR-06 FleetService methods have the exact order");
+        foreach (var method in service.Methods)
+        {
+            var watch = method.Name == "WatchFleet";
+            Require(!method.IsClientStreaming && method.IsServerStreaming == watch
+                && method.InputType.FullName == $"arcforges.fleet.v1.FleetService{method.Name}Request"
+                && method.OutputType.FullName == $"arcforges.fleet.v1.FleetService{method.Name}{(watch ? "Frame" : "Response")}",
+                method.Name + " has its exact input, output and streaming signature");
+        }
     }
 
     private static void Validators(JsonElement fixture)

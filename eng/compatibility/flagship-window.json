@@ -806,7 +806,36 @@
           "enums": 2
         }
       ]
+    },
+    {
+      "package": "ArcForges.Contracts.Node",
+      "adopted": ["arcforges/node/v1/files.proto"],
+      "baseline": "eng/compatibility/node-files-af-ctr-06.binpb",
+      "sha256": "afa1654f3b034012828f64f1077741a81fd0a8106e1cba655a4b61e66a1765f3",
+      "current": "artifacts/node.binpb",
+      "files": [
+        {
+          "file": "arcforges/foundation/v1/foundation.proto",
+          "services": {},
+          "messages": 44,
+          "enums": 9
+        },
+        {
+          "file": "arcforges/node/v1/common.proto",
+          "services": {},
+          "messages": 13,
+          "enums": 25
+        },
+        {
+          "file": "arcforges/node/v1/files.proto",
+          "services": {
+            "arcforges.node.v1.FileService": 9
+          },
+          "messages": 38,
+          "enums": 5
+        }
+      ]
     }
   ],
-  "coverage": "Adoption baselines of the flagship design contracts (AF-CON-01): the compiled descriptor of each new package (Node, Fleet, Peer, Relay) and of each additive file in a reused package (publicapi.v1 support_access.proto, operator.v1 operator_read.proto) with its imports, compiled by the pinned protoc from the byte-identical adopted schemas that the merge of AF-CON-01 publishes as the first flagship cohort. Each is compared with the current descriptor of its package: pinned definitions, tags, types, presence, oneofs, enum numbers and RPC shapes must survive (additive change only, design README section 7), and the offline reference codec writes every message and oneof arm in both directions. Not covered: the generated C# codec exchange, installed packages and live services."
+  "coverage": "Adoption baselines of the flagship design contracts (AF-CON-01): the compiled descriptor of each new package (Node, Fleet, Peer, Relay) and of each additive file in a reused package (publicapi.v1 support_access.proto, operator.v1 operator_read.proto) with its imports, compiled by the pinned protoc from the byte-identical adopted schemas that the merge of AF-CON-01 publishes as the first flagship cohort. Each is compared with the current descriptor of its package: pinned definitions, tags, types, presence, oneofs, enum numbers and RPC shapes must survive (additive change only, design README section 7), and the offline reference codec writes every message and oneof arm in both directions. Not covered: the generated C# codec exchange, installed packages and live services. AF-CTR-06 appends the initial files.proto descriptor with its imports, compiled by the same pinned protoc from the authored first-adoption source snapshot. It establishes the new file baseline for its first publication in this cohort; all historical baseline bytes and their covered files remain unchanged. This producer compatibility snapshot does not prove native file behavior or task delivery."
 }

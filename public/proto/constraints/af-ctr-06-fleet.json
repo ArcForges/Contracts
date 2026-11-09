@@ -1,0 +1,510 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.fleet.v1.FleetServiceReadNodeFileRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "caller": {},
+        "request": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 245760
+        },
+        "relayAssertion": {
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "rules": ["relayedCaller", "fileReadRequest"]
+    },
+    "arcforges.fleet.v1.FleetServiceReadNodeFileResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.fleet.v1.FleetServiceReadNodeFileValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileValue",
+      "fields": {
+        "response": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1040384
+        },
+        "nodeId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceWriteNodeFileRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "caller": {},
+        "request": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 245760
+        },
+        "relayAssertion": {
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "rules": ["relayedCaller", "fileMutationRequest"]
+    },
+    "arcforges.fleet.v1.FleetServiceWriteNodeFileResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.fleet.v1.FleetServiceWriteNodeFileValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileValue",
+      "fields": {
+        "response": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1040384
+        },
+        "nodeId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceEditNodeFileRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "caller": {},
+        "request": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 245760
+        },
+        "relayAssertion": {
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "rules": ["relayedCaller", "fileMutationRequest"]
+    },
+    "arcforges.fleet.v1.FleetServiceEditNodeFileResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.fleet.v1.FleetServiceEditNodeFileValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileValue",
+      "fields": {
+        "response": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1040384
+        },
+        "nodeId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceSearchNodeFilesRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "caller": {},
+        "request": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 245760
+        },
+        "relayAssertion": {
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "rules": ["relayedCaller", "fileReadRequest"]
+    },
+    "arcforges.fleet.v1.FleetServiceSearchNodeFilesResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.fleet.v1.FleetServiceSearchNodeFilesValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesValue",
+      "fields": {
+        "response": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1040384
+        },
+        "nodeId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceListNodeDirectoryRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "caller": {},
+        "request": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 245760
+        },
+        "relayAssertion": {
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "rules": ["relayedCaller", "fileReadRequest"]
+    },
+    "arcforges.fleet.v1.FleetServiceListNodeDirectoryResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.fleet.v1.FleetServiceListNodeDirectoryValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryValue",
+      "fields": {
+        "response": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1040384
+        },
+        "nodeId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServicePlanNodeRemovalRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "caller": {},
+        "request": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 245760
+        },
+        "relayAssertion": {
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "rules": ["relayedCaller", "fileMutationRequest"]
+    },
+    "arcforges.fleet.v1.FleetServicePlanNodeRemovalResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.fleet.v1.FleetServicePlanNodeRemovalValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalValue",
+      "fields": {
+        "response": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1040384
+        },
+        "nodeId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceExecuteNodeRemovalRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "caller": {},
+        "request": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 245760
+        },
+        "relayAssertion": {
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "rules": ["relayedCaller", "fileMutationRequest"]
+    },
+    "arcforges.fleet.v1.FleetServiceExecuteNodeRemovalResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.fleet.v1.FleetServiceExecuteNodeRemovalValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalValue",
+      "fields": {
+        "response": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1040384
+        },
+        "nodeId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceGetNodeFileOperationRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "caller": {},
+        "request": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 245760
+        },
+        "relayAssertion": {
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "rules": ["relayedCaller", "fileReadRequest"]
+    },
+    "arcforges.fleet.v1.FleetServiceGetNodeFileOperationResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.fleet.v1.FleetServiceGetNodeFileOperationValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationValue",
+      "fields": {
+        "response": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1040384
+        },
+        "nodeId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceRegisterNodeWorkspaceRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "caller": {},
+        "request": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 245760
+        },
+        "relayAssertion": {
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "rules": ["relayedCaller", "fileMutationRequest"]
+    },
+    "arcforges.fleet.v1.FleetServiceRegisterNodeWorkspaceResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.fleet.v1.FleetServiceRegisterNodeWorkspaceValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceValue",
+      "fields": {
+        "response": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1040384
+        },
+        "nodeId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceUnregisterNodeWorkspaceRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "caller": {},
+        "request": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 245760
+        },
+        "relayAssertion": {
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "rules": ["relayedCaller", "fileMutationRequest"]
+    },
+    "arcforges.fleet.v1.FleetServiceUnregisterNodeWorkspaceResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.fleet.v1.FleetServiceUnregisterNodeWorkspaceValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceValue",
+      "fields": {
+        "response": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1040384
+        },
+        "nodeId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceListNodeWorkspacesRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "caller": {},
+        "request": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 245760
+        },
+        "relayAssertion": {
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "rules": ["relayedCaller", "fileReadRequest"]
+    },
+    "arcforges.fleet.v1.FleetServiceListNodeWorkspacesResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.fleet.v1.FleetServiceListNodeWorkspacesValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesValue",
+      "fields": {
+        "response": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1040384
+        },
+        "nodeId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.fleet.v1.FleetServiceGetNodeWorkspaceRequest": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceRequest",
+      "fields": {
+        "meta": {},
+        "nodeId": {
+          "required": true
+        },
+        "caller": {},
+        "request": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 245760
+        },
+        "relayAssertion": {
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "rules": ["relayedCaller", "fileReadRequest"]
+    },
+    "arcforges.fleet.v1.FleetServiceGetNodeWorkspaceResponse": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceResponse",
+      "fields": {
+        "meta": {},
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.fleet.v1.FleetServiceGetNodeWorkspaceValue": {
+      "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceValue",
+      "fields": {
+        "response": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1040384
+        },
+        "nodeId": {
+          "required": true
+        }
+      }
+    }
+  }
+}

@@ -37,6 +37,7 @@ internal static class GoExchangeCases
         ArcForges.Contracts.Node.V1.CommonReflection.Descriptor,
         ArcForges.Contracts.Node.V1.DiagnosisReflection.Descriptor,
         ArcForges.Contracts.Node.V1.EventsReflection.Descriptor,
+        ArcForges.Contracts.Node.V1.FilesReflection.Descriptor,
         ArcForges.Contracts.Node.V1.IntegrationsReflection.Descriptor,
         ArcForges.Contracts.Node.V1.MemoryReflection.Descriptor,
         ArcForges.Contracts.Node.V1.NodeReflection.Descriptor,

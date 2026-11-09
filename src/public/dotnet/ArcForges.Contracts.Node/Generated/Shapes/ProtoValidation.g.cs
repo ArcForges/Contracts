@@ -3945,6 +3945,58 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileAuditMetadata.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileAuditMetadata? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileAuditMetadata? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Observations.Count > 4) return false;
+        foreach (var item in value.Observations)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.Observations.Select(item => (int)item.Kind).Distinct().Count() != value.Observations.Count) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileAuditObservation.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileAuditObservation? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileAuditObservation? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if ((int)value.Kind != 1 && (int)value.Kind != 2 && (int)value.Kind != 3 && (int)value.Kind != 4 && (int)value.Kind != 5 && (int)value.Kind != 6 && (int)value.Kind != 7) return false;
+        }
+        if (!value.HasSizeBytes) return false;
+        if (value.HasSizeBytes)
+        {
+            if (value.SizeBytes > 67108864UL) return false;
+        }
+        if (!value.HasSha256) return false;
+        if (value.HasSha256)
+        {
+            if (value.Sha256.Length != 32) return false;
+        }
+        if (!value.HasDigestInputBytes) return false;
+        if (value.HasDigestInputBytes)
+        {
+            if (value.DigestInputBytes > 83886080UL) return false;
+        }
+        if (value.HasItemCount)
+        {
+            if (value.ItemCount > 10001) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileChange.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileChange? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileChange? value, ValidationContext context)
@@ -3975,6 +4027,1094 @@ public static class ContractShapeValidation
         {
             if (!ValidUnicode(value.BackupPath)) return false;
         }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileDirectoryEntry.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileDirectoryEntry? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileDirectoryEntry? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasName) return false;
+        if (value.HasName)
+        {
+            if (!ValidUnicode(value.Name)) return false;
+            if (ScalarLength(value.Name) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Name) > 4096) return false;
+        }
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if ((int)value.Kind != 1 && (int)value.Kind != 2 && (int)value.Kind != 3 && (int)value.Kind != 4) return false;
+        }
+        if (value.HasSizeBytes)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileMatch.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileMatch? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileMatch? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasPath) return false;
+        if (value.HasPath)
+        {
+            if (!ValidUnicode(value.Path)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Path) > 4096) return false;
+        }
+        if (!value.HasByteOffset) return false;
+        if (value.HasByteOffset)
+        {
+        }
+        if (!value.HasByteLength) return false;
+        if (value.HasByteLength)
+        {
+            if (value.ByteLength > 1048576) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileMutationResult.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileMutationResult? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileMutationResult? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.CommandId is null) return false;
+        if (!Check(value.CommandId, context)) return false;
+        if (!value.HasSizeBytes) return false;
+        if (value.HasSizeBytes)
+        {
+            if (value.SizeBytes > 4194304UL) return false;
+        }
+        if (!value.HasSha256) return false;
+        if (value.HasSha256)
+        {
+            if (value.Sha256.Length != 32) return false;
+        }
+        if (value.HasReplacements)
+        {
+            if (value.Replacements > 1000) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileOperation.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileOperation? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileOperation? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.CommandId is null) return false;
+        if (!Check(value.CommandId, context)) return false;
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if ((int)value.Kind != 1 && (int)value.Kind != 2 && (int)value.Kind != 3) return false;
+        }
+        if (!value.HasState) return false;
+        if (value.HasState)
+        {
+            if ((int)value.State != 1 && (int)value.State != 2 && (int)value.State != 3) return false;
+        }
+        if (!value.HasRequestSha256) return false;
+        if (value.HasRequestSha256)
+        {
+            if (value.RequestSha256.Length != 32) return false;
+        }
+        if (value.CreatedAt is null) return false;
+        if (!Check(value.CreatedAt, context)) return false;
+        if (value.UpdatedAt is null) return false;
+        if (!Check(value.UpdatedAt, context)) return false;
+        if ((int)value.TargetCase == 8)
+        {
+            if (!Check(value.AttemptId, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 10)
+        {
+            if (!Check(value.Mutation, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 11)
+        {
+            if (!Check(value.Removal, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 12)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if (!value.HasAcknowledged) return false;
+        if (value.HasAcknowledged)
+        {
+        }
+        if (!value.HasHeld) return false;
+        if (value.HasHeld)
+        {
+        }
+        if ((int)value.TargetCase == 7)
+        {
+            if (!Check(value.WorkspacePath, context)) return false;
+        }
+        if ((int)value.TargetCase == 0) return false;
+        var state = (int)value.State;
+        var outcome = (int)value.OutcomeCase;
+        if (state == 1 && (outcome != 0 || value.Acknowledged)) return false;
+        if (state == 2 && (outcome == 0 || value.Held || value.Acknowledged || (outcome == 12 && (int)value.Error.Effect == 3))) return false;
+        if (state == 3 && (outcome != 12 || value.Error is null || (int)value.Error.Effect != 3 || value.Held == value.Acknowledged)) return false;
+        if (outcome == 10 && (int)value.Kind == 3 || outcome == 11 && (int)value.Kind != 3) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FilePath.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FilePath? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FilePath? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.WorkspaceId is null) return false;
+        if (!Check(value.WorkspaceId, context)) return false;
+        if (!value.HasPath) return false;
+        if (value.HasPath)
+        {
+            if (!ValidUnicode(value.Path)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Path) > 4096) return false;
+        }
+        if (value.Path.StartsWith("/", global::System.StringComparison.Ordinal) || value.Path.Contains('\\') || value.Path.Contains('\0') || (value.Path.Length >= 2 && char.IsAsciiLetter(value.Path[0]) && value.Path[1] == ':')) return false;
+        if (value.Path.Length > 0 && value.Path.Split('/').Any(part => part.Length == 0 || part is "." or "..")) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileRemovalItem.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileRemovalItem? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileRemovalItem? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasPath) return false;
+        if (value.HasPath)
+        {
+            if (!ValidUnicode(value.Path)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Path) > 4096) return false;
+        }
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if ((int)value.Kind != 1 && (int)value.Kind != 2) return false;
+        }
+        if (!value.HasSizeBytes) return false;
+        if (value.HasSizeBytes)
+        {
+            if (value.SizeBytes > 67108864UL) return false;
+        }
+        if (value.HasSha256)
+        {
+            if (value.Sha256.Length != 32) return false;
+        }
+        if (!value.HasIdentitySha256) return false;
+        if (value.HasIdentitySha256)
+        {
+            if (value.IdentitySha256.Length != 32) return false;
+        }
+        if (!value.HasOwnerVerified) return false;
+        if (value.HasOwnerVerified)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileRemovalPlan.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileRemovalPlan? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileRemovalPlan? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.PlanId is null) return false;
+        if (!Check(value.PlanId, context)) return false;
+        if (!value.HasDigest) return false;
+        if (value.HasDigest)
+        {
+            if (value.Digest.Length != 32) return false;
+        }
+        if (value.ExpiresAt is null) return false;
+        if (!Check(value.ExpiresAt, context)) return false;
+        if (value.Items.Count < 1) return false;
+        if (value.Items.Count > 1001) return false;
+        foreach (var item in value.Items)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (!value.HasTotalBytes) return false;
+        if (value.HasTotalBytes)
+        {
+            if (value.TotalBytes > 67108864UL) return false;
+        }
+        if (!value.HasRequiresApproval) return false;
+        if (value.HasRequiresApproval)
+        {
+        }
+        if (!value.HasQuarantineAvailable) return false;
+        if (value.HasQuarantineAvailable)
+        {
+        }
+        if (!value.HasRisk) return false;
+        if (value.HasRisk)
+        {
+            if ((int)value.Risk != 1 && (int)value.Risk != 2 && (int)value.Risk != 3) return false;
+        }
+        if ((int)value.TargetCase == 11)
+        {
+            if (!Check(value.AttemptId, context)) return false;
+        }
+        if ((int)value.TargetCase == 10)
+        {
+            if (!Check(value.WorkspacePath, context)) return false;
+        }
+        if ((int)value.TargetCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileRemovalResult.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileRemovalResult? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileRemovalResult? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.PlanId is null) return false;
+        if (!Check(value.PlanId, context)) return false;
+        if (!value.HasQuarantined) return false;
+        if (value.HasQuarantined)
+        {
+        }
+        if (value.QuarantineId is not null)
+        {
+            if (!Check(value.QuarantineId, context)) return false;
+        }
+        if (value.PurgeAfter is not null)
+        {
+            if (!Check(value.PurgeAfter, context)) return false;
+        }
+        if (!value.HasItemsRemoved) return false;
+        if (value.HasItemsRemoved)
+        {
+            if (value.ItemsRemoved < 1) return false;
+            if (value.ItemsRemoved > 1001) return false;
+        }
+        if (!value.HasTotalBytes) return false;
+        if (value.HasTotalBytes)
+        {
+            if (value.TotalBytes > 67108864UL) return false;
+        }
+        if ((value.QuarantineId is not null) != value.Quarantined || (value.PurgeAfter is not null) != value.Quarantined) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileScanProblem.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileScanProblem? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileScanProblem? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasPath) return false;
+        if (value.HasPath)
+        {
+            if (!ValidUnicode(value.Path)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Path) > 4096) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (ScalarLength(value.Reason) < 1) return false;
+            if (ScalarLength(value.Reason) > 40) return false;
+            if (!Matches(value.Reason, "^[a-z0-9_]{1,40}$")) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceAcknowledgeFileOperationRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceAcknowledgeFileOperationRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceAcknowledgeFileOperationRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.OperationCommandId is null) return false;
+        if (!Check(value.OperationCommandId, context)) return false;
+        if (!value.HasOperationDigest) return false;
+        if (value.HasOperationDigest)
+        {
+            if (value.OperationDigest.Length != 32) return false;
+        }
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is null) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceAcknowledgeFileOperationResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceAcknowledgeFileOperationResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceAcknowledgeFileOperationResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 1040384) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceAcknowledgeFileOperationValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceAcknowledgeFileOperationValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceAcknowledgeFileOperationValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Receipt is null) return false;
+        if (!Check(value.Receipt, context)) return false;
+        if (value.Operation is null) return false;
+        if (!Check(value.Operation, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceEditFileRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceEditFileRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceEditFileRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.Path is null) return false;
+        if (!Check(value.Path, context)) return false;
+        if (!value.HasOldText) return false;
+        if (value.HasOldText)
+        {
+            if (!ValidUnicode(value.OldText)) return false;
+            if (ScalarLength(value.OldText) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.OldText) > 65536) return false;
+        }
+        if (!value.HasNewText) return false;
+        if (value.HasNewText)
+        {
+            if (!ValidUnicode(value.NewText)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.NewText) > 65536) return false;
+        }
+        if (!value.HasExpectedOccurrences) return false;
+        if (value.HasExpectedOccurrences)
+        {
+            if (value.ExpectedOccurrences < 1) return false;
+            if (value.ExpectedOccurrences > 1000) return false;
+        }
+        if (!value.HasExpectedSha256) return false;
+        if (value.HasExpectedSha256)
+        {
+            if (value.ExpectedSha256.Length != 32) return false;
+        }
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is null) return false;
+        if (value.Path.Path.Length == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceEditFileResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceEditFileResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceEditFileResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 1040384) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceEditFileValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceEditFileValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceEditFileValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Result is null) return false;
+        if (!Check(value.Result, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceExecuteRemovalRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceExecuteRemovalRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceExecuteRemovalRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.PlanId is null) return false;
+        if (!Check(value.PlanId, context)) return false;
+        if (!value.HasPlanDigest) return false;
+        if (value.HasPlanDigest)
+        {
+            if (value.PlanDigest.Length != 32) return false;
+        }
+        if (value.HasDeleteWithoutQuarantine)
+        {
+        }
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is null) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceExecuteRemovalResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceExecuteRemovalResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceExecuteRemovalResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 1040384) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceExecuteRemovalValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceExecuteRemovalValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceExecuteRemovalValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Result is null) return false;
+        if (!Check(value.Result, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceGetFileOperationRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceGetFileOperationRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceGetFileOperationRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.OperationCommandId is null) return false;
+        if (!Check(value.OperationCommandId, context)) return false;
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is not null) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceGetFileOperationResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceGetFileOperationResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceGetFileOperationResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 1040384) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceGetFileOperationValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceGetFileOperationValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceGetFileOperationValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Operation is null) return false;
+        if (!Check(value.Operation, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceListDirectoryRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceListDirectoryRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceListDirectoryRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.Path is null) return false;
+        if (!Check(value.Path, context)) return false;
+        if (value.HasPageSize)
+        {
+            if (value.PageSize < 1) return false;
+            if (value.PageSize > 128) return false;
+        }
+        if (value.HasCursor)
+        {
+            if (!ValidUnicode(value.Cursor)) return false;
+            if (ScalarLength(value.Cursor) < 1) return false;
+            if (ScalarLength(value.Cursor) > 512) return false;
+        }
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is not null) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceListDirectoryResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceListDirectoryResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceListDirectoryResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 1040384) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceListDirectoryValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceListDirectoryValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceListDirectoryValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Entries.Count > 128) return false;
+        foreach (var item in value.Entries)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.HasNextCursor)
+        {
+            if (!ValidUnicode(value.NextCursor)) return false;
+            if (ScalarLength(value.NextCursor) < 1) return false;
+            if (ScalarLength(value.NextCursor) > 512) return false;
+        }
+        if (!value.HasTruncated) return false;
+        if (value.HasTruncated)
+        {
+        }
+        if (!value.HasSnapshotEntries) return false;
+        if (value.HasSnapshotEntries)
+        {
+            if (value.SnapshotEntries > 10000) return false;
+        }
+        if (value.Problems.Count > 64) return false;
+        foreach (var item in value.Problems)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (!value.HasMetadataDigest) return false;
+        if (value.HasMetadataDigest)
+        {
+            if (value.MetadataDigest.Length != 32) return false;
+        }
+        if (!value.HasMetadataBytes) return false;
+        if (value.HasMetadataBytes)
+        {
+            if (value.MetadataBytes > 1040384UL) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServicePlanRemovalRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServicePlanRemovalRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServicePlanRemovalRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.TargetCase == 11)
+        {
+            if (!Check(value.AttemptId, context)) return false;
+        }
+        if ((int)value.TargetCase == 10)
+        {
+            if (!Check(value.WorkspacePath, context)) return false;
+        }
+        if ((int)value.TargetCase == 0) return false;
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is null) return false;
+        if ((int)value.TargetCase == 10 && value.WorkspacePath.Path.Length == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServicePlanRemovalResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServicePlanRemovalResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServicePlanRemovalResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 1040384) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServicePlanRemovalValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServicePlanRemovalValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServicePlanRemovalValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Plan is null) return false;
+        if (!Check(value.Plan, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceReadFileRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceReadFileRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceReadFileRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.Path is null) return false;
+        if (!Check(value.Path, context)) return false;
+        if (!value.HasOffset) return false;
+        if (value.HasOffset)
+        {
+        }
+        if (!value.HasLength) return false;
+        if (value.HasLength)
+        {
+            if (value.Length < 1UL) return false;
+        }
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is not null) return false;
+        if (value.Path.Path.Length == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceReadFileResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceReadFileResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceReadFileResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 1040384) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceReadFileValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceReadFileValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceReadFileValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasData) return false;
+        if (value.HasData)
+        {
+            if (value.Data.Length > 65536) return false;
+        }
+        if (!value.HasOffset) return false;
+        if (value.HasOffset)
+        {
+        }
+        if (!value.HasNextOffset) return false;
+        if (value.HasNextOffset)
+        {
+        }
+        if (!value.HasEof) return false;
+        if (value.HasEof)
+        {
+        }
+        if (!value.HasSha256) return false;
+        if (value.HasSha256)
+        {
+            if (value.Sha256.Length != 32) return false;
+        }
+        if (!value.HasFileSize) return false;
+        if (value.HasFileSize)
+        {
+        }
+        if (value.Offset > ulong.MaxValue - (ulong)value.Data.Length || value.NextOffset != value.Offset + (ulong)value.Data.Length) return false;
+        if (!global::System.Security.Cryptography.CryptographicOperations.FixedTimeEquals(global::System.Security.Cryptography.SHA256.HashData(value.Data.Span), value.Sha256.Span)) return false;
+        if (value.Offset < value.FileSize ? value.NextOffset > value.FileSize || value.Data.Length == 0 : value.Data.Length != 0) return false;
+        if (value.Eof != (value.NextOffset >= value.FileSize)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceSearchFilesRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceSearchFilesRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceSearchFilesRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.Path is null) return false;
+        if (!Check(value.Path, context)) return false;
+        if (!value.HasPattern) return false;
+        if (value.HasPattern)
+        {
+            if (!ValidUnicode(value.Pattern)) return false;
+            if (ScalarLength(value.Pattern) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Pattern) > 1024) return false;
+        }
+        if (!value.HasMode) return false;
+        if (value.HasMode)
+        {
+            if ((int)value.Mode != 1 && (int)value.Mode != 2) return false;
+        }
+        if (value.HasMaxMatches)
+        {
+            if (value.MaxMatches < 1) return false;
+            if (value.MaxMatches > 100) return false;
+        }
+        if (value.HasMaxScanBytes)
+        {
+            if (value.MaxScanBytes < 1UL) return false;
+            if (value.MaxScanBytes > 8388608UL) return false;
+        }
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is not null) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceSearchFilesResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceSearchFilesResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceSearchFilesResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 131072) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceSearchFilesValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceSearchFilesValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceSearchFilesValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Matches.Count > 100) return false;
+        foreach (var item in value.Matches)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (!value.HasVisitedEntries) return false;
+        if (value.HasVisitedEntries)
+        {
+            if (value.VisitedEntries > 10000) return false;
+        }
+        if (!value.HasScannedBytes) return false;
+        if (value.HasScannedBytes)
+        {
+            if (value.ScannedBytes > 8388608UL) return false;
+        }
+        if (!value.HasSkippedFiles) return false;
+        if (value.HasSkippedFiles)
+        {
+            if (value.SkippedFiles > 10000) return false;
+        }
+        if (!value.HasTruncated) return false;
+        if (value.HasTruncated)
+        {
+        }
+        if (value.HasTruncationReason)
+        {
+            if (!ValidUnicode(value.TruncationReason)) return false;
+            if (ScalarLength(value.TruncationReason) > 40) return false;
+            if (!Matches(value.TruncationReason, "^[a-z0-9_]{0,40}$")) return false;
+        }
+        if (value.Problems.Count > 64) return false;
+        foreach (var item in value.Problems)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (!value.HasScanDigest) return false;
+        if (value.HasScanDigest)
+        {
+            if (value.ScanDigest.Length != 32) return false;
+        }
+        if (!value.HasScanTranscriptBytes) return false;
+        if (value.HasScanTranscriptBytes)
+        {
+            if (value.ScanTranscriptBytes < 25UL) return false;
+            if (value.ScanTranscriptBytes > 83886080UL) return false;
+        }
+        if (!value.HasScanFileCount) return false;
+        if (value.HasScanFileCount)
+        {
+            if (value.ScanFileCount > 10000) return false;
+        }
+        if (value.Truncated && (!value.HasTruncationReason || value.TruncationReason.Length == 0)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceWriteFileRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceWriteFileRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceWriteFileRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if (value.Path is null) return false;
+        if (!Check(value.Path, context)) return false;
+        if (!value.HasData) return false;
+        if (value.HasData)
+        {
+            if (value.Data.Length > 196608) return false;
+        }
+        if ((int)value.PreconditionCase == 12)
+        {
+            if (value.ExpectedSha256.Length != 32) return false;
+        }
+        if ((int)value.PreconditionCase == 13)
+        {
+            if (value.ExpectedAbsent != true) return false;
+        }
+        if ((int)value.PreconditionCase == 0) return false;
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is null) return false;
+        if (value.Path.Path.Length == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceWriteFileResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceWriteFileResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceWriteFileResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is not null)
+        {
+            if (!Check(value.Meta, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 1040384) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.node.v1.FileServiceWriteFileValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceWriteFileValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Node.V1.FileServiceWriteFileValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Result is null) return false;
+        if (!Check(value.Result, context)) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -4109,6 +5249,11 @@ public static class ContractShapeValidation
         if (value.HasLocked)
         {
         }
+        if (value.HasQuality)
+        {
+        }
+        if ((int)value.Quality == 1 && (!value.HasDirty || !value.HasModifiedFiles || !value.HasUntrackedFiles || !value.HasLocked)) return false;
+        if ((int)value.Quality is 2 or 3 && (value.HasDirty || value.HasModifiedFiles || value.HasUntrackedFiles || value.HasAhead || value.HasBehind || value.HasMergedIntoBase || value.HasUpstreamDeleted || value.HasLocked)) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -15529,6 +16674,8 @@ public static class ContractShapeValidation
         }
         if (value.WorkspaceId is null) return false;
         if (!Check(value.WorkspaceId, context)) return false;
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -15552,6 +16699,12 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Error, context)) return false;
         }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 1040384) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -15563,10 +16716,9 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
-        if (value.Workspace is not null)
-        {
-            if (!Check(value.Workspace, context)) return false;
-        }
+        if (value.Workspace is null) return false;
+        if (!Check(value.Workspace, context)) return false;
+        if (value.Workspace.Git is { } git && (!git.HasQuality || (int)git.Quality is < 1 or > 3)) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -15582,13 +16734,18 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Meta, context)) return false;
         }
+        if (value.Kinds.Count > 3) return false;
+        if (value.Kinds.Distinct().Count() != value.Kinds.Count) return false;
         foreach (var item in value.Kinds)
         {
+            if ((int)item != 1 && (int)item != 2 && (int)item != 3) return false;
         }
         if (value.Page is not null)
         {
             if (!Check(value.Page, context)) return false;
         }
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -15612,6 +16769,12 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Error, context)) return false;
         }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 131072) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -15623,6 +16786,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.Workspaces.Count > 500) return false;
         foreach (var item in value.Workspaces)
         {
             if (!Check(item, context)) return false;
@@ -15631,6 +16795,7 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Page, context)) return false;
         }
+        if (value.Workspaces.Any(workspace => workspace.Git is { } git && (!git.HasQuality || (int)git.Quality is < 1 or > 3))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -15768,14 +16933,20 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Meta, context)) return false;
         }
+        if (!value.HasPath) return false;
         if (value.HasPath)
         {
             if (!ValidUnicode(value.Path)) return false;
+            if (ScalarLength(value.Path) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Path) > 4096) return false;
         }
         if (value.HasName)
         {
             if (!ValidUnicode(value.Name)) return false;
+            if (ScalarLength(value.Name) > 100) return false;
         }
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -15799,6 +16970,12 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Error, context)) return false;
         }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 1040384) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -15810,10 +16987,9 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
-        if (value.Workspace is not null)
-        {
-            if (!Check(value.Workspace, context)) return false;
-        }
+        if (value.Workspace is null) return false;
+        if (!Check(value.Workspace, context)) return false;
+        if (value.Workspace.Git is { } git && (!git.HasQuality || (int)git.Quality is < 1 or > 3)) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -15974,10 +17150,10 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Meta, context)) return false;
         }
-        if (value.WorkspaceId is not null)
-        {
-            if (!Check(value.WorkspaceId, context)) return false;
-        }
+        if (value.WorkspaceId is null) return false;
+        if (!Check(value.WorkspaceId, context)) return false;
+        if (value.CalculateSize() > 245760) return false;
+        if (value.Meta?.CommandId is null) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -16001,6 +17177,12 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Error, context)) return false;
         }
+        if (value.Audit is not null)
+        {
+            if (!Check(value.Audit, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        if (value.CalculateSize() > 1040384) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -16012,10 +17194,8 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
-        if (value.Receipt is not null)
-        {
-            if (!Check(value.Receipt, context)) return false;
-        }
+        if (value.Receipt is null) return false;
+        if (!Check(value.Receipt, context)) return false;
         return true;
         }
         finally { context.Exit(value); }

@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-11-05",
+  "reviewedOn": "2026-11-09",
   "design": {
     "commit": "212825003ed712200e585445301473233404f597",
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "1d807296dc77610dd4aeb25f99c9b34475a6b927",
+  "sourceCommit": "246b60242a85c06941bd6b571914be71bc324d30",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -57,7 +57,7 @@
     {
       "path": "internal/proto/arcforges/relay/v1/relay.proto",
       "access": "internal",
-      "sha256": "9d8140725f7c0ac903a881e4779e73c693046a984c2ac6264d62df1893cc9d8a"
+      "sha256": "111dc8c8637a4010054312b6b405b04095f8fc2189737268d61f7d3cab2446f8"
     },
     {
       "path": "public/proto/arcforges/catalog/v1/catalog.proto",
@@ -77,7 +77,7 @@
     {
       "path": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public",
-      "sha256": "551db853b19653205d6af5c57a32aa686c8e04dd98635c2a3de47688ca1199cd"
+      "sha256": "05d59eabd6112a24e1e8066b539f436a09c833ee49d2548bf6457894041ba5f8"
     },
     {
       "path": "public/proto/arcforges/foundation/v1/foundation.proto",
@@ -118,6 +118,11 @@
       "path": "public/proto/arcforges/node/v1/events.proto",
       "access": "public",
       "sha256": "32fb764f18be77725eff4d31bb105a94a36bc41abcbdd01987efe7d0f519a6ad"
+    },
+    {
+      "path": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public",
+      "sha256": "7d8fec3a2815c588ad6f6352ba628ef5933a74fa04e36cf8f05a6b251db70294"
     },
     {
       "path": "public/proto/arcforges/node/v1/integrations.proto",
@@ -187,7 +192,7 @@
     {
       "path": "public/proto/arcforges/node/v1/workspaces.proto",
       "access": "public",
-      "sha256": "08255cf7108ee19628057bd145b0bab7551683fa6e97bf99a71e389778d3a4d0"
+      "sha256": "4f83ec539d66631439a3447c565bde50222fb19211670d20e971ffffd0c62e5d"
     },
     {
       "path": "public/proto/arcforges/publicapi/v1/application.proto",
@@ -957,6 +962,42 @@
       "access": "public"
     },
     {
+      "name": "arcforges.fleet.v1.FleetServiceEditNodeFileRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceEditNodeFileResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceEditNodeFileValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceExecuteNodeRemovalRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceExecuteNodeRemovalResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceExecuteNodeRemovalValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.fleet.v1.FleetServiceGetNodeCommandRequest",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
@@ -970,6 +1011,24 @@
     },
     {
       "name": "arcforges.fleet.v1.FleetServiceGetNodeCommandValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceGetNodeFileOperationRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceGetNodeFileOperationResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceGetNodeFileOperationValue",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public"
@@ -1006,6 +1065,24 @@
     },
     {
       "name": "arcforges.fleet.v1.FleetServiceGetNodeValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceGetNodeWorkspaceRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceGetNodeWorkspaceResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceGetNodeWorkspaceValue",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public"
@@ -1065,19 +1142,19 @@
       "access": "public"
     },
     {
-      "name": "arcforges.fleet.v1.FleetServiceListNodeTasksRequest",
+      "name": "arcforges.fleet.v1.FleetServiceListNodeDirectoryRequest",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public"
     },
     {
-      "name": "arcforges.fleet.v1.FleetServiceListNodeTasksResponse",
+      "name": "arcforges.fleet.v1.FleetServiceListNodeDirectoryResponse",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public"
     },
     {
-      "name": "arcforges.fleet.v1.FleetServiceListNodeTasksValue",
+      "name": "arcforges.fleet.v1.FleetServiceListNodeDirectoryValue",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public"
@@ -1101,6 +1178,42 @@
       "access": "public"
     },
     {
+      "name": "arcforges.fleet.v1.FleetServiceListNodeTasksRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceListNodeTasksResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceListNodeTasksValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceListNodeWorkspacesRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceListNodeWorkspacesResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceListNodeWorkspacesValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.fleet.v1.FleetServiceOpenFleetWatchRequest",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
@@ -1119,6 +1232,42 @@
       "access": "public"
     },
     {
+      "name": "arcforges.fleet.v1.FleetServicePlanNodeRemovalRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServicePlanNodeRemovalResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServicePlanNodeRemovalValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceReadNodeFileRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceReadNodeFileResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceReadNodeFileValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.fleet.v1.FleetServiceReadNodeTaskOutputRequest",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
@@ -1132,6 +1281,24 @@
     },
     {
       "name": "arcforges.fleet.v1.FleetServiceReadNodeTaskOutputValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceRegisterNodeWorkspaceRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceRegisterNodeWorkspaceResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceRegisterNodeWorkspaceValue",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public"
@@ -1173,6 +1340,24 @@
       "access": "public"
     },
     {
+      "name": "arcforges.fleet.v1.FleetServiceSearchNodeFilesRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceSearchNodeFilesResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceSearchNodeFilesValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.fleet.v1.FleetServiceSendNodeCommandRequest",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
@@ -1204,6 +1389,24 @@
     },
     {
       "name": "arcforges.fleet.v1.FleetServiceSubmitNodeTaskValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceUnregisterNodeWorkspaceRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceUnregisterNodeWorkspaceResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceUnregisterNodeWorkspaceValue",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public"
@@ -1252,6 +1455,24 @@
     },
     {
       "name": "arcforges.fleet.v1.FleetServiceWatchFleetRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceWriteNodeFileRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceWriteNodeFileResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/fleet/v1/fleet.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.fleet.v1.FleetServiceWriteNodeFileValue",
       "kind": "message",
       "file": "public/proto/arcforges/fleet/v1/fleet.proto",
       "access": "public"
@@ -2349,13 +2570,13 @@
       "access": "public"
     },
     {
-      "name": "arcforges.foundation.v1.VersionFailure",
+      "name": "arcforges.foundation.v1.VersionedRef",
       "kind": "message",
       "file": "public/proto/arcforges/foundation/v1/foundation.proto",
       "access": "public"
     },
     {
-      "name": "arcforges.foundation.v1.VersionedRef",
+      "name": "arcforges.foundation.v1.VersionFailure",
       "kind": "message",
       "file": "public/proto/arcforges/foundation/v1/foundation.proto",
       "access": "public"
@@ -4809,9 +5030,273 @@
       "access": "public"
     },
     {
+      "name": "arcforges.node.v1.FileAuditKind",
+      "kind": "enum",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileAuditMetadata",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileAuditObservation",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.node.v1.FileChange",
       "kind": "message",
       "file": "public/proto/arcforges/node/v1/integrations.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileDirectoryEntry",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileEntryKind",
+      "kind": "enum",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileMatch",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileMutationResult",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileOperation",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileOperationKind",
+      "kind": "enum",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileOperationState",
+      "kind": "enum",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FilePath",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileRemovalItem",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileRemovalPlan",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileRemovalResult",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileScanProblem",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileSearchMode",
+      "kind": "enum",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileService",
+      "kind": "service",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceAcknowledgeFileOperationRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceAcknowledgeFileOperationResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceAcknowledgeFileOperationValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceEditFileRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceEditFileResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceEditFileValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceExecuteRemovalRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceExecuteRemovalResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceExecuteRemovalValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceGetFileOperationRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceGetFileOperationResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceGetFileOperationValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceListDirectoryRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceListDirectoryResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceListDirectoryValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServicePlanRemovalRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServicePlanRemovalResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServicePlanRemovalValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceReadFileRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceReadFileResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceReadFileValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceSearchFilesRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceSearchFilesResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceSearchFilesValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceWriteFileRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceWriteFileResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.FileServiceWriteFileValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/files.proto",
       "access": "public"
     },
     {
@@ -4836,6 +5321,12 @@
       "name": "arcforges.node.v1.FindingState",
       "kind": "enum",
       "file": "public/proto/arcforges/node/v1/diagnosis.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.GitStatusQuality",
+      "kind": "enum",
+      "file": "public/proto/arcforges/node/v1/workspaces.proto",
       "access": "public"
     },
     {
@@ -5967,12 +6458,6 @@
       "access": "public"
     },
     {
-      "name": "arcforges.node.v1.PerTaskRestore",
-      "kind": "message",
-      "file": "public/proto/arcforges/node/v1/caches.proto",
-      "access": "public"
-    },
-    {
       "name": "arcforges.node.v1.PermissionDecision",
       "kind": "enum",
       "file": "public/proto/arcforges/node/v1/common.proto",
@@ -5982,6 +6467,12 @@
       "name": "arcforges.node.v1.PermissionOverride",
       "kind": "message",
       "file": "public/proto/arcforges/node/v1/policy.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.PerTaskRestore",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/caches.proto",
       "access": "public"
     },
     {
@@ -6495,15 +6986,15 @@
       "access": "public"
     },
     {
-      "name": "arcforges.node.v1.RelayState",
-      "kind": "enum",
-      "file": "public/proto/arcforges/node/v1/account.proto",
-      "access": "public"
-    },
-    {
       "name": "arcforges.node.v1.RelayedFrom",
       "kind": "enum",
       "file": "public/proto/arcforges/node/v1/policy.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.RelayState",
+      "kind": "enum",
+      "file": "public/proto/arcforges/node/v1/account.proto",
       "access": "public"
     },
     {
@@ -7905,12 +8396,6 @@
       "access": "public"
     },
     {
-      "name": "arcforges.node.v1.TimeWindow",
-      "kind": "message",
-      "file": "public/proto/arcforges/node/v1/policy.proto",
-      "access": "public"
-    },
-    {
       "name": "arcforges.node.v1.Timeline",
       "kind": "message",
       "file": "public/proto/arcforges/node/v1/tasks.proto",
@@ -7920,6 +8405,12 @@
       "name": "arcforges.node.v1.TimelineSegment",
       "kind": "message",
       "file": "public/proto/arcforges/node/v1/tasks.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.node.v1.TimeWindow",
+      "kind": "message",
+      "file": "public/proto/arcforges/node/v1/policy.proto",
       "access": "public"
     },
     {
@@ -8403,13 +8894,13 @@
       "access": "internal"
     },
     {
-      "name": "arcforges.operator.v1.ConfigValidation",
+      "name": "arcforges.operator.v1.ConfigurationDocument",
       "kind": "message",
       "file": "internal/proto/arcforges/operator/v1/operator.proto",
       "access": "internal"
     },
     {
-      "name": "arcforges.operator.v1.ConfigurationDocument",
+      "name": "arcforges.operator.v1.ConfigValidation",
       "kind": "message",
       "file": "internal/proto/arcforges/operator/v1/operator.proto",
       "access": "internal"
@@ -17816,7 +18307,7 @@
         "body_",
         "BodyOneofCase"
       ],
-      "sha256": "7e830c13d976f1d3f773d99350aaa607c872503303fa951246ce25c3c1fca74f",
+      "sha256": "07d50686f39cf8105cf226465b362d4b737322c6c6d6ed045b30a1566ccfd768",
       "kind": "generated"
     },
     {
@@ -17824,7 +18315,7 @@
       "package": "ArcForges.Contracts.Relay",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "ac4a24879e9829092fa4dc611b479e46a38d652784e191f8208e68b8822a0607",
+      "sha256": "d82407e6728f212f0daefeacd4b611b8782171ceefde678dbc5391d50e68d192",
       "kind": "generated"
     },
     {
@@ -19219,9 +19710,69 @@
         "SubscriptionView",
         "PlayPurchaseResult",
         "BillingStatus",
-        "NodeCursorInput"
+        "NodeCursorInput",
+        "FleetServiceReadNodeFileRequest",
+        "FleetServiceReadNodeFileResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceReadNodeFileValue",
+        "FleetServiceWriteNodeFileRequest",
+        "FleetServiceWriteNodeFileResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceWriteNodeFileValue",
+        "FleetServiceEditNodeFileRequest",
+        "FleetServiceEditNodeFileResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceEditNodeFileValue",
+        "FleetServiceSearchNodeFilesRequest",
+        "FleetServiceSearchNodeFilesResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceSearchNodeFilesValue",
+        "FleetServiceListNodeDirectoryRequest",
+        "FleetServiceListNodeDirectoryResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceListNodeDirectoryValue",
+        "FleetServicePlanNodeRemovalRequest",
+        "FleetServicePlanNodeRemovalResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServicePlanNodeRemovalValue",
+        "FleetServiceExecuteNodeRemovalRequest",
+        "FleetServiceExecuteNodeRemovalResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceExecuteNodeRemovalValue",
+        "FleetServiceGetNodeFileOperationRequest",
+        "FleetServiceGetNodeFileOperationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceGetNodeFileOperationValue",
+        "FleetServiceRegisterNodeWorkspaceRequest",
+        "FleetServiceRegisterNodeWorkspaceResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceRegisterNodeWorkspaceValue",
+        "FleetServiceUnregisterNodeWorkspaceRequest",
+        "FleetServiceUnregisterNodeWorkspaceResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceUnregisterNodeWorkspaceValue",
+        "FleetServiceListNodeWorkspacesRequest",
+        "FleetServiceListNodeWorkspacesResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceListNodeWorkspacesValue",
+        "FleetServiceGetNodeWorkspaceRequest",
+        "FleetServiceGetNodeWorkspaceResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FleetServiceGetNodeWorkspaceValue"
       ],
-      "sha256": "ddfe47f24bc6cc4b81f7e457113611b5631496f2785759601194fbdee20aed0a",
+      "sha256": "69284a4eb4f6e2b1a23c4727582045a7a3d107b214c786ebf654907069cba344",
       "kind": "generated"
     },
     {
@@ -19242,7 +19793,7 @@
         "StoreBillingServiceBase",
         "StoreBillingServiceClient"
       ],
-      "sha256": "9127139801407c55f0c42c77658c7f61e9a119e77331beeb50c28e2a88caa02d",
+      "sha256": "1a858c0e817530abc6b0196a187911c8b5b8e84dc1c51f90c5e26e15bf7e0d55",
       "kind": "generated"
     },
     {
@@ -19258,7 +19809,7 @@
       "package": "ArcForges.Contracts.Fleet",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "e5d4e0d5111d9014c1e1993e32b514a7d39e2105419fa262f7fa17135d8c79dc",
+      "sha256": "42689c5c92657ee64c27f682b397ca4a4052a98de59471f6d5716b2984537422",
       "kind": "generated"
     },
     {
@@ -19731,6 +20282,95 @@
         "NodeEventServiceClient"
       ],
       "sha256": "9858c7bf2125407ef6a5e0e8768ea9c7049acad239f92f904b11c6d1913ff36d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Node/Generated/Proto/Files.cs",
+      "package": "ArcForges.Contracts.Node",
+      "access": "public",
+      "types": [
+        "FilesReflection",
+        "FileEntryKind",
+        "FileSearchMode",
+        "FileOperationKind",
+        "FileOperationState",
+        "FileAuditKind",
+        "FileAuditObservation",
+        "FileAuditMetadata",
+        "FilePath",
+        "FileMutationResult",
+        "FileMatch",
+        "FileScanProblem",
+        "FileDirectoryEntry",
+        "FileRemovalItem",
+        "FileRemovalPlan",
+        "target_",
+        "TargetOneofCase",
+        "FileRemovalResult",
+        "FileOperation",
+        "target_",
+        "TargetOneofCase",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FileServiceReadFileRequest",
+        "FileServiceReadFileValue",
+        "FileServiceReadFileResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FileServiceWriteFileRequest",
+        "precondition_",
+        "PreconditionOneofCase",
+        "FileServiceWriteFileValue",
+        "FileServiceWriteFileResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FileServiceEditFileRequest",
+        "FileServiceEditFileValue",
+        "FileServiceEditFileResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FileServiceSearchFilesRequest",
+        "FileServiceSearchFilesValue",
+        "FileServiceSearchFilesResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FileServiceListDirectoryRequest",
+        "FileServiceListDirectoryValue",
+        "FileServiceListDirectoryResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FileServicePlanRemovalRequest",
+        "target_",
+        "TargetOneofCase",
+        "FileServicePlanRemovalValue",
+        "FileServicePlanRemovalResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FileServiceExecuteRemovalRequest",
+        "FileServiceExecuteRemovalValue",
+        "FileServiceExecuteRemovalResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FileServiceGetFileOperationRequest",
+        "FileServiceGetFileOperationValue",
+        "FileServiceGetFileOperationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "FileServiceAcknowledgeFileOperationRequest",
+        "FileServiceAcknowledgeFileOperationValue",
+        "FileServiceAcknowledgeFileOperationResponse",
+        "outcome_",
+        "OutcomeOneofCase"
+      ],
+      "sha256": "0def89cbb9de4ecb9a3ed44284ad794a7e92589b312311d9703d158e675f74b6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Node/Generated/Proto/FilesGrpc.cs",
+      "package": "ArcForges.Contracts.Node",
+      "access": "public",
+      "types": ["FileService", "__Helper_MessageCache", "FileServiceBase", "FileServiceClient"],
+      "sha256": "bd37b077005446aad18759eaed2bc15864ab7dce068784c548c8743e39899c39",
       "kind": "generated"
     },
     {
@@ -20807,6 +21447,7 @@
         "WorkspaceState",
         "WorkspaceConcurrency",
         "IgnoredFilesDecision",
+        "GitStatusQuality",
         "WorkspaceServiceRegisterWorkspaceRequest",
         "WorkspaceServiceRegisterWorkspaceResponse",
         "outcome_",
@@ -20862,7 +21503,7 @@
         "GitStatusSummary",
         "Workspace"
       ],
-      "sha256": "739ab4a3c3617afb6d601f91be3355cee4ffcbe6d9d4b2051af443cc1eb2943b",
+      "sha256": "0249fc172ede8885b5bf28e1a771d87554cd441a3b6aa1b34b6b87ce3f2c6662",
       "kind": "generated"
     },
     {
@@ -20875,7 +21516,7 @@
         "WorkspaceServiceBase",
         "WorkspaceServiceClient"
       ],
-      "sha256": "00619bc0ce5ff1f680a9e7cae8944219d4f43b74b84497b09fb73098c8e9262e",
+      "sha256": "6c05b903d4f7928be78522982dade4929dd8023a8c30600bbb6348602b2d1235",
       "kind": "generated"
     },
     {
@@ -20883,7 +21524,7 @@
       "package": "ArcForges.Contracts.Node",
       "access": "public",
       "types": ["ContractServices"],
-      "sha256": "93ffd77e382f932f94b2b7342726ada26d5dd372db52349556a7cd67485da783",
+      "sha256": "4f25112d6b1cc78269b50bee7025f04a66ee595de7e6155d675f066a2b2ed4ec",
       "kind": "generated"
     },
     {
@@ -20891,7 +21532,7 @@
       "package": "ArcForges.Contracts.Node",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "c9227dd7412794df2ee9d1b26d73de3ac8f96dc2e73377cbed75a3abae00a91a",
+      "sha256": "e18b2eb8d32bb0a401ede09e3fefa8d56343bef63f52fbd669a64e834df636f6",
       "kind": "generated"
     },
     {
@@ -22873,14 +23514,6 @@
       "kind": "generated"
     },
     {
-      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/NativeAuthRoutes.g.cs",
-      "package": "ArcForges.Contracts.PublicApi",
-      "access": "public",
-      "types": ["NativeAuthRoute", "NativeAuthRoutes"],
-      "sha256": "8117663bf84369fe8b7265dc3c15e9f2ec33abec2387546d04de0a3ae8c17dff",
-      "kind": "generated"
-    },
-    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/NativeAuthorizeCallbackFailure.g.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
@@ -22902,6 +23535,14 @@
       "access": "public",
       "types": ["NativeAuthorizeRequest", "NativeAuthorizeRequestJsonContext"],
       "sha256": "9807d546d471818d7f4a95e1454cfd18b399b330d6621fe63107f2e8a4bf9d69",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/NativeAuthRoutes.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["NativeAuthRoute", "NativeAuthRoutes"],
+      "sha256": "8117663bf84369fe8b7265dc3c15e9f2ec33abec2387546d04de0a3ae8c17dff",
       "kind": "generated"
     },
     {
@@ -26311,22 +26952,6 @@
       "kind": "generated"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionFailure.java",
-      "package": "io.github.arcforges:contracts-proto",
-      "access": "public",
-      "types": ["VersionFailure", "Builder"],
-      "sha256": "3862a2be735400af87a8aa57cde56572074b17d41b183f65315709fe58c30114",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionFailureOrBuilder.java",
-      "package": "io.github.arcforges:contracts-proto",
-      "access": "public",
-      "types": ["VersionFailureOrBuilder"],
-      "sha256": "657056a0bc0688efae70618ba0a541f0fd65782da26b597eb2b8700ce045192f",
-      "kind": "generated"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionedRef.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -26340,6 +26965,22 @@
       "access": "public",
       "types": ["VersionedRefOrBuilder"],
       "sha256": "1bbe39ad30027c20fcf206af6c9482802c9bc96adac899f83e6e2b9ba1b72465",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionFailure.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionFailure", "Builder"],
+      "sha256": "3862a2be735400af87a8aa57cde56572074b17d41b183f65315709fe58c30114",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionFailureOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionFailureOrBuilder"],
+      "sha256": "657056a0bc0688efae70618ba0a541f0fd65782da26b597eb2b8700ce045192f",
       "kind": "generated"
     },
     {
@@ -39989,19 +40630,19 @@
       "kind": "generated"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionFailureKt.kt",
-      "package": "io.github.arcforges:contracts-proto",
-      "access": "public",
-      "types": ["VersionFailureKt", "Dsl"],
-      "sha256": "386340e2635090263d6dacda90bfe8334a923f2eb6a745d3d86bd39d54d867c1",
-      "kind": "generated"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionedRefKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["VersionedRefKt", "Dsl"],
       "sha256": "5cfa97b24ceb9d067fbd6781f398e3c48d075ea0dd25dc4f12ff1956bf550e09",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionFailureKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionFailureKt", "Dsl"],
+      "sha256": "386340e2635090263d6dacda90bfe8334a923f2eb6a745d3d86bd39d54d867c1",
       "kind": "generated"
     },
     {
@@ -46763,14 +47404,6 @@
       "kind": "generated"
     },
     {
-      "path": "src/public/ts/api-client/src/shapes/gen/NativeAuthRoutes.ts",
-      "package": "@arcforges/api-client",
-      "access": "public",
-      "types": ["NativeAuthRoute"],
-      "sha256": "0dc3898feb33b5195cd02c9abad8d7083c7cab947f37f88a41256a5b305364f1",
-      "kind": "generated"
-    },
-    {
       "path": "src/public/ts/api-client/src/shapes/gen/NativeAuthorizeCallbackFailure.ts",
       "package": "@arcforges/api-client",
       "access": "public",
@@ -46792,6 +47425,14 @@
       "access": "public",
       "types": ["NativeAuthorizeRequest"],
       "sha256": "f095020657f865a25472d02ff4abd6b6d3c4c4c4f7f7bf4dd22b1501a191880a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/api-client/src/shapes/gen/NativeAuthRoutes.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": ["NativeAuthRoute"],
+      "sha256": "0dc3898feb33b5195cd02c9abad8d7083c7cab947f37f88a41256a5b305364f1",
       "kind": "generated"
     },
     {
@@ -48119,7 +48760,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "9f7277d7c19616fcb6997278d6630adc814269aa4e34c8386f3b798144a39887"
+      "sha256": "f347dd9e047c66f36ffb2c7ea977f10129e2ccdea366e998ed68004f1641f95b"
     },
     {
       "path": "go/go.mod",
@@ -48143,7 +48784,7 @@
     },
     {
       "path": "internal/proto/constraints.json",
-      "sha256": "7e5c81bbe2fafffdfb4c34d09d4847f41f17944e100e361a8869bb86ef2beb6c"
+      "sha256": "736329cac2a0e14238bc5939bc71dc63c1e521474628603a9aa677a2933c30bd"
     },
     {
       "path": "internal/proto/constraints/af-con-01-operator-read.json",
@@ -48155,7 +48796,7 @@
     },
     {
       "path": "internal/proto/constraints/af-con-01-relay.json",
-      "sha256": "c13d68a51aa4516e08446a952433168299ea74ea0419ec5f1e7833b7ef27e9dd"
+      "sha256": "5dac2e3561a457f46c469eb80b3caf02908e41296666363ce91b49c9a86a91ca"
     },
     {
       "path": "internal/proto/constraints/chat-baseline.json",
@@ -48271,7 +48912,7 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "0d1fbfd76d34896dc1f475e2c7f7f4d182da5017d5c81ea126ca60fccdcdc7f8"
+      "sha256": "dad3c01a670afe8d43714fc50b3e903ffec9bdb7dd3e6fe73f87ccfc9eda4498"
     },
     {
       "path": "public/proto/constraints/af-con-01-fleet.json",
@@ -48279,11 +48920,19 @@
     },
     {
       "path": "public/proto/constraints/af-con-01-node.json",
-      "sha256": "1a542bed4ed08abc8718ed46d9c87ad5ee2c42ef9d4ae2060741974bacd18298"
+      "sha256": "28565d16f37cb661128954192e16d9f974b1cc7125fd1c6c6789b97fe9610d5e"
     },
     {
       "path": "public/proto/constraints/af-con-01-support-access.json",
       "sha256": "9070f8492ba2c3535f506141ac958792d3a80fb9c95f57ea75b730a0f73fc7ca"
+    },
+    {
+      "path": "public/proto/constraints/af-ctr-06-files.json",
+      "sha256": "852015b2d52196ad5b28763fa87407137891f4701c4267eede3209764fe83024"
+    },
+    {
+      "path": "public/proto/constraints/af-ctr-06-fleet.json",
+      "sha256": "7fce61498560f6d805ce165886ce32628f7b5c86b82837b0cc548c5d282009f0"
     },
     {
       "path": "public/proto/constraints/con-07-identity.json",

@@ -93,6 +93,11 @@ ENUMS = {
 }
 
 
+# AF-CTR-06 appends values 9..20; the complete earlier enum prefix remains exact.
+C6_ROUTED = ('ReadNodeFile', 'WriteNodeFile', 'EditNodeFile', 'SearchNodeFiles', 'ListNodeDirectory', 'PlanNodeRemoval', 'ExecuteNodeRemoval', 'GetNodeFileOperation', 'RegisterNodeWorkspace', 'UnregisterNodeWorkspace', 'ListNodeWorkspaces', 'GetNodeWorkspace')
+ENUMS[(RELAY, "RoutedMethod")].update({'ROUTED_METHOD_READ_NODE_FILE': 9, 'ROUTED_METHOD_WRITE_NODE_FILE': 10, 'ROUTED_METHOD_EDIT_NODE_FILE': 11, 'ROUTED_METHOD_SEARCH_NODE_FILES': 12, 'ROUTED_METHOD_LIST_NODE_DIRECTORY': 13, 'ROUTED_METHOD_PLAN_NODE_REMOVAL': 14, 'ROUTED_METHOD_EXECUTE_NODE_REMOVAL': 15, 'ROUTED_METHOD_GET_NODE_FILE_OPERATION': 16, 'ROUTED_METHOD_REGISTER_NODE_WORKSPACE': 17, 'ROUTED_METHOD_UNREGISTER_NODE_WORKSPACE': 18, 'ROUTED_METHOD_LIST_NODE_WORKSPACES': 19, 'ROUTED_METHOD_GET_NODE_WORKSPACE': 20})
+
+
 def module(name):
     spec = importlib.util.spec_from_file_location(name, ROOT / "eng" / (name + ".py"))
     loaded = importlib.util.module_from_spec(spec)
@@ -178,10 +183,16 @@ class FieldNumbers(unittest.TestCase):
 
     def test_the_six_routed_methods_follow_the_earlier_fleet_methods(self):
         service = block(FLEET, "service", "FleetService")
-        self.assertEqual(len(re.findall(r"^  rpc \w+\(", service, re.M)), 19)
+        self.assertEqual(len(re.findall(r"^  rpc \w+\(", service, re.M)), 31)
         methods = re.findall(r"^  rpc (\w+)\(FleetService(\w+)Request\) returns \(FleetService(\w+)Response\);", service, re.M)
-        self.assertEqual([m[0] for m in methods][-6:], list(ROUTED))
-        self.assertTrue(all(m[0] == m[1] == m[2] for m in methods[-6:]))
+        # The older CancelNodeCommand response uses a different name, so the
+        # signature-triplet parser excludes it. Compare order with every RPC first.
+        names = re.findall(r"^  rpc (\w+)\(", service, re.M)
+        self.assertEqual(names[:19], ['ListNodes', 'GetNode', 'RenameNode', 'RevokeNode', 'IssueRelayToken', 'OpenFleetWatch', 'WatchFleet', 'SendNodeCommand', 'GetNodeCommand', 'ListNodeCommands', 'GetPushPreferences', 'UpdatePushPreferences', 'CancelNodeCommand', 'SubmitNodeTask', 'GetNodeTask', 'ListNodeTasks', 'WaitNodeTask', 'ReadNodeTaskOutput', 'CancelNodeTask'])
+        self.assertEqual(names[13:19], list(ROUTED))
+        self.assertEqual(names[19:], list(C6_ROUTED))
+        self.assertEqual([m[0] for m in methods][-18:], list(ROUTED + C6_ROUTED))
+        self.assertTrue(all(m[0] == m[1] == m[2] for m in methods[-18:]))
 
 
 class DomainStrings(unittest.TestCase):
@@ -311,7 +322,7 @@ class Validators(unittest.TestCase):
         self.assertEqual(re.findall(r'"([^"]+)",', generated.group(1)), catalogue)
         self.assertIn("authorization/approval_required", catalogue)
         fleet_cs = text("src/public/dotnet/ArcForges.Contracts.Fleet/Generated/Shapes/ProtoValidation.g.cs")
-        self.assertEqual(fleet_cs.count("if ((value.Caller is null) == value.HasRelayAssertion) return false;"), 8)
+        self.assertEqual(fleet_cs.count("if ((value.Caller is null) == value.HasRelayAssertion) return false;"), 20)
 
     def test_every_new_field_is_bounded(self):
         relay, public = self.sidecar("internal"), self.sidecar("public")

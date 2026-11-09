@@ -157,6 +157,7 @@ ArcForges.Contracts.Node.V1.TaskService.BindService(binder, new FlagshipNodeTask
 ArcForges.Contracts.Node.V1.ToolchainService.BindService(binder, new FlagshipNodeToolchainEndpoint());
 ArcForges.Contracts.Node.V1.UpdateService.BindService(binder, new FlagshipNodeUpdateEndpoint());
 ArcForges.Contracts.Node.V1.WorkspaceService.BindService(binder, new FlagshipNodeWorkspaceEndpoint());
+ArcForges.Contracts.Node.V1.FileService.BindService(binder, new FlagshipNodeFileEndpoint());
 ArcForges.Contracts.Fleet.V1.NodeEnrollmentService.BindService(binder, new FlagshipFleetNodeEnrollmentEndpoint());
 ArcForges.Contracts.Fleet.V1.FleetService.BindService(binder, new FlagshipFleetFleetEndpoint());
 ArcForges.Contracts.Fleet.V1.StoreBillingService.BindService(binder, new FlagshipFleetStoreBillingEndpoint());
@@ -179,17 +180,20 @@ FileDescriptor[] files =
     ArcForges.Contracts.Hello.V1.HelloReflection.Descriptor,
     ArcForges.Contracts.Catalog.V1.CatalogReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ContentReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.DescriptorsReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ScopeReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ConnectorReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.CommerceReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ChatReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.SyncReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.TransferReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.InprocessValuesReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.SupportReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ExportReflection.Descriptor,
     ArcForges.Contracts.Events.V1.EventsReflection.Descriptor,
     ArcForges.Sdk.Contracts.V1.ExtensionsReflection.Descriptor,
     ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor,
+    ArcForges.Contracts.LocalRpc.Platform.V1.InprocessReflection.Descriptor,
     ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxReflection.Descriptor,
     ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor,
     ArcForges.Contracts.LocalRpc.Scope.V1.ScopeReflection.Descriptor,
@@ -219,12 +223,28 @@ FileDescriptor[] files =
     ArcForges.Contracts.Node.V1.ToolchainsReflection.Descriptor,
     ArcForges.Contracts.Node.V1.UpdatesReflection.Descriptor,
     ArcForges.Contracts.Node.V1.WorkspacesReflection.Descriptor,
+    ArcForges.Contracts.Node.V1.FilesReflection.Descriptor,
     ArcForges.Contracts.Fleet.V1.FleetReflection.Descriptor,
     ArcForges.Contracts.Peer.V1.PeerReflection.Descriptor,
     ArcForges.Contracts.Relay.V1.RelayReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.SupportAccessReflection.Descriptor,
     ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadReflection.Descriptor,
 ];
+// Compare the fixed descriptor roots with the authored active NuGet schema inventory, including files that declare no service.
+// A missing or duplicate file must not silently reduce the Native AOT message coverage.
+using var inventory = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root, "eng/contract-packages.json")));
+var expectedFiles = inventory.RootElement.GetProperty("packages").EnumerateArray()
+    .Where(package => package.GetProperty("kind").GetString() == "nuget" && !package.TryGetProperty("retired", out _))
+    .SelectMany(package => package.GetProperty("proto").EnumerateArray())
+    .Select(value => value.GetString()!)
+    .Select(path => path.StartsWith("public/proto/", StringComparison.Ordinal) ? path["public/proto/".Length..] :
+        path.StartsWith("internal/proto/", StringComparison.Ordinal) ? path["internal/proto/".Length..] :
+        throw new InvalidOperationException("Unexpected authored proto path: " + path))
+    .Distinct(StringComparer.Ordinal)
+    .OrderBy(path => path, StringComparer.Ordinal).ToArray();
+Require(files.Select(file => file.Name).OrderBy(path => path, StringComparer.Ordinal).SequenceEqual(expectedFiles),
+    "descriptor file inventory differs from active NuGet schemas");
+counts["descriptorFiles"] = files.Length;
 var serviceCount = 0;
 foreach (var file in files)
 {
@@ -516,6 +536,8 @@ internal sealed class FlagshipNodeToolchainEndpoint : ArcForges.Contracts.Node.V
 internal sealed class FlagshipNodeUpdateEndpoint : ArcForges.Contracts.Node.V1.UpdateService.UpdateServiceBase;
 
 internal sealed class FlagshipNodeWorkspaceEndpoint : ArcForges.Contracts.Node.V1.WorkspaceService.WorkspaceServiceBase;
+
+internal sealed class FlagshipNodeFileEndpoint : ArcForges.Contracts.Node.V1.FileService.FileServiceBase;
 
 internal sealed class FlagshipFleetNodeEnrollmentEndpoint : ArcForges.Contracts.Fleet.V1.NodeEnrollmentService.NodeEnrollmentServiceBase;
 
