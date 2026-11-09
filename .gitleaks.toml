@@ -5899,3 +5899,16 @@ regexes = [
   '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
   '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",?\s*$''',
 ]
+
+[[allowlists]]
+description = "AF-CTR-06 pending dependency receipt r4 public input digests"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/dependency\-reviews/af\-ctr\-06\-r4\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"4f8b5573e15ea01ce5e31333be2b7122d35b6e406c6d37ff4259b8c8204c9edb",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
+  '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",?\s*$''',
+]

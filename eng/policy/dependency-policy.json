@@ -55,6 +55,7 @@
     "eng/provenance/records/contract-bindings-af-ctr-05-r5.json": "e260828d649d9f5668cd0e0ed4cf1ffbb2eabc5bb8086a8b51d3126e9836429e",
     "eng/provenance/records/contract-bindings-af-ctr-06-r1.json": "476468491f1f6db7e738834fd36ac8466f3791dbf377cb266c44cba52d045349",
     "eng/provenance/records/contract-bindings-af-ctr-06-r2.json": "897981e4549d8100c378796d68d94535f4e2bd1e971b4bfbefbcf3714cca2262",
+    "eng/provenance/records/contract-bindings-af-ctr-06-r3.json": "23f4f09260f37e5c7175791a6421c459a28bcc8414d11d10f4fcbd839fbcb82d",
     "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
     "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
     "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -1004,26 +1005,26 @@
   },
   "review": {
     "owner": "Contracts maintainers (AF-CTR-06 coordinator author assessment)",
-    "reviewer": "Independent Codex reviewer /root/ctr06_d0_review (CTR06-CONTRACTS-ACCESS-R3-PENDING-INDEPENDENT-REVIEW-2026-11-09.md; actual unchanged access graph/raw input identity and dependency disposition, not formal/runtime acceptance)",
-    "decision": "approved",
+    "reviewer": "PENDING independent AF-CTR-06 AOT/source-provenance and dependency delta review",
+    "decision": "pending",
     "reviewedOn": "2026-11-09",
     "baselineCommit": "e67a6b089a7270ab771a97c27aeba92c5d3b0469",
-    "maintenanceAssessment": "Independent source/licence/dependency delta review approved source825107c and the corrected access input evidence:52 schemas,2532 types,3328 distribution rows including2863 retired rows and all7 retired identities are unchanged. The105 actual graph inputs and253 dependency inputs were checked;58-coordinate closure and all previous receipts/provenance are preserved. This r3 receipt only follows the formatter raw-input correction and does not turn any of the three failed formal profiles into pass. Complete final native pack/AOT/Go/exchange and real consumer acceptance remain separate mandatory evidence.",
+    "maintenanceAssessment": "Author draft for the targeted serialization-probe fix at b838605b6b9176a1fe7b996fbebbea0c5689f481. The Node FileService catalogue and 21 method paths are appended without changing previous vectors; all 52 active NuGet proto schemas now have explicit roots. The author ran the Linux Native AOT probe (2282 messages, 497 methods, 31 binary and 51 JSON cases; no warnings), official generate --check, serialization static and actual graph audit. The prior formal-r4 pack failed and remains failed. C# provenance r3 is pending independent review; all 429 generated targets and 58 dependency coordinates, integrity and licences are unchanged. This receipt is not approval, a new formal gate or product acceptance.",
     "checks": {
-      "compilation": "All24 affected contract-access tooling tests passed after recompiling the actual unchanged graph and correcting exactly3 formatted input SHA256 values. No compiled source changed, all generated source targets still match their previously reviewed C#/Go provenance. The three prior formal profiles stopped before pack; complete final native pack/AOT/Go/exchange is still required.",
-      "aot-trim": "No csproj, serializer/runtime discovery, AOT or trim setting changed; new concrete protobuf and static validation code uses existing runtimes. Actual serialization-probe Native AOT belongs to the required native pack and is not yet claimed.",
-      "compatibility": "Wire additions append methods, enum values, messages and next free fields, preserving old tags/reservations. Four previously unimplemented workspace method validators now enforce the existing required path/identity/result declarations and bounded unique enums; this profile tightening is explicit in the adoption record and requires independent review. The flagship descriptor-window check and all relevant negative vectors remain required.",
-      "licence-provenance": "Independent Codex reviewer /root/ctr06_d0_review approved the r2 source/licence/provenance assessment in CTR06-CONTRACTS-FORMAT-R2-INDEPENDENT-REVIEW-2026-11-09.md. C# r2 retains429 byte-identical outputs and refreshes exactly3 raw formatted input hashes;164 source inputs all match4fc. Previous r1/Go/external generator attribution and licences remain unchanged. This is source admission, not artifact/runtime acceptance.",
-      "security-sbom": "Actual locks yield exactly the previous 58 coordinates and integrity values. No dependency, native binary, publisher credential, network source or privileged helper is added; no dynamic wire registry, reflection serializer or body-bearing audit is introduced.",
-      "runtime-performance-migration": "This producer defines bounded messages and shape validation only; it does not implement native file operations, permission decisions, journals, database migrations or center routing. Consumers must use exact published packages and implement those behaviors with real tests. No product acceptance or performance claim is made.",
-      "framework-runtime-posture": "Existing .NET SDK10.0.403, Node24.21.0 and Go1.27.3 pins are unchanged; no framework major upgrade or new Android/runtime closure is introduced."
+      "compilation": "Targeted Linux Native AOT author publish and actual native probe passed with zero reported warnings; 52 exact descriptor files, 2282 generated message empty-roundtrips, 497 exact bound method paths, 31 binary and 51 JSON cases. This is not a successful pushed-head formal profile.",
+      "aot-trim": "The existing test-only probe roots the same 15 assemblies and now explicitly names every active NuGet schema; the author observed nativeAot=true on Linux x64. No project, toolchain, dynamic business registry or reflection JSON setting changed. Other platforms and formal verification remain separate.",
+      "compatibility": "The fixture retains every previous case, service and method in its prior order, appending one Node service and 21 method paths. No schema or generated binding changed. This does not prove a consumer deployment or native filesystem behavior.",
+      "licence-provenance": "Draft C# provenance r3 retains all 429 target rows byte-for-byte and all third-party pins and attribution, updates one of 164 source-evidence hashes and points at the actual source commit. Both provenance and this dependency receipt remain PENDING independent review; the generated NOTICE must be refreshed only after that review.",
+      "security-sbom": "All locked inputs still resolve to exactly the previous 58 coordinates and integrity values. No dependency, credential, network source, host setting, or business runtime serializer is added.",
+      "runtime-performance-migration": "Only a test-only AOT probe and its fixture change. Filesystem security, permissions, persistence, routing, actual cleanup and end-to-end acceptance are consumer implementation work, not established here.",
+      "framework-runtime-posture": "The existing .NET SDK 10.0.403, Node 24.21.0 and Go 1.27.3 pins remain unchanged; no framework major upgrade or new Android/runtime closure is introduced."
     },
     "frameworkVersions": {
       "dotnetSdk": "10.0.403",
       "node": "24.21.0",
       "go": "1.27.3"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-06-r2.json",
+    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-06-r3.json",
     "inputHashes": {
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
@@ -1078,6 +1079,7 @@
       "eng/provenance/records/contract-bindings-af-ctr-05-r5.json": "e260828d649d9f5668cd0e0ed4cf1ffbb2eabc5bb8086a8b51d3126e9836429e",
       "eng/provenance/records/contract-bindings-af-ctr-06-r1.json": "476468491f1f6db7e738834fd36ac8466f3791dbf377cb266c44cba52d045349",
       "eng/provenance/records/contract-bindings-af-ctr-06-r2.json": "897981e4549d8100c378796d68d94535f4e2bd1e971b4bfbefbcf3714cca2262",
+      "eng/provenance/records/contract-bindings-af-ctr-06-r3.json": "23f4f09260f37e5c7175791a6421c459a28bcc8414d11d10f4fcbd839fbcb82d",
       "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
       "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
       "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -1280,5 +1282,5 @@
       "tests/public/SerializationProbe/packages.lock.json": "c22dac951b63b91a5b5b2f9d620cfd5601024a12c59f6b3a62176837fe8d9fa4"
     }
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-06-r3.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-06-r4.json"
 }
