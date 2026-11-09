@@ -3,7 +3,7 @@
   "license": "Apache-2.0",
   "source": {
     "repository": "ArcForges/ArcForges-Design",
-    "commit": "d2f3f87d5bb5dc691f10734dcbb5f49eb445cf0e",
+    "commit": "f0206cdad77d179ea300ea41f672790f3c698783",
     "path": "docs/contracts/errors.md",
     "sha256": "ef7746a2caeb51e94d7cc44e44a8c9617d6a3053943f71f51db9ffde6bcb32e5"
   },
@@ -154,7 +154,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "VALIDATION",
@@ -199,13 +199,13 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "AUTHENTICATION",
       "code": "unauthenticated",
       "messageKey": "error.authentication.unauthenticated",
-      "meaning": "Missing or invalid credential. AF-CTR-05 target (Plan addendum D0-B1, C-N6): also a node-relayed call, `ListNodes` and `GetNode` included, whose relay assertion is missing or invalid ([11](../architecture/11-security-privacy.md) §1); the call is never served or routed",
+      "meaning": "Missing or invalid credential. AF-CTR-05 target (Plan addendum D0-B1, C-N6): also a node-relayed call, `ListNodes` and `GetNode` included, whose relay assertion is missing or invalid ([11](../architecture/11-security-privacy.md) \u00a71); the call is never served or routed",
       "retryAdvice": "`NEVER` (sign in again). AF-CTR-05 target, for a relayed call refused `expired` or `nonce_reused` (C-N4): no sign-in, the relaying node signs a new assertion with a fresh relay nonce and resends with the same `command_id`",
       "effect": "`DID_NOT_HAPPEN`",
       "pairs": [
@@ -218,7 +218,7 @@
           "retry": "SAME_COMMAND"
         }
       ],
-      "details": "—. AF-CTR-05 target, for a relayed call: `state.state` = `relay_assertion`, `state.reason` = `missing`, `signature_invalid`, `credential_mismatch`, `expired`, `nonce_reused` or `request_mismatch` (a request field, the `caller` included, that differs from the assertion)"
+      "details": "\u2014. AF-CTR-05 target, for a relayed call: `state.state` = `relay_assertion`, `state.reason` = `missing`, `signature_invalid`, `credential_mismatch`, `expired`, `nonce_reused` or `request_mismatch` (a request field, the `caller` included, that differs from the assertion)"
     },
     {
       "category": "AUTHENTICATION",
@@ -233,7 +233,7 @@
           "retry": "SAME_COMMAND"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "AUTHENTICATION",
@@ -248,7 +248,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "AUTHENTICATION",
@@ -263,7 +263,7 @@
           "retry": "SAME_COMMAND"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "AUTHENTICATION",
@@ -284,7 +284,7 @@
       "category": "AUTHORIZATION",
       "code": "permission_denied",
       "messageKey": "error.authorization.permission_denied",
-      "meaning": "The origin is denied by the permission matrix or ownership. AF-CTR-05 target: also a local `TaskService.SubmitTask` from a caller that is not HUMAN ([AD-0021](../decisions/AD-0021-central-access-go-center.md) §5, Plan decision Q8), and a center-routed call that the target node's center-routed policy refuses ([11](../architecture/11-security-privacy.md) §1)",
+      "meaning": "The origin is denied by the permission matrix or ownership. AF-CTR-05 target: also a local `TaskService.SubmitTask` from a caller that is not HUMAN ([AD-0021](../decisions/AD-0021-central-access-go-center.md) \u00a75, Plan decision Q8), and a center-routed call that the target node's center-routed policy refuses ([11](../architecture/11-security-privacy.md) \u00a71)",
       "retryAdvice": "`NEVER`",
       "effect": "`DID_NOT_HAPPEN`",
       "pairs": [
@@ -339,7 +339,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "AUTHORIZATION",
@@ -354,7 +354,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "ENTITLEMENT",
@@ -429,7 +429,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "CONFLICT",
@@ -489,7 +489,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "CONFLICT",
@@ -504,7 +504,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
@@ -549,7 +549,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
@@ -564,7 +564,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
@@ -579,7 +579,7 @@
           "retry": "AFTER_TIME"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
@@ -594,7 +594,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
@@ -609,13 +609,13 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
       "code": "secrets_unavailable",
       "messageKey": "error.state.secrets_unavailable",
-      "meaning": "A retry needs sealed secret environment values that were purged (terminal state + `storage.secret_retention_hours`), or that the node data key can no longer open because the key is missing or unreadable ([04](../architecture/04-execution.md) §2)",
+      "meaning": "A retry needs sealed secret environment values that were purged (terminal state + `storage.secret_retention_hours`), or that the node data key can no longer open because the key is missing or unreadable ([04](../architecture/04-execution.md) \u00a72)",
       "retryAdvice": "`NEVER` (submit again with the environment)",
       "effect": "`DID_NOT_HAPPEN`",
       "pairs": [
@@ -669,7 +669,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
@@ -684,7 +684,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
@@ -723,7 +723,7 @@
           "retry": "SAME_COMMAND"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
@@ -738,7 +738,7 @@
           "retry": "AFTER_TIME"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
@@ -753,7 +753,7 @@
           "retry": "AFTER_TIME"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
@@ -768,7 +768,7 @@
           "retry": "AFTER_TIME"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
@@ -783,13 +783,13 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
       "code": "not_activated",
       "messageKey": "error.state.not_activated",
-      "meaning": "The feature is deployed but not yet activated in production ([10](../architecture/10-cloud.md) §8)",
+      "meaning": "The feature is deployed but not yet activated in production ([10](../architecture/10-cloud.md) \u00a78)",
       "retryAdvice": "`NEVER`",
       "effect": "`DID_NOT_HAPPEN`",
       "pairs": [
@@ -813,7 +813,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
@@ -842,13 +842,13 @@
           "retry": "SAME_COMMAND"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "STATE",
       "code": "node_offline",
       "messageKey": "error.state.node_offline",
-      "meaning": "A center-routed call names a live node of the caller's account that has no open channel to this center process, or the process does not hold the hub lease (AF-CTR-05 target; [AD-0021](../decisions/AD-0021-central-access-go-center.md) §11 as amended, Plan decisions Q2 and PB-5). The call was not delivered, and the center never queues it",
+      "meaning": "A center-routed call names a live node of the caller's account that has no open channel to this center process, or the process does not hold the hub lease (AF-CTR-05 target; [AD-0021](../decisions/AD-0021-central-access-go-center.md) \u00a711 as amended, Plan decisions Q2 and PB-5). The call was not delivered, and the center never queues it",
       "retryAdvice": "`AFTER_TIME` (`retry_at`: 5 s plus jitter)",
       "effect": "`DID_NOT_HAPPEN`",
       "pairs": [
@@ -863,7 +863,7 @@
       "category": "STATE",
       "code": "node_unreachable",
       "messageKey": "error.state.node_unreachable",
-      "meaning": "A center-routed call has no verified result: the node's channel closed or was replaced, the call's deadline passed, or the node's result failed verification (AF-CTR-05 target; [AD-0021](../decisions/AD-0021-central-access-go-center.md) §11 as amended, Plan decisions Q2 and PN-9)",
+      "meaning": "A center-routed call has no verified result: the node's channel closed or was replaced, the call's deadline passed, or the node's result failed verification (AF-CTR-05 target; [AD-0021](../decisions/AD-0021-central-access-go-center.md) \u00a711 as amended, Plan decisions Q2 and PN-9)",
       "retryAdvice": "`AFTER_TIME` with `DID_NOT_HAPPEN` (any routed method whose call was not yet delivered, and every routed read once delivered: `GetNodeTask`, `ListNodeTasks`, `WaitNodeTask`, `ReadNodeTaskOutput`); with `UNKNOWN`, `SAME_COMMAND` (`SubmitNodeTask` and `CancelNodeTask` once delivered: both are idempotent by `command_id` and the node's command deduplication replays the recorded outcome. No read answers the question, because the submitted task ID is only in the lost reply, a task's state does not say which command cancelled it, and a cancel of another caller's task may have answered `approval_required` with an approval ID that only the lost reply carries, while a routed caller cannot read approvals); with `UNKNOWN` and `state.reason` `replay_digest_differs`, `NEVER` (a resend would replay the same differing digest, so the client stops and reports a defect)",
       "effect": "`DID_NOT_HAPPEN` or `UNKNOWN`",
       "pairs": [
@@ -895,7 +895,7 @@
           "retry": "AFTER_TIME"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "RESOURCE",
@@ -1015,7 +1015,7 @@
           "retry": "AFTER_TIME"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "EXECUTION",
@@ -1088,7 +1088,7 @@
           "reconciliationOperation": "arcforges.fleet.v1.StoreBillingService/GetBillingStatus"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "INTERNAL",
@@ -1115,7 +1115,7 @@
           "retry": "SAME_COMMAND"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     },
     {
       "category": "INTERNAL",
@@ -1130,7 +1130,7 @@
           "retry": "NEVER"
         }
       ],
-      "details": "—"
+      "details": "\u2014"
     }
   ]
 }

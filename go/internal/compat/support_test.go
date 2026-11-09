@@ -60,6 +60,7 @@ var moduleFiles = []protoreflect.FileDescriptor{
 	nodev1.File_arcforges_node_v1_common_proto,
 	nodev1.File_arcforges_node_v1_diagnosis_proto,
 	nodev1.File_arcforges_node_v1_events_proto,
+	nodev1.File_arcforges_node_v1_files_proto,
 	nodev1.File_arcforges_node_v1_integrations_proto,
 	nodev1.File_arcforges_node_v1_memory_proto,
 	nodev1.File_arcforges_node_v1_node_proto,
