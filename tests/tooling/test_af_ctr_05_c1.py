@@ -76,7 +76,8 @@ class BuiltRefusalAnnotations(unittest.TestCase):
                      and "CONFLICT/command_id_reused" in value["errors"]}
         # AF-CTR-05 (part C2) adds the two routed mutations, receipted per account and command_id (Plan CTR5-RTE-03).
         routed = {"arcforges.fleet.v1.FleetService/SubmitNodeTask", "arcforges.fleet.v1.FleetService/CancelNodeTask"}
-        self.assertEqual(receipted, {ENROLLMENT + method for method in RECEIPTED} | routed)
+        file_mutations = {"arcforges.fleet.v1.FleetService/" + name for name in ('WriteNodeFile', 'EditNodeFile', 'PlanNodeRemoval', 'ExecuteNodeRemoval', 'RegisterNodeWorkspace', 'UnregisterNodeWorkspace')}
+        self.assertEqual(receipted, {ENROLLMENT + method for method in RECEIPTED} | routed | file_mutations)
         for method in RECEIPTED:
             with self.subTest(method):
                 self.assertEqual(found[ENROLLMENT + method]["idempotency"], "command_id")
