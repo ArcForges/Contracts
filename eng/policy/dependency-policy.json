@@ -54,6 +54,7 @@
     "eng/provenance/records/contract-bindings-af-ctr-05-r4.json": "29d336ea9b27c8957e35033efbb6b284c67470cb1d502f999a95f7e2d934e01a",
     "eng/provenance/records/contract-bindings-af-ctr-05-r5.json": "e260828d649d9f5668cd0e0ed4cf1ffbb2eabc5bb8086a8b51d3126e9836429e",
     "eng/provenance/records/contract-bindings-af-ctr-06-r1.json": "476468491f1f6db7e738834fd36ac8466f3791dbf377cb266c44cba52d045349",
+    "eng/provenance/records/contract-bindings-af-ctr-06-r2.json": "897981e4549d8100c378796d68d94535f4e2bd1e971b4bfbefbcf3714cca2262",
     "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
     "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
     "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -1003,16 +1004,16 @@
   },
   "review": {
     "owner": "Contracts maintainers (AF-CTR-06 coordinator author assessment)",
-    "reviewer": "Independent Codex reviewer /root/ctr06_d0_review (CTR06-CONTRACTS-D1-INDEPENDENT-FINAL-SOURCE-ADMISSION-2026-11-09.md; source/reuse/dependency disposition, not formal-gate or product acceptance)",
+    "reviewer": "Independent Codex reviewer /root/ctr06_d0_review (CTR06-CONTRACTS-FORMAT-R2-INDEPENDENT-REVIEW-2026-11-09.md; formatting/source/licence/dependency disposition, not formal-gate or product acceptance)",
     "decision": "approved",
     "reviewedOn": "2026-11-09",
     "baselineCommit": "e67a6b089a7270ab771a97c27aeba92c5d3b0469",
-    "maintenanceAssessment": "AF-CTR-06 adds file/workspace protobuf messages and validators, twelve Fleet routes, relay method values and generated C#/Go bindings. The package inventory adds only the public files.proto to Node and the internal Go-module generation closure; actual public/internal descriptor audit passes with no reclassification. The exact 58-coordinate dependency closure, every version/integrity/licence, toolchain and project/framework setting are unchanged, verified against all actual locks. Inputs change for that package-source inventory, contract-access schema/type/distribution graph and two first-party generated-source provenance successors. The named separate reviewer approved the source, licence and unchanged-dependency disposition against the actual pending snapshots; that report remains distinct from the final exact-head formal Linux gate, which is still mandatory. Linux strict cleanup is unresolved in consumers and is not waived or claimed by the contract package.",
+    "maintenanceAssessment": "Independent formatting/source-evidence delta review approved the unchanged 58-coordinate dependency closure,253 exact inputs and appended source-evidence successor at source4fc00bf. The three formatted constraint JSON values and all generated outputs are unchanged; old approved receipts and Go record are preserved. Both original formal failures remain failures; complete final native pack/AOT/exchange and actual consumer acceptance are separate mandatory work.",
     "checks": {
-      "compilation": "The author-time 574e25c input snapshot passed official generation/generate--check, the Release StructureTests build with zero warnings and the AF-CTR-06 targeted suite. Full StructureTests and bidirectional exchange passed the earlier author-r4.json dirty snapshot at HEAD13543599d67787671e665ddfa7e1115a645cf262, preceding the 3d71 source commit and the final protocol changes; that record binds its actual inputs and binaries and is historical evidence only. The final exact-head native pack must run the complete StructureTests, AOT probe and Go static/race/exchange before merge; those final results are not yet claimed.",
+      "compilation": "Official generate --check passed the formatted snapshot at HEADacaa210 plus four recorded dirty files, followed by source commit4fc00bf. It reproduced all C#/Go outputs unchanged; this formatting correction adds no compile/test claim. Earlier exact author inputs and bounded targeted source checks remain historical evidence. Both prior formal profiles stopped before pack; final full pack/AOT/Go checks have not yet run successfully.",
       "aot-trim": "No csproj, serializer/runtime discovery, AOT or trim setting changed; new concrete protobuf and static validation code uses existing runtimes. Actual serialization-probe Native AOT belongs to the required native pack and is not yet claimed.",
       "compatibility": "Wire additions append methods, enum values, messages and next free fields, preserving old tags/reservations. Four previously unimplemented workspace method validators now enforce the existing required path/identity/result declarations and bounded unique enums; this profile tightening is explicit in the adoption record and requires independent review. The flagship descriptor-window check and all relevant negative vectors remain required.",
-      "licence-provenance": "First-party Apache-2.0 source only. Separate independent review approved 429 C#/shape targets and92 Go targets, their exact source inputs and unchanged third-party generator/licence evidence. Historical receipts and retired identities remain intact. The official provenance checker must regenerate NOTICE from those actual approved records, and the final exact-head profile remains required.",
+      "licence-provenance": "Independent Codex reviewer /root/ctr06_d0_review approved the r2 source/licence/provenance assessment in CTR06-CONTRACTS-FORMAT-R2-INDEPENDENT-REVIEW-2026-11-09.md. C# r2 retains429 byte-identical outputs and refreshes exactly3 raw formatted input hashes;164 source inputs all match4fc. Previous r1/Go/external generator attribution and licences remain unchanged. This is source admission, not artifact/runtime acceptance.",
       "security-sbom": "Actual locks yield exactly the previous 58 coordinates and integrity values. No dependency, native binary, publisher credential, network source or privileged helper is added; no dynamic wire registry, reflection serializer or body-bearing audit is introduced.",
       "runtime-performance-migration": "This producer defines bounded messages and shape validation only; it does not implement native file operations, permission decisions, journals, database migrations or center routing. Consumers must use exact published packages and implement those behaviors with real tests. No product acceptance or performance claim is made.",
       "framework-runtime-posture": "Existing .NET SDK10.0.403, Node24.21.0 and Go1.27.3 pins are unchanged; no framework major upgrade or new Android/runtime closure is introduced."
@@ -1022,7 +1023,7 @@
       "node": "24.21.0",
       "go": "1.27.3"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-05-r5.json",
+    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-06-r1.json",
     "inputHashes": {
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
@@ -1076,6 +1077,7 @@
       "eng/provenance/records/contract-bindings-af-ctr-05-r4.json": "29d336ea9b27c8957e35033efbb6b284c67470cb1d502f999a95f7e2d934e01a",
       "eng/provenance/records/contract-bindings-af-ctr-05-r5.json": "e260828d649d9f5668cd0e0ed4cf1ffbb2eabc5bb8086a8b51d3126e9836429e",
       "eng/provenance/records/contract-bindings-af-ctr-06-r1.json": "476468491f1f6db7e738834fd36ac8466f3791dbf377cb266c44cba52d045349",
+      "eng/provenance/records/contract-bindings-af-ctr-06-r2.json": "897981e4549d8100c378796d68d94535f4e2bd1e971b4bfbefbcf3714cca2262",
       "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
       "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
       "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -1278,5 +1280,5 @@
       "tests/public/SerializationProbe/packages.lock.json": "c22dac951b63b91a5b5b2f9d620cfd5601024a12c59f6b3a62176837fe8d9fa4"
     }
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-06-r1.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-06-r2.json"
 }

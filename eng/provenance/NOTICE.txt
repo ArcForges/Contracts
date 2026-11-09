@@ -38,8 +38,8 @@ Notice scope: source
 Copyright 2021-2026 The Connect Authors; Apache License, Version 2.0.
 connectrpc.com/connect/v2 v2.0.2 keeps its Apache-2.0 licence; the Go bindings module requires it through go.mod and does not vendor it.
 
-contract-bindings-af-ctr-06-r1
-Source: https://github.com/ArcForges/Contracts @ 574e25cffdb07216c25501762d21fa96d8bb681c
+contract-bindings-af-ctr-06-r2
+Source: https://github.com/ArcForges/Contracts @ 4fc00bf8977f67fe95c39e1394a17731f3d87da6
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
