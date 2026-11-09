@@ -20,8 +20,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["relayedCaller",
-        "fileReadRequest"]
+      "rules": ["relayedCaller", "fileReadRequest"]
     },
     "arcforges.fleet.v1.FleetServiceReadNodeFileResponse": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceReadNodeFileResponse",
@@ -63,8 +62,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["relayedCaller",
-        "fileMutationRequest"]
+      "rules": ["relayedCaller", "fileMutationRequest"]
     },
     "arcforges.fleet.v1.FleetServiceWriteNodeFileResponse": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceWriteNodeFileResponse",
@@ -106,8 +104,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["relayedCaller",
-        "fileMutationRequest"]
+      "rules": ["relayedCaller", "fileMutationRequest"]
     },
     "arcforges.fleet.v1.FleetServiceEditNodeFileResponse": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceEditNodeFileResponse",
@@ -149,8 +146,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["relayedCaller",
-        "fileReadRequest"]
+      "rules": ["relayedCaller", "fileReadRequest"]
     },
     "arcforges.fleet.v1.FleetServiceSearchNodeFilesResponse": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceSearchNodeFilesResponse",
@@ -192,8 +188,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["relayedCaller",
-        "fileReadRequest"]
+      "rules": ["relayedCaller", "fileReadRequest"]
     },
     "arcforges.fleet.v1.FleetServiceListNodeDirectoryResponse": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodeDirectoryResponse",
@@ -235,8 +230,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["relayedCaller",
-        "fileMutationRequest"]
+      "rules": ["relayedCaller", "fileMutationRequest"]
     },
     "arcforges.fleet.v1.FleetServicePlanNodeRemovalResponse": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServicePlanNodeRemovalResponse",
@@ -278,8 +272,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["relayedCaller",
-        "fileMutationRequest"]
+      "rules": ["relayedCaller", "fileMutationRequest"]
     },
     "arcforges.fleet.v1.FleetServiceExecuteNodeRemovalResponse": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceExecuteNodeRemovalResponse",
@@ -321,8 +314,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["relayedCaller",
-        "fileReadRequest"]
+      "rules": ["relayedCaller", "fileReadRequest"]
     },
     "arcforges.fleet.v1.FleetServiceGetNodeFileOperationResponse": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeFileOperationResponse",
@@ -364,8 +356,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["relayedCaller",
-        "fileMutationRequest"]
+      "rules": ["relayedCaller", "fileMutationRequest"]
     },
     "arcforges.fleet.v1.FleetServiceRegisterNodeWorkspaceResponse": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceRegisterNodeWorkspaceResponse",
@@ -407,8 +398,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["relayedCaller",
-        "fileMutationRequest"]
+      "rules": ["relayedCaller", "fileMutationRequest"]
     },
     "arcforges.fleet.v1.FleetServiceUnregisterNodeWorkspaceResponse": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceUnregisterNodeWorkspaceResponse",
@@ -450,8 +440,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["relayedCaller",
-        "fileReadRequest"]
+      "rules": ["relayedCaller", "fileReadRequest"]
     },
     "arcforges.fleet.v1.FleetServiceListNodeWorkspacesResponse": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceListNodeWorkspacesResponse",
@@ -493,8 +482,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["relayedCaller",
-        "fileReadRequest"]
+      "rules": ["relayedCaller", "fileReadRequest"]
     },
     "arcforges.fleet.v1.FleetServiceGetNodeWorkspaceResponse": {
       "csharpType": "ArcForges.Contracts.Fleet.V1.FleetServiceGetNodeWorkspaceResponse",

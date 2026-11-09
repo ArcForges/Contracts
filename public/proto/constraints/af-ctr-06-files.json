@@ -220,8 +220,7 @@
           "min": 1
         }
       },
-      "rules": ["fileRequest",
-        "fileReadRequest", "fileNonRootRequest"]
+      "rules": ["fileRequest", "fileReadRequest", "fileNonRootRequest"]
     },
     "arcforges.node.v1.FileServiceReadFileValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.FileServiceReadFileValue",
@@ -372,8 +371,7 @@
           "max": 8388608
         }
       },
-      "rules": ["fileRequest",
-        "fileReadRequest"]
+      "rules": ["fileRequest", "fileReadRequest"]
     },
     "arcforges.node.v1.FileServiceSearchFilesValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.FileServiceSearchFilesValue",
@@ -446,8 +444,7 @@
           "maxLength": 512
         }
       },
-      "rules": ["fileRequest",
-        "fileReadRequest"]
+      "rules": ["fileRequest", "fileReadRequest"]
     },
     "arcforges.node.v1.FileServiceListDirectoryValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.FileServiceListDirectoryValue",
@@ -561,8 +558,7 @@
           "required": true
         }
       },
-      "rules": ["fileRequest",
-        "fileReadRequest"]
+      "rules": ["fileRequest", "fileReadRequest"]
     },
     "arcforges.node.v1.FileServiceGetFileOperationValue": {
       "csharpType": "ArcForges.Contracts.Node.V1.FileServiceGetFileOperationValue",

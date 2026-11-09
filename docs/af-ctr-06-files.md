@@ -47,7 +47,7 @@ and HUMAN classification remain runtime checks.
 | Directory      | At most 128 entries per page, bounded opaque cursor and explicit snapshot/truncation metadata                                                           |
 | Removal plan   | One workspace path or trusted attempt ID; at most root plus 1,000 descendants and 64 MiB; exact digest and expiry                                       |
 | Node payload   | Request at most 245,760 serialized bytes; response at most 1,040,384; search response at most 131,072                                                   |
-| Workspace list | Closed unique kinds, at most 500 records and 131,072 serialized response bytes; runtime must provide lossless continuation                             |
+| Workspace list | Closed unique kinds, at most 500 records and 131,072 serialized response bytes; runtime must provide lossless continuation                              |
 
 ## Workspace adoption and legacy compatibility
 
