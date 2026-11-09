@@ -10,6 +10,7 @@ import shutil
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "eng"))
@@ -252,14 +253,53 @@ class ConstraintSidecars(unittest.TestCase):
             for field, rules in value["fields"].items():
                 if set(rules) - {"required"}:
                     with self.subTest(message=name, field=field):
-                        self.assertTrue(name in C2_BOUNDED_MESSAGES | C6_BOUNDED_MESSAGES or (name, field) in C2_BOUNDED_FIELDS)
+                        self.assertTrue(name in C2_BOUNDED_MESSAGES | C6_BOUNDED_MESSAGES
+                                        or (name, field) in C2_BOUNDED_FIELDS | C6_LEGACY_FIELD_BOUNDS.keys())
+                        if (name, field) in C6_LEGACY_FIELD_BOUNDS:
+                            self.assertEqual(rules, C6_LEGACY_FIELD_BOUNDS[(name, field)])
         # Outside the explicit C2/C6 profile, only the two earlier relayed reads carry a
         # relationship rule (C-N6); their exact relayedCaller rule remains unchanged.
         ruled = {name for name, value in messages.items() if value.get("rules")}
-        self.assertEqual(ruled - (C2_BOUNDED_MESSAGES | C6_BOUNDED_MESSAGES), {"arcforges.fleet.v1.FleetServiceListNodesRequest",
-                                                       "arcforges.fleet.v1.FleetServiceGetNodeRequest"})
-        self.assertEqual({name: messages[name]["rules"] for name in ruled - (C2_BOUNDED_MESSAGES | C6_BOUNDED_MESSAGES)},
-                         {name: ["relayedCaller"] for name in ruled - (C2_BOUNDED_MESSAGES | C6_BOUNDED_MESSAGES)})
+        expected_legacy_rules = {
+            "arcforges.fleet.v1.FleetServiceListNodesRequest": ["relayedCaller"],
+            "arcforges.fleet.v1.FleetServiceGetNodeRequest": ["relayedCaller"],
+            **C6_LEGACY_RULES,
+        }
+        self.assertEqual({name: messages[name]["rules"]
+                          for name in ruled - (C2_BOUNDED_MESSAGES | C6_BOUNDED_MESSAGES)},
+                         {name: rules for name, rules in expected_legacy_rules.items() if rules})
+        for name, rules in C6_LEGACY_RULES.items():
+            self.assertEqual(messages[name].get("rules", []), rules)
+        for name in C6_LEGACY_RESPONSE_ONEOFS:
+            self.assertEqual(messages[name]["oneofRequired"], ["outcome"])
+        for (name, field), rules in C6_LEGACY_FIELD_BOUNDS.items():
+            self.assertEqual(messages[name]["fields"][field], rules)
+
+    def test_legacy_profile_still_rejects_unreviewed_bounds_and_missing_rules(self):
+        # These reviewer-found mutations passed with a whole-message legacy exemption.
+        # Run a separate TestCase oracle directly, so subTest failures raise normally.
+        original_load = load
+        path = "public/proto/constraints/af-con-01-node.json"
+        for mutation in ("extra_branch_bound", "missing_quality_rule", "weaker_path_bound", "missing_outcome"):
+            with self.subTest(mutation=mutation):
+                changed = copy.deepcopy(original_load(path))
+                summary = changed["messages"]["arcforges.node.v1.GitStatusSummary"]
+                if mutation == "extra_branch_bound":
+                    summary["fields"]["branch"]["maxUtf8Bytes"] = 1
+                elif mutation == "missing_quality_rule":
+                    summary["rules"].remove("gitSummaryQuality")
+                elif mutation == "weaker_path_bound":
+                    changed["messages"]["arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest"]["fields"]["path"]["maxUtf8Bytes"] = 8192
+                else:
+                    changed["messages"]["arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse"]["oneofRequired"] = []
+
+                def changed_load(relative):
+                    return changed if relative == path else original_load(relative)
+
+                probe = ConstraintSidecars("test_required_flags_equal_the_unconditional_required_annotations")
+                with mock.patch.object(sys.modules[__name__], "load", side_effect=changed_load):
+                    with self.assertRaises(AssertionError):
+                        probe.test_required_flags_equal_the_unconditional_required_annotations()
 
 
 # AF-CTR-05 part C2: the new messages and the new fields of earlier messages whose sidecar entries carry bounds.
@@ -284,8 +324,34 @@ C6_FLEET_METHODS = ('ReadNodeFile', 'WriteNodeFile', 'EditNodeFile', 'SearchNode
 C6_BOUNDED_MESSAGES = {"arcforges.node.v1." + name for name in ('FilePath', 'FileMutationResult', 'FileMatch', 'FileScanProblem', 'FileDirectoryEntry', 'FileRemovalItem', 'FileRemovalPlan', 'FileRemovalResult', 'FileOperation', 'FileAuditObservation', 'FileAuditMetadata')}
 C6_BOUNDED_MESSAGES |= {f"arcforges.node.v1.FileService{name}{suffix}" for name in C6_FILE_METHODS for suffix in ("Request", "Value", "Response")}
 C6_BOUNDED_MESSAGES |= {f"arcforges.fleet.v1.FleetService{name}{suffix}" for name in C6_FLEET_METHODS for suffix in ("Request", "Value", "Response")}
-C6_BOUNDED_MESSAGES |= {f"arcforges.node.v1.WorkspaceService{name}{suffix}" for name in ("RegisterWorkspace", "UnregisterWorkspace", "ListWorkspaces", "GetWorkspace") for suffix in ("Request", "Value", "Response")}
-C6_BOUNDED_MESSAGES.add("arcforges.node.v1.GitStatusSummary")
+# Earlier workspace/Git messages gain only these exact reviewed fields/rules.
+C6_LEGACY_FIELD_BOUNDS = {
+    ("arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest", "path"):
+        {"required": True, "minLength": 1, "maxUtf8Bytes": 4096},
+    ("arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest", "name"): {"maxLength": 100},
+    ("arcforges.node.v1.WorkspaceServiceListWorkspacesRequest", "kinds"):
+        {"unique": True, "maxItems": 3, "items": {"enumValues": [1, 2, 3]}},
+    ("arcforges.node.v1.WorkspaceServiceListWorkspacesValue", "workspaces"): {"maxItems": 500},
+}
+C6_LEGACY_RULES = {
+    "arcforges.node.v1.GitStatusSummary": ["gitSummaryQuality"],
+    "arcforges.node.v1.WorkspaceServiceGetWorkspaceRequest": ["fileRequest", "fileReadRequest"],
+    "arcforges.node.v1.WorkspaceServiceGetWorkspaceResponse": ["fileResponse"],
+    "arcforges.node.v1.WorkspaceServiceGetWorkspaceValue": ["workspaceGitValue"],
+    "arcforges.node.v1.WorkspaceServiceListWorkspacesRequest": ["fileRequest", "fileReadRequest"],
+    "arcforges.node.v1.WorkspaceServiceListWorkspacesResponse": ["fileSmallResponse"],
+    "arcforges.node.v1.WorkspaceServiceListWorkspacesValue": ["workspaceGitList"],
+    "arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest": ["fileRequest", "fileMutationRequest"],
+    "arcforges.node.v1.WorkspaceServiceRegisterWorkspaceResponse": ["fileResponse"],
+    "arcforges.node.v1.WorkspaceServiceRegisterWorkspaceValue": ["workspaceGitValue"],
+    "arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceRequest": ["fileRequest", "fileMutationRequest"],
+    "arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceResponse": ["fileResponse"],
+    "arcforges.node.v1.WorkspaceServiceUnregisterWorkspaceValue": [],
+}
+C6_LEGACY_RESPONSE_ONEOFS = {
+    f"arcforges.node.v1.WorkspaceService{name}Response"
+    for name in ("RegisterWorkspace", "UnregisterWorkspace", "ListWorkspaces", "GetWorkspace")
+}
 C6_WORKSPACE_REQUIRED = {
     ('arcforges.node.v1.WorkspaceServiceGetWorkspaceValue', 'workspace'),
     ('arcforges.node.v1.WorkspaceServiceRegisterWorkspaceRequest', 'path'),
