@@ -3500,10 +3500,10 @@
   },
   "review": {
     "owner": "Licensing and Provenance Owner",
-    "reviewer": "PENDING independent AF-CTR-06 AOT probe and source-provenance review",
+    "reviewer": "Independent Codex reviewer /root/ctr06_d0_review (CTR06-CONTRACTS-AOT-PENDING-INDEPENDENT-REVIEW-2026-11-09.md; actual source/licence/reuse/dependency disposition with native negative controls, not formal/product acceptance)",
     "reviewedOn": "2026-11-09",
-    "decision": "pending",
-    "rationale": "AF-CTR-06 Native AOT probe repair: the independent fixture appends the Node FileService and twelve Fleet routes while preserving all prior service and method order, and the test-only probe explicitly roots all 52 active NuGet proto schemas. Only the fixture's one raw source-evidence hash changes among 164 producer inputs; all 429 generated targets and the generator pins, third-party obligations, licences and notices remain unchanged. No wire schema or generated binding changes. Author draft only; an independent reviewer must assess it before admission.",
+    "decision": "approved",
+    "rationale": "AF-CTR-06 Native AOT probe repair: the independent fixture appends the Node FileService and twelve Fleet routes while preserving all prior service and method order, and the test-only probe explicitly roots all 52 active NuGet proto schemas. Only the fixture's one raw source-evidence hash changes among 164 producer inputs; all 429 generated targets and the generator pins, third-party obligations, licences and notices remain unchanged. No wire schema or generated binding changes. Separate full-delta source/licence/reuse review approved the actual AOT oracle correction, all429 unchanged targets and164 source inputs; native negative controls prove missing service/method/schema still fail. Final exact-head formal profile and actual consumer acceptance remain mandatory and are not claimed.",
     "baselineCommit": "e67a6b089a7270ab771a97c27aeba92c5d3b0469",
     "reconciliation": false
   },
