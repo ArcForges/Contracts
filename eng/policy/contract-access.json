@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "574e25cffdb07216c25501762d21fa96d8bb681c",
+  "sourceCommit": "246b60242a85c06941bd6b571914be71bc324d30",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -48912,7 +48912,7 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "8dc6689df6b6b3aef7a30f5a9d49aed24a99e24b85a1d13c4c8c146c4f04acfa"
+      "sha256": "dad3c01a670afe8d43714fc50b3e903ffec9bdb7dd3e6fe73f87ccfc9eda4498"
     },
     {
       "path": "public/proto/constraints/af-con-01-fleet.json",
@@ -48928,11 +48928,11 @@
     },
     {
       "path": "public/proto/constraints/af-ctr-06-files.json",
-      "sha256": "4891702d2766dc749c9be804134c90b83bc9a3d4bd288fa6acc1771f9b792b40"
+      "sha256": "852015b2d52196ad5b28763fa87407137891f4701c4267eede3209764fe83024"
     },
     {
       "path": "public/proto/constraints/af-ctr-06-fleet.json",
-      "sha256": "e39605d3b05461502fc5e8669dbfdd524abf47c07e84abf46ebd10c33da24790"
+      "sha256": "7fce61498560f6d805ce165886ce32628f7b5c86b82837b0cc548c5d282009f0"
     },
     {
       "path": "public/proto/constraints/con-07-identity.json",
