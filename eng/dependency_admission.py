@@ -48,6 +48,8 @@ GO_UNTAGGED = {
 GO_CONTROL_INPUTS = frozenset({
     '.python-version', 'global.json', 'eng/contracts.py', 'eng/go_bindings.py',
     'eng/check_go_dependency_inventory.py', 'eng/dependency_admission.py', 'eng/verify_steps.py',
+    'eng/check_toolchain.py', 'eng/native_toolchain.py', 'eng/native-toolchain.json',
+    'eng/package_catalog.py', 'eng/contract-packages.json',
 })
 
 
@@ -111,6 +113,8 @@ def go_report_summary(report):
                   and all(config.get(key) == value for key, value in collector.APPLIED_ENVIRONMENT.items()
                           if key != 'GOTELEMETRY'), 'Wrong Go measurement query environment')
     reject_unless(config.get('CGO_ENABLED') == ('1' if system == 'Linux' else '0'), 'Unexpected Go cgo/race configuration')
+    if system == 'Linux':
+        reject_unless(config.get('CC') == 'clang' and config.get('CXX') == 'clang++', 'Go cgo must use the selected native LLVM compiler')
     reject_unless(host.get('goVersion') == f"go version {config.get('GOVERSION')} {native}/amd64",
                   'Inconsistent Go compiler identity')
     graphs = report['selectedGraphs']
@@ -172,7 +176,8 @@ def go_report_summary(report):
     # identities are compared. Full upstream edges and complete package closures remain bound.
     selected = {name: {path: {'version': row.get('Version', ''), 'main': row.get('Main') is True}
                        for path, row in graph.items()} for name, graph in graphs.items()}
-    return {'configuration': {key: config[key] for key in collector.GO_ENV if key not in {'GOROOT', 'GOMOD', 'GOTELEMETRY'}},
+    excluded = {'GOROOT', 'GOMOD', 'GOTELEMETRY'} | ({'CC', 'CXX'} if system == 'Windows' else set())
+    return {'configuration': {key: config[key] for key in collector.GO_ENV if key not in excluded},
             'selectedGraphsSha256': _go_digest(selected), 'moduleRequirementsSha256': _go_digest(requirements),
             'packageClosuresSha256': _go_digest(closures), 'classification': classification}
 
@@ -221,6 +226,8 @@ def validate_go_qualification(policy, root):
         expected_config = {'GOVERSION': expected_go, 'GOOS': native, 'GOARCH': 'amd64', 'GOHOSTOS': native,
                            'GOHOSTARCH': 'amd64', 'CGO_ENABLED': '1' if native == 'linux' else '0', 'GOAMD64': 'v1',
                            'GOEXPERIMENT': '', 'GOFLAGS': '-mod=readonly', 'GOWORK': 'off', 'GOTOOLCHAIN': 'local'}
+        if native == 'linux':
+            expected_config.update(CC='clang', CXX='clang++')
         reject_unless(config == expected_config, 'Go reference changed the applicable platform/build configuration')
         classification = summary['classification']
         _go_fields(classification, 'actualDependencies metadataOnly namedCandidates', 'classification')

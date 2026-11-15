@@ -56,6 +56,7 @@ def report(root, system):
     config = {'GOVERSION': 'go1.27.4', 'GOROOT': 'synthetic-sdk', 'GOOS': native, 'GOARCH': 'amd64',
               'GOHOSTOS': native, 'GOHOSTARCH': 'amd64', 'CGO_ENABLED': '1' if system == 'Linux' else '0',
               'GOAMD64': 'v1', 'GOEXPERIMENT': '', 'GOMOD': str(root / 'go/go.mod'),
+              'CC': 'clang' if system == 'Linux' else 'gcc', 'CXX': 'clang++' if system == 'Linux' else 'g++',
               **collector.APPLIED_ENVIRONMENT}
     arguments = [['version'], ['env', '-json', *collector.GO_ENV],
                  *[['list', '-mod=readonly', '-m', '-json', 'all']] * 2, *[['mod', 'graph']] * 2,

@@ -354,8 +354,12 @@ def serialization_probe() -> None:
     output = ARTIFACTS / "serialization-probe" / rid
     # AOT and trim diagnostics are errors; every contract library is rooted for complete analysis.
     # The project selects the host RID itself; -r would also flow into every referenced library restore.
+    native_env, native_arguments = None, []
+    if rid == "linux-x64":
+        from native_toolchain import aot_environment, aot_arguments
+        native_env, native_arguments = aot_environment(), aot_arguments()
     run("dotnet", "publish", ROOT / "tests/public/SerializationProbe/SerializationProbe.csproj", "-c", "Release",
-        "-o", output)
+        "-o", output, *native_arguments, env=native_env)
     probe = output / ("SerializationProbe.exe" if rid == "win-x64" else "SerializationProbe")
     run(probe, ROOT, "--report", ARTIFACTS / f"evidence/serialization-probe-{rid}.json")
 

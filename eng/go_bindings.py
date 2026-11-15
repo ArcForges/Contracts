@@ -93,6 +93,9 @@ def say(message: str) -> None:
 
 def environment(extra: dict | None = None) -> dict:
     env = dict(os.environ, GOTOOLCHAIN="local", GOFLAGS="-mod=readonly", GOTELEMETRY="off", GOWORK="off")
+    if platform.system() == "Linux":
+        from native_toolchain import aot_environment
+        env = aot_environment(env)
     env.update(extra or {})
     return env
 

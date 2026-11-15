@@ -46,6 +46,7 @@ FINGERPRINT = {
         "python": "python --version",
         "go": "go version",
         "git": "git --version",
+        "native-toolchain": "python eng/native_toolchain.py check",
     },
 }
 
@@ -102,6 +103,7 @@ STEPS = [
     # ci.yml, Build candidate
     linux("clone-identity", "set -e; git config remote.origin.url https://github.com/ArcForges/Contracts.git; "
           "git update-ref refs/remotes/origin/main {base}", 60),
+    linux("native-toolchain", "python eng/check_toolchain.py --native-aot", 120),
     linux("restore", "python eng/contracts.py restore", 600),
     linux("dependency-admission", "python eng/dependency_admission.py", 120),
     linux("naming", "python eng/check_naming.py --report artifacts/evidence/naming.json", 300),

@@ -28,6 +28,9 @@ class ToolchainSelectionTests(unittest.TestCase):
             target = root / name
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, target)
+        project = root / "eng/Codegen/Codegen.csproj"
+        project.parent.mkdir(parents=True)
+        project.write_text('<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net11.0</TargetFramework></PropertyGroup></Project>', encoding="utf-8")
         subprocess.run(["git", "init", "--quiet", str(root)], check=True, capture_output=True)
         return root
 
@@ -70,6 +73,16 @@ class ToolchainSelectionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             with patch.dict(os.environ, {"MSBuildSDKsPath": temporary}):
                 self.assertTrue(any("MSBuildSDKsPath" in error for error in self.check()))
+
+    def test_python_only_does_not_execute_dotnet(self):
+        # Keep actual Python and Git probes; fail this test if the narrower job
+        # invokes any .NET process while recording its own tool identity.
+        real_run = subprocess.run
+        def observe(arguments, *args, **kwargs):
+            self.assertNotIn(Path(arguments[0]).stem.casefold(), {'dotnet'})
+            return real_run(arguments, *args, **kwargs)
+        with patch.object(toolchain.subprocess, 'run', side_effect=observe):
+            self.assertEqual([], self.check(['python']))
 
     def test_narrow_job_checks_only_its_tools_and_always_python(self):
         with tempfile.TemporaryDirectory() as temporary:

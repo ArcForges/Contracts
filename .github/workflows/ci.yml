@@ -59,6 +59,12 @@ jobs:
         run: |
           python eng/contracts.py go install-toolchain --dest "$RUNNER_TEMP/go-toolchain"
           echo "$RUNNER_TEMP/go-toolchain/go/bin" >> "$GITHUB_PATH"
+      - name: Provision the reviewed private Linux native toolchain
+        run: |
+          python eng/native_toolchain.py install --destination "$RUNNER_TEMP/contracts-native-tools"
+          echo "ARCFORGES_TOOLCHAIN_ROOT=$RUNNER_TEMP/contracts-native-tools" >> "$GITHUB_ENV"
+      - name: Verify actual language and native tool selection
+        run: python eng/check_toolchain.py --native-aot
       - name: Restore locked dependencies
         run: python eng/contracts.py restore
       - name: Verify dependency admission and upgrade receipt

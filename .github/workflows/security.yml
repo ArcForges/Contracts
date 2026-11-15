@@ -86,6 +86,10 @@ jobs:
         run: |
           python eng/contracts.py go install-toolchain --dest "$RUNNER_TEMP/go-toolchain"
           echo "$RUNNER_TEMP/go-toolchain/go/bin" >> "$GITHUB_PATH"
+      - name: Provision the reviewed private Go cgo compiler tools
+        run: |
+          python eng/native_toolchain.py install --destination "$RUNNER_TEMP/contracts-native-tools"
+          echo "ARCFORGES_TOOLCHAIN_ROOT=$RUNNER_TEMP/contracts-native-tools" >> "$GITHUB_ENV"
       - name: govulncheck over the published module and the pinned tools
         run: |
           python eng/check_toolchain.py --tools go
@@ -124,6 +128,11 @@ jobs:
         run: |
           python eng/contracts.py go install-toolchain --dest "$RUNNER_TEMP/go-toolchain"
           echo "$RUNNER_TEMP/go-toolchain/go/bin" >> "$GITHUB_PATH"
+      - name: Provision the reviewed private Go cgo compiler tools
+        if: matrix.language == 'go'
+        run: |
+          python eng/native_toolchain.py install --destination "$RUNNER_TEMP/contracts-native-tools"
+          echo "ARCFORGES_TOOLCHAIN_ROOT=$RUNNER_TEMP/contracts-native-tools" >> "$GITHUB_ENV"
       - uses: github/codeql-action/init@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
         with:
           languages: ${{ matrix.language }}
@@ -134,10 +143,11 @@ jobs:
           GOTOOLCHAIN: local
           GOFLAGS: -mod=readonly
           GOTELEMETRY: "off"
+          GOWORK: "off"
         run: |
           python eng/check_toolchain.py --tools go
-          go -C go build ./...
-          go -C go test -count=1 -run '^$' ./...
+          python eng/native_toolchain.py run -- go -C go build ./...
+          python eng/native_toolchain.py run -- go -C go test -count=1 -run '^$' ./...
       - uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
         with:
           # Called from ci.yml, the default category would be ci.yml's; keep security.yml's so PR and scheduled

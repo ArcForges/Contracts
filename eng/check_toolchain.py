@@ -61,12 +61,27 @@ def check(required_tools: list[str] | None = None) -> list[str]:
         evidence["tools"]["dotnet"]["version"] = sdk
         if sdk != expected["dotnet"]:
             errors.append(f"Selected .NET SDK {sdk} does not match {expected['dotnet']}")
+        installed = probe("dotnet", ["--list-sdks"]) or ""
+        paths = [Path(line.split("[", 1)[1].rstrip("]")) / expected["dotnet"]
+                 for line in installed.splitlines() if line.startswith(expected["dotnet"] + " [")]
+        effective = probe("dotnet", ["msbuild", "eng/Codegen/Codegen.csproj", "-nologo", "-verbosity:quiet",
+                                     "-getProperty:NETCoreSdkVersion,MSBuildToolsPath,MSBuildSDKsPath"])
+        if effective is not None:
+            try:
+                properties = json.loads(effective)["Properties"]
+                evidence["tools"]["dotnet"]["effective_msbuild"] = properties
+                evidence["tools"]["dotnet"]["installed_sdk_roots"] = [str(path) for path in paths]
+                if properties["NETCoreSdkVersion"] != expected["dotnet"]:
+                    errors.append("Effective NETCoreSdkVersion differs from the pinned SDK")
+                if not any(Path(properties["MSBuildToolsPath"]).resolve() == path.resolve()
+                           and Path(properties["MSBuildSDKsPath"]).resolve() == (path / "Sdks").resolve()
+                           for path in paths):
+                    errors.append("Effective MSBuild tools/SDK roots differ from the selected installed SDK")
+            except (ValueError, KeyError, TypeError):
+                errors.append("MSBuild returned an invalid effective SDK/root identity")
         override = os.environ.get("MSBuildSDKsPath")
         if override:
-            installed = probe("dotnet", ["--list-sdks"]) or ""
-            paths = [Path(line.split("[", 1)[1].rstrip("]")) / expected["dotnet"] / "Sdks"
-                     for line in installed.splitlines() if line.startswith(expected["dotnet"] + " [")]
-            if not any(Path(override).resolve() == path.resolve() for path in paths):
+            if not any(Path(override).resolve() == (path / "Sdks").resolve() for path in paths):
                 errors.append("MSBuildSDKsPath conflicts with the selected pinned SDK")
 
     node = probe("node", ["--eval", "console.log(JSON.stringify({version:process.versions.node,executable:process.execPath}))"])
@@ -118,7 +133,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tools", nargs="+", choices=["python", "dotnet", "node", "npm", "go"],
                         help="Applicable tools for a narrower CI job; Python is always checked. Default: all.")
-    errors = check(parser.parse_args().tools)
+    parser.add_argument("--native-aot", action="store_true", help="Also verify the selected existing Linux native AOT tools.")
+    options = parser.parse_args()
+    errors = check(options.tools)
+    if options.native_aot:
+        from native_toolchain import check as native_check
+        try:
+            print(json.dumps({"native_aot": native_check()}, ensure_ascii=True, sort_keys=True))
+        except (OSError, ValueError, subprocess.SubprocessError) as error:
+            errors.append(str(error))
     for error in errors:
         print("toolchain mismatch: " + error, file=sys.stderr)
     return 1 if errors else 0

@@ -39,7 +39,7 @@ VERSION = re.compile(r"v" + NUMBER + r"\." + NUMBER + r"\." + NUMBER
                      + r"(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?")
 APPLIED_ENVIRONMENT = {"GOTOOLCHAIN": "local", "GOWORK": "off", "GOFLAGS": "-mod=readonly", "GOTELEMETRY": "off"}
 GO_ENV = ("GOVERSION", "GOROOT", "GOOS", "GOARCH", "GOHOSTOS", "GOHOSTARCH", "CGO_ENABLED",
-          "GOAMD64", "GOEXPERIMENT", "GOFLAGS", "GOWORK", "GOTOOLCHAIN", "GOTELEMETRY", "GOMOD")
+          "GOAMD64", "GOEXPERIMENT", "GOFLAGS", "GOWORK", "GOTOOLCHAIN", "GOTELEMETRY", "GOMOD", "CC", "CXX")
 
 
 def require(condition: bool, message: str) -> None:
