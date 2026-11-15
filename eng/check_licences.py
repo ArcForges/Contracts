@@ -133,7 +133,7 @@ def audit(root=ROOT):
                 properties = {element.tag.split('}')[-1]: element.text or '' for element in tree.iter()
                               if element.tag.split('}')[-1] in {'IsTestProject', 'IsPackable', 'TargetFramework',
                                                                 'PackageLicenseExpression', 'LicenceBoundary'}}
-                require(properties == {'IsTestProject': 'true', 'IsPackable': 'false', 'TargetFramework': 'net10.0',
+                require(properties == {'IsTestProject': 'true', 'IsPackable': 'false', 'TargetFramework': 'net11.0',
                                        'PackageLicenseExpression': 'Apache-2.0', 'LicenceBoundary': 'Apache'},
                         'Architecture policy host must retain Apache metadata as a non-packable test project')
             else:

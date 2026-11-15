@@ -225,7 +225,7 @@ internal static class HostedPolicyGate
             "dotnet restore ArcForges.Contracts.slnx --locked-mode",
             "dotnet build ArcForges.Contracts.slnx --configuration Release --no-restore --verbosity minimal",
             "python eng/check_naming.py --report artifacts/evidence/naming.json",
-            "dotnet tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll --hosted",
+            "dotnet tests/ArchitectureTests/bin/Release/net11.0/ArcForges.Contracts.ArchitectureTests.dll --hosted",
         ];
         int previous = -1;
         foreach (string step in orderedSteps)

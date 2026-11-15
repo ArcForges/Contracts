@@ -18,7 +18,7 @@ PACKAGES = ROOT / "artifacts/packages"
 PROJECT = ROOT / "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj"
 COMMAND = "arcforges-contracts"
 PRODUCT_COMMAND = "arcforges"
-TOOL_SETTINGS = "tools/net10.0/any/DotnetToolSettings.xml"
+TOOL_SETTINGS = "tools/net11.0/any/DotnetToolSettings.xml"
 
 
 def local(element):
@@ -93,7 +93,7 @@ class PackedCandidate(unittest.TestCase):
         self.assertEqual(entry["name"], f"ArcForges.Cli.{self.release}.nupkg")
         files = self.files(entry)
         self.assertEqual(tool_commands(files[TOOL_SETTINGS]), [(COMMAND, "ArcForges.Cli.dll", "dotnet")])
-        self.assertIn("tools/net10.0/any/ArcForges.Cli.dll", files)
+        self.assertIn("tools/net11.0/any/ArcForges.Cli.dll", files)
         nuspec = ET.fromstring(files["ArcForges.Cli.nuspec"])
         self.assertEqual([local(item) for item in nuspec.iter() if local(item) == "packageType"], ["packageType"])
         self.assertEqual([item.get("name") for item in nuspec.iter() if local(item) == "packageType"], ["DotnetTool"])

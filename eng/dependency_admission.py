@@ -191,7 +191,7 @@ def validate_architecture_policy_boundary(root, actual):
     project = ET.parse(host).getroot()
     def values(name):
         return [element.text or '' for element in project.iter() if element.tag.split('}')[-1] == name]
-    reject_unless(values('TargetFramework') == ['net10.0'] and values('OutputType') == ['Exe']
+    reject_unless(values('TargetFramework') == ['net11.0'] and values('OutputType') == ['Exe']
                   and values('IsTestProject') == ['true'] and values('IsPackable') == ['false']
                   and values('PackageLicenseExpression') == ['Apache-2.0']
                   and values('LicenceBoundary') == ['Apache'],

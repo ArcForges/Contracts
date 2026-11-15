@@ -156,13 +156,13 @@ console.log("@arcforges/ai-internal archive consumer: runtime build identity ver
         log_path = evidence_dir / "hello-host.log"
         with log_path.open("w", encoding="utf-8") as log:
             host = subprocess.Popen([
-                "dotnet", str(consumer / "HelloHost/bin/Release/net10.0/HelloHost.dll"),
+                "dotnet", str(consumer / "HelloHost/bin/Release/net11.0/HelloHost.dll"),
                 "--grpc-port", str(grpc_port), "--web-port", str(web_port),
             ], cwd=consumer, env=env, stdout=log, stderr=subprocess.STDOUT,
                 creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
             try:
                 wait_for_host(host, [grpc_port, web_port])
-                run("dotnet", consumer / "HelloClient/bin/Release/net10.0/HelloClient.dll",
+                run("dotnet", consumer / "HelloClient/bin/Release/net11.0/HelloClient.dll",
                     f"http://127.0.0.1:{grpc_port}", consumer / "hello.json", cwd=consumer, env=env)
                 if aot:
                     run(native / ("HelloClient.exe" if os.name == "nt" else "HelloClient"),

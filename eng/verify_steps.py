@@ -56,7 +56,7 @@ FINGERPRINT = {
 ENV = {"DOTNET_NOLOGO": "true", "DOTNET_CLI_TELEMETRY_OPTOUT": "1", "PYTHONUTF8": "1"}
 
 LOCAL_VERSION = "1.0.0-ci.0.0"
-ARCHITECTURE = "tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll"
+ARCHITECTURE = "tests/ArchitectureTests/bin/Release/net11.0/ArcForges.Contracts.ArchitectureTests.dll"
 
 # The hosted Security/secrets scan (same pinned image digest and gitleaks config), over the pushed range, with no
 # network and a read-only mount of the verification clone.
@@ -82,7 +82,7 @@ ACTIONLINT = (
     "echo \"$sum  $t.part\" | sha256sum --check --quiet; mv \"$t.part\" \"$t\"; fi; "
     "echo \"$sum  $t\" | sha256sum --check --quiet; "
     "mkdir -p \"$d/actionlint-$v\"; tar -xzf \"$t\" -C \"$d/actionlint-$v\" actionlint; "
-    "\"$d/actionlint-$v/actionlint\" -ignore 'unexpected key \"queue\" for \"concurrency\" section'"
+    "\"$d/actionlint-$v/actionlint\" -config-file eng/actionlint.yaml -ignore 'unexpected key \"queue\" for \"concurrency\" section'"
 )
 
 

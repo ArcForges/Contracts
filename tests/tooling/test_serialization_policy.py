@@ -38,10 +38,10 @@ class SerializationPolicy(unittest.TestCase):
         self.assertGreaterEqual(result["packableAotProjects"], 12)
 
     def test_forbidden_dependencies_in_every_lock_kind(self):
-        nuget = {"version": 2, "dependencies": {"net10.0": {"Newtonsoft.Json": {"type": "Transitive"}}}}
+        nuget = {"version": 2, "dependencies": {"net11.0": {"Newtonsoft.Json": {"type": "Transitive"}}}}
         self.rejects(gate.check_locks, {"a/packages.lock.json": json.dumps(nuget)}, "Newtonsoft.Json")
         for package in ["Refit", "protobuf-net", "Grpc.AspNetCore.Server.Reflection", "Castle.Core"]:
-            graph = {"version": 2, "dependencies": {"net10.0": {package: {"type": "Direct"}}}}
+            graph = {"version": 2, "dependencies": {"net11.0": {package: {"type": "Direct"}}}}
             self.rejects(gate.check_locks, {"packages.lock.json": json.dumps(graph)}, "forbidden NuGet")
         for package in ["protobufjs", "google-protobuf", "@grpc/proto-loader"]:
             lock = {"packages": {"": {}, f"node_modules/{package}": {}}}

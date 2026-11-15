@@ -87,7 +87,7 @@ internal static class ArchitectureFixtureTests
 
         Checks.True(!ordinal.SequenceEqual(ordinal.Order(StringComparer.OrdinalIgnoreCase)),
             "The filesystem-order fixture no longer distinguishes ordinal from case-insensitive order.");
-        Checks.True(ContractsArchitectureTests.IsBuildOutput("obj/Release/net10.0/Example.AssemblyInfo.cs")
+        Checks.True(ContractsArchitectureTests.IsBuildOutput("obj/Release/net11.0/Example.AssemblyInfo.cs")
             && ContractsArchitectureTests.IsBuildOutput("bin\\Release\\Example.cs")
             && !ContractsArchitectureTests.IsBuildOutput("Generated/Operations/LocalOperation.g.cs"),
             "SDK build output is not separated from Dispatch sources.");

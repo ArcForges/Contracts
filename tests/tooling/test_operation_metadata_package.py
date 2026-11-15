@@ -410,7 +410,7 @@ class CandidateTests(unittest.TestCase):
 class StagedCSharpCaseTests(unittest.TestCase):
     """The StructureTests --con-41-staged case that pack runs on the staged file, run here on real and tampered bytes."""
 
-    STRUCTURE_TESTS = ROOT / "tests/StructureTests/bin/Release/net10.0/StructureTests.dll"
+    STRUCTURE_TESTS = ROOT / "tests/StructureTests/bin/Release/net11.0/StructureTests.dll"
 
     @classmethod
     def setUpClass(cls):

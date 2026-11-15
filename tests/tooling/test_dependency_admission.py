@@ -90,7 +90,7 @@ class DependencyAdmission(unittest.TestCase):
         project = root / ARCHITECTURE_TEST_PROJECT
         project.parent.mkdir(parents=True)
         project.write_text('''<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup><TargetFramework>net10.0</TargetFramework><OutputType>Exe</OutputType><IsTestProject>true</IsTestProject><IsPackable>false</IsPackable><PackageLicenseExpression>Apache-2.0</PackageLicenseExpression><LicenceBoundary>Apache</LicenceBoundary></PropertyGroup>
+    <PropertyGroup><TargetFramework>net11.0</TargetFramework><OutputType>Exe</OutputType><IsTestProject>true</IsTestProject><IsPackable>false</IsPackable><PackageLicenseExpression>Apache-2.0</PackageLicenseExpression><LicenceBoundary>Apache</LicenceBoundary></PropertyGroup>
   <ItemGroup><PackageReference Include="ArcForges.Build.Policy" PrivateAssets="all" GeneratePathProperty="true" /></ItemGroup>
   <Import Project="$(PkgArcForges_Build_Policy)/tools/architecture/ArchitecturePolicy.props" />
 </Project>''', encoding='utf-8')
@@ -100,7 +100,7 @@ class DependencyAdmission(unittest.TestCase):
         digest = 'c2lnbmF0dXJlZA=='
         lock = root / ARCHITECTURE_TEST_LOCK
         lock.parent.mkdir(parents=True, exist_ok=True)
-        lock.write_text(json.dumps({'version': 1, 'dependencies': {'net10.0': {
+        lock.write_text(json.dumps({'version': 1, 'dependencies': {'net11.0': {
             'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.136.1', 'contentHash': digest}}}}),
             encoding='utf-8')
         catalog = root / 'eng/contract-packages.json'
@@ -142,11 +142,11 @@ class DependencyAdmission(unittest.TestCase):
         original_lock = json.loads(lock.read_text(encoding='utf-8'))
         for bad_project, bad_lock in [
                 (original_project.replace('PrivateAssets="all"', 'PrivateAssets="none"'), original_lock),
-                (original_project, {'version': 1, 'dependencies': {'net10.0': {
+                (original_project, {'version': 1, 'dependencies': {'net11.0': {
                     'ArcForges.Build.Policy': {'type': 'Transitive', 'resolved': '1.0.0-ci.136.1', 'contentHash': digest}}}}),
-                (original_project, {'version': 1, 'dependencies': {'net10.0': {
+                (original_project, {'version': 1, 'dependencies': {'net11.0': {
                     'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.136.2', 'contentHash': digest}}}}),
-                (original_project, {'version': 1, 'dependencies': {'net10.0': {
+                (original_project, {'version': 1, 'dependencies': {'net11.0': {
                     'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.94.1', 'contentHash': digest}}}}),
         ]:
             with self.subTest(project=bad_project != original_project, lock=bad_lock):

@@ -51,11 +51,11 @@ def npm_graph(project: Path, release: str) -> tuple[list[dict], list[dict]]:
 
 
 def nuget_direct_dependencies(assets: dict, row: dict) -> set[str]:
-    dependencies = assets["project"]["frameworks"]["net10.0"].get("dependencies", {})
+    dependencies = assets["project"]["frameworks"]["net11.0"].get("dependencies", {})
     direct = {name for name, dep in dependencies.items()
               if not dep.get("autoReferenced") and dep.get("suppressParent") != "All"}
     # NuGet promotes centrally pinned transitive packages into the published nuspec.
-    direct.update(assets.get("centralTransitiveDependencyGroups", {}).get("net10.0", {}))
+    direct.update(assets.get("centralTransitiveDependencyGroups", {}).get("net11.0", {}))
     direct.update(row["dependencies"])
     return direct
 
@@ -63,7 +63,7 @@ def nuget_direct_dependencies(assets: dict, row: dict) -> set[str]:
 def nuget_graph(release: str, row: dict | None = None) -> tuple[list[dict], list[dict]]:
     row = row or next(item for item in packages("nuget") if item["id"] == NUGET_ID)
     assets = read_json(ROOT / row["sourceRoot"] / "obj/project.assets.json")
-    target = assets["targets"]["net10.0"]
+    target = assets["targets"]["net11.0"]
     resolved = {key.split("/")[0]: key for key in target}
     first_party = {item["id"] for item in packages("nuget")}
     components: dict[str, dict] = {}
@@ -358,7 +358,7 @@ def pack(release: str) -> None:
             operations = stage_operation_metadata(nuget_metadata, row)
             if operations is not None:
                 # The C# consumer case reads the rows exactly as staged, with the StructureTests build() just produced.
-                run("dotnet", ROOT / "tests/StructureTests/bin/Release/net10.0/StructureTests.dll", ROOT,
+                run("dotnet", ROOT / "tests/StructureTests/bin/Release/net11.0/StructureTests.dll", ROOT,
                     "--con-41-staged", nuget_metadata / OPERATION_METADATA_PATH)
                 print(operation_evidence(row, operations), flush=True)
             stage_naming(nuget_metadata, row)
@@ -508,12 +508,12 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
                 raise ValueError("Unexpected NuGet identity")
             if nuspec.findtext(".//{*}license") != "Apache-2.0":
                 raise ValueError("Unexpected NuGet licence")
-            assembly = ("tools/net10.0/any/" if entry["id"] == "ArcForges.Cli" else "lib/net10.0/") + entry["id"] + ".dll"
+            assembly = ("tools/net11.0/any/" if entry["id"] == "ArcForges.Cli" else "lib/net11.0/") + entry["id"] + ".dll"
             if assembly not in files:
                 raise ValueError("NuGet assembly is missing")
             dependencies = {dep.get("id"): dep.get("version") for dep in nuspec.findall(".//{*}dependency")}
             if entry["id"] == "ArcForges.Cli":
-                if "tools/net10.0/any/DotnetToolSettings.xml" not in files:
+                if "tools/net11.0/any/DotnetToolSettings.xml" not in files:
                     raise ValueError("CLI tool entry point is missing")
             else:
                 assets = read_json(ROOT / row["sourceRoot"] / "obj/project.assets.json")

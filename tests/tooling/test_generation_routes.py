@@ -44,7 +44,7 @@ class GenerationRoutes(unittest.TestCase):
             cache.mkdir(parents=True)
             lock = root / "eng/Codegen/packages.lock.json"
             lock.parent.mkdir(parents=True)
-            lock.write_text(json.dumps({"dependencies": {"net10.0": {"Grpc.Tools": {
+            lock.write_text(json.dumps({"dependencies": {"net11.0": {"Grpc.Tools": {
                 "resolved": "2.84.0", "contentHash": "expected"
             }}}}))
             digest = cache / ".nupkg.metadata"

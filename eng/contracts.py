@@ -61,13 +61,10 @@ def version(value: str) -> str:
 
 
 def check_tools() -> None:
-    expected_node = ROOT.joinpath(".node-version").read_text().strip()
-    if run("node", "--version", capture=True).strip() != "v" + expected_node:
-        raise ValueError(f"Select Node {expected_node} from .node-version before continuing")
-    if run(NPM, "--version", capture=True).strip() != "11.19.0":
-        raise ValueError("Use npm 11.19.0 with the pinned Node distribution")
-    if run("dotnet", "--version", capture=True).strip() != "10.0.403":
-        raise ValueError("Install the .NET SDK pinned in global.json")
+    from check_toolchain import check
+    errors = check()
+    if errors:
+        raise ValueError("Toolchain selection failed: " + "; ".join(errors))
 
 
 def restore(update_locks: bool = False) -> None:
@@ -78,7 +75,7 @@ def restore(update_locks: bool = False) -> None:
 
 
 def grpc_tools() -> Path:
-    locked = read_json(ROOT / "eng/Codegen/packages.lock.json")["dependencies"]["net10.0"]["Grpc.Tools"]
+    locked = read_json(ROOT / "eng/Codegen/packages.lock.json")["dependencies"]["net11.0"]["Grpc.Tools"]
     key = "grpc.tools/" + locked["resolved"]
     assets_path = ROOT / "eng/Codegen/obj/project.assets.json"
     folders = []
@@ -305,20 +302,20 @@ def build() -> None:
     # repository's `local`, a second ArcForges.BuildId that --inspect-build below rejects, so local builds align it.
     local_identity = [] if os.environ.get("GITHUB_ACTIONS") == "true" else ["-p:ArcForgesBuildId=local"]
     run("dotnet", "build", "ArcForges.Contracts.slnx", "-c", "Release", "--no-restore", *local_identity)
-    run("dotnet", ROOT / "tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll")
+    run("dotnet", ROOT / "tests/ArchitectureTests/bin/Release/net11.0/ArcForges.Contracts.ArchitectureTests.dll")
     from build_identity import build as identity
     write_json(ARTIFACTS / "expected-build.json", identity())
     projects = [ROOT / name for name in run("git", "ls-files", "*.csproj", capture=True).splitlines()]
     def assembly(project: Path) -> Path:
-        output = project.parent / "bin/Release/net10.0"
+        output = project.parent / "bin/Release/net11.0"
         # The AOT probe selects its host RID in the project, so it builds under a RID directory.
         rid = {"Windows": "win-x64", "Linux": "linux-x64"}.get(platform.system(), "")
         candidates = [output / (project.stem + ".dll"), output / rid / (project.stem + ".dll")]
         return next((path for path in candidates if path.is_file()), candidates[0])
     assemblies = [assembly(project) for project in projects]
-    run("dotnet", ROOT / "tests/public/HelloClient/bin/Release/net10.0/HelloClient.dll",
+    run("dotnet", ROOT / "tests/public/HelloClient/bin/Release/net11.0/HelloClient.dll",
         "--inspect-build", ARTIFACTS / "expected-build.json", *assemblies)
-    structure_tests = ROOT / "tests/StructureTests/bin/Release/net10.0/StructureTests.dll"
+    structure_tests = ROOT / "tests/StructureTests/bin/Release/net11.0/StructureTests.dll"
     # CON.40: the C# suites (StructureTests, including Con40SdkCases) replace the TypeScript and Kotlin
     # consumer tests and the TypeScript foundation exchange; Node builds and tests only @arcforges/ai-internal.
     run("dotnet", structure_tests, ROOT)
@@ -331,7 +328,7 @@ def build() -> None:
 
 def compatibility_exchange(structure_tests: Path) -> None:
     """Isolated old/current generated assemblies; no transport or live service."""
-    previous = ROOT / "tests/StructureTests/PreviousClient/bin/Release/net10.0/PreviousClient.dll"
+    previous = ROOT / "tests/StructureTests/PreviousClient/bin/Release/net11.0/PreviousClient.dll"
     with tempfile.TemporaryDirectory(prefix="arcforges-compatibility-") as temporary:
         run("dotnet", previous, "emit", temporary)
         run("dotnet", structure_tests, ROOT, "--compatibility-current", temporary)
