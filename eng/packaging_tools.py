@@ -329,6 +329,18 @@ def verify_operation_metadata(files: dict[str, bytes], source: dict, row: dict) 
         raise ValueError("Packaged operation metadata differs from the deterministic staged byte layout")
 
 
+def npm_pack_filename(result: object, name: str) -> str:
+    """Normalize the legacy singleton array and npm12's single-package name-keyed map."""
+    if isinstance(result, dict) and set(result) == {name}:
+        result = [result[name]]
+    if not isinstance(result, list) or len(result) != 1 or not isinstance(result[0], dict):
+        raise ValueError("npm pack must report exactly the requested package")
+    filename = result[0].get("filename")
+    if not isinstance(filename, str) or not filename:
+        raise ValueError("npm pack did not report an archive filename")
+    return filename
+
+
 def pack(release: str) -> None:
     from dependency_admission import audit
     from release_channels import stable
@@ -394,7 +406,8 @@ def pack(release: str) -> None:
             write_json(target / "package.json", package)
             packed = json.loads(run(NPM, "pack", target, "--ignore-scripts", "--json",
                                     "--pack-destination", output, capture=True))
-            entries.append({"name": packed[0]["filename"], "kind": "npm", "id": package["name"]})
+            entries.append({"name": npm_pack_filename(packed, package["name"]),
+                            "kind": "npm", "id": package["name"]})
         # AF-CTR-01: the Go module is published by its go/v<version> tag, so the candidate carries its identity:
         # the module zip and go.mod hashes the proxy and the checksum database must serve for this commit.
         from go_bindings import candidate_document

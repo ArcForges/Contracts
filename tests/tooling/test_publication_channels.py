@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "eng"))
 from contracts import ARTIFACTS, NPM_IDS, version
 from release_channels import authorize, selected_version
-from packaging_tools import verify_artifacts
+from packaging_tools import npm_pack_filename, verify_artifacts
 from publish_tools import CHANNELS, npm_publish_tag, publish_verified
 
 PUBLICATION_STOP = "eng/policy/publication-stops/con-40.json"
@@ -296,6 +296,25 @@ class PublicationStopRecord(unittest.TestCase):
             inventory.write_text(json.dumps(document), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "provenance inventory"):
                 check_publication_stop(self.record, root)
+
+
+class NpmPackResultTests(unittest.TestCase):
+    def test_legacy_single_package_array(self):
+        filename = "arcforges-ai-internal-1.0.0-ci.0.0.tgz"
+        self.assertEqual(npm_pack_filename([{"filename": filename}], "@arcforges/ai-internal"), filename)
+
+    def test_npm12_single_package_name_keyed_map(self):
+        filename = "arcforges-ai-internal-1.0.0-ci.0.0.tgz"
+        row = {"name": "@arcforges/ai-internal", "version": "1.0.0-ci.0.0", "filename": filename}
+        self.assertEqual(npm_pack_filename({row["name"]: row}, row["name"]), filename)
+
+    def test_missing_or_ambiguous_single_package_result_is_rejected(self):
+        name = "@arcforges/ai-internal"
+        row = {"filename": "arcforges-ai-internal-1.0.0-ci.0.0.tgz"}
+        for result in [None, [], [row, row], {}, {"other-package": row}, {name: row, "other-package": row},
+                       [None], {name: None}, [{}], [{"filename": ""}], [{"filename": 0}]]:
+            with self.subTest(result=result), self.assertRaises(ValueError):
+                npm_pack_filename(result, name)
 
 
 if __name__ == "__main__":
