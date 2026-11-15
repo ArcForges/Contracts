@@ -5944,3 +5944,35 @@ regexes = [
   '''(?s)^\s*"go/arcforges/publicapi/v1/publicapiv1connect/support_access\.connect\.go":\s*"b77b26061019a7384e66a9b7a4c4ab1afc61fcd864bdf9ab5b1a70cbc9bd59f0",?\s*$''',
   '''(?s)^\s*"go/arcforges/publicapi/v1/support_access\.pb\.go":\s*"43d88cd521d9766701aef71e502f5f5bb1d33a4800ef8c077e3845ae1a05c258",?\s*$''',
 ]
+
+# AFV2-ENV-01 r2: exact public digests in the derived-input successor.
+
+[[allowlists]]
+description = "AFV2-ENV-01 r2 derived access input digest"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = [
+  '''^docs/dependency\-upgrade/afv2\-env\-01\-inventory\.json$''',
+  '''^eng/policy/dependency\-policy\.json$''',
+]
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"74d085f2ea36e4d452ee1628c367616752409c805ee278fef2f1c1b6ac134d05",?\s*$''',
+]
+
+[[allowlists]]
+description = "AFV2-ENV-01 r2 successor receipt public input digests"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = [
+  '''^eng/policy/dependency\-reviews/afv2\-env\-01\-r2\.json$''',
+]
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"74d085f2ea36e4d452ee1628c367616752409c805ee278fef2f1c1b6ac134d05",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
+  '''(?s)^\s*"go/arcforges/publicapi/v1/publicapiv1connect/support_access\.connect\.go":\s*"b77b26061019a7384e66a9b7a4c4ab1afc61fcd864bdf9ab5b1a70cbc9bd59f0",?\s*$''',
+  '''(?s)^\s*"go/arcforges/publicapi/v1/support_access\.pb\.go":\s*"43d88cd521d9766701aef71e502f5f5bb1d33a4800ef8c077e3845ae1a05c258",?\s*$''',
+  '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",?\s*$''',
+]

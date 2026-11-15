@@ -15,7 +15,7 @@
     "eng/contract-packages.json": "f347dd9e047c66f36ffb2c7ea977f10129e2ccdea366e998ed68004f1641f95b",
     "eng/native-toolchain.json": "bf019c3aadd5e2e1fa6170ce52a463ce3b751f86b3458a17cd93a7fce8ea1eaa",
     "eng/native_toolchain.py": "3496595ef25b20304896015199739005ac8192714e29e764a17d5184edfdca84",
-    "eng/policy/contract-access.json": "4f8b5573e15ea01ce5e31333be2b7122d35b6e406c6d37ff4259b8c8204c9edb",
+    "eng/policy/contract-access.json": "74d085f2ea36e4d452ee1628c367616752409c805ee278fef2f1c1b6ac134d05",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -1011,8 +1011,8 @@
     "reviewer": "Independent Codex reviewer /root/managed_review (existing AFV2-ENV-01 source/licence disposition)",
     "decision": "approved",
     "reviewedOn": "2026-11-15",
-    "baselineCommit": "dacb563ec9f35a5b26e3c8456eedb575b56bf161",
-    "maintenanceAssessment": "Existing independent source/licence disposition covers the selected current .NET/C#, Go, Node/npm and Python toolchains, their exact locked dependencies, unchanged generated targets and native local/CI tool selection. The already normally published Build.Policy150.1 stays ArchitectureTests-only. The previously owner-approved Contracts-only nine-name/two-commit Go boundary is bound to the actual native references; no new all-transitive latest requirement or other-repository exception is introduced. Historical fixtures/records remain immutable. Exact-head full formal profile success is required before merge and is not claimed by this metadata disposition.",
+    "baselineCommit": "c4d2109d2b014ba7b44754d65bc2fdf94f2cede9",
+    "maintenanceAssessment": "AFV2-ENV-01 r2 refreshes only the existing derived package-graph input hashes after the already reviewed SDK11/C#15, language/package and lock upgrades. The existing access gate digest/inventory/checkSources primitives verified all current package-input members and actual LF bytes. All schemas, type assignments, package ownership, distribution rows and retired markings are unchanged. No runtime dependency, generated target, first-party package identity, security control or source licence is changed. The r1 receipt and its actual source/licence approval remain immutable; both completed Go reports and the entire qualification object are retained byte-equivalent. Full formal profile success is still required before merge; no new compiler/test success is claimed by this hash refresh. Existing independent source/licence disposition covers the selected current .NET/C#, Go, Node/npm and Python toolchains, their exact locked dependencies, unchanged generated targets and native local/CI tool selection. The already normally published Build.Policy150.1 stays ArchitectureTests-only. The previously owner-approved Contracts-only nine-name/two-commit Go boundary is bound to the actual native references; no new all-transitive latest requirement or other-repository exception is introduced. Historical fixtures/records remain immutable. Exact-head full formal profile success is required before merge and is not claimed by this metadata disposition.",
     "checks": {
       "compilation": "Coordinator reports native Windows SDK11 force-evaluate restores of24 current projects and21 affected Build.Policy/licence-boundary tests PASS after selecting150.1 at source57cd89854dfce4a9f410e7917f8303c5ef77412e. Earlier current generated outputs and npm author diagnostics are retained separately. Complete final candidate build/pack/test profile remains PENDING.",
       "aot-trim": "PENDING current complete Linux Native AOT serialization probe and pack under the latest SDK11 compiler closure. The reviewed source now explicitly selects and validates private LLVM23.1.5 plus signed GNU binutils declared2.47/actual2.47.20260726 through eng/native-toolchain.json, retaining BFD/ar/llvm-objcopy semantics and exact external-tool compatibility recipe. Source selection and provisioning are not full candidate acceptance; zero-warning and trim/AOT escalation stay required.",
@@ -1020,7 +1020,7 @@
       "licence-provenance": "Existing independent source/licence approval retained for all exact cached licence/integrity evidence and both unchanged-output generation successors. Official checker regenerates active provenance NOTICE. ArchitectureTests-only Build.Policy AGPL scope and external GNU/LLVM tool licences remain explicit.",
       "security-sbom": "PENDING complete final native vulnerability/analyzer/security profile and generated package SBOM/NOTICE validation. No credential/feed/publisher/security threshold change is admitted. Go h1 archives and full selected metadata remain present; no deprecated executable dependency is classified away without the bounded current two-host proof.",
       "runtime-performance-migration": "This producer publishes bindings and build tooling. No product runtime, filesystem, database migration, OS store, browser, service or installed-consumer execution is claimed by these metadata/author checks. Published bytes and historical fixtures remain immutable; consumer compatibility/exchange and formal profile remain required.",
-      "framework-runtime-posture": "dotnetSdk10.0.403→11.0.100 and Node24.21.0→26.13.1 are major transitions; Go1.27.3→1.27.4 stays major1. Python3.15.2 and npm12.2.2 effective roots/version parity are tracked separately. Current scripts/tests/TFMs move to net11/C#15 with existing diagnostics, locking and public/internal boundaries intact. Both native Go reference configurations are now recorded. The final Linux AOT build remains required in the formal profile."
+      "framework-runtime-posture": "dotnetSdk10.0.403â†’11.0.100 and Node24.21.0â†’26.13.1 are major transitions; Go1.27.3â†’1.27.4 stays major1. Python3.15.2 and npm12.2.2 effective roots/version parity are tracked separately. Current scripts/tests/TFMs move to net11/C#15 with existing diagnostics, locking and public/internal boundaries intact. Both native Go reference configurations are now recorded. The final Linux AOT build remains required in the formal profile."
     },
     "frameworkVersions": {
       "dotnetSdk": "11.0.100",
@@ -1035,7 +1035,7 @@
       "transport": "Current Grpc.Tools/runtime2.85, Google.Protobuf3.36.2, protobuf-go1.36.12 and connect-go2.0.2 keep the authored schemas and strict serialization posture. Existing current generated bytes stayed unchanged in author generation; complete offline protocol compatibility/exchange remains PENDING.",
       "localCoverage": "Existing Windows24-project restore,21 affected boundary tests and unchanged-output generation evidence are retained. Actual Windows/Linux Go metadata references are bound. Final Linux build/pack/test/security profile success remains required before merge."
     },
-    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-06-r4.json",
+    "previousReceipt": "eng/policy/dependency-reviews/afv2-env-01-r1.json",
     "inputHashes": {
       ".node-version": "5c293036fc0a61ad76e15d85f454c3c7cec157e181e035b69f95058a2c239144",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
@@ -1050,7 +1050,7 @@
       "eng/contract-packages.json": "f347dd9e047c66f36ffb2c7ea977f10129e2ccdea366e998ed68004f1641f95b",
       "eng/native-toolchain.json": "bf019c3aadd5e2e1fa6170ce52a463ce3b751f86b3458a17cd93a7fce8ea1eaa",
       "eng/native_toolchain.py": "3496595ef25b20304896015199739005ac8192714e29e764a17d5184edfdca84",
-      "eng/policy/contract-access.json": "4f8b5573e15ea01ce5e31333be2b7122d35b6e406c6d37ff4259b8c8204c9edb",
+      "eng/policy/contract-access.json": "74d085f2ea36e4d452ee1628c367616752409c805ee278fef2f1c1b6ac134d05",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -2098,5 +2098,5 @@
       }
     }
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/afv2-env-01-r1.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/afv2-env-01-r2.json"
 }

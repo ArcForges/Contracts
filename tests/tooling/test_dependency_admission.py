@@ -779,7 +779,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -2374,7 +2374,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con11_secret_scan_allowlists_bind_only_observed_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][67:70]
         expected_descriptions = {
             'CON.11 reviewed dependency policy public input digest',
@@ -2607,7 +2607,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con15_secret_scan_allowlists_bind_only_exact_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][70:72]
         self.assertEqual([row['description'] for row in groups], [
             'CON.15 reviewed dependency policy public input digest',
@@ -2674,7 +2674,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con07_secret_scan_allowlists_bind_only_exact_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][74:77]
         self.assertEqual([row['description'] for row in groups], [
             'CON.07 reviewed dependency policy public input digest',
@@ -2769,7 +2769,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con25_secret_scan_allowlists_bind_only_exact_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][80:83]
         self.assertEqual([row['description'] for row in groups], [
             'CON.25 reviewed dependency policy public input digest',
@@ -2841,7 +2841,7 @@ class DependencyAdmission(unittest.TestCase):
         # S50(3): one exact-path block per file that the full-history generic-api-key scan flags on CON.40
         # history. Every row is one observed "key": "digest" line of a public input digest, and nothing broader.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][83:89]
         policy_path = 'eng/policy/dependency-policy.json'
         access_key = 'eng/policy/contract-access.json'
@@ -2968,7 +2968,7 @@ class DependencyAdmission(unittest.TestCase):
         # CON.43 history (the commit adding receipt con-43-r1). Every row is one observed "key": "digest" line of a
         # public input digest, and nothing broader; no existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][89:91]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/con-43-r1.json'
@@ -3054,7 +3054,7 @@ class DependencyAdmission(unittest.TestCase):
         # scan (gitleaks v8.30.1, image c00b6bd0aeb3) flags on the commit adding receipt af-con-01-r1. Every row is one
         # observed "key": "digest" line of a public input digest, and nothing broader; no existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][91:93]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-con-01-r1.json'
@@ -3140,7 +3140,7 @@ class DependencyAdmission(unittest.TestCase):
         # scan (gitleaks v8.30.1, image c00b6bd0aeb3) flags on the commit adding receipt af-con-01-r2 (the Build.Policy 1.0.0-ci.136.1 admission). Every row is one
         # observed "key": "digest" line of a public input digest, and nothing broader; no existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][93:95]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-con-01-r2.json'
@@ -3227,7 +3227,7 @@ class DependencyAdmission(unittest.TestCase):
         # tool command rename, C-03). Every row is one
         # observed "key": "digest" line of a public input digest, and nothing broader; no existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][95:97]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-con-02-r1.json'
@@ -3314,7 +3314,7 @@ class DependencyAdmission(unittest.TestCase):
         # module). Every row is one observed "key": "digest" line of a public input digest, and nothing broader; no
         # existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][97:99]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-ctr-01-r1.json'
@@ -3410,7 +3410,7 @@ class DependencyAdmission(unittest.TestCase):
         # session product domain). Every row is one observed "key": "digest" line of a public input digest, and
         # nothing broader; no existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][99:101]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-ctr-03-r1.json'
@@ -3506,7 +3506,7 @@ class DependencyAdmission(unittest.TestCase):
         # contracts). Every row is one observed "key": "digest" line of a public input digest, and
         # nothing broader; no existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][101:103]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-ctr-04-r1.json'
@@ -3602,7 +3602,7 @@ class DependencyAdmission(unittest.TestCase):
         # af-ctr-04-r1). Every row is one observed "key": "digest" line of a public input digest, and
         # nothing broader; no existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][103:105]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-ctr-04-r2.json'
@@ -3698,7 +3698,7 @@ class DependencyAdmission(unittest.TestCase):
         # supersedes af-ctr-04-r2). Every row is one observed "key": "digest" line of a public input digest, and
         # nothing broader; no existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][105:107]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-ctr-04-r3.json'
@@ -3794,7 +3794,7 @@ class DependencyAdmission(unittest.TestCase):
         # af-ctr-04-r3). Every row is one observed "key": "digest" line of a public input digest, and nothing broader; no
         # existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][107:109]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-ctr-04-r4.json'
@@ -3890,7 +3890,7 @@ class DependencyAdmission(unittest.TestCase):
         # af-ctr-04-r4). Every row is one observed "key": "digest" line of a public input digest, and nothing broader; no
         # existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][109:111]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-ctr-04-r5.json'
@@ -3986,7 +3986,7 @@ class DependencyAdmission(unittest.TestCase):
         # af-ctr-04-r5). Every row is one observed "key": "digest" line of a public input digest, and nothing broader; no
         # existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][111:113]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-ctr-05-r1.json'
@@ -4082,7 +4082,7 @@ class DependencyAdmission(unittest.TestCase):
         # af-ctr-05-r1). Every row is one observed "key": "digest" line of a public input digest, and nothing broader; no
         # existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][113:115]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-ctr-05-r2.json'
@@ -4178,7 +4178,7 @@ class DependencyAdmission(unittest.TestCase):
         # af-ctr-05-r2). Every row is one observed "key": "digest" line of a public input digest, and nothing broader; no
         # existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][115:117]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-ctr-05-r3.json'
@@ -4274,7 +4274,7 @@ class DependencyAdmission(unittest.TestCase):
         # af-ctr-05-r3). Every row is one observed "key": "digest" line of a public input digest, and nothing broader; no
         # existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][117:119]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-ctr-05-r4.json'
@@ -4370,7 +4370,7 @@ class DependencyAdmission(unittest.TestCase):
         # af-ctr-05-r4). Every row is one observed "key": "digest" line of a public input digest, and nothing broader; no
         # existing block changes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][119:121]
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/af-ctr-05-r5.json'
@@ -4462,7 +4462,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con17_later_service_receipt_chain_and_secret_scan_allowlist(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         group = config['allowlists'][77]
         self.assertEqual(group['description'], 'CON.17 reviewed immutable dependency receipt public input digests')
         policy_path = 'eng/policy/dependency-policy.json'
@@ -4532,7 +4532,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con14_secret_scan_allowlists_bind_only_observed_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         groups = config['allowlists'][72:74]
         by_description = {row['description']: row for row in groups}
         self.assertEqual(len(groups), 2)
@@ -4648,7 +4648,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertEqual(config['allowlists'][:121], old_config['allowlists'])
         self.assertEqual({k: v for k, v in config.items() if k != 'allowlists'},
                          {k: v for k, v in old_config.items() if k != 'allowlists'})
-        self.assertEqual(len(config['allowlists']), 129)
+        self.assertEqual(len(config['allowlists']), 131)
         keys = [
             'eng/policy/contract-access.json',
             'eng/provenance/records/dokka-combokeys-licence-r1.json',
@@ -4758,6 +4758,45 @@ class DependencyAdmission(unittest.TestCase):
                     for wrong in [f'  "{key}": "{"0" * 64}",', f'  "other": "{digest}",',
                                   f'  "{key}": "synthetic_credential",',
                                   line + ' "token": "extra"', '{"extra": "value", ' + line + '}']:
+                        self.assertFalse(permits(path, wrong))
+
+
+    def test_afv2_env_01_r2_allowlists_bind_only_derived_successor_public_rows(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
+        groups = [row for row in config['allowlists'] if row['description'].startswith('AFV2-ENV-01 r2 ')]
+        name = 'eng/policy/dependency-reviews/afv2-env-01-r2.json'
+        receipt = json.loads((ROOT / name).read_text())
+        self.assertEqual(receipt['review']['previousReceipt'], 'eng/policy/dependency-reviews/afv2-env-01-r1.json')
+        ordinary = ['eng/policy/contract-access.json',
+                    'eng/provenance/records/dokka-combokeys-licence-r1.json',
+                    'eng/provenance/records/dokka-object-keys-licence-r1.json',
+                    'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']
+        generated = ['go/arcforges/publicapi/v1/publicapiv1connect/support_access.connect.go',
+                     'go/arcforges/publicapi/v1/support_access.pb.go']
+        rows = {**{key: receipt['review']['inputHashes'][key] for key in ordinary},
+                **{key: receipt['review']['goQualification']['inputHashes'][key] for key in generated}}
+        expected = [(['docs/dependency-upgrade/afv2-env-01-inventory.json', POLICY], {ordinary[0]: rows[ordinary[0]]}),
+                    ([name], rows)]
+        self.assertEqual(len(groups), 2)
+        self.assertEqual(sum(len(paths) * len(values) for paths, values in expected), 8)
+        for group, (paths, values) in zip(groups, expected, strict=True):
+            self.assertEqual(group['targetRules'], ['generic-api-key'])
+            self.assertEqual(group['condition'], 'AND')
+            self.assertEqual(group['regexTarget'], 'line')
+            self.assertEqual(group['paths'], ['^' + re.escape(path) + '$' for path in paths])
+            self.assertEqual(group['regexes'], [r'(?s)^\s*"' + re.escape(key) + r'":\s*"' + value + r'",?\s*$'
+                                               for key, value in sorted(values.items())])
+            for key, value in values.items():
+                def permits(path, line):
+                    return any(re.fullmatch(pattern, path) for pattern in group['paths']) and any(
+                        re.fullmatch(pattern, line) for pattern in group['regexes'])
+                line = f'  "{key}": "{value}",'
+                for path in paths:
+                    self.assertTrue(permits(path, line))
+                    for wrong in [path + '.backup', 'prefix/' + path, 'src/secrets.json', path + '\n']:
+                        self.assertFalse(permits(wrong, line))
+                    for wrong in [line.replace(value, '0' * 64), line.replace(key, 'other-key'),
+                                  line + ' "token": "extra"', f'  "{key}": "synthetic_credential",']:
                         self.assertFalse(permits(path, wrong))
 
 
