@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: Apache-2.0
+# Stable actionlint 1.7.12 predates this official GA hosted label:
+# https://github.com/actions/runner-images
+# Extend only its label vocabulary; preserve all workflow diagnostics.
+self-hosted-runner:
+  labels:
+    - ubuntu-26.04

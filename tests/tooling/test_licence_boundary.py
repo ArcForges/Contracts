@@ -75,7 +75,7 @@ class LicenceBoundaryTests(unittest.TestCase):
     def test_transitive_agpl_and_unknown_packages(self):
         for name in ['ArcForges.Native.Media', 'ArcForges.Unknown']:
             with self.subTest(name=name):
-                self.write('packages.lock.json', json.dumps({'dependencies': {'net10.0': {name: {'type': 'Transitive'}}}}))
+                self.write('packages.lock.json', json.dumps({'dependencies': {'net11.0': {name: {'type': 'Transitive'}}}}))
                 with self.assertRaisesRegex(ValueError, 'Non-Apache or unknown'):
                     audit(self.root)
 
@@ -98,7 +98,7 @@ class LicenceBoundaryTests(unittest.TestCase):
 
     @staticmethod
     def architecture_project(private_assets='all', generate_path='true'):
-        return ('<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0</TargetFramework>'
+        return ('<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net11.0</TargetFramework>'
                 '<OutputType>Exe</OutputType><IsPackable>false</IsPackable><IsTestProject>true</IsTestProject>'
                 '<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression><LicenceBoundary>Apache</LicenceBoundary>'
                 '</PropertyGroup><ItemGroup><PackageReference Include="ArcForges.Build.Policy" '
@@ -107,7 +107,7 @@ class LicenceBoundaryTests(unittest.TestCase):
                 '</Project>')
 
     def add_architecture_policy_admission(self, *, path='tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj',
-                                          version='1.0.0-ci.136.1', private_assets='all', generate_path='true',
+                                          version='1.0.0-ci.150.1', private_assets='all', generate_path='true',
                                           lock_type='Direct', lock_path='tests/ArchitectureTests/packages.lock.json'):
         if not any(entry['path'] == path for entry in self.policy['projects']):
             self.policy['projects'].append({'path': path, 'kind': 'msbuild'})
@@ -116,7 +116,7 @@ class LicenceBoundaryTests(unittest.TestCase):
         self.write('Directory.Packages.props',
                    '<Project><ItemGroup><PackageVersion Include="ArcForges.Build.Policy" Version="' + version + '" />'
                    '</ItemGroup></Project>')
-        self.write(lock_path, json.dumps({'version': 1, 'dependencies': {'net10.0': {
+        self.write(lock_path, json.dumps({'version': 1, 'dependencies': {'net11.0': {
             'ArcForges.Build.Policy': {'type': lock_type, 'resolved': version,
                                        'contentHash': 'c2lnbmF0dXJlZA=='}}}}))
 
@@ -131,8 +131,9 @@ class LicenceBoundaryTests(unittest.TestCase):
 
     def test_build_policy_requires_exact_version_and_private_test_reference(self):
         for version, private_assets, generate_path in [
-                ('1.0.0-ci.136.2', 'all', 'true'), ('1.0.0-ci.94.1', 'all', 'true'), ('1.0.0-ci.124.1', 'all', 'true'),
-                ('1.0.0-ci.136.1', 'none', 'true'), ('1.0.0-ci.136.1', 'all', 'false')]:
+                ('1.0.0-ci.150.2', 'all', 'true'), ('1.0.0-ci.136.1', 'all', 'true'),
+                ('1.0.0-ci.94.1', 'all', 'true'), ('1.0.0-ci.124.1', 'all', 'true'),
+                ('1.0.0-ci.150.1', 'none', 'true'), ('1.0.0-ci.150.1', 'all', 'false')]:
             with self.subTest(version=version, private_assets=private_assets, generate_path=generate_path):
                 self.add_architecture_policy_admission(version=version, private_assets=private_assets,
                                                        generate_path=generate_path)

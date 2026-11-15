@@ -46,6 +46,7 @@ FINGERPRINT = {
         "python": "python --version",
         "go": "go version",
         "git": "git --version",
+        "native-toolchain": "python eng/native_toolchain.py check",
     },
 }
 
@@ -56,7 +57,7 @@ FINGERPRINT = {
 ENV = {"DOTNET_NOLOGO": "true", "DOTNET_CLI_TELEMETRY_OPTOUT": "1", "PYTHONUTF8": "1"}
 
 LOCAL_VERSION = "1.0.0-ci.0.0"
-ARCHITECTURE = "tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll"
+ARCHITECTURE = "tests/ArchitectureTests/bin/Release/net11.0/ArcForges.Contracts.ArchitectureTests.dll"
 
 # The hosted Security/secrets scan (same pinned image digest and gitleaks config), over the pushed range, with no
 # network and a read-only mount of the verification clone.
@@ -82,7 +83,7 @@ ACTIONLINT = (
     "echo \"$sum  $t.part\" | sha256sum --check --quiet; mv \"$t.part\" \"$t\"; fi; "
     "echo \"$sum  $t\" | sha256sum --check --quiet; "
     "mkdir -p \"$d/actionlint-$v\"; tar -xzf \"$t\" -C \"$d/actionlint-$v\" actionlint; "
-    "\"$d/actionlint-$v/actionlint\" -ignore 'unexpected key \"queue\" for \"concurrency\" section'"
+    "\"$d/actionlint-$v/actionlint\" -config-file eng/actionlint.yaml -ignore 'unexpected key \"queue\" for \"concurrency\" section'"
 )
 
 
@@ -102,6 +103,7 @@ STEPS = [
     # ci.yml, Build candidate
     linux("clone-identity", "set -e; git config remote.origin.url https://github.com/ArcForges/Contracts.git; "
           "git update-ref refs/remotes/origin/main {base}", 60),
+    linux("native-toolchain", "python eng/check_toolchain.py --native-aot", 120),
     linux("restore", "python eng/contracts.py restore", 600),
     linux("dependency-admission", "python eng/dependency_admission.py", 120),
     linux("naming", "python eng/check_naming.py --report artifacts/evidence/naming.json", 300),

@@ -18,7 +18,7 @@ POLICY = 'eng/policy/licence-boundary.json'
 PROJECT_SUFFIXES = {'.csproj', '.fsproj', '.vbproj', '.vcxproj', '.esproj'}
 ARCHITECTURE_TEST_PROJECT = 'tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj'
 ARCHITECTURE_POLICY_PACKAGE = 'ArcForges.Build.Policy'
-ARCHITECTURE_POLICY_VERSION = '1.0.0-ci.136.1'
+ARCHITECTURE_POLICY_VERSION = '1.0.0-ci.150.1'
 
 
 def require(condition, message):
@@ -133,7 +133,7 @@ def audit(root=ROOT):
                 properties = {element.tag.split('}')[-1]: element.text or '' for element in tree.iter()
                               if element.tag.split('}')[-1] in {'IsTestProject', 'IsPackable', 'TargetFramework',
                                                                 'PackageLicenseExpression', 'LicenceBoundary'}}
-                require(properties == {'IsTestProject': 'true', 'IsPackable': 'false', 'TargetFramework': 'net10.0',
+                require(properties == {'IsTestProject': 'true', 'IsPackable': 'false', 'TargetFramework': 'net11.0',
                                        'PackageLicenseExpression': 'Apache-2.0', 'LicenceBoundary': 'Apache'},
                         'Architecture policy host must retain Apache metadata as a non-packable test project')
             else:

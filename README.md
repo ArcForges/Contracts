@@ -58,11 +58,19 @@ was retired from new publications at WP03.00 in the same way.
 
 ## Local quick start
 
-Install .NET SDK **10.0.403**, Node **24.21.0** (npm **11.19.0**), Python
-**3.14.7** and Go **1.27.3** (`go/toolchain.json`; generation and the Go checks use it). Reuse the installed tools. No JDK, Gradle or Kotlin toolchain is needed:
+Install .NET SDK **11.0.100**, Node **26.13.1** (npm **12.2.2**), Python
+**3.15.2** and Go **1.27.4** (`go/toolchain.json`; generation and the Go checks use it). Reuse the installed tools. No JDK, Gradle or Kotlin toolchain is needed:
 the Kotlin and Maven channel is retired (CON.40). Version files in the root are authoritative. On Windows with fnm,
-select the pinned Node using `fnm use 24.21.0`; `fnm exec --using 24.21.0 --
+select the pinned Node using `fnm use 26.13.1`; `fnm exec --using 26.13.1 --
 python eng/contracts.py restore` is an alternative if the shell is not configured.
+
+Install the exact npm version with `npm install --global npm@12.2.2 --ignore-scripts --no-fund`.
+`python eng/check_toolchain.py` checks the invoking and PATH Python, selected SDK,
+Node, npm's own Node runtime and installed Go before restoration. It also records
+executable paths and normalized lockfile hashes. A conflicting `MSBuildSDKsPath`
+or tool version fails; Go cannot automatically download another compiler to pass.
+CI uses the same preflight, with only the applicable tools selected for publication
+or security jobs that do not build the complete candidate.
 
 From this repository:
 

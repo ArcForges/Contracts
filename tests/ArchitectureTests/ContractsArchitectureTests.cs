@@ -445,7 +445,7 @@ internal static class ContractsArchitectureTests
                 string full = Path.Combine(_root, path);
                 Directory.CreateDirectory(Path.GetDirectoryName(full)!);
                 File.WriteAllText(full, "<Project />\n");
-                File.WriteAllText(Path.Combine(Path.GetDirectoryName(full)!, "packages.lock.json"), "{\"version\":1,\"dependencies\":{\"net10.0\":{}}}\n");
+                File.WriteAllText(Path.Combine(Path.GetDirectoryName(full)!, "packages.lock.json"), "{\"version\":1,\"dependencies\":{\"net11.0\":{}}}\n");
                 string sourcePath = Path.Combine(Path.GetDirectoryName(full)!, "Empty.cs");
                 File.WriteAllText(sourcePath, source + Environment.NewLine);
                 var classification = new ProjectClassification(path, role, "Contracts");
@@ -457,7 +457,7 @@ internal static class ContractsArchitectureTests
                     ["EnableTrimAnalyzer"] = "true",
                     ["EnableAotAnalyzer"] = "true",
                 };
-                projects.Add(new ProjectFacts(classification, "net10.0", "Library", license, boundary,
+                projects.Add(new ProjectFacts(classification, "net11.0", "Library", license, boundary,
                     references, [sourcePath], [], properties, new Dictionary<string, string>()));
                 compilations.Add(path, FixtureCompiler.Compile("Fixture" + projects.Count,
                     new Dictionary<string, string> { ["Empty.cs"] = source }));

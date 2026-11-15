@@ -215,8 +215,8 @@ internal static class HostedPolicyGate
     {
         string workflow = File.ReadAllText(Path.Combine(root, ".github/workflows/security.yml"));
         const string scanName = "- name: Scan full reviewed history with redacted output";
-        const string dotnetPin = "actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68";
-        const string pythonPin = "actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97";
+        const string dotnetPin = "actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73";
+        const string pythonPin = "actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0";
         string[] orderedSteps =
         [
             scanName,
@@ -225,7 +225,7 @@ internal static class HostedPolicyGate
             "dotnet restore ArcForges.Contracts.slnx --locked-mode",
             "dotnet build ArcForges.Contracts.slnx --configuration Release --no-restore --verbosity minimal",
             "python eng/check_naming.py --report artifacts/evidence/naming.json",
-            "dotnet tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll --hosted",
+            "dotnet tests/ArchitectureTests/bin/Release/net11.0/ArcForges.Contracts.ArchitectureTests.dll --hosted",
         ];
         int previous = -1;
         foreach (string step in orderedSteps)

@@ -16,6 +16,19 @@ from generate_shapes import (JsonShapes, bundle_external_models, bundle_type_imp
                              compile_bundle_roots, schema_roots, generate)
 
 
+def run_typescript_fixture(runner):
+    """Compile runtime TypeScript syntax with the repository's locked compiler, then run ordinary JS."""
+    (runner.parent / "package.json").write_text('{"type":"module"}\n', encoding="utf-8")
+    compiled = subprocess.run([shutil.which("node"), str(ROOT / "node_modules/typescript/bin/tsc"),
+                               "--target", "ES2022", "--module", "ES2022", "--noEmitOnError",
+                               "--outDir", str(runner.parent),
+                               *(str(path) for path in sorted(runner.parent.glob("*.ts")))],
+                              capture_output=True, text=True)
+    if compiled.returncode:
+        return compiled
+    return subprocess.run([shutil.which("node"), str(runner)], capture_output=True, text=True)
+
+
 def record(title, properties):
     return {"title": title, "type": "object", "properties": properties,
             "required": list(properties), "additionalProperties": False}
@@ -315,9 +328,9 @@ class JsonShapeUnions(unittest.TestCase):
                 (folder / (schema["title"] + ".ts")).write_text(JsonShapes(schema, "Example").generate()[2], encoding="utf-8")
             runner = folder / "run.mjs"
             runner.write_text('''import assert from "node:assert/strict";
-import * as numeric from "./NumericEnvelope.ts";
-import * as route from "./RouteRequest.ts";
-import * as ambiguous from "./AmbiguousText.ts";
+import * as numeric from "./NumericEnvelope.js";
+import * as route from "./RouteRequest.js";
+import * as ambiguous from "./AmbiguousText.js";
 const valid = {count: 2, value: 1.25, cursor: "é".repeat(2048)};
 assert.equal(numeric.isNumericEnvelope(valid), true);
 assert.deepEqual(numeric.tryParseNumericEnvelopeJson(JSON.stringify(valid)), {ok: true, value: valid});
@@ -340,7 +353,7 @@ assert.equal(route.isRouteRequest({}), false);
 assert.equal(route.isRouteRequest({start:"x", continuation:"y"}), false);
 assert.equal(ambiguous.isAmbiguousText("both"), false);
 ''', encoding="utf-8")
-            result = subprocess.run([shutil.which("node"), "--experimental-transform-types", str(runner)], capture_output=True, text=True)
+            result = run_typescript_fixture(runner)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_nonbundle_duplicate_model_collision_refused_before_any_output_write(self):
@@ -400,8 +413,8 @@ assert.equal(ambiguous.isAmbiguousText("both"), false);
                 (folder / (schema["title"] + ".ts")).write_text(JsonShapes(schema, "Example").generate()[2], encoding="utf-8")
             runner = folder / "run.mjs"
             runner.write_text('''import assert from "node:assert/strict";
-import * as envelope from "./Envelope.ts";
-import * as tree from "./Tree.ts";
+import * as envelope from "./Envelope.js";
+import * as tree from "./Tree.js";
 const valid = {body: {entries: ["one"]}, labels: {en: "Hello"}, maps: [{fr: "Salut"}]};
 assert.equal(envelope.isEnvelope(valid), true);
 assert.deepEqual(envelope.tryParseEnvelopeJson(envelope.serializeEnvelopeJson(valid)), {ok: true, value: valid});
@@ -416,7 +429,7 @@ const cycle = {children:[]}; cycle.children.push(cycle);
 assert.equal(tree.isTree({node:cycle}), false);
 assert.throws(() => tree.serializeTreeJson({node:cycle}), error => error.failure === "invalid");
 ''', encoding="utf-8")
-            result = subprocess.run([shutil.which("node"), "--experimental-transform-types", str(runner)], capture_output=True, text=True)
+            result = run_typescript_fixture(runner)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 

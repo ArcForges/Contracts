@@ -51,11 +51,11 @@ def npm_graph(project: Path, release: str) -> tuple[list[dict], list[dict]]:
 
 
 def nuget_direct_dependencies(assets: dict, row: dict) -> set[str]:
-    dependencies = assets["project"]["frameworks"]["net10.0"].get("dependencies", {})
+    dependencies = assets["project"]["frameworks"]["net11.0"].get("dependencies", {})
     direct = {name for name, dep in dependencies.items()
               if not dep.get("autoReferenced") and dep.get("suppressParent") != "All"}
     # NuGet promotes centrally pinned transitive packages into the published nuspec.
-    direct.update(assets.get("centralTransitiveDependencyGroups", {}).get("net10.0", {}))
+    direct.update(assets.get("centralTransitiveDependencyGroups", {}).get("net11.0", {}))
     direct.update(row["dependencies"])
     return direct
 
@@ -63,7 +63,7 @@ def nuget_direct_dependencies(assets: dict, row: dict) -> set[str]:
 def nuget_graph(release: str, row: dict | None = None) -> tuple[list[dict], list[dict]]:
     row = row or next(item for item in packages("nuget") if item["id"] == NUGET_ID)
     assets = read_json(ROOT / row["sourceRoot"] / "obj/project.assets.json")
-    target = assets["targets"]["net10.0"]
+    target = assets["targets"]["net11.0"]
     resolved = {key.split("/")[0]: key for key in target}
     first_party = {item["id"] for item in packages("nuget")}
     components: dict[str, dict] = {}
@@ -329,6 +329,18 @@ def verify_operation_metadata(files: dict[str, bytes], source: dict, row: dict) 
         raise ValueError("Packaged operation metadata differs from the deterministic staged byte layout")
 
 
+def npm_pack_filename(result: object, name: str) -> str:
+    """Normalize the legacy singleton array and npm12's single-package name-keyed map."""
+    if isinstance(result, dict) and set(result) == {name}:
+        result = [result[name]]
+    if not isinstance(result, list) or len(result) != 1 or not isinstance(result[0], dict):
+        raise ValueError("npm pack must report exactly the requested package")
+    filename = result[0].get("filename")
+    if not isinstance(filename, str) or not filename:
+        raise ValueError("npm pack did not report an archive filename")
+    return filename
+
+
 def pack(release: str) -> None:
     from dependency_admission import audit
     from release_channels import stable
@@ -358,7 +370,7 @@ def pack(release: str) -> None:
             operations = stage_operation_metadata(nuget_metadata, row)
             if operations is not None:
                 # The C# consumer case reads the rows exactly as staged, with the StructureTests build() just produced.
-                run("dotnet", ROOT / "tests/StructureTests/bin/Release/net10.0/StructureTests.dll", ROOT,
+                run("dotnet", ROOT / "tests/StructureTests/bin/Release/net11.0/StructureTests.dll", ROOT,
                     "--con-41-staged", nuget_metadata / OPERATION_METADATA_PATH)
                 print(operation_evidence(row, operations), flush=True)
             stage_naming(nuget_metadata, row)
@@ -394,7 +406,8 @@ def pack(release: str) -> None:
             write_json(target / "package.json", package)
             packed = json.loads(run(NPM, "pack", target, "--ignore-scripts", "--json",
                                     "--pack-destination", output, capture=True))
-            entries.append({"name": packed[0]["filename"], "kind": "npm", "id": package["name"]})
+            entries.append({"name": npm_pack_filename(packed, package["name"]),
+                            "kind": "npm", "id": package["name"]})
         # AF-CTR-01: the Go module is published by its go/v<version> tag, so the candidate carries its identity:
         # the module zip and go.mod hashes the proxy and the checksum database must serve for this commit.
         from go_bindings import candidate_document
@@ -508,12 +521,12 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
                 raise ValueError("Unexpected NuGet identity")
             if nuspec.findtext(".//{*}license") != "Apache-2.0":
                 raise ValueError("Unexpected NuGet licence")
-            assembly = ("tools/net10.0/any/" if entry["id"] == "ArcForges.Cli" else "lib/net10.0/") + entry["id"] + ".dll"
+            assembly = ("tools/net11.0/any/" if entry["id"] == "ArcForges.Cli" else "lib/net11.0/") + entry["id"] + ".dll"
             if assembly not in files:
                 raise ValueError("NuGet assembly is missing")
             dependencies = {dep.get("id"): dep.get("version") for dep in nuspec.findall(".//{*}dependency")}
             if entry["id"] == "ArcForges.Cli":
-                if "tools/net10.0/any/DotnetToolSettings.xml" not in files:
+                if "tools/net11.0/any/DotnetToolSettings.xml" not in files:
                     raise ValueError("CLI tool entry point is missing")
             else:
                 assets = read_json(ROOT / row["sourceRoot"] / "obj/project.assets.json")

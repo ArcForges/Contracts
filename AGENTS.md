@@ -128,7 +128,7 @@ The Plan's rule 7 applies. In this repository:
 
 - Restore once (`python eng/contracts.py restore`), then build incrementally: `dotnet build ArcForges.Contracts.slnx -c Release --no-restore`.
 - While iterating, run only the affected checks: `python eng/contracts.py generate --check`,
-  `python eng/contracts.py go static|test|exchange|vulncheck` for Go changes, the `eng/check_*.py` script of the changed policy, `node --test tests/tooling/contract_access.test.mjs`, `python -m unittest tests.tooling.<module>`, the built suites (`dotnet tests/StructureTests/bin/Release/net10.0/StructureTests.dll .` and `dotnet tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll`) and `npx prettier --check <changed files>`.
+  `python eng/contracts.py go static|test|exchange|vulncheck` for Go changes, the `eng/check_*.py` script of the changed policy, `node --test tests/tooling/contract_access.test.mjs`, `python -m unittest tests.tooling.<module>`, the built suites (`dotnet tests/StructureTests/bin/Release/net11.0/StructureTests.dll .` and `dotnet tests/ArchitectureTests/bin/Release/net11.0/ArcForges.Contracts.ArchitectureTests.dll`) and `npx prettier --check <changed files>`.
 - `python eng/contracts.py pack` is the full candidate. It runs once per pushed head, in the host verification; `python eng/verify.py run` on the Linux host checks it before handover without reporting.
 
 ## Hosted CI

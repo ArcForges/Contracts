@@ -93,6 +93,9 @@ def say(message: str) -> None:
 
 def environment(extra: dict | None = None) -> dict:
     env = dict(os.environ, GOTOOLCHAIN="local", GOFLAGS="-mod=readonly", GOTELEMETRY="off", GOWORK="off")
+    if platform.system() == "Linux":
+        from native_toolchain import aot_environment
+        env = aot_environment(env)
     env.update(extra or {})
     return env
 
@@ -444,10 +447,17 @@ def static() -> dict:
         run(tools["staticcheck"], "-checks", STATICCHECK_CHECKS, "-tests", "./...")
         version = run(tools["staticcheck"], "-version", capture=True).stdout.strip()
     identity = check_module_identity()
+    inventory_path = ARTIFACTS / "evidence" / ("go-dependencies-" + platform.system().lower() + ".json")
+    run(sys.executable, ROOT / "eng/check_go_dependency_inventory.py", "--output", inventory_path, cwd=ROOT)
+    from dependency_admission import POLICY, validate_current_go_measurement
+    qualification = validate_current_go_measurement(json.loads((ROOT / POLICY).read_text(encoding="utf-8")), ROOT,
+                                                   json.loads(inventory_path.read_text(encoding="utf-8")))
     return {"go": pinned, **modules, "sources": sources, "generatedPackages": packages, "staticcheck": version,
-            "moduleIdentity": identity,
+            "moduleIdentity": identity, "dependencyInventory": inventory_path.relative_to(ROOT).as_posix(),
+            "dependencyQualification": qualification,
             "checks": ["toolchain", "module-inventory", "gofmt", "go-mod-verify", "go-mod-tidy-drift", "go-vet",
-                       "contract-access-imports", "staticcheck", "module-identity"]}
+                       "contract-access-imports", "staticcheck", "module-identity", "actual-dependency-closures",
+                       "reviewed-go-qualification"]}
 
 
 def race_supported() -> bool:
@@ -594,7 +604,7 @@ def exchange() -> dict:
     check_toolchain()
     row = go_row()
     write_descriptor(protoc_path(), row)
-    structure_tests = ROOT / "tests/StructureTests/bin/Release/net10.0/StructureTests.dll"
+    structure_tests = ROOT / "tests/StructureTests/bin/Release/net11.0/StructureTests.dll"
     require(structure_tests.is_file(), "Build the solution first (python eng/contracts.py build or pack)")
     with tempfile.TemporaryDirectory(prefix="arcforges-go-exchange-") as temporary:
         directory = Path(temporary)
