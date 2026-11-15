@@ -2,16 +2,19 @@
   "schemaVersion": 1,
   "repository": "Contracts",
   "inputHashes": {
-    ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
+    ".node-version": "5c293036fc0a61ad76e15d85f454c3c7cec157e181e035b69f95058a2c239144",
     ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
-    ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
-    "Directory.Build.props": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b",
+    ".python-version": "673e2ba07f95bfcfe0a543258b8e267954e403d1f466481c546f467f86b31d46",
+    "Directory.Build.props": "c956886a81b3f36a65e7b943b7c568458a85b73d02584068dc7195631cc63f89",
     "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
-    "Directory.Packages.props": "1b1b4143b64b844c6a58b5fe862ea0342c7d660d36244a48af0a434ce98701ae",
+    "Directory.Packages.props": "ef18360d3cc3437e10478b0bee2ddbecff3544c2a1b04df0021386cf408d87cb",
     "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
-    "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
+    "eng/Codegen/packages.lock.json": "3cbd4d6cd217eb7d892e879081fbbc36507f2a01e7a5f81afe0c5013d255a0a9",
+    "eng/check_toolchain.py": "b413c0be5fd48c6cf2ee8b45c56a96dabe4fd1700ee9a21eb11207beaf1c0cdb",
     "eng/contract-packages.json": "f347dd9e047c66f36ffb2c7ea977f10129e2ccdea366e998ed68004f1641f95b",
+    "eng/native-toolchain.json": "bf019c3aadd5e2e1fa6170ce52a463ce3b751f86b3458a17cd93a7fce8ea1eaa",
+    "eng/native_toolchain.py": "3496595ef25b20304896015199739005ac8192714e29e764a17d5184edfdca84",
     "eng/policy/contract-access.json": "4f8b5573e15ea01ce5e31333be2b7122d35b6e406c6d37ff4259b8c8204c9edb",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
@@ -56,6 +59,7 @@
     "eng/provenance/records/contract-bindings-af-ctr-06-r1.json": "476468491f1f6db7e738834fd36ac8466f3791dbf377cb266c44cba52d045349",
     "eng/provenance/records/contract-bindings-af-ctr-06-r2.json": "897981e4549d8100c378796d68d94535f4e2bd1e971b4bfbefbcf3714cca2262",
     "eng/provenance/records/contract-bindings-af-ctr-06-r3.json": "59af43e6190b8f1d0c153b5ab09454486d3ad84050587798b52180273685a66a",
+    "eng/provenance/records/contract-bindings-afv2-env-01-r1.json": "69845519920edf449a60e4e494a2ca0d5f73f3f78c2df2f90b07547a35b0f918",
     "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
     "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
     "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -194,6 +198,7 @@
     "eng/provenance/records/go-bindings-af-ctr-05-r3.json": "026223c57665a25b99cbc394e56188d3badbf0ba8f0d8421e2669247e4513c74",
     "eng/provenance/records/go-bindings-af-ctr-05-r4.json": "a368dd2a569c48de660fef5e3cef1c71066b9c389484a6d69bd0566b73642dc3",
     "eng/provenance/records/go-bindings-af-ctr-06-r1.json": "b756d0626aebb22e507c964bae7d0615a50a052e8a87e0eb0cf96b7f2aead1a4",
+    "eng/provenance/records/go-bindings-afv2-env-01-r1.json": "ff506a814e3992af4bef9df0bf3ddc4b5bcd5c0401e0524483a7dc219ff010b3",
     "eng/provenance/records/go-protobuf-licence-r1.json": "a9fb8d247113f025813e5562ab10e72d92d7f5055cece829b64b8e13785b0ffd",
     "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
     "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
@@ -201,61 +206,61 @@
     "eng/provenance/retirements/con-40-maven.json": "dfc2d6b1567352e3ecf393178ce434b65aa09b72d06bcb624f96cc61884df73a",
     "eng/provenance/retirements/con-40-npm.json": "4911dd0c111a74f6953c5d7c9c5bb09fa10959275322a3ac51bde34fea18be23",
     "eng/provenance/retirements/contracts-client-wp03-00.json": "3dbc212a56e678bea10950909a2ae1ad7fc8f2f3640421d02c8f80d2c22c1126",
-    "global.json": "bd2f7421218da3954279a68a63015aeabda5b7122ec8b47a2f7585b7e284a98d",
-    "go/go.mod": "a411a8290d10ad572bd310ea293ea7adb6754d935b81d3bcf0ff59efe4553187",
+    "global.json": "bfaf40d1a86baeea39cde6300a5aaa9c55917256d4fade475ac7ffa3bd58bb58",
+    "go/go.mod": "1696a11d2cc917add3c9401396795d8146cfb72598e5e6f9c1def7a835978824",
     "go/go.sum": "b01034abad848408362f1f2a67db5d1eb6d93e05813723efe0d8e26d363ff1eb",
-    "go/toolchain.json": "3b5365d675298ae44f035402aa65c7aaf733cbea58e2aa462c57d569112f2f53",
-    "go/tools/go.mod": "f3d2d5603014b1334198643b8a2be357d63778a4884482f8ab9c4afc06d48f78",
-    "go/tools/go.sum": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561",
-    "package-lock.json": "d44b7ef6159d74205b89abb6a8fada91652c7b3c4f7642685b6e189c6d569284",
-    "package.json": "67d22bf8641404e51f11847c2878e8537e79a0f8e958cb7b893cc2cbb21e7cb3",
+    "go/toolchain.json": "fab9b8c724b7d0e673d06004e11896958d047ee4cc91f1b1486383609db5b749",
+    "go/tools/go.mod": "6b85a0f7dcfb09c430048fe22db15eb1e633f32cbc177600dddf9f4fe67b99f5",
+    "go/tools/go.sum": "3e7200cf74b5119a63a310d7eb63a9b7fa3c543f216f75b089ac4a26e1c79d56",
+    "package-lock.json": "330a07a5774a8c3512068ad2362105480387276b1c5270b4428acf737aa5251b",
+    "package.json": "dda98d1b0d57a23970eef7904b2fd6ac9bf8c74e544a3c02b59b20c8012f8f87",
     "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj": "d60341c571cce8fdf90f7a06938ae71af87fbbccafff26f8819ef6a458738e4d",
-    "src/internal/dotnet/ArcForges.Contracts.CloudInternal/packages.lock.json": "af0161454b287d7b741b604f88c2e96de43116c8a8e00924cf1bad53599432fa",
+    "src/internal/dotnet/ArcForges.Contracts.CloudInternal/packages.lock.json": "77acd965cea9b46e7ef47de8d16be4a25bb0d938f5c63c9c5b6096f551b50092",
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj": "2413de819d392841db75a622a6e348719da93ce3dbb4c3402b5aed6fa277711c",
-    "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/packages.lock.json": "f402b646c237f605ebe753d6c33348ef710189ab701abdfedacd81fa3cc20158",
+    "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/packages.lock.json": "24c720f9d1a5fd4cb9341a4e32855b02e9d59172272fc0f91b61feaa84abe9df",
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj": "872394227d3b0a9f1293311605a8fdc25d40465b51ffff3d5f5d1ce18cd4c8e9",
-    "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/packages.lock.json": "d49de48a0a9ed6bdb39c9ce48d2eb806ebd498399cb04c3808243be1770425c6",
+    "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/packages.lock.json": "027d439516459b5ce75f78eb719284a62d481209a82d5061be4cb5267500db6a",
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj": "3e9c13b2454b28c55049fa5c2bc1693250f2db0b715dafb337909380b3b8494d",
-    "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/packages.lock.json": "83f1632897b2862ff55beb4198bf87cd27f20ddcd34cb50a5cd238cbadd60731",
+    "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/packages.lock.json": "32c7aef5f9c211523971b38866c2297943602cc8cbfcc144dac4f79d20e418e7",
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj": "01fd7df18b072d733a2171860952dea1c774e89f1f9602ece4da3c36eb646f20",
-    "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/packages.lock.json": "2d08ac047cf7eb3150701135e707c9f4cf250a4c824f4311ca8797761b5fc038",
+    "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj": "d82efed194d832b5c52695ebbc70841a1b4606ab40d8e4b0d7c7437b0ddb41be",
-    "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/packages.lock.json": "f402b646c237f605ebe753d6c33348ef710189ab701abdfedacd81fa3cc20158",
+    "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/packages.lock.json": "24c720f9d1a5fd4cb9341a4e32855b02e9d59172272fc0f91b61feaa84abe9df",
     "src/internal/dotnet/ArcForges.Contracts.Peer/ArcForges.Contracts.Peer.csproj": "161c6159aca3a6614df517a28b8c7142e6badbd4b6bb1d4ac8172882348c4e7c",
-    "src/internal/dotnet/ArcForges.Contracts.Peer/packages.lock.json": "13b205e83931d76e69b6c7dbfe09a69f8b4af0617bed686eb84e68bd9b1dd0ca",
+    "src/internal/dotnet/ArcForges.Contracts.Peer/packages.lock.json": "cc4a7cdb9eb39ca8f4177364d57eaaefd5174f647ccd222d8b25cdbe1939aa01",
     "src/internal/dotnet/ArcForges.Contracts.Relay/ArcForges.Contracts.Relay.csproj": "6dedad95d1f877002aee9641375870714c65c7eb4e072e233ff69124632bf1a2",
-    "src/internal/dotnet/ArcForges.Contracts.Relay/packages.lock.json": "1d74c64a505120a217214a0c0baf075697fcc8eb249b3da88e476e2ffd6d34df",
+    "src/internal/dotnet/ArcForges.Contracts.Relay/packages.lock.json": "cbffaba1468aa752687b2a3a0710081276513b258a7de7ef3b2b756123384acb",
     "src/internal/ts/ai-internal/package.json": "0bff2cf81a1a98ae3b94b9215e813b97d5ce3048dc09184cab1a7de496a68870",
     "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj": "ba49c6478b0e74a3565a57868b0c4655d62cfc52f3059e8ea172433cab68dbcc",
-    "src/public/dotnet/ArcForges.Cli/packages.lock.json": "46efb2b815ccecc220a223bfbd0b0f66bced169d81be0362b3e5243c6134483a",
+    "src/public/dotnet/ArcForges.Cli/packages.lock.json": "277da9f5c4137f59a293dd3a549648aa665de4146b6e5543ec6ac7b5b13fc9f5",
     "src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj": "f3ef3c30d9ed05a66d771c390a2ca8ba6439922c81480757d84d2e21067efbed",
-    "src/public/dotnet/ArcForges.Contracts.Events/packages.lock.json": "61129ae24dca22b00c448a5a530d86735cb4781aad7da6430211fd744afe511b",
+    "src/public/dotnet/ArcForges.Contracts.Events/packages.lock.json": "adca49fe81c6857466b08373404d41abf966716622343014d729a067a7c7563d",
     "src/public/dotnet/ArcForges.Contracts.Fleet/ArcForges.Contracts.Fleet.csproj": "8b82262867b24513d3e2d3586c9195cfb7bc87e76f45fe4d8257c810c5ef70ef",
-    "src/public/dotnet/ArcForges.Contracts.Fleet/packages.lock.json": "13b205e83931d76e69b6c7dbfe09a69f8b4af0617bed686eb84e68bd9b1dd0ca",
+    "src/public/dotnet/ArcForges.Contracts.Fleet/packages.lock.json": "cc4a7cdb9eb39ca8f4177364d57eaaefd5174f647ccd222d8b25cdbe1939aa01",
     "src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj": "d87e9fb79689cc245332286e3eee8a045069831144d28ca513805f89b8a7e344",
-    "src/public/dotnet/ArcForges.Contracts.Foundation/packages.lock.json": "50326a8dbf6fff306f4fbae1fc340491b8e4429a22107c80088d1cf1090300b7",
+    "src/public/dotnet/ArcForges.Contracts.Foundation/packages.lock.json": "0e02b1415e80e185b8c4d29d704bd2d78726eac35d1415f4d2596921e13a619d",
     "src/public/dotnet/ArcForges.Contracts.Node/ArcForges.Contracts.Node.csproj": "a6fccccea588c9397bfb66ee30f1d2b8f522eebfef3d1e3158a34cf41703ade9",
-    "src/public/dotnet/ArcForges.Contracts.Node/packages.lock.json": "2d08ac047cf7eb3150701135e707c9f4cf250a4c824f4311ca8797761b5fc038",
+    "src/public/dotnet/ArcForges.Contracts.Node/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
     "src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj": "986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",
-    "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json": "2d08ac047cf7eb3150701135e707c9f4cf250a4c824f4311ca8797761b5fc038",
+    "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
     "src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj": "169a71dde7093d66d727a966c558ddfefe12cb00c21e01f1b53c4acf5ee12901",
-    "src/public/dotnet/ArcForges.Contracts.Validation/packages.lock.json": "468f07482814d863b8b947d089a074e81e85048916d000181cb63b428a798515",
+    "src/public/dotnet/ArcForges.Contracts.Validation/packages.lock.json": "b9cc8fbd962520f8875f194c5010da4c5c6099e06f4dc6ea0f170a335c5d2421",
     "src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj": "f9c35650873d79f50e83a85e29cd51ce2b117a5af72ecfc84a81d554cc67e0fc",
-    "src/public/dotnet/ArcForges.Sdk.Client/packages.lock.json": "8d63e7611e45005565b4f35dcfc2e8b9d14b9654e317214ee69a189fa0027954",
+    "src/public/dotnet/ArcForges.Sdk.Client/packages.lock.json": "f2b58369970466f11fd61563216c87422eed95655299ec5a8431b5552b1083fc",
     "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj": "61d0ccec8cb02bf34fab51db298e1d74c8b7180f24fc9ae27f9318650a187b7d",
-    "src/public/dotnet/ArcForges.Sdk.Contracts/packages.lock.json": "c47d712e85d2243a4d47d0f53250b28076356e35186074c1fb084692fd1240a3",
-    "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj": "7065e2d1b5404380438aa305c5dbfcf000214d15ad0fe232846b7ba7639856c7",
-    "tests/ArchitectureTests/packages.lock.json": "755cb1bde873ec0d1e5e1db359aaef6821b095b0b94980d3bbcd24b09645214f",
+    "src/public/dotnet/ArcForges.Sdk.Contracts/packages.lock.json": "29a3e9bc735638518c2cf820141dc8d2f54a33efda5836cb95a116fad08e79c0",
+    "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj": "8474242edfc8eee43becd6785b8de925dd4f3ccbad5d512f689401f85b57b1a5",
+    "tests/ArchitectureTests/packages.lock.json": "22d8ae25d03f669027c3a0cade9456eba41725bbe516bbab03d346f4e2dc6bd3",
     "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
-    "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
+    "tests/StructureTests/PreviousClient/packages.lock.json": "144041c75e6730f4654fbfac98ba4a4344002dd48c7cd4c9a43064b3112ed301",
     "tests/StructureTests/StructureTests.csproj": "dc46e2029371daea08810a0b0869c2b6c7eef61de95c5d8e6a4fa8cc68a709bc",
-    "tests/StructureTests/packages.lock.json": "1efe35b2b150baff5bdbae502256918d429caa4606f6cf28dfa1151bfa4ff9b7",
+    "tests/StructureTests/packages.lock.json": "30c796634f8b29b34fe90a2696c6b0fdb828cfa688847b8ba1e575ecd3465aad",
     "tests/public/HelloClient/HelloClient.csproj": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a",
-    "tests/public/HelloClient/packages.lock.json": "6c20b815c6cd858a058448d265c2385367235c6f490ec8586948910199bbd143",
+    "tests/public/HelloClient/packages.lock.json": "c93b52c2409deee2ef839c57c4bd64fd74f00e228f3797825f17676b2d39ec16",
     "tests/public/HelloHost/HelloHost.csproj": "c7ac2acb49c079907c4fdbe9a937421d93146f4b87e92546032d7881fadc6035",
-    "tests/public/HelloHost/packages.lock.json": "15c1bd39184b4ee86f3f30e52eb21a6cf1ba7d3d8032a21e49b5af71ea7cca1d",
+    "tests/public/HelloHost/packages.lock.json": "f7905b45f4c82f5ed2eae2abc95dcc5feae88902d72c23f9cdbf5fc40756a360",
     "tests/public/SerializationProbe/SerializationProbe.csproj": "92a5039dba394839dfbb60f5f3b7f0bde6304a45c904cf80109b94547a2a0158",
-    "tests/public/SerializationProbe/packages.lock.json": "c22dac951b63b91a5b5b2f9d620cfd5601024a12c59f6b3a62176837fe8d9fa4"
+    "tests/public/SerializationProbe/packages.lock.json": "8ae8946ace48e6558589a6d60b3e45f309d8ec90a13de24421ebd27e3e540756"
   },
   "closure": {
     "go:connectrpc.com/connect/v2@v2.0.2": {
@@ -277,20 +282,20 @@
       ],
       "scope": "runtime closure of the published Go bindings module go/ (required by go/go.mod and verified by go.sum); referenced, not vendored"
     },
-    "go:github.com/BurntSushi/toml@v1.4.1-0.20240526193622-a339e1f7089c": {
-      "integrity": "h1:pxW6RcqyfI9/kWtOwnv/G+AzdKuy2ZrqINhenH4HyNs=",
+    "go:github.com/BurntSushi/toml@v1.6.0": {
+      "integrity": "h1:dRaEfpa2VI55EwlIW72hMRHdWouJeRF7TPYhI+AUQjk=",
       "licence": "MIT",
       "evidence": [
         {
-          "source": "go/tools/go.sum#github.com/BurntSushi/toml@v1.4.1-0.20240526193622-a339e1f7089c",
-          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+          "source": "go/tools/go.sum#github.com/BurntSushi/toml@v1.6.0",
+          "sha256": "3e7200cf74b5119a63a310d7eb63a9b7fa3c543f216f75b089ac4a26e1c79d56"
         },
         {
-          "source": "https://proxy.golang.org/github.com/!burnt!sushi/toml/@v/v1.4.1-0.20240526193622-a339e1f7089c.zip#github.com/BurntSushi/toml@v1.4.1-0.20240526193622-a339e1f7089c/COPYING",
+          "source": "https://proxy.golang.org/github.com/!burnt!sushi/toml/@v/v1.6.0.zip#github.com/BurntSushi/toml@v1.6.0/COPYING",
           "sha256": "d21cb1c60785d6d3a84a7059323ccafc45c645b1bbda281c76a62d66ad2d7dc3"
         }
       ],
-      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+      "scope": "Exact indirect implementation archive of the never-published Contracts go/tools module; current actual use and AD-0023 qualification require the separate reviewed platform measurements."
     },
     "go:github.com/google/go-cmdtest@v0.4.1-0.20220921163831-55ab3332a786": {
       "integrity": "h1:rcv+Ippz6RAtvaGgKxc+8FQIpxHgsF+HBzPyYL2cyVU=",
@@ -305,7 +310,7 @@
           "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
         }
       ],
-      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+      "scope": "Retained exact archive and upstream selected-module metadata. The completed native Windows/Linux reports show no use in the four declared tool closures or owned package/test closures, including Linux race. Full requirement edges, checksums and original licence evidence remain retained; no shipped-runtime dependency or new acceptance requirement is claimed."
     },
     "go:github.com/google/go-cmp@v0.7.0": {
       "integrity": "h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=",
@@ -324,7 +329,7 @@
           "sha256": "17b5d209ba8f9684257ecfcff87df6ceda6194143a8fbd074f29727cff6f0c40"
         }
       ],
-      "scope": "runtime closure of the published Go bindings module go/ (required by go/go.mod and verified by go.sum); referenced, not vendored"
+      "scope": "Retained exact archive and upstream selected-module metadata. The completed native Windows/Linux reports show no use in the four declared tool closures or owned package/test closures, including Linux race. Full requirement edges, checksums and original licence evidence remain retained; no shipped-runtime dependency or new acceptance requirement is claimed."
     },
     "go:github.com/google/renameio@v0.1.0": {
       "integrity": "h1:GOZbcHa3HfsPKPlmyPyN2KEohoMXOhdMbHrvbpl2QaA=",
@@ -339,82 +344,82 @@
           "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
         }
       ],
-      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+      "scope": "Retained exact archive and upstream selected-module metadata. The completed native Windows/Linux reports show no use in the four declared tool closures or owned package/test closures, including Linux race. Full requirement edges, checksums and original licence evidence remain retained; no shipped-runtime dependency or new acceptance requirement is claimed."
     },
-    "go:golang.org/x/exp/typeparams@v0.0.0-20231108232855-2478ac86f678": {
-      "integrity": "h1:1P7xPZEwZMoBoz0Yze5Nx2/4pxj6nw9ZqHWXqP0iRgQ=",
+    "go:golang.org/x/exp/typeparams@v0.0.0-20261113113407-e3970619a1a4": {
+      "integrity": "h1:R/Bi4Cu3qhe1hBBrVB5q08XcADEYn+UEHtBj4lFx/SI=",
       "licence": "BSD-3-Clause",
       "evidence": [
         {
-          "source": "go/tools/go.sum#golang.org/x/exp/typeparams@v0.0.0-20231108232855-2478ac86f678",
-          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+          "source": "go/tools/go.sum#golang.org/x/exp/typeparams@v0.0.0-20261113113407-e3970619a1a4",
+          "sha256": "3e7200cf74b5119a63a310d7eb63a9b7fa3c543f216f75b089ac4a26e1c79d56"
         },
         {
-          "source": "https://proxy.golang.org/golang.org/x/exp/typeparams/@v/v0.0.0-20231108232855-2478ac86f678.zip#golang.org/x/exp/typeparams@v0.0.0-20231108232855-2478ac86f678/LICENSE",
-          "sha256": "2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067"
-        }
-      ],
-      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
-    },
-    "go:golang.org/x/mod@v0.42.0": {
-      "integrity": "h1:ICeL3t2L30ljSPHHxDnR4fqVcBt/zR2zJAb9juavmQg=",
-      "licence": "BSD-3-Clause",
-      "evidence": [
-        {
-          "source": "go/tools/go.sum#golang.org/x/mod@v0.42.0",
-          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
-        },
-        {
-          "source": "https://proxy.golang.org/golang.org/x/mod/@v/v0.42.0.zip#golang.org/x/mod@v0.42.0/LICENSE",
+          "source": "https://proxy.golang.org/golang.org/x/exp/typeparams/@v/v0.0.0-20261113113407-e3970619a1a4.zip#golang.org/x/exp/typeparams@v0.0.0-20261113113407-e3970619a1a4/LICENSE",
           "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
         }
       ],
-      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+      "scope": "Exact indirect implementation archive of the never-published Contracts go/tools module; current actual use and AD-0023 qualification require the separate reviewed platform measurements."
     },
-    "go:golang.org/x/sync@v0.24.0": {
-      "integrity": "h1:iqiDrGoDgyuvAKrhLQthUEzU/R378N78gXbBjxed7oA=",
+    "go:golang.org/x/mod@v0.43.0": {
+      "integrity": "h1:MFuq5J6s35W9D3IjkwyWc9vHh0nENOrt5K8Iof4ofmg=",
       "licence": "BSD-3-Clause",
       "evidence": [
         {
-          "source": "go/tools/go.sum#golang.org/x/sync@v0.24.0",
-          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+          "source": "go/tools/go.sum#golang.org/x/mod@v0.43.0",
+          "sha256": "3e7200cf74b5119a63a310d7eb63a9b7fa3c543f216f75b089ac4a26e1c79d56"
         },
         {
-          "source": "https://proxy.golang.org/golang.org/x/sync/@v/v0.24.0.zip#golang.org/x/sync@v0.24.0/LICENSE",
+          "source": "https://proxy.golang.org/golang.org/x/mod/@v/v0.43.0.zip#golang.org/x/mod@v0.43.0/LICENSE",
           "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
         }
       ],
-      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+      "scope": "Exact indirect implementation archive of the never-published Contracts go/tools module; current actual use and AD-0023 qualification require the separate reviewed platform measurements."
     },
-    "go:golang.org/x/sys@v0.49.0": {
-      "integrity": "h1:XbzkgYJHdqh/8m2Uu0W/dQv8nktxx4BFHp1M0gROTXA=",
+    "go:golang.org/x/sync@v0.25.0": {
+      "integrity": "h1:dJnifr0nMV8/SBnBvdo4eSGGnrc3O4FFx6IqvtLcmRs=",
       "licence": "BSD-3-Clause",
       "evidence": [
         {
-          "source": "go/tools/go.sum#golang.org/x/sys@v0.49.0",
-          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+          "source": "go/tools/go.sum#golang.org/x/sync@v0.25.0",
+          "sha256": "3e7200cf74b5119a63a310d7eb63a9b7fa3c543f216f75b089ac4a26e1c79d56"
         },
         {
-          "source": "https://proxy.golang.org/golang.org/x/sys/@v/v0.49.0.zip#golang.org/x/sys@v0.49.0/LICENSE",
+          "source": "https://proxy.golang.org/golang.org/x/sync/@v/v0.25.0.zip#golang.org/x/sync@v0.25.0/LICENSE",
           "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
         }
       ],
-      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+      "scope": "Exact indirect implementation archive of the never-published Contracts go/tools module; current actual use and AD-0023 qualification require the separate reviewed platform measurements."
     },
-    "go:golang.org/x/telemetry@v0.0.0-20261010193011-f71dc92da45e": {
-      "integrity": "h1:P6NGsugec4oASJ+yKMNgTndeo0h2CbixZLvQIe9h5R4=",
+    "go:golang.org/x/sys@v0.50.0": {
+      "integrity": "h1:dkKZEFTEKaLr1sjhs0WiKqoi8Jj5nHbS3Njmx1UoMJs=",
       "licence": "BSD-3-Clause",
       "evidence": [
         {
-          "source": "go/tools/go.sum#golang.org/x/telemetry@v0.0.0-20261010193011-f71dc92da45e",
-          "sha256": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561"
+          "source": "go/tools/go.sum#golang.org/x/sys@v0.50.0",
+          "sha256": "3e7200cf74b5119a63a310d7eb63a9b7fa3c543f216f75b089ac4a26e1c79d56"
         },
         {
-          "source": "https://proxy.golang.org/golang.org/x/telemetry/@v/v0.0.0-20261010193011-f71dc92da45e.zip#golang.org/x/telemetry@v0.0.0-20261010193011-f71dc92da45e/LICENSE",
+          "source": "https://proxy.golang.org/golang.org/x/sys/@v/v0.50.0.zip#golang.org/x/sys@v0.50.0/LICENSE",
           "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
         }
       ],
-      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+      "scope": "Exact indirect implementation archive of the never-published Contracts go/tools module; current actual use and AD-0023 qualification require the separate reviewed platform measurements."
+    },
+    "go:golang.org/x/telemetry@v0.0.0-20261111153349-cdaf7e97dd7b": {
+      "integrity": "h1:HDLCiByjRbzmSn/z4+smkCRQ58Hr5yxP+pq4CwqwCv8=",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "go/tools/go.sum#golang.org/x/telemetry@v0.0.0-20261111153349-cdaf7e97dd7b",
+          "sha256": "3e7200cf74b5119a63a310d7eb63a9b7fa3c543f216f75b089ac4a26e1c79d56"
+        },
+        {
+          "source": "https://proxy.golang.org/golang.org/x/telemetry/@v/v0.0.0-20261111153349-cdaf7e97dd7b.zip#golang.org/x/telemetry@v0.0.0-20261111153349-cdaf7e97dd7b/LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ],
+      "scope": "Exact indirect implementation archive of the never-published Contracts go/tools module; current actual use and AD-0023 qualification require the separate reviewed platform measurements."
     },
     "go:golang.org/x/tools/go/expect@v0.1.1-deprecated": {
       "integrity": "h1:jpBZDwmgPhXsKZC6WhL20P4b/wmnpsEAGHaNy0n/rJM=",
@@ -429,7 +434,7 @@
           "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
         }
       ],
-      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+      "scope": "Retained exact archive and upstream selected-module metadata. The completed native Windows/Linux reports show no use in the four declared tool closures or owned package/test closures, including Linux race. Full requirement edges, checksums and original licence evidence remain retained; no shipped-runtime dependency or new acceptance requirement is claimed."
     },
     "go:golang.org/x/tools/go/packages/packagestest@v0.1.1-deprecated": {
       "integrity": "h1:1h2MnaIAIXISqTFKdENegdpAgUXz6NrPEsbIeWaBRvM=",
@@ -444,7 +449,7 @@
           "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
         }
       ],
-      "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
+      "scope": "Retained exact archive and upstream selected-module metadata. The completed native Windows/Linux reports show no use in the four declared tool closures or owned package/test closures, including Linux race. Full requirement edges, checksums and original licence evidence remain retained; no shipped-runtime dependency or new acceptance requirement is claimed."
     },
     "go:golang.org/x/tools@v0.52.0": {
       "integrity": "h1:ryxg4U63oaUYk7uOLTF37n43f4qgtGvqV4Ioit1BaEs=",
@@ -510,16 +515,20 @@
       ],
       "scope": "build-only Go tool closure of the never published module go/tools (generators, staticcheck, govulncheck); not a runtime or published dependency"
     },
-    "npm:@bufbuild/protobuf@2.15.0": {
-      "integrity": "sha512-DAheWUkVr/SJTWCc+lg9dhY0eN4SaWlf4+bG1KzHeXbnqt0AfB/NX0Z+VunGlM1ki1B4zVvye27MpKh/svySUA==",
+    "npm:@bufbuild/protobuf@2.17.0": {
+      "integrity": "sha512-hcPkSz6D7MiTU/5VBBhK+kxaYDoOdQ6yJRFJ3kS8Nydp+VZXfg1vrpABKPNod8bXMufsVCmiUJVIKFzCzta4uw==",
       "licence": "(Apache-2.0 AND BSD-3-Clause)",
       "evidence": [
         {
+          "source": "npm:@bufbuild/protobuf@2.17.0!/package.json",
+          "sha256": "b34ecd4263168ffee4bb2ba56de3fdf9590c690d3015807bc7916be486c14226"
+        },
+        {
           "source": "package-lock.json#node_modules/@bufbuild/protobuf",
-          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+          "sha256": "330a07a5774a8c3512068ad2362105480387276b1c5270b4428acf737aa5251b"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact npm runtime/build/tool archive; applicable package terms and generated package SBOM/NOTICE remain independently required."
     },
     "npm:@typescript/typescript-aix-ppc64@7.0.2": {
       "integrity": "sha512-MTKKkWB7p/0E9xi1d1tHtZ5PiLkGEMIq88pK2CubZjOsLtYTLqhgIgi6zepFa+9GHZ6h05NMCkQxGKiPXMxXtQ==",
@@ -741,16 +750,24 @@
       ],
       "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
     },
-    "npm:prettier@3.9.8": {
-      "integrity": "sha512-WRFq3Wn3WId7LLROfMLdH7xaFr2jR62wU8nLO6rQUOLOxNZUviyJQs1M0iIhLexSFy+L+w0ch66wtoO2jRjG0A==",
+    "npm:prettier@3.10.1": {
+      "integrity": "sha512-70vp3ZUYoPlFbF9uiTdXHUUCGEIp7d4+6p+8DYbkm2jP7x/3i/paXVF6dopSI3zd/CEitrZN1rc4i85xWmmXlg==",
       "licence": "MIT",
       "evidence": [
         {
+          "source": "npm:prettier@3.10.1!/package.json",
+          "sha256": "cb9ae63b95680b2d1e3e513d5594d0cc680cce46770b8091c4609036d242f2ee"
+        },
+        {
           "source": "package-lock.json#node_modules/prettier",
-          "sha256": "3e536db25743ceb5a021559dbc1f31d57112211c62d94f84df34daca5382709c"
+          "sha256": "330a07a5774a8c3512068ad2362105480387276b1c5270b4428acf737aa5251b"
+        },
+        {
+          "source": "npm:prettier@3.10.1!/LICENSE",
+          "sha256": "b0f2417199889f1c0d28ec4e0244eacf1a15de5819d61f641dd7d8f45153ac9c"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact npm runtime/build/tool archive; applicable package terms and generated package SBOM/NOTICE remain independently required."
     },
     "npm:typescript@7.0.2": {
       "integrity": "sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==",
@@ -763,16 +780,24 @@
       ],
       "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
     },
-    "nuget:arcforges.build.policy@1.0.0-ci.136.1": {
-      "integrity": "Qk9kiGpa26LXr1Yeqt/gchqHH1Z7YKzeKZ5BH1JbtODpvxobgf5L7Zap1CY0DWKvWOYMyb2TZ/Ws+8VvPwu9Sw==",
+    "nuget:arcforges.build.policy@1.0.0-ci.150.1": {
+      "integrity": "1J1u9tUxi5NQARWFroDvXWjlsGn5oILqccuF1rggK/DNwrTNSJR+G5zT+S668RjkvLvt5DPTYZo9WcvKIi0P3w==",
       "licence": "AGPL-3.0-only",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.136.1/arcforges.build.policy.nuspec",
-          "sha256": "c48c9dd5115b829491bf1e83cda5b2eae368a0bc3b75c5768bc5e89298435af0"
+          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.150.1/arcforges.build.policy.nuspec",
+          "sha256": "8c875e6cba1b95d9650da7b1a909d575d6e0d410e87b8c30865a3045ca464f68"
         }
       ],
-      "scope": "Exact build-only source-link policy engine for the non-packable Contracts ArchitectureTests host; direct reference only, PrivateAssets=all, never a product/runtime or public package dependency."
+      "scope": "Exact build-only source-link policy engine for the non-packable Contracts ArchitectureTests host; direct reference only, PrivateAssets=all, never a product/runtime or public package dependency.",
+      "producerAdmission": {
+        "repository": "ArcForges/DesktopPlatform",
+        "sourceCommit": "f208d915087224eed45c8b3be30bc81fb352556f",
+        "version": "1.0.0-ci.150.1",
+        "feed": "https://api.nuget.org/v3/index.json",
+        "publication": "Coordinator-confirmed ordinary complete cohort; registry source and exact restored content identity matched at this consumer handoff.",
+        "ancestry": "The nuspec commit is an ancestor of the local fetched DesktopPlatform origin/main at preparation time."
+      }
     },
     "nuget:arcforges.contracts.foundation@1.0.0-ci.113.1": {
       "integrity": "k51yFjKnec92FJEfOM3/6YEhnbi1wfO4gztqjlhLumg7USTjVnA7ab7rE4X/H1cDb62Ny4c2ufn8Xi/CtBaZnA==",
@@ -796,181 +821,159 @@
       ],
       "scope": "Exact previously published first-party fixture consumed only by the isolated offline PreviousClient test executable; never a production package dependency."
     },
-    "nuget:google.protobuf@3.36.1": {
-      "integrity": "77AqPEoaY1ODE+syYBHti0jXiwQq0J/fUr/fRyYhNlc9oKtH5dZZEr/OLKtdKNVG83PRnCYB2r8B80ZrObzOGQ==",
+    "nuget:google.protobuf@3.36.2": {
+      "integrity": "Ci1q1iJg74qAE5riTA2FbMS0wPbpruPQI/JQ9DrAsRo2VsSxgt1e/pmxGxgrci+pXJEgrSYg2vPl8rrStZkclQ==",
       "licence": "BSD-3-Clause",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/google.protobuf/3.36.1/google.protobuf.nuspec",
-          "sha256": "d6a4a567ce4889e25d098fd39d13a65ce05c847e8574818edc0d1eee6277eb40"
+          "source": "https://api.nuget.org/v3-flatcontainer/google.protobuf/3.36.2/google.protobuf.nuspec",
+          "sha256": "a810b27a73254dae1de716c30cea9ffd6b6754d561ad5ce2ce4564c17ecd512f"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:grpc.aspnetcore.server.clientfactory@2.83.0": {
-      "integrity": "DrX1dE9WJNOsaKDQpD1gQaVE567jMNfhpBuG6P2NvGhirf2HZczfIJtd2d1L+steYh0YZ1q57Sa1ZHuufMPYBw==",
+    "nuget:grpc.aspnetcore.server.clientfactory@2.85.0": {
+      "integrity": "9rVCh9l2JiGbAfdTHL4unLisUPLtpKpx13M8QgPqarAPWVYlF98my4v5TGnOnFnuSoUvHkq/ObD1sgwKsD4Kkg==",
       "licence": "Apache-2.0",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore.server.clientfactory/2.83.0/grpc.aspnetcore.server.clientfactory.nuspec",
-          "sha256": "c136c73c16bb696799979b16ec3e8cedb71f9787134697f595c9329367b46006"
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore.server.clientfactory/2.85.0/grpc.aspnetcore.server.clientfactory.nuspec",
+          "sha256": "f38c51a065bb35dcd37ddddd5112e813554d9933473ee86a71b75f90d3b2c3c1"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:grpc.aspnetcore.server@2.83.0": {
-      "integrity": "rWeSaXaSPIIerc82lhHKqmzlp/sgLnG+Zw1c3YEEVp/un+hJKPxJOXWuGUOS2cs3EvcZBZ2tliXsnAg5Mdk2Ew==",
+    "nuget:grpc.aspnetcore.server@2.85.0": {
+      "integrity": "0ECGrMKizFFYCqgHP7SMcOmC0z3eCIRekExrgp9rPj6Lner+0ZyCTjiArJ6h5vfBV7W13D1ypPY2uwyTkBbnMg==",
       "licence": "Apache-2.0",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore.server/2.83.0/grpc.aspnetcore.server.nuspec",
-          "sha256": "b9a51de789abe619de7ee4bb9ec9f30452c4bca13d514e53ac574a0bb96116e3"
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore.server/2.85.0/grpc.aspnetcore.server.nuspec",
+          "sha256": "4023ccd7b34567b615a3de1b45b69f948a61f5105f43ebcdb1f13803d19c5e5f"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:grpc.aspnetcore.web@2.84.0": {
-      "integrity": "xhpKA/nWQbgFLT0Z9sANWU2n9qMcb7l5Sfo7Z7f+7JZxGxGMEKe9kbGn9K8TxJmsDJ9wlxJKp+b40HsQfuMFEQ==",
+    "nuget:grpc.aspnetcore.web@2.85.0": {
+      "integrity": "2+049dTI0cSK5KINlKvpVycmQYG30q0mW+YMrRUyYnXWKdlj8wFNXRe7JmSiEtycg1RU+m7s5oqKKucD1ptIZQ==",
       "licence": "Apache-2.0",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore.web/2.84.0/grpc.aspnetcore.web.nuspec",
-          "sha256": "9aa433115fb36b18c12cd74b4c1f7f9f0e656500f9a144b115d01c00b020f2d6"
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore.web/2.85.0/grpc.aspnetcore.web.nuspec",
+          "sha256": "066dce453a5ddb8a326f65c36d91033c902735aba02b7683d77fbb47432d0424"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:grpc.aspnetcore@2.83.0": {
-      "integrity": "PMoR+paO24EgBjBvfCqrmkurBH+RmfOIYThsUv6sGx6LUH0kxhzQkjtZ44mJxU0IwEw64dCzHhIjAM+CmORp3g==",
+    "nuget:grpc.aspnetcore@2.85.0": {
+      "integrity": "i+PHjG3+aYOVvGLWen0bUGzBaTbfwKtD6ri9DpHZHTOj/0QvK7UmN1q8MF2yZmV67gUHDfq2jIb4KgJBXzVaFw==",
       "licence": "Apache-2.0",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore/2.83.0/grpc.aspnetcore.nuspec",
-          "sha256": "3852b062a3142127590a43bb41470c956570ca4dd5a65713c4da92a57de1714e"
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore/2.85.0/grpc.aspnetcore.nuspec",
+          "sha256": "ef3d9bf884ff9db10acea29ca0cc3ff153d5d586400401aa3681114be19446f4"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:grpc.core.api@2.84.0": {
-      "integrity": "p2SOMl6q/GZ4/5MLkgboC/z55g4zKUEruRn/g46QgppjQBVnsLZVBU/9VO7n60ll38G3Eo8Zu9b7x+W01GKFVg==",
+    "nuget:grpc.core.api@2.85.0": {
+      "integrity": "cpYu/nw/QhwHcRZMJbYD8lEllKrdwYMiDS4U3oH61nhYPUMNkcCcef4ulv11svHvTBThYV+ju332N9bCrfe7cQ==",
       "licence": "Apache-2.0",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/grpc.core.api/2.84.0/grpc.core.api.nuspec",
-          "sha256": "bba00f5d5be8423dd351662e313648b0abd13100ef67d55f6fc29de44c544a96"
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.core.api/2.85.0/grpc.core.api.nuspec",
+          "sha256": "658885430b43af0e7c3b334fe1f3c681515c2c5b539b7dfe90a95c6dcb266790"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:grpc.net.client@2.84.0": {
-      "integrity": "My6Fms2YCyAbihTBZZ3kLS39iTY2pkMAzGDBTC6XhPOujg70eB07AEJ7tPiW3tZ70bhFzHcc3+d4j3DaIPF3aA==",
+    "nuget:grpc.net.client@2.85.0": {
+      "integrity": "BPMA5mb96ihVQfXTuIUpC1aie2I0ODBD6QCc0UXYS5zQMK6sJW5yck8NZ2ffvGHfOanWyn2Yg0tJbYY3nV+zIw==",
       "licence": "Apache-2.0",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.client/2.84.0/grpc.net.client.nuspec",
-          "sha256": "32a43f3448ab90bb71c946533db4d5135cef4728a3ee29bf88d9a0cbf1e67413"
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.client/2.85.0/grpc.net.client.nuspec",
+          "sha256": "5c364cbc2bf1a6c98a764ff0c6637c03d9928a85c5a4262b418c845e04939e28"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:grpc.net.clientfactory@2.83.0": {
-      "integrity": "j07orG5YnET3n5+TnczHCQsyWL3a4n/lJlIS88B3Zffylpp0RkcPzLv4ILAwKmOWOBvbBHiytPzAwJ8p7JomEQ==",
+    "nuget:grpc.net.clientfactory@2.85.0": {
+      "integrity": "JN5nbheButtbUO5kJ/h/JfOnSp5O6/Zf75n019BwC7e1oXfxPPwVolrr98SP4AGYwVDlrR0yn+X/Is2zwAeIzw==",
       "licence": "Apache-2.0",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.clientfactory/2.83.0/grpc.net.clientfactory.nuspec",
-          "sha256": "ba34068bb1e956e14021209f9576a3fd9c40340f444a7d0c62ddfdef2cf8788b"
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.clientfactory/2.85.0/grpc.net.clientfactory.nuspec",
+          "sha256": "58bc5a7ac7e2c0ac159049fe20177adcf17408ce322fdb2d4520ac4133453fd0"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:grpc.net.common@2.84.0": {
-      "integrity": "DPxm/H8G/lDRrz997wM0M2zN/PGqVeZKDakhBbtABEbv6WIW4HI9g3BvntBQT6ZUROuGacMzfyyF9e5kiTVFfQ==",
+    "nuget:grpc.net.common@2.85.0": {
+      "integrity": "e+RczhQVHb5MacI1oMTLMK6InZLH22POZcE4gsy5SnolsElLaqhSwEhqm+cF0m4Q1JGmlhjf1nbnKh7sBbjJVg==",
       "licence": "Apache-2.0",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.common/2.84.0/grpc.net.common.nuspec",
-          "sha256": "f621aa566e63340b572a4f0bd2b996b934407c77b8cdf121f38578e93ee796cb"
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.common/2.85.0/grpc.net.common.nuspec",
+          "sha256": "a51b10f75fc9b72a815485912af599deb3fbb7049f2a01a1cf675a00d38a1308"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:grpc.tools@2.84.0": {
-      "integrity": "SarjdfpQYU/mmdu/fWgSW8kEHQ54jiyG2+I4THu9eubtAud+QJf+1iJdGtoKTJ/ZRaI0qAG+7ttsK2WUTao2OQ==",
+    "nuget:grpc.tools@2.85.0": {
+      "integrity": "JpACpJuD56v9MBlgJEakwBLbbDifYwE3fpktbsKMPOI3yvs/VFFQVGnmWatu6mgZSNo7gzFe+TDmda9SOKg+NQ==",
       "licence": "Apache-2.0",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/grpc.tools/2.84.0/grpc.tools.nuspec",
-          "sha256": "ec22ca632fad79aac17b94fdad74aa17dd999a493b68f6b6e693863737daf2ed"
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.tools/2.85.0/grpc.tools.nuspec",
+          "sha256": "0e64fcb068f2c8608b8f90fb2d5c79bba9bdedab538c4780ca718d75303fb7b8"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:microsoft.dotnet.ilcompiler@10.0.14": {
-      "integrity": "CDQ/+XRT1JT/0u87j9exR1AociehKUzxae4KCOWxCQ1PIKbYS0F8ovxaCrqRlkylGmbhywKxV/zbbrEhWa5NXg==",
+    "nuget:microsoft.dotnet.ilcompiler@11.0.0": {
+      "integrity": "lw6gUL92db6XPwYsQwaGwrJxgRM0X0qQKl0QkwuZIACMtgH0eFu6jmq6W+/L8qTxQZwggfV/dGjICyMqVHdehg==",
       "licence": "MIT",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.dotnet.ilcompiler/10.0.14/microsoft.dotnet.ilcompiler.nuspec",
-          "sha256": "d167a22d1f521e1cc2d47d319dcee84f94b9ed103e181c26b8696813c872c43b"
+          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.dotnet.ilcompiler/11.0.0/microsoft.dotnet.ilcompiler.nuspec",
+          "sha256": "36f67ea65b0f031302e5b4f98e0fceb68d7e6948b80a51027e518576e330f5dd"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:microsoft.extensions.dependencyinjection.abstractions@8.0.1": {
-      "integrity": "fGLiCRLMYd00JYpClraLjJTNKLmMJPnqxMaiRzEBIIvevlzxz33mXy39Lkd48hu1G+N21S7QpaO5ZzKsI6FRuA==",
+    "nuget:microsoft.net.illink.tasks@11.0.0": {
+      "integrity": "gK2aq4XvChj5kvozpPHrkfKkr7zc5Z4xoTrJb4GPZzDEPMlCk0TX632bwY3LsWcX2UVcVRQBBGzsBGC2lq6YhA==",
       "licence": "MIT",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/8.0.1/microsoft.extensions.dependencyinjection.abstractions.nuspec",
-          "sha256": "1ed9fd0c77d67cc75208b3268df565762916a992f3e246973430dbd77ede2413"
+          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.net.illink.tasks/11.0.0/microsoft.net.illink.tasks.nuspec",
+          "sha256": "347b4a1bfb1b93d71f0d2b296b12e0f5f01ad8b75f59667ab2279c05fccb9094"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:microsoft.extensions.logging.abstractions@8.0.1": {
-      "integrity": "RIFgaqoaINxkM2KTOw72dmilDmTrYA0ns2KW4lDz4gZ2+o6IQ894CzmdL3StM2oh7QQq44nCWiqKqc4qUI9Jmg==",
+    "nuget:runtime.linux-x64.microsoft.dotnet.ilcompiler@11.0.0": {
+      "integrity": "HMCCGxJ1Q41NF31M+yWB7h0OAWr0XpiS8ZYMOi/V5IU/864Yi00rLq3M1K3AhE2+q86YJA4V9KZ28NXE+Q/uxA==",
       "licence": "MIT",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/8.0.1/microsoft.extensions.logging.abstractions.nuspec",
-          "sha256": "7593932df3e935a8e6670efad230c82967bc45ea4065186d9b886670408b95cc"
+          "source": "https://api.nuget.org/v3-flatcontainer/runtime.linux-x64.microsoft.dotnet.ilcompiler/11.0.0/runtime.linux-x64.microsoft.dotnet.ilcompiler.nuspec",
+          "sha256": "416f8372b9a3036c212c266012a5b1ddb1be8c6faf66044baa2d7ced5d26a95b"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     },
-    "nuget:microsoft.net.illink.tasks@10.0.14": {
-      "integrity": "YlTamXppEQls6DYWt7RdUuwWDb0lyw/vXCaGeQpLCpsLmfwGuCkOz/vIGgMTV7ECsJcavkCOkxZXv9s8rdAHkQ==",
+    "nuget:runtime.win-x64.microsoft.dotnet.ilcompiler@11.0.0": {
+      "integrity": "GhYzDaU4IbNnTgyFgxT2URnUogx+xuphFHscUx8v1H8ZRKiIlYa/8Lkpd0SXJZ+pEWHJFJXLvEPpWLEcwyNkmQ==",
       "licence": "MIT",
       "evidence": [
         {
-          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.net.illink.tasks/10.0.14/microsoft.net.illink.tasks.nuspec",
-          "sha256": "345f7a6d008b3c1b8f1c507b329a624d096a238d3a223bed68d5f765176a1ef4"
+          "source": "https://api.nuget.org/v3-flatcontainer/runtime.win-x64.microsoft.dotnet.ilcompiler/11.0.0/runtime.win-x64.microsoft.dotnet.ilcompiler.nuspec",
+          "sha256": "919902d7d93f1e11d36c3a33749815697e4c0433208b63215920708171c6e1fc"
         }
       ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
-    },
-    "nuget:runtime.linux-x64.microsoft.dotnet.ilcompiler@10.0.14": {
-      "integrity": "RbHp9HXSvTnYCy1X8LUQmL0LcW++jP8Crqvt6ZjSH2MXqJ7w3FBHS9sUf1iFuCD6ztYdAQNd/QgMpDGZE/aRIA==",
-      "licence": "MIT",
-      "evidence": [
-        {
-          "source": "https://api.nuget.org/v3-flatcontainer/runtime.linux-x64.microsoft.dotnet.ilcompiler/10.0.14/runtime.linux-x64.microsoft.dotnet.ilcompiler.nuspec",
-          "sha256": "9bf6a38e26735bf8b0d94f92b7ecde7e6d9b0fa4fcb68e412a4198e2fe2c10db"
-        }
-      ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
-    },
-    "nuget:runtime.win-x64.microsoft.dotnet.ilcompiler@10.0.14": {
-      "integrity": "B28xsyrO3PRFGL9yd1lLWdX3/wATFkaxPFM3VmGOFG8pfx7jDeb1Yz09v6n+z0jNEPAlQLqOx2noOXw8aytYNw==",
-      "licence": "MIT",
-      "evidence": [
-        {
-          "source": "https://api.nuget.org/v3-flatcontainer/runtime.win-x64.microsoft.dotnet.ilcompiler/10.0.14/runtime.win-x64.microsoft.dotnet.ilcompiler.nuspec",
-          "sha256": "5959f54b45deaed55c338d20d5f0ecab303d63173a842ab5ff0188b7113638ca"
-        }
-      ],
-      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+      "scope": "Current exact managed build/runtime/generator/test archive; runtime package SBOM and licence gates independently determine redistribution."
     }
   },
   "publisher": {
@@ -1004,38 +1007,49 @@
     "stable": "Deliberate canonical vX.Y.Z on main ancestry; no prerelease dependency closure; Central signatures required. No tag created for validation. A canonical vX.Y.Z release also tags go/vX.Y.Z (v0 and v1 only without a reviewed /vN module path)."
   },
   "review": {
-    "owner": "Contracts maintainers (AF-CTR-06 coordinator author assessment)",
-    "reviewer": "Independent Codex reviewer /root/ctr06_d0_review (CTR06-CONTRACTS-AOT-PENDING-INDEPENDENT-REVIEW-2026-11-09.md; actual source/licence/reuse/dependency disposition with native negative controls, not formal/product acceptance)",
+    "owner": "OpenAI Codex coordinator author assessment under owner-approved AFV2-ENV-01",
+    "reviewer": "Independent Codex reviewer /root/managed_review (existing AFV2-ENV-01 source/licence disposition)",
     "decision": "approved",
-    "reviewedOn": "2026-11-09",
-    "baselineCommit": "e67a6b089a7270ab771a97c27aeba92c5d3b0469",
-    "maintenanceAssessment": "Independent AOT source/licence/reuse and unchanged-dependency assessment approved the exact b838 source and pending r3/r4 metadata. All58 coordinates and254 actual input identities were examined; all429 C# targets are unchanged and the164 source inputs update only the actual fixture. The new probe covers52 schemas,2282 messages and497 bound methods; actual source-bound native author AOT passed with zero warnings, and independent native negative controls still fail for a missing service,method or schema. Previous formal profiles remain failures. The new final post-push complete profile, package publication and actual consumer acceptance remain separate mandatory work.",
+    "reviewedOn": "2026-11-15",
+    "baselineCommit": "dacb563ec9f35a5b26e3c8456eedb575b56bf161",
+    "maintenanceAssessment": "Existing independent source/licence disposition covers the selected current .NET/C#, Go, Node/npm and Python toolchains, their exact locked dependencies, unchanged generated targets and native local/CI tool selection. The already normally published Build.Policy150.1 stays ArchitectureTests-only. The previously owner-approved Contracts-only nine-name/two-commit Go boundary is bound to the actual native references; no new all-transitive latest requirement or other-repository exception is introduced. Historical fixtures/records remain immutable. Exact-head full formal profile success is required before merge and is not claimed by this metadata disposition.",
     "checks": {
-      "compilation": "Targeted Linux Native AOT author publish and actual native probe passed with zero reported warnings; 52 exact descriptor files, 2282 generated message empty-roundtrips, 497 exact bound method paths, 31 binary and 51 JSON cases. This is not a successful pushed-head formal profile.",
-      "aot-trim": "Real Linux Native AOT serialization probe author run passed the actual b838/edafb input snapshot with zero warnings:52schemas2282messages497methods31binary51JSON,nativeAot=true,failures=[]. BinarySHA99d917a13b0a99f2ecb22f5bf970ece68e3846e62f65f9f0e3b4aa94183ccc9c; actual inputs/logs in ctr06-aot-author-handoff-r1.json. Separate reviewer executed three isolated negative oracle controls with the same real native binary, all rejected. This is targeted author/reviewer evidence, not a formal-head full pack or publication pass.",
-      "compatibility": "The fixture retains every previous case, service and method in its prior order, appending one Node service and 21 method paths. No schema or generated binding changed. This does not prove a consumer deployment or native filesystem behavior.",
-      "licence-provenance": "Actual independent Codex source/licence/reuse/dependency review approved the C# provenance r3 and dependency r4 disposition in CTR06-CONTRACTS-AOT-PENDING-INDEPENDENT-REVIEW-2026-11-09.md. All429 generated targets remain byte-identical,164 source inputs match b838 and only the complete AOT fixture input hash changed; external generators/licences, Go r1 and all previous approved records are preserved. The source NOTICE was then regenerated by the official provenance checker, SHA256 bbec5f6c0f785a5241365af7c105dd003003ea6b4779ee593a6d27a1c70451fb. Final approved-byte delta and exact-head full formal verification/publication remain separate required work and are not claimed.",
-      "security-sbom": "All locked inputs still resolve to exactly the previous 58 coordinates and integrity values. No dependency, credential, network source, host setting, or business runtime serializer is added.",
-      "runtime-performance-migration": "Only a test-only AOT probe and its fixture change. Filesystem security, permissions, persistence, routing, actual cleanup and end-to-end acceptance are consumer implementation work, not established here.",
-      "framework-runtime-posture": "The existing .NET SDK 10.0.403, Node 24.21.0 and Go 1.27.3 pins remain unchanged; no framework major upgrade or new Android/runtime closure is introduced."
+      "compilation": "Coordinator reports native Windows SDK11 force-evaluate restores of24 current projects and21 affected Build.Policy/licence-boundary tests PASS after selecting150.1 at source57cd89854dfce4a9f410e7917f8303c5ef77412e. Earlier current generated outputs and npm author diagnostics are retained separately. Complete final candidate build/pack/test profile remains PENDING.",
+      "aot-trim": "PENDING current complete Linux Native AOT serialization probe and pack under the latest SDK11 compiler closure. The reviewed source now explicitly selects and validates private LLVM23.1.5 plus signed GNU binutils declared2.47/actual2.47.20260726 through eng/native-toolchain.json, retaining BFD/ar/llvm-objcopy semantics and exact external-tool compatibility recipe. Source selection and provisioning are not full candidate acceptance; zero-warning and trim/AOT escalation stay required.",
+      "compatibility": "Previous-client Foundation/PublicApi113.1 artifacts remain immutable. Native Windows MCP generate --check at source0b9114435bd4677c256714b864b8cb8f970c2d57 completed exit0 on2026-11-15T06:28:19.859351+00:00, retaining429 C#/TypeScript and92 Go generated target hashes and all source/lock bytes. Log SHA2569fd31de5b4d66e6b4c46d705fbd69dfb33a2a10198a10c1e466ed9d306ebc63b. Existing independent source/licence approval is retained. Final candidate regeneration and C#/Go exchange remain required in the formal profile; no execution result is invented. No retired SDK channel or business wire/API change is introduced.",
+      "licence-provenance": "Existing independent source/licence approval retained for all exact cached licence/integrity evidence and both unchanged-output generation successors. Official checker regenerates active provenance NOTICE. ArchitectureTests-only Build.Policy AGPL scope and external GNU/LLVM tool licences remain explicit.",
+      "security-sbom": "PENDING complete final native vulnerability/analyzer/security profile and generated package SBOM/NOTICE validation. No credential/feed/publisher/security threshold change is admitted. Go h1 archives and full selected metadata remain present; no deprecated executable dependency is classified away without the bounded current two-host proof.",
+      "runtime-performance-migration": "This producer publishes bindings and build tooling. No product runtime, filesystem, database migration, OS store, browser, service or installed-consumer execution is claimed by these metadata/author checks. Published bytes and historical fixtures remain immutable; consumer compatibility/exchange and formal profile remain required.",
+      "framework-runtime-posture": "dotnetSdk10.0.403→11.0.100 and Node24.21.0→26.13.1 are major transitions; Go1.27.3→1.27.4 stays major1. Python3.15.2 and npm12.2.2 effective roots/version parity are tracked separately. Current scripts/tests/TFMs move to net11/C#15 with existing diagnostics, locking and public/internal boundaries intact. Both native Go reference configurations are now recorded. The final Linux AOT build remains required in the formal profile."
     },
     "frameworkVersions": {
-      "dotnetSdk": "10.0.403",
-      "node": "24.21.0",
-      "go": "1.27.3"
+      "dotnetSdk": "11.0.100",
+      "node": "26.13.1",
+      "go": "1.27.4"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-06-r3.json",
+    "frameworkMajorReview": {
+      "changed": ["dotnetSdk", "node"],
+      "owner": "Contracts maintainers; existing independent source/licence review: Independent Codex reviewer /root/managed_review (existing AFV2-ENV-01 source/licence disposition)",
+      "nativeAotTrim": "SDK11/net11 compiler/runtime/linker closure is current and exact locked; the existing SerializationProbe must compile warning-free with trim/AOT escalation. Reviewed explicit Linux LLVM23.1.5/GNU2.47 selector and provision controls are present; final actual native AOT profile remains PENDING.",
+      "androidKotlinArtR8": "The Java/Kotlin/Maven SDK generation/publication routes remain retired and their historical artifacts/records immutable. This upgrade adds no Android JVM/ART/R8 consumer or device acceptance; current C#/internal Go/npm channels retain their existing scope.",
+      "transport": "Current Grpc.Tools/runtime2.85, Google.Protobuf3.36.2, protobuf-go1.36.12 and connect-go2.0.2 keep the authored schemas and strict serialization posture. Existing current generated bytes stayed unchanged in author generation; complete offline protocol compatibility/exchange remains PENDING.",
+      "localCoverage": "Existing Windows24-project restore,21 affected boundary tests and unchanged-output generation evidence are retained. Actual Windows/Linux Go metadata references are bound. Final Linux build/pack/test/security profile success remains required before merge."
+    },
+    "previousReceipt": "eng/policy/dependency-reviews/af-ctr-06-r4.json",
     "inputHashes": {
-      ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
+      ".node-version": "5c293036fc0a61ad76e15d85f454c3c7cec157e181e035b69f95058a2c239144",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
-      ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
-      "Directory.Build.props": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b",
+      ".python-version": "673e2ba07f95bfcfe0a543258b8e267954e403d1f466481c546f467f86b31d46",
+      "Directory.Build.props": "c956886a81b3f36a65e7b943b7c568458a85b73d02584068dc7195631cc63f89",
       "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
-      "Directory.Packages.props": "1b1b4143b64b844c6a58b5fe862ea0342c7d660d36244a48af0a434ce98701ae",
+      "Directory.Packages.props": "ef18360d3cc3437e10478b0bee2ddbecff3544c2a1b04df0021386cf408d87cb",
       "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
-      "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
+      "eng/Codegen/packages.lock.json": "3cbd4d6cd217eb7d892e879081fbbc36507f2a01e7a5f81afe0c5013d255a0a9",
+      "eng/check_toolchain.py": "b413c0be5fd48c6cf2ee8b45c56a96dabe4fd1700ee9a21eb11207beaf1c0cdb",
       "eng/contract-packages.json": "f347dd9e047c66f36ffb2c7ea977f10129e2ccdea366e998ed68004f1641f95b",
+      "eng/native-toolchain.json": "bf019c3aadd5e2e1fa6170ce52a463ce3b751f86b3458a17cd93a7fce8ea1eaa",
+      "eng/native_toolchain.py": "3496595ef25b20304896015199739005ac8192714e29e764a17d5184edfdca84",
       "eng/policy/contract-access.json": "4f8b5573e15ea01ce5e31333be2b7122d35b6e406c6d37ff4259b8c8204c9edb",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
@@ -1080,6 +1094,7 @@
       "eng/provenance/records/contract-bindings-af-ctr-06-r1.json": "476468491f1f6db7e738834fd36ac8466f3791dbf377cb266c44cba52d045349",
       "eng/provenance/records/contract-bindings-af-ctr-06-r2.json": "897981e4549d8100c378796d68d94535f4e2bd1e971b4bfbefbcf3714cca2262",
       "eng/provenance/records/contract-bindings-af-ctr-06-r3.json": "59af43e6190b8f1d0c153b5ab09454486d3ad84050587798b52180273685a66a",
+      "eng/provenance/records/contract-bindings-afv2-env-01-r1.json": "69845519920edf449a60e4e494a2ca0d5f73f3f78c2df2f90b07547a35b0f918",
       "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
       "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
       "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
@@ -1218,6 +1233,7 @@
       "eng/provenance/records/go-bindings-af-ctr-05-r3.json": "026223c57665a25b99cbc394e56188d3badbf0ba8f0d8421e2669247e4513c74",
       "eng/provenance/records/go-bindings-af-ctr-05-r4.json": "a368dd2a569c48de660fef5e3cef1c71066b9c389484a6d69bd0566b73642dc3",
       "eng/provenance/records/go-bindings-af-ctr-06-r1.json": "b756d0626aebb22e507c964bae7d0615a50a052e8a87e0eb0cf96b7f2aead1a4",
+      "eng/provenance/records/go-bindings-afv2-env-01-r1.json": "ff506a814e3992af4bef9df0bf3ddc4b5bcd5c0401e0524483a7dc219ff010b3",
       "eng/provenance/records/go-protobuf-licence-r1.json": "a9fb8d247113f025813e5562ab10e72d92d7f5055cece829b64b8e13785b0ffd",
       "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
       "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
@@ -1225,62 +1241,862 @@
       "eng/provenance/retirements/con-40-maven.json": "dfc2d6b1567352e3ecf393178ce434b65aa09b72d06bcb624f96cc61884df73a",
       "eng/provenance/retirements/con-40-npm.json": "4911dd0c111a74f6953c5d7c9c5bb09fa10959275322a3ac51bde34fea18be23",
       "eng/provenance/retirements/contracts-client-wp03-00.json": "3dbc212a56e678bea10950909a2ae1ad7fc8f2f3640421d02c8f80d2c22c1126",
-      "global.json": "bd2f7421218da3954279a68a63015aeabda5b7122ec8b47a2f7585b7e284a98d",
-      "go/go.mod": "a411a8290d10ad572bd310ea293ea7adb6754d935b81d3bcf0ff59efe4553187",
+      "global.json": "bfaf40d1a86baeea39cde6300a5aaa9c55917256d4fade475ac7ffa3bd58bb58",
+      "go/go.mod": "1696a11d2cc917add3c9401396795d8146cfb72598e5e6f9c1def7a835978824",
       "go/go.sum": "b01034abad848408362f1f2a67db5d1eb6d93e05813723efe0d8e26d363ff1eb",
-      "go/toolchain.json": "3b5365d675298ae44f035402aa65c7aaf733cbea58e2aa462c57d569112f2f53",
-      "go/tools/go.mod": "f3d2d5603014b1334198643b8a2be357d63778a4884482f8ab9c4afc06d48f78",
-      "go/tools/go.sum": "abcead9dc5e63f9fbc9d4525c33b58ef80f5500c21c919f6935384416e4d6561",
-      "package-lock.json": "d44b7ef6159d74205b89abb6a8fada91652c7b3c4f7642685b6e189c6d569284",
-      "package.json": "67d22bf8641404e51f11847c2878e8537e79a0f8e958cb7b893cc2cbb21e7cb3",
+      "go/toolchain.json": "fab9b8c724b7d0e673d06004e11896958d047ee4cc91f1b1486383609db5b749",
+      "go/tools/go.mod": "6b85a0f7dcfb09c430048fe22db15eb1e633f32cbc177600dddf9f4fe67b99f5",
+      "go/tools/go.sum": "3e7200cf74b5119a63a310d7eb63a9b7fa3c543f216f75b089ac4a26e1c79d56",
+      "package-lock.json": "330a07a5774a8c3512068ad2362105480387276b1c5270b4428acf737aa5251b",
+      "package.json": "dda98d1b0d57a23970eef7904b2fd6ac9bf8c74e544a3c02b59b20c8012f8f87",
       "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj": "d60341c571cce8fdf90f7a06938ae71af87fbbccafff26f8819ef6a458738e4d",
-      "src/internal/dotnet/ArcForges.Contracts.CloudInternal/packages.lock.json": "af0161454b287d7b741b604f88c2e96de43116c8a8e00924cf1bad53599432fa",
+      "src/internal/dotnet/ArcForges.Contracts.CloudInternal/packages.lock.json": "77acd965cea9b46e7ef47de8d16be4a25bb0d938f5c63c9c5b6096f551b50092",
       "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj": "2413de819d392841db75a622a6e348719da93ce3dbb4c3402b5aed6fa277711c",
-      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/packages.lock.json": "f402b646c237f605ebe753d6c33348ef710189ab701abdfedacd81fa3cc20158",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/packages.lock.json": "24c720f9d1a5fd4cb9341a4e32855b02e9d59172272fc0f91b61feaa84abe9df",
       "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj": "872394227d3b0a9f1293311605a8fdc25d40465b51ffff3d5f5d1ce18cd4c8e9",
-      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/packages.lock.json": "d49de48a0a9ed6bdb39c9ce48d2eb806ebd498399cb04c3808243be1770425c6",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/packages.lock.json": "027d439516459b5ce75f78eb719284a62d481209a82d5061be4cb5267500db6a",
       "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj": "3e9c13b2454b28c55049fa5c2bc1693250f2db0b715dafb337909380b3b8494d",
-      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/packages.lock.json": "83f1632897b2862ff55beb4198bf87cd27f20ddcd34cb50a5cd238cbadd60731",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/packages.lock.json": "32c7aef5f9c211523971b38866c2297943602cc8cbfcc144dac4f79d20e418e7",
       "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj": "01fd7df18b072d733a2171860952dea1c774e89f1f9602ece4da3c36eb646f20",
-      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/packages.lock.json": "2d08ac047cf7eb3150701135e707c9f4cf250a4c824f4311ca8797761b5fc038",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
       "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj": "d82efed194d832b5c52695ebbc70841a1b4606ab40d8e4b0d7c7437b0ddb41be",
-      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/packages.lock.json": "f402b646c237f605ebe753d6c33348ef710189ab701abdfedacd81fa3cc20158",
+      "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/packages.lock.json": "24c720f9d1a5fd4cb9341a4e32855b02e9d59172272fc0f91b61feaa84abe9df",
       "src/internal/dotnet/ArcForges.Contracts.Peer/ArcForges.Contracts.Peer.csproj": "161c6159aca3a6614df517a28b8c7142e6badbd4b6bb1d4ac8172882348c4e7c",
-      "src/internal/dotnet/ArcForges.Contracts.Peer/packages.lock.json": "13b205e83931d76e69b6c7dbfe09a69f8b4af0617bed686eb84e68bd9b1dd0ca",
+      "src/internal/dotnet/ArcForges.Contracts.Peer/packages.lock.json": "cc4a7cdb9eb39ca8f4177364d57eaaefd5174f647ccd222d8b25cdbe1939aa01",
       "src/internal/dotnet/ArcForges.Contracts.Relay/ArcForges.Contracts.Relay.csproj": "6dedad95d1f877002aee9641375870714c65c7eb4e072e233ff69124632bf1a2",
-      "src/internal/dotnet/ArcForges.Contracts.Relay/packages.lock.json": "1d74c64a505120a217214a0c0baf075697fcc8eb249b3da88e476e2ffd6d34df",
+      "src/internal/dotnet/ArcForges.Contracts.Relay/packages.lock.json": "cbffaba1468aa752687b2a3a0710081276513b258a7de7ef3b2b756123384acb",
       "src/internal/ts/ai-internal/package.json": "0bff2cf81a1a98ae3b94b9215e813b97d5ce3048dc09184cab1a7de496a68870",
       "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj": "ba49c6478b0e74a3565a57868b0c4655d62cfc52f3059e8ea172433cab68dbcc",
-      "src/public/dotnet/ArcForges.Cli/packages.lock.json": "46efb2b815ccecc220a223bfbd0b0f66bced169d81be0362b3e5243c6134483a",
+      "src/public/dotnet/ArcForges.Cli/packages.lock.json": "277da9f5c4137f59a293dd3a549648aa665de4146b6e5543ec6ac7b5b13fc9f5",
       "src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj": "f3ef3c30d9ed05a66d771c390a2ca8ba6439922c81480757d84d2e21067efbed",
-      "src/public/dotnet/ArcForges.Contracts.Events/packages.lock.json": "61129ae24dca22b00c448a5a530d86735cb4781aad7da6430211fd744afe511b",
+      "src/public/dotnet/ArcForges.Contracts.Events/packages.lock.json": "adca49fe81c6857466b08373404d41abf966716622343014d729a067a7c7563d",
       "src/public/dotnet/ArcForges.Contracts.Fleet/ArcForges.Contracts.Fleet.csproj": "8b82262867b24513d3e2d3586c9195cfb7bc87e76f45fe4d8257c810c5ef70ef",
-      "src/public/dotnet/ArcForges.Contracts.Fleet/packages.lock.json": "13b205e83931d76e69b6c7dbfe09a69f8b4af0617bed686eb84e68bd9b1dd0ca",
+      "src/public/dotnet/ArcForges.Contracts.Fleet/packages.lock.json": "cc4a7cdb9eb39ca8f4177364d57eaaefd5174f647ccd222d8b25cdbe1939aa01",
       "src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj": "d87e9fb79689cc245332286e3eee8a045069831144d28ca513805f89b8a7e344",
-      "src/public/dotnet/ArcForges.Contracts.Foundation/packages.lock.json": "50326a8dbf6fff306f4fbae1fc340491b8e4429a22107c80088d1cf1090300b7",
+      "src/public/dotnet/ArcForges.Contracts.Foundation/packages.lock.json": "0e02b1415e80e185b8c4d29d704bd2d78726eac35d1415f4d2596921e13a619d",
       "src/public/dotnet/ArcForges.Contracts.Node/ArcForges.Contracts.Node.csproj": "a6fccccea588c9397bfb66ee30f1d2b8f522eebfef3d1e3158a34cf41703ade9",
-      "src/public/dotnet/ArcForges.Contracts.Node/packages.lock.json": "2d08ac047cf7eb3150701135e707c9f4cf250a4c824f4311ca8797761b5fc038",
+      "src/public/dotnet/ArcForges.Contracts.Node/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
       "src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj": "986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",
-      "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json": "2d08ac047cf7eb3150701135e707c9f4cf250a4c824f4311ca8797761b5fc038",
+      "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
       "src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj": "169a71dde7093d66d727a966c558ddfefe12cb00c21e01f1b53c4acf5ee12901",
-      "src/public/dotnet/ArcForges.Contracts.Validation/packages.lock.json": "468f07482814d863b8b947d089a074e81e85048916d000181cb63b428a798515",
+      "src/public/dotnet/ArcForges.Contracts.Validation/packages.lock.json": "b9cc8fbd962520f8875f194c5010da4c5c6099e06f4dc6ea0f170a335c5d2421",
       "src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj": "f9c35650873d79f50e83a85e29cd51ce2b117a5af72ecfc84a81d554cc67e0fc",
-      "src/public/dotnet/ArcForges.Sdk.Client/packages.lock.json": "8d63e7611e45005565b4f35dcfc2e8b9d14b9654e317214ee69a189fa0027954",
+      "src/public/dotnet/ArcForges.Sdk.Client/packages.lock.json": "f2b58369970466f11fd61563216c87422eed95655299ec5a8431b5552b1083fc",
       "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj": "61d0ccec8cb02bf34fab51db298e1d74c8b7180f24fc9ae27f9318650a187b7d",
-      "src/public/dotnet/ArcForges.Sdk.Contracts/packages.lock.json": "c47d712e85d2243a4d47d0f53250b28076356e35186074c1fb084692fd1240a3",
-      "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj": "7065e2d1b5404380438aa305c5dbfcf000214d15ad0fe232846b7ba7639856c7",
-      "tests/ArchitectureTests/packages.lock.json": "755cb1bde873ec0d1e5e1db359aaef6821b095b0b94980d3bbcd24b09645214f",
+      "src/public/dotnet/ArcForges.Sdk.Contracts/packages.lock.json": "29a3e9bc735638518c2cf820141dc8d2f54a33efda5836cb95a116fad08e79c0",
+      "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj": "8474242edfc8eee43becd6785b8de925dd4f3ccbad5d512f689401f85b57b1a5",
+      "tests/ArchitectureTests/packages.lock.json": "22d8ae25d03f669027c3a0cade9456eba41725bbe516bbab03d346f4e2dc6bd3",
       "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
-      "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
+      "tests/StructureTests/PreviousClient/packages.lock.json": "144041c75e6730f4654fbfac98ba4a4344002dd48c7cd4c9a43064b3112ed301",
       "tests/StructureTests/StructureTests.csproj": "dc46e2029371daea08810a0b0869c2b6c7eef61de95c5d8e6a4fa8cc68a709bc",
-      "tests/StructureTests/packages.lock.json": "1efe35b2b150baff5bdbae502256918d429caa4606f6cf28dfa1151bfa4ff9b7",
+      "tests/StructureTests/packages.lock.json": "30c796634f8b29b34fe90a2696c6b0fdb828cfa688847b8ba1e575ecd3465aad",
       "tests/public/HelloClient/HelloClient.csproj": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a",
-      "tests/public/HelloClient/packages.lock.json": "6c20b815c6cd858a058448d265c2385367235c6f490ec8586948910199bbd143",
+      "tests/public/HelloClient/packages.lock.json": "c93b52c2409deee2ef839c57c4bd64fd74f00e228f3797825f17676b2d39ec16",
       "tests/public/HelloHost/HelloHost.csproj": "c7ac2acb49c079907c4fdbe9a937421d93146f4b87e92546032d7881fadc6035",
-      "tests/public/HelloHost/packages.lock.json": "15c1bd39184b4ee86f3f30e52eb21a6cf1ba7d3d8032a21e49b5af71ea7cca1d",
+      "tests/public/HelloHost/packages.lock.json": "f7905b45f4c82f5ed2eae2abc95dcc5feae88902d72c23f9cdbf5fc40756a360",
       "tests/public/SerializationProbe/SerializationProbe.csproj": "92a5039dba394839dfbb60f5f3b7f0bde6304a45c904cf80109b94547a2a0158",
-      "tests/public/SerializationProbe/packages.lock.json": "c22dac951b63b91a5b5b2f9d620cfd5601024a12c59f6b3a62176837fe8d9fa4"
+      "tests/public/SerializationProbe/packages.lock.json": "8ae8946ace48e6558589a6d60b3e45f309d8ec90a13de24421ebd27e3e540756"
+    },
+    "goQualification": {
+      "schema": "arcforges.contracts.go-qualification.v1",
+      "designCommit": "2296e2fe37ad9ad1f7b65be871fea1f0b39ce7ad",
+      "sourceCommit": "dacb563ec9f35a5b26e3c8456eedb575b56bf161",
+      "inputHashes": {
+        ".github/workflows/ci.yml": "2c3514165fca8e6a422ddf2b985e50684bacf71ee1c7193f4fb235c75ac6c008",
+        ".github/workflows/security.yml": "bea4d23ee2d486b22d27860e290b42a3327cefc10e29c3dd1e9a560f7f3906d9",
+        ".python-version": "673e2ba07f95bfcfe0a543258b8e267954e403d1f466481c546f467f86b31d46",
+        "eng/check_go_dependency_inventory.py": "32f5ae2e4f653e84e6260c684a2683bc395e873e707aab8d865a7377cfd39745",
+        "eng/check_toolchain.py": "b413c0be5fd48c6cf2ee8b45c56a96dabe4fd1700ee9a21eb11207beaf1c0cdb",
+        "eng/contract-packages.json": "f347dd9e047c66f36ffb2c7ea977f10129e2ccdea366e998ed68004f1641f95b",
+        "eng/contracts.py": "c07c156006c0f0f62a3a714ec3e370feed89d69f43cb5520eedf6040564c549f",
+        "eng/dependency_admission.py": "0c7243d8b0051c60ee2339843b780062f2924562fc5b3b33266aa2f92b4b95fa",
+        "eng/go_bindings.py": "4d9506198ccc56b3138fdd4416ff1627d3fc34a7b5ab259e28ce2cc436ab743c",
+        "eng/native-toolchain.json": "bf019c3aadd5e2e1fa6170ce52a463ce3b751f86b3458a17cd93a7fce8ea1eaa",
+        "eng/native_toolchain.py": "3496595ef25b20304896015199739005ac8192714e29e764a17d5184edfdca84",
+        "eng/package_catalog.py": "07999aff092d122ac1136ddbb2851dde5c07193e34e1334e56bc6e8161ee5f4c",
+        "eng/verify_steps.py": "faf3f4e5ded9db47b66bb41eda1798d51fe704703e9dabaa4a2e80ef41b7b6ad",
+        "global.json": "bfaf40d1a86baeea39cde6300a5aaa9c55917256d4fade475ac7ffa3bd58bb58",
+        "go/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "go/NOTICE": "8aa487acf6a48132c861cb00e83ffe6bda718771cbbc6809b7e734a2dd6d366d",
+        "go/README.md": "a4a26be8fe2fd0ef5b2ed73e5d018cdae5dc1cde5d3a991d9d4ea15753a7a9cc",
+        "go/arcforges/catalog/v1/catalog.pb.go": "9a0e1011d424e7d82eb5e3186fe8cc857b7efcc9b0f8888783f42e3d880a6a50",
+        "go/arcforges/catalog/v1/catalogv1connect/catalog.connect.go": "ea913aaeb7806356c5a9e58caddeb87204948639dcf21871105f709ab2ae66d1",
+        "go/arcforges/catalog/v1/catalogv1connect/doc.go": "b3902d60105dfaa1040c9d08e7d78c3a837a9a53c58727980d461fe334ab33ff",
+        "go/arcforges/catalog/v1/doc.go": "da208335a4701fd966ecd478319346a772d223e83d63ca93d6bda6c3a942de10",
+        "go/arcforges/fleet/v1/doc.go": "993b0d2da848b1417b92f14dfb080311c23b05b730c454803300e634c6a39b0b",
+        "go/arcforges/fleet/v1/fleet.pb.go": "0a99c4bf0b95fa6591baa05fe65406611d1d9f823ec6d6097231d3b0862a2501",
+        "go/arcforges/fleet/v1/fleetv1connect/doc.go": "4d3169f83aacc0ffc22385202c285c9b4b8ef26b0c9b66ae060c04a82de93b32",
+        "go/arcforges/fleet/v1/fleetv1connect/fleet.connect.go": "961ced3790220db92130cfb0e0b67c91824e497c9fa7d834c014ca7569356e4b",
+        "go/arcforges/foundation/v1/doc.go": "0ff76bbada565918b3dfdf2172dac3f679b6b00115ff4bc9d3c41852024509c9",
+        "go/arcforges/foundation/v1/foundation.pb.go": "83df79c855df546c47c0612c7a0b3ac80d99714ac543469f9e969d828d55f5ed",
+        "go/arcforges/hello/v1/doc.go": "bd55fa6a75cd49c384e8ff17d73c7ab7a1b7909514304cd4e3d4c84d087fa69f",
+        "go/arcforges/hello/v1/hello.pb.go": "ab17d6617c208dc90c930220c607fa104643ab52eda3c2f1a233f04cdb049f2d",
+        "go/arcforges/hello/v1/hellov1connect/doc.go": "35ef3ee33c8d38487ee19585b3edb1e2ac03704dbcdbd0ecc0d46521caf460a3",
+        "go/arcforges/hello/v1/hellov1connect/hello.connect.go": "a114aefc252ebaef3845a0cab85b38df82eabb07c66dedb90e49700c783b07e4",
+        "go/arcforges/node/v1/account.pb.go": "94a25b401c122d809c5b19713a4b7e362a340ae3cdfea57ed9bc23e6e4786a36",
+        "go/arcforges/node/v1/approvals.pb.go": "93f3884708ea79fa9ddab86e7b3a9fe5bcdfaf9e3dc43eee1704e4190a194b5a",
+        "go/arcforges/node/v1/caches.pb.go": "1f7cea0ba512215e3a18669384b52706d978104d08ab8c1f711ddd874e88a641",
+        "go/arcforges/node/v1/common.pb.go": "ec1e1172f2eb6a52b864aee5908e25c16317d8798338e6e557bbdea8bcd8157e",
+        "go/arcforges/node/v1/diagnosis.pb.go": "5887e3997f14a4e27587a3fe230b076fda8b4efa62768e157c076b3f4d3f726e",
+        "go/arcforges/node/v1/doc.go": "c86b2e9c0ca27f138739df9e7e468120a6972cdbe118acb145347441f0906d34",
+        "go/arcforges/node/v1/events.pb.go": "1f58f059991e95cba82cc3562db219fe7c1e86e4923f5a0454b3c8083efc484e",
+        "go/arcforges/node/v1/files.pb.go": "94fcbf81fe722df30bee3d10396de63c9578f05da487daebd6b5c387161bfafe",
+        "go/arcforges/node/v1/integrations.pb.go": "24e7e317d8ce55ce6dd3e447926ae0222aa175255d096c0c411d241a757bf31a",
+        "go/arcforges/node/v1/memory.pb.go": "a945fc0aa27b9e076b63d02e25d9a9533f68b2419db9ba370a5f076c0d27b35e",
+        "go/arcforges/node/v1/node.pb.go": "e85a2958169c3d73afb9a0f60a270432bb5465cb6e7bea46b933d481fa570915",
+        "go/arcforges/node/v1/nodev1connect/account.connect.go": "0ca73e5c6e645a0871b44b2884bbce455e7878ce64664f13bc9f05241c86a4fc",
+        "go/arcforges/node/v1/nodev1connect/approvals.connect.go": "8ab7a0a3eca88a92ec14c5fcc79f7b296a35a16dba9910452c597647051651d8",
+        "go/arcforges/node/v1/nodev1connect/caches.connect.go": "568b027b6a14056e2392773ebf0800db8433f68279e5fa25483e7022ad722df8",
+        "go/arcforges/node/v1/nodev1connect/diagnosis.connect.go": "d83ef8d7eaf04244750f6c4d33b294324d29f7a3e8f53cc94980d3ad67018fc6",
+        "go/arcforges/node/v1/nodev1connect/doc.go": "59001ba736d4cac2e3f8fdc30377b1ee0bc4d003473afaa1d83381562a48a810",
+        "go/arcforges/node/v1/nodev1connect/events.connect.go": "e9169a3c9b09dfd75f93a7fb6a078ef14a5d27d0c63d71911568c92a57e44311",
+        "go/arcforges/node/v1/nodev1connect/files.connect.go": "80428a81ae524351054db53d6b73b445755af3f998db96fcb720e81f99176545",
+        "go/arcforges/node/v1/nodev1connect/integrations.connect.go": "61fbdaa4d6413e8cd70ed5a3770a03699e35a963ca0cd4cad507b6f823881f56",
+        "go/arcforges/node/v1/nodev1connect/memory.connect.go": "bc87cfb3d69e0fdc1d3952b3130284465bafffa49c798afb474d1691311b1b3e",
+        "go/arcforges/node/v1/nodev1connect/node.connect.go": "41da7f22fadda10675ac1380b177ae9cea1bc688108ecb179c8ed2281d261f04",
+        "go/arcforges/node/v1/nodev1connect/peers.connect.go": "7f6b664f61b12c1e415c1bc00edf02a870d337b8711832039c85c194d5e29add",
+        "go/arcforges/node/v1/nodev1connect/policy.connect.go": "aec7617a6eded41281f053965089042b6d1880643622921963edef18d11aef02",
+        "go/arcforges/node/v1/nodev1connect/queue.connect.go": "dfeea282b5012f4330685ebca900b4515eba8786ce45fef56edac59c29fb0b7e",
+        "go/arcforges/node/v1/nodev1connect/resources.connect.go": "451ff3e9609bbe7ef9a6bec01b4bd568ea487f453d187c0b526ca29ad39af3dc",
+        "go/arcforges/node/v1/nodev1connect/sessions.connect.go": "7f293b41e8d85d36b5d3dff0c9af391706ea6c116b8765bf945972d5a6e2d2a4",
+        "go/arcforges/node/v1/nodev1connect/storage.connect.go": "4e1f46abbd89019000fc3c556d49a76ad0d834fa3dc281401c78b64fd83456a1",
+        "go/arcforges/node/v1/nodev1connect/support.connect.go": "f5f0ae856e5692c04259b9b236c970dac456bf6fbdd781fd30e33d85cbbb7766",
+        "go/arcforges/node/v1/nodev1connect/tasks.connect.go": "0e4ec3cd7dbee2933f4900d9e7a184bd427538b9bde7b4c21cf5c121538f88ef",
+        "go/arcforges/node/v1/nodev1connect/toolchains.connect.go": "c390d74cdbd08454e5d60e051ca710be7c0b7f8cf0ed9293777a9dd8cf58a658",
+        "go/arcforges/node/v1/nodev1connect/updates.connect.go": "77eaab7bcce090a958605e656e4a2a37846032a1a0ee3582aa561d4f5790be57",
+        "go/arcforges/node/v1/nodev1connect/workspaces.connect.go": "2d700ed7a2271aeed85bf09afdaeade615091e6035077f8aa2276b6ec6f18a7d",
+        "go/arcforges/node/v1/peers.pb.go": "c5ec952b663ff47839798d05290f0adb38293196e1ce3a2e71367d8c780b58c3",
+        "go/arcforges/node/v1/policy.pb.go": "f5967efdb2c9a94958a559fe34c2858074e1de2d08bf6293a607ee49332ac55c",
+        "go/arcforges/node/v1/queue.pb.go": "946c35cfc9774e585d6619d410bd03b8549200e792e19ff7d76a35eb9e86560b",
+        "go/arcforges/node/v1/resources.pb.go": "91becbcb20aacbc08ec430cd035ae65b7e5d337c6297ae9747197fe2f7ef9464",
+        "go/arcforges/node/v1/sessions.pb.go": "cb66f3a3876ad6fd0bd19f6174e92db8a067445693db78c2aff616b6351148a9",
+        "go/arcforges/node/v1/storage.pb.go": "0b51de397a28e7ab0109022966b0b9ac04ece5dabff98a1fbf0df0a7f5b85686",
+        "go/arcforges/node/v1/support.pb.go": "7b693796bdb06fe1b9526e44ed387dbd58e77dea1c4cbee8704210a57d4acc7f",
+        "go/arcforges/node/v1/tasks.pb.go": "f0231d9247debb808a17021a557cdef2cf55f3c8c2a521a4cd00a3743d94d8bb",
+        "go/arcforges/node/v1/toolchains.pb.go": "e4ea1ac6549386eaafdeabe864ccc022345d8edf24b096379cbeb3d8f84be5f8",
+        "go/arcforges/node/v1/updates.pb.go": "fb8c14b15ddd50aa3ead0ef425821979abb3aae1c0acec27bdcc5fa8a244f2a2",
+        "go/arcforges/node/v1/workspaces.pb.go": "3a4b89890f9c4d8cf5094cf3f4f5fad95d912cae87d0e90605e1da533003ddc6",
+        "go/arcforges/operator/v1/doc.go": "cfcf798680f23d2db88e42c1b25093d993253b3b5a2ace30410c50c3b257287a",
+        "go/arcforges/operator/v1/operator.pb.go": "af8d015eec7a0a7822d7dcf34c981bd9fa9ec8f5ae7ce17ed24eee44fce8fafe",
+        "go/arcforges/operator/v1/operator_read.pb.go": "71586863f7bb1658bf2cc70265781453f05e2ff3c628b784ce43f789c2a20bb7",
+        "go/arcforges/operator/v1/operatorv1connect/doc.go": "08744e978c863eee7caa24f35f47c7bce2449f2e4f70b1ea236d110e0f1d819d",
+        "go/arcforges/operator/v1/operatorv1connect/operator.connect.go": "20ef62d04836c91799b454a7c2ac150021c9756ec07d7fe6e7b6cc1f6b54c8bf",
+        "go/arcforges/operator/v1/operatorv1connect/operator_read.connect.go": "ef8a6c1770ab7224e6cdbe37f9df2d238975171d1b9770c279323497a09d2217",
+        "go/arcforges/publicapi/v1/application.pb.go": "1220892967dcbf5f4b8a892aa6bde3a34a80e663d7d656477b060bf6da0f0b92",
+        "go/arcforges/publicapi/v1/chat.pb.go": "22824408fa9fc12205e055c4d08d8e14d22a8bdcae76198154e3a3d8767c22ee",
+        "go/arcforges/publicapi/v1/commerce.pb.go": "d248daa6309098789984033a045cab5b135203ebca2eabb125eae47e86c42c7a",
+        "go/arcforges/publicapi/v1/connector.pb.go": "c26c0c3ed1711c6b3e91e70d6ae926412c6dfd0535a82b8c09b766f6cde0e7f9",
+        "go/arcforges/publicapi/v1/content.pb.go": "b19644b83d9ab91dbd1c76b27e4db2a302edd962c07cc8950f85cee29aa9a949",
+        "go/arcforges/publicapi/v1/descriptors.pb.go": "b5e4ee2866d0356439ed7bd65acfed96e92fe70f594106d468e9284e2d415eed",
+        "go/arcforges/publicapi/v1/doc.go": "c8c6956607ab5229fbb4e1b5f77f933cc7dff509b0cdb8445fdbe7c44f873848",
+        "go/arcforges/publicapi/v1/export.pb.go": "f1245ba0e90301c4aa41bc1e654cb542d7460bc85c10d1848a1002defda486cc",
+        "go/arcforges/publicapi/v1/identity.pb.go": "052d6779abff1af96558525c6495bb06c0795e397602f1a217ce1b06777cfb8b",
+        "go/arcforges/publicapi/v1/inprocess-values.pb.go": "5e9763379ed87d24b7eb4414c09d2574c21c89a5714cbf2fd7a791c674e34abd",
+        "go/arcforges/publicapi/v1/publicapiv1connect/application.connect.go": "daafc2e91fdd7e3b7a0a4176aaf2ec940cfdfbf3d6f6435d0b237a59b69e5dd7",
+        "go/arcforges/publicapi/v1/publicapiv1connect/chat.connect.go": "e3b2c036a0fd001591991b9b7f8fcb8083b6b63d208cb65cbf47f91449c132d6",
+        "go/arcforges/publicapi/v1/publicapiv1connect/commerce.connect.go": "662145bfa2f4024696c2bb1c963edbb618799de228881f850ffb10c0fff02d6c",
+        "go/arcforges/publicapi/v1/publicapiv1connect/connector.connect.go": "612613277b26934874eae2b1e59338acd59f99ad1098ccb8066141b2b7bd367a",
+        "go/arcforges/publicapi/v1/publicapiv1connect/doc.go": "8873381878bd61885f5ea880163f19b3ff9e1a9a046fdc4199d2d17a3b9a44e7",
+        "go/arcforges/publicapi/v1/publicapiv1connect/export.connect.go": "6bd85975a247a9e56e0d405194821413b0b98fb1ce5894f50027ff0338d2c7ad",
+        "go/arcforges/publicapi/v1/publicapiv1connect/identity.connect.go": "4e9a7e1ac700ccccef9e008e363b0f6693f2faec7e954dfd71d613e2359e5555",
+        "go/arcforges/publicapi/v1/publicapiv1connect/scope.connect.go": "586dd1a7cc6661b8d0f35da65e39a06e9f768c7b906168208374feeb5de29ece",
+        "go/arcforges/publicapi/v1/publicapiv1connect/support.connect.go": "b3ec57986d1ce0bb1f212cc02f06208efd581784d5bfc180ea5ed4ec0c8a896d",
+        "go/arcforges/publicapi/v1/publicapiv1connect/support_access.connect.go": "b77b26061019a7384e66a9b7a4c4ab1afc61fcd864bdf9ab5b1a70cbc9bd59f0",
+        "go/arcforges/publicapi/v1/publicapiv1connect/sync.connect.go": "288c81c15e6583b9a09ce36d1ac72211d64a1dc238b071f114ccb62b1a271292",
+        "go/arcforges/publicapi/v1/publicapiv1connect/transfer.connect.go": "9eba3d32cad004b55487d54957f454bfe0ee6ae24f3428c8e9501296c8e1e962",
+        "go/arcforges/publicapi/v1/scope.pb.go": "cfb0ac24c1d8bc9cfad72d918e1b5dd9efd2e2cf2ad15ea0253bfa8c14610797",
+        "go/arcforges/publicapi/v1/support.pb.go": "42c86a258979bd7eb0984dc48a4fed0c4f1c6733a3e4fe5f0aa0e512970e5601",
+        "go/arcforges/publicapi/v1/support_access.pb.go": "43d88cd521d9766701aef71e502f5f5bb1d33a4800ef8c077e3845ae1a05c258",
+        "go/arcforges/publicapi/v1/sync.pb.go": "96e738ecebf9e3b07f8057f797bb59f6ca82265b8b34a9b4727dfa9ec27c51d2",
+        "go/arcforges/publicapi/v1/transfer.pb.go": "a887011f301772b74431d15763c168c351a8bbf65cf87f664598c224dc3c64f0",
+        "go/arcforges/relay/v1/doc.go": "f0516abe72c5dc648af706cfa3732fb96ef970aa73c2c178faa44aa6232b7f6a",
+        "go/arcforges/relay/v1/relay.pb.go": "a0d2dcd8a91341a7a1cbab0dae11f5254ec14aa361778a08283894a1b7898cdc",
+        "go/go.mod": "1696a11d2cc917add3c9401396795d8146cfb72598e5e6f9c1def7a835978824",
+        "go/go.sum": "b01034abad848408362f1f2a67db5d1eb6d93e05813723efe0d8e26d363ff1eb",
+        "go/internal/compat/connect_test.go": "5cbe5434097253e82a1fff78b222927f090de9be9655e08c4434c4c041ea712c",
+        "go/internal/compat/doc.go": "506b56da8603eb2681192369664b4442554b2e9ac046c5f34f41737229db67cd",
+        "go/internal/compat/exchange_test.go": "bd2f69d60153161a53f1b9d4c501e194b84ede4c4adda2b6a0daabca28c5abcd",
+        "go/internal/compat/files_vectors_test.go": "b3458b34acc41040070dc1dd0c9e6f42c0fffda62cc9bc42bb9aaddabecdcf1a",
+        "go/internal/compat/fixtures_test.go": "cfc0c2731c8a48d669b39e2542f404a85124860985596aa5280a21a8d4a8084d",
+        "go/internal/compat/relay_vectors_test.go": "7cf63d63b2b1cec88be87d28ecc5c69a6510f145390be10202843180504050d9",
+        "go/internal/compat/support_test.go": "c537c45358337d664f0a3a85df743b44a19f012bb9fbf49296c814ccc2c1f39a",
+        "go/toolchain.json": "fab9b8c724b7d0e673d06004e11896958d047ee4cc91f1b1486383609db5b749",
+        "go/tools/go.mod": "6b85a0f7dcfb09c430048fe22db15eb1e633f32cbc177600dddf9f4fe67b99f5",
+        "go/tools/go.sum": "3e7200cf74b5119a63a310d7eb63a9b7fa3c543f216f75b089ac4a26e1c79d56"
+      },
+      "platforms": {
+        "windows": {
+          "sourceCommit": "dacb563ec9f35a5b26e3c8456eedb575b56bf161",
+          "measuredAtUtc": "2026-11-15T07:45:49.176916+00:00",
+          "report": {
+            "location": "C:/MyFile/Projects/ArcForges/tmp/afv2-env-01/contracts-go-dacb-windows.json",
+            "sha256": "976d9f1eabbcc0c3e793301526d25604cb2619775e2b15c9d564e7d370dd5413"
+          },
+          "summary": {
+            "configuration": {
+              "GOVERSION": "go1.27.4",
+              "GOOS": "windows",
+              "GOARCH": "amd64",
+              "GOHOSTOS": "windows",
+              "GOHOSTARCH": "amd64",
+              "CGO_ENABLED": "0",
+              "GOAMD64": "v1",
+              "GOEXPERIMENT": "",
+              "GOFLAGS": "-mod=readonly",
+              "GOWORK": "off",
+              "GOTOOLCHAIN": "local"
+            },
+            "selectedGraphsSha256": "e58ec8cd40ac46a4602548c862133f6b3c8b06bba2392737cf0e1f7dc9d89fc1",
+            "moduleRequirementsSha256": "1447a5f964ce1415d845c939e4b348882b45c6323914ac3e711017507636534b",
+            "packageClosuresSha256": "05af3a41c152f49edb6591c2d56431f1726c4a1541f79e304c93e0cd5579a08a",
+            "classification": {
+              "actualDependencies": [
+                {
+                  "path": "connectrpc.com/connect/v2",
+                  "version": "v2.0.2",
+                  "selectedIn": ["main", "tools"],
+                  "usedIn": ["owned-packages-and-tests", "tool:protoc-gen-connect-go"]
+                },
+                {
+                  "path": "github.com/BurntSushi/toml",
+                  "version": "v1.6.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:staticcheck"]
+                },
+                {
+                  "path": "golang.org/x/exp/typeparams",
+                  "version": "v0.0.0-20261113113407-e3970619a1a4",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:staticcheck"]
+                },
+                {
+                  "path": "golang.org/x/mod",
+                  "version": "v0.43.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:govulncheck", "tool:staticcheck"]
+                },
+                {
+                  "path": "golang.org/x/sync",
+                  "version": "v0.25.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:govulncheck", "tool:staticcheck"]
+                },
+                {
+                  "path": "golang.org/x/sys",
+                  "version": "v0.50.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:govulncheck"]
+                },
+                {
+                  "path": "golang.org/x/telemetry",
+                  "version": "v0.0.0-20261111153349-cdaf7e97dd7b",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:govulncheck"]
+                },
+                {
+                  "path": "golang.org/x/tools",
+                  "version": "v0.52.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:govulncheck", "tool:staticcheck"]
+                },
+                {
+                  "path": "golang.org/x/vuln",
+                  "version": "v1.9.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:govulncheck"]
+                },
+                {
+                  "path": "google.golang.org/protobuf",
+                  "version": "v1.36.12",
+                  "selectedIn": ["main", "tools"],
+                  "usedIn": [
+                    "owned-packages-and-tests",
+                    "tool:protoc-gen-connect-go",
+                    "tool:protoc-gen-go"
+                  ]
+                },
+                {
+                  "path": "honnef.co/go/tools",
+                  "version": "v0.8.2",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:staticcheck"]
+                }
+              ],
+              "metadataOnly": [
+                {
+                  "path": "github.com/golang/protobuf",
+                  "version": "v1.5.0",
+                  "selectedIn": ["main", "tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "github.com/google/go-cmdtest",
+                  "version": "v0.4.1-0.20220921163831-55ab3332a786",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "github.com/google/go-cmp",
+                  "version": "v0.7.0",
+                  "selectedIn": ["main", "tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "github.com/google/renameio",
+                  "version": "v0.1.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "github.com/yuin/goldmark",
+                  "version": "v1.4.13",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "golang.org/x/exp",
+                  "version": "v0.0.0-20231110203233-9a3e6036ecaa",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "golang.org/x/net",
+                  "version": "v0.61.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "golang.org/x/tools/go/expect",
+                  "version": "v0.1.1-deprecated",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "golang.org/x/tools/go/packages/packagestest",
+                  "version": "v0.1.1-deprecated",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                }
+              ],
+              "namedCandidates": [
+                {
+                  "path": "github.com/golang/protobuf",
+                  "selected": [
+                    {
+                      "path": "github.com/golang/protobuf",
+                      "version": "v1.5.0",
+                      "selectedIn": ["main", "tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "github.com/google/go-cmdtest",
+                  "selected": [
+                    {
+                      "path": "github.com/google/go-cmdtest",
+                      "version": "v0.4.1-0.20220921163831-55ab3332a786",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "github.com/google/go-cmp",
+                  "selected": [
+                    {
+                      "path": "github.com/google/go-cmp",
+                      "version": "v0.7.0",
+                      "selectedIn": ["main", "tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "github.com/google/renameio",
+                  "selected": [
+                    {
+                      "path": "github.com/google/renameio",
+                      "version": "v0.1.0",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "github.com/yuin/goldmark",
+                  "selected": [
+                    {
+                      "path": "github.com/yuin/goldmark",
+                      "version": "v1.4.13",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "golang.org/x/exp",
+                  "selected": [
+                    {
+                      "path": "golang.org/x/exp",
+                      "version": "v0.0.0-20231110203233-9a3e6036ecaa",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "golang.org/x/net",
+                  "selected": [
+                    {
+                      "path": "golang.org/x/net",
+                      "version": "v0.61.0",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "golang.org/x/tools/go/expect",
+                  "selected": [
+                    {
+                      "path": "golang.org/x/tools/go/expect",
+                      "version": "v0.1.1-deprecated",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "golang.org/x/tools/go/packages/packagestest",
+                  "selected": [
+                    {
+                      "path": "golang.org/x/tools/go/packages/packagestest",
+                      "version": "v0.1.1-deprecated",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                }
+              ]
+            }
+          }
+        },
+        "linux": {
+          "sourceCommit": "dacb563ec9f35a5b26e3c8456eedb575b56bf161",
+          "measuredAtUtc": "2026-11-15T07:46:12.895209+00:00",
+          "report": {
+            "location": "/home/sammiller/arcforges/tmp/afv2-env-01/contracts-go-dacb-linux.json",
+            "sha256": "cc809e99e4578a98dd31c5c44fdd460a0151de52e16689fbb7448effb727cf12"
+          },
+          "summary": {
+            "configuration": {
+              "GOVERSION": "go1.27.4",
+              "GOOS": "linux",
+              "GOARCH": "amd64",
+              "GOHOSTOS": "linux",
+              "GOHOSTARCH": "amd64",
+              "CGO_ENABLED": "1",
+              "GOAMD64": "v1",
+              "GOEXPERIMENT": "",
+              "GOFLAGS": "-mod=readonly",
+              "GOWORK": "off",
+              "GOTOOLCHAIN": "local",
+              "CC": "clang",
+              "CXX": "clang++"
+            },
+            "selectedGraphsSha256": "e58ec8cd40ac46a4602548c862133f6b3c8b06bba2392737cf0e1f7dc9d89fc1",
+            "moduleRequirementsSha256": "1447a5f964ce1415d845c939e4b348882b45c6323914ac3e711017507636534b",
+            "packageClosuresSha256": "79ac3a47317520f169bb351aae2c23faecfbb85f716116848e0068ad4fb12687",
+            "classification": {
+              "actualDependencies": [
+                {
+                  "path": "connectrpc.com/connect/v2",
+                  "version": "v2.0.2",
+                  "selectedIn": ["main", "tools"],
+                  "usedIn": [
+                    "owned-packages-and-tests",
+                    "owned-packages-and-tests:race",
+                    "tool:protoc-gen-connect-go"
+                  ]
+                },
+                {
+                  "path": "github.com/BurntSushi/toml",
+                  "version": "v1.6.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:staticcheck"]
+                },
+                {
+                  "path": "golang.org/x/exp/typeparams",
+                  "version": "v0.0.0-20261113113407-e3970619a1a4",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:staticcheck"]
+                },
+                {
+                  "path": "golang.org/x/mod",
+                  "version": "v0.43.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:govulncheck", "tool:staticcheck"]
+                },
+                {
+                  "path": "golang.org/x/sync",
+                  "version": "v0.25.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:govulncheck", "tool:staticcheck"]
+                },
+                {
+                  "path": "golang.org/x/telemetry",
+                  "version": "v0.0.0-20261111153349-cdaf7e97dd7b",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:govulncheck"]
+                },
+                {
+                  "path": "golang.org/x/tools",
+                  "version": "v0.52.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:govulncheck", "tool:staticcheck"]
+                },
+                {
+                  "path": "golang.org/x/vuln",
+                  "version": "v1.9.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:govulncheck"]
+                },
+                {
+                  "path": "google.golang.org/protobuf",
+                  "version": "v1.36.12",
+                  "selectedIn": ["main", "tools"],
+                  "usedIn": [
+                    "owned-packages-and-tests",
+                    "owned-packages-and-tests:race",
+                    "tool:protoc-gen-connect-go",
+                    "tool:protoc-gen-go"
+                  ]
+                },
+                {
+                  "path": "honnef.co/go/tools",
+                  "version": "v0.8.2",
+                  "selectedIn": ["tools"],
+                  "usedIn": ["tool:staticcheck"]
+                }
+              ],
+              "metadataOnly": [
+                {
+                  "path": "github.com/golang/protobuf",
+                  "version": "v1.5.0",
+                  "selectedIn": ["main", "tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "github.com/google/go-cmdtest",
+                  "version": "v0.4.1-0.20220921163831-55ab3332a786",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "github.com/google/go-cmp",
+                  "version": "v0.7.0",
+                  "selectedIn": ["main", "tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "github.com/google/renameio",
+                  "version": "v0.1.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "github.com/yuin/goldmark",
+                  "version": "v1.4.13",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "golang.org/x/exp",
+                  "version": "v0.0.0-20231110203233-9a3e6036ecaa",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "golang.org/x/net",
+                  "version": "v0.61.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "golang.org/x/sys",
+                  "version": "v0.50.0",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": false,
+                  "eligibleForThisHostConfiguration": false
+                },
+                {
+                  "path": "golang.org/x/tools/go/expect",
+                  "version": "v0.1.1-deprecated",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                },
+                {
+                  "path": "golang.org/x/tools/go/packages/packagestest",
+                  "version": "v0.1.1-deprecated",
+                  "selectedIn": ["tools"],
+                  "usedIn": [],
+                  "namedCandidate": true,
+                  "eligibleForThisHostConfiguration": true
+                }
+              ],
+              "namedCandidates": [
+                {
+                  "path": "github.com/golang/protobuf",
+                  "selected": [
+                    {
+                      "path": "github.com/golang/protobuf",
+                      "version": "v1.5.0",
+                      "selectedIn": ["main", "tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "github.com/google/go-cmdtest",
+                  "selected": [
+                    {
+                      "path": "github.com/google/go-cmdtest",
+                      "version": "v0.4.1-0.20220921163831-55ab3332a786",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "github.com/google/go-cmp",
+                  "selected": [
+                    {
+                      "path": "github.com/google/go-cmp",
+                      "version": "v0.7.0",
+                      "selectedIn": ["main", "tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "github.com/google/renameio",
+                  "selected": [
+                    {
+                      "path": "github.com/google/renameio",
+                      "version": "v0.1.0",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "github.com/yuin/goldmark",
+                  "selected": [
+                    {
+                      "path": "github.com/yuin/goldmark",
+                      "version": "v1.4.13",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "golang.org/x/exp",
+                  "selected": [
+                    {
+                      "path": "golang.org/x/exp",
+                      "version": "v0.0.0-20231110203233-9a3e6036ecaa",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "golang.org/x/net",
+                  "selected": [
+                    {
+                      "path": "golang.org/x/net",
+                      "version": "v0.61.0",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "golang.org/x/tools/go/expect",
+                  "selected": [
+                    {
+                      "path": "golang.org/x/tools/go/expect",
+                      "version": "v0.1.1-deprecated",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                },
+                {
+                  "path": "golang.org/x/tools/go/packages/packagestest",
+                  "selected": [
+                    {
+                      "path": "golang.org/x/tools/go/packages/packagestest",
+                      "version": "v0.1.1-deprecated",
+                      "selectedIn": ["tools"],
+                      "usedIn": []
+                    }
+                  ],
+                  "usedIn": [],
+                  "eligibleForThisHostConfiguration": true,
+                  "reason": "metadata-only"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "metadataOnly": [
+        "go:github.com/golang/protobuf@v1.5.0",
+        "go:github.com/google/go-cmdtest@v0.4.1-0.20220921163831-55ab3332a786",
+        "go:github.com/google/go-cmp@v0.7.0",
+        "go:github.com/google/renameio@v0.1.0",
+        "go:github.com/yuin/goldmark@v1.4.13",
+        "go:golang.org/x/exp@v0.0.0-20231110203233-9a3e6036ecaa",
+        "go:golang.org/x/net@v0.61.0",
+        "go:golang.org/x/tools/go/expect@v0.1.1-deprecated",
+        "go:golang.org/x/tools/go/packages/packagestest@v0.1.1-deprecated"
+      ],
+      "untaggedDependencies": {
+        "golang.org/x/exp/typeparams": {
+          "version": "v0.0.0-20261113113407-e3970619a1a4",
+          "sourceCommit": "e3970619a1a4b3f898cbf8651d2ea7ae7541f583",
+          "checksum": "h1:R/Bi4Cu3qhe1hBBrVB5q08XcADEYn+UEHtBj4lFx/SI=",
+          "queriedAtUtc": "2026-11-15T05:26:40.815035+00:00",
+          "repository": "https://go.googlesource.com/exp",
+          "defaultBranch": "master",
+          "versionQuery": {
+            "source": "https://proxy.golang.org/golang.org/x/exp/typeparams/@v/v0.0.0-20261113113407-e3970619a1a4.info",
+            "sha256": "047679521a8c9ac57747806a82f1fd01d8c9b0312d132adb1034a7b7446c8c07"
+          },
+          "commitQuery": {
+            "source": "https://api.github.com/repos/golang/exp/commits/master",
+            "sha256": "1360c80f3aab9bc7dc2d0dca73fb5ef7e6ff361aa62bf0616e0b9a0c0ffdf818"
+          },
+          "maturity": "experimental; no compatibility promise",
+          "assessment": {
+            "compatibility": "Exact selected fixed commit and tool-only actual dependency use are bound to both native metadata reports. Existing protocol/exchange and tool execution checks remain required in the formal profile; metadata queries do not claim their success.",
+            "security": "The full selected graphs, upstream requirement edges, archive checksums and all existing vulnerability/analyzer checks remain intact. Native metadata use is established; successful final security execution is not claimed here.",
+            "licence": "The previously independently reviewed exact BSD-3-Clause source licence and h1 archive identity are retained. No external source is reclassified or imported by this qualification."
+          }
+        },
+        "golang.org/x/telemetry": {
+          "version": "v0.0.0-20261111153349-cdaf7e97dd7b",
+          "sourceCommit": "cdaf7e97dd7b573969ef84c8c901a29491c0728e",
+          "checksum": "h1:HDLCiByjRbzmSn/z4+smkCRQ58Hr5yxP+pq4CwqwCv8=",
+          "queriedAtUtc": "2026-11-15T05:26:40.817112+00:00",
+          "repository": "https://go.googlesource.com/telemetry",
+          "defaultBranch": "master",
+          "versionQuery": {
+            "source": "https://proxy.golang.org/golang.org/x/telemetry/@v/v0.0.0-20261111153349-cdaf7e97dd7b.info",
+            "sha256": "334028e41fff1566763a9a70734470b8e4e2e9c61d2c4411d2c2544b45a248ac"
+          },
+          "commitQuery": {
+            "source": "https://api.github.com/repos/golang/telemetry/commits/master",
+            "sha256": "9e36ae2e2bea399e70b4e24ffcec449fcca455f8b97d3cd005437af97a42ea43"
+          },
+          "maturity": "no API compatibility promise",
+          "assessment": {
+            "compatibility": "Exact selected fixed commit and tool-only actual dependency use are bound to both native metadata reports. Existing protocol/exchange and tool execution checks remain required in the formal profile; metadata queries do not claim their success.",
+            "security": "The full selected graphs, upstream requirement edges, archive checksums and all existing vulnerability/analyzer checks remain intact. Native metadata use is established; successful final security execution is not claimed here.",
+            "licence": "The previously independently reviewed exact BSD-3-Clause source licence and h1 archive identity are retained. No external source is reclassified or imported by this qualification."
+          }
+        }
+      }
     }
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/af-ctr-06-r4.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/afv2-env-01-r1.json"
 }
