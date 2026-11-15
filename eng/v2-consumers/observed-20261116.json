@@ -1,0 +1,3725 @@
+{
+  "complete": true,
+  "deletion_authorized": false,
+  "kind": "arcforges-v2-consumer-inventory",
+  "limits": [
+    "Committed authored inputs only; dirty and untracked changes are not consumer evidence.",
+    "References are declared inputs, not evaluated conditional MSBuild resolution or runtime use.",
+    "Missing or mismatched repositories remain unknown; no source/package deletion is authorized."
+  ],
+  "producer_inventory_complete": true,
+  "protected_shared_surface": "arcforges.local.sandbox.v1 is DesktopPlatform ContentSandbox, not V2 CLI Sandbox",
+  "references": [
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Build.props",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "src/ArcForges.Client/ArcForges.Client.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/ArcForges.Client/ArcForges.Client.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.LocalRpc",
+      "input": "src/ArcForges.Client/ArcForges.Client.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "src/ArcForges.CommandLine/ArcForges.CommandLine.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Fleet",
+      "input": "src/ArcForges.CommandLine/ArcForges.CommandLine.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/ArcForges.Host/ArcForges.Host.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.LocalRpc",
+      "input": "src/ArcForges.Node.Api/ArcForges.Node.Api.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Fleet",
+      "input": "src/ArcForges.Node.CloudLink/ArcForges.Node.CloudLink.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "src/ArcForges.Node.CloudLink/ArcForges.Node.CloudLink.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Relay",
+      "input": "src/ArcForges.Node.CloudLink/ArcForges.Node.CloudLink.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/ArcForges.Node.CloudLink/ArcForges.Node.CloudLink.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "src/ArcForges.Node.Core/ArcForges.Node.Core.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Observability",
+      "input": "src/ArcForges.Node.Core/ArcForges.Node.Core.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/ArcForges.Node.Core/ArcForges.Node.Core.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "src/ArcForges.Node.Platform.Linux/ArcForges.Node.Platform.Linux.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "src/ArcForges.Node.Platform.Windows/ArcForges.Node.Platform.Windows.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "src/ArcForges.Node.Platform/ArcForges.Node.Platform.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "src/ArcForges.Node.Store/ArcForges.Node.Store.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security.Secrets",
+      "input": "src/ArcForges.Node.Store/ArcForges.Node.Store.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/ArcForges.Node.Store/ArcForges.Node.Store.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "tests/ArcForges.ClosedLoop.Tests/ArcForges.ClosedLoop.Tests.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "tests/ArcForges.Node.CloudLink.Tests/ArcForges.Node.CloudLink.Tests.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "tests/ArcForges.Node.Core.Tests/ArcForges.Node.Core.Tests.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "tests/ArcForges.Node.Platform.Linux.Tests/ArcForges.Node.Platform.Linux.Tests.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "tests/ArcForges.Node.Platform.Windows.Tests/ArcForges.Node.Platform.Windows.Tests.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Build.props",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "github.com/ArcForges/Contracts/go",
+      "input": "center/go.mod",
+      "kind": "go_require",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": "v1.0.0-ci.450.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "@arcforges/ai-internal",
+      "input": "package.json",
+      "kind": "npm_dependencies",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": "1.0.0-ci.287.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.CloudInternal",
+      "input": "src/ArcForges.Cloud.Storage.D1/ArcForges.Cloud.Storage.D1.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/ArcForges.Cloud/ArcForges.Cloud.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.CloudInternal",
+      "input": "src/ArcForges.Cloud/ArcForges.Cloud.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "tests/ArcForges.Cloud.Consumer/ArcForges.Cloud.Consumer.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "tests/ArchitectureTests/ArcForges.Cloud.ArchitectureTests.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Validation",
+      "input": "tests/ArchitectureTests/ArcForges.Cloud.ArchitectureTests.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Build.props",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "Web",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/ArcForges.Web.Ui/ArcForges.Web.Ui.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Web",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "eng/acceptance/foundation/Foundation.Acceptance.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Application.Abstractions",
+      "input": "eng/acceptance/foundation/Foundation.Acceptance.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "eng/acceptance/foundation/Foundation.Acceptance.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "@arcforges/contract-fixtures",
+      "input": "eng/acceptance/foundation/package.json",
+      "kind": "npm_dependencies",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.113.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "@arcforges/proto",
+      "input": "eng/acceptance/foundation/package.json",
+      "kind": "npm_dependencies",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.113.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/BuildingBlocks/ArcForges.Application.Abstractions/ArcForges.Application.Abstractions.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/BuildingBlocks/ArcForges.Assistant.Abstractions/ArcForges.Assistant.Abstractions.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Application.Abstractions",
+      "input": "src/BuildingBlocks/ArcForges.Assistant.Abstractions/ArcForges.Assistant.Abstractions.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Sdk.Contracts",
+      "input": "src/BuildingBlocks/ArcForges.Capabilities/ArcForges.Capabilities.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/BuildingBlocks/ArcForges.Capabilities/ArcForges.Capabilities.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Capabilities",
+      "input": "src/BuildingBlocks/ArcForges.Capabilities/Tests/ArcForges.Capabilities.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Capabilities",
+      "input": "src/BuildingBlocks/ArcForges.Contributions/ArcForges.Contributions.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contributions",
+      "input": "src/BuildingBlocks/ArcForges.Contributions/Tests/ArcForges.Contributions.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Persistence.Sqlite",
+      "input": "src/BuildingBlocks/ArcForges.Contributions/Tests/ArcForges.Contributions.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/BuildingBlocks/ArcForges.Foundation/ArcForges.Foundation.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/BuildingBlocks/ArcForges.Foundation/Tests/ArcForges.Foundation.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.LocalRpc.Platform",
+      "input": "src/BuildingBlocks/ArcForges.LocalRpc/Tests/ArcForges.LocalRpc.Tests.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.LocalRpc",
+      "input": "src/BuildingBlocks/ArcForges.LocalRpc/Tests/ArcForges.LocalRpc.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/BuildingBlocks/ArcForges.Observability.Desktop/ArcForges.Observability.Desktop.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Observability",
+      "input": "src/BuildingBlocks/ArcForges.Observability.Desktop/ArcForges.Observability.Desktop.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Observability.Desktop",
+      "input": "src/BuildingBlocks/ArcForges.Observability.Desktop/Tests/ArcForges.Observability.Desktop.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Capabilities",
+      "input": "src/BuildingBlocks/ArcForges.Observability/ArcForges.Observability.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/BuildingBlocks/ArcForges.Observability/ArcForges.Observability.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Observability",
+      "input": "src/BuildingBlocks/ArcForges.Observability/Tests/ArcForges.Observability.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Persistence.Derived",
+      "input": "src/BuildingBlocks/ArcForges.Persistence.Derived/Tests/ArcForges.Persistence.Derived.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/BuildingBlocks/ArcForges.Persistence.Resources/ArcForges.Persistence.Resources.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Persistence.Resources",
+      "input": "src/BuildingBlocks/ArcForges.Persistence.Resources/Tests/ArcForges.Persistence.Resources.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/BuildingBlocks/ArcForges.Persistence.Sqlite/ArcForges.Persistence.Sqlite.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/BuildingBlocks/ArcForges.Security.Audit/ArcForges.Security.Audit.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security",
+      "input": "src/BuildingBlocks/ArcForges.Security.Audit/ArcForges.Security.Audit.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security.Audit",
+      "input": "src/BuildingBlocks/ArcForges.Security.Audit/Tests/ArcForges.Security.Audit.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security",
+      "input": "src/BuildingBlocks/ArcForges.Security.Secrets/ArcForges.Security.Secrets.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security.Secrets",
+      "input": "src/BuildingBlocks/ArcForges.Security.Secrets/Tests/ArcForges.Security.Secrets.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/BuildingBlocks/ArcForges.Security/ArcForges.Security.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security",
+      "input": "src/BuildingBlocks/ArcForges.Security/CapabilityEnforcement/ArcForges.Security.CapabilityEnforcement.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Capabilities",
+      "input": "src/BuildingBlocks/ArcForges.Security/CapabilityEnforcement/ArcForges.Security.CapabilityEnforcement.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security",
+      "input": "src/BuildingBlocks/ArcForges.Security/LocalRpcBoundary/ArcForges.Security.LocalRpcBoundary.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.LocalRpc",
+      "input": "src/BuildingBlocks/ArcForges.Security/LocalRpcBoundary/ArcForges.Security.LocalRpcBoundary.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security",
+      "input": "src/BuildingBlocks/ArcForges.Security/Tests/ArcForges.Security.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Persistence.Sqlite",
+      "input": "src/BuildingBlocks/ArcForges.Security/Tests/ArcForges.Security.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security.LocalRpcBoundary",
+      "input": "src/BuildingBlocks/ArcForges.Security/Tests/ArcForges.Security.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security.CapabilityEnforcement",
+      "input": "src/BuildingBlocks/ArcForges.Security/Tests/ArcForges.Security.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.DesignSystem",
+      "input": "src/DesignSystem/ArcForges.DesignSystem/Tests/ArcForges.DesignSystem.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.DesignSystem",
+      "input": "src/DesignSystem/ArcForges.Desktop.Shell/ArcForges.Desktop.Shell.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Capabilities",
+      "input": "src/DesignSystem/ArcForges.Desktop.Shell/ArcForges.Desktop.Shell.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/DesignSystem/ArcForges.Desktop.Shell/ArcForges.Desktop.Shell.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Desktop.Shell",
+      "input": "src/DesignSystem/ArcForges.Desktop.Shell/Tests/ArcForges.Desktop.Shell.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.ContentSandbox.Contracts",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox.Broker/ArcForges.ContentSandbox.Broker.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox.Broker/ArcForges.ContentSandbox.Broker.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.LocalRpc",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox.Broker/ArcForges.ContentSandbox.Broker.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.LocalRpc.Platform",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox.Contracts/ArcForges.ContentSandbox.Contracts.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.LocalRpc.Sandbox",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox.Contracts/ArcForges.ContentSandbox.Contracts.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.LocalRpc",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox.Contracts/ArcForges.ContentSandbox.Contracts.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.ContentSandbox.Contracts",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox/ArcForges.ContentSandbox.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox/ArcForges.ContentSandbox.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.LocalRpc",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox/ArcForges.ContentSandbox.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.ContentSandbox",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox/Fixture/ArcForges.ContentSandbox.HostileFixture.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.LocalRpc.Platform",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox/Tests/ArcForges.ContentSandbox.Tests.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.LocalRpc.Sandbox",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox/Tests/ArcForges.ContentSandbox.Tests.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.ContentSandbox",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox/Tests/ArcForges.ContentSandbox.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.ContentSandbox.HostileFixture",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox/Tests/ArcForges.ContentSandbox.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.ContentSandbox.Broker",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox/Tests/ArcForges.ContentSandbox.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.ContentSandbox.Contracts",
+      "input": "src/DesktopHelpers/ArcForges.ContentSandbox/Tests/ArcForges.ContentSandbox.Tests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Native.Abstractions",
+      "input": "src/Native/ArcForges.Native.Image/ArcForges.Native.Image.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Assistant.Abstractions",
+      "input": "tests/AssistantAbstractionsTests/AssistantAbstractionsTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.LocalRpc.Platform",
+      "input": "tests/LocalRpcAotTests/LocalRpcAotTests.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.LocalRpc",
+      "input": "tests/LocalRpcServiceAotTests/LocalRpcServiceAotTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Native.Abstractions",
+      "input": "tests/NativeAbiTests/ArcForges.Tests.NativeAbiTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Native.Image",
+      "input": "tests/NativeAbiTests/ArcForges.Tests.NativeAbiTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security.Secrets",
+      "input": "tests/OsSecretStoreTests/ArcForges.Tests.OsSecretStoreTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Persistence.Sqlite",
+      "input": "tests/PersistenceTests/ArcForges.Tests.PersistenceTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "tests/ReleaseArtifactTests/GrpcWeb/GrpcWebAotProbe.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Events",
+      "input": "tests/ReleaseArtifactTests/Realtime/RealtimeAotProbe.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "tests/ReleaseArtifactTests/Realtime/RealtimeAotProbe.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "tests/ReleaseArtifactTests/Realtime/RealtimeAotProbe.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security.Secrets",
+      "input": "tests/SecretStoreSelectionAotTests/SecretStoreSelectionAotTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/ArcForges.Mobile/ArcForges.Mobile.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Mobile",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Events",
+      "input": "src/ArcForges.Mobile/ArcForges.Mobile.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Mobile",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/core/ArcForges.Mobile.Network/ArcForges.Mobile.Network.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Mobile",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Events",
+      "input": "src/core/ArcForges.Mobile.Network/ArcForges.Mobile.Network.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Mobile",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Validation",
+      "input": "tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Mobile",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Events",
+      "input": "tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Mobile",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Mobile",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "@arcforges/proto",
+      "input": "package.json",
+      "kind": "npm_dependencies",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "AI",
+      "version_expression": "1.0.0-ci.287.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Build.props",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/ArcForges.ArcScope.Application/ArcForges.ArcScope.Application.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/ArcForges.ArcScope.Application/ArcForges.ArcScope.Application.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/ArcForges.ArcScope.Core/ArcForges.ArcScope.Core.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/ArcForges.ArcScope.Infrastructure/ArcForges.ArcScope.Infrastructure.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/ArcForges.ArcScope.Infrastructure/ArcForges.ArcScope.Infrastructure.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Persistence.Sqlite",
+      "input": "src/ArcForges.ArcScope.Infrastructure/ArcForges.ArcScope.Infrastructure.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Foundation",
+      "input": "src/ArcForges.ArcScope/ArcForges.ArcScope.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Application.Abstractions",
+      "input": "src/ArcForges.ArcScope/ArcForges.ArcScope.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Native.Image",
+      "input": "src/ArcForges.ArcScope/ArcForges.ArcScope.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Native.Image.Runtime.win-x64",
+      "input": "src/ArcForges.ArcScope/ArcForges.ArcScope.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Scope",
+      "input": "src/ArcForges.ArcScope/ArcForges.ArcScope.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/ArcForges.ArcScope/ArcForges.ArcScope.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Assistant.Abstractions",
+      "input": "tests/ArcForges.ArcScope.Tests/ArcForges.ArcScope.Tests.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Capabilities",
+      "input": "tests/ArcForges.ArcScope.Tests/ArcForges.ArcScope.Tests.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Persistence.Sqlite",
+      "input": "tests/ArcForges.ArcScope.Tests/ArcForges.ArcScope.Tests.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "tests/ArchitectureTests/ArcForges.ArcScope.ArchitectureTests.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Build.props",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcSlate",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/ArcForges.ArcSlate.Core/ArcForges.ArcSlate.Core.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcSlate",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/ArcForges.ArcSlate/ArcForges.ArcSlate.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcSlate",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Build.props",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcNotes",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/ArcForges.ArcNotes.Core/ArcForges.ArcNotes.Core.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcNotes",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/ArcForges.ArcNotes/ArcForges.ArcNotes.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcNotes",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Events",
+      "input": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Platform",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Platform",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Scope",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Chat",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Sdk.Contracts",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Platform",
+      "input": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/internal/dotnet/ArcForges.Contracts.Peer/ArcForges.Contracts.Peer.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "src/internal/dotnet/ArcForges.Contracts.Peer/ArcForges.Contracts.Peer.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/internal/dotnet/ArcForges.Contracts.Relay/ArcForges.Contracts.Relay.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "src/internal/dotnet/ArcForges.Contracts.Relay/ArcForges.Contracts.Relay.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Fleet",
+      "input": "src/internal/dotnet/ArcForges.Contracts.Relay/ArcForges.Contracts.Relay.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Validation",
+      "input": "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/public/dotnet/ArcForges.Contracts.Fleet/ArcForges.Contracts.Fleet.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "src/public/dotnet/ArcForges.Contracts.Fleet/ArcForges.Contracts.Fleet.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/public/dotnet/ArcForges.Contracts.Node/ArcForges.Contracts.Node.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Events",
+      "input": "src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Sdk.Contracts",
+      "input": "src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Sdk.Contracts",
+      "input": "src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Validation",
+      "input": "src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj",
+      "kind": "PackageReference",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "tests/StructureTests/PreviousClient/PreviousClient.csproj",
+      "kind": "PackageReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Events",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Sdk.Contracts",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Validation",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Sdk.Client",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.LocalRpc.Platform",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.LocalRpc.Sandbox",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.LocalRpc.Chat",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.LocalRpc.Scope",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.CloudInternal",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.LocalRpc.Dispatch",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Fleet",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Relay",
+      "input": "tests/StructureTests/StructureTests.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "tests/public/HelloClient/HelloClient.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "tests/public/HelloHost/HelloHost.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Events",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Sdk.Contracts",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Validation",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Sdk.Client",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Platform",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Sandbox",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Chat",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Scope",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.CloudInternal",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Fleet",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Peer",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Relay",
+      "input": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "ProjectReference",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": null
+    }
+  ],
+  "repositories": [
+    {
+      "deletion_authorized": false,
+      "dirty": false,
+      "independent_product": false,
+      "input_files": [
+        {
+          "path": "Directory.Build.props",
+          "sha256": "a2443f3a0a574a704636584a319128c72231e5b53ddbd7c63b4339dcaa45e32e"
+        },
+        {
+          "path": "Directory.Build.targets",
+          "sha256": "c9987bd3a2620db7dcd66ce44544bd156641a697c40a8ca6f53ec8c851abed52"
+        },
+        {
+          "path": "Directory.Packages.props",
+          "sha256": "dd51db4436858bd3c467b75b4b0fd1b0d247d4308254eef9a8d34f209f98f46f"
+        },
+        {
+          "path": "src/ArcForges.Client/ArcForges.Client.csproj",
+          "sha256": "6a9f955601884e36ac8ff417e199b7ddd9d6a253d7059bcd3ad6a1dd494ed84d"
+        },
+        {
+          "path": "src/ArcForges.CommandLine/ArcForges.CommandLine.csproj",
+          "sha256": "25e5bbbc85b14a986daaf49aca0ae34b3a4477e57e77888e3a41f15adf922762"
+        },
+        {
+          "path": "src/ArcForges.Desktop/ArcForges.Desktop.csproj",
+          "sha256": "585a15eef9f6ec273d899e08d4674379ec3619556a492cec1b089161a91f8411"
+        },
+        {
+          "path": "src/ArcForges.Host/ArcForges.Host.csproj",
+          "sha256": "ec2c3ae7946d288c15edea93f004418be673985b385d1a1a76d8da28410c2672"
+        },
+        {
+          "path": "src/ArcForges.Node.Api/ArcForges.Node.Api.csproj",
+          "sha256": "b12f7945eae88d5ebb7b0745091dbe86c53b2b5fab5ac47cae69fa62e3d57124"
+        },
+        {
+          "path": "src/ArcForges.Node.CloudLink/ArcForges.Node.CloudLink.csproj",
+          "sha256": "25ed0dddff0fc2fab7f18f6b1fda21a0bb8e76b378ef6f7083de5640527cec77"
+        },
+        {
+          "path": "src/ArcForges.Node.Core/ArcForges.Node.Core.csproj",
+          "sha256": "ab60e192656645d050b703f9f85686a544f3cb04b068356d0eaf828683613f8f"
+        },
+        {
+          "path": "src/ArcForges.Node.Platform.Linux/ArcForges.Node.Platform.Linux.csproj",
+          "sha256": "dd1bfbdd326ed366fbabf4fe0089696c066532a086110f8cd0913ce985214ab9"
+        },
+        {
+          "path": "src/ArcForges.Node.Platform.Windows/ArcForges.Node.Platform.Windows.csproj",
+          "sha256": "376354eb6297f7ce0c7f1ad24e4d291fbbf2e423ce925134f037aa375db1c20e"
+        },
+        {
+          "path": "src/ArcForges.Node.Platform/ArcForges.Node.Platform.csproj",
+          "sha256": "af6dcf7c3fc502ea22dacc5b23c4f7855b32ed4990b4f9c66ec36b3137e8cd4e"
+        },
+        {
+          "path": "src/ArcForges.Node.Store/ArcForges.Node.Store.csproj",
+          "sha256": "d7a65baeb62694a90f2e64a4b0970e8ac258688863c68797c13f61677d26b002"
+        },
+        {
+          "path": "src/ArcForges.Supervisor/ArcForges.Supervisor.csproj",
+          "sha256": "5f304f35526a87768c93cc449bfa54a2da22679443266fe094f3d1bfc7e2e883"
+        },
+        {
+          "path": "tests/ArcForges.Client.Tests/ArcForges.Client.Tests.csproj",
+          "sha256": "88de0c63ce88ceb61b6fa99bcd4c53793c58d1e23dcdf7e1f0debed74592e96a"
+        },
+        {
+          "path": "tests/ArcForges.ClosedLoop.Tests/ArcForges.ClosedLoop.Tests.csproj",
+          "sha256": "5f82977f88e724d03f8bac3490cb93b23f44323a108ef327b3d1cdd8b213f8b3"
+        },
+        {
+          "path": "tests/ArcForges.Desktop.Tests/ArcForges.Desktop.Tests.csproj",
+          "sha256": "c450704c4ab9dca8e340124bd60356422eaa0efe4bbeed4c847228104d725c15"
+        },
+        {
+          "path": "tests/ArcForges.Node.CloudLink.Tests/ArcForges.Node.CloudLink.Tests.csproj",
+          "sha256": "a6638cdab0e28beb5d1854f40bc14e1fd26339543c0022017a43704c8f5e8a7d"
+        },
+        {
+          "path": "tests/ArcForges.Node.Core.Tests/ArcForges.Node.Core.Tests.csproj",
+          "sha256": "34bd3ba456fbebc0ae1162a128e6b7539811a5efb376b9451934cc264192398e"
+        },
+        {
+          "path": "tests/ArcForges.Node.Platform.Linux.Tests/ArcForges.Node.Platform.Linux.Tests.csproj",
+          "sha256": "6982c04966ec1f375dd669c5025dae9e34e8d9eaa9aca3c840681480c55ebb08"
+        },
+        {
+          "path": "tests/ArcForges.Node.Platform.Windows.Tests/ArcForges.Node.Platform.Windows.Tests.csproj",
+          "sha256": "f062bea3f5fc1e6058557c1480aff3b4fc6c4cab291ce6a175afedcb79e76f45"
+        },
+        {
+          "path": "tests/ArcForges.Node.Store.Tests/ArcForges.Node.Store.Tests.csproj",
+          "sha256": "4959b239d5b93a707cb10491d0c49c8e6b33253f07675cdc740cd4697038bd48"
+        },
+        {
+          "path": "tests/ArcForges.OsSecretStoreTier/ArcForges.OsSecretStoreTier.csproj",
+          "sha256": "ee9cdfde5eb1615932bde5afdaf9b955823b95b8aec9e442e2130f7cb3f8bafb"
+        },
+        {
+          "path": "tests/ArcForges.Repository.Tests/ArcForges.Repository.Tests.csproj",
+          "sha256": "df42a1a049f11d38f1d7da5fbc16575e7623d8d0434110d2a887126aaab7ee22"
+        },
+        {
+          "path": "tests/ArcForges.Tools.Tests/ArcForges.Tools.Tests.csproj",
+          "sha256": "07f7efb69bea9caa5b26f3989cae5fe110c198ac02ac0d73c903986502a04fb8"
+        },
+        {
+          "path": "tests/Directory.Build.props",
+          "sha256": "06523c9381e5d4373a23e89f550e404f8805f423bb409399159d84f903b7b7b9"
+        },
+        {
+          "path": "tools/ArcForges.Bench/ArcForges.Bench.csproj",
+          "sha256": "4c20f8dcd926e42186653a1a3051f25dc5163e274195eb4a2683810e60a9cca8"
+        },
+        {
+          "path": "tools/ArcForges.TestLoad/ArcForges.TestLoad.csproj",
+          "sha256": "5871b64fd2070db18b8218b0843516438c7689b4c6d913c2726d76fb183054c9"
+        }
+      ],
+      "origin_identity": "ArcForges/ArcForges",
+      "repository": "ArcForges",
+      "revision": "200d2d25b1b40093c3af278993145a92bbf82a78",
+      "scan_basis": "committed_HEAD",
+      "state": "observed"
+    },
+    {
+      "deletion_authorized": false,
+      "dirty": false,
+      "independent_product": false,
+      "input_files": [
+        {
+          "path": "Directory.Build.props",
+          "sha256": "9fd1a1c0c8730a93ecfc59b2be5eda93fb8f0aeb6854ced6d62e4c11bd004b93"
+        },
+        {
+          "path": "Directory.Build.targets",
+          "sha256": "fa4bf35487140fecd21b71a2fb524792631a292df2313f9440f8c6e7e90a82d2"
+        },
+        {
+          "path": "Directory.Packages.props",
+          "sha256": "a14869d5b584097f0aa37d018d6c453977280d07ae876d7a554813ae27d98bc2"
+        },
+        {
+          "path": "center/go.mod",
+          "sha256": "d6459f9329016b874ae7c3806d6a5acd0012e70d62042927c0e9ec51f4c1d382"
+        },
+        {
+          "path": "center/tools/go.mod",
+          "sha256": "6f34fd06cad1d302b239520575fcb50a1116302852b7b59247b4a5ad517810b7"
+        },
+        {
+          "path": "eng/verification/browser/package.json",
+          "sha256": "80e70e0c7a9a5141463c74ecbb21c2254c1745573060cd12009ccd208144890b"
+        },
+        {
+          "path": "package.json",
+          "sha256": "d9b3b4e12a0c9beff38343c70370b38ec7bfcd60ff29e4f6785b3da7276619e4"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Abstractions/ArcForges.Cloud.Modules.Abstractions.csproj",
+          "sha256": "77d9489e8d9c99cce08b9b847b41c6c3277ab6ed0435d56a7803d46bc502832c"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Agent/ArcForges.Cloud.Modules.Agent.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Audit/ArcForges.Cloud.Modules.Audit.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Chat/ArcForges.Cloud.Modules.Chat.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Commerce/ArcForges.Cloud.Modules.Commerce.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Configuration/ArcForges.Cloud.Modules.Configuration.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Devices/ArcForges.Cloud.Modules.Devices.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Entitlement/ArcForges.Cloud.Modules.Entitlement.csproj",
+          "sha256": "dfb860b88c916ed63e242f740b52b4b7f1fc92cf7f05399756fd2e0eea947aeb"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Identity/ArcForges.Cloud.Modules.Identity.csproj",
+          "sha256": "dfb860b88c916ed63e242f740b52b4b7f1fc92cf7f05399756fd2e0eea947aeb"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Notification/ArcForges.Cloud.Modules.Notification.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.PackageCatalog/ArcForges.Cloud.Modules.PackageCatalog.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Policy/ArcForges.Cloud.Modules.Policy.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Resource/ArcForges.Cloud.Modules.Resource.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Scope/ArcForges.Cloud.Modules.Scope.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Search/ArcForges.Cloud.Modules.Search.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Support/ArcForges.Cloud.Modules.Support.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Sync/ArcForges.Cloud.Modules.Sync.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Task/ArcForges.Cloud.Modules.Task.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.TrustSafety/ArcForges.Cloud.Modules.TrustSafety.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Modules.Workspace/ArcForges.Cloud.Modules.Workspace.csproj",
+          "sha256": "f9cab23f0b2308c8990d9a3557dca34e5cfd7a86453c856552429c6fc1e7d453"
+        },
+        {
+          "path": "src/ArcForges.Cloud.Storage.D1/ArcForges.Cloud.Storage.D1.csproj",
+          "sha256": "063d9974b3044dad6c97e8dd226d4cf60aba2ec15c85a910c120191e2a08e217"
+        },
+        {
+          "path": "src/ArcForges.Cloud/ArcForges.Cloud.csproj",
+          "sha256": "eb42ea5fe02b76c3b6a6e655584d37fb5aef5a1bf105b347fc86b005246bad07"
+        },
+        {
+          "path": "tests/ArcForges.Cloud.Consumer/ArcForges.Cloud.Consumer.csproj",
+          "sha256": "8fe4c5800be3ea425701ac46d4134424a896a00b3d7e7c2bb37ee5c1168d81f4"
+        },
+        {
+          "path": "tests/ArcForges.Cloud.Tests/ArcForges.Cloud.Tests.csproj",
+          "sha256": "eb0af2275c7f33bcaf60e0ebebe3e22a17fda6955be9279c387f9d6ce6dd5b5c"
+        },
+        {
+          "path": "tests/ArchitectureTests/ArcForges.Cloud.ArchitectureTests.csproj",
+          "sha256": "93123c0f27e3816e951938a556298a209e25851757b0cc7c43bf2baf37c23cf1"
+        },
+        {
+          "path": "tools/ArcForges.Cloud.Generation/ArcForges.Cloud.Generation.csproj",
+          "sha256": "88a4497f1265ccaab31aca22096479c5155b0e827f5fe35edd8030469a67ef97"
+        }
+      ],
+      "origin_identity": "ArcForges/Cloud",
+      "repository": "Cloud",
+      "revision": "d422d7718307f39903de49ee673105a3d0db6b9d",
+      "scan_basis": "committed_HEAD",
+      "state": "observed"
+    },
+    {
+      "deletion_authorized": false,
+      "dirty": false,
+      "independent_product": false,
+      "input_files": [
+        {
+          "path": "Directory.Build.props",
+          "sha256": "1ed0f27093a6414d114f9c955ba56c94ec4f0052c201c88a42ec3fb21a6e3a97"
+        },
+        {
+          "path": "Directory.Build.targets",
+          "sha256": "66716168ad9b701833e0d750f27acf4962fc23bdac4c8f121ea57635d5116c35"
+        },
+        {
+          "path": "Directory.Packages.props",
+          "sha256": "0c2016316d64291e5688a4aaf8afeb9f885fc28019a1f6e31066d55f7df170f8"
+        },
+        {
+          "path": "package.json",
+          "sha256": "9bb1448740e04aa12313fdab50a1a65c599895690d08a00d71e0db0622a1c885"
+        },
+        {
+          "path": "src/ArcForges.Web.App/ArcForges.Web.App.csproj",
+          "sha256": "bf952d5b7d7ee18234bc6e98627c906dc5ebcf0c02d024b173b0e7b70243ddaa"
+        },
+        {
+          "path": "src/ArcForges.Web.Operations/ArcForges.Web.Operations.csproj",
+          "sha256": "ad7f8197fada085fb3ba6bee69f1d45716e3b79725ed7d388f0a9080ae290077"
+        },
+        {
+          "path": "src/ArcForges.Web.Site/ArcForges.Web.Site.csproj",
+          "sha256": "3262ccbf711251e32859c732422b472975f3e4269b31814f9df298f1be698344"
+        },
+        {
+          "path": "src/ArcForges.Web.Ui/ArcForges.Web.Ui.csproj",
+          "sha256": "2c922134e6471da2db5194204b52b7722a341a54d6eee4db17b5c6459c631fa6"
+        },
+        {
+          "path": "tests/ArcForges.Web.App.Tests/ArcForges.Web.App.Tests.csproj",
+          "sha256": "d9044cf90b86c7a380fc1a5a24a1539ad94507b307dc2ba045e4c32d722f98c6"
+        },
+        {
+          "path": "tests/ArcForges.Web.Operations.Tests/ArcForges.Web.Operations.Tests.csproj",
+          "sha256": "85d50eb3e78de52b2f2fc38cbeed1b5ec8d0875344bbe5dc3a279697a2c25f6c"
+        },
+        {
+          "path": "tests/ArcForges.Web.Policy.Tests/ArcForges.Web.Policy.Tests.csproj",
+          "sha256": "bce3090ee3c4fc71a4d90802f75e15ebefdf2027f4dcc5b86e9cb485fbe24742"
+        },
+        {
+          "path": "tests/ArcForges.Web.Site.Tests/ArcForges.Web.Site.Tests.csproj",
+          "sha256": "46e0e121cd17ffbe4e16bf3c83795c4129ad990c020c038ae9192184c4ee4be0"
+        },
+        {
+          "path": "tests/ArcForges.Web.Tooling.Tests/ArcForges.Web.Tooling.Tests.csproj",
+          "sha256": "5e9db68756a4b34f65529305d47dcdf620ba1e3afb518c12e46457f091f08d37"
+        },
+        {
+          "path": "tests/ArcForges.Web.Ui.Tests/ArcForges.Web.Ui.Tests.csproj",
+          "sha256": "ebc006964e176e7c71b7a36b3e94a030fa6a2d807450ab6ef8e829c7ebe2177e"
+        },
+        {
+          "path": "tests/browser/ArcForges.Web.Browser.Tests/ArcForges.Web.Browser.Tests.csproj",
+          "sha256": "6d113146859ece321fad7c614ae1680a5219ce8ab22af01c7d1a60291d2bd2a7"
+        },
+        {
+          "path": "tools/ArcForges.Web.Tooling/ArcForges.Web.Tooling.csproj",
+          "sha256": "91bf31b448f0d9b06fe73d4daebb5971e09d727fc1a0541db5047734df3f9fe4"
+        }
+      ],
+      "origin_identity": "ArcForges/Web",
+      "repository": "Web",
+      "revision": "69be85d95ea412cc027597ffd0d990bf0e28e50f",
+      "scan_basis": "committed_HEAD",
+      "state": "observed"
+    },
+    {
+      "deletion_authorized": false,
+      "dirty": false,
+      "independent_product": false,
+      "input_files": [
+        {
+          "path": "Directory.Build.props",
+          "sha256": "932b3a3cfba1af878fd2c45f047aaa4626caa36ecf9945e73bdb8f874e33bd9c"
+        },
+        {
+          "path": "Directory.Build.targets",
+          "sha256": "71554fa4e3ad43d09505499777866f3e559eef6d56a0a589abe488326bee6b29"
+        },
+        {
+          "path": "Directory.Packages.props",
+          "sha256": "f6d7db60e5e1a360161996c3247ca7e0853c109a5612ae57adf0972e7bab3fc0"
+        },
+        {
+          "path": "benchmarks/probes/acquisition/AcquisitionProbe.csproj",
+          "sha256": "ab9d05ce5a7fe3d02457e1fd0cf8c09310bc74dffbbf86edb55fa412f631866b"
+        },
+        {
+          "path": "eng/acceptance/foundation/Directory.Packages.props",
+          "sha256": "6c073bc8da6fad53cdc35adb042590e2e6b8cb4fbca8e3e1c2ea799476021ad4"
+        },
+        {
+          "path": "eng/acceptance/foundation/Foundation.Acceptance.csproj",
+          "sha256": "df9c2b1ef09c4ffe7473c9a89ed0cccf8a5bfc009a38c81c0899da7ca06ff65a"
+        },
+        {
+          "path": "eng/acceptance/foundation/package.json",
+          "sha256": "32361db70e2072b195385c9141b7bd5b003fd51f6a919b566fcb2c152da8b780"
+        },
+        {
+          "path": "eng/verification/probe-evidence/Directory.Packages.props",
+          "sha256": "6cf8ceaa1c2e83f9a89761b191d1cf82ec36bbb53c3d03b184e8cd5a8a138df4"
+        },
+        {
+          "path": "eng/verification/probe-evidence/Prf09.TableViewProbe.csproj",
+          "sha256": "a6faa161c755befe2c9dde36345c480df145ca06ad30628d321524f568c143e0"
+        },
+        {
+          "path": "src/Build/ArcForges.Build.Policy/ArcForges.Build.Policy.csproj",
+          "sha256": "36c70950cb6e94d766fdc805df75defd8e66f4c8301a6040e504f42f7fe77ab4"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Application.Abstractions/ArcForges.Application.Abstractions.csproj",
+          "sha256": "61a48468af0a9650900916af6191bc2ec9623092302ffbb5653f24703500424f"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Assistant.Abstractions/ArcForges.Assistant.Abstractions.csproj",
+          "sha256": "12aeb427f4535611aa89a49d338cfb6b8e331a53c092bc6f543345193ece9134"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Capabilities/ArcForges.Capabilities.csproj",
+          "sha256": "06f43c4c843fdd6eaf89621a27d9de6db045cd330cdffe833aa6a6201a06d8ab"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Capabilities/Tests/ArcForges.Capabilities.Tests.csproj",
+          "sha256": "855935615355315f83c46279b205bbb881127ff25a00a4d0e747dbc5d8c82eae"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Contributions/ArcForges.Contributions.csproj",
+          "sha256": "ad88a30d36ffb6b2cc649fc4d96d5503eb22f9132f371ac1122a57a13127ffc6"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Contributions/Tests/ArcForges.Contributions.Tests.csproj",
+          "sha256": "b53c003d280ff7c9dfaed13992c5aa3131ae4606ae07e767c5c9d5b7b12f80eb"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Desktop.Experience/ArcForges.Desktop.Experience.csproj",
+          "sha256": "eb78c0d926ce7d1dbb7dc53b694ee580905d70c02978d0e194b5c7e9851b38c1"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Desktop.Graphics/ArcForges.Desktop.Graphics.csproj",
+          "sha256": "2daf9dd214c18b31ef37859f6b51e8eec22a9f992abaef2aa005c70bcd290bb4"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Desktop.Preview/ArcForges.Desktop.Preview.csproj",
+          "sha256": "51891d21d88e15e7da5d35f01b20d06f4f9111061ab804b767b2a29088db85e0"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Desktop.RichContent/ArcForges.Desktop.RichContent.csproj",
+          "sha256": "75e175240fe85ed871b78101a1f67d4d94e67e68e160fb55fbfebadb0cc7895c"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Desktop.Text/ArcForges.Desktop.Text.csproj",
+          "sha256": "91fe933cd6325f070b73844ceefd2a1639fa054897c4e0391c5434c63643eee0"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Foundation/ArcForges.Foundation.csproj",
+          "sha256": "7b2eae4c39193b236384a3803e382b0a99fa5c11a048ee4a058e5e5c3a2a504d"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Foundation/Tests/ArcForges.Foundation.Tests.csproj",
+          "sha256": "9a4719adc73e237608bf9aeee39e9fe25e250137fb17e4e6038b559848680a84"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.LocalRpc/ArcForges.LocalRpc.csproj",
+          "sha256": "47c42c1af3e63d19cfc7cf2b3a9d04204256ae70b2a65d6e6fdc07c945f67709"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.LocalRpc/Tests/ArcForges.LocalRpc.Tests.csproj",
+          "sha256": "bead7504b0bba42b719a3c8436cc2b6d8a0153a35d9cce177d1c43bdded6a360"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.NativeInterop/ArcForges.NativeInterop.csproj",
+          "sha256": "13ca955c723d24c2431addc6547f952c0ebbbe58bea33575f43a23245fbcb533"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Observability.Desktop/ArcForges.Observability.Desktop.csproj",
+          "sha256": "eb1a7d40edd818a940a79be460222af59122d09ded9fc7a3aa6b8c8ec5bc2c6f"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Observability.Desktop/Tests/ArcForges.Observability.Desktop.Tests.csproj",
+          "sha256": "c86482ab0b3e1bb1d2e89c27c4722e9b4b205a0d9679af0d7bca683fbcff1843"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Observability/ArcForges.Observability.csproj",
+          "sha256": "69aed0e41942c78e37d12c75e3e1412af46e1d284be88e1f993c9024f3f4531a"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Observability/Tests/ArcForges.Observability.Tests.csproj",
+          "sha256": "b9339f07445de471671ab7ae045f32db90ff24ae067b6d883715f492fafd2ba3"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Persistence.Derived/ArcForges.Persistence.Derived.csproj",
+          "sha256": "e59f75ff3e0d63536f6bf3fdd977d8a2572a2055d4ce62ab796fcae5bf87d701"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Persistence.Derived/Tests/ArcForges.Persistence.Derived.Tests.csproj",
+          "sha256": "2aef1ac8b2d8d5ae23aa9ce5a883f4d90c792eb14eb091bc2e6f60cccc278316"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Persistence.Resources/ArcForges.Persistence.Resources.csproj",
+          "sha256": "3abc7daa79e78bd00ff10c34b48a099625ad6b3f29a4f2df4d0e3f8a519a2950"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Persistence.Resources/Tests/ArcForges.Persistence.Resources.Tests.csproj",
+          "sha256": "f366b64fbf19c9c53f1f0cfb6003a288a69b53409fbc235b433a840237433ca0"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Persistence.Sqlite/ArcForges.Persistence.Sqlite.csproj",
+          "sha256": "f7aab1734744af5a0bf96413f56033e98be7918ec56bf0e9b17dd602950e17b0"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Security.Audit/ArcForges.Security.Audit.csproj",
+          "sha256": "ed3231b9fff3a96537065aca7a3922aedf400badebce73098526f66251f9c4f3"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Security.Audit/Tests/ArcForges.Security.Audit.Tests.csproj",
+          "sha256": "c1f76ca408a531332661f49a302028b4fb6e5574b568ead16332856f1b7d6281"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Security.Secrets/ArcForges.Security.Secrets.csproj",
+          "sha256": "3f237e4631f4f7be7fe380cd90fdc5ae2d112bc82a630b5808afaa0f199f08c0"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Security.Secrets/Tests/ArcForges.Security.Secrets.Tests.csproj",
+          "sha256": "cadf281b99bedab08ddaebb8b8cc46661f2fff8265898a972784f7b83891acc2"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Security/ArcForges.Security.csproj",
+          "sha256": "d3e9e74fc8534872f4e3f0aec95ff181955cf00175f3612cfd4a8a60ffbc5524"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Security/CapabilityEnforcement/ArcForges.Security.CapabilityEnforcement.csproj",
+          "sha256": "9aaa926ccceda13110fbac55a59cbccd2eafc699a8c991f0412884a1667caad7"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Security/LocalRpcBoundary/ArcForges.Security.LocalRpcBoundary.csproj",
+          "sha256": "328e6ef54ba226062453a8d36bc9d8a5245f972805a34c91fa0a699b7e2f3761"
+        },
+        {
+          "path": "src/BuildingBlocks/ArcForges.Security/Tests/ArcForges.Security.Tests.csproj",
+          "sha256": "3aa639e235f6861ef1354a4ee7c61400e597fbd4a89f86eb60f1d0137f7c868f"
+        },
+        {
+          "path": "src/DesignSystem/ArcForges.DesignSystem/ArcForges.DesignSystem.csproj",
+          "sha256": "21dbd944fb86db4a388d4d65792a68db40ad3f3ce1eb74bd8c95ab0ac16d8aef"
+        },
+        {
+          "path": "src/DesignSystem/ArcForges.DesignSystem/Tests/ArcForges.DesignSystem.Tests.csproj",
+          "sha256": "1e8a341439d5fd435829e21db0509e10047c060ec8de5614e3b092c181756391"
+        },
+        {
+          "path": "src/DesignSystem/ArcForges.Desktop.Shell/ArcForges.Desktop.Shell.csproj",
+          "sha256": "2bd9b28e80c56ea6bfe8285b8c5560bf9d141355f230f54ad332ca5b015b4876"
+        },
+        {
+          "path": "src/DesignSystem/ArcForges.Desktop.Shell/Tests/ArcForges.Desktop.Shell.Tests.csproj",
+          "sha256": "4802ccf719850f5c31ea7f690cab91ddbea0c3321cc80a9a5016e947180d08f5"
+        },
+        {
+          "path": "src/DesktopHelpers/ArcForges.ContentSandbox.Broker/ArcForges.ContentSandbox.Broker.csproj",
+          "sha256": "028870dcbf0b33f87ec93e9d5b3b9b64d50d801fbf0aa9514336aa2c16ef4aaa"
+        },
+        {
+          "path": "src/DesktopHelpers/ArcForges.ContentSandbox.Contracts/ArcForges.ContentSandbox.Contracts.csproj",
+          "sha256": "641c1e71c734d7d8ae6cf85e94d828387be67daf369a2d17853c8c72ee4074c2"
+        },
+        {
+          "path": "src/DesktopHelpers/ArcForges.ContentSandbox/ArcForges.ContentSandbox.csproj",
+          "sha256": "1cbce4b6a79b01c7725b986e16c38c52535aa6446a8ca77597c9c64fec3508ef"
+        },
+        {
+          "path": "src/DesktopHelpers/ArcForges.ContentSandbox/Fixture/ArcForges.ContentSandbox.HostileFixture.csproj",
+          "sha256": "6649b2ed87df3b5f3315ba0c56214c978d783f8d11cb47de563ecb61e32fd542"
+        },
+        {
+          "path": "src/DesktopHelpers/ArcForges.ContentSandbox/Tests/ArcForges.ContentSandbox.Tests.csproj",
+          "sha256": "168459a0c35344526863237e0acedea8115f7bdfa889229832e0975cd2966030"
+        },
+        {
+          "path": "src/Directory.Build.props",
+          "sha256": "bf118d90b53ceb536479db4a803b370cd47fc15aa47d98a88902b8ab0dd54047"
+        },
+        {
+          "path": "src/Native/ArcForges.Native.Abstractions/ArcForges.Native.Abstractions.csproj",
+          "sha256": "527cfddccaa0de78671527b3e455096aee70aaae48d53706398cdfa91a09732a"
+        },
+        {
+          "path": "src/Native/ArcForges.Native.Image.Runtime.win-x64/ArcForges.Native.Image.Runtime.win-x64.csproj",
+          "sha256": "594fe09ffae3f71f6308e46ba70f7fbd7329186d765eb892f6320bdb845611bb"
+        },
+        {
+          "path": "src/Native/ArcForges.Native.Image/ArcForges.Native.Image.csproj",
+          "sha256": "16989a6d0380a92d1f222e5a36c5f940da6fa2810c35f9b5b4199fe0bdaff570"
+        },
+        {
+          "path": "tests/ArchitectureTests/ArcForges.Tests.ArchitectureTests.csproj",
+          "sha256": "33a08c8538fbc2310618f5701681f2bedf3d2485f642b3d4cb071fdb2b81ea6f"
+        },
+        {
+          "path": "tests/AssistantAbstractionsTests/AssistantAbstractionsTests.csproj",
+          "sha256": "705ee1437ef824a8019194f049935990e577e5f6f7c83a91b2c99ede077a2b97"
+        },
+        {
+          "path": "tests/LocalRpcAotTests/LocalRpcAotTests.csproj",
+          "sha256": "60e4525c7c0c7a67a8ff1ff4adfa61c3d3cad82e7e76eb01275eda7ad1f8c30f"
+        },
+        {
+          "path": "tests/LocalRpcServiceAotTests/LocalRpcServiceAotTests.csproj",
+          "sha256": "b716541d9dedd9f0720673ed4cefc42613d57b6e677bb0c78e2da4dee37c3d83"
+        },
+        {
+          "path": "tests/NativeAbiTests/ArcForges.Tests.NativeAbiTests.csproj",
+          "sha256": "af7b3a8789255accf226b72cae793689cfe2d0f9e0591d4528b67a6b300629d7"
+        },
+        {
+          "path": "tests/OsSecretStoreTests/ArcForges.Tests.OsSecretStoreTests.csproj",
+          "sha256": "f6aa4b73e20da57b4f5caac4d1fb10d046c1db85732340eb4e9e4c07a68b3ad8"
+        },
+        {
+          "path": "tests/PersistenceTests/ArcForges.Tests.PersistenceTests.csproj",
+          "sha256": "1e69e18549ce97b179a20d2d0dc67d4cc2228ad8672197c85a58b37d43a6eff8"
+        },
+        {
+          "path": "tests/ReleaseArtifactTests/GrpcWeb/Directory.Packages.props",
+          "sha256": "75389a85362198cb44500b21765fda9a7a83ce13a17e6fbeb5b5ec9d9f8b68c7"
+        },
+        {
+          "path": "tests/ReleaseArtifactTests/GrpcWeb/GrpcWebAotProbe.csproj",
+          "sha256": "0a63d7f71227fde8610c53499ffb8196c69e0a987f0025133d7949c7b1a49dea"
+        },
+        {
+          "path": "tests/ReleaseArtifactTests/Realtime/RealtimeAotProbe.csproj",
+          "sha256": "28d442794ed4091bf7dac1af4112efe07e121005005eae7637e0a698a1fb611d"
+        },
+        {
+          "path": "tests/SecretStoreSelectionAotTests/SecretStoreSelectionAotTests.csproj",
+          "sha256": "f680f06fa720e09f9aa06253fd1119d49655ce90b90c98b50fa62920499e0996"
+        }
+      ],
+      "origin_identity": "ArcForges/DesktopPlatform",
+      "repository": "DesktopPlatform",
+      "revision": "6e109ef5d01855158c7ae3a63cd42c98db2647f3",
+      "scan_basis": "committed_HEAD",
+      "state": "observed"
+    },
+    {
+      "deletion_authorized": false,
+      "dirty": false,
+      "independent_product": true,
+      "input_files": [
+        {
+          "path": "Directory.Build.props",
+          "sha256": "024cc9a40ed96529e507b652f9694496ed38c5a33a68fd813371ae2873eccfee"
+        },
+        {
+          "path": "Directory.Packages.props",
+          "sha256": "df132c51f9198f19147b55d5086d85c830e37aeeae6f735bb81a7e7d460e2123"
+        },
+        {
+          "path": "src/ArcForges.Mobile/ArcForges.Mobile.csproj",
+          "sha256": "0fd1a228b03eee3b5578b2a45a21cdb9dc71412ec7f8ac516843164977d2bf33"
+        },
+        {
+          "path": "src/core/ArcForges.Mobile.Network/ArcForges.Mobile.Network.csproj",
+          "sha256": "c39a8ea9a823ce2beb0fb24b0e20e0beebb4c922173c9b0faa14435ecb1512c3"
+        },
+        {
+          "path": "src/core/ArcForges.Mobile.Security/ArcForges.Mobile.Security.csproj",
+          "sha256": "28de4635378c839d006c072dd01b97f6367e11660253e4059dcfec705dcfd274"
+        },
+        {
+          "path": "tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj",
+          "sha256": "215dbcfa0c2e6922f2701cc4a2bb5cfdba167ca882c14d9d220f5041ae934899"
+        },
+        {
+          "path": "tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj",
+          "sha256": "4140a078ce28f7e4247ea061ec1772bec529126a79408b5f13806db3aa430df7"
+        }
+      ],
+      "origin_identity": "ArcForges/Mobile",
+      "repository": "Mobile",
+      "revision": "072ee675e8ea67e779922082dbf65dbc02ed6916",
+      "scan_basis": "committed_HEAD",
+      "state": "observed"
+    },
+    {
+      "deletion_authorized": false,
+      "dirty": false,
+      "independent_product": true,
+      "input_files": [
+        {
+          "path": "package.json",
+          "sha256": "0f1999ae81b327e5eae6948fc102921201ef5deecf37fa42e9cc1f1c86a4efaf"
+        }
+      ],
+      "origin_identity": "ArcForges/AI",
+      "repository": "AI",
+      "revision": "70f8b22d56d67abd2a983f8b448846731ee22902",
+      "scan_basis": "committed_HEAD",
+      "state": "observed"
+    },
+    {
+      "deletion_authorized": false,
+      "dirty": false,
+      "independent_product": true,
+      "input_files": [
+        {
+          "path": "Directory.Build.props",
+          "sha256": "9d567c843c8af63df502a0a1752767d183a1db2a7e52ebd2690c7edbbae008eb"
+        },
+        {
+          "path": "Directory.Build.targets",
+          "sha256": "ff01198f816a04667ade99836d5b57e0fb78067972d2c852f2e8c1e8eea3f138"
+        },
+        {
+          "path": "Directory.Packages.props",
+          "sha256": "e5b9f6fa6348a8d808ac928b36476b77950c4f3e85641f38cd6fae1da8d80462"
+        },
+        {
+          "path": "eng/ArcForges.Repository/ArcForges.Repository.csproj",
+          "sha256": "b8b811d878528c9fcff4e37fa4acd46ea5ce08221ff782183d201daffd010e33"
+        },
+        {
+          "path": "src/ArcForges.ArcScope.Application/ArcForges.ArcScope.Application.csproj",
+          "sha256": "356e4f700dd7b072e6373bc77036f785c8f3055067ec7b7f8b36821b57da9de6"
+        },
+        {
+          "path": "src/ArcForges.ArcScope.Core/ArcForges.ArcScope.Core.csproj",
+          "sha256": "2338d20f00790d79a717e3ed74cfd79de26204d428eda618247558d84f776f3d"
+        },
+        {
+          "path": "src/ArcForges.ArcScope.Domain/ArcForges.ArcScope.Domain.csproj",
+          "sha256": "62cc53a6092b232caae8fba18710a63f9b77e40a9d4484bd41f70620feaf8fb5"
+        },
+        {
+          "path": "src/ArcForges.ArcScope.Infrastructure/ArcForges.ArcScope.Infrastructure.csproj",
+          "sha256": "75e0720e157cbf12216ce67633b170dc9d7ef871934ac141f774cd7a82df31ac"
+        },
+        {
+          "path": "src/ArcForges.ArcScope/ArcForges.ArcScope.csproj",
+          "sha256": "1518fa692a1a4d59ca79a6d67f9d46b219ad6a642133f1643728886cc47c4147"
+        },
+        {
+          "path": "tests/ArcForges.ArcScope.Tests/ArcForges.ArcScope.Tests.csproj",
+          "sha256": "765fdc2cf2b4c3b9311a1d3265339569094e2838a7f66a2462d63d7cd294e12d"
+        },
+        {
+          "path": "tests/ArchitectureTests/ArcForges.ArcScope.ArchitectureTests.csproj",
+          "sha256": "ea4fb7dfccf14424febf4dc30129cfc23bd215b579934e16356d749826c0e7b2"
+        }
+      ],
+      "origin_identity": "ArcForges/ArcScope",
+      "repository": "ArcScope",
+      "revision": "485c8d6d9a84825eb5bc737c9808b8bc4b616643",
+      "scan_basis": "committed_HEAD",
+      "state": "observed"
+    },
+    {
+      "deletion_authorized": false,
+      "dirty": false,
+      "independent_product": true,
+      "input_files": [
+        {
+          "path": "Directory.Build.props",
+          "sha256": "3152c97565a3f41762fc224fb86cbe723849235ec4010c80bdc9a604d5fe3909"
+        },
+        {
+          "path": "Directory.Build.targets",
+          "sha256": "178d0fc0bbc04d39c2b8c3df01ddcc81fc709d54f435606212625ab5ec58d99d"
+        },
+        {
+          "path": "Directory.Packages.props",
+          "sha256": "f2d5cbb3bf51a023a763b39bda71989ccd2e4202497289221f33e4e93a12d0f9"
+        },
+        {
+          "path": "eng/ArcForges.Repository/ArcForges.Repository.csproj",
+          "sha256": "e28053fd187e0a8d69a57daecbc038135e094c0f198e0c2ad693c3dae1d7f41a"
+        },
+        {
+          "path": "src/ArcForges.ArcSlate.Core/ArcForges.ArcSlate.Core.csproj",
+          "sha256": "2338d20f00790d79a717e3ed74cfd79de26204d428eda618247558d84f776f3d"
+        },
+        {
+          "path": "src/ArcForges.ArcSlate/ArcForges.ArcSlate.csproj",
+          "sha256": "01b01c44fc3c945c509786dc29bb5f30962b477e58299c756e83ed6645b93757"
+        },
+        {
+          "path": "tests/ArcForges.ArcSlate.Tests/ArcForges.ArcSlate.Tests.csproj",
+          "sha256": "a06d25a6655efe85716d1894c1c222392b4328d8e699169e054257377617fb51"
+        }
+      ],
+      "origin_identity": "ArcForges/ArcSlate",
+      "repository": "ArcSlate",
+      "revision": "569785a050c97a8022fe264f6af986285766bf87",
+      "scan_basis": "committed_HEAD",
+      "state": "observed"
+    },
+    {
+      "deletion_authorized": false,
+      "dirty": false,
+      "independent_product": true,
+      "input_files": [
+        {
+          "path": "Directory.Build.props",
+          "sha256": "90a5954ec7685904894ef8d19fea650f9bcebabbde98b0b94058f8b7c68fb5a4"
+        },
+        {
+          "path": "Directory.Build.targets",
+          "sha256": "21da49619dc407ca9de526c9aa75cb9a0e67ca6314bddd4770dd165975405bd4"
+        },
+        {
+          "path": "Directory.Packages.props",
+          "sha256": "f2d5cbb3bf51a023a763b39bda71989ccd2e4202497289221f33e4e93a12d0f9"
+        },
+        {
+          "path": "eng/ArcForges.Repository/ArcForges.Repository.csproj",
+          "sha256": "b80fff54a4c877998e66b035a159e790bce4c771244d1d239fa8d58c8dd589a6"
+        },
+        {
+          "path": "src/ArcForges.ArcNotes.Core/ArcForges.ArcNotes.Core.csproj",
+          "sha256": "2338d20f00790d79a717e3ed74cfd79de26204d428eda618247558d84f776f3d"
+        },
+        {
+          "path": "src/ArcForges.ArcNotes/ArcForges.ArcNotes.csproj",
+          "sha256": "4a4bb4fb53401da31b2f2aafd96f5c733a78f08c60632f717eeb8b8e1eaabdba"
+        },
+        {
+          "path": "tests/ArcForges.ArcNotes.Tests/ArcForges.ArcNotes.Tests.csproj",
+          "sha256": "850e1ce3bbc3cbe8e4d96d4ed2db6522ea32c80c4cb724ee2ee4716b74950897"
+        }
+      ],
+      "origin_identity": "ArcForges/ArcNotes",
+      "repository": "ArcNotes",
+      "revision": "2839da696cf3d6cc8ab3c241212eea8403c5a0a1",
+      "scan_basis": "committed_HEAD",
+      "state": "observed"
+    },
+    {
+      "deletion_authorized": false,
+      "dirty": false,
+      "independent_product": false,
+      "input_files": [
+        {
+          "path": "Directory.Build.props",
+          "sha256": "c956886a81b3f36a65e7b943b7c568458a85b73d02584068dc7195631cc63f89"
+        },
+        {
+          "path": "Directory.Build.targets",
+          "sha256": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965"
+        },
+        {
+          "path": "Directory.Packages.props",
+          "sha256": "ef18360d3cc3437e10478b0bee2ddbecff3544c2a1b04df0021386cf408d87cb"
+        },
+        {
+          "path": "eng/Codegen/Codegen.csproj",
+          "sha256": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1"
+        },
+        {
+          "path": "go/go.mod",
+          "sha256": "1696a11d2cc917add3c9401396795d8146cfb72598e5e6f9c1def7a835978824"
+        },
+        {
+          "path": "go/tools/go.mod",
+          "sha256": "6b85a0f7dcfb09c430048fe22db15eb1e633f32cbc177600dddf9f4fe67b99f5"
+        },
+        {
+          "path": "package.json",
+          "sha256": "dda98d1b0d57a23970eef7904b2fd6ac9bf8c74e544a3c02b59b20c8012f8f87"
+        },
+        {
+          "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj",
+          "sha256": "d60341c571cce8fdf90f7a06938ae71af87fbbccafff26f8819ef6a458738e4d"
+        },
+        {
+          "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj",
+          "sha256": "2413de819d392841db75a622a6e348719da93ce3dbb4c3402b5aed6fa277711c"
+        },
+        {
+          "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Dispatch/ArcForges.Contracts.LocalRpc.Dispatch.csproj",
+          "sha256": "872394227d3b0a9f1293311605a8fdc25d40465b51ffff3d5f5d1ce18cd4c8e9"
+        },
+        {
+          "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj",
+          "sha256": "3e9c13b2454b28c55049fa5c2bc1693250f2db0b715dafb337909380b3b8494d"
+        },
+        {
+          "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj",
+          "sha256": "01fd7df18b072d733a2171860952dea1c774e89f1f9602ece4da3c36eb646f20"
+        },
+        {
+          "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj",
+          "sha256": "d82efed194d832b5c52695ebbc70841a1b4606ab40d8e4b0d7c7437b0ddb41be"
+        },
+        {
+          "path": "src/internal/dotnet/ArcForges.Contracts.Peer/ArcForges.Contracts.Peer.csproj",
+          "sha256": "161c6159aca3a6614df517a28b8c7142e6badbd4b6bb1d4ac8172882348c4e7c"
+        },
+        {
+          "path": "src/internal/dotnet/ArcForges.Contracts.Relay/ArcForges.Contracts.Relay.csproj",
+          "sha256": "6dedad95d1f877002aee9641375870714c65c7eb4e072e233ff69124632bf1a2"
+        },
+        {
+          "path": "src/internal/ts/ai-internal/package.json",
+          "sha256": "0bff2cf81a1a98ae3b94b9215e813b97d5ce3048dc09184cab1a7de496a68870"
+        },
+        {
+          "path": "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj",
+          "sha256": "ba49c6478b0e74a3565a57868b0c4655d62cfc52f3059e8ea172433cab68dbcc"
+        },
+        {
+          "path": "src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj",
+          "sha256": "f3ef3c30d9ed05a66d771c390a2ca8ba6439922c81480757d84d2e21067efbed"
+        },
+        {
+          "path": "src/public/dotnet/ArcForges.Contracts.Fleet/ArcForges.Contracts.Fleet.csproj",
+          "sha256": "8b82262867b24513d3e2d3586c9195cfb7bc87e76f45fe4d8257c810c5ef70ef"
+        },
+        {
+          "path": "src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj",
+          "sha256": "d87e9fb79689cc245332286e3eee8a045069831144d28ca513805f89b8a7e344"
+        },
+        {
+          "path": "src/public/dotnet/ArcForges.Contracts.Node/ArcForges.Contracts.Node.csproj",
+          "sha256": "a6fccccea588c9397bfb66ee30f1d2b8f522eebfef3d1e3158a34cf41703ade9"
+        },
+        {
+          "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj",
+          "sha256": "986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c"
+        },
+        {
+          "path": "src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj",
+          "sha256": "169a71dde7093d66d727a966c558ddfefe12cb00c21e01f1b53c4acf5ee12901"
+        },
+        {
+          "path": "src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj",
+          "sha256": "f9c35650873d79f50e83a85e29cd51ce2b117a5af72ecfc84a81d554cc67e0fc"
+        },
+        {
+          "path": "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj",
+          "sha256": "61d0ccec8cb02bf34fab51db298e1d74c8b7180f24fc9ae27f9318650a187b7d"
+        },
+        {
+          "path": "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj",
+          "sha256": "8474242edfc8eee43becd6785b8de925dd4f3ccbad5d512f689401f85b57b1a5"
+        },
+        {
+          "path": "tests/StructureTests/PreviousClient/PreviousClient.csproj",
+          "sha256": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72"
+        },
+        {
+          "path": "tests/StructureTests/StructureTests.csproj",
+          "sha256": "dc46e2029371daea08810a0b0869c2b6c7eef61de95c5d8e6a4fa8cc68a709bc"
+        },
+        {
+          "path": "tests/public/HelloClient/HelloClient.csproj",
+          "sha256": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a"
+        },
+        {
+          "path": "tests/public/HelloHost/HelloHost.csproj",
+          "sha256": "c7ac2acb49c079907c4fdbe9a937421d93146f4b87e92546032d7881fadc6035"
+        },
+        {
+          "path": "tests/public/SerializationProbe/SerializationProbe.csproj",
+          "sha256": "92a5039dba394839dfbb60f5f3b7f0bde6304a45c904cf80109b94547a2a0158"
+        }
+      ],
+      "origin_identity": "ArcForges/Contracts",
+      "repository": "Contracts",
+      "revision": "2b525ad3d79f404d705e4abe8c30bf4bf477d0a6",
+      "scan_basis": "committed_HEAD",
+      "state": "observed"
+    }
+  ],
+  "schema": 1,
+  "version_declarations": [
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": "1.0.0-ci.151.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Fleet",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": "1.0.0-ci.450.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": "1.0.0-ci.450.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Node",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": "1.0.0-ci.450.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Relay",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": "1.0.0-ci.450.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.LocalRpc",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": "1.0.0-ci.150.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Observability",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": "1.0.0-ci.150.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Security.Secrets",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcForges",
+      "version_expression": "1.0.0-ci.150.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": "1.0.0-ci.150.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Validation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": "1.0.0-ci.205.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": "1.0.0-ci.287.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.CloudInternal",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Cloud",
+      "version_expression": "1.0.0-ci.287.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "Web",
+      "version_expression": "1.0.0-ci.150.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Web",
+      "version_expression": "1.0.0-ci.287.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.113.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Sdk.Contracts",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Platform",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Sandbox",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Events",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.270.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.270.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.270.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Foundation",
+      "input": "eng/acceptance/foundation/Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.29.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Application.Abstractions",
+      "input": "eng/acceptance/foundation/Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.29.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "tests/ReleaseArtifactTests/GrpcWeb/Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "tests/ReleaseArtifactTests/GrpcWeb/Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "DesktopPlatform",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Mobile",
+      "version_expression": "1.0.0-ci.324.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Events",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Mobile",
+      "version_expression": "1.0.0-ci.324.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.Validation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Mobile",
+      "version_expression": "1.0.0-ci.205.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.100.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.36.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.29.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Application.Abstractions",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.29.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Native.Image",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.29.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Native.Abstractions",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.29.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Native.Image.Runtime.win-x64",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.29.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.113.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.LocalRpc.Scope",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.113.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.130.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Application.Abstractions",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.130.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Assistant.Abstractions",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.130.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Capabilities",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.130.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Persistence.Sqlite",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.130.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Sdk.Contracts",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.Foundation",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": true,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcScope",
+      "version_expression": "1.0.0-ci.216.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcSlate",
+      "version_expression": "1.0.0-ci.20.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcSlate",
+      "version_expression": "1.0.0-ci.36.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "ArcNotes",
+      "version_expression": "1.0.0-ci.20.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "ArcNotes",
+      "version_expression": "1.0.0-ci.36.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Contracts.PublicApi",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "Contracts",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": "1.0.0-ci.113.1"
+    },
+    {
+      "conditional_input": false,
+      "dependency": "ArcForges.Build.Policy",
+      "input": "Directory.Packages.props",
+      "kind": "PackageVersion",
+      "producer": "DesktopPlatform",
+      "protected_from_deletion": true,
+      "repository": "Contracts",
+      "version_expression": "1.0.0-ci.150.1"
+    }
+  ]
+}
