@@ -95,13 +95,13 @@ class DependencyAdmission(unittest.TestCase):
   <Import Project="$(PkgArcForges_Build_Policy)/tools/architecture/ArchitecturePolicy.props" />
 </Project>''', encoding='utf-8')
         (root / 'Directory.Packages.props').write_text(
-            '<Project><ItemGroup><PackageVersion Include="ArcForges.Build.Policy" Version="1.0.0-ci.136.1" /></ItemGroup></Project>',
+            '<Project><ItemGroup><PackageVersion Include="ArcForges.Build.Policy" Version="1.0.0-ci.150.1" /></ItemGroup></Project>',
             encoding='utf-8')
         digest = 'c2lnbmF0dXJlZA=='
         lock = root / ARCHITECTURE_TEST_LOCK
         lock.parent.mkdir(parents=True, exist_ok=True)
         lock.write_text(json.dumps({'version': 1, 'dependencies': {'net11.0': {
-            'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.136.1', 'contentHash': digest}}}}),
+            'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.150.1', 'contentHash': digest}}}}),
             encoding='utf-8')
         catalog = root / 'eng/contract-packages.json'
         catalog.parent.mkdir(parents=True)
@@ -111,25 +111,26 @@ class DependencyAdmission(unittest.TestCase):
     def test_build_policy_agpl_exception_is_exact_and_test_only(self):
         policy = copy.deepcopy(json.loads((ROOT / POLICY).read_text()))
         row = {'integrity': 'c2lnbmF0dXJlZA==', 'licence': 'AGPL-3.0-only',
-               'evidence': [{'source': 'https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.136.1/arcforges.build.policy.nuspec',
+               'evidence': [{'source': 'https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.150.1/arcforges.build.policy.nuspec',
                             'sha256': 'a' * 64}], 'scope': BUILD_POLICY_SCOPE}
         policy['closure'] = {BUILD_POLICY_KEY: row}
         validate(policy, {BUILD_POLICY_KEY: row['integrity']})
         for bad_key, bad_row in [
                 (BUILD_POLICY_KEY, {**row, 'licence': 'AGPL-3.0-only', 'scope': 'build dependency'}),
                 (BUILD_POLICY_KEY, {**row, 'licence': 'Apache-2.0'}),
-                ('nuget:arcforges.build.policy@1.0.0-ci.136.2', row),
-                # AF-CON-01: the previously admitted and the rolled-back versions are refused.
+                ('nuget:arcforges.build.policy@1.0.0-ci.150.2', row),
+                # Previous pins and the rolled-back version remain outside current admission.
+                ('nuget:arcforges.build.policy@1.0.0-ci.136.1', row),
                 ('nuget:arcforges.build.policy@1.0.0-ci.94.1', row),
                 ('nuget:arcforges.build.policy@1.0.0-ci.124.1', row),
-                ('nuget:arcforges.unknown@1.0.0-ci.136.1', row),
+                ('nuget:arcforges.unknown@1.0.0-ci.150.1', row),
         ]:
             with self.subTest(key=bad_key, scope=bad_row.get('scope'), licence=bad_row.get('licence')):
                 policy['closure'] = {bad_key: bad_row}
                 with self.assertRaisesRegex(ValueError, 'Forbidden|Build.Policy|exact'):
                     validate(policy, {bad_key: row['integrity']})
         self.assertTrue(stable_dependency(BUILD_POLICY_KEY))
-        self.assertFalse(stable_dependency('nuget:arcforges.build.policy@1.0.0-ci.136.2'))
+        self.assertFalse(stable_dependency('nuget:arcforges.build.policy@1.0.0-ci.150.2'))
 
     def test_build_policy_exception_requires_exact_reference_and_locked_closure(self):
         temporary, root, digest = self.architecture_boundary_fixture()
@@ -143,9 +144,11 @@ class DependencyAdmission(unittest.TestCase):
         for bad_project, bad_lock in [
                 (original_project.replace('PrivateAssets="all"', 'PrivateAssets="none"'), original_lock),
                 (original_project, {'version': 1, 'dependencies': {'net11.0': {
-                    'ArcForges.Build.Policy': {'type': 'Transitive', 'resolved': '1.0.0-ci.136.1', 'contentHash': digest}}}}),
+                    'ArcForges.Build.Policy': {'type': 'Transitive', 'resolved': '1.0.0-ci.150.1', 'contentHash': digest}}}}),
                 (original_project, {'version': 1, 'dependencies': {'net11.0': {
-                    'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.136.2', 'contentHash': digest}}}}),
+                    'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.150.2', 'contentHash': digest}}}}),
+                (original_project, {'version': 1, 'dependencies': {'net11.0': {
+                    'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.136.1', 'contentHash': digest}}}}),
                 (original_project, {'version': 1, 'dependencies': {'net11.0': {
                     'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.94.1', 'contentHash': digest}}}}),
         ]:

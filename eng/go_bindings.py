@@ -446,10 +446,15 @@ def static() -> dict:
     identity = check_module_identity()
     inventory_path = ARTIFACTS / "evidence" / ("go-dependencies-" + platform.system().lower() + ".json")
     run(sys.executable, ROOT / "eng/check_go_dependency_inventory.py", "--output", inventory_path, cwd=ROOT)
+    from dependency_admission import POLICY, validate_current_go_measurement
+    qualification = validate_current_go_measurement(json.loads((ROOT / POLICY).read_text(encoding="utf-8")), ROOT,
+                                                   json.loads(inventory_path.read_text(encoding="utf-8")))
     return {"go": pinned, **modules, "sources": sources, "generatedPackages": packages, "staticcheck": version,
             "moduleIdentity": identity, "dependencyInventory": inventory_path.relative_to(ROOT).as_posix(),
+            "dependencyQualification": qualification,
             "checks": ["toolchain", "module-inventory", "gofmt", "go-mod-verify", "go-mod-tidy-drift", "go-vet",
-                       "contract-access-imports", "staticcheck", "module-identity", "actual-dependency-closures"]}
+                       "contract-access-imports", "staticcheck", "module-identity", "actual-dependency-closures",
+                       "reviewed-go-qualification"]}
 
 
 def race_supported() -> bool:
