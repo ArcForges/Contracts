@@ -1,0 +1,2597 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.sandbox.v2.Capability": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.Capability",
+      "fields": {
+        "key": {
+          "maxUtf8Bytes": 256,
+          "minLength": 1,
+          "maxLength": 96,
+          "required": true
+        },
+        "state": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "reason": {
+          "maxUtf8Bytes": 1048576
+        },
+        "evidenceId": {
+          "maxUtf8Bytes": 1048576
+        }
+      }
+    },
+    "arcforges.sandbox.v2.HostGrant": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.HostGrant",
+      "fields": {
+        "hostPath": {
+          "maxUtf8Bytes": 1048576,
+          "required": true
+        },
+        "sandboxPath": {
+          "maxUtf8Bytes": 1048576,
+          "required": true
+        },
+        "writable": {
+          "required": true
+        },
+        "nativeIdentity": {
+          "maxUtf8Bytes": 1048576
+        }
+      }
+    },
+    "arcforges.sandbox.v2.NetworkPolicy": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NetworkPolicy",
+      "fields": {
+        "egress": {
+          "required": true,
+          "enumValues": [
+            1,
+            2
+          ]
+        },
+        "ingress": {
+          "required": true,
+          "enumValues": [
+            1,
+            2
+          ]
+        },
+        "hostLoopback": {},
+        "allowedDestinations": {
+          "items": {},
+          "maxItems": 64
+        }
+      }
+    },
+    "arcforges.sandbox.v2.ResourcePolicy": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourcePolicy",
+      "fields": {
+        "cpuMaxMillicores": {
+          "min": 1,
+          "max": 2147483647
+        },
+        "memoryMaxBytes": {
+          "min": 1,
+          "max": 18446744073709551615
+        },
+        "weight": {
+          "min": 1,
+          "max": 10000
+        },
+        "priority": {
+          "min": -20,
+          "max": 20
+        },
+        "preemptible": {},
+        "pressureAction": {
+          "required": true,
+          "enumValues": [
+            1,
+            2
+          ]
+        },
+        "maxConcurrentRuns": {
+          "min": 1,
+          "max": 1024
+        },
+        "hostReserveBytes": {},
+        "hostReserveMillicores": {},
+        "expectedMemoryBytes": {
+          "min": 1,
+          "max": 18446744073709551615
+        }
+      },
+      "rules": [
+        "v2ResourcePolicy"
+      ]
+    },
+    "arcforges.sandbox.v2.EnvironmentEntry": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.EnvironmentEntry",
+      "fields": {
+        "name": {
+          "maxUtf8Bytes": 256,
+          "minLength": 1,
+          "maxLength": 256,
+          "required": true,
+          "pattern": "^[^=\\x00]+$"
+        },
+        "value": {
+          "maxUtf8Bytes": 32768
+        },
+        "secretRef": {
+          "maxUtf8Bytes": 1048576
+        }
+      },
+      "rules": [
+        "v2Environment"
+      ]
+    },
+    "arcforges.sandbox.v2.SandboxConfig": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxConfig",
+      "fields": {
+        "profileId": {
+          "required": true,
+          "maxUtf8Bytes": 256,
+          "minLength": 1
+        },
+        "profileVersion": {
+          "required": true,
+          "maxUtf8Bytes": 256,
+          "minLength": 1
+        },
+        "hostGrants": {
+          "items": {},
+          "maxItems": 128
+        },
+        "network": {
+          "required": true
+        },
+        "resources": {
+          "required": true
+        },
+        "environment": {
+          "items": {},
+          "maxItems": 128
+        },
+        "defaultWorkdir": {
+          "maxUtf8Bytes": 1048576
+        },
+        "outputRetentionBytes": {}
+      },
+      "rules": [
+        "v2SafeDefaultWorkdir",
+        "v2EnvironmentUnique"
+      ]
+    },
+    "arcforges.sandbox.v2.Sandbox": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.Sandbox",
+      "fields": {
+        "sandboxId": {
+          "required": true
+        },
+        "displayName": {
+          "maxUtf8Bytes": 1048576,
+          "minLength": 1,
+          "maxLength": 80,
+          "required": true
+        },
+        "revision": {
+          "required": true
+        },
+        "state": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "config": {
+          "required": true
+        },
+        "dataLocation": {
+          "maxUtf8Bytes": 1048576
+        },
+        "activeRunIds": {
+          "items": {}
+        },
+        "capabilities": {
+          "items": {}
+        },
+        "createdAt": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2PositiveRevision"
+      ]
+    },
+    "arcforges.sandbox.v2.RunExit": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunExit",
+      "fields": {
+        "rawCode": {},
+        "source": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "terminationReason": {
+          "maxUtf8Bytes": 1048576
+        },
+        "payloadStarted": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3
+          ]
+        },
+        "effect": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3
+          ]
+        },
+        "groupEmptyVerified": {
+          "required": true
+        },
+        "observedAt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.Run": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.Run",
+      "fields": {
+        "runId": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        },
+        "revision": {
+          "required": true
+        },
+        "state": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "epoch": {
+          "maxUtf8Bytes": 256,
+          "required": true,
+          "minLength": 1
+        },
+        "profileId": {
+          "maxUtf8Bytes": 256,
+          "required": true,
+          "minLength": 1
+        },
+        "launchSha256": {
+          "maxUtf8Bytes": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "terminalMode": {
+          "required": true,
+          "enumValues": [
+            1,
+            2
+          ]
+        },
+        "createdAt": {
+          "required": true
+        },
+        "startedAt": {},
+        "endedAt": {},
+        "exit": {},
+        "limits": {
+          "items": {}
+        },
+        "safeCommandDisplay": {
+          "maxUtf8Bytes": 1048576,
+          "required": true
+        },
+        "sandboxRevision": {
+          "required": true
+        },
+        "profileVersion": {
+          "maxUtf8Bytes": 256,
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "rules": [
+        "v2PositiveRevision",
+        "v2PositiveSandboxRevision",
+        "v2RunExit"
+      ]
+    },
+    "arcforges.sandbox.v2.TerminalSize": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.TerminalSize",
+      "fields": {
+        "rows": {
+          "min": 1,
+          "max": 32767,
+          "required": true
+        },
+        "columns": {
+          "min": 1,
+          "max": 32767,
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.TerminalLease": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.TerminalLease",
+      "fields": {
+        "leaseId": {
+          "required": true
+        },
+        "runEpoch": {
+          "maxUtf8Bytes": 256,
+          "required": true,
+          "minLength": 1
+        },
+        "generation": {
+          "required": true,
+          "min": 1,
+          "max": 18446744073709551615
+        },
+        "mode": {
+          "enumValues": [
+            1,
+            2
+          ],
+          "required": true
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "lastInputSequence": {},
+        "lastResizeSequence": {}
+      }
+    },
+    "arcforges.sandbox.v2.LimitState": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.LimitState",
+      "fields": {
+        "dimension": {
+          "maxUtf8Bytes": 1048576
+        },
+        "unit": {
+          "maxUtf8Bytes": 1048576
+        },
+        "scope": {
+          "maxUtf8Bytes": 1048576
+        },
+        "desiredRevision": {},
+        "desiredValue": {
+          "maxUtf8Bytes": 1048576
+        },
+        "appliedValue": {
+          "maxUtf8Bytes": 1048576
+        },
+        "readbackValue": {
+          "maxUtf8Bytes": 1048576
+        },
+        "status": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "reason": {
+          "maxUtf8Bytes": 1048576
+        },
+        "appliedAt": {},
+        "readbackAt": {}
+      },
+      "rules": [
+        "v2PositiveDesiredRevision"
+      ]
+    },
+    "arcforges.sandbox.v2.ResourceSnapshot": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceSnapshot",
+      "fields": {
+        "scopeKind": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": [
+            "node",
+            "sandbox",
+            "run"
+          ]
+        },
+        "scopeId": {},
+        "sampledAt": {
+          "required": true
+        },
+        "stale": {
+          "required": true
+        },
+        "hostCpuMillicores": {},
+        "unmanagedCpuMillicores": {},
+        "managedCpuMillicores": {},
+        "budgetCpuMillicores": {},
+        "hostMemoryBytes": {},
+        "unmanagedMemoryBytes": {},
+        "managedMemoryBytes": {},
+        "budgetMemoryBytes": {},
+        "reservedMemoryBytes": {},
+        "memoryKind": {
+          "maxUtf8Bytes": 1048576
+        },
+        "pressure": {
+          "maxUtf8Bytes": 1048576
+        },
+        "limits": {
+          "items": {}
+        },
+        "reservedCpuMillicores": {},
+        "nodeMemoryBytes": {},
+        "nodeCpuMillicores": {},
+        "sampleSequence": {
+          "required": true
+        },
+        "sampleIntervalMs": {},
+        "policyRevision": {},
+        "peakMemoryBytes": {},
+        "reservedRunMemoryBytes": {},
+        "processCount": {},
+        "cumulativeCpuUsec": {},
+        "psiCpuSome": {
+          "min": 0,
+          "max": 100
+        },
+        "psiMemorySome": {
+          "min": 0,
+          "max": 100
+        },
+        "psiMemoryFull": {
+          "min": 0,
+          "max": 100
+        },
+        "sampleEpoch": {
+          "maxUtf8Bytes": 256,
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "rules": [
+        "v2PositivePolicyRevision",
+        "v2Scope"
+      ]
+    },
+    "arcforges.sandbox.v2.OutputChunk": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.OutputChunk",
+      "fields": {
+        "epoch": {
+          "maxUtf8Bytes": 256,
+          "required": true,
+          "minLength": 1
+        },
+        "offset": {
+          "required": true
+        },
+        "stream": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3
+          ]
+        },
+        "data": {
+          "minLength": 1,
+          "maxLength": 65536,
+          "required": true
+        },
+        "nextOffset": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2OutputOffsets"
+      ]
+    },
+    "arcforges.sandbox.v2.OutputGap": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.OutputGap",
+      "fields": {
+        "epoch": {
+          "maxUtf8Bytes": 256,
+          "required": true,
+          "minLength": 1
+        },
+        "requestedOffset": {
+          "required": true
+        },
+        "earliestOffset": {
+          "required": true
+        },
+        "reason": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": [
+            "retention",
+            "epoch_changed",
+            "slow_consumer"
+          ]
+        }
+      }
+    },
+    "arcforges.sandbox.v2.EventGap": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.EventGap",
+      "fields": {
+        "epoch": {
+          "maxUtf8Bytes": 256,
+          "required": true,
+          "minLength": 1
+        },
+        "requestedSequence": {
+          "required": true
+        },
+        "earliestSequence": {
+          "required": true
+        },
+        "reason": {
+          "required": true,
+          "maxUtf8Bytes": 1048576,
+          "enumValues": [
+            "retention",
+            "epoch_changed",
+            "slow_consumer"
+          ]
+        }
+      }
+    },
+    "arcforges.sandbox.v2.Event": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.Event",
+      "fields": {
+        "sequence": {
+          "required": true
+        },
+        "epoch": {
+          "maxUtf8Bytes": 256,
+          "required": true,
+          "minLength": 1
+        },
+        "kind": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "sandboxId": {},
+        "runId": {},
+        "revision": {},
+        "observedAt": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2PositiveRevision"
+      ]
+    },
+    "arcforges.sandbox.v2.Operation": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.Operation",
+      "fields": {
+        "commandId": {
+          "required": true
+        },
+        "state": {
+          "enumValues": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "required": true
+        },
+        "effect": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3
+          ]
+        },
+        "method": {
+          "maxUtf8Bytes": 1048576,
+          "required": true
+        },
+        "aggregateId": {},
+        "revision": {},
+        "error": {},
+        "updatedAt": {
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        },
+        "responseCompacted": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2PositiveRevision",
+        "v2Operation"
+      ]
+    },
+    "arcforges.sandbox.v2.DeletePlan": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DeletePlan",
+      "fields": {
+        "planId": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        },
+        "revision": {
+          "required": true
+        },
+        "rootIdentityDigest": {
+          "maxUtf8Bytes": 1048576,
+          "required": true
+        },
+        "ownedBytes": {},
+        "excludedHostGrants": {
+          "items": {}
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "blockingRuns": {
+          "items": {}
+        },
+        "blockingTransferIds": {
+          "items": {}
+        }
+      },
+      "rules": [
+        "v2PositiveRevision"
+      ]
+    },
+    "arcforges.sandbox.v2.Transfer": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.Transfer",
+      "fields": {
+        "transferId": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        },
+        "state": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "relativePath": {
+          "maxUtf8Bytes": 1048576,
+          "required": true
+        },
+        "byteLength": {},
+        "verifiedOffset": {},
+        "sha256": {
+          "maxUtf8Bytes": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "direction": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": [
+            "import",
+            "export"
+          ]
+        },
+        "closedAt": {}
+      },
+      "rules": [
+        "v2SafeRelativePath",
+        "v2Transfer"
+      ]
+    },
+    "arcforges.sandbox.v2.FileEntry": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.FileEntry",
+      "fields": {
+        "relativePath": {
+          "maxUtf8Bytes": 1048576
+        },
+        "kind": {
+          "maxUtf8Bytes": 1048576
+        },
+        "byteLength": {},
+        "versionToken": {
+          "maxUtf8Bytes": 1048576
+        },
+        "modifiedAt": {}
+      },
+      "rules": [
+        "v2SafeRelativePath"
+      ]
+    },
+    "arcforges.sandbox.v2.RemoteGrant": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RemoteGrant",
+      "fields": {
+        "grantId": {
+          "required": true
+        },
+        "sandboxId": {},
+        "enrollmentId": {
+          "required": true
+        },
+        "revision": {
+          "required": true
+        },
+        "state": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3
+          ]
+        },
+        "methods": {
+          "items": {}
+        },
+        "resourceCeiling": {},
+        "expiresAt": {},
+        "allowData": {},
+        "allowDelete": {},
+        "scopeKind": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": [
+            "sandbox",
+            "provision"
+          ]
+        },
+        "creationTemplate": {},
+        "templateRevision": {},
+        "parentGrantId": {}
+      },
+      "rules": [
+        "v2PositiveRevision",
+        "v2PositiveTemplateRevision"
+      ]
+    },
+    "arcforges.sandbox.v2.Page": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.Page",
+      "fields": {
+        "nextCursor": {
+          "maxUtf8Bytes": 4096
+        }
+      }
+    },
+    "arcforges.sandbox.v2.Empty": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.Empty",
+      "fields": {}
+    },
+    "arcforges.sandbox.v2.DataChunk": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataChunk",
+      "fields": {
+        "data": {
+          "minLength": 1,
+          "maxLength": 1048576
+        },
+        "offset": {},
+        "eof": {}
+      }
+    },
+    "arcforges.sandbox.v2.Usage": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.Usage",
+      "fields": {
+        "ownedBytes": {},
+        "allocatedBytes": {},
+        "fileCount": {},
+        "partial": {},
+        "observedAt": {},
+        "excludedRoots": {
+          "items": {}
+        }
+      }
+    },
+    "arcforges.sandbox.v2.NodeServiceHandshakeRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceHandshakeRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.NodeServiceHandshakeResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceHandshakeResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.NodeServiceHandshakeValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceHandshakeValue",
+      "fields": {
+        "capabilities": {
+          "items": {}
+        },
+        "nodeEpoch": {
+          "maxUtf8Bytes": 256,
+          "required": true,
+          "minLength": 1
+        },
+        "contractVersion": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": [
+            "2.0"
+          ]
+        },
+        "cohort": {
+          "maxUtf8Bytes": 1048576,
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.NodeServiceGetOperationRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceGetOperationRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "commandId": {
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable"
+      ]
+    },
+    "arcforges.sandbox.v2.NodeServiceGetOperationResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceGetOperationResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.NodeServiceGetOperationValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceGetOperationValue",
+      "fields": {
+        "operation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.NodeServiceWatchEventsRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceWatchEventsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "epoch": {
+          "maxUtf8Bytes": 256,
+          "minLength": 1
+        },
+        "afterSequence": {}
+      }
+    },
+    "arcforges.sandbox.v2.NodeServiceWatchEventsFrame": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceWatchEventsFrame",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "event": {},
+        "gap": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "frame"
+      ]
+    },
+    "arcforges.sandbox.v2.NodeServiceSetRemoteGrantRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceSetRemoteGrantRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "grant": {
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2ExpectedRevision"
+      ]
+    },
+    "arcforges.sandbox.v2.NodeServiceSetRemoteGrantResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceSetRemoteGrantResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.NodeServiceSetRemoteGrantValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceSetRemoteGrantValue",
+      "fields": {
+        "grant": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.NodeServiceRevokeRemoteGrantRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceRevokeRemoteGrantRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "grantId": {
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2ExpectedRevision"
+      ]
+    },
+    "arcforges.sandbox.v2.NodeServiceRevokeRemoteGrantResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceRevokeRemoteGrantResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.NodeServiceRevokeRemoteGrantValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceRevokeRemoteGrantValue",
+      "fields": {
+        "grant": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.NodeServiceListRemoteGrantsRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceListRemoteGrantsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sandboxId": {},
+        "cursor": {
+          "maxUtf8Bytes": 4096
+        },
+        "limit": {
+          "min": 1,
+          "max": 200
+        }
+      }
+    },
+    "arcforges.sandbox.v2.NodeServiceListRemoteGrantsResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceListRemoteGrantsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.NodeServiceListRemoteGrantsValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceListRemoteGrantsValue",
+      "fields": {
+        "grants": {
+          "items": {}
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.SandboxServiceCreateRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceCreateRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "displayName": {
+          "maxUtf8Bytes": 1048576,
+          "minLength": 1,
+          "maxLength": 80,
+          "required": true
+        },
+        "config": {
+          "required": true
+        },
+        "provisionGrantId": {},
+        "templateRevision": {
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2PositiveTemplateRevision",
+        "v2Durable",
+        "v2Durable"
+      ]
+    },
+    "arcforges.sandbox.v2.SandboxServiceCreateResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceCreateResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.SandboxServiceCreateValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceCreateValue",
+      "fields": {
+        "sandbox": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.SandboxServiceConfigureRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceConfigureRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        },
+        "config": {
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        },
+        "displayName": {
+          "maxUtf8Bytes": 1048576,
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "repairError": {}
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2ExpectedRevision"
+      ]
+    },
+    "arcforges.sandbox.v2.SandboxServiceConfigureResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceConfigureResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.SandboxServiceConfigureValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceConfigureValue",
+      "fields": {
+        "sandbox": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.SandboxServiceListRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceListRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "cursor": {
+          "maxUtf8Bytes": 4096
+        },
+        "limit": {
+          "min": 1,
+          "max": 200
+        }
+      }
+    },
+    "arcforges.sandbox.v2.SandboxServiceListResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceListResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.SandboxServiceListValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceListValue",
+      "fields": {
+        "sandboxes": {
+          "items": {}
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.SandboxServiceInspectRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceInspectRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.SandboxServiceInspectResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceInspectResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.SandboxServiceInspectValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceInspectValue",
+      "fields": {
+        "sandbox": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.SandboxServicePlanDeleteRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServicePlanDeleteRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.SandboxServicePlanDeleteResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServicePlanDeleteResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.SandboxServicePlanDeleteValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServicePlanDeleteValue",
+      "fields": {
+        "plan": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.SandboxServiceDeleteRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceDeleteRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        },
+        "planId": {},
+        "ownerEpoch": {
+          "required": true
+        },
+        "resumeCommandId": {}
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2ExpectedRevision",
+        "v2DeleteIntent"
+      ]
+    },
+    "arcforges.sandbox.v2.SandboxServiceDeleteResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceDeleteResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.SandboxServiceDeleteValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceDeleteValue",
+      "fields": {
+        "operation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.RunServiceStartRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceStartRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        },
+        "argv": {
+          "items": {
+            "maxUtf8Bytes": 32768
+          },
+          "maxItems": 256,
+          "minItems": 1
+        },
+        "workingDirectory": {
+          "maxUtf8Bytes": 1048576
+        },
+        "environment": {
+          "items": {},
+          "maxItems": 128
+        },
+        "terminalMode": {
+          "required": true,
+          "enumValues": [
+            1,
+            2
+          ]
+        },
+        "terminalSize": {},
+        "requestedResources": {},
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2ExpectedRevision",
+        "v2Start"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceStartResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceStartResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceStartValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceStartValue",
+      "fields": {
+        "run": {
+          "required": true
+        },
+        "operation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.RunServiceListRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceListRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        },
+        "cursor": {
+          "maxUtf8Bytes": 4096
+        },
+        "limit": {
+          "min": 1,
+          "max": 200
+        }
+      }
+    },
+    "arcforges.sandbox.v2.RunServiceListResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceListResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceListValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceListValue",
+      "fields": {
+        "runs": {
+          "items": {}
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.RunServiceInspectRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceInspectRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "runId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.RunServiceInspectResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceInspectResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceInspectValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceInspectValue",
+      "fields": {
+        "run": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.RunServiceStopRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceStopRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "runId": {
+          "required": true
+        },
+        "graceMs": {
+          "min": 0,
+          "max": 60000
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceStopResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceStopResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceStopValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceStopValue",
+      "fields": {
+        "run": {
+          "required": true
+        },
+        "operation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.RunServiceWatchOutputRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceWatchOutputRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "runId": {
+          "required": true
+        },
+        "epoch": {
+          "maxUtf8Bytes": 256,
+          "minLength": 1
+        },
+        "offset": {},
+        "stream": {
+          "enumValues": [
+            1,
+            2,
+            3
+          ]
+        }
+      }
+    },
+    "arcforges.sandbox.v2.RunServiceWatchOutputFrame": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceWatchOutputFrame",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "chunk": {},
+        "gap": {},
+        "run": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "frame"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceAcquireTerminalRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceAcquireTerminalRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "runId": {
+          "required": true
+        },
+        "mode": {
+          "enumValues": [
+            1,
+            2
+          ],
+          "required": true
+        },
+        "existingLeaseId": {},
+        "takeover": {}
+      },
+      "rules": [
+        "v2Command"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceAcquireTerminalResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceAcquireTerminalResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceAcquireTerminalValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceAcquireTerminalValue",
+      "fields": {
+        "lease": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.RunServiceWriteTerminalRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceWriteTerminalRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "runId": {
+          "required": true
+        },
+        "lease": {
+          "required": true
+        },
+        "input": {
+          "minLength": 1,
+          "maxLength": 65536
+        },
+        "inputSequence": {
+          "required": true,
+          "min": 1,
+          "max": 18446744073709551615
+        },
+        "closeStdin": {}
+      },
+      "rules": [
+        "v2Command",
+        "v2TerminalWrite"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceWriteTerminalResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceWriteTerminalResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceWriteTerminalValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceWriteTerminalValue",
+      "fields": {
+        "acceptedBytes": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.RunServiceResizeTerminalRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceResizeTerminalRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "runId": {
+          "required": true
+        },
+        "lease": {
+          "required": true
+        },
+        "size": {
+          "required": true
+        },
+        "resizeSequence": {
+          "required": true,
+          "min": 1,
+          "max": 18446744073709551615
+        }
+      },
+      "rules": [
+        "v2Command",
+        "v2WriterLease"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceResizeTerminalResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceResizeTerminalResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceResizeTerminalValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceResizeTerminalValue",
+      "fields": {
+        "appliedSize": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.RunServiceDetachTerminalRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceDetachTerminalRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "runId": {
+          "required": true
+        },
+        "lease": {}
+      },
+      "rules": [
+        "v2Command"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceDetachTerminalResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceDetachTerminalResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.RunServiceDetachTerminalValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceDetachTerminalValue",
+      "fields": {}
+    },
+    "arcforges.sandbox.v2.ResourceServiceGetBudgetRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceServiceGetBudgetRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "scopeKind": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": [
+            "node",
+            "sandbox",
+            "run"
+          ]
+        },
+        "scopeId": {}
+      },
+      "rules": [
+        "v2Scope"
+      ]
+    },
+    "arcforges.sandbox.v2.ResourceServiceGetBudgetResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceServiceGetBudgetResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.ResourceServiceGetBudgetValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceServiceGetBudgetValue",
+      "fields": {
+        "snapshot": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.ResourceServiceSetPolicyRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceServiceSetPolicyRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "scopeKind": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": [
+            "node",
+            "sandbox",
+            "run"
+          ]
+        },
+        "scopeId": {},
+        "policy": {
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2ExpectedRevision",
+        "v2Scope"
+      ]
+    },
+    "arcforges.sandbox.v2.ResourceServiceSetPolicyResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceServiceSetPolicyResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.ResourceServiceSetPolicyValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceServiceSetPolicyValue",
+      "fields": {
+        "snapshot": {
+          "required": true
+        },
+        "operation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.ResourceServiceWatchUsageRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceServiceWatchUsageRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "scopeKind": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": [
+            "node",
+            "sandbox",
+            "run"
+          ]
+        },
+        "scopeId": {},
+        "intervalMs": {
+          "min": 1000,
+          "max": 60000
+        }
+      },
+      "rules": [
+        "v2Scope"
+      ]
+    },
+    "arcforges.sandbox.v2.ResourceServiceWatchUsageFrame": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceServiceWatchUsageFrame",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "snapshot": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "frame"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceGetUsageRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceGetUsageRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.DataServiceGetUsageResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceGetUsageResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceGetUsageValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceGetUsageValue",
+      "fields": {
+        "usage": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.DataServiceListEntriesRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceListEntriesRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        },
+        "relativeDirectory": {
+          "maxUtf8Bytes": 1048576
+        },
+        "cursor": {
+          "maxUtf8Bytes": 4096
+        },
+        "limit": {
+          "min": 1,
+          "max": 200
+        }
+      },
+      "rules": [
+        "v2SafeRelativeDirectory"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceListEntriesResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceListEntriesResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceListEntriesValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceListEntriesValue",
+      "fields": {
+        "entries": {
+          "items": {}
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.DataServiceBeginImportRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceBeginImportRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        },
+        "relativePath": {
+          "maxUtf8Bytes": 1048576,
+          "required": true
+        },
+        "byteLength": {
+          "required": true
+        },
+        "sha256": {
+          "required": true,
+          "maxUtf8Bytes": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "overwrite": {},
+        "expectedFileVersion": {
+          "maxUtf8Bytes": 1048576
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2SafeRelativePath",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Overwrite"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceBeginImportResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceBeginImportResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceBeginImportValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceBeginImportValue",
+      "fields": {
+        "transfer": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.DataServiceWriteImportRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceWriteImportRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "transferId": {
+          "required": true
+        },
+        "offset": {
+          "required": true
+        },
+        "chunk": {
+          "minLength": 1,
+          "maxLength": 1048576,
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceWriteImportResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceWriteImportResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceWriteImportValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceWriteImportValue",
+      "fields": {
+        "transfer": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.DataServiceCommitImportRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceCommitImportRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "transferId": {
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceCommitImportResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceCommitImportResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceCommitImportValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceCommitImportValue",
+      "fields": {
+        "transfer": {
+          "required": true
+        },
+        "operation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.DataServiceBeginExportRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceBeginExportRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sandboxId": {
+          "required": true
+        },
+        "relativePath": {
+          "maxUtf8Bytes": 1048576,
+          "required": true
+        },
+        "expectedFileVersion": {
+          "maxUtf8Bytes": 1048576
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2SafeRelativePath",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceBeginExportResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceBeginExportResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceBeginExportValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceBeginExportValue",
+      "fields": {
+        "transfer": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.DataServiceReadExportRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceReadExportRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "transferId": {
+          "required": true
+        },
+        "offset": {
+          "required": true
+        },
+        "maxBytes": {
+          "min": 1,
+          "max": 1048576,
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.DataServiceReadExportResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceReadExportResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceReadExportValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceReadExportValue",
+      "fields": {
+        "chunk": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.DataServiceCloseTransferRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceCloseTransferRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "transferId": {
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceCloseTransferResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceCloseTransferResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceCloseTransferValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceCloseTransferValue",
+      "fields": {
+        "transfer": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.DataServiceInspectTransferRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceInspectTransferRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "transferId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.DataServiceInspectTransferResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceInspectTransferResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.DataServiceInspectTransferValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceInspectTransferValue",
+      "fields": {
+        "transfer": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.CenterConnection": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterConnection",
+      "fields": {
+        "centerOrigin": {
+          "maxUtf8Bytes": 1048576
+        },
+        "serviceMode": {
+          "maxUtf8Bytes": 1048576,
+          "enumValues": [
+            "official",
+            "self_hosted"
+          ]
+        },
+        "state": {
+          "required": true,
+          "maxUtf8Bytes": 1048576,
+          "enumValues": [
+            "signed_out",
+            "sign_in_pending",
+            "linked",
+            "disconnected",
+            "ending",
+            "recovery_required"
+          ]
+        },
+        "connectionEnabled": {
+          "required": true
+        },
+        "enrollmentId": {},
+        "channelState": {
+          "maxUtf8Bytes": 1048576,
+          "enumValues": [
+            "offline",
+            "connecting",
+            "online",
+            "stale"
+          ]
+        },
+        "observedAt": {
+          "required": true
+        },
+        "remoteRevocation": {
+          "maxUtf8Bytes": 1048576,
+          "enumValues": [
+            "not_requested",
+            "confirmed",
+            "unknown"
+          ]
+        },
+        "reasonCodes": {
+          "items": {}
+        }
+      }
+    },
+    "arcforges.sandbox.v2.CenterConnectFlow": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterConnectFlow",
+      "fields": {
+        "flowId": {
+          "required": true
+        },
+        "state": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": [
+            "pending",
+            "completing",
+            "succeeded",
+            "cancelled",
+            "expired",
+            "failed"
+          ]
+        },
+        "verificationUri": {
+          "maxUtf8Bytes": 1048576
+        },
+        "userCode": {
+          "maxUtf8Bytes": 1048576
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "pollAfterMs": {},
+        "reasonCode": {
+          "maxUtf8Bytes": 1048576
+        }
+      }
+    },
+    "arcforges.sandbox.v2.CenterControlServiceGetStatusRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceGetStatusRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.CenterControlServiceGetStatusResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceGetStatusResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.CenterControlServiceGetStatusValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceGetStatusValue",
+      "fields": {
+        "connection": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.CenterControlServiceBeginConnectRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceBeginConnectRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "centerOrigin": {
+          "required": true,
+          "maxUtf8Bytes": 1048576
+        },
+        "serviceMode": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": [
+            "official",
+            "self_hosted"
+          ]
+        },
+        "flowKind": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": [
+            "browser",
+            "device_code"
+          ]
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2Durable",
+        "v2CenterOrigin"
+      ]
+    },
+    "arcforges.sandbox.v2.CenterControlServiceBeginConnectResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceBeginConnectResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.CenterControlServiceBeginConnectValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceBeginConnectValue",
+      "fields": {
+        "connection": {
+          "required": true
+        },
+        "flowId": {},
+        "operation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.CenterControlServiceGetConnectFlowRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceGetConnectFlowRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "flowId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.CenterControlServiceGetConnectFlowResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceGetConnectFlowResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.CenterControlServiceGetConnectFlowValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceGetConnectFlowValue",
+      "fields": {
+        "flow": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.CenterControlServiceCancelConnectRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceCancelConnectRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "flowId": {
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable",
+        "v2Durable"
+      ]
+    },
+    "arcforges.sandbox.v2.CenterControlServiceCancelConnectResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceCancelConnectResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.CenterControlServiceCancelConnectValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceCancelConnectValue",
+      "fields": {
+        "operation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.CenterControlServiceDisconnectRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceDisconnectRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable"
+      ]
+    },
+    "arcforges.sandbox.v2.CenterControlServiceDisconnectResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceDisconnectResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.CenterControlServiceDisconnectValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceDisconnectValue",
+      "fields": {
+        "connection": {
+          "required": true
+        },
+        "operation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.sandbox.v2.CenterControlServiceSignOutRequest": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceSignOutRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "ownerEpoch": {
+          "required": true
+        }
+      },
+      "rules": [
+        "v2Durable",
+        "v2Durable"
+      ]
+    },
+    "arcforges.sandbox.v2.CenterControlServiceSignOutResponse": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceSignOutResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.sandbox.v2.CenterControlServiceSignOutValue": {
+      "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceSignOutValue",
+      "fields": {
+        "connection": {
+          "required": true
+        },
+        "operation": {
+          "required": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,108 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+package arcforges.management.v2;
+import "arcforges/foundation/v1/foundation.proto";
+option csharp_namespace = "ArcForges.Contracts.Management.V2";
+
+message Device {
+  arcforges.foundation.v1.Id device_id = 1 [json_name = "deviceId"]; // validate: opaque
+  arcforges.foundation.v1.Id enrollment_id = 2 [json_name = "enrollmentId"]; // validate: active enrollment
+  optional string display_name = 3 [json_name = "displayName"]; // validate: owner-visible
+  arcforges.foundation.v1.Revision revision = 4 [json_name = "revision"]; // validate: positive
+  optional string platform = 5 [json_name = "platform"]; // validate: windows/linux
+  optional string presence = 6 [json_name = "presence"]; // validate: online/offline/stale/revoked
+  arcforges.foundation.v1.Instant last_seen_at = 7 [json_name = "lastSeenAt"]; // validate: UTC
+  optional string node_epoch = 8 [json_name = "nodeEpoch"]; // validate: current observed epoch
+  repeated string capabilities = 9 [json_name = "capabilities"]; // validate: actual qualified capability keys; no invented online state
+}
+
+message DevicePage {
+  repeated Device devices = 1 [json_name = "devices"]; // validate: owner-scoped
+  optional string next_cursor = 2 [json_name = "nextCursor"]; // validate: opaque owner/filter-scoped
+}
+
+// Center device inventory and revocation; authenticated account and tenant boundary.
+service DeviceService {
+  // List account-owned enrolled devices.
+  // auth: authenticated account owner or scoped device administrator
+  // idempotency: pure read
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, CONFLICT/revision_mismatch
+  // locality: Center only
+  rpc List(DeviceServiceListRequest) returns (DeviceServiceListResponse);
+  // Inspect device presence with observation time.
+  // auth: authenticated account owner or scoped device administrator
+  // idempotency: pure read
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, CONFLICT/revision_mismatch
+  // locality: Center only
+  rpc Inspect(DeviceServiceInspectRequest) returns (DeviceServiceInspectResponse);
+  // Revoke enrollment and future remote access without stopping local runs.
+  // auth: authenticated account owner or scoped device administrator
+  // idempotency: account+command_id+request hash
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, CONFLICT/revision_mismatch
+  // locality: Center only
+  rpc Revoke(DeviceServiceRevokeRequest) returns (DeviceServiceRevokeResponse);
+}
+
+message DeviceServiceListRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; expected_rev on revoke
+  reserved 2 to 9;
+  optional string cursor = 10 [json_name = "cursor"]; // validate: opaque prior cursor or empty
+  optional uint32 limit = 11 [json_name = "limit"]; // validate: 1..200; default 50
+}
+
+message DeviceServiceListResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceListValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DeviceServiceListValue {
+  DevicePage page = 10 [json_name = "page"]; // validate: owner-scoped
+}
+
+message DeviceServiceInspectRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; expected_rev on revoke
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id device_id = 10 [json_name = "deviceId"]; // validate: required account-visible device
+}
+
+message DeviceServiceInspectResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceInspectValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DeviceServiceInspectValue {
+  Device device = 10 [json_name = "device"]; // validate: observed or revoked
+}
+
+message DeviceServiceRevokeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; expected_rev on revoke
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id device_id = 10 [json_name = "deviceId"]; // validate: required account-visible device
+}
+
+message DeviceServiceRevokeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceRevokeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DeviceServiceRevokeValue {
+  Device device = 10 [json_name = "device"]; // validate: observed or revoked
+}

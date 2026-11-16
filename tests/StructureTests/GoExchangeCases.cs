@@ -15,6 +15,9 @@ internal static class GoExchangeCases
     private static readonly FileDescriptor[] Files =
     [
         ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor,
+        ArcForges.Contracts.Sandbox.V2.PlatformReflection.Descriptor,
+        ArcForges.Contracts.Sandbox.V2.CenterControlReflection.Descriptor,
+        ArcForges.Contracts.Management.V2.DevicesReflection.Descriptor,
         ArcForges.Contracts.Hello.V1.HelloReflection.Descriptor,
         ArcForges.Contracts.PublicApi.V1.ApplicationReflection.Descriptor,
         ArcForges.Contracts.PublicApi.V1.ChatReflection.Descriptor,

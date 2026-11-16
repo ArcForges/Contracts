@@ -22,10 +22,12 @@ import (
 	fleetv1 "github.com/ArcForges/Contracts/go/arcforges/fleet/v1"
 	foundationv1 "github.com/ArcForges/Contracts/go/arcforges/foundation/v1"
 	hellov1 "github.com/ArcForges/Contracts/go/arcforges/hello/v1"
+	managementv2 "github.com/ArcForges/Contracts/go/arcforges/management/v2"
 	nodev1 "github.com/ArcForges/Contracts/go/arcforges/node/v1"
 	operatorv1 "github.com/ArcForges/Contracts/go/arcforges/operator/v1"
 	publicapiv1 "github.com/ArcForges/Contracts/go/arcforges/publicapi/v1"
 	relayv1 "github.com/ArcForges/Contracts/go/arcforges/relay/v1"
+	sandboxv2 "github.com/ArcForges/Contracts/go/arcforges/sandbox/v2"
 )
 
 // rootEnv names the Contracts checkout whose fixtures the tests read. python eng/contracts.py go test sets it, and
@@ -38,6 +40,9 @@ const rootEnv = "ARCFORGES_CONTRACTS_ROOT"
 // files fails.
 var moduleFiles = []protoreflect.FileDescriptor{
 	foundationv1.File_arcforges_foundation_v1_foundation_proto,
+	sandboxv2.File_arcforges_sandbox_v2_platform_proto,
+	sandboxv2.File_arcforges_sandbox_v2_center_control_proto,
+	managementv2.File_arcforges_management_v2_devices_proto,
 	hellov1.File_arcforges_hello_v1_hello_proto,
 	publicapiv1.File_arcforges_publicapi_v1_application_proto,
 	publicapiv1.File_arcforges_publicapi_v1_chat_proto,

@@ -283,6 +283,8 @@ def generate(check: bool = False) -> None:
         generate_inprocess(check)
         from local_operations import generate as generate_local_operations
         generate_local_operations(check)
+        from v2_contracts import generate_csharp as generate_v2_csharp
+        generate_v2_csharp(check)
     # AF-CTR-01: the Go bindings, from the same proto files with the same pinned protoc.
     from go_bindings import generate as generate_go
     generate_go(check, protoc)

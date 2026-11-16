@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "afv2-contracts.v1",
+  "task": "AFV2-API-01",
+  "design": {
+    "repository": "ArcForges/ArcForges-Design",
+    "commit": "493022fbf643b484665b2713c9eb8670f2fb2234"
+  },
+  "files": [
+    {
+      "path": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "sha256": "bac404101034451f5c965d157c4bb66265e8bfc943026b7a35b60855eab83030",
+      "package": "ArcForges.Contracts.Sandbox.V2"
+    },
+    {
+      "path": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "sha256": "de355b1635edeecd7472f44f74227dbdc5070a12692c51fcb424f14fab768d73",
+      "package": "ArcForges.Contracts.Sandbox.V2"
+    },
+    {
+      "path": "public/proto/arcforges/management/v2/devices.proto",
+      "sha256": "43a9d8f7dd24e43f4ad8fa3d2e7b1510ce060145c5d7ae46d88ac6894d08b046",
+      "package": "ArcForges.Contracts.Management.V2"
+    }
+  ],
+  "browser": "Blazor/C# generated protobuf bindings; no new npm or retired protobuf-es SDK",
+  "internalBoundary": "No additional normative internal V2 proto exists at this baseline; existing internal relay/operator/ContentSandbox remain unchanged; CenterControl locality is local only."
+}

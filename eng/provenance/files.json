@@ -1392,7 +1392,10 @@
     "third-party/dokka/which-collection-LICENSE.txt": "dokka-which-collection-licence-r1",
     "third-party/dokka/which-typed-array-LICENSE.txt": "dokka-which-typed-array-licence-r1",
     "third-party/go-protobuf-LICENSE.txt": "go-protobuf-licence-r1",
-    "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1"
+    "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1",
+    "public/proto/arcforges/sandbox/v2/platform.proto": "afv2-api-01-design-specs-r1",
+    "public/proto/arcforges/sandbox/v2/center_control.proto": "afv2-api-01-design-specs-r1",
+    "public/proto/arcforges/management/v2/devices.proto": "afv2-api-01-design-specs-r1"
   },
   "artifacts": []
 }

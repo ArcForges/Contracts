@@ -302,7 +302,8 @@ def validate_output(output: Path, row: dict) -> None:
     require(files, "protoc produced no Go bindings")
     for path in files:
         relative = path.relative_to(output).as_posix()
-        require(relative.startswith(GENERATED + "/") and relative.endswith((".pb.go", ".connect.go", "/doc.go")),
+        require(relative.startswith(GENERATED + "/") and (relative.endswith((".pb.go", ".connect.go", "/doc.go"))
+                or relative in {"arcforges/sandbox/v2/validation.go", "arcforges/management/v2/validation.go"}),
                 "Unexpected generator output: " + relative)
         data = path.read_bytes()
         require(b"\r" not in data and data.endswith(b"\n"), "Generated Go must be LF-terminated: " + relative)
@@ -342,6 +343,8 @@ def generate(check: bool, protoc: Path) -> None:
             f"{go_mod(TOOLS)['requires']['connectrpc.com/connect/v2']} protoc-gen-connect-go)")
         run(protoc, "@" + str(arguments), cwd=ROOT)
         write_package_docs(output, row)
+        from v2_contracts import generate_go as generate_v2_go
+        generate_v2_go(output)
         validate_output(output, row)
         sync_generated(output / GENERATED, MODULE / GENERATED, check)
     write_descriptor(protoc, row)
