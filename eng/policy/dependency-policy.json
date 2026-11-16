@@ -12,10 +12,10 @@
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
     "eng/Codegen/packages.lock.json": "3cbd4d6cd217eb7d892e879081fbbc36507f2a01e7a5f81afe0c5013d255a0a9",
     "eng/check_toolchain.py": "b413c0be5fd48c6cf2ee8b45c56a96dabe4fd1700ee9a21eb11207beaf1c0cdb",
-    "eng/contract-packages.json": "f347dd9e047c66f36ffb2c7ea977f10129e2ccdea366e998ed68004f1641f95b",
+    "eng/contract-packages.json": "33afa0a472ed556f5c05c65903a90da95507d3e5699a93c005ab97ee7a96aab5",
     "eng/native-toolchain.json": "bf019c3aadd5e2e1fa6170ce52a463ce3b751f86b3458a17cd93a7fce8ea1eaa",
     "eng/native_toolchain.py": "3496595ef25b20304896015199739005ac8192714e29e764a17d5184edfdca84",
-    "eng/policy/contract-access.json": "74d085f2ea36e4d452ee1628c367616752409c805ee278fef2f1c1b6ac134d05",
+    "eng/policy/contract-access.json": "d2178ba985ce8c60483eaed64515fd56c44999d1562afa078b365f56eb1cd775",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -37,6 +37,7 @@
     "eng/provenance/artifact-profiles/dokka-2-2-0-r7.json": "5b86329a7aa205353dfdb0fb75d924e50d2486e281dafb22fe90bf93012b03ad",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r8.json": "224432d3957639e42fb429aa2841d80dbfd10aaec18b8ab3b4bf3851829f2089",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r9.json": "8fae9b8b9ba086ce05ca66b48604e1f96afbb14f89da00cc9d2b5e4dbd839ac5",
+    "eng/provenance/records/afv2-api-01-design-specs-r1.json": "8bf186ff2ef466546bc81dab3393aebeab9b76d5d1773789a6de8083615d981b",
     "eng/provenance/records/canonical-apache-licence-r1.json": "e4252278767a0b4dd27a09a50b176c9420469828345e61336a4b5ca1d17c7b44",
     "eng/provenance/records/canonical-apache-licence-r2.json": "1b2ec73f35eb6dbe28895cf20bb3b37aeeb3f443fb487a91217861707da14c2a",
     "eng/provenance/records/con-12-bindings-r1.json": "b69ba75443f90ab4e31ceca63b95ef84e59d8be90ba1a6d6d2760bfafc8b026a",
@@ -59,6 +60,7 @@
     "eng/provenance/records/contract-bindings-af-ctr-06-r1.json": "476468491f1f6db7e738834fd36ac8466f3791dbf377cb266c44cba52d045349",
     "eng/provenance/records/contract-bindings-af-ctr-06-r2.json": "897981e4549d8100c378796d68d94535f4e2bd1e971b4bfbefbcf3714cca2262",
     "eng/provenance/records/contract-bindings-af-ctr-06-r3.json": "59af43e6190b8f1d0c153b5ab09454486d3ad84050587798b52180273685a66a",
+    "eng/provenance/records/contract-bindings-afv2-api-01-r1.json": "88316f15e68b7554252a31d069ec003155b986cfe1cd7ac907cb3911ab6c1a6a",
     "eng/provenance/records/contract-bindings-afv2-env-01-r1.json": "69845519920edf449a60e4e494a2ca0d5f73f3f78c2df2f90b07547a35b0f918",
     "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
     "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
@@ -198,6 +200,7 @@
     "eng/provenance/records/go-bindings-af-ctr-05-r3.json": "026223c57665a25b99cbc394e56188d3badbf0ba8f0d8421e2669247e4513c74",
     "eng/provenance/records/go-bindings-af-ctr-05-r4.json": "a368dd2a569c48de660fef5e3cef1c71066b9c389484a6d69bd0566b73642dc3",
     "eng/provenance/records/go-bindings-af-ctr-06-r1.json": "b756d0626aebb22e507c964bae7d0615a50a052e8a87e0eb0cf96b7f2aead1a4",
+    "eng/provenance/records/go-bindings-afv2-api-01-r1.json": "317258972200cc738e7c43500dd82cb4fc981504513b78ade75e5d8684d575d6",
     "eng/provenance/records/go-bindings-afv2-env-01-r1.json": "ff506a814e3992af4bef9df0bf3ddc4b5bcd5c0401e0524483a7dc219ff010b3",
     "eng/provenance/records/go-protobuf-licence-r1.json": "a9fb8d247113f025813e5562ab10e72d92d7f5055cece829b64b8e13785b0ffd",
     "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
@@ -239,10 +242,14 @@
     "src/public/dotnet/ArcForges.Contracts.Fleet/packages.lock.json": "cc4a7cdb9eb39ca8f4177364d57eaaefd5174f647ccd222d8b25cdbe1939aa01",
     "src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj": "d87e9fb79689cc245332286e3eee8a045069831144d28ca513805f89b8a7e344",
     "src/public/dotnet/ArcForges.Contracts.Foundation/packages.lock.json": "0e02b1415e80e185b8c4d29d704bd2d78726eac35d1415f4d2596921e13a619d",
+    "src/public/dotnet/ArcForges.Contracts.Management.V2/ArcForges.Contracts.Management.V2.csproj": "71f7874281eae1f3bb02c7abd2557f80bf4d09faa1e4ca4400c1f7a7dd2b9bd9",
+    "src/public/dotnet/ArcForges.Contracts.Management.V2/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
     "src/public/dotnet/ArcForges.Contracts.Node/ArcForges.Contracts.Node.csproj": "a6fccccea588c9397bfb66ee30f1d2b8f522eebfef3d1e3158a34cf41703ade9",
     "src/public/dotnet/ArcForges.Contracts.Node/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
     "src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj": "986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",
     "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
+    "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/ArcForges.Contracts.Sandbox.V2.csproj": "6958e42b884d699e701a9defd0c5d57f27bd2916a5d5d11b41966828cb2cd9ce",
+    "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
     "src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj": "169a71dde7093d66d727a966c558ddfefe12cb00c21e01f1b53c4acf5ee12901",
     "src/public/dotnet/ArcForges.Contracts.Validation/packages.lock.json": "b9cc8fbd962520f8875f194c5010da4c5c6099e06f4dc6ea0f170a335c5d2421",
     "src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj": "f9c35650873d79f50e83a85e29cd51ce2b117a5af72ecfc84a81d554cc67e0fc",
@@ -253,14 +260,14 @@
     "tests/ArchitectureTests/packages.lock.json": "22d8ae25d03f669027c3a0cade9456eba41725bbe516bbab03d346f4e2dc6bd3",
     "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
     "tests/StructureTests/PreviousClient/packages.lock.json": "144041c75e6730f4654fbfac98ba4a4344002dd48c7cd4c9a43064b3112ed301",
-    "tests/StructureTests/StructureTests.csproj": "dc46e2029371daea08810a0b0869c2b6c7eef61de95c5d8e6a4fa8cc68a709bc",
-    "tests/StructureTests/packages.lock.json": "30c796634f8b29b34fe90a2696c6b0fdb828cfa688847b8ba1e575ecd3465aad",
+    "tests/StructureTests/StructureTests.csproj": "5ef4cca5aeae890a6175f250e9ff5d6b4d65971ba09dc0dee3b5ef34640e6576",
+    "tests/StructureTests/packages.lock.json": "ab63dc0511bdf1f764d8b5b2ac0a3a6c5500ef4397ce8662f228a340caaeca85",
     "tests/public/HelloClient/HelloClient.csproj": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a",
     "tests/public/HelloClient/packages.lock.json": "c93b52c2409deee2ef839c57c4bd64fd74f00e228f3797825f17676b2d39ec16",
     "tests/public/HelloHost/HelloHost.csproj": "c7ac2acb49c079907c4fdbe9a937421d93146f4b87e92546032d7881fadc6035",
     "tests/public/HelloHost/packages.lock.json": "f7905b45f4c82f5ed2eae2abc95dcc5feae88902d72c23f9cdbf5fc40756a360",
-    "tests/public/SerializationProbe/SerializationProbe.csproj": "92a5039dba394839dfbb60f5f3b7f0bde6304a45c904cf80109b94547a2a0158",
-    "tests/public/SerializationProbe/packages.lock.json": "8ae8946ace48e6558589a6d60b3e45f309d8ec90a13de24421ebd27e3e540756"
+    "tests/public/SerializationProbe/SerializationProbe.csproj": "6f38302cff4b448d964518556805ba599ec715ce487aa3de457bcb4fea262ebe",
+    "tests/public/SerializationProbe/packages.lock.json": "de6c3dcdc1a483111f6505b6f072c535001bfcf45ad7e5c9fe1390751c3ff6ca"
   },
   "closure": {
     "go:connectrpc.com/connect/v2@v2.0.2": {
@@ -1007,20 +1014,20 @@
     "stable": "Deliberate canonical vX.Y.Z on main ancestry; no prerelease dependency closure; Central signatures required. No tag created for validation. A canonical vX.Y.Z release also tags go/vX.Y.Z (v0 and v1 only without a reviewed /vN module path)."
   },
   "review": {
-    "owner": "OpenAI Codex coordinator author assessment under owner-approved AFV2-ENV-01",
-    "reviewer": "Independent Codex reviewer /root/managed_review (existing AFV2-ENV-01 source/licence disposition)",
+    "owner": "OpenAI Codex author assessment under authorized AFV2-API-01",
+    "reviewer": "Author source/closure assessment; independent complete PR review remains required",
     "decision": "approved",
-    "reviewedOn": "2026-11-15",
-    "baselineCommit": "c4d2109d2b014ba7b44754d65bc2fdf94f2cede9",
-    "maintenanceAssessment": "AFV2-ENV-01 r2 refreshes only the existing derived package-graph input hashes after the already reviewed SDK11/C#15, language/package and lock upgrades. The existing access gate digest/inventory/checkSources primitives verified all current package-input members and actual LF bytes. All schemas, type assignments, package ownership, distribution rows and retired markings are unchanged. No runtime dependency, generated target, first-party package identity, security control or source licence is changed. The r1 receipt and its actual source/licence approval remain immutable; both completed Go reports and the entire qualification object are retained byte-equivalent. Full formal profile success is still required before merge; no new compiler/test success is claimed by this hash refresh. Existing independent source/licence disposition covers the selected current .NET/C#, Go, Node/npm and Python toolchains, their exact locked dependencies, unchanged generated targets and native local/CI tool selection. The already normally published Build.Policy150.1 stays ArchitectureTests-only. The previously owner-approved Contracts-only nine-name/two-commit Go boundary is bound to the actual native references; no new all-transitive latest requirement or other-repository exception is introduced. Historical fixtures/records remain immutable. Exact-head full formal profile success is required before merge and is not claimed by this metadata disposition.",
+    "reviewedOn": "2026-11-16",
+    "baselineCommit": "4d92cf527652f2bcea69bca5ffc4075272d169ad",
+    "maintenanceAssessment": "AFV2-API-01 adds exactly two explicit V2 NuGet owner packages and their generated packages in the existing internal Go module. Their only first-party dependency is unchanged Foundation; all56 external dependency identities, exact protobuf/gRPC/connect and toolchain pins, original licence/integrity evidence and the existing two fixed-commit maturity assessments are retained. The actual new owner/consumer locks, complete V2 schemas, access inventory and immutable generated-provenance successors are bound below. This is additive source/package/input-closure admission, not ENV requalification or dependency freshness research. Old v1 meanings, independent consumers, ContentSandbox and retired npm/Maven identities remain intact. Both native collectors measured identical final Go/control source4d92 with clean/unchanged input, selected graphs, upstream requirements and complete owned/test/tool package closures under the existing nine-name policy. No new metadata/version lookup, exception, private runtime, alternative wire serializer or registry/channel is introduced. Author validation and source/licence disposition are distinct from required final independent review, unchanged Linux full profile and normal common-version publication; none of those later outcomes is asserted here.",
     "checks": {
-      "compilation": "Coordinator reports native Windows SDK11 force-evaluate restores of24 current projects and21 affected Build.Policy/licence-boundary tests PASS after selecting150.1 at source57cd89854dfce4a9f410e7917f8303c5ef77412e. Earlier current generated outputs and npm author diagnostics are retained separately. Complete final candidate build/pack/test profile remains PENDING.",
-      "aot-trim": "PENDING current complete Linux Native AOT serialization probe and pack under the latest SDK11 compiler closure. The reviewed source now explicitly selects and validates private LLVM23.1.5 plus signed GNU binutils declared2.47/actual2.47.20260726 through eng/native-toolchain.json, retaining BFD/ar/llvm-objcopy semantics and exact external-tool compatibility recipe. Source selection and provisioning are not full candidate acceptance; zero-warning and trim/AOT escalation stay required.",
-      "compatibility": "Previous-client Foundation/PublicApi113.1 artifacts remain immutable. Native Windows MCP generate --check at source0b9114435bd4677c256714b864b8cb8f970c2d57 completed exit0 on2026-11-15T06:28:19.859351+00:00, retaining429 C#/TypeScript and92 Go generated target hashes and all source/lock bytes. Log SHA2569fd31de5b4d66e6b4c46d705fbd69dfb33a2a10198a10c1e466ed9d306ebc63b. Existing independent source/licence approval is retained. Final candidate regeneration and C#/Go exchange remain required in the formal profile; no execution result is invented. No retired SDK channel or business wire/API change is introduced.",
-      "licence-provenance": "Existing independent source/licence approval retained for all exact cached licence/integrity evidence and both unchanged-output generation successors. Official checker regenerates active provenance NOTICE. ArchitectureTests-only Build.Policy AGPL scope and external GNU/LLVM tool licences remain explicit.",
-      "security-sbom": "PENDING complete final native vulnerability/analyzer/security profile and generated package SBOM/NOTICE validation. No credential/feed/publisher/security threshold change is admitted. Go h1 archives and full selected metadata remain present; no deprecated executable dependency is classified away without the bounded current two-host proof.",
-      "runtime-performance-migration": "This producer publishes bindings and build tooling. No product runtime, filesystem, database migration, OS store, browser, service or installed-consumer execution is claimed by these metadata/author checks. Published bytes and historical fixtures remain immutable; consumer compatibility/exchange and formal profile remain required.",
-      "framework-runtime-posture": "dotnetSdk10.0.403â†’11.0.100 and Node24.21.0â†’26.13.1 are major transitions; Go1.27.3â†’1.27.4 stays major1. Python3.15.2 and npm12.2.2 effective roots/version parity are tracked separately. Current scripts/tests/TFMs move to net11/C#15 with existing diagnostics, locking and public/internal boundaries intact. Both native Go reference configurations are now recorded. The final Linux AOT build remains required in the formal profile."
+      "compilation": "Author Windows affected C# StructureTests Release build zero warnings/errors;60 shared independent wire vectors,153 V2 unknown-field codecs, every known/unknown enum and42 compiled route request/response/stream policies and bounds passed. Native Windows and H22 exact4d92 Go60 shared vectors passed. Existing operation-scope67 and Go-bindings20 tooling tests passed. Final complete exact-head Linux profile remains required.",
+      "aot-trim": "Clean detached source4d92cf527652f2bcea69bca5ffc4075272d169ad Windows Native AOT publish/run passed with no warnings/errors and dynamic code disabled:60 shared V2 vectors,31 binary/51 JSON/2435 message/539 bound method cases. Source268 historical47-vector AOT remains unchanged evidence. Final exact-head Linux SerializationProbe AOT/pack remains PENDING in the unchanged required profile.",
+      "compatibility": "Three exact Apache-2.0 Design493022fb V2 specs adopted byte-for-byte into new namespaces/packages. All v1 numbers/meanings, windows and published artifacts retained. Current V2 unknown fields/enums preserved. Existing old/current/reference C#/Go exchange remains required in final profile.",
+      "licence-provenance": "No new external licence/version. Source disposition preceded specification copy. Immutable successors retain445 C#/metadata targets and104Go targets with exact current source/generator/input hashes; existing full licence texts stay intact. Provenance audit and20 tooling tests passed; final independent review remains required.",
+      "security-sbom": "Unchanged compiled access gate passed55schemas/2707types/27non-Go package rows with zero access reclassifications;24 contract-access tooling tests passed. npm ci audited7packages with0vulnerabilities. Existing secret/dependency/vulnerability/SBOM/security full gates remain required; no native authorization or product security acceptance fabricated.",
+      "runtime-performance-migration": "Offline contract adoption only. No product engine, SQL, installed cohort, backup/restore, credential or deployment cutover. BASE-01 observed consumers retain exact old pins. New V2 owner1MiB/2MiB and64KiB output-payload bounds leave v1 defaults untouched; no new native-isolation or product-performance claim.",
+      "framework-runtime-posture": "No framework/runtime upgrade: SDK11.0.100,Node26.13.1,Go1.27.4 and exact protobuf/gRPC/connect pins retained. C# remains sole business-client SDK; internal Go module only, no retired generator/channel or new client framework."
     },
     "frameworkVersions": {
       "dotnetSdk": "11.0.100",
@@ -1028,14 +1035,14 @@
       "go": "1.27.4"
     },
     "frameworkMajorReview": {
-      "changed": ["dotnetSdk", "node"],
-      "owner": "Contracts maintainers; existing independent source/licence review: Independent Codex reviewer /root/managed_review (existing AFV2-ENV-01 source/licence disposition)",
-      "nativeAotTrim": "SDK11/net11 compiler/runtime/linker closure is current and exact locked; the existing SerializationProbe must compile warning-free with trim/AOT escalation. Reviewed explicit Linux LLVM23.1.5/GNU2.47 selector and provision controls are present; final actual native AOT profile remains PENDING.",
-      "androidKotlinArtR8": "The Java/Kotlin/Maven SDK generation/publication routes remain retired and their historical artifacts/records immutable. This upgrade adds no Android JVM/ART/R8 consumer or device acceptance; current C#/internal Go/npm channels retain their existing scope.",
-      "transport": "Current Grpc.Tools/runtime2.85, Google.Protobuf3.36.2, protobuf-go1.36.12 and connect-go2.0.2 keep the authored schemas and strict serialization posture. Existing current generated bytes stayed unchanged in author generation; complete offline protocol compatibility/exchange remains PENDING.",
-      "localCoverage": "Existing Windows24-project restore,21 affected boundary tests and unchanged-output generation evidence are retained. Actual Windows/Linux Go metadata references are bound. Final Linux build/pack/test/security profile success remains required before merge."
+      "changed": [],
+      "owner": "Contracts maintainers; AFV2-API-01 author disposition with final independent review required",
+      "nativeAotTrim": "Clean detached source4d92cf527652f2bcea69bca5ffc4075272d169ad Windows Native AOT publish/run passed with no warnings/errors and dynamic code disabled:60 shared V2 vectors,31 binary/51 JSON/2435 message/539 bound method cases. Source268 historical47-vector AOT remains unchanged evidence. Final exact-head Linux SerializationProbe AOT/pack remains PENDING in the unchanged required profile.",
+      "androidKotlinArtR8": "Retired/unchanged; no device or Java/Kotlin channel introduced.",
+      "transport": "Same exact runtimes; additive V2 namespaces and owner-specific bounds.",
+      "localCoverage": "Author Windows affected C# StructureTests Release build zero warnings/errors;60 shared independent wire vectors,153 V2 unknown-field codecs, every known/unknown enum and42 compiled route request/response/stream policies and bounds passed. Native Windows and H22 exact4d92 Go60 shared vectors passed. Existing operation-scope67 and Go-bindings20 tooling tests passed. Final complete exact-head Linux profile remains required."
     },
-    "previousReceipt": "eng/policy/dependency-reviews/afv2-env-01-r1.json",
+    "previousReceipt": "eng/policy/dependency-reviews/afv2-env-01-r2.json",
     "inputHashes": {
       ".node-version": "5c293036fc0a61ad76e15d85f454c3c7cec157e181e035b69f95058a2c239144",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
@@ -1047,10 +1054,10 @@
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "3cbd4d6cd217eb7d892e879081fbbc36507f2a01e7a5f81afe0c5013d255a0a9",
       "eng/check_toolchain.py": "b413c0be5fd48c6cf2ee8b45c56a96dabe4fd1700ee9a21eb11207beaf1c0cdb",
-      "eng/contract-packages.json": "f347dd9e047c66f36ffb2c7ea977f10129e2ccdea366e998ed68004f1641f95b",
+      "eng/contract-packages.json": "33afa0a472ed556f5c05c65903a90da95507d3e5699a93c005ab97ee7a96aab5",
       "eng/native-toolchain.json": "bf019c3aadd5e2e1fa6170ce52a463ce3b751f86b3458a17cd93a7fce8ea1eaa",
       "eng/native_toolchain.py": "3496595ef25b20304896015199739005ac8192714e29e764a17d5184edfdca84",
-      "eng/policy/contract-access.json": "74d085f2ea36e4d452ee1628c367616752409c805ee278fef2f1c1b6ac134d05",
+      "eng/policy/contract-access.json": "d2178ba985ce8c60483eaed64515fd56c44999d1562afa078b365f56eb1cd775",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -1072,6 +1079,7 @@
       "eng/provenance/artifact-profiles/dokka-2-2-0-r7.json": "5b86329a7aa205353dfdb0fb75d924e50d2486e281dafb22fe90bf93012b03ad",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r8.json": "224432d3957639e42fb429aa2841d80dbfd10aaec18b8ab3b4bf3851829f2089",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r9.json": "8fae9b8b9ba086ce05ca66b48604e1f96afbb14f89da00cc9d2b5e4dbd839ac5",
+      "eng/provenance/records/afv2-api-01-design-specs-r1.json": "8bf186ff2ef466546bc81dab3393aebeab9b76d5d1773789a6de8083615d981b",
       "eng/provenance/records/canonical-apache-licence-r1.json": "e4252278767a0b4dd27a09a50b176c9420469828345e61336a4b5ca1d17c7b44",
       "eng/provenance/records/canonical-apache-licence-r2.json": "1b2ec73f35eb6dbe28895cf20bb3b37aeeb3f443fb487a91217861707da14c2a",
       "eng/provenance/records/con-12-bindings-r1.json": "b69ba75443f90ab4e31ceca63b95ef84e59d8be90ba1a6d6d2760bfafc8b026a",
@@ -1094,6 +1102,7 @@
       "eng/provenance/records/contract-bindings-af-ctr-06-r1.json": "476468491f1f6db7e738834fd36ac8466f3791dbf377cb266c44cba52d045349",
       "eng/provenance/records/contract-bindings-af-ctr-06-r2.json": "897981e4549d8100c378796d68d94535f4e2bd1e971b4bfbefbcf3714cca2262",
       "eng/provenance/records/contract-bindings-af-ctr-06-r3.json": "59af43e6190b8f1d0c153b5ab09454486d3ad84050587798b52180273685a66a",
+      "eng/provenance/records/contract-bindings-afv2-api-01-r1.json": "88316f15e68b7554252a31d069ec003155b986cfe1cd7ac907cb3911ab6c1a6a",
       "eng/provenance/records/contract-bindings-afv2-env-01-r1.json": "69845519920edf449a60e4e494a2ca0d5f73f3f78c2df2f90b07547a35b0f918",
       "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
       "eng/provenance/records/contract-bindings-con-07-r1.json": "e9b5bdbff7c5d56ebe0d0e17af8e121d1819ded21253c859dbb58203a4b5e9df",
@@ -1233,6 +1242,7 @@
       "eng/provenance/records/go-bindings-af-ctr-05-r3.json": "026223c57665a25b99cbc394e56188d3badbf0ba8f0d8421e2669247e4513c74",
       "eng/provenance/records/go-bindings-af-ctr-05-r4.json": "a368dd2a569c48de660fef5e3cef1c71066b9c389484a6d69bd0566b73642dc3",
       "eng/provenance/records/go-bindings-af-ctr-06-r1.json": "b756d0626aebb22e507c964bae7d0615a50a052e8a87e0eb0cf96b7f2aead1a4",
+      "eng/provenance/records/go-bindings-afv2-api-01-r1.json": "317258972200cc738e7c43500dd82cb4fc981504513b78ade75e5d8684d575d6",
       "eng/provenance/records/go-bindings-afv2-env-01-r1.json": "ff506a814e3992af4bef9df0bf3ddc4b5bcd5c0401e0524483a7dc219ff010b3",
       "eng/provenance/records/go-protobuf-licence-r1.json": "a9fb8d247113f025813e5562ab10e72d92d7f5055cece829b64b8e13785b0ffd",
       "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
@@ -1274,10 +1284,14 @@
       "src/public/dotnet/ArcForges.Contracts.Fleet/packages.lock.json": "cc4a7cdb9eb39ca8f4177364d57eaaefd5174f647ccd222d8b25cdbe1939aa01",
       "src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj": "d87e9fb79689cc245332286e3eee8a045069831144d28ca513805f89b8a7e344",
       "src/public/dotnet/ArcForges.Contracts.Foundation/packages.lock.json": "0e02b1415e80e185b8c4d29d704bd2d78726eac35d1415f4d2596921e13a619d",
+      "src/public/dotnet/ArcForges.Contracts.Management.V2/ArcForges.Contracts.Management.V2.csproj": "71f7874281eae1f3bb02c7abd2557f80bf4d09faa1e4ca4400c1f7a7dd2b9bd9",
+      "src/public/dotnet/ArcForges.Contracts.Management.V2/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
       "src/public/dotnet/ArcForges.Contracts.Node/ArcForges.Contracts.Node.csproj": "a6fccccea588c9397bfb66ee30f1d2b8f522eebfef3d1e3158a34cf41703ade9",
       "src/public/dotnet/ArcForges.Contracts.Node/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
       "src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj": "986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",
       "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
+      "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/ArcForges.Contracts.Sandbox.V2.csproj": "6958e42b884d699e701a9defd0c5d57f27bd2916a5d5d11b41966828cb2cd9ce",
+      "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/packages.lock.json": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13",
       "src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj": "169a71dde7093d66d727a966c558ddfefe12cb00c21e01f1b53c4acf5ee12901",
       "src/public/dotnet/ArcForges.Contracts.Validation/packages.lock.json": "b9cc8fbd962520f8875f194c5010da4c5c6099e06f4dc6ea0f170a335c5d2421",
       "src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj": "f9c35650873d79f50e83a85e29cd51ce2b117a5af72ecfc84a81d554cc67e0fc",
@@ -1288,29 +1302,29 @@
       "tests/ArchitectureTests/packages.lock.json": "22d8ae25d03f669027c3a0cade9456eba41725bbe516bbab03d346f4e2dc6bd3",
       "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
       "tests/StructureTests/PreviousClient/packages.lock.json": "144041c75e6730f4654fbfac98ba4a4344002dd48c7cd4c9a43064b3112ed301",
-      "tests/StructureTests/StructureTests.csproj": "dc46e2029371daea08810a0b0869c2b6c7eef61de95c5d8e6a4fa8cc68a709bc",
-      "tests/StructureTests/packages.lock.json": "30c796634f8b29b34fe90a2696c6b0fdb828cfa688847b8ba1e575ecd3465aad",
+      "tests/StructureTests/StructureTests.csproj": "5ef4cca5aeae890a6175f250e9ff5d6b4d65971ba09dc0dee3b5ef34640e6576",
+      "tests/StructureTests/packages.lock.json": "ab63dc0511bdf1f764d8b5b2ac0a3a6c5500ef4397ce8662f228a340caaeca85",
       "tests/public/HelloClient/HelloClient.csproj": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a",
       "tests/public/HelloClient/packages.lock.json": "c93b52c2409deee2ef839c57c4bd64fd74f00e228f3797825f17676b2d39ec16",
       "tests/public/HelloHost/HelloHost.csproj": "c7ac2acb49c079907c4fdbe9a937421d93146f4b87e92546032d7881fadc6035",
       "tests/public/HelloHost/packages.lock.json": "f7905b45f4c82f5ed2eae2abc95dcc5feae88902d72c23f9cdbf5fc40756a360",
-      "tests/public/SerializationProbe/SerializationProbe.csproj": "92a5039dba394839dfbb60f5f3b7f0bde6304a45c904cf80109b94547a2a0158",
-      "tests/public/SerializationProbe/packages.lock.json": "8ae8946ace48e6558589a6d60b3e45f309d8ec90a13de24421ebd27e3e540756"
+      "tests/public/SerializationProbe/SerializationProbe.csproj": "6f38302cff4b448d964518556805ba599ec715ce487aa3de457bcb4fea262ebe",
+      "tests/public/SerializationProbe/packages.lock.json": "de6c3dcdc1a483111f6505b6f072c535001bfcf45ad7e5c9fe1390751c3ff6ca"
     },
     "goQualification": {
       "schema": "arcforges.contracts.go-qualification.v1",
       "designCommit": "2296e2fe37ad9ad1f7b65be871fea1f0b39ce7ad",
-      "sourceCommit": "dacb563ec9f35a5b26e3c8456eedb575b56bf161",
+      "sourceCommit": "4d92cf527652f2bcea69bca5ffc4075272d169ad",
       "inputHashes": {
         ".github/workflows/ci.yml": "2c3514165fca8e6a422ddf2b985e50684bacf71ee1c7193f4fb235c75ac6c008",
         ".github/workflows/security.yml": "bea4d23ee2d486b22d27860e290b42a3327cefc10e29c3dd1e9a560f7f3906d9",
         ".python-version": "673e2ba07f95bfcfe0a543258b8e267954e403d1f466481c546f467f86b31d46",
         "eng/check_go_dependency_inventory.py": "32f5ae2e4f653e84e6260c684a2683bc395e873e707aab8d865a7377cfd39745",
         "eng/check_toolchain.py": "b413c0be5fd48c6cf2ee8b45c56a96dabe4fd1700ee9a21eb11207beaf1c0cdb",
-        "eng/contract-packages.json": "f347dd9e047c66f36ffb2c7ea977f10129e2ccdea366e998ed68004f1641f95b",
-        "eng/contracts.py": "c07c156006c0f0f62a3a714ec3e370feed89d69f43cb5520eedf6040564c549f",
+        "eng/contract-packages.json": "33afa0a472ed556f5c05c65903a90da95507d3e5699a93c005ab97ee7a96aab5",
+        "eng/contracts.py": "a8c59a6d3dbdfddf27fecb9e5d041d2ffb99b9632d3282f499fcdebf9128855e",
         "eng/dependency_admission.py": "0c7243d8b0051c60ee2339843b780062f2924562fc5b3b33266aa2f92b4b95fa",
-        "eng/go_bindings.py": "4d9506198ccc56b3138fdd4416ff1627d3fc34a7b5ab259e28ce2cc436ab743c",
+        "eng/go_bindings.py": "fc2b5c7acc1efcb8571ab11f29b48938a0524f385e9ac97e56a7e9c9e9ee2810",
         "eng/native-toolchain.json": "bf019c3aadd5e2e1fa6170ce52a463ce3b751f86b3458a17cd93a7fce8ea1eaa",
         "eng/native_toolchain.py": "3496595ef25b20304896015199739005ac8192714e29e764a17d5184edfdca84",
         "eng/package_catalog.py": "07999aff092d122ac1136ddbb2851dde5c07193e34e1334e56bc6e8161ee5f4c",
@@ -1333,6 +1347,11 @@
         "go/arcforges/hello/v1/hello.pb.go": "ab17d6617c208dc90c930220c607fa104643ab52eda3c2f1a233f04cdb049f2d",
         "go/arcforges/hello/v1/hellov1connect/doc.go": "35ef3ee33c8d38487ee19585b3edb1e2ac03704dbcdbd0ecc0d46521caf460a3",
         "go/arcforges/hello/v1/hellov1connect/hello.connect.go": "a114aefc252ebaef3845a0cab85b38df82eabb07c66dedb90e49700c783b07e4",
+        "go/arcforges/management/v2/devices.pb.go": "9ad70d0596290fec64b326150d66dd509a98efae354829f0e9d2954e99e953f9",
+        "go/arcforges/management/v2/doc.go": "fa6bd93c3a9b5601838de7c33521ba0e49e9b32e569bce3ff005a683ee5e391d",
+        "go/arcforges/management/v2/managementv2connect/devices.connect.go": "03f21d1c26cfad78eb795348df91f0957373931ec12e390086a8aaa358c89d4d",
+        "go/arcforges/management/v2/managementv2connect/doc.go": "112fb61c0ea81e26156aadb8f155cc414230534d7430c9ca29e4f0777ae8fc0e",
+        "go/arcforges/management/v2/validation.go": "10089ff176c1aa0dfadd99606916f168be657b5b59ae6a7ffb5d38f48c809b4b",
         "go/arcforges/node/v1/account.pb.go": "94a25b401c122d809c5b19713a4b7e362a340ae3cdfea57ed9bc23e6e4786a36",
         "go/arcforges/node/v1/approvals.pb.go": "93f3884708ea79fa9ddab86e7b3a9fe5bcdfaf9e3dc43eee1704e4190a194b5a",
         "go/arcforges/node/v1/caches.pb.go": "1f7cea0ba512215e3a18669384b52706d978104d08ab8c1f711ddd874e88a641",
@@ -1411,6 +1430,13 @@
         "go/arcforges/publicapi/v1/transfer.pb.go": "a887011f301772b74431d15763c168c351a8bbf65cf87f664598c224dc3c64f0",
         "go/arcforges/relay/v1/doc.go": "f0516abe72c5dc648af706cfa3732fb96ef970aa73c2c178faa44aa6232b7f6a",
         "go/arcforges/relay/v1/relay.pb.go": "a0d2dcd8a91341a7a1cbab0dae11f5254ec14aa361778a08283894a1b7898cdc",
+        "go/arcforges/sandbox/v2/center_control.pb.go": "1a4ce14019c5a104cab581577c9f11bd868935e7b3e4ad9f039276fbfc306ef0",
+        "go/arcforges/sandbox/v2/doc.go": "ae66c059686876ff18096ce61409e38686d803671a05a86e7efe6a4dfd5dd18a",
+        "go/arcforges/sandbox/v2/platform.pb.go": "4d20337c906dc79e650633734e602ae9b2e04b40db62da8738dfe94012a880ea",
+        "go/arcforges/sandbox/v2/sandboxv2connect/center_control.connect.go": "2330b18cefd687fb5bb7ce1fd1cc8c0ad4bc773069051b10db45779d40a829e4",
+        "go/arcforges/sandbox/v2/sandboxv2connect/doc.go": "1018d8c92933787e47c4f6020c60af98da6dae3b39745d91a977aed1cfc3b052",
+        "go/arcforges/sandbox/v2/sandboxv2connect/platform.connect.go": "a76845296f5fbb82cb3539774bc9cf87a88180eb845a6129f523f8d7d594b5e2",
+        "go/arcforges/sandbox/v2/validation.go": "f4fa27cd95520160bafbeee4e4324168011d0f00b7c0188a78e79b26ce9c5c67",
         "go/go.mod": "1696a11d2cc917add3c9401396795d8146cfb72598e5e6f9c1def7a835978824",
         "go/go.sum": "b01034abad848408362f1f2a67db5d1eb6d93e05813723efe0d8e26d363ff1eb",
         "go/internal/compat/connect_test.go": "5cbe5434097253e82a1fff78b222927f090de9be9655e08c4434c4c041ea712c",
@@ -1419,18 +1445,19 @@
         "go/internal/compat/files_vectors_test.go": "b3458b34acc41040070dc1dd0c9e6f42c0fffda62cc9bc42bb9aaddabecdcf1a",
         "go/internal/compat/fixtures_test.go": "cfc0c2731c8a48d669b39e2542f404a85124860985596aa5280a21a8d4a8084d",
         "go/internal/compat/relay_vectors_test.go": "7cf63d63b2b1cec88be87d28ecc5c69a6510f145390be10202843180504050d9",
-        "go/internal/compat/support_test.go": "c537c45358337d664f0a3a85df743b44a19f012bb9fbf49296c814ccc2c1f39a",
+        "go/internal/compat/support_test.go": "a837addb059a08370170f745de88baa4db576580521d0c5fbc0ed63e88064b83",
+        "go/internal/compat/v2_vectors_test.go": "3b6feaf84bd43660cd827a05e1f58d20c1f4ddb0b408ebdababa0686c421239f",
         "go/toolchain.json": "fab9b8c724b7d0e673d06004e11896958d047ee4cc91f1b1486383609db5b749",
         "go/tools/go.mod": "6b85a0f7dcfb09c430048fe22db15eb1e633f32cbc177600dddf9f4fe67b99f5",
         "go/tools/go.sum": "3e7200cf74b5119a63a310d7eb63a9b7fa3c543f216f75b089ac4a26e1c79d56"
       },
       "platforms": {
         "windows": {
-          "sourceCommit": "dacb563ec9f35a5b26e3c8456eedb575b56bf161",
-          "measuredAtUtc": "2026-11-15T07:45:49.176916+00:00",
+          "sourceCommit": "4d92cf527652f2bcea69bca5ffc4075272d169ad",
+          "measuredAtUtc": "2026-11-16T04:22:07.959282+00:00",
           "report": {
-            "location": "C:/MyFile/Projects/ArcForges/tmp/afv2-env-01/contracts-go-dacb-windows.json",
-            "sha256": "976d9f1eabbcc0c3e793301526d25604cb2619775e2b15c9d564e7d370dd5413"
+            "location": "Native-Windows:C:\\MyFile\\Projects\\ArcForges\\Contracts\\.worktree\\afv2-api-01-go-23a4b33\\artifacts\\afv2-api-01-go-reference-windows-4d92cf5.json",
+            "sha256": "27dc574bea661be1d2c3bf1f2fccc8391fa7f770377ccfcbe17241dc2739c7b7"
           },
           "summary": {
             "configuration": {
@@ -1448,7 +1475,7 @@
             },
             "selectedGraphsSha256": "e58ec8cd40ac46a4602548c862133f6b3c8b06bba2392737cf0e1f7dc9d89fc1",
             "moduleRequirementsSha256": "1447a5f964ce1415d845c939e4b348882b45c6323914ac3e711017507636534b",
-            "packageClosuresSha256": "05af3a41c152f49edb6591c2d56431f1726c4a1541f79e304c93e0cd5579a08a",
+            "packageClosuresSha256": "8ce1118c281bdc39718cf28cb17ae3ea280ac2e75782b2481a7ed4d360e9dcfc",
             "classification": {
               "actualDependencies": [
                 {
@@ -1728,11 +1755,11 @@
           }
         },
         "linux": {
-          "sourceCommit": "dacb563ec9f35a5b26e3c8456eedb575b56bf161",
-          "measuredAtUtc": "2026-11-15T07:46:12.895209+00:00",
+          "sourceCommit": "4d92cf527652f2bcea69bca5ffc4075272d169ad",
+          "measuredAtUtc": "2026-11-16T04:22:24.324641+00:00",
           "report": {
-            "location": "/home/sammiller/arcforges/tmp/afv2-env-01/contracts-go-dacb-linux.json",
-            "sha256": "cc809e99e4578a98dd31c5c44fdd460a0151de52e16689fbb7448effb727cf12"
+            "location": "ArcForges-Linux-MCP:/home/sammiller/arcforges/Contracts/.worktree/afv2-api-01-268c42e/artifacts/afv2-api-01-go-reference-linux-4d92cf5.json",
+            "sha256": "f7cf451fa40f84bbb8fc165d280f6e9dd9700193ac6c2e9adcb69d3113626186"
           },
           "summary": {
             "configuration": {
@@ -1752,7 +1779,7 @@
             },
             "selectedGraphsSha256": "e58ec8cd40ac46a4602548c862133f6b3c8b06bba2392737cf0e1f7dc9d89fc1",
             "moduleRequirementsSha256": "1447a5f964ce1415d845c939e4b348882b45c6323914ac3e711017507636534b",
-            "packageClosuresSha256": "79ac3a47317520f169bb351aae2c23faecfbb85f716116848e0068ad4fb12687",
+            "packageClosuresSha256": "420ea42f0d3c6b4d609b1b4755c2da5ae45a349bdbcb91e6081be2b846308b61",
             "classification": {
               "actualDependencies": [
                 {
@@ -2098,5 +2125,5 @@
       }
     }
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/afv2-env-01-r2.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/afv2-api-01-r1.json"
 }
