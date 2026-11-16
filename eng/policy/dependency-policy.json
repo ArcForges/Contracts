@@ -201,6 +201,7 @@
     "eng/provenance/records/go-bindings-af-ctr-05-r4.json": "a368dd2a569c48de660fef5e3cef1c71066b9c389484a6d69bd0566b73642dc3",
     "eng/provenance/records/go-bindings-af-ctr-06-r1.json": "b756d0626aebb22e507c964bae7d0615a50a052e8a87e0eb0cf96b7f2aead1a4",
     "eng/provenance/records/go-bindings-afv2-api-01-r1.json": "317258972200cc738e7c43500dd82cb4fc981504513b78ade75e5d8684d575d6",
+    "eng/provenance/records/go-bindings-afv2-api-01-r2.json": "c6177a64adcc71153bec28ca74d5e8f5b18af3eb4da2298f8654485239ca07c1",
     "eng/provenance/records/go-bindings-afv2-env-01-r1.json": "ff506a814e3992af4bef9df0bf3ddc4b5bcd5c0401e0524483a7dc219ff010b3",
     "eng/provenance/records/go-protobuf-licence-r1.json": "a9fb8d247113f025813e5562ab10e72d92d7f5055cece829b64b8e13785b0ffd",
     "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
@@ -1018,13 +1019,13 @@
     "reviewer": "Author source/closure assessment; independent complete PR review remains required",
     "decision": "approved",
     "reviewedOn": "2026-11-16",
-    "baselineCommit": "4d92cf527652f2bcea69bca5ffc4075272d169ad",
-    "maintenanceAssessment": "AFV2-API-01 adds exactly two explicit V2 NuGet owner packages and their generated packages in the existing internal Go module. Their only first-party dependency is unchanged Foundation; all56 external dependency identities, exact protobuf/gRPC/connect and toolchain pins, original licence/integrity evidence and the existing two fixed-commit maturity assessments are retained. The actual new owner/consumer locks, complete V2 schemas, access inventory and immutable generated-provenance successors are bound below. This is additive source/package/input-closure admission, not ENV requalification or dependency freshness research. Old v1 meanings, independent consumers, ContentSandbox and retired npm/Maven identities remain intact. Both native collectors measured identical final Go/control source4d92 with clean/unchanged input, selected graphs, upstream requirements and complete owned/test/tool package closures under the existing nine-name policy. No new metadata/version lookup, exception, private runtime, alternative wire serializer or registry/channel is introduced. Author validation and source/licence disposition are distinct from required final independent review, unchanged Linux full profile and normal common-version publication; none of those later outcomes is asserted here.",
+    "baselineCommit": "1efa1dd761ee4d37028d3d0b2e67fc827d556bc6",
+    "maintenanceAssessment": "AFV2-API-01 adds exactly two explicit V2 NuGet owner packages and their generated packages in the existing internal Go module. Their only first-party dependency is unchanged Foundation; all56 external dependency identities, exact protobuf/gRPC/connect and toolchain pins, original licence/integrity evidence and the existing two fixed-commit maturity assessments are retained. The actual new owner/consumer locks, complete V2 schemas, access inventory and immutable generated-provenance successors are bound below. This is additive source/package/input-closure admission, not ENV requalification or dependency freshness research. Old v1 meanings, independent consumers, ContentSandbox and retired npm/Maven identities remain intact. Both native collectors measured identical final Go/control source1efa with clean/unchanged input, selected graphs, upstream requirements and complete owned/test/tool package closures under the existing nine-name policy. No new metadata/version lookup, exception, private runtime, alternative wire serializer or registry/channel is introduced. Author validation and source/licence disposition are distinct from required final independent review, unchanged Linux full profile and normal common-version publication; none of those later outcomes is asserted here. The sole post-r1 source repair adds generated Go package comments for the existing ST1000 rule. No wire/validation/runtime semantics, dependencies or gate changed; immutable r1 source and receipts remain preserved.",
     "checks": {
-      "compilation": "Author Windows affected C# StructureTests Release build zero warnings/errors;60 shared independent wire vectors,153 V2 unknown-field codecs, every known/unknown enum and42 compiled route request/response/stream policies and bounds passed. Native Windows and H22 exact4d92 Go60 shared vectors passed. Existing operation-scope67 and Go-bindings20 tooling tests passed. Final complete exact-head Linux profile remains required.",
+      "compilation": "Historical source4d92 Windows affected C# build and60 shared independent wire vectors,153 unknown-field codecs, all enum values and42 route policies/bounds passed. New exact source1efa Windows Go60 shared vectors and generation drift check passed; both native clean/unchanged-source dependency collectors passed at source1efa. Existing full go-static and final exact-head Linux profile results remain separate required evidence; no source4d92/5417 result is relabelled as final source1efa verification.",
       "aot-trim": "Clean detached source4d92cf527652f2bcea69bca5ffc4075272d169ad Windows Native AOT publish/run passed with no warnings/errors and dynamic code disabled:60 shared V2 vectors,31 binary/51 JSON/2435 message/539 bound method cases. Source268 historical47-vector AOT remains unchanged evidence. Final exact-head Linux SerializationProbe AOT/pack remains PENDING in the unchanged required profile.",
       "compatibility": "Three exact Apache-2.0 Design493022fb V2 specs adopted byte-for-byte into new namespaces/packages. All v1 numbers/meanings, windows and published artifacts retained. Current V2 unknown fields/enums preserved. Existing old/current/reference C#/Go exchange remains required in final profile.",
-      "licence-provenance": "No new external licence/version. Source disposition preceded specification copy. Immutable successors retain445 C#/metadata targets and104Go targets with exact current source/generator/input hashes; existing full licence texts stay intact. Provenance audit and20 tooling tests passed; final independent review remains required.",
+      "licence-provenance": "No new external licence/version. Immutable C# generated r1 remains at its unchanged output bytes; new Go r2 preserves all104 targets and original generator licence positions with exact source1efa input/target hashes. Both prior r1 records and the original source adoption record remain immutable. Source/provenance audit and independent final delta review remain separate evidence.",
       "security-sbom": "Unchanged compiled access gate passed55schemas/2707types/27non-Go package rows with zero access reclassifications;24 contract-access tooling tests passed. npm ci audited7packages with0vulnerabilities. Existing secret/dependency/vulnerability/SBOM/security full gates remain required; no native authorization or product security acceptance fabricated.",
       "runtime-performance-migration": "Offline contract adoption only. No product engine, SQL, installed cohort, backup/restore, credential or deployment cutover. BASE-01 observed consumers retain exact old pins. New V2 owner1MiB/2MiB and64KiB output-payload bounds leave v1 defaults untouched; no new native-isolation or product-performance claim.",
       "framework-runtime-posture": "No framework/runtime upgrade: SDK11.0.100,Node26.13.1,Go1.27.4 and exact protobuf/gRPC/connect pins retained. C# remains sole business-client SDK; internal Go module only, no retired generator/channel or new client framework."
@@ -1040,9 +1041,9 @@
       "nativeAotTrim": "Clean detached source4d92cf527652f2bcea69bca5ffc4075272d169ad Windows Native AOT publish/run passed with no warnings/errors and dynamic code disabled:60 shared V2 vectors,31 binary/51 JSON/2435 message/539 bound method cases. Source268 historical47-vector AOT remains unchanged evidence. Final exact-head Linux SerializationProbe AOT/pack remains PENDING in the unchanged required profile.",
       "androidKotlinArtR8": "Retired/unchanged; no device or Java/Kotlin channel introduced.",
       "transport": "Same exact runtimes; additive V2 namespaces and owner-specific bounds.",
-      "localCoverage": "Author Windows affected C# StructureTests Release build zero warnings/errors;60 shared independent wire vectors,153 V2 unknown-field codecs, every known/unknown enum and42 compiled route request/response/stream policies and bounds passed. Native Windows and H22 exact4d92 Go60 shared vectors passed. Existing operation-scope67 and Go-bindings20 tooling tests passed. Final complete exact-head Linux profile remains required."
+      "localCoverage": "Historical source4d92 Windows affected C# build and60 shared independent wire vectors,153 unknown-field codecs, all enum values and42 route policies/bounds passed. New exact source1efa Windows Go60 shared vectors and generation drift check passed; both native clean/unchanged-source dependency collectors passed at source1efa. Existing full go-static and final exact-head Linux profile results remain separate required evidence; no source4d92/5417 result is relabelled as final source1efa verification."
     },
-    "previousReceipt": "eng/policy/dependency-reviews/afv2-env-01-r2.json",
+    "previousReceipt": "eng/policy/dependency-reviews/afv2-api-01-r1.json",
     "inputHashes": {
       ".node-version": "5c293036fc0a61ad76e15d85f454c3c7cec157e181e035b69f95058a2c239144",
       ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
@@ -1243,6 +1244,7 @@
       "eng/provenance/records/go-bindings-af-ctr-05-r4.json": "a368dd2a569c48de660fef5e3cef1c71066b9c389484a6d69bd0566b73642dc3",
       "eng/provenance/records/go-bindings-af-ctr-06-r1.json": "b756d0626aebb22e507c964bae7d0615a50a052e8a87e0eb0cf96b7f2aead1a4",
       "eng/provenance/records/go-bindings-afv2-api-01-r1.json": "317258972200cc738e7c43500dd82cb4fc981504513b78ade75e5d8684d575d6",
+      "eng/provenance/records/go-bindings-afv2-api-01-r2.json": "c6177a64adcc71153bec28ca74d5e8f5b18af3eb4da2298f8654485239ca07c1",
       "eng/provenance/records/go-bindings-afv2-env-01-r1.json": "ff506a814e3992af4bef9df0bf3ddc4b5bcd5c0401e0524483a7dc219ff010b3",
       "eng/provenance/records/go-protobuf-licence-r1.json": "a9fb8d247113f025813e5562ab10e72d92d7f5055cece829b64b8e13785b0ffd",
       "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
@@ -1314,7 +1316,7 @@
     "goQualification": {
       "schema": "arcforges.contracts.go-qualification.v1",
       "designCommit": "2296e2fe37ad9ad1f7b65be871fea1f0b39ce7ad",
-      "sourceCommit": "4d92cf527652f2bcea69bca5ffc4075272d169ad",
+      "sourceCommit": "1efa1dd761ee4d37028d3d0b2e67fc827d556bc6",
       "inputHashes": {
         ".github/workflows/ci.yml": "2c3514165fca8e6a422ddf2b985e50684bacf71ee1c7193f4fb235c75ac6c008",
         ".github/workflows/security.yml": "bea4d23ee2d486b22d27860e290b42a3327cefc10e29c3dd1e9a560f7f3906d9",
@@ -1351,7 +1353,7 @@
         "go/arcforges/management/v2/doc.go": "fa6bd93c3a9b5601838de7c33521ba0e49e9b32e569bce3ff005a683ee5e391d",
         "go/arcforges/management/v2/managementv2connect/devices.connect.go": "03f21d1c26cfad78eb795348df91f0957373931ec12e390086a8aaa358c89d4d",
         "go/arcforges/management/v2/managementv2connect/doc.go": "112fb61c0ea81e26156aadb8f155cc414230534d7430c9ca29e4f0777ae8fc0e",
-        "go/arcforges/management/v2/validation.go": "10089ff176c1aa0dfadd99606916f168be657b5b59ae6a7ffb5d38f48c809b4b",
+        "go/arcforges/management/v2/validation.go": "55731fefa8f640c5f1e853ba4b8abc21f86be3f38a0868a677997edce49eb057",
         "go/arcforges/node/v1/account.pb.go": "94a25b401c122d809c5b19713a4b7e362a340ae3cdfea57ed9bc23e6e4786a36",
         "go/arcforges/node/v1/approvals.pb.go": "93f3884708ea79fa9ddab86e7b3a9fe5bcdfaf9e3dc43eee1704e4190a194b5a",
         "go/arcforges/node/v1/caches.pb.go": "1f7cea0ba512215e3a18669384b52706d978104d08ab8c1f711ddd874e88a641",
@@ -1436,7 +1438,7 @@
         "go/arcforges/sandbox/v2/sandboxv2connect/center_control.connect.go": "2330b18cefd687fb5bb7ce1fd1cc8c0ad4bc773069051b10db45779d40a829e4",
         "go/arcforges/sandbox/v2/sandboxv2connect/doc.go": "1018d8c92933787e47c4f6020c60af98da6dae3b39745d91a977aed1cfc3b052",
         "go/arcforges/sandbox/v2/sandboxv2connect/platform.connect.go": "a76845296f5fbb82cb3539774bc9cf87a88180eb845a6129f523f8d7d594b5e2",
-        "go/arcforges/sandbox/v2/validation.go": "f4fa27cd95520160bafbeee4e4324168011d0f00b7c0188a78e79b26ce9c5c67",
+        "go/arcforges/sandbox/v2/validation.go": "5b41e321bb522b4c8e87421f7c01d34164fabb7b9358c982d7f3cd5765f004bb",
         "go/go.mod": "1696a11d2cc917add3c9401396795d8146cfb72598e5e6f9c1def7a835978824",
         "go/go.sum": "b01034abad848408362f1f2a67db5d1eb6d93e05813723efe0d8e26d363ff1eb",
         "go/internal/compat/connect_test.go": "5cbe5434097253e82a1fff78b222927f090de9be9655e08c4434c4c041ea712c",
@@ -1453,11 +1455,11 @@
       },
       "platforms": {
         "windows": {
-          "sourceCommit": "4d92cf527652f2bcea69bca5ffc4075272d169ad",
-          "measuredAtUtc": "2026-11-16T04:22:07.959282+00:00",
+          "sourceCommit": "1efa1dd761ee4d37028d3d0b2e67fc827d556bc6",
+          "measuredAtUtc": "2026-11-16T04:45:30.276638+00:00",
           "report": {
-            "location": "Native-Windows:C:\\MyFile\\Projects\\ArcForges\\Contracts\\.worktree\\afv2-api-01-go-23a4b33\\artifacts\\afv2-api-01-go-reference-windows-4d92cf5.json",
-            "sha256": "27dc574bea661be1d2c3bf1f2fccc8391fa7f770377ccfcbe17241dc2739c7b7"
+            "location": "Native-Windows:C:\\MyFile\\Projects\\ArcForges\\Contracts\\.worktree\\afv2-api-01-go-23a4b33\\artifacts\\afv2-api-01-go-reference-windows-1efa1dd.json",
+            "sha256": "21754a48640c6330888b480b1a8b8c46250b10d3d6a8509909f59ab9f50fddf3"
           },
           "summary": {
             "configuration": {
@@ -1755,11 +1757,11 @@
           }
         },
         "linux": {
-          "sourceCommit": "4d92cf527652f2bcea69bca5ffc4075272d169ad",
-          "measuredAtUtc": "2026-11-16T04:22:24.324641+00:00",
+          "sourceCommit": "1efa1dd761ee4d37028d3d0b2e67fc827d556bc6",
+          "measuredAtUtc": "2026-11-16T04:45:34.822740+00:00",
           "report": {
-            "location": "ArcForges-Linux-MCP:/home/sammiller/arcforges/Contracts/.worktree/afv2-api-01-268c42e/artifacts/afv2-api-01-go-reference-linux-4d92cf5.json",
-            "sha256": "f7cf451fa40f84bbb8fc165d280f6e9dd9700193ac6c2e9adcb69d3113626186"
+            "location": "ArcForges-Linux-MCP:/home/sammiller/arcforges/Contracts/.worktree/afv2-api-01-268c42e/artifacts/afv2-api-01-go-reference-linux-1efa1dd.json",
+            "sha256": "a0214c4b4052d0a8324699730912f8d38f0890135b0ca535a02073a62cd38ca8"
           },
           "summary": {
             "configuration": {
@@ -2125,5 +2127,5 @@
       }
     }
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/afv2-api-01-r1.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/afv2-api-01-r2.json"
 }

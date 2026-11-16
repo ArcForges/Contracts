@@ -726,8 +726,8 @@ Copyright (c) 2015 Jordan Harband
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
 
-go-bindings-afv2-api-01-r1
-Source: https://github.com/ArcForges/Contracts @ 4d92cf527652f2bcea69bca5ffc4075272d169ad
+go-bindings-afv2-api-01-r2
+Source: https://github.com/ArcForges/Contracts @ 1efa1dd761ee4d37028d3d0b2e67fc827d556bc6
 Material licence: Apache-2.0
 Notice scope: source
 Copyright 2026 ArcForges contributors.
