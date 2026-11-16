@@ -78,6 +78,25 @@ internal sealed class WireSchemaCatalog
             return package.Protos.Length > 0 && File.Exists(Path.Combine(_root, sidecar)) ? sidecar : null;
         }
 
+        // AFV2-API-01 adds these exact generated helpers, not a new project role or policy exception.
+        // Like the service catalogue below, each package-wide helper uses its owning protocol as
+        // the schema anchor. Generation drift and descriptor/vector checks cover all owned inputs.
+        string? v2Schema = (Normalize(projectPath), local) switch
+        {
+            ("src/public/dotnet/ArcForges.Contracts.Sandbox.V2/ArcForges.Contracts.Sandbox.V2.csproj",
+                "Generated/Policy/MethodPolicy.g.cs" or "Generated/Serialization/V2Wire.g.cs" or "Generated/Policy/TerminalProtocol.g.cs")
+                => "public/proto/arcforges/sandbox/v2/platform.proto",
+            ("src/public/dotnet/ArcForges.Contracts.Management.V2/ArcForges.Contracts.Management.V2.csproj",
+                "Generated/Policy/MethodPolicy.g.cs" or "Generated/Serialization/V2Wire.g.cs")
+                => "public/proto/arcforges/management/v2/devices.proto",
+            _ => null,
+        };
+        if (v2Schema is not null)
+        {
+            return package.Protos.Contains(v2Schema, StringComparer.Ordinal) && File.Exists(Path.Combine(_root, v2Schema))
+                ? v2Schema : null;
+        }
+
         if (local.StartsWith("Generated/Shapes/", StringComparison.Ordinal) && local.EndsWith(".g.cs", StringComparison.Ordinal)
             && local.IndexOf('/', "Generated/Shapes/".Length) < 0)
         {
