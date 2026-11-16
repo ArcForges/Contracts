@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-11-09",
+  "reviewedOn": "2026-11-16",
   "design": {
     "commit": "212825003ed712200e585445301473233404f597",
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "246b60242a85c06941bd6b571914be71bc324d30",
+  "sourceCommit": "8a14c956172a29df43b5e460b221672d66fb838e",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -268,6 +268,21 @@
       "path": "public/proto/arcforges/simulation/v1/simulation.proto",
       "access": "public",
       "sha256": "132e52b8f66b9bbdde779ee295a1b2406bb26d12e97e7e8ecf78e0c34fa98c7f"
+    },
+    {
+      "path": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public",
+      "sha256": "43a9d8f7dd24e43f4ad8fa3d2e7b1510ce060145c5d7ae46d88ac6894d08b046"
+    },
+    {
+      "path": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public",
+      "sha256": "de355b1635edeecd7472f44f74227dbdc5070a12692c51fcb424f14fab768d73"
+    },
+    {
+      "path": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public",
+      "sha256": "bac404101034451f5c965d157c4bb66265e8bfc943026b7a35b60855eab83030"
     }
   ],
   "types": [
@@ -3978,6 +3993,78 @@
       "kind": "message",
       "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
       "access": "internal"
+    },
+    {
+      "name": "arcforges.management.v2.Device",
+      "kind": "message",
+      "file": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.management.v2.DevicePage",
+      "kind": "message",
+      "file": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.management.v2.DeviceService",
+      "kind": "service",
+      "file": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.management.v2.DeviceServiceInspectRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.management.v2.DeviceServiceInspectResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.management.v2.DeviceServiceInspectValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.management.v2.DeviceServiceListRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.management.v2.DeviceServiceListResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.management.v2.DeviceServiceListValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.management.v2.DeviceServiceRevokeRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.management.v2.DeviceServiceRevokeResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.management.v2.DeviceServiceRevokeValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/management/v2/devices.proto",
+      "access": "public"
     },
     {
       "name": "arcforges.node.v1.AccountService",
@@ -15098,6 +15185,984 @@
       "access": "internal"
     },
     {
+      "name": "arcforges.sandbox.v2.Capability",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CapabilityState",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterConnectFlow",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterConnection",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlService",
+      "kind": "service",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceBeginConnectRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceBeginConnectResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceBeginConnectValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceCancelConnectRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceCancelConnectResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceCancelConnectValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceDisconnectRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceDisconnectResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceDisconnectValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceGetConnectFlowRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceGetConnectFlowResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceGetConnectFlowValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceGetStatusRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceGetStatusResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceGetStatusValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceSignOutRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceSignOutResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.CenterControlServiceSignOutValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataChunk",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataService",
+      "kind": "service",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceBeginExportRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceBeginExportResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceBeginExportValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceBeginImportRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceBeginImportResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceBeginImportValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceCloseTransferRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceCloseTransferResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceCloseTransferValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceCommitImportRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceCommitImportResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceCommitImportValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceGetUsageRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceGetUsageResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceGetUsageValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceInspectTransferRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceInspectTransferResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceInspectTransferValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceListEntriesRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceListEntriesResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceListEntriesValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceReadExportRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceReadExportResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceReadExportValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceWriteImportRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceWriteImportResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DataServiceWriteImportValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.DeletePlan",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.Empty",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.EnvironmentEntry",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.Event",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.EventGap",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.EventKind",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.ExitSource",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.FileEntry",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.GrantState",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.HostGrant",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.LeaseMode",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.LimitState",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.LimitStatus",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NetworkMode",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NetworkPolicy",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeService",
+      "kind": "service",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceGetOperationRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceGetOperationResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceGetOperationValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceHandshakeRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceHandshakeResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceHandshakeValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceListRemoteGrantsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceListRemoteGrantsResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceListRemoteGrantsValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceRevokeRemoteGrantRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceRevokeRemoteGrantResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceRevokeRemoteGrantValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceSetRemoteGrantRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceSetRemoteGrantResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceSetRemoteGrantValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceWatchEventsFrame",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.NodeServiceWatchEventsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.Operation",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.OperationState",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.OutputChunk",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.OutputGap",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.Page",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.PayloadStartEvidence",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.PressureAction",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RemoteGrant",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.ResourcePolicy",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.ResourceService",
+      "kind": "service",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.ResourceServiceGetBudgetRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.ResourceServiceGetBudgetResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.ResourceServiceGetBudgetValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.ResourceServiceSetPolicyRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.ResourceServiceSetPolicyResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.ResourceServiceSetPolicyValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.ResourceServiceWatchUsageFrame",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.ResourceServiceWatchUsageRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.ResourceSnapshot",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.Run",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunExit",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunService",
+      "kind": "service",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceAcquireTerminalRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceAcquireTerminalResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceAcquireTerminalValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceDetachTerminalRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceDetachTerminalResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceDetachTerminalValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceInspectRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceInspectResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceInspectValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceListRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceListResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceListValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceResizeTerminalRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceResizeTerminalResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceResizeTerminalValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceStartRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceStartResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceStartValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceStopRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceStopResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceStopValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceWatchOutputFrame",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceWatchOutputRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceWriteTerminalRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceWriteTerminalResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunServiceWriteTerminalValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.RunState",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.Sandbox",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxConfig",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxService",
+      "kind": "service",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceConfigureRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceConfigureResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceConfigureValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceCreateRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceCreateResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceCreateValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceDeleteRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceDeleteResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceDeleteValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceInspectRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceInspectResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceInspectValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceListRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceListResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServiceListValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServicePlanDeleteRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServicePlanDeleteResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxServicePlanDeleteValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.SandboxState",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.StreamKind",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.TerminalLease",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.TerminalMode",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.TerminalSize",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.Transfer",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.TransferState",
+      "kind": "enum",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.sandbox.v2.Usage",
+      "kind": "message",
+      "file": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.simulation.v1.AstNode",
       "kind": "message",
       "file": "public/proto/arcforges/simulation/v1/simulation.proto",
@@ -15596,6 +16661,16 @@
       "id": "ArcForges.Contracts.Relay",
       "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.Relay",
       "access": "internal"
+    },
+    {
+      "id": "ArcForges.Contracts.Sandbox.V2",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2",
+      "access": "public"
+    },
+    {
+      "id": "ArcForges.Contracts.Management.V2",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.Management.V2",
+      "access": "public"
     }
   ],
   "distribution": [
@@ -48739,6 +49814,415 @@
       "types": ["WireLimit", "ContractSerializationFailure", "ContractSerializationError"],
       "sha256": "f1ec30cb721bef8b617bc3c82dd75a2b068e3443421374866b52bee09aca9d56",
       "kind": "authored"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Management.V2/Generated/Policy/MethodPolicy.g.cs",
+      "package": "ArcForges.Contracts.Management.V2",
+      "access": "public",
+      "types": ["ContractMethods", "MethodPolicy"],
+      "sha256": "0b99dd0a15ea6361e41514acf349f31a2efbf4acbd56c0da42fef9397582be61",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Management.V2/Generated/Proto/Devices.cs",
+      "package": "ArcForges.Contracts.Management.V2",
+      "access": "public",
+      "types": [
+        "DevicesReflection",
+        "Device",
+        "DevicePage",
+        "DeviceServiceListRequest",
+        "DeviceServiceListResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DeviceServiceListValue",
+        "DeviceServiceInspectRequest",
+        "DeviceServiceInspectResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DeviceServiceInspectValue",
+        "DeviceServiceRevokeRequest",
+        "DeviceServiceRevokeResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DeviceServiceRevokeValue"
+      ],
+      "sha256": "edcc0e345c26ab9c2dde0537cb3907a89ff53f9751d7d1cad799b4cb5c74524a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Management.V2/Generated/Proto/DevicesGrpc.cs",
+      "package": "ArcForges.Contracts.Management.V2",
+      "access": "public",
+      "types": [
+        "DeviceService",
+        "__Helper_MessageCache",
+        "DeviceServiceBase",
+        "DeviceServiceClient"
+      ],
+      "sha256": "eb4396d02fc4eb299706042010936454935220f2071ab802cf012816492c78db",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Management.V2/Generated/Serialization/V2Wire.g.cs",
+      "package": "ArcForges.Contracts.Management.V2",
+      "access": "public",
+      "types": ["V2Wire"],
+      "sha256": "75510d83e994b2a6b6c2506dfa07ebbd89974e558a72f05cbfff6ca3a207daa6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Management.V2/Generated/Services/ContractServices.g.cs",
+      "package": "ArcForges.Contracts.Management.V2",
+      "access": "public",
+      "types": ["ContractServices"],
+      "sha256": "3b531573f7c9ef8811b832f070c6f71ce82d03cf8cb26bd37db5b62f988ea3db",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Management.V2/Generated/Shapes/ProtoValidation.g.cs",
+      "package": "ArcForges.Contracts.Management.V2",
+      "access": "public",
+      "types": ["ContractShapeValidation", "ValidationContext"],
+      "sha256": "885e172f110861eb1bd8cbf761965629a9f287c48fe0a3a858b5a720a55cb3ee",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/Generated/Policy/MethodPolicy.g.cs",
+      "package": "ArcForges.Contracts.Sandbox.V2",
+      "access": "public",
+      "types": ["ContractMethods", "MethodPolicy"],
+      "sha256": "1f4f6d4ac088fe59e0323523bbcd1ffeaee5f79ebfbe4748924583732628b79e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/Generated/Policy/TerminalProtocol.g.cs",
+      "package": "ArcForges.Contracts.Sandbox.V2",
+      "access": "public",
+      "types": ["TerminalProtocol"],
+      "sha256": "8a85eef4fafb730cd471ae5d0ae7b931d41b0ae23be9c1c4008819d2b0435ff2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/Generated/Proto/CenterControl.cs",
+      "package": "ArcForges.Contracts.Sandbox.V2",
+      "access": "public",
+      "types": [
+        "CenterControlReflection",
+        "CenterConnection",
+        "CenterConnectFlow",
+        "CenterControlServiceGetStatusRequest",
+        "CenterControlServiceGetStatusResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CenterControlServiceGetStatusValue",
+        "CenterControlServiceBeginConnectRequest",
+        "CenterControlServiceBeginConnectResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CenterControlServiceBeginConnectValue",
+        "CenterControlServiceGetConnectFlowRequest",
+        "CenterControlServiceGetConnectFlowResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CenterControlServiceGetConnectFlowValue",
+        "CenterControlServiceCancelConnectRequest",
+        "CenterControlServiceCancelConnectResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CenterControlServiceCancelConnectValue",
+        "CenterControlServiceDisconnectRequest",
+        "CenterControlServiceDisconnectResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CenterControlServiceDisconnectValue",
+        "CenterControlServiceSignOutRequest",
+        "CenterControlServiceSignOutResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CenterControlServiceSignOutValue"
+      ],
+      "sha256": "c255d00b4d2034c040083f9d0f80c2c297da1199a3bd15a21184f912764f1488",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/Generated/Proto/CenterControlGrpc.cs",
+      "package": "ArcForges.Contracts.Sandbox.V2",
+      "access": "public",
+      "types": [
+        "CenterControlService",
+        "__Helper_MessageCache",
+        "CenterControlServiceBase",
+        "CenterControlServiceClient"
+      ],
+      "sha256": "27eca8ccd3a3bf617fa9b069f50da47848da632438f9a5f87aefded34de889c2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/Generated/Proto/Platform.cs",
+      "package": "ArcForges.Contracts.Sandbox.V2",
+      "access": "public",
+      "types": [
+        "PlatformReflection",
+        "SandboxState",
+        "RunState",
+        "TerminalMode",
+        "CapabilityState",
+        "LimitStatus",
+        "GrantState",
+        "TransferState",
+        "OperationState",
+        "ExitSource",
+        "PayloadStartEvidence",
+        "EventKind",
+        "NetworkMode",
+        "PressureAction",
+        "StreamKind",
+        "LeaseMode",
+        "Capability",
+        "HostGrant",
+        "NetworkPolicy",
+        "ResourcePolicy",
+        "EnvironmentEntry",
+        "SandboxConfig",
+        "Sandbox",
+        "RunExit",
+        "Run",
+        "TerminalSize",
+        "TerminalLease",
+        "LimitState",
+        "ResourceSnapshot",
+        "OutputChunk",
+        "OutputGap",
+        "EventGap",
+        "Event",
+        "Operation",
+        "DeletePlan",
+        "Transfer",
+        "FileEntry",
+        "RemoteGrant",
+        "Page",
+        "Empty",
+        "DataChunk",
+        "Usage",
+        "NodeServiceHandshakeRequest",
+        "NodeServiceHandshakeResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "NodeServiceHandshakeValue",
+        "NodeServiceGetOperationRequest",
+        "NodeServiceGetOperationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "NodeServiceGetOperationValue",
+        "NodeServiceWatchEventsRequest",
+        "NodeServiceWatchEventsFrame",
+        "frame_",
+        "FrameOneofCase",
+        "NodeServiceSetRemoteGrantRequest",
+        "NodeServiceSetRemoteGrantResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "NodeServiceSetRemoteGrantValue",
+        "NodeServiceRevokeRemoteGrantRequest",
+        "NodeServiceRevokeRemoteGrantResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "NodeServiceRevokeRemoteGrantValue",
+        "NodeServiceListRemoteGrantsRequest",
+        "NodeServiceListRemoteGrantsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "NodeServiceListRemoteGrantsValue",
+        "SandboxServiceCreateRequest",
+        "SandboxServiceCreateResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SandboxServiceCreateValue",
+        "SandboxServiceConfigureRequest",
+        "SandboxServiceConfigureResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SandboxServiceConfigureValue",
+        "SandboxServiceListRequest",
+        "SandboxServiceListResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SandboxServiceListValue",
+        "SandboxServiceInspectRequest",
+        "SandboxServiceInspectResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SandboxServiceInspectValue",
+        "SandboxServicePlanDeleteRequest",
+        "SandboxServicePlanDeleteResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SandboxServicePlanDeleteValue",
+        "SandboxServiceDeleteRequest",
+        "SandboxServiceDeleteResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SandboxServiceDeleteValue",
+        "RunServiceStartRequest",
+        "RunServiceStartResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "RunServiceStartValue",
+        "RunServiceListRequest",
+        "RunServiceListResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "RunServiceListValue",
+        "RunServiceInspectRequest",
+        "RunServiceInspectResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "RunServiceInspectValue",
+        "RunServiceStopRequest",
+        "RunServiceStopResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "RunServiceStopValue",
+        "RunServiceWatchOutputRequest",
+        "RunServiceWatchOutputFrame",
+        "frame_",
+        "FrameOneofCase",
+        "RunServiceAcquireTerminalRequest",
+        "RunServiceAcquireTerminalResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "RunServiceAcquireTerminalValue",
+        "RunServiceWriteTerminalRequest",
+        "RunServiceWriteTerminalResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "RunServiceWriteTerminalValue",
+        "RunServiceResizeTerminalRequest",
+        "RunServiceResizeTerminalResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "RunServiceResizeTerminalValue",
+        "RunServiceDetachTerminalRequest",
+        "RunServiceDetachTerminalResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "RunServiceDetachTerminalValue",
+        "ResourceServiceGetBudgetRequest",
+        "ResourceServiceGetBudgetResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceServiceGetBudgetValue",
+        "ResourceServiceSetPolicyRequest",
+        "ResourceServiceSetPolicyResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceServiceSetPolicyValue",
+        "ResourceServiceWatchUsageRequest",
+        "ResourceServiceWatchUsageFrame",
+        "frame_",
+        "FrameOneofCase",
+        "DataServiceGetUsageRequest",
+        "DataServiceGetUsageResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DataServiceGetUsageValue",
+        "DataServiceListEntriesRequest",
+        "DataServiceListEntriesResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DataServiceListEntriesValue",
+        "DataServiceBeginImportRequest",
+        "DataServiceBeginImportResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DataServiceBeginImportValue",
+        "DataServiceWriteImportRequest",
+        "DataServiceWriteImportResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DataServiceWriteImportValue",
+        "DataServiceCommitImportRequest",
+        "DataServiceCommitImportResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DataServiceCommitImportValue",
+        "DataServiceBeginExportRequest",
+        "DataServiceBeginExportResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DataServiceBeginExportValue",
+        "DataServiceReadExportRequest",
+        "DataServiceReadExportResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DataServiceReadExportValue",
+        "DataServiceCloseTransferRequest",
+        "DataServiceCloseTransferResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DataServiceCloseTransferValue",
+        "DataServiceInspectTransferRequest",
+        "DataServiceInspectTransferResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DataServiceInspectTransferValue"
+      ],
+      "sha256": "cb4e1e03966d0a96e8e3f9914dc16d5ee14c70910c1677ef3251594a31ad5456",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/Generated/Proto/PlatformGrpc.cs",
+      "package": "ArcForges.Contracts.Sandbox.V2",
+      "access": "public",
+      "types": [
+        "NodeService",
+        "__Helper_MessageCache",
+        "NodeServiceBase",
+        "NodeServiceClient",
+        "SandboxService",
+        "__Helper_MessageCache",
+        "SandboxServiceBase",
+        "SandboxServiceClient",
+        "RunService",
+        "__Helper_MessageCache",
+        "RunServiceBase",
+        "RunServiceClient",
+        "ResourceService",
+        "__Helper_MessageCache",
+        "ResourceServiceBase",
+        "ResourceServiceClient",
+        "DataService",
+        "__Helper_MessageCache",
+        "DataServiceBase",
+        "DataServiceClient"
+      ],
+      "sha256": "ded14f793c5cabb6e2fd6e7113eace6c1e7ca8460ece798a9282f0b377036473",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/Generated/Serialization/V2Wire.g.cs",
+      "package": "ArcForges.Contracts.Sandbox.V2",
+      "access": "public",
+      "types": ["V2Wire"],
+      "sha256": "13c494842f2c651e6efbc4cf64d1d28187040452ed6af16798b65941f2130613",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/Generated/Services/ContractServices.g.cs",
+      "package": "ArcForges.Contracts.Sandbox.V2",
+      "access": "public",
+      "types": ["ContractServices"],
+      "sha256": "2d23aed35e085a389f82113f93d10d12d7f5411f9107409ac74410bf93fd22bd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/Generated/Shapes/ProtoValidation.g.cs",
+      "package": "ArcForges.Contracts.Sandbox.V2",
+      "access": "public",
+      "types": ["ContractShapeValidation", "ValidationContext"],
+      "sha256": "b106826b7913bdb84df9d47f0f06a3a98dec43fd89316f43b71520174ac58f6b",
+      "kind": "generated"
     }
   ],
   "buildInputs": [
@@ -48760,7 +50244,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "f347dd9e047c66f36ffb2c7ea977f10129e2ccdea366e998ed68004f1641f95b"
+      "sha256": "33afa0a472ed556f5c05c65903a90da95507d3e5699a93c005ab97ee7a96aab5"
     },
     {
       "path": "go/go.mod",
@@ -48912,7 +50396,7 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "dad3c01a670afe8d43714fc50b3e903ffec9bdb7dd3e6fe73f87ccfc9eda4498"
+      "sha256": "c4af356987d48040296f1a3d6e86da0c4026d8c59b2695c5b98a36f7cc9f942a"
     },
     {
       "path": "public/proto/constraints/af-con-01-fleet.json",
@@ -48933,6 +50417,14 @@
     {
       "path": "public/proto/constraints/af-ctr-06-fleet.json",
       "sha256": "7fce61498560f6d805ce165886ce32628f7b5c86b82837b0cc548c5d282009f0"
+    },
+    {
+      "path": "public/proto/constraints/afv2-api-01-management.json",
+      "sha256": "f0e31af919cfcb6f28098b231b33f24f3cd14a963517471e83d5943df75bc17d"
+    },
+    {
+      "path": "public/proto/constraints/afv2-api-01-sandbox.json",
+      "sha256": "9d91916d18f5ec8df916f739bede96c160c9e99b072277b175a0c94606b805f5"
     },
     {
       "path": "public/proto/constraints/con-07-identity.json",
@@ -49123,6 +50615,14 @@
       "sha256": "0e02b1415e80e185b8c4d29d704bd2d78726eac35d1415f4d2596921e13a619d"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.Management.V2/ArcForges.Contracts.Management.V2.csproj",
+      "sha256": "71f7874281eae1f3bb02c7abd2557f80bf4d09faa1e4ca4400c1f7a7dd2b9bd9"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Management.V2/packages.lock.json",
+      "sha256": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.Node/ArcForges.Contracts.Node.csproj",
       "sha256": "a6fccccea588c9397bfb66ee30f1d2b8f522eebfef3d1e3158a34cf41703ade9"
     },
@@ -49136,6 +50636,14 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json",
+      "sha256": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/ArcForges.Contracts.Sandbox.V2.csproj",
+      "sha256": "6958e42b884d699e701a9defd0c5d57f27bd2916a5d5d11b41966828cb2cd9ce"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/packages.lock.json",
       "sha256": "44cc2e1f21f5abdcf99b6d57b64ab2f629ad0512de7b2a12056228c6b7187b13"
     },
     {
