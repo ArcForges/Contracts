@@ -1,0 +1,204 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+package arcforges.sandbox.v2;
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/sandbox/v2/platform.proto";
+option csharp_namespace = "ArcForges.Contracts.Sandbox.V2";
+
+// Local control projections over the retained credential/sign-in machinery.
+// Tokens, PKCE secrets and credential-store values never cross this surface.
+message CenterConnection {
+  optional string center_origin = 1 [json_name = "centerOrigin"]; // validate: configured exact HTTPS origin; no credentials/query/fragment
+  optional string service_mode = 2 [json_name = "serviceMode"]; // validate: official or self_hosted; explicit local choice
+  optional string state = 3 [json_name = "state"]; // validate: signed_out/sign_in_pending/linked/disconnected/ending/recovery_required
+  optional bool connection_enabled = 4 [json_name = "connectionEnabled"]; // validate: explicit local desired state; false by default before authorization
+  arcforges.foundation.v1.Id enrollment_id = 5 [json_name = "enrollmentId"]; // validate: admitted enrollment when linked
+  optional string channel_state = 6 [json_name = "channelState"]; // validate: offline/connecting/online/stale; not workload state
+  arcforges.foundation.v1.Instant observed_at = 7 [json_name = "observedAt"]; // validate: observation UTC
+  optional string remote_revocation = 8 [json_name = "remoteRevocation"]; // validate: not_requested/confirmed/unknown; local disconnect is not remote proof
+  repeated string reason_codes = 9 [json_name = "reasonCodes"]; // validate: bounded safe diagnostics; no token or raw secret-store identifiers
+}
+
+message CenterConnectFlow {
+  arcforges.foundation.v1.Id flow_id = 1 [json_name = "flowId"]; // validate: owner-scoped opaque ID
+  optional string state = 2 [json_name = "state"]; // validate: pending/completing/succeeded/cancelled/expired/failed
+  optional string verification_uri = 3 [json_name = "verificationUri"]; // validate: validated selected-Center sign-in URI; sensitive transient local response only
+  optional string user_code = 4 [json_name = "userCode"]; // validate: optional device-code flow display; never receipt/audit/telemetry
+  arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"]; // validate: Center expiry bounded by local policy; no reuse after expiry
+  optional uint32 poll_after_ms = 6 [json_name = "pollAfterMs"]; // validate: bounded polling interval; no unbounded browser loop
+  optional string reason_code = 7 [json_name = "reasonCode"]; // validate: safe final/blocked reason
+}
+
+// A fixed local-only V2 adapter reuses CloudLinkService, SignInOrchestrator and
+// protected credential storage; it does not retain the old general Node v1 dispatcher.
+service CenterControlService {
+  // Read local Center connection and observation state.
+  // auth: authenticated local owner; remote=forbidden
+  // idempotency: pure read; owner-scoped observation
+  // deadline: 10 s; accepted asynchronous connection work has its own bounded lifetime
+  // stream: none
+  // errors: STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument
+  // locality: local only
+  rpc GetStatus(CenterControlServiceGetStatusRequest) returns (CenterControlServiceGetStatusResponse);
+  // Explicitly enable an admitted existing enrollment or begin a bounded sign-in flow.
+  // auth: authenticated local owner; remote=forbidden
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; no reexecution after compaction; GetOperation reconciliation
+  // deadline: 10 s; accepted asynchronous connection work has its own bounded lifetime
+  // stream: none
+  // errors: STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, CONFLICT/command_id_reused, CONFLICT/owner_epoch_retired, STATE/receipt_compacted, EXECUTION/outcome_unknown
+  // locality: local only
+  rpc BeginConnect(CenterControlServiceBeginConnectRequest) returns (CenterControlServiceBeginConnectResponse);
+  // Read an already authorized sign-in flow; this read never begins a new flow.
+  // auth: authenticated local owner; remote=forbidden
+  // idempotency: pure read; owner-scoped observation
+  // deadline: 10 s; accepted asynchronous connection work has its own bounded lifetime
+  // stream: none
+  // errors: STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument
+  // locality: local only
+  rpc GetConnectFlow(CenterControlServiceGetConnectFlowRequest) returns (CenterControlServiceGetConnectFlowResponse);
+  // Cancel a pending sign-in flow without reviving it on a replay.
+  // auth: authenticated local owner; remote=forbidden
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; no reexecution after compaction; GetOperation reconciliation
+  // deadline: 10 s; accepted asynchronous connection work has its own bounded lifetime
+  // stream: none
+  // errors: STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, CONFLICT/command_id_reused, CONFLICT/owner_epoch_retired, STATE/receipt_compacted, EXECUTION/outcome_unknown
+  // locality: local only
+  rpc CancelConnect(CenterControlServiceCancelConnectRequest) returns (CenterControlServiceCancelConnectResponse);
+  // Disable the outbound link and cancel a pending flow; preserve an existing protected credential.
+  // auth: authenticated local owner; remote=forbidden
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; no reexecution after compaction; GetOperation reconciliation
+  // deadline: 10 s; accepted asynchronous connection work has its own bounded lifetime
+  // stream: none
+  // errors: STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, CONFLICT/command_id_reused, CONFLICT/owner_epoch_retired, STATE/receipt_compacted, EXECUTION/outcome_unknown
+  // locality: local only
+  rpc Disconnect(CenterControlServiceDisconnectRequest) returns (CenterControlServiceDisconnectResponse);
+  // Disable the link, end local credential authority and request enrollment revocation.
+  // auth: authenticated local owner; remote=forbidden
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; no reexecution after compaction; GetOperation reconciliation
+  // deadline: 10 s; accepted asynchronous connection work has its own bounded lifetime
+  // stream: none
+  // errors: STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, CONFLICT/command_id_reused, CONFLICT/owner_epoch_retired, STATE/receipt_compacted, EXECUTION/outcome_unknown
+  // locality: local only
+  rpc SignOut(CenterControlServiceSignOutRequest) returns (CenterControlServiceSignOutResponse);
+}
+
+message CenterControlServiceGetStatusRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for durable mutation
+  reserved 2 to 9;
+}
+
+message CenterControlServiceGetStatusResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CenterControlServiceGetStatusValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CenterControlServiceGetStatusValue {
+  CenterConnection connection = 10 [json_name = "connection"]; // validate: current projection
+}
+
+message CenterControlServiceBeginConnectRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for durable mutation
+  reserved 2 to 9;
+  optional string center_origin = 10 [json_name = "centerOrigin"]; // validate: required exact HTTPS origin; switching requires disconnected/no unresolved enrollment effect
+  optional string service_mode = 11 [json_name = "serviceMode"]; // validate: official or self_hosted; trusted official origin or explicit owner-selected self-host origin
+  optional string flow_kind = 12 [json_name = "flowKind"]; // validate: browser or device_code; supported flow only; never weak authentication fallback
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries
+}
+
+message CenterControlServiceBeginConnectResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CenterControlServiceBeginConnectValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CenterControlServiceBeginConnectValue {
+  CenterConnection connection = 10 [json_name = "connection"]; // validate: accepted local connection state
+  arcforges.foundation.v1.Id flow_id = 11 [json_name = "flowId"]; // validate: present only if an asynchronous sign-in flow was created
+  Operation operation = 12 [json_name = "operation"]; // validate: durable safe receipt; no sign-in URI/code/token retained
+}
+
+message CenterControlServiceGetConnectFlowRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for durable mutation
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"]; // validate: required owner-visible existing flow
+}
+
+message CenterControlServiceGetConnectFlowResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CenterControlServiceGetConnectFlowValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CenterControlServiceGetConnectFlowValue {
+  CenterConnectFlow flow = 10 [json_name = "flow"]; // validate: current local-only flow; no durable logging of sensitive display values
+}
+
+message CenterControlServiceCancelConnectRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for durable mutation
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"]; // validate: required pending owner-visible flow; completing flow must reconcile
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries
+}
+
+message CenterControlServiceCancelConnectResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CenterControlServiceCancelConnectValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CenterControlServiceCancelConnectValue {
+  Operation operation = 10 [json_name = "operation"]; // validate: cancellation receipt; in-flight late credentials are revoked, never adopted
+}
+
+message CenterControlServiceDisconnectRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for durable mutation
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries
+}
+
+message CenterControlServiceDisconnectResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CenterControlServiceDisconnectValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CenterControlServiceDisconnectValue {
+  CenterConnection connection = 10 [json_name = "connection"]; // validate: local link disabled; local Runs and data unaffected
+  Operation operation = 11 [json_name = "operation"]; // validate: durable disconnection receipt
+}
+
+message CenterControlServiceSignOutRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for durable mutation
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries
+}
+
+message CenterControlServiceSignOutResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CenterControlServiceSignOutValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CenterControlServiceSignOutValue {
+  CenterConnection connection = 10 [json_name = "connection"]; // validate: local authority ended; remote revocation separately confirmed or unknown
+  Operation operation = 11 [json_name = "operation"]; // validate: durable receipt; unconfirmed remote effect remains unresolved
+}

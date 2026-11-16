@@ -1,7 +1,7 @@
 # Registry setup and automatic releases
 
 The workflow is `.github/workflows/ci.yml`. Main pushes automatically build,
-validate and publish the seventeen C# NuGet packages (including the CON.43 Dispatch
+validate and publish the nineteen C# NuGet packages (including the CON.43 Dispatch
 package and the four AF-CON-01 flagship packages Node, Fleet, Peer and Relay) and the
 one internal npm package
 `@arcforges/ai-internal` at `1.0.0-ci.<run-number>.<run-attempt>`. Canonical `vX.Y.Z`
@@ -286,8 +286,8 @@ above continues. These mutable tags do not alter consumer locks.
 
 ## 6. Failure and retry
 
-Registries do not provide an atomic transaction spanning all eighteen active
-packages (seventeen NuGet and one npm) and the Go module tag.
+Registries do not provide an atomic transaction spanning all twenty active
+packages (nineteen NuGet and one npm) and the Go module tag.
 Treat the common version as usable only after all required packages are present.
 Do not promote a partially published set by changing a client's dependency to an
 unrelated version.
@@ -400,3 +400,19 @@ separate Maven SNAPSHOT channel and deliberate formal-tag policy. This step
 creates no verification-only version, tag, signature or publication. Its current
 source additions do not claim a newly published candidate until the required
 provider results are recorded.
+
+## V2 additive cohort (AFV2-API-01)
+
+The existing inventory-driven producer adds `ArcForges.Contracts.Sandbox.V2` and
+`ArcForges.Contracts.Management.V2` to the normal common-version NuGet cohort and
+adds their source-generated packages to the existing internal Go module tag.
+`ArcForges.Contracts.*` trusted publishing covers these identities; no new npm,
+Maven, registry credential or deployment channel is introduced. The coordinator
+records actual main/candidate/publication identities after normal reviewed merge;
+source generation or a passing PR is not a registry publication.
+
+All earlier immutable packages remain resolvable. Retained independent consumers
+and flagship consumers pending their cutover keep their current exact v1 pins.
+No existing field number/meaning, applied SQL, historical descriptor baseline or
+retired-channel row is rewritten by this additive cohort. Rollback pins the last
+accepted cohort; a failed candidate is regenerated from corrected authored input.

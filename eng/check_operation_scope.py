@@ -16,6 +16,9 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+# Also support the existing offline tests loading this gate by file location.
+if str(ROOT / "eng") not in sys.path:
+    sys.path.insert(0, str(ROOT / "eng"))
 FIELDS = {"capability", "risk", "approval", "stepUp", "localPresence", "egress", "patEligible", "actorKinds"}
 ROW_REQUIRED = {"operationId", "binding", "kind", "source", "scope", "surface", "profile",
                 "sourceRule", "idempotency", "authorization"}
@@ -693,6 +696,14 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
     private_projection_bindings = {projection["binding"] for projection in private_projections}
     flagship = flagship_methods(root, methods)
     flagship_bindings = {method["binding"] for method in flagship}
+    # AFV2-API-01 owns an explicit new contract generation/classification surface,
+    # separate from the retained v1 manifest11 operation oracle.
+    from v2_contracts import methods as v2_methods
+    v2 = v2_methods(root)
+    v2_bindings = {method["binding"] for method in v2}
+    for method in v2:
+        require(methods.get(method["binding"]) == method["source"], "V2 classified method/source is not compiled: " + method["binding"])
+    require(not v2_bindings & bindings, "V2 methods cannot reuse a v1 manifest11 operation identity")
     require(not flagship_bindings & bindings, "flagship design method must not have a manifest11 operation export: "
             + ", ".join(sorted(flagship_bindings & bindings)))
     examples = []
@@ -700,7 +711,7 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
         if EXAMPLES.get(binding) == source:
             require(binding not in bindings, f"migration example exported as production: {binding}")
             examples.append(binding)
-        elif binding in private_projection_bindings or binding in flagship_bindings:
+        elif binding in private_projection_bindings or binding in flagship_bindings or binding in v2_bindings:
             continue
         else:
             require(binding in bindings, f"unclassified registered method: {binding}")
@@ -713,7 +724,7 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
             "registered": len(exported), "pending": sum(r["status"] == "pending" for r in matrix),
             "reserved": sum(r["status"] == "reserved" for r in matrix), "migrationExamples": sorted(examples),
             "operations": matrix, "privateServiceProjections": private_projections,
-            "flagshipMethods": flagship,
+            "flagshipMethods": flagship, "v2Methods": v2,
             "coverage": "offline metadata policy only; no runtime authorization acceptance"}
 
 

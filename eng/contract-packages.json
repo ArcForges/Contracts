@@ -489,7 +489,10 @@
         "internal/proto/arcforges/relay/v1/relay.proto",
         "internal/proto/arcforges/operator/v1/operator.proto",
         "internal/proto/arcforges/operator/v1/operator_read.proto",
-        "public/proto/arcforges/node/v1/files.proto"
+        "public/proto/arcforges/node/v1/files.proto",
+        "public/proto/arcforges/sandbox/v2/platform.proto",
+        "public/proto/arcforges/sandbox/v2/center_control.proto",
+        "public/proto/arcforges/management/v2/devices.proto"
       ],
       "dependencies": [],
       "descriptor": "go-module.binpb",
@@ -542,8 +545,43 @@
           "importPath": "github.com/ArcForges/Contracts/go/arcforges/operator/v1",
           "name": "operatorv1",
           "contractAccess": "internal"
+        },
+        {
+          "protoPackage": "arcforges.sandbox.v2",
+          "importPath": "github.com/ArcForges/Contracts/go/arcforges/sandbox/v2",
+          "name": "sandboxv2",
+          "contractAccess": "public"
+        },
+        {
+          "protoPackage": "arcforges.management.v2",
+          "importPath": "github.com/ArcForges/Contracts/go/arcforges/management/v2",
+          "name": "managementv2",
+          "contractAccess": "public"
         }
       ]
+    },
+    {
+      "id": "ArcForges.Contracts.Sandbox.V2",
+      "kind": "nuget",
+      "access": "public",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2",
+      "proto": [
+        "public/proto/arcforges/sandbox/v2/platform.proto",
+        "public/proto/arcforges/sandbox/v2/center_control.proto"
+      ],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "descriptor": "sandbox-v2.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.Management.V2",
+      "kind": "nuget",
+      "access": "public",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.Management.V2",
+      "proto": ["public/proto/arcforges/management/v2/devices.proto"],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "descriptor": "management-v2.binpb",
+      "jsonSchemas": []
     }
   ]
 }

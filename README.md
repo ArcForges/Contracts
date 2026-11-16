@@ -238,3 +238,13 @@ tests. The Maven channel (main `1.0.0-SNAPSHOT` and formal Maven Central release
 the four first-party npm SDK packages are retired (CON.40): no new version is built or
 published, and existing consumer pins remain immutable. See
 [registry setup and automatic releases](docs/releasing.md).
+
+### Explicit V2 APIs
+
+The additive `ArcForges.Contracts.Sandbox.V2` and
+`ArcForges.Contracts.Management.V2` packages expose the Sandbox/Run/Resource/Data/
+Node/local Center-control and Device contracts, using unchanged Foundation v1
+values. C# (including Blazor) and the internal Go center bindings share these
+specifications. Local-only method annotations are enforced in the generated
+inventory; publishing a type does not expose a remote service. See
+[AFV2-API-01](docs/afv2-api-01.md) for boundaries and validation commands.

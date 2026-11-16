@@ -3,8 +3,8 @@
 ## Authored source and generated output
 
 The authored proto trees, JSON schemas and constraint sidecars own the wire and
-validation shapes. `eng/contract-packages.json` holds 26 package rows: the 19 active
-outputs (17 NuGet packages, including the CON.43 Dispatch package and the four AF-CON-01
+validation shapes. `eng/contract-packages.json` holds 28 package rows: the 21 active
+outputs (19 NuGet packages, including the CON.43 Dispatch package and the four AF-CON-01
 flagship packages, the internal npm package `@arcforges/ai-internal` and the internal Go
 module `github.com/ArcForges/Contracts/go` of AF-CTR-01) and
 seven rows that CON.40 retired from new publication (four npm and three Maven), kept
@@ -271,3 +271,33 @@ and commercial acceptance remain with their designated owners.
 ## Canonical naming distribution
 
 The NuGet `ArcForges.Contracts.Validation` package carries `tools/naming/eng/check_naming.py` and its adjacent `eng/policy/product-names.json` authority. Already published `@arcforges/proto` versions keep their copy; no new version is published (CON.40). Invoke the scanner with an explicit `--repository OWNER=PATH`. It requires only Python standard-library modules and Git, and performs no network access or runtime installation. Candidate publication binds these exact source bytes to the normal immutable package version. CON.23 retires Notes/Slate records and fields under P2-019/P2-020; the inventory reserves their names and tags while retaining the historical published baseline.
+
+## Explicit V2 sandbox and management contracts (AFV2-API-01)
+
+`ArcForges.Contracts.Sandbox.V2` owns the exact `arcforges.sandbox.v2`
+platform and local Center-control specifications. `ArcForges.Contracts.Management.V2`
+owns `arcforges.management.v2` devices. Both depend only on the retained Foundation
+contract package and the existing protobuf/gRPC runtime pins. Public contract
+access does not grant remote invocation: CenterControl and transient terminal
+methods remain local only, as the generated method inventory records. The Design
+baseline supplies no separate internal V2 proto; existing internal relay/operator
+and ContentSandbox schemas are unchanged. Go generates both surfaces in the
+existing internal module. Blazor consumes the same C# protobuf types and clients;
+no retired TypeScript business SDK or new npm identity is revived.
+
+Authored V2 constraints feed the existing explicit C# shape generator and a closed
+Go validation adapter. V2 typed codecs reject their owner-specific byte ceilings
+before decoding, preserve unknown fields, and never change v1's 4 MiB unary or
+32 KiB stream constants. V2 unary bodies/metadata cap at 1 MiB; single-file chunk
+carriers cap at 2 MiB with payloads at 1 MiB, and output data caps at 64 KiB.
+Generated live-lease context helpers reject stale epochs/generations, expired
+writers and consumed sequences. They store no acknowledgments, input transcript
+or command digest. Durable deduplication, native effects, ownership and storage
+are later Core/Data integration responsibilities, not simulated successes here.
+
+The adoption digests are `eng/afv2-contracts.json`; generated route classifications
+are `eng/v2-methods.json`. `fixtures/public/afv2-api-01.json`, the shared C#/Native
+AOT cases and Go tests check real generated codecs, presence/bounds, error/effect
+pairs, epoch/CAS fields, transient lease sequencing, recovery intent and transfer
+materialization. The existing full-message cross-language exchange additionally
+covers every adopted field and oneof arm. See [the migration record](afv2-api-01.md).

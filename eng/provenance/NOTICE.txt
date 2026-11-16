@@ -2,6 +2,13 @@ ArcForges source provenance notices
 
 Generated from reviewed active records. Original licence files and dependency notices remain authoritative.
 
+afv2-api-01-design-specs-r1
+Source: https://github.com/ArcForges/ArcForges-Design @ 493022fbf643b484665b2713c9eb8670f2fb2234
+Material licence: Apache-2.0
+Notice scope: source
+ArcForges-Design contributors; retained Apache-2.0 SPDX headers
+ArcForges V2 contract specifications are Apache-2.0; original SPDX headers are retained.
+
 canonical-apache-licence-r2
 Source: https://github.com/github/choosealicense.com @ 58267f8f2c5c0099810849cfd7677f52ae0c0eb3
 Material licence: Apache-2.0
@@ -38,8 +45,8 @@ Notice scope: source
 Copyright 2021-2026 The Connect Authors; Apache License, Version 2.0.
 connectrpc.com/connect/v2 v2.0.2 keeps its Apache-2.0 licence; the Go bindings module requires it through go.mod and does not vendor it.
 
-contract-bindings-afv2-env-01-r1
-Source: https://github.com/ArcForges/Contracts @ dacb563ec9f35a5b26e3c8456eedb575b56bf161
+contract-bindings-afv2-api-01-r1
+Source: https://github.com/ArcForges/Contracts @ 4d92cf527652f2bcea69bca5ffc4075272d169ad
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
@@ -47,7 +54,7 @@ Copyright 2008 Google Inc. All rights reserved.
 Copyright 2015, 2019, 2020 gRPC authors.
 Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
-Generated Contracts source remains Apache-2.0. AF-CTR-06 appends file/workspace contracts and bounded Fleet/relay shapes. Existing generator attribution and dependency licence obligations are preserved. This record binds 429 outputs; it does not grant permissions or implement native filesystem behavior.
+AFV2-API-01 additive sandbox.v2 and management.v2 protobuf/C#/Go bindings, typed owner-specific byte ceilings, explicit method policy and shape/live-lease validation. All existing generator/runtime pins, licences, independent consumers, v1 wire definitions, retained generated targets and immutable records remain intact. No product engine, native execution or alternate client channel is introduced. Generated source retains Apache-2.0 and the existing protobuf/gRPC/Go generator licence notices; full upstream licence texts are unchanged.
 
 dokka-array-buffer-byte-length-licence-r1
 Source: https://github.com/inspect-js/array-buffer-byte-length @ 59deea89141b4aeeb64122e5e15efda485942c00
@@ -719,15 +726,15 @@ Copyright (c) 2015 Jordan Harband
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
 
-go-bindings-afv2-env-01-r1
-Source: https://github.com/ArcForges/Contracts @ dacb563ec9f35a5b26e3c8456eedb575b56bf161
+go-bindings-afv2-api-01-r2
+Source: https://github.com/ArcForges/Contracts @ 1efa1dd761ee4d37028d3d0b2e67fc827d556bc6
 Material licence: Apache-2.0
 Notice scope: source
 Copyright 2026 ArcForges contributors.
 Copyright 2008 Google Inc. All rights reserved.
 Copyright (c) 2018 The Go Authors. All rights reserved.
 Copyright 2021-2026 The Connect Authors.
-Generated Contracts source remains Apache-2.0. AF-CTR-06 appends file/workspace contracts and bounded Fleet/relay shapes. Existing generator attribution and dependency licence obligations are preserved. This record binds 92 outputs; it does not grant permissions or implement native filesystem behavior.
+AFV2-API-01 additive sandbox.v2 and management.v2 protobuf/C#/Go bindings, typed owner-specific byte ceilings, explicit method policy and shape/live-lease validation. All existing generator/runtime pins, licences, independent consumers, v1 wire definitions, retained generated targets and immutable records remain intact. No product engine, native execution or alternate client channel is introduced. Generated source retains Apache-2.0 and the existing protobuf/gRPC/Go generator licence notices; full upstream licence texts are unchanged.
 
 go-protobuf-licence-r1
 Source: https://go.googlesource.com/protobuf @ cdd4c5f7406e82462949c7a65defa9f3029c162d

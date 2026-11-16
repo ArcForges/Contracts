@@ -237,6 +237,8 @@ internal static class ArchitectureFixtureTests
         var catalog = WireSchemaCatalog.Read(root);
         const string publicApi = "src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj";
         const string cloud = "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj";
+        const string sandboxV2 = "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/ArcForges.Contracts.Sandbox.V2.csproj";
+        const string managementV2 = "src/public/dotnet/ArcForges.Contracts.Management.V2/ArcForges.Contracts.Management.V2.csproj";
         string Source(string project, string local) => Path.Combine(root, Path.GetDirectoryName(project)!, local);
         string? Resolve(string project, string local, string text = "") => catalog.SchemaFor(project, Source(project, local), text);
         const string protoText = "// source: arcforges/publicapi/v1/application.proto\n";
@@ -257,6 +259,26 @@ internal static class ArchitectureFixtureTests
             "Generated protobuf shape checks did not resolve to the authored constraint sidecar.");
         Checks.True(Resolve(publicApi, "Generated/Services/ContractServices.g.cs") is { } services
             && services.EndsWith(".proto", StringComparison.Ordinal), "The service catalogue did not resolve to an owned proto.");
+        foreach (string helper in new[] { "Generated/Policy/MethodPolicy.g.cs", "Generated/Serialization/V2Wire.g.cs" })
+        {
+            Checks.Equal("public/proto/arcforges/sandbox/v2/platform.proto", Resolve(sandboxV2, helper),
+                "A Sandbox V2 generated helper did not bind its owned protocol.");
+            Checks.Equal("public/proto/arcforges/management/v2/devices.proto", Resolve(managementV2, helper),
+                "A Management V2 generated helper did not bind its owned protocol.");
+            Checks.Equal(null, Resolve(publicApi, helper), "A V2 helper bound an unrelated retained owner.");
+            Checks.Equal(null, catalog.SchemaFor(managementV2, Source(sandboxV2, helper), ""),
+                "A V2 helper bound a different project's source file.");
+        }
+        Checks.Equal("public/proto/arcforges/sandbox/v2/platform.proto", Resolve(sandboxV2, "Generated/Policy/TerminalProtocol.g.cs"),
+            "The generated live-terminal helper did not bind its owned protocol.");
+        Checks.Equal(null, Resolve(managementV2, "Generated/Policy/TerminalProtocol.g.cs"),
+            "Management V2 incorrectly acquired the Sandbox terminal helper.");
+        Checks.Equal(null, Resolve(sandboxV2, "Generated/Policy/Nested/MethodPolicy.g.cs"),
+            "A nested path resolved like a V2 generator output.");
+        Checks.Equal(null, Resolve(sandboxV2, "Generated/Policy/Unlisted.g.cs"),
+            "An unlisted V2 helper resolved to a generated-schema owner.");
+        Checks.Equal(null, Resolve(sandboxV2, "Policy/MethodPolicy.g.cs"),
+            "An authored V2 file resolved like a generator output.");
         Checks.Equal(null, Resolve(publicApi, "Generated/Shapes/NoSuchModel.g.cs"),
             "A shape file with no authored root schema resolved to an owner.");
         Checks.Equal(null, Resolve(publicApi, "Authored.cs"), "An authored file resolved to a generated-schema owner.");

@@ -115,6 +115,14 @@
     {
       "path": "go/tools/go.mod",
       "kind": "go"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Sandbox.V2/ArcForges.Contracts.Sandbox.V2.csproj",
+      "kind": "msbuild"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Management.V2/ArcForges.Contracts.Management.V2.csproj",
+      "kind": "msbuild"
     }
   ]
 }

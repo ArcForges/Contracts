@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 import re
+import subprocess
 import sys
 import unittest
 
@@ -505,11 +506,44 @@ class IdentityHttpExceptions(unittest.TestCase):
     def test_package_registration_adds_no_identity_and_owns_every_new_input(self):
         catalog = {row["id"]: row for row in load("eng/contract-packages.json")["packages"]}
         # CON.43 (S61(1)) appends the one authorised boundary dispatch identity; this registration added none.
-        # AF-CON-01 then appends the four flagship design packages, in this order, after it, and AF-CTR-01 the Go module.
-        self.assertEqual(len(catalog), 26)
-        self.assertEqual(list(catalog)[-6:], ["ArcForges.Contracts.LocalRpc.Dispatch", "ArcForges.Contracts.Node",
+        # AF-CON-01 appends the four flagship packages, AF-CTR-01 the Go module,
+        # and AFV2-API-01 exactly two explicit V2 owners. Identity still adds none.
+        self.assertEqual(len(catalog), 28)
+        self.assertEqual(list(catalog)[20:26], ["ArcForges.Contracts.LocalRpc.Dispatch", "ArcForges.Contracts.Node",
                                               "ArcForges.Contracts.Fleet", "ArcForges.Contracts.Peer",
                                               "ArcForges.Contracts.Relay", "github.com/ArcForges/Contracts/go"])
+        baseline = json.loads(subprocess.check_output(
+            ['git', 'show', '69f3041ab4c6bcee1677d0587aaebbbf54cb98bb:eng/contract-packages.json'],
+            cwd=ROOT))['packages']
+        self.assertEqual(len(baseline), 26)
+        self.assertEqual(list(catalog)[:26], [row['id'] for row in baseline])
+        added = [
+            {'id': 'ArcForges.Contracts.Sandbox.V2', 'kind': 'nuget', 'access': 'public',
+             'sourceRoot': 'src/public/dotnet/ArcForges.Contracts.Sandbox.V2',
+             'proto': ['public/proto/arcforges/sandbox/v2/platform.proto',
+                       'public/proto/arcforges/sandbox/v2/center_control.proto'],
+             'dependencies': ['ArcForges.Contracts.Foundation'], 'descriptor': 'sandbox-v2.binpb', 'jsonSchemas': []},
+            {'id': 'ArcForges.Contracts.Management.V2', 'kind': 'nuget', 'access': 'public',
+             'sourceRoot': 'src/public/dotnet/ArcForges.Contracts.Management.V2',
+             'proto': ['public/proto/arcforges/management/v2/devices.proto'],
+             'dependencies': ['ArcForges.Contracts.Foundation'], 'descriptor': 'management-v2.binpb', 'jsonSchemas': []},
+        ]
+        self.assertEqual(list(catalog)[26:], [row['id'] for row in added])
+        for row in added:
+            self.assertEqual(catalog[row['id']], row)
+        for old in baseline:
+            expected = old
+            if old['kind'] == 'go':
+                # The same internal module appends only the three V2 inputs and their two mappings.
+                expected = {**old, 'proto': [*old['proto'], *[p for row in added for p in row['proto']]],
+                            'goPackages': [*old['goPackages'],
+                                           {'protoPackage': 'arcforges.sandbox.v2',
+                                            'importPath': 'github.com/ArcForges/Contracts/go/arcforges/sandbox/v2',
+                                            'name': 'sandboxv2', 'contractAccess': 'public'},
+                                           {'protoPackage': 'arcforges.management.v2',
+                                            'importPath': 'github.com/ArcForges/Contracts/go/arcforges/management/v2',
+                                            'name': 'managementv2', 'contractAccess': 'public'}]}
+            self.assertEqual(catalog[old['id']], expected)
         identity = "public/proto/arcforges/publicapi/v1/identity.proto"
         owners = sorted(pid for pid, row in catalog.items() if identity in row["proto"])
         self.assertEqual(owners, ["@arcforges/proto", "ArcForges.Contracts.PublicApi", "github.com/ArcForges/Contracts/go",

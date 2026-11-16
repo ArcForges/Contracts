@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.management.v2.Device": {
+      "csharpType": "ArcForges.Contracts.Management.V2.Device",
+      "fields": {
+        "deviceId": {
+          "required": true
+        },
+        "enrollmentId": {
+          "required": true
+        },
+        "displayName": {
+          "maxUtf8Bytes": 1048576,
+          "minLength": 1,
+          "maxLength": 80,
+          "required": true
+        },
+        "revision": {
+          "required": true
+        },
+        "platform": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": ["windows", "linux"]
+        },
+        "presence": {
+          "maxUtf8Bytes": 1048576,
+          "required": true,
+          "enumValues": ["online", "offline", "stale", "revoked"]
+        },
+        "lastSeenAt": {},
+        "nodeEpoch": {
+          "maxUtf8Bytes": 256,
+          "minLength": 1
+        },
+        "capabilities": {
+          "items": {}
+        }
+      },
+      "rules": ["v2PositiveRevision"]
+    },
+    "arcforges.management.v2.DevicePage": {
+      "csharpType": "ArcForges.Contracts.Management.V2.DevicePage",
+      "fields": {
+        "devices": {
+          "items": {}
+        },
+        "nextCursor": {
+          "maxUtf8Bytes": 4096
+        }
+      }
+    },
+    "arcforges.management.v2.DeviceServiceListRequest": {
+      "csharpType": "ArcForges.Contracts.Management.V2.DeviceServiceListRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "cursor": {
+          "maxUtf8Bytes": 4096
+        },
+        "limit": {
+          "min": 1,
+          "max": 200
+        }
+      },
+      "rules": ["v2MetaSize"]
+    },
+    "arcforges.management.v2.DeviceServiceListResponse": {
+      "csharpType": "ArcForges.Contracts.Management.V2.DeviceServiceListResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
+    },
+    "arcforges.management.v2.DeviceServiceListValue": {
+      "csharpType": "ArcForges.Contracts.Management.V2.DeviceServiceListValue",
+      "fields": {
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.management.v2.DeviceServiceInspectRequest": {
+      "csharpType": "ArcForges.Contracts.Management.V2.DeviceServiceInspectRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        }
+      },
+      "rules": ["v2MetaSize"]
+    },
+    "arcforges.management.v2.DeviceServiceInspectResponse": {
+      "csharpType": "ArcForges.Contracts.Management.V2.DeviceServiceInspectResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
+    },
+    "arcforges.management.v2.DeviceServiceInspectValue": {
+      "csharpType": "ArcForges.Contracts.Management.V2.DeviceServiceInspectValue",
+      "fields": {
+        "device": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.management.v2.DeviceServiceRevokeRequest": {
+      "csharpType": "ArcForges.Contracts.Management.V2.DeviceServiceRevokeRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        }
+      },
+      "rules": ["v2ExpectedRevision", "v2Command", "v2MetaSize"]
+    },
+    "arcforges.management.v2.DeviceServiceRevokeResponse": {
+      "csharpType": "ArcForges.Contracts.Management.V2.DeviceServiceRevokeResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
+    },
+    "arcforges.management.v2.DeviceServiceRevokeValue": {
+      "csharpType": "ArcForges.Contracts.Management.V2.DeviceServiceRevokeValue",
+      "fields": {
+        "device": {
+          "required": true
+        }
+      }
+    }
+  }
+}

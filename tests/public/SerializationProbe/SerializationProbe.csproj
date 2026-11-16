@@ -16,6 +16,9 @@
     <LicenceBoundary>Apache</LicenceBoundary>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../StructureTests/V2ContractCases.cs" Link="V2ContractCases.cs" />
+    <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.Management.V2/ArcForges.Contracts.Management.V2.csproj" />
+    <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.Sandbox.V2/ArcForges.Contracts.Sandbox.V2.csproj" />
     <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj" />
     <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj" />
     <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj" />
@@ -34,6 +37,8 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Root every library so the AOT compiler analyzes all of its code, not only probe-reachable paths. -->
+    <TrimmerRootAssembly Include="ArcForges.Contracts.Sandbox.V2" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.Management.V2" />
     <TrimmerRootAssembly Include="ArcForges.Contracts.Foundation" />
     <TrimmerRootAssembly Include="ArcForges.Contracts.PublicApi" />
     <TrimmerRootAssembly Include="ArcForges.Contracts.Events" />

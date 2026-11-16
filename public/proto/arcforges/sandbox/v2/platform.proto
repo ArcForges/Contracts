@@ -1,0 +1,1373 @@
+// SPDX-License-Identifier: Apache-2.0
+// V2 normative specification; generated bindings are adopted by Contracts only after its delivery task.
+syntax = "proto3";
+
+package arcforges.sandbox.v2;
+import "arcforges/foundation/v1/foundation.proto";
+option csharp_namespace = "ArcForges.Contracts.Sandbox.V2";
+
+enum SandboxState {
+  SANDBOX_STATE_UNSPECIFIED = 0;
+  SANDBOX_STATE_CREATING = 1;
+  SANDBOX_STATE_READY = 2;
+  SANDBOX_STATE_DELETING = 3;
+  SANDBOX_STATE_DELETED = 4;
+  SANDBOX_STATE_ERROR = 5;
+  SANDBOX_STATE_RECOVERY_REQUIRED = 6;
+}
+
+enum RunState {
+  RUN_STATE_UNSPECIFIED = 0;
+  RUN_STATE_STARTING = 1;
+  RUN_STATE_RUNNING = 2;
+  RUN_STATE_STOPPING = 3;
+  RUN_STATE_DRAINING = 4;
+  RUN_STATE_EXITED = 5;
+  RUN_STATE_FAILED = 6;
+  RUN_STATE_RECOVERY_REQUIRED = 7;
+}
+
+enum TerminalMode {
+  TERMINAL_MODE_UNSPECIFIED = 0;
+  TERMINAL_MODE_PIPES = 1;
+  TERMINAL_MODE_INTERACTIVE = 2;
+}
+
+enum CapabilityState {
+  CAPABILITY_STATE_UNSPECIFIED = 0;
+  CAPABILITY_STATE_AVAILABLE = 1;
+  CAPABILITY_STATE_UNSUPPORTED = 2;
+  CAPABILITY_STATE_UNVERIFIED = 3;
+  CAPABILITY_STATE_DISABLED = 4;
+}
+
+enum LimitStatus {
+  LIMIT_STATUS_UNSPECIFIED = 0;
+  LIMIT_STATUS_PENDING = 1;
+  LIMIT_STATUS_EFFECTIVE = 2;
+  LIMIT_STATUS_DEGRADED = 3;
+  LIMIT_STATUS_FAILED = 4;
+  LIMIT_STATUS_UNSUPPORTED = 5;
+}
+
+enum GrantState {
+  GRANT_STATE_UNSPECIFIED = 0;
+  GRANT_STATE_ACTIVE = 1;
+  GRANT_STATE_REVOKED = 2;
+  GRANT_STATE_EXPIRED = 3;
+}
+
+enum TransferState {
+  TRANSFER_STATE_UNSPECIFIED = 0;
+  TRANSFER_STATE_OPEN = 1;
+  TRANSFER_STATE_STREAMING = 2;
+  TRANSFER_STATE_COMPLETE = 3;
+  TRANSFER_STATE_FAILED = 4;
+  TRANSFER_STATE_RECOVERY_REQUIRED = 5;
+}
+
+enum OperationState {
+  OPERATION_STATE_UNSPECIFIED = 0;
+  OPERATION_STATE_ACCEPTED = 1;
+  OPERATION_STATE_SUCCEEDED = 2;
+  OPERATION_STATE_FAILED = 3;
+  OPERATION_STATE_UNKNOWN = 4;
+}
+
+enum ExitSource {
+  EXIT_SOURCE_UNSPECIFIED = 0;
+  EXIT_SOURCE_PAYLOAD = 1;
+  EXIT_SOURCE_OFFICIAL_EXECUTOR = 2;
+  EXIT_SOURCE_SUPERVISOR = 3;
+  EXIT_SOURCE_UNKNOWN = 4;
+}
+
+enum PayloadStartEvidence {
+  PAYLOAD_START_EVIDENCE_UNSPECIFIED = 0;
+  PAYLOAD_START_EVIDENCE_UNKNOWN = 1;
+  PAYLOAD_START_EVIDENCE_NOT_STARTED = 2;
+  PAYLOAD_START_EVIDENCE_CONFIRMED = 3;
+}
+
+enum EventKind {
+  EVENT_KIND_UNSPECIFIED = 0;
+  EVENT_KIND_SANDBOX = 1;
+  EVENT_KIND_RUN = 2;
+  EVENT_KIND_RESOURCE = 3;
+  EVENT_KIND_GRANT = 4;
+  EVENT_KIND_CAPABILITY = 5;
+}
+
+enum NetworkMode {
+  NETWORK_MODE_UNSPECIFIED = 0;
+  NETWORK_MODE_DENY = 1;
+  NETWORK_MODE_ALLOW = 2;
+}
+
+enum PressureAction {
+  PRESSURE_ACTION_UNSPECIFIED = 0;
+  PRESSURE_ACTION_THROTTLE = 1;
+  PRESSURE_ACTION_STOP_PREEMPTIBLE = 2;
+}
+
+enum StreamKind {
+  STREAM_KIND_UNSPECIFIED = 0;
+  STREAM_KIND_TERMINAL = 1;
+  STREAM_KIND_STDOUT = 2;
+  STREAM_KIND_STDERR = 3;
+}
+
+enum LeaseMode {
+  LEASE_MODE_UNSPECIFIED = 0;
+  LEASE_MODE_OBSERVER = 1;
+  LEASE_MODE_WRITER = 2;
+}
+
+message Capability {
+  optional string key = 1 [json_name = "key"]; // validate: stable profile capability key; 1..96 chars
+  optional CapabilityState state = 2 [json_name = "state"]; // validate: required; UNSPECIFIED rejected
+  optional string reason = 3 [json_name = "reason"]; // validate: bounded machine-readable code
+  optional string evidence_id = 4 [json_name = "evidenceId"]; // validate: exact qualification receipt or empty if unproven
+}
+
+message HostGrant {
+  optional string host_path = 1 [json_name = "hostPath"]; // validate: canonical absolute local path; local owner approval
+  optional string sandbox_path = 2 [json_name = "sandboxPath"]; // validate: backend-visible path; not universal redirection
+  optional bool writable = 3 [json_name = "writable"]; // validate: required
+  optional string native_identity = 4 [json_name = "nativeIdentity"]; // validate: resolved immutable native identity; not caller-trusted
+}
+
+message NetworkPolicy {
+  optional NetworkMode egress = 1 [json_name = "egress"]; // validate: required; DENY default
+  optional NetworkMode ingress = 2 [json_name = "ingress"]; // validate: required; DENY default
+  optional bool host_loopback = 3 [json_name = "hostLoopback"]; // validate: false default; explicit grant
+  repeated string allowed_destinations = 4 [json_name = "allowedDestinations"]; // validate: max 64 backend-supported host/CIDR/port rules; reject unsupported rule kinds
+}
+
+message ResourcePolicy {
+  optional uint32 cpu_max_millicores = 1 [json_name = "cpuMaxMillicores"]; // validate: 1..host capacity; absent inherits ceiling
+  optional uint64 memory_max_bytes = 2 [json_name = "memoryMaxBytes"]; // validate: positive; platform metric explicitly declared
+  optional uint32 weight = 3 [json_name = "weight"]; // validate: 1..10000
+  optional int32 priority = 4 [json_name = "priority"]; // validate: -20..20; validated local policy
+  optional bool preemptible = 5 [json_name = "preemptible"]; // validate: false default
+  optional PressureAction pressure_action = 6 [json_name = "pressureAction"]; // validate: required; explicit action
+  optional uint32 max_concurrent_runs = 7 [json_name = "maxConcurrentRuns"]; // validate: 1..1024 within node cap
+  optional uint64 host_reserve_bytes = 8 [json_name = "hostReserveBytes"]; // validate: node scope only; local owner only
+  optional uint32 host_reserve_millicores = 9 [json_name = "hostReserveMillicores"]; // validate: node scope only; local owner only
+  optional uint64 expected_memory_bytes = 10 [json_name = "expectedMemoryBytes"]; // validate: reservation estimate; positive <=hard ceiling; actual observed peak remains accounted
+}
+
+message EnvironmentEntry {
+  optional string name = 1 [json_name = "name"]; // validate: 1..256 chars; native valid key; no duplicate after OS comparison
+  optional string value = 2 [json_name = "value"]; // validate: max 32768 bytes; mutually exclusive with secret_ref
+  optional string secret_ref = 3 [json_name = "secretRef"]; // validate: owner-local secret handle; mutually exclusive with value
+}
+
+message SandboxConfig {
+  optional string profile_id = 1 [json_name = "profileId"]; // validate: required exact admitted backend profile
+  optional string profile_version = 2 [json_name = "profileVersion"]; // validate: required qualified profile version
+  repeated HostGrant host_grants = 3 [json_name = "hostGrants"]; // validate: max 128; no contradictory overlaps
+  NetworkPolicy network = 4 [json_name = "network"]; // validate: required complete policy
+  ResourcePolicy resources = 5 [json_name = "resources"]; // validate: required; within node safety bounds
+  repeated EnvironmentEntry environment = 6 [json_name = "environment"]; // validate: max 128; explicitly supplied only
+  optional string default_workdir = 7 [json_name = "defaultWorkdir"]; // validate: owned-root-relative; normalized safe path
+  optional uint64 output_retention_bytes = 8 [json_name = "outputRetentionBytes"]; // validate: bounded by local storage policy; default 64 MiB per Run
+}
+
+message Sandbox {
+  arcforges.foundation.v1.Id sandbox_id = 1 [json_name = "sandboxId"]; // validate: 16-byte opaque ID
+  optional string display_name = 2 [json_name = "displayName"]; // validate: 1..80 chars
+  arcforges.foundation.v1.Revision revision = 3 [json_name = "revision"]; // validate: positive
+  optional SandboxState state = 4 [json_name = "state"]; // validate: required
+  SandboxConfig config = 5 [json_name = "config"]; // validate: current complete config
+  optional string data_location = 6 [json_name = "dataLocation"]; // validate: owner-visible display only; remote redacted
+  repeated arcforges.foundation.v1.Id active_run_ids = 7 [json_name = "activeRunIds"]; // validate: bounded by concurrency cap
+  repeated Capability capabilities = 8 [json_name = "capabilities"]; // validate: actual profile eligibility including unverified
+  arcforges.foundation.v1.Instant created_at = 9 [json_name = "createdAt"]; // validate: UTC
+}
+
+message RunExit {
+  optional int32 raw_code = 1 [json_name = "rawCode"]; // validate: present only when observed
+  optional ExitSource source = 2 [json_name = "source"]; // validate: required provenance; executor is not payload proof
+  optional string termination_reason = 3 [json_name = "terminationReason"]; // validate: stable reason code
+  optional PayloadStartEvidence payload_started = 4 [json_name = "payloadStarted"]; // validate: required
+  optional arcforges.foundation.v1.EffectCertainty effect = 5 [json_name = "effect"]; // validate: required
+  optional bool group_empty_verified = 6 [json_name = "groupEmptyVerified"]; // validate: true required before terminal run state
+  arcforges.foundation.v1.Instant observed_at = 7 [json_name = "observedAt"]; // validate: UTC
+}
+
+message Run {
+  arcforges.foundation.v1.Id run_id = 1 [json_name = "runId"]; // validate: opaque
+  arcforges.foundation.v1.Id sandbox_id = 2 [json_name = "sandboxId"]; // validate: opaque
+  arcforges.foundation.v1.Revision revision = 3 [json_name = "revision"]; // validate: positive
+  optional RunState state = 4 [json_name = "state"]; // validate: required
+  optional string epoch = 5 [json_name = "epoch"]; // validate: unpredictable supervisor generation
+  optional string profile_id = 6 [json_name = "profileId"]; // validate: admitted backend
+  optional string launch_sha256 = 7 [json_name = "launchSha256"]; // validate: 64 lowercase hex; secrets not echoed
+  optional TerminalMode terminal_mode = 8 [json_name = "terminalMode"]; // validate: required
+  arcforges.foundation.v1.Instant created_at = 9 [json_name = "createdAt"]; // validate: UTC
+  arcforges.foundation.v1.Instant started_at = 10 [json_name = "startedAt"]; // validate: optional
+  arcforges.foundation.v1.Instant ended_at = 11 [json_name = "endedAt"]; // validate: optional
+  RunExit exit = 12 [json_name = "exit"]; // validate: absent until observed; may precede terminal state
+  repeated LimitState limits = 13 [json_name = "limits"]; // validate: desired/applied/readback per dimension
+  optional string safe_command_display = 14 [json_name = "safeCommandDisplay"]; // validate: executable basename and redacted argument count; no raw argv/env/secret/host path
+  arcforges.foundation.v1.Revision sandbox_revision = 15 [json_name = "sandboxRevision"]; // validate: immutable configuration snapshot revision used for this Run
+  optional string profile_version = 16 [json_name = "profileVersion"]; // validate: exact admitted profile revision; not current Sandbox config
+}
+
+message TerminalSize {
+  optional uint32 rows = 1 [json_name = "rows"]; // validate: 1..32767
+  optional uint32 columns = 2 [json_name = "columns"]; // validate: 1..32767
+}
+
+message TerminalLease {
+  arcforges.foundation.v1.Id lease_id = 1 [json_name = "leaseId"]; // validate: opaque
+  optional string run_epoch = 2 [json_name = "runEpoch"]; // validate: must match supervisor
+  optional uint64 generation = 3 [json_name = "generation"]; // validate: monotonic; stale rejected
+  optional LeaseMode mode = 4 [json_name = "mode"]; // validate: writer or observer
+  arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"]; // validate: UTC; 30s default writer renewal
+  optional uint64 last_input_sequence = 6 [json_name = "lastInputSequence"]; // validate: consumed sequence high-water within this lease; not proof of confirmed byte count
+  optional uint64 last_resize_sequence = 7 [json_name = "lastResizeSequence"]; // validate: consumed resize high-water within this lease; an evicted acknowledgment is not application proof
+}
+
+message LimitState {
+  optional string dimension = 1 [json_name = "dimension"]; // validate: cpu/memory/pids where supported
+  optional string unit = 2 [json_name = "unit"]; // validate: millicores/bytes/count with memory metric label
+  optional string scope = 3 [json_name = "scope"]; // validate: run resource boundary identity
+  arcforges.foundation.v1.Revision desired_revision = 4 [json_name = "desiredRevision"]; // validate: positive
+  optional string desired_value = 5 [json_name = "desiredValue"]; // validate: canonical integer or backend explicit unlimited
+  optional string applied_value = 6 [json_name = "appliedValue"]; // validate: absent if unconfirmed
+  optional string readback_value = 7 [json_name = "readbackValue"]; // validate: absent if unavailable
+  optional LimitStatus status = 8 [json_name = "status"]; // validate: required
+  optional string reason = 9 [json_name = "reason"]; // validate: stable code
+  arcforges.foundation.v1.Instant applied_at = 10 [json_name = "appliedAt"]; // validate: UTC if applied
+  arcforges.foundation.v1.Instant readback_at = 11 [json_name = "readbackAt"]; // validate: UTC if read
+}
+
+message ResourceSnapshot {
+  optional string scope_kind = 1 [json_name = "scopeKind"]; // validate: node/sandbox/run
+  arcforges.foundation.v1.Id scope_id = 2 [json_name = "scopeId"]; // validate: absent for node
+  arcforges.foundation.v1.Instant sampled_at = 3 [json_name = "sampledAt"]; // validate: UTC
+  optional bool stale = 4 [json_name = "stale"]; // validate: required
+  optional uint32 host_cpu_millicores = 5 [json_name = "hostCpuMillicores"]; // validate: capacity
+  optional uint32 unmanaged_cpu_millicores = 6 [json_name = "unmanagedCpuMillicores"]; // validate: observed estimate; absent if unknown
+  optional uint32 managed_cpu_millicores = 7 [json_name = "managedCpuMillicores"]; // validate: observed; absent if unknown
+  optional uint32 budget_cpu_millicores = 8 [json_name = "budgetCpuMillicores"]; // validate: current allocatable budget
+  optional uint64 host_memory_bytes = 9 [json_name = "hostMemoryBytes"]; // validate: capacity
+  optional uint64 unmanaged_memory_bytes = 10 [json_name = "unmanagedMemoryBytes"]; // validate: estimate with semantics in memory_kind
+  optional uint64 managed_memory_bytes = 11 [json_name = "managedMemoryBytes"]; // validate: observed according to memory_kind
+  optional uint64 budget_memory_bytes = 12 [json_name = "budgetMemoryBytes"]; // validate: allocatable
+  optional uint64 reserved_memory_bytes = 13 [json_name = "reservedMemoryBytes"]; // validate: host reserve
+  optional string memory_kind = 14 [json_name = "memoryKind"]; // validate: windows_commit/linux_cgroup_current/resident_estimate
+  optional string pressure = 15 [json_name = "pressure"]; // validate: normal/tight/pressure/critical/unknown
+  repeated LimitState limits = 16 [json_name = "limits"]; // validate: actual applied/readback states
+  optional uint32 reserved_cpu_millicores = 17 [json_name = "reservedCpuMillicores"]; // validate: host reserve
+  optional uint64 node_memory_bytes = 18 [json_name = "nodeMemoryBytes"]; // validate: separate Node overhead
+  optional uint32 node_cpu_millicores = 19 [json_name = "nodeCpuMillicores"]; // validate: separate Node overhead
+  optional uint64 sample_sequence = 20 [json_name = "sampleSequence"]; // validate: monotonic per scope/epoch; subscription may intentionally downsample
+  optional uint32 sample_interval_ms = 21 [json_name = "sampleIntervalMs"]; // validate: actual observation interval
+  arcforges.foundation.v1.Revision policy_revision = 22 [json_name = "policyRevision"]; // validate: policy that produced budget
+  optional uint64 peak_memory_bytes = 23 [json_name = "peakMemoryBytes"]; // validate: per scope; metric labeled
+  optional uint64 reserved_run_memory_bytes = 24 [json_name = "reservedRunMemoryBytes"]; // validate: reservation estimate/observed peak
+  optional uint32 process_count = 25 [json_name = "processCount"]; // validate: verified managed group count or absent
+  optional uint64 cumulative_cpu_usec = 26 [json_name = "cumulativeCpuUsec"]; // validate: per scope cumulative process CPU
+  optional double psi_cpu_some = 27 [json_name = "psiCpuSome"]; // validate: Linux PSI 0..100 or absent
+  optional double psi_memory_some = 28 [json_name = "psiMemorySome"]; // validate: Linux PSI 0..100 or absent
+  optional double psi_memory_full = 29 [json_name = "psiMemoryFull"]; // validate: Linux PSI 0..100 or absent
+  optional string sample_epoch = 30 [json_name = "sampleEpoch"]; // validate: sampler generation; changes on restart
+}
+
+message OutputChunk {
+  optional string epoch = 1 [json_name = "epoch"]; // validate: Run epoch
+  optional uint64 offset = 2 [json_name = "offset"]; // validate: byte offset in selected stream
+  optional StreamKind stream = 3 [json_name = "stream"]; // validate: required
+  optional bytes data = 4 [json_name = "data"]; // validate: 1..65536 bytes; untrusted
+  optional uint64 next_offset = 5 [json_name = "nextOffset"]; // validate: offset + byte length
+}
+
+message OutputGap {
+  optional string epoch = 1 [json_name = "epoch"]; // validate: current epoch
+  optional uint64 requested_offset = 2 [json_name = "requestedOffset"]; // validate: requested
+  optional uint64 earliest_offset = 3 [json_name = "earliestOffset"]; // validate: first retained byte
+  optional string reason = 4 [json_name = "reason"]; // validate: retention/epoch_changed/slow_consumer
+}
+
+message EventGap {
+  optional string epoch = 1 [json_name = "epoch"]; // validate: current Node event epoch
+  optional uint64 requested_sequence = 2 [json_name = "requestedSequence"]; // validate: requested event cursor
+  optional uint64 earliest_sequence = 3 [json_name = "earliestSequence"]; // validate: first retained event sequence
+  optional string reason = 4 [json_name = "reason"]; // validate: retention/epoch_changed/slow_consumer; resnapshot required
+}
+
+message Event {
+  optional uint64 sequence = 1 [json_name = "sequence"]; // validate: monotonic within Node epoch
+  optional string epoch = 2 [json_name = "epoch"]; // validate: Node event epoch
+  optional EventKind kind = 3 [json_name = "kind"]; // validate: required
+  arcforges.foundation.v1.Id sandbox_id = 4 [json_name = "sandboxId"]; // validate: if relevant
+  arcforges.foundation.v1.Id run_id = 5 [json_name = "runId"]; // validate: if relevant
+  arcforges.foundation.v1.Revision revision = 6 [json_name = "revision"]; // validate: aggregate revision
+  arcforges.foundation.v1.Instant observed_at = 7 [json_name = "observedAt"]; // validate: UTC
+}
+
+message Operation {
+  arcforges.foundation.v1.Id command_id = 1 [json_name = "commandId"]; // validate: opaque
+  optional OperationState state = 2 [json_name = "state"]; // validate: accepted/succeeded/failed/unknown
+  optional arcforges.foundation.v1.EffectCertainty effect = 3 [json_name = "effect"]; // validate: required; UNKNOWN requires reconciliation
+  optional string method = 4 [json_name = "method"]; // validate: fixed API method name
+  arcforges.foundation.v1.Id aggregate_id = 5 [json_name = "aggregateId"]; // validate: result Sandbox/Run/transfer ID if allocated
+  arcforges.foundation.v1.Revision revision = 6 [json_name = "revision"]; // validate: result revision if known
+  arcforges.foundation.v1.ArcError error = 7 [json_name = "error"]; // validate: failure/reconciliation detail
+  arcforges.foundation.v1.Instant updated_at = 8 [json_name = "updatedAt"]; // validate: UTC
+  arcforges.foundation.v1.Id owner_epoch = 9 [json_name = "ownerEpoch"]; // validate: durable command namespace
+  optional bool response_compacted = 10 [json_name = "responseCompacted"]; // validate: original body compacted; retained effect/aggregate identity remains authoritative
+}
+
+message DeletePlan {
+  arcforges.foundation.v1.Id plan_id = 1 [json_name = "planId"]; // validate: opaque one-use capability
+  arcforges.foundation.v1.Id sandbox_id = 2 [json_name = "sandboxId"]; // validate: opaque
+  arcforges.foundation.v1.Revision revision = 3 [json_name = "revision"]; // validate: exact expected Sandbox revision
+  optional string root_identity_digest = 4 [json_name = "rootIdentityDigest"]; // validate: digest of opened-root identity
+  optional uint64 owned_bytes = 5 [json_name = "ownedBytes"]; // validate: estimated no-follow owned bytes
+  repeated string excluded_host_grants = 6 [json_name = "excludedHostGrants"]; // validate: display only; never deletion roots
+  arcforges.foundation.v1.Instant expires_at = 7 [json_name = "expiresAt"]; // validate: UTC; 5min default
+  repeated arcforges.foundation.v1.Id blocking_runs = 8 [json_name = "blockingRuns"]; // validate: all nonterminal uses
+  repeated arcforges.foundation.v1.Id blocking_transfer_ids = 9 [json_name = "blockingTransferIds"]; // validate: open/uncertain transfers and retained unclosed export snapshots
+}
+
+message Transfer {
+  arcforges.foundation.v1.Id transfer_id = 1 [json_name = "transferId"]; // validate: opaque
+  arcforges.foundation.v1.Id sandbox_id = 2 [json_name = "sandboxId"]; // validate: opaque
+  optional TransferState state = 3 [json_name = "state"]; // validate: required
+  optional string relative_path = 4 [json_name = "relativePath"]; // validate: safe owned-root relative regular file
+  optional uint64 byte_length = 5 [json_name = "byteLength"]; // validate: bounded by local quota
+  optional uint64 verified_offset = 6 [json_name = "verifiedOffset"]; // validate: contiguous verified bytes
+  optional string sha256 = 7 [json_name = "sha256"]; // validate: 64 lowercase hex
+  arcforges.foundation.v1.Instant expires_at = 8 [json_name = "expiresAt"]; // validate: UTC
+  optional string direction = 9 [json_name = "direction"]; // validate: import or export; immutable authorization scope
+  arcforges.foundation.v1.Instant closed_at = 10 [json_name = "closedAt"]; // validate: snapshot/staging released after proven safe close/expiry; COMPLETE alone does not release an export
+}
+
+message FileEntry {
+  optional string relative_path = 1 [json_name = "relativePath"]; // validate: safe relative display
+  optional string kind = 2 [json_name = "kind"]; // validate: regular_file/directory; unsupported symlink shown not followed
+  optional uint64 byte_length = 3 [json_name = "byteLength"]; // validate: nonnegative; directory value may absent
+  optional string version_token = 4 [json_name = "versionToken"]; // validate: opaque native identity/version token
+  arcforges.foundation.v1.Instant modified_at = 5 [json_name = "modifiedAt"]; // validate: UTC if available
+}
+
+message RemoteGrant {
+  arcforges.foundation.v1.Id grant_id = 1 [json_name = "grantId"]; // validate: opaque
+  arcforges.foundation.v1.Id sandbox_id = 2 [json_name = "sandboxId"]; // validate: required for sandbox scope; absent for provision scope
+  arcforges.foundation.v1.Id enrollment_id = 3 [json_name = "enrollmentId"]; // validate: active Center enrollment
+  arcforges.foundation.v1.Revision revision = 4 [json_name = "revision"]; // validate: positive
+  optional GrantState state = 5 [json_name = "state"]; // validate: required
+  repeated string methods = 6 [json_name = "methods"]; // validate: subset of documented remote allowlist
+  ResourcePolicy resource_ceiling = 7 [json_name = "resourceCeiling"]; // validate: cannot exceed local policy
+  arcforges.foundation.v1.Instant expires_at = 8 [json_name = "expiresAt"]; // validate: optional local expiry
+  optional bool allow_data = 9 [json_name = "allowData"]; // validate: explicit opt-in
+  optional bool allow_delete = 10 [json_name = "allowDelete"]; // validate: explicit opt-in
+  optional string scope_kind = 11 [json_name = "scopeKind"]; // validate: sandbox or provision
+  SandboxConfig creation_template = 12 [json_name = "creationTemplate"]; // validate: required only for provision scope; immutable at template_revision
+  arcforges.foundation.v1.Revision template_revision = 13 [json_name = "templateRevision"]; // validate: required for provision scope
+  arcforges.foundation.v1.Id parent_grant_id = 14 [json_name = "parentGrantId"]; // validate: derived child grant only; cannot be caller-minted
+}
+
+message Page {
+  optional string next_cursor = 1 [json_name = "nextCursor"]; // validate: opaque owner/filter/revision-bound cursor; empty at end
+}
+
+message Empty {
+}
+
+message DataChunk {
+  optional bytes data = 1 [json_name = "data"]; // validate: 1..1048576 bytes
+  optional uint64 offset = 2 [json_name = "offset"]; // validate: verified byte offset
+  optional bool eof = 3 [json_name = "eof"]; // validate: true only at exact expected end
+}
+
+message Usage {
+  optional uint64 owned_bytes = 1 [json_name = "ownedBytes"]; // validate: no-follow logical total
+  optional uint64 allocated_bytes = 2 [json_name = "allocatedBytes"]; // validate: present only if platform can measure
+  optional uint64 file_count = 3 [json_name = "fileCount"]; // validate: owned regular files
+  optional bool partial = 4 [json_name = "partial"]; // validate: true if sampling changed or unreadable
+  arcforges.foundation.v1.Instant observed_at = 5 [json_name = "observedAt"]; // validate: UTC
+  repeated string excluded_roots = 6 [json_name = "excludedRoots"]; // validate: external mounts and grants not counted
+}
+
+// NodeService is a typed Sandbox Core surface; remote exposure is a fixed allowlist.
+service NodeService {
+  // Negotiate exact contract/backend capabilities and local owner session.
+  // auth: authenticated local owner; remote=forbidden
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor
+  // locality: local only
+  rpc Handshake(NodeServiceHandshakeRequest) returns (NodeServiceHandshakeResponse);
+  // Reconcile a stable mutation command without replaying it.
+  // auth: authenticated local owner; remote=read
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor
+  // locality: local and explicitly granted Center route
+  rpc GetOperation(NodeServiceGetOperationRequest) returns (NodeServiceGetOperationResponse);
+  // Read a bounded epoch/cursor event feed; refresh snapshots after gap.
+  // auth: authenticated local owner; remote=read
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: server; bounded, epoch/cursor, gap and terminal errors
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor
+  // locality: local and explicitly granted Center route
+  rpc WatchEvents(NodeServiceWatchEventsRequest) returns (stream NodeServiceWatchEventsFrame);
+  // Create or narrow/expand a grant locally with revision checks.
+  // auth: authenticated local owner; remote=forbidden
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, CONFLICT/owner_epoch_retired, STATE/receipt_compacted
+  // locality: local only
+  rpc SetRemoteGrant(NodeServiceSetRemoteGrantRequest) returns (NodeServiceSetRemoteGrantResponse);
+  // Revoke a grant and invalidate future remote access.
+  // auth: authenticated local owner; remote=security.revoke
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, CONFLICT/owner_epoch_retired, STATE/receipt_compacted
+  // locality: local and explicitly granted Center route
+  rpc RevokeRemoteGrant(NodeServiceRevokeRemoteGrantRequest) returns (NodeServiceRevokeRemoteGrantResponse);
+  // List grants and expiration for the owner.
+  // auth: authenticated local owner; remote=security.read
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor
+  // locality: local and explicitly granted Center route
+  rpc ListRemoteGrants(NodeServiceListRemoteGrantsRequest) returns (NodeServiceListRemoteGrantsResponse);
+}
+
+message NodeServiceHandshakeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+}
+
+message NodeServiceHandshakeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceHandshakeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message NodeServiceHandshakeValue {
+  repeated Capability capabilities = 10 [json_name = "capabilities"]; // validate: actual node qualification
+  optional string node_epoch = 11 [json_name = "nodeEpoch"]; // validate: current Node epoch
+  optional string contract_version = 12 [json_name = "contractVersion"]; // validate: 2.0
+  optional string cohort = 13 [json_name = "cohort"]; // validate: installed coherent build
+  arcforges.foundation.v1.Id owner_epoch = 14 [json_name = "ownerEpoch"]; // validate: persistent mutation namespace; distinct from restart/event epoch
+}
+
+message NodeServiceGetOperationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id command_id = 10 [json_name = "commandId"]; // validate: required original command ID
+  arcforges.foundation.v1.Id owner_epoch = 11 [json_name = "ownerEpoch"]; // validate: required original durable command epoch; terminal operations are not reconcilable here
+}
+
+message NodeServiceGetOperationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceGetOperationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message NodeServiceGetOperationValue {
+  Operation operation = 10 [json_name = "operation"]; // validate: receipt
+}
+
+message NodeServiceWatchEventsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  optional string epoch = 10 [json_name = "epoch"]; // validate: prior Node epoch or empty
+  optional uint64 after_sequence = 11 [json_name = "afterSequence"]; // validate: last observed sequence
+}
+
+message NodeServiceWatchEventsFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof frame {
+    Event event = 10 [json_name = "event"];
+    EventGap gap = 11 [json_name = "gap"];
+    arcforges.foundation.v1.ArcError error = 20 [json_name = "error"];
+  }
+}
+
+message NodeServiceSetRemoteGrantRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  RemoteGrant grant = 10 [json_name = "grant"]; // validate: required validated local policy
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+}
+
+message NodeServiceSetRemoteGrantResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceSetRemoteGrantValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message NodeServiceSetRemoteGrantValue {
+  RemoteGrant grant = 10 [json_name = "grant"]; // validate: committed grant
+}
+
+message NodeServiceRevokeRemoteGrantRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id grant_id = 10 [json_name = "grantId"]; // validate: required visible grant
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+}
+
+message NodeServiceRevokeRemoteGrantResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceRevokeRemoteGrantValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message NodeServiceRevokeRemoteGrantValue {
+  RemoteGrant grant = 10 [json_name = "grant"]; // validate: revoked grant
+}
+
+message NodeServiceListRemoteGrantsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id sandbox_id = 10 [json_name = "sandboxId"]; // validate: optional owned Sandbox filter; absent lists only caller-visible sandbox/provision grants
+  optional string cursor = 11 [json_name = "cursor"]; // validate: opaque prior cursor or empty
+  optional uint32 limit = 12 [json_name = "limit"]; // validate: 1..200; default 50
+}
+
+message NodeServiceListRemoteGrantsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NodeServiceListRemoteGrantsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message NodeServiceListRemoteGrantsValue {
+  repeated RemoteGrant grants = 10 [json_name = "grants"]; // validate: visible
+  Page page = 11 [json_name = "page"]; // validate: cursor
+}
+
+// SandboxService is a typed Sandbox Core surface; remote exposure is a fixed allowlist.
+service SandboxService {
+  // Create an owned persistent data environment.
+  // auth: authenticated local owner; remote=sandbox.create
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, EXECUTION/unsupported_combination, RESOURCE/budget_unavailable, RESOURCE/enforcement_failed, CONFLICT/owner_epoch_retired, STATE/receipt_compacted
+  // locality: local and explicitly granted Center route
+  rpc Create(SandboxServiceCreateRequest) returns (SandboxServiceCreateResponse);
+  // Replace a revision-checked configuration; access changes require quiescence.
+  // auth: authenticated local owner; remote=sandbox.configure with repair_error forbidden
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, EXECUTION/unsupported_combination, RESOURCE/budget_unavailable, RESOURCE/enforcement_failed, CONFLICT/owner_epoch_retired, STATE/receipt_compacted
+  // locality: local and explicitly granted Center route
+  rpc Configure(SandboxServiceConfigureRequest) returns (SandboxServiceConfigureResponse);
+  // List visible persistent environments.
+  // auth: authenticated local owner; remote=read
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor
+  // locality: local and explicitly granted Center route
+  rpc List(SandboxServiceListRequest) returns (SandboxServiceListResponse);
+  // Read policy, capability, usage location and active runs.
+  // auth: authenticated local owner; remote=read
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor
+  // locality: local and explicitly granted Center route
+  rpc Inspect(SandboxServiceInspectRequest) returns (SandboxServiceInspectResponse);
+  // Preview exact owned data and concurrent-use blockers.
+  // auth: authenticated local owner; remote=sandbox.delete
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor, VALIDATION/path_rejected, STATE/managed_use, RESOURCE/disk_space, CONFLICT/identity_changed
+  // locality: local and explicitly granted Center route
+  rpc PlanDelete(SandboxServicePlanDeleteRequest) returns (SandboxServicePlanDeleteResponse);
+  // Consume an unchanged delete plan under the same Sandbox admission lock.
+  // auth: authenticated local owner; remote=sandbox.delete for fresh plan only; resume_command_id is local-only
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, VALIDATION/path_rejected, STATE/managed_use, RESOURCE/disk_space, CONFLICT/identity_changed, CONFLICT/owner_epoch_retired, STATE/receipt_compacted
+  // locality: local and explicitly granted Center route
+  rpc Delete(SandboxServiceDeleteRequest) returns (SandboxServiceDeleteResponse);
+}
+
+message SandboxServiceCreateRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  optional string display_name = 10 [json_name = "displayName"]; // validate: 1..80 characters; normalized unique
+  SandboxConfig config = 11 [json_name = "config"]; // validate: required admitted full configuration
+  arcforges.foundation.v1.Id provision_grant_id = 12 [json_name = "provisionGrantId"]; // validate: required for remote create; local may omit
+  arcforges.foundation.v1.Revision template_revision = 13 [json_name = "templateRevision"]; // validate: required remote template revision
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+}
+
+message SandboxServiceCreateResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SandboxServiceCreateValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message SandboxServiceCreateValue {
+  Sandbox sandbox = 10 [json_name = "sandbox"]; // validate: created or durable creating state
+}
+
+message SandboxServiceConfigureRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id sandbox_id = 10 [json_name = "sandboxId"]; // validate: required 16 bytes; owned and visible
+  SandboxConfig config = 11 [json_name = "config"]; // validate: required complete replacement
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+  optional string display_name = 12 [json_name = "displayName"]; // validate: optional 1..80 chars; normalized unique; rename does not move root
+  optional bool repair_error = 13 [json_name = "repairError"]; // validate: local owner only; explicit ERROR repair after identity/no-use/no-unresolved-effect guards
+}
+
+message SandboxServiceConfigureResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SandboxServiceConfigureValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message SandboxServiceConfigureValue {
+  Sandbox sandbox = 10 [json_name = "sandbox"]; // validate: new revision
+}
+
+message SandboxServiceListRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  optional string cursor = 10 [json_name = "cursor"]; // validate: opaque prior cursor or empty
+  optional uint32 limit = 11 [json_name = "limit"]; // validate: 1..200; default 50
+}
+
+message SandboxServiceListResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SandboxServiceListValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message SandboxServiceListValue {
+  repeated Sandbox sandboxes = 10 [json_name = "sandboxes"]; // validate: owner scoped
+  Page page = 11 [json_name = "page"]; // validate: cursor
+}
+
+message SandboxServiceInspectRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id sandbox_id = 10 [json_name = "sandboxId"]; // validate: required 16 bytes; owned and visible
+}
+
+message SandboxServiceInspectResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SandboxServiceInspectValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message SandboxServiceInspectValue {
+  Sandbox sandbox = 10 [json_name = "sandbox"]; // validate: visible details
+}
+
+message SandboxServicePlanDeleteRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id sandbox_id = 10 [json_name = "sandboxId"]; // validate: required 16 bytes; owned and visible
+}
+
+message SandboxServicePlanDeleteResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SandboxServicePlanDeleteValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message SandboxServicePlanDeleteValue {
+  DeletePlan plan = 10 [json_name = "plan"]; // validate: short-lived revision-bound plan
+}
+
+message SandboxServiceDeleteRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id sandbox_id = 10 [json_name = "sandboxId"]; // validate: required 16 bytes; owned and visible
+  arcforges.foundation.v1.Id plan_id = 11 [json_name = "planId"]; // validate: fresh deletion only; unexpired exact plan; mutually exclusive with resume_command_id
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+  arcforges.foundation.v1.Id resume_command_id = 12 [json_name = "resumeCommandId"]; // validate: local owner only; original same-Sandbox delete command; fresh successor ID/CAS plus exact journal/root identity; mutually exclusive with plan_id
+}
+
+message SandboxServiceDeleteResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SandboxServiceDeleteValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message SandboxServiceDeleteValue {
+  Operation operation = 10 [json_name = "operation"]; // validate: durable deletion receipt
+}
+
+// RunService is a typed Sandbox Core surface; remote exposure is a fixed allowlist.
+service RunService {
+  // Start explicit argv after confinement/resource admission; never enqueue or auto retry.
+  // auth: authenticated local owner; remote=run.start
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, EXECUTION/unsupported_combination, RESOURCE/budget_unavailable, RESOURCE/enforcement_failed, CONFLICT/owner_epoch_retired, STATE/receipt_compacted, EXECUTION/launch_failed
+  // locality: local and explicitly granted Center route
+  rpc Start(RunServiceStartRequest) returns (RunServiceStartResponse);
+  // List visible runs with stable pagination.
+  // auth: authenticated local owner; remote=read
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor
+  // locality: local and explicitly granted Center route
+  rpc List(RunServiceListRequest) returns (RunServiceListResponse);
+  // Read live or terminal state with exit provenance and limits.
+  // auth: authenticated local owner; remote=read
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor
+  // locality: local and explicitly granted Center route
+  rpc Inspect(RunServiceInspectRequest) returns (RunServiceInspectResponse);
+  // Request bounded graceful stop then verified owned-group termination.
+  // auth: authenticated local owner; remote=run.stop
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, CONFLICT/owner_epoch_retired, STATE/receipt_compacted
+  // locality: local and explicitly granted Center route
+  rpc Stop(RunServiceStopRequest) returns (RunServiceStopResponse);
+  // Read untrusted terminal or piped bytes with explicit gaps.
+  // auth: authenticated local owner; remote=run.output
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: server; bounded, epoch/cursor, gap and terminal errors
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor
+  // locality: local and explicitly granted Center route
+  rpc WatchOutput(RunServiceWatchOutputRequest) returns (stream RunServiceWatchOutputFrame);
+  // Acquire or renew local exclusive writer/read-only observer lease.
+  // auth: authenticated local owner; remote=forbidden
+  // idempotency: transient live-lease acknowledgment window only; supervisor memory; no durable receipt or GetOperation; never replay uncertain input
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/lease_stale, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, STATE/terminal_unavailable, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/terminal_ack_unavailable
+  // locality: local only
+  rpc AcquireTerminal(RunServiceAcquireTerminalRequest) returns (RunServiceAcquireTerminalResponse);
+  // Write bounded input under current local writer lease.
+  // auth: authenticated local owner; remote=forbidden
+  // idempotency: transient live-lease acknowledgment window only; supervisor memory; no durable receipt or GetOperation; never replay uncertain input
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/lease_stale, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, STATE/terminal_unavailable, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/terminal_ack_unavailable
+  // locality: local only
+  rpc WriteTerminal(RunServiceWriteTerminalRequest) returns (RunServiceWriteTerminalResponse);
+  // Apply latest local terminal geometry under current writer lease.
+  // auth: authenticated local owner; remote=forbidden
+  // idempotency: transient live-lease acknowledgment window only; supervisor memory; no durable receipt or GetOperation; never replay uncertain input
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/lease_stale, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, STATE/terminal_unavailable, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/terminal_ack_unavailable
+  // locality: local only
+  rpc ResizeTerminal(RunServiceResizeTerminalRequest) returns (RunServiceResizeTerminalResponse);
+  // Release a local attachment without stopping the Run.
+  // auth: authenticated local owner; remote=forbidden
+  // idempotency: transient live-lease acknowledgment window only; supervisor memory; no durable receipt or GetOperation; never replay uncertain input
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/lease_stale, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, STATE/terminal_unavailable, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/terminal_ack_unavailable
+  // locality: local only
+  rpc DetachTerminal(RunServiceDetachTerminalRequest) returns (RunServiceDetachTerminalResponse);
+}
+
+message RunServiceStartRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id sandbox_id = 10 [json_name = "sandboxId"]; // validate: required 16 bytes; owned and visible
+  repeated string argv = 11 [json_name = "argv"]; // validate: 1..256 args; each <=32768 bytes; total <=1MiB; explicit shell only
+  optional string working_directory = 12 [json_name = "workingDirectory"]; // validate: safe owned-relative or admitted host mount path
+  repeated EnvironmentEntry environment = 13 [json_name = "environment"]; // validate: max128; no inherited secret variables
+  optional TerminalMode terminal_mode = 14 [json_name = "terminalMode"]; // validate: required
+  TerminalSize terminal_size = 15 [json_name = "terminalSize"]; // validate: required for interactive
+  ResourcePolicy requested_resources = 16 [json_name = "requestedResources"]; // validate: within Sandbox ceiling
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+}
+
+message RunServiceStartResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    RunServiceStartValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message RunServiceStartValue {
+  Run run = 10 [json_name = "run"]; // validate: allocated Run and current state
+  Operation operation = 11 [json_name = "operation"]; // validate: durable Start receipt
+}
+
+message RunServiceListRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id sandbox_id = 10 [json_name = "sandboxId"]; // validate: required 16 bytes; owned and visible
+  optional string cursor = 11 [json_name = "cursor"]; // validate: opaque prior cursor or empty
+  optional uint32 limit = 12 [json_name = "limit"]; // validate: 1..200; default 50
+}
+
+message RunServiceListResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    RunServiceListValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message RunServiceListValue {
+  repeated Run runs = 10 [json_name = "runs"]; // validate: visible
+  Page page = 11 [json_name = "page"]; // validate: cursor
+}
+
+message RunServiceInspectRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"]; // validate: required 16 bytes; owned and visible
+}
+
+message RunServiceInspectResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    RunServiceInspectValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message RunServiceInspectValue {
+  Run run = 10 [json_name = "run"]; // validate: authoritative Node record
+}
+
+message RunServiceStopRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"]; // validate: required 16 bytes; owned and visible
+  optional uint32 grace_ms = 11 [json_name = "graceMs"]; // validate: 0..60000; default5000
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+}
+
+message RunServiceStopResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    RunServiceStopValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message RunServiceStopValue {
+  Run run = 10 [json_name = "run"]; // validate: STOPPING/DRAINING or final
+  Operation operation = 11 [json_name = "operation"]; // validate: durable stop receipt
+}
+
+message RunServiceWatchOutputRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"]; // validate: required 16 bytes; owned and visible
+  optional string epoch = 11 [json_name = "epoch"]; // validate: expected Run epoch
+  optional uint64 offset = 12 [json_name = "offset"]; // validate: byte offset
+  optional StreamKind stream = 13 [json_name = "stream"]; // validate: terminal or selected pipe stream
+}
+
+message RunServiceWatchOutputFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof frame {
+    OutputChunk chunk = 10 [json_name = "chunk"];
+    OutputGap gap = 11 [json_name = "gap"];
+    Run run = 12 [json_name = "run"];
+    arcforges.foundation.v1.ArcError error = 20 [json_name = "error"];
+  }
+}
+
+message RunServiceAcquireTerminalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"]; // validate: required 16 bytes; owned and visible
+  optional LeaseMode mode = 11 [json_name = "mode"]; // validate: writer/observer
+  arcforges.foundation.v1.Id existing_lease_id = 12 [json_name = "existingLeaseId"]; // validate: optional for renewal
+  optional bool takeover = 13 [json_name = "takeover"]; // validate: explicit local owner action only
+}
+
+message RunServiceAcquireTerminalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    RunServiceAcquireTerminalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message RunServiceAcquireTerminalValue {
+  TerminalLease lease = 10 [json_name = "lease"]; // validate: opaque current lease
+}
+
+message RunServiceWriteTerminalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"]; // validate: required 16 bytes; owned and visible
+  TerminalLease lease = 11 [json_name = "lease"]; // validate: required current writer
+  optional bytes input = 12 [json_name = "input"]; // validate: 1..65536 bytes XOR close_stdin; native Ctrl keys are data
+  optional uint64 input_sequence = 13 [json_name = "inputSequence"]; // validate: required next sequence within lease generation
+  optional bool close_stdin = 14 [json_name = "closeStdin"]; // validate: pipes-only explicit EOF; true excludes input
+}
+
+message RunServiceWriteTerminalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    RunServiceWriteTerminalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message RunServiceWriteTerminalValue {
+  optional uint32 accepted_bytes = 10 [json_name = "acceptedBytes"]; // validate: exact count; no blind replay after unknown
+}
+
+message RunServiceResizeTerminalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"]; // validate: required 16 bytes; owned and visible
+  TerminalLease lease = 11 [json_name = "lease"]; // validate: required current writer
+  TerminalSize size = 12 [json_name = "size"]; // validate: required bounds
+  optional uint64 resize_sequence = 13 [json_name = "resizeSequence"]; // validate: required increasing sequence within lease generation
+}
+
+message RunServiceResizeTerminalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    RunServiceResizeTerminalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message RunServiceResizeTerminalValue {
+  TerminalSize applied_size = 10 [json_name = "appliedSize"]; // validate: actual applied
+}
+
+message RunServiceDetachTerminalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"]; // validate: required 16 bytes; owned and visible
+  TerminalLease lease = 11 [json_name = "lease"]; // validate: current attachment
+}
+
+message RunServiceDetachTerminalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    RunServiceDetachTerminalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message RunServiceDetachTerminalValue {
+}
+
+// ResourceService is a typed Sandbox Core surface; remote exposure is a fixed allowlist.
+service ResourceService {
+  // Read sampled host/Sandbox/Run budgets and actual limits.
+  // auth: authenticated local owner; remote=resource.read
+  // idempotency: pure read; current complete snapshot
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument
+  // locality: local and explicitly granted Center route
+  rpc GetBudget(ResourceServiceGetBudgetRequest) returns (ResourceServiceGetBudgetResponse);
+  // Set bounded resource policy; requested and applied state remain distinct.
+  // auth: authenticated local owner; remote=resource.configure
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, CONFLICT/owner_epoch_retired, STATE/receipt_compacted
+  // locality: local and explicitly granted Center route
+  rpc SetPolicy(ResourceServiceSetPolicyRequest) returns (ResourceServiceSetPolicyResponse);
+  // Read bounded sampled usage; slow clients resnapshot.
+  // auth: authenticated local owner; remote=resource.read
+  // idempotency: pure read; fresh complete snapshots; reconnect does not replay history
+  // deadline: 10 s; timeout does not imply no effect
+  // stream: server; complete fresh snapshots only; no cursor/backfill; slow consumer closes with RESOURCE/overloaded
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, RESOURCE/overloaded
+  // locality: local and explicitly granted Center route
+  rpc WatchUsage(ResourceServiceWatchUsageRequest) returns (stream ResourceServiceWatchUsageFrame);
+}
+
+message ResourceServiceGetBudgetRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  optional string scope_kind = 10 [json_name = "scopeKind"]; // validate: node/sandbox/run
+  arcforges.foundation.v1.Id scope_id = 11 [json_name = "scopeId"]; // validate: required except node
+}
+
+message ResourceServiceGetBudgetResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceGetBudgetValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ResourceServiceGetBudgetValue {
+  ResourceSnapshot snapshot = 10 [json_name = "snapshot"]; // validate: actual timestamps and units
+}
+
+message ResourceServiceSetPolicyRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  optional string scope_kind = 10 [json_name = "scopeKind"]; // validate: node/sandbox/run
+  arcforges.foundation.v1.Id scope_id = 11 [json_name = "scopeId"]; // validate: required except node
+  ResourcePolicy policy = 12 [json_name = "policy"]; // validate: required local/remote-ceiling validated
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+}
+
+message ResourceServiceSetPolicyResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceSetPolicyValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ResourceServiceSetPolicyValue {
+  ResourceSnapshot snapshot = 10 [json_name = "snapshot"]; // validate: actual apply/readback state
+  Operation operation = 11 [json_name = "operation"]; // validate: receipt
+}
+
+message ResourceServiceWatchUsageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  optional string scope_kind = 10 [json_name = "scopeKind"]; // validate: node/sandbox/run
+  arcforges.foundation.v1.Id scope_id = 11 [json_name = "scopeId"]; // validate: required except node
+  optional uint32 interval_ms = 12 [json_name = "intervalMs"]; // validate: 1000..60000; cannot increase sampler cadence
+}
+
+message ResourceServiceWatchUsageFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  reserved 11;
+  oneof frame {
+    ResourceSnapshot snapshot = 10 [json_name = "snapshot"];
+    arcforges.foundation.v1.ArcError error = 20 [json_name = "error"];
+  }
+}
+
+// DataService is a typed Sandbox Core surface; remote exposure is a fixed allowlist.
+service DataService {
+  // Measure no-follow private data excluding external host mounts.
+  // auth: authenticated local owner; remote=data.read
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 30 s; timeout does not imply no effect
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor, VALIDATION/path_rejected, STATE/managed_use, RESOURCE/disk_space, CONFLICT/identity_changed
+  // locality: local and explicitly granted Center route
+  rpc GetUsage(DataServiceGetUsageRequest) returns (DataServiceGetUsageResponse);
+  // List safe owned data entries without following links.
+  // auth: authenticated local owner; remote=data.read
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 30 s; timeout does not imply no effect
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor, VALIDATION/path_rejected, STATE/managed_use, RESOURCE/disk_space, CONFLICT/identity_changed
+  // locality: local and explicitly granted Center route
+  rpc ListEntries(DataServiceListEntriesRequest) returns (DataServiceListEntriesResponse);
+  // Stage a regular-file upload under owned root; no archive extraction.
+  // auth: authenticated local owner; remote=data.write
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 30 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, VALIDATION/path_rejected, STATE/managed_use, RESOURCE/disk_space, CONFLICT/identity_changed, CONFLICT/owner_epoch_retired, STATE/receipt_compacted
+  // locality: local and explicitly granted Center route
+  rpc BeginImport(DataServiceBeginImportRequest) returns (DataServiceBeginImportResponse);
+  // Append or identically replay a bounded verified chunk.
+  // auth: authenticated local owner; remote=data.write
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 30 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, VALIDATION/path_rejected, STATE/managed_use, RESOURCE/disk_space, CONFLICT/identity_changed, CONFLICT/owner_epoch_retired, STATE/receipt_compacted
+  // locality: local and explicitly granted Center route
+  rpc WriteImport(DataServiceWriteImportRequest) returns (DataServiceWriteImportResponse);
+  // Verify complete length/hash then atomically publish within ownership lock.
+  // auth: authenticated local owner; remote=data.write
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 30 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, VALIDATION/path_rejected, STATE/managed_use, RESOURCE/disk_space, CONFLICT/identity_changed, CONFLICT/owner_epoch_retired, STATE/receipt_compacted
+  // locality: local and explicitly granted Center route
+  rpc CommitImport(DataServiceCommitImportRequest) returns (DataServiceCommitImportResponse);
+  // Bind an owned regular file to a bounded immutable export snapshot.
+  // auth: authenticated local owner; remote=data.read
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 30 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, VALIDATION/path_rejected, STATE/managed_use, RESOURCE/disk_space, CONFLICT/identity_changed, CONFLICT/owner_epoch_retired, STATE/receipt_compacted
+  // locality: local and explicitly granted Center route
+  rpc BeginExport(DataServiceBeginExportRequest) returns (DataServiceBeginExportResponse);
+  // Read a bounded snapshot range, verifying actor and expiry.
+  // auth: authenticated local owner; remote=data.read
+  // idempotency: pure read; cursor/snapshot scoped
+  // deadline: 30 s; timeout does not imply no effect
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, VALIDATION/invalid_cursor, VALIDATION/path_rejected, STATE/managed_use, RESOURCE/disk_space, CONFLICT/identity_changed
+  // locality: local and explicitly granted Center route
+  rpc ReadExport(DataServiceReadExportRequest) returns (DataServiceReadExportResponse);
+  // Inspect transfer progress, immutable snapshot identity and safe release state.
+  // auth: authenticated local owner; remote=data.write for import or data.read for export; initiating actor/grant scope
+  // idempotency: pure read; never resumes an effect
+  // deadline: 10 s
+  // stream: none
+  // errors: STATE/not_found, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument
+  // locality: local and explicitly granted Center route
+  rpc InspectTransfer(DataServiceInspectTransferRequest) returns (DataServiceInspectTransferResponse);
+  // Close or cancel staging without hiding an uncertain committed effect.
+  // auth: authenticated local owner; remote=data.write for import or data.read for export; actor/grant must own transfer
+  // idempotency: durable owner+owner_epoch+command_id+canonical keyed digest; compacted identity never re-executes; UNKNOWN reconciles via GetOperation
+  // deadline: 30 s; timeout does not imply no effect
+  // stream: none
+  // errors: CONFLICT/revision_mismatch, CONFLICT/command_id_reused, STATE/not_found, STATE/busy, AUTHORIZATION/permission_denied, VALIDATION/invalid_argument, EXECUTION/outcome_unknown, VALIDATION/path_rejected, STATE/managed_use, RESOURCE/disk_space, CONFLICT/identity_changed, CONFLICT/owner_epoch_retired, STATE/receipt_compacted
+  // locality: local and explicitly granted Center route
+  rpc CloseTransfer(DataServiceCloseTransferRequest) returns (DataServiceCloseTransferResponse);
+}
+
+message DataServiceGetUsageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id sandbox_id = 10 [json_name = "sandboxId"]; // validate: required 16 bytes; owned and visible
+}
+
+message DataServiceGetUsageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DataServiceGetUsageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DataServiceGetUsageValue {
+  Usage usage = 10 [json_name = "usage"]; // validate: timestamped/partial-aware
+}
+
+message DataServiceListEntriesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id sandbox_id = 10 [json_name = "sandboxId"]; // validate: required 16 bytes; owned and visible
+  optional string relative_directory = 11 [json_name = "relativeDirectory"]; // validate: owned relative directory
+  optional string cursor = 12 [json_name = "cursor"]; // validate: opaque prior cursor or empty
+  optional uint32 limit = 13 [json_name = "limit"]; // validate: 1..200; default 50
+}
+
+message DataServiceListEntriesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DataServiceListEntriesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DataServiceListEntriesValue {
+  repeated FileEntry entries = 10 [json_name = "entries"]; // validate: bounded metadata
+  Page page = 11 [json_name = "page"]; // validate: cursor
+}
+
+message DataServiceBeginImportRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id sandbox_id = 10 [json_name = "sandboxId"]; // validate: required 16 bytes; owned and visible
+  optional string relative_path = 11 [json_name = "relativePath"]; // validate: normalized safe regular-file target
+  optional uint64 byte_length = 12 [json_name = "byteLength"]; // validate: within storage admission limit
+  optional string sha256 = 13 [json_name = "sha256"]; // validate: required64 lowercase hex
+  optional bool overwrite = 14 [json_name = "overwrite"]; // validate: explicit true and matching expected_file_version
+  optional string expected_file_version = 15 [json_name = "expectedFileVersion"]; // validate: required for overwrite
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+}
+
+message DataServiceBeginImportResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DataServiceBeginImportValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DataServiceBeginImportValue {
+  Transfer transfer = 10 [json_name = "transfer"]; // validate: staging identity and quota
+}
+
+message DataServiceWriteImportRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id transfer_id = 10 [json_name = "transferId"]; // validate: active import owned by actor
+  optional uint64 offset = 11 [json_name = "offset"]; // validate: current contiguous offset; identical replay allowed
+  optional bytes chunk = 12 [json_name = "chunk"]; // validate: 1..1048576 bytes
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+}
+
+message DataServiceWriteImportResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DataServiceWriteImportValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DataServiceWriteImportValue {
+  Transfer transfer = 10 [json_name = "transfer"]; // validate: new verified contiguous offset
+}
+
+message DataServiceCommitImportRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id transfer_id = 10 [json_name = "transferId"]; // validate: active completed staging
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+}
+
+message DataServiceCommitImportResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DataServiceCommitImportValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DataServiceCommitImportValue {
+  Transfer transfer = 10 [json_name = "transfer"]; // validate: committed or recovery-required
+  Operation operation = 11 [json_name = "operation"]; // validate: durable effect receipt
+}
+
+message DataServiceBeginExportRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id sandbox_id = 10 [json_name = "sandboxId"]; // validate: required 16 bytes; owned and visible
+  optional string relative_path = 11 [json_name = "relativePath"]; // validate: normalized safe regular-file source
+  optional string expected_file_version = 12 [json_name = "expectedFileVersion"]; // validate: optional caller-observed version
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+}
+
+message DataServiceBeginExportResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DataServiceBeginExportValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DataServiceBeginExportValue {
+  Transfer transfer = 10 [json_name = "transfer"]; // validate: snapshot length/hash
+}
+
+message DataServiceReadExportRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id transfer_id = 10 [json_name = "transferId"]; // validate: active owned export
+  optional uint64 offset = 11 [json_name = "offset"]; // validate: 0..byte_length
+  optional uint32 max_bytes = 12 [json_name = "maxBytes"]; // validate: 1..1048576
+}
+
+message DataServiceReadExportResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DataServiceReadExportValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DataServiceReadExportValue {
+  DataChunk chunk = 10 [json_name = "chunk"]; // validate: verified snapshot range
+}
+
+message DataServiceCloseTransferRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required; command_id for mutation, expected_rev for existing aggregate CAS
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id transfer_id = 10 [json_name = "transferId"]; // validate: owned transfer
+  arcforges.foundation.v1.Id owner_epoch = 100 [json_name = "ownerEpoch"]; // validate: required persistent mutation epoch from Handshake; preserve across retries; never replace after epoch retirement
+}
+
+message DataServiceCloseTransferResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DataServiceCloseTransferValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DataServiceCloseTransferValue {
+  Transfer transfer = 10 [json_name = "transfer"]; // validate: final known state or recovery-required
+}
+
+message DataServiceInspectTransferRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"]; // validate: required owner/correlation context
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id transfer_id = 10 [json_name = "transferId"]; // validate: required owned visible transfer
+}
+
+message DataServiceInspectTransferResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DataServiceInspectTransferValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DataServiceInspectTransferValue {
+  Transfer transfer = 10 [json_name = "transfer"]; // validate: current progress, verified length/hash and closed_at; no secret or native path
+}
