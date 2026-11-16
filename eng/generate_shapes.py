@@ -1330,8 +1330,8 @@ def generate_proto_checks(check: bool) -> None:
         from foundation_semantics import COMMON_CS_HELPERS, CS_HELPERS, DESCRIPTOR_CS_HELPERS, SYNC_ADMISSION_CS
         content += "\n".join(methods) + CS_PROTO_HELPERS + COMMON_CS_HELPERS
         if any(n.startswith(("arcforges.sandbox.v2.", "arcforges.management.v2.")) for n in names):
-            from v2_contracts import CS_HELPERS as V2_CS_HELPERS
-            content += V2_CS_HELPERS
+            from v2_contracts import CS_HELPERS as V2_CS_HELPERS, csharp_error_helper
+            content += V2_CS_HELPERS + csharp_error_helper()
         if any(rule in AF_CTR_05_WINDOW_RULES for name in names for rule in messages[name]["constraints"].get("rules", [])):
             content += CS_RELAY_HELPERS + relay_refusal_catalogue()
         if "arcforges.foundation.v1.ContractVersion" in names:
@@ -1460,6 +1460,9 @@ def proto_cs(name: str, messages: dict) -> str:
              f"    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {cstype}? value) => Check(value, new ValidationContext());",
              f"    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {cstype}? value, ValidationContext context)", "    {",
              "        if (value is null || !context.Enter(value)) return false;", "        try", "        {"]
+    if name.startswith(("arcforges.sandbox.v2.", "arcforges.management.v2.")):
+        from v2_contracts import maximum
+        lines.append(f"        if (value.CalculateSize() > {maximum(name.rsplit('.', 1)[1])}) return false;")
     for fieldname, rules in profile["fields"].items():
         field = info["fields"][fieldname]
         prop = "value." + field["name"]

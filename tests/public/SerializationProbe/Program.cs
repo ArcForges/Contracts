@@ -10,6 +10,7 @@ using Google.Protobuf.Reflection;
 using Grpc.Core;
 
 var root = args.Length >= 1 ? Path.GetFullPath(args[0]) : Directory.GetCurrentDirectory();
+V2ContractCases.Run(root);
 var report = args.Length >= 3 && args[1] == "--report" ? Path.GetFullPath(args[2]) : null;
 using var fixture = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root, "fixtures/public/wp03-02.json")));
 var failures = new List<string>();
@@ -64,6 +65,8 @@ foreach (var item in fixture.RootElement.GetProperty("json").EnumerateArray())
 var services = fixture.RootElement.GetProperty("services");
 var catalogues = new Dictionary<string, IReadOnlyList<ServiceDescriptor>>(StringComparer.Ordinal)
 {
+    ["ArcForges.Contracts.Sandbox.V2"] = ArcForges.Contracts.Sandbox.V2.ContractServices.All,
+    ["ArcForges.Contracts.Management.V2"] = ArcForges.Contracts.Management.V2.ContractServices.All,
     ["ArcForges.Contracts.PublicApi"] = ArcForges.Contracts.PublicApi.ContractServices.All,
     ["ArcForges.Contracts.Events"] = ArcForges.Contracts.Events.ContractServices.All,
     ["ArcForges.Contracts.CloudInternal"] = ArcForges.Contracts.CloudInternal.ContractServices.All,
@@ -173,10 +176,23 @@ var expectedMethods = services.GetProperty("methods").EnumerateObject()
     .SelectMany(service => service.Value.EnumerateArray().Select(value => value.GetString()!)).ToArray();
 Require(binder.Methods.SequenceEqual(expectedMethods), "bound methods " + string.Join(",", binder.Methods));
 
+var v2Binder = new RecordingBinder();
+ArcForges.Contracts.Sandbox.V2.NodeService.BindService(v2Binder, new V2NodeEndpoint());
+ArcForges.Contracts.Sandbox.V2.SandboxService.BindService(v2Binder, new V2SandboxEndpoint());
+ArcForges.Contracts.Sandbox.V2.RunService.BindService(v2Binder, new V2RunEndpoint());
+ArcForges.Contracts.Sandbox.V2.ResourceService.BindService(v2Binder, new V2ResourceEndpoint());
+ArcForges.Contracts.Sandbox.V2.DataService.BindService(v2Binder, new V2DataEndpoint());
+ArcForges.Contracts.Sandbox.V2.CenterControlService.BindService(v2Binder, new V2CenterControlEndpoint());
+ArcForges.Contracts.Management.V2.DeviceService.BindService(v2Binder, new V2DeviceEndpoint());
+Require(v2Binder.Methods.Order(StringComparer.Ordinal).SequenceEqual(ArcForges.Contracts.Sandbox.V2.ContractMethods.All.Select(x => "/" + x.Binding).Concat(ArcForges.Contracts.Management.V2.ContractMethods.All.Select(x => "/" + x.Binding)).Order(StringComparer.Ordinal)), "every V2 BindService method");
+
 // Every generated message parser in every library is reachable and round-trips under Native AOT.
 FileDescriptor[] files =
 [
     ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor,
+    ArcForges.Contracts.Sandbox.V2.PlatformReflection.Descriptor,
+    ArcForges.Contracts.Sandbox.V2.CenterControlReflection.Descriptor,
+    ArcForges.Contracts.Management.V2.DevicesReflection.Descriptor,
     ArcForges.Contracts.Hello.V1.HelloReflection.Descriptor,
     ArcForges.Contracts.Catalog.V1.CatalogReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ContentReflection.Descriptor,
@@ -277,7 +293,7 @@ if (report is not null)
     writer.WriteString("runtimeIdentifier", System.Runtime.InteropServices.RuntimeInformation.RuntimeIdentifier);
     writer.WriteBoolean("nativeAot", !System.Runtime.CompilerServices.RuntimeFeature.IsDynamicCodeSupported);
     foreach (var (key, value) in counts.OrderBy(pair => pair.Key, StringComparer.Ordinal)) writer.WriteNumber(key, value);
-    writer.WriteNumber("boundMethods", binder.Methods.Count);
+    writer.WriteNumber("boundMethods", binder.Methods.Count + v2Binder.Methods.Count);
     writer.WriteStartArray("failures");
     foreach (var failure in failures) writer.WriteStringValue(failure);
     writer.WriteEndArray();
@@ -285,7 +301,7 @@ if (report is not null)
 }
 foreach (var failure in failures) Console.Error.WriteLine(failure);
 Console.WriteLine($"Serialization probe {result}: {counts.GetValueOrDefault("binary")} binary, {counts.GetValueOrDefault("json")} JSON, "
-    + $"{counts.GetValueOrDefault("messages")} messages, {binder.Methods.Count} bound methods; dynamic code supported: "
+    + $"{counts.GetValueOrDefault("messages")} messages, {binder.Methods.Count + v2Binder.Methods.Count} bound methods; dynamic code supported: "
     + System.Runtime.CompilerServices.RuntimeFeature.IsDynamicCodeSupported + ".");
 return failures.Count == 0 ? 0 : 1;
 
@@ -560,3 +576,17 @@ internal sealed class FlagshipPeerGuestLinkEndpoint : ArcForges.Contracts.Peer.V
 internal sealed class FlagshipPublicApiSupportAccessEndpoint : ArcForges.Contracts.PublicApi.V1.SupportAccessService.SupportAccessServiceBase;
 
 internal sealed class FlagshipOperatorOperatorReadEndpoint : ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReadService.OperatorReadServiceBase;
+
+internal sealed class V2NodeEndpoint : ArcForges.Contracts.Sandbox.V2.NodeService.NodeServiceBase;
+
+internal sealed class V2SandboxEndpoint : ArcForges.Contracts.Sandbox.V2.SandboxService.SandboxServiceBase;
+
+internal sealed class V2RunEndpoint : ArcForges.Contracts.Sandbox.V2.RunService.RunServiceBase;
+
+internal sealed class V2ResourceEndpoint : ArcForges.Contracts.Sandbox.V2.ResourceService.ResourceServiceBase;
+
+internal sealed class V2DataEndpoint : ArcForges.Contracts.Sandbox.V2.DataService.DataServiceBase;
+
+internal sealed class V2CenterControlEndpoint : ArcForges.Contracts.Sandbox.V2.CenterControlService.CenterControlServiceBase;
+
+internal sealed class V2DeviceEndpoint : ArcForges.Contracts.Management.V2.DeviceService.DeviceServiceBase;

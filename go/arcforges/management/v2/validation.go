@@ -3,6 +3,7 @@
 package managementv2
 
 import (
+	"errors"
 	foundationv1 "github.com/ArcForges/Contracts/go/arcforges/foundation/v1"
 	"google.golang.org/protobuf/proto"
 	"math"
@@ -13,6 +14,9 @@ import (
 )
 
 var _ = math.IsNaN
+
+// ErrWireTooLarge refuses a V2 message before decoding or encoding.
+var ErrWireTooLarge = errors.New("V2 wire byte ceiling exceeded")
 
 // ValidateDevice checks the authored V2 shape, not authorization or native effects.
 func ValidateDevice(value *Device) bool {
@@ -115,6 +119,29 @@ func ValidateDevice(value *Device) bool {
 	return true
 }
 
+// DecodeDevice enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDevice(data []byte) (*Device, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(Device)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDevice preserves unknown fields within its V2 byte ceiling.
+func EncodeDevice(value *Device) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateDevicePage checks the authored V2 shape, not authorization or native effects.
 func ValidateDevicePage(value *DevicePage) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -134,6 +161,29 @@ func ValidateDevicePage(value *DevicePage) bool {
 		}
 	}
 	return true
+}
+
+// DecodeDevicePage enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDevicePage(data []byte) (*DevicePage, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DevicePage)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDevicePage preserves unknown fields within its V2 byte ceiling.
+func EncodeDevicePage(value *DevicePage) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDeviceServiceListRequest checks the authored V2 shape, not authorization or native effects.
@@ -165,7 +215,33 @@ func ValidateDeviceServiceListRequest(value *DeviceServiceListRequest) bool {
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeDeviceServiceListRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDeviceServiceListRequest(data []byte) (*DeviceServiceListRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DeviceServiceListRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDeviceServiceListRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeDeviceServiceListRequest(value *DeviceServiceListRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDeviceServiceListResponse checks the authored V2 shape, not authorization or native effects.
@@ -194,7 +270,36 @@ func ValidateDeviceServiceListResponse(value *DeviceServiceListResponse) bool {
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeDeviceServiceListResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDeviceServiceListResponse(data []byte) (*DeviceServiceListResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DeviceServiceListResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDeviceServiceListResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeDeviceServiceListResponse(value *DeviceServiceListResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDeviceServiceListValue checks the authored V2 shape, not authorization or native effects.
@@ -211,6 +316,29 @@ func ValidateDeviceServiceListValue(value *DeviceServiceListValue) bool {
 		}
 	}
 	return true
+}
+
+// DecodeDeviceServiceListValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDeviceServiceListValue(data []byte) (*DeviceServiceListValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DeviceServiceListValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDeviceServiceListValue preserves unknown fields within its V2 byte ceiling.
+func EncodeDeviceServiceListValue(value *DeviceServiceListValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDeviceServiceInspectRequest checks the authored V2 shape, not authorization or native effects.
@@ -234,7 +362,33 @@ func ValidateDeviceServiceInspectRequest(value *DeviceServiceInspectRequest) boo
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeDeviceServiceInspectRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDeviceServiceInspectRequest(data []byte) (*DeviceServiceInspectRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DeviceServiceInspectRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDeviceServiceInspectRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeDeviceServiceInspectRequest(value *DeviceServiceInspectRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDeviceServiceInspectResponse checks the authored V2 shape, not authorization or native effects.
@@ -263,7 +417,36 @@ func ValidateDeviceServiceInspectResponse(value *DeviceServiceInspectResponse) b
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeDeviceServiceInspectResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDeviceServiceInspectResponse(data []byte) (*DeviceServiceInspectResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DeviceServiceInspectResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDeviceServiceInspectResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeDeviceServiceInspectResponse(value *DeviceServiceInspectResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDeviceServiceInspectValue checks the authored V2 shape, not authorization or native effects.
@@ -280,6 +463,29 @@ func ValidateDeviceServiceInspectValue(value *DeviceServiceInspectValue) bool {
 		}
 	}
 	return true
+}
+
+// DecodeDeviceServiceInspectValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDeviceServiceInspectValue(data []byte) (*DeviceServiceInspectValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DeviceServiceInspectValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDeviceServiceInspectValue preserves unknown fields within its V2 byte ceiling.
+func EncodeDeviceServiceInspectValue(value *DeviceServiceInspectValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDeviceServiceRevokeRequest checks the authored V2 shape, not authorization or native effects.
@@ -309,7 +515,33 @@ func ValidateDeviceServiceRevokeRequest(value *DeviceServiceRevokeRequest) bool 
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeDeviceServiceRevokeRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDeviceServiceRevokeRequest(data []byte) (*DeviceServiceRevokeRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DeviceServiceRevokeRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDeviceServiceRevokeRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeDeviceServiceRevokeRequest(value *DeviceServiceRevokeRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDeviceServiceRevokeResponse checks the authored V2 shape, not authorization or native effects.
@@ -338,7 +570,36 @@ func ValidateDeviceServiceRevokeResponse(value *DeviceServiceRevokeResponse) boo
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeDeviceServiceRevokeResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDeviceServiceRevokeResponse(data []byte) (*DeviceServiceRevokeResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DeviceServiceRevokeResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDeviceServiceRevokeResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeDeviceServiceRevokeResponse(value *DeviceServiceRevokeResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDeviceServiceRevokeValue checks the authored V2 shape, not authorization or native effects.
@@ -355,6 +616,50 @@ func ValidateDeviceServiceRevokeValue(value *DeviceServiceRevokeValue) bool {
 		}
 	}
 	return true
+}
+
+// DecodeDeviceServiceRevokeValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDeviceServiceRevokeValue(data []byte) (*DeviceServiceRevokeValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DeviceServiceRevokeValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDeviceServiceRevokeValue preserves unknown fields within its V2 byte ceiling.
+func EncodeDeviceServiceRevokeValue(value *DeviceServiceRevokeValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
+// MethodPolicy is a static annotation projection, not a dispatcher or runtime authority.
+type MethodPolicy struct {
+	Binding          string
+	Kind             string
+	LocalOnly        bool
+	OwnerEpoch       bool
+	ServerStreaming  bool
+	Reconciliation   string
+	MaxRequestBytes  int
+	MaxResponseBytes int
+}
+
+// MethodPolicies returns a fresh copy of the closed V2 method inventory.
+func MethodPolicies() []MethodPolicy {
+	return []MethodPolicy{
+		{"arcforges.management.v2.DeviceService/Inspect", "read", false, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.management.v2.DeviceService/List", "read", false, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.management.v2.DeviceService/Revoke", "durable_center", false, false, false, "Center receipt", 1048576, 1048576},
+	}
 }
 func validID(value *foundationv1.Id) bool {
 	if value == nil || len(value.GetValue()) != 16 {
@@ -389,13 +694,13 @@ func validError(value *foundationv1.ArcError) bool {
 	if int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 3 {
 		return false
 	}
-	if int32(value.Retry.GetMode()) == 4 && value.Retry.GetReconciliationOperation() == "" {
+	if (int32(value.Retry.GetMode()) == 4) != (value.Retry.ReconciliationOperation != nil) || value.Retry.ReconciliationOperation != nil && !regexp.MustCompile(`^[A-Za-z0-9._:/-]{1,128}$`).MatchString(value.Retry.GetReconciliationOperation()) {
 		return false
 	}
-	if int32(value.Retry.GetMode()) == 3 && !validInstant(value.Retry.RetryAt) {
+	if (int32(value.Retry.GetMode()) == 3) != (value.Retry.RetryAt != nil) || value.Retry.RetryAt != nil && !validInstant(value.Retry.RetryAt) {
 		return false
 	}
-	return true
+	return allowedV2Error(value)
 }
 func validRelative(path string) bool {
 	if path == "" || strings.HasPrefix(path, "/") || strings.HasPrefix(path, "\\") || strings.ContainsAny(path, ":\x00") {
@@ -410,5 +715,72 @@ func validRelative(path string) bool {
 }
 func validOrigin(origin string) bool {
 	value, err := url.Parse(origin)
-	return err == nil && value.Scheme == "https" && value.Host != "" && value.User == nil && value.RawQuery == "" && value.Fragment == "" && (value.Path == "" || value.Path == "/") && !strings.ContainsAny(origin, "\r\n\x00")
+	return err == nil && strings.HasPrefix(origin, "https://") && value.Host != "" && value.User == nil && !value.ForceQuery && value.RawQuery == "" && !strings.ContainsAny(origin, "# \t\r\n\x00") && (value.Path == "" || value.Path == "/")
+}
+
+func allowedV2Error(value *foundationv1.ArcError) bool {
+	if proto.Size(value) > 1048576 {
+		return false
+	}
+	switch value.GetCode() {
+	case "invalid_argument":
+		return int32(value.GetCategory()) == 1 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "invalid_cursor":
+		return int32(value.GetCategory()) == 1 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "path_rejected":
+		return int32(value.GetCategory()) == 1 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "unauthenticated":
+		return int32(value.GetCategory()) == 2 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "permission_denied":
+		return int32(value.GetCategory()) == 3 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "hosted_access_required":
+		return int32(value.GetCategory()) == 4 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "revision_mismatch":
+		return int32(value.GetCategory()) == 5 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "command_id_reused":
+		return int32(value.GetCategory()) == 5 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "owner_epoch_retired":
+		return int32(value.GetCategory()) == 5 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "identity_changed":
+		return int32(value.GetCategory()) == 5 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "lease_stale":
+		return int32(value.GetCategory()) == 5 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "not_found":
+		return int32(value.GetCategory()) == 6 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "managed_use":
+		return int32(value.GetCategory()) == 6 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "terminal_unavailable":
+		return int32(value.GetCategory()) == 6 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "not_activated":
+		return int32(value.GetCategory()) == 6 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "unsupported_combination":
+		return int32(value.GetCategory()) == 8 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "launch_failed":
+		return int32(value.GetCategory()) == 8 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "busy":
+		return int32(value.GetCategory()) == 6 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 3)
+	case "node_stopping":
+		return int32(value.GetCategory()) == 6 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 3)
+	case "budget_unavailable":
+		return int32(value.GetCategory()) == 7 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 3)
+	case "disk_space":
+		return int32(value.GetCategory()) == 7 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 3)
+	case "overloaded":
+		return int32(value.GetCategory()) == 7 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 3)
+	case "rate_limited":
+		return int32(value.GetCategory()) == 7 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 3)
+	case "receipt_compacted":
+		return int32(value.GetCategory()) == 6 && ((int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1) || (int32(value.GetEffect()) == 2 && int32(value.Retry.GetMode()) == 1))
+	case "terminal_ack_unavailable":
+		return int32(value.GetCategory()) == 8 && (int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 1)
+	case "enforcement_failed":
+		return int32(value.GetCategory()) == 7 && ((int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1) || (int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 4))
+	case "outcome_unknown":
+		return int32(value.GetCategory()) == 8 && (int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 4)
+	case "store_corrupt":
+		return int32(value.GetCategory()) == 9 && (int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 1)
+	case "internal":
+		return int32(value.GetCategory()) == 9 && ((int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1) || (int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 4))
+	}
+	return false
 }

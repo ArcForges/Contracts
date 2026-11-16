@@ -10,10 +10,10 @@ public static class ContractMethods
     /// <summary>Every generated V2 route with its durable/transient/read classification.</summary>
     public static global::System.Collections.Generic.IReadOnlyList<MethodPolicy> All { get; } = global::System.Array.AsReadOnly(new MethodPolicy[]
     {
-        new("arcforges.management.v2.DeviceService/Inspect", "read", false, false, false, "read_only"),
-        new("arcforges.management.v2.DeviceService/List", "read", false, false, false, "read_only"),
-        new("arcforges.management.v2.DeviceService/Revoke", "durable_center", false, false, false, "Center receipt"),
+        new("arcforges.management.v2.DeviceService/Inspect", "read", false, false, false, "read_only", 1048576, 1048576),
+        new("arcforges.management.v2.DeviceService/List", "read", false, false, false, "read_only", 1048576, 1048576),
+        new("arcforges.management.v2.DeviceService/Revoke", "durable_center", false, false, false, "Center receipt", 1048576, 1048576),
     });
 }
 /// <summary>Generated annotation projection, not a wire message or runtime authority.</summary>
-public sealed record MethodPolicy(string Binding, string Kind, bool LocalOnly, bool OwnerEpoch, bool ServerStreaming, string Reconciliation);
+public sealed record MethodPolicy(string Binding, string Kind, bool LocalOnly, bool OwnerEpoch, bool ServerStreaming, string Reconciliation, int MaxRequestBytes, int MaxResponseBytes);

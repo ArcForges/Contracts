@@ -421,6 +421,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.DeviceId is null) return false;
         if (!Check(value.DeviceId, context)) return false;
         if (value.EnrollmentId is null) return false;
@@ -475,6 +476,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         foreach (var item in value.Devices)
         {
             if (!Check(item, context)) return false;
@@ -495,10 +497,12 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.DeviceId is null) return false;
         if (!Check(value.DeviceId, context)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -510,6 +514,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -521,6 +526,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -532,6 +539,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Device is null) return false;
         if (!Check(value.Device, context)) return false;
         return true;
@@ -545,6 +553,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.HasCursor)
@@ -557,6 +566,7 @@ public static class ContractShapeValidation
             if (value.Limit < 1) return false;
             if (value.Limit > 200) return false;
         }
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -568,6 +578,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -579,6 +590,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -590,6 +603,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Page is null) return false;
         if (!Check(value.Page, context)) return false;
         return true;
@@ -603,12 +617,14 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.DeviceId is null) return false;
         if (!Check(value.DeviceId, context)) return false;
         if (value.Meta.ExpectedRev is not { HasValue: true, Value: > 0 } || value.Meta.ExpectedNative is not null) return false;
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -620,6 +636,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -631,6 +648,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -642,6 +661,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Device is null) return false;
         if (!Check(value.Device, context)) return false;
         return true;
@@ -759,6 +779,39 @@ public static class ContractShapeValidation
         "conflict.duplicate_identifier" or "command.reused_identifier" or "state.not_found" or "state.invalid_transition" or "state.gone" or "resource.integrity_failed";
 
     private static bool V2Relative(string path) => path.Length > 0 && !path.StartsWith('/') && !path.StartsWith('\\') && !path.Contains(':') && !path.Contains('\0') && path.Replace('\\', '/').Split('/').All(x => x.Length > 0 && x != "." && x != "..");
-    private static bool V2Origin(string origin) => global::System.Uri.TryCreate(origin, global::System.UriKind.Absolute, out var uri) && uri.Scheme == "https" && uri.UserInfo.Length == 0 && uri.Query.Length == 0 && uri.Fragment.Length == 0 && uri.AbsolutePath == "/" && (origin == uri.GetLeftPart(global::System.UriPartial.Authority) || origin == uri.GetLeftPart(global::System.UriPartial.Authority) + "/");
+    private static bool V2Origin(string origin) => origin.StartsWith("https://", global::System.StringComparison.Ordinal) && !origin.Any(char.IsWhiteSpace) && global::System.Uri.TryCreate(origin, global::System.UriKind.Absolute, out var uri) && uri.Host.Length > 0 && uri.UserInfo.Length == 0 && uri.Query.Length == 0 && uri.Fragment.Length == 0 && uri.AbsolutePath == "/";
+    private static bool V2Error(global::ArcForges.Contracts.Foundation.V1.ArcError error) => error.Code switch
+    {
+        "invalid_argument" => (int)error.Category == 1 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "invalid_cursor" => (int)error.Category == 1 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "path_rejected" => (int)error.Category == 1 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "unauthenticated" => (int)error.Category == 2 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "permission_denied" => (int)error.Category == 3 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "hosted_access_required" => (int)error.Category == 4 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "revision_mismatch" => (int)error.Category == 5 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "command_id_reused" => (int)error.Category == 5 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "owner_epoch_retired" => (int)error.Category == 5 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "identity_changed" => (int)error.Category == 5 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "lease_stale" => (int)error.Category == 5 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "not_found" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "managed_use" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "terminal_unavailable" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "not_activated" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "unsupported_combination" => (int)error.Category == 8 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "launch_failed" => (int)error.Category == 8 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "busy" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 3)),
+        "node_stopping" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 3)),
+        "budget_unavailable" => (int)error.Category == 7 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 3)),
+        "disk_space" => (int)error.Category == 7 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 3)),
+        "overloaded" => (int)error.Category == 7 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 3)),
+        "rate_limited" => (int)error.Category == 7 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 3)),
+        "receipt_compacted" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1) || ((int)error.Effect == 2 && (int)error.Retry.Mode == 1)),
+        "terminal_ack_unavailable" => (int)error.Category == 8 && (((int)error.Effect == 3 && (int)error.Retry.Mode == 1)),
+        "enforcement_failed" => (int)error.Category == 7 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1) || ((int)error.Effect == 3 && (int)error.Retry.Mode == 4)),
+        "outcome_unknown" => (int)error.Category == 8 && (((int)error.Effect == 3 && (int)error.Retry.Mode == 4)),
+        "store_corrupt" => (int)error.Category == 9 && (((int)error.Effect == 3 && (int)error.Retry.Mode == 1)),
+        "internal" => (int)error.Category == 9 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1) || ((int)error.Effect == 3 && (int)error.Retry.Mode == 4)),
+        _ => false,
+    };
 
 }

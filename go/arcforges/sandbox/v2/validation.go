@@ -3,6 +3,7 @@
 package sandboxv2
 
 import (
+	"errors"
 	foundationv1 "github.com/ArcForges/Contracts/go/arcforges/foundation/v1"
 	"google.golang.org/protobuf/proto"
 	"math"
@@ -13,6 +14,9 @@ import (
 )
 
 var _ = math.IsNaN
+
+// ErrWireTooLarge refuses a V2 message before decoding or encoding.
+var ErrWireTooLarge = errors.New("V2 wire byte ceiling exceeded")
 
 // ValidateCapability checks the authored V2 shape, not authorization or native effects.
 func ValidateCapability(value *Capability) bool {
@@ -63,6 +67,29 @@ func ValidateCapability(value *Capability) bool {
 	return true
 }
 
+// DecodeCapability enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCapability(data []byte) (*Capability, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(Capability)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCapability preserves unknown fields within its V2 byte ceiling.
+func EncodeCapability(value *Capability) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateHostGrant checks the authored V2 shape, not authorization or native effects.
 func ValidateHostGrant(value *HostGrant) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -106,6 +133,29 @@ func ValidateHostGrant(value *HostGrant) bool {
 	return true
 }
 
+// DecodeHostGrant enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeHostGrant(data []byte) (*HostGrant, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(HostGrant)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeHostGrant preserves unknown fields within its V2 byte ceiling.
+func EncodeHostGrant(value *HostGrant) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateNetworkPolicy checks the authored V2 shape, not authorization or native effects.
 func ValidateNetworkPolicy(value *NetworkPolicy) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -140,6 +190,29 @@ func ValidateNetworkPolicy(value *NetworkPolicy) bool {
 	return true
 }
 
+// DecodeNetworkPolicy enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNetworkPolicy(data []byte) (*NetworkPolicy, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NetworkPolicy)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNetworkPolicy preserves unknown fields within its V2 byte ceiling.
+func EncodeNetworkPolicy(value *NetworkPolicy) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateResourcePolicy checks the authored V2 shape, not authorization or native effects.
 func ValidateResourcePolicy(value *ResourcePolicy) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -149,7 +222,7 @@ func ValidateResourcePolicy(value *ResourcePolicy) bool {
 		if value.GetCpuMaxMillicores() < 1 {
 			return false
 		}
-		if value.GetCpuMaxMillicores() > 2147483647 {
+		if value.GetCpuMaxMillicores() > 4294967295 {
 			return false
 		}
 	}
@@ -213,6 +286,29 @@ func ValidateResourcePolicy(value *ResourcePolicy) bool {
 	return true
 }
 
+// DecodeResourcePolicy enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeResourcePolicy(data []byte) (*ResourcePolicy, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(ResourcePolicy)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeResourcePolicy preserves unknown fields within its V2 byte ceiling.
+func EncodeResourcePolicy(value *ResourcePolicy) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateEnvironmentEntry checks the authored V2 shape, not authorization or native effects.
 func ValidateEnvironmentEntry(value *EnvironmentEntry) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -258,6 +354,29 @@ func ValidateEnvironmentEntry(value *EnvironmentEntry) bool {
 		return false
 	}
 	return true
+}
+
+// DecodeEnvironmentEntry enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeEnvironmentEntry(data []byte) (*EnvironmentEntry, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(EnvironmentEntry)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeEnvironmentEntry preserves unknown fields within its V2 byte ceiling.
+func EncodeEnvironmentEntry(value *EnvironmentEntry) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxConfig checks the authored V2 shape, not authorization or native effects.
@@ -342,6 +461,29 @@ func ValidateSandboxConfig(value *SandboxConfig) bool {
 		return false
 	}
 	return true
+}
+
+// DecodeSandboxConfig enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxConfig(data []byte) (*SandboxConfig, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxConfig)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxConfig preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxConfig(value *SandboxConfig) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandbox checks the authored V2 shape, not authorization or native effects.
@@ -430,6 +572,29 @@ func ValidateSandbox(value *Sandbox) bool {
 	return true
 }
 
+// DecodeSandbox enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandbox(data []byte) (*Sandbox, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(Sandbox)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandbox preserves unknown fields within its V2 byte ceiling.
+func EncodeSandbox(value *Sandbox) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateRunExit checks the authored V2 shape, not authorization or native effects.
 func ValidateRunExit(value *RunExit) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -483,6 +648,29 @@ func ValidateRunExit(value *RunExit) bool {
 		}
 	}
 	return true
+}
+
+// DecodeRunExit enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunExit(data []byte) (*RunExit, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunExit)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunExit preserves unknown fields within its V2 byte ceiling.
+func EncodeRunExit(value *RunExit) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRun checks the authored V2 shape, not authorization or native effects.
@@ -645,6 +833,29 @@ func ValidateRun(value *Run) bool {
 	return true
 }
 
+// DecodeRun enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRun(data []byte) (*Run, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(Run)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRun preserves unknown fields within its V2 byte ceiling.
+func EncodeRun(value *Run) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateTerminalSize checks the authored V2 shape, not authorization or native effects.
 func ValidateTerminalSize(value *TerminalSize) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -673,6 +884,29 @@ func ValidateTerminalSize(value *TerminalSize) bool {
 		}
 	}
 	return true
+}
+
+// DecodeTerminalSize enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeTerminalSize(data []byte) (*TerminalSize, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(TerminalSize)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeTerminalSize preserves unknown fields within its V2 byte ceiling.
+func EncodeTerminalSize(value *TerminalSize) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateTerminalLease checks the authored V2 shape, not authorization or native effects.
@@ -734,6 +968,29 @@ func ValidateTerminalLease(value *TerminalLease) bool {
 	if value.LastResizeSequence != nil {
 	}
 	return true
+}
+
+// DecodeTerminalLease enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeTerminalLease(data []byte) (*TerminalLease, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(TerminalLease)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeTerminalLease preserves unknown fields within its V2 byte ceiling.
+func EncodeTerminalLease(value *TerminalLease) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateLimitState checks the authored V2 shape, not authorization or native effects.
@@ -824,6 +1081,29 @@ func ValidateLimitState(value *LimitState) bool {
 		return false
 	}
 	return true
+}
+
+// DecodeLimitState enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeLimitState(data []byte) (*LimitState, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(LimitState)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeLimitState preserves unknown fields within its V2 byte ceiling.
+func EncodeLimitState(value *LimitState) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateResourceSnapshot checks the authored V2 shape, not authorization or native effects.
@@ -984,6 +1264,29 @@ func ValidateResourceSnapshot(value *ResourceSnapshot) bool {
 	return true
 }
 
+// DecodeResourceSnapshot enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeResourceSnapshot(data []byte) (*ResourceSnapshot, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(ResourceSnapshot)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeResourceSnapshot preserves unknown fields within its V2 byte ceiling.
+func EncodeResourceSnapshot(value *ResourceSnapshot) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateOutputChunk checks the authored V2 shape, not authorization or native effects.
 func ValidateOutputChunk(value *OutputChunk) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -1038,6 +1341,29 @@ func ValidateOutputChunk(value *OutputChunk) bool {
 	return true
 }
 
+// DecodeOutputChunk enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeOutputChunk(data []byte) (*OutputChunk, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(OutputChunk)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeOutputChunk preserves unknown fields within its V2 byte ceiling.
+func EncodeOutputChunk(value *OutputChunk) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateOutputGap checks the authored V2 shape, not authorization or native effects.
 func ValidateOutputGap(value *OutputGap) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -1084,6 +1410,29 @@ func ValidateOutputGap(value *OutputGap) bool {
 	return true
 }
 
+// DecodeOutputGap enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeOutputGap(data []byte) (*OutputGap, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(OutputGap)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeOutputGap preserves unknown fields within its V2 byte ceiling.
+func EncodeOutputGap(value *OutputGap) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateEventGap checks the authored V2 shape, not authorization or native effects.
 func ValidateEventGap(value *EventGap) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -1128,6 +1477,29 @@ func ValidateEventGap(value *EventGap) bool {
 		}
 	}
 	return true
+}
+
+// DecodeEventGap enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeEventGap(data []byte) (*EventGap, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(EventGap)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeEventGap preserves unknown fields within its V2 byte ceiling.
+func EncodeEventGap(value *EventGap) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateEvent checks the authored V2 shape, not authorization or native effects.
@@ -1189,6 +1561,29 @@ func ValidateEvent(value *Event) bool {
 		return false
 	}
 	return true
+}
+
+// DecodeEvent enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeEvent(data []byte) (*Event, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(Event)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeEvent preserves unknown fields within its V2 byte ceiling.
+func EncodeEvent(value *Event) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateOperation checks the authored V2 shape, not authorization or native effects.
@@ -1273,7 +1668,33 @@ func ValidateOperation(value *Operation) bool {
 	if int32(value.GetState()) == 4 && int32(value.GetEffect()) != 3 || int32(value.GetState()) == 2 && int32(value.GetEffect()) != 2 || value.GetResponseCompacted() && (int32(value.GetState()) == 1 || int32(value.GetState()) == 4) {
 		return false
 	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeOperation enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeOperation(data []byte) (*Operation, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(Operation)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeOperation preserves unknown fields within its V2 byte ceiling.
+func EncodeOperation(value *Operation) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDeletePlan checks the authored V2 shape, not authorization or native effects.
@@ -1345,6 +1766,29 @@ func ValidateDeletePlan(value *DeletePlan) bool {
 		return false
 	}
 	return true
+}
+
+// DecodeDeletePlan enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDeletePlan(data []byte) (*DeletePlan, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DeletePlan)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDeletePlan preserves unknown fields within its V2 byte ceiling.
+func EncodeDeletePlan(value *DeletePlan) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateTransfer checks the authored V2 shape, not authorization or native effects.
@@ -1441,6 +1885,29 @@ func ValidateTransfer(value *Transfer) bool {
 	return true
 }
 
+// DecodeTransfer enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeTransfer(data []byte) (*Transfer, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(Transfer)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeTransfer preserves unknown fields within its V2 byte ceiling.
+func EncodeTransfer(value *Transfer) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateFileEntry checks the authored V2 shape, not authorization or native effects.
 func ValidateFileEntry(value *FileEntry) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -1481,6 +1948,29 @@ func ValidateFileEntry(value *FileEntry) bool {
 		return false
 	}
 	return true
+}
+
+// DecodeFileEntry enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeFileEntry(data []byte) (*FileEntry, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(FileEntry)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeFileEntry preserves unknown fields within its V2 byte ceiling.
+func EncodeFileEntry(value *FileEntry) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRemoteGrant checks the authored V2 shape, not authorization or native effects.
@@ -1582,6 +2072,29 @@ func ValidateRemoteGrant(value *RemoteGrant) bool {
 	return true
 }
 
+// DecodeRemoteGrant enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRemoteGrant(data []byte) (*RemoteGrant, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RemoteGrant)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRemoteGrant preserves unknown fields within its V2 byte ceiling.
+func EncodeRemoteGrant(value *RemoteGrant) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidatePage checks the authored V2 shape, not authorization or native effects.
 func ValidatePage(value *Page) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -1598,12 +2111,58 @@ func ValidatePage(value *Page) bool {
 	return true
 }
 
+// DecodePage enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodePage(data []byte) (*Page, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(Page)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodePage preserves unknown fields within its V2 byte ceiling.
+func EncodePage(value *Page) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateEmpty checks the authored V2 shape, not authorization or native effects.
 func ValidateEmpty(value *Empty) bool {
 	if value == nil || proto.Size(value) > 1048576 {
 		return false
 	}
 	return true
+}
+
+// DecodeEmpty enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeEmpty(data []byte) (*Empty, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(Empty)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeEmpty preserves unknown fields within its V2 byte ceiling.
+func EncodeEmpty(value *Empty) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataChunk checks the authored V2 shape, not authorization or native effects.
@@ -1624,6 +2183,29 @@ func ValidateDataChunk(value *DataChunk) bool {
 	if value.Eof != nil {
 	}
 	return true
+}
+
+// DecodeDataChunk enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataChunk(data []byte) (*DataChunk, error) {
+	if len(data) > 2097152 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataChunk)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataChunk preserves unknown fields within its V2 byte ceiling.
+func EncodeDataChunk(value *DataChunk) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 2097152 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateUsage checks the authored V2 shape, not authorization or native effects.
@@ -1652,6 +2234,29 @@ func ValidateUsage(value *Usage) bool {
 	return true
 }
 
+// DecodeUsage enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeUsage(data []byte) (*Usage, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(Usage)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeUsage preserves unknown fields within its V2 byte ceiling.
+func EncodeUsage(value *Usage) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateNodeServiceHandshakeRequest checks the authored V2 shape, not authorization or native effects.
 func ValidateNodeServiceHandshakeRequest(value *NodeServiceHandshakeRequest) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -1665,7 +2270,33 @@ func ValidateNodeServiceHandshakeRequest(value *NodeServiceHandshakeRequest) boo
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeNodeServiceHandshakeRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceHandshakeRequest(data []byte) (*NodeServiceHandshakeRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceHandshakeRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceHandshakeRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceHandshakeRequest(value *NodeServiceHandshakeRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceHandshakeResponse checks the authored V2 shape, not authorization or native effects.
@@ -1694,7 +2325,36 @@ func ValidateNodeServiceHandshakeResponse(value *NodeServiceHandshakeResponse) b
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeNodeServiceHandshakeResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceHandshakeResponse(data []byte) (*NodeServiceHandshakeResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceHandshakeResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceHandshakeResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceHandshakeResponse(value *NodeServiceHandshakeResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceHandshakeValue checks the authored V2 shape, not authorization or native effects.
@@ -1757,6 +2417,29 @@ func ValidateNodeServiceHandshakeValue(value *NodeServiceHandshakeValue) bool {
 	return true
 }
 
+// DecodeNodeServiceHandshakeValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceHandshakeValue(data []byte) (*NodeServiceHandshakeValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceHandshakeValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceHandshakeValue preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceHandshakeValue(value *NodeServiceHandshakeValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateNodeServiceGetOperationRequest checks the authored V2 shape, not authorization or native effects.
 func ValidateNodeServiceGetOperationRequest(value *NodeServiceGetOperationRequest) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -1795,7 +2478,33 @@ func ValidateNodeServiceGetOperationRequest(value *NodeServiceGetOperationReques
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeNodeServiceGetOperationRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceGetOperationRequest(data []byte) (*NodeServiceGetOperationRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceGetOperationRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceGetOperationRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceGetOperationRequest(value *NodeServiceGetOperationRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceGetOperationResponse checks the authored V2 shape, not authorization or native effects.
@@ -1824,7 +2533,36 @@ func ValidateNodeServiceGetOperationResponse(value *NodeServiceGetOperationRespo
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeNodeServiceGetOperationResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceGetOperationResponse(data []byte) (*NodeServiceGetOperationResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceGetOperationResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceGetOperationResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceGetOperationResponse(value *NodeServiceGetOperationResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceGetOperationValue checks the authored V2 shape, not authorization or native effects.
@@ -1841,6 +2579,29 @@ func ValidateNodeServiceGetOperationValue(value *NodeServiceGetOperationValue) b
 		}
 	}
 	return true
+}
+
+// DecodeNodeServiceGetOperationValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceGetOperationValue(data []byte) (*NodeServiceGetOperationValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceGetOperationValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceGetOperationValue preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceGetOperationValue(value *NodeServiceGetOperationValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceWatchEventsRequest checks the authored V2 shape, not authorization or native effects.
@@ -1869,7 +2630,33 @@ func ValidateNodeServiceWatchEventsRequest(value *NodeServiceWatchEventsRequest)
 	}
 	if value.AfterSequence != nil {
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeNodeServiceWatchEventsRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceWatchEventsRequest(data []byte) (*NodeServiceWatchEventsRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceWatchEventsRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceWatchEventsRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceWatchEventsRequest(value *NodeServiceWatchEventsRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceWatchEventsFrame checks the authored V2 shape, not authorization or native effects.
@@ -1903,7 +2690,36 @@ func ValidateNodeServiceWatchEventsFrame(value *NodeServiceWatchEventsFrame) boo
 	if value.Frame == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeNodeServiceWatchEventsFrame enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceWatchEventsFrame(data []byte) (*NodeServiceWatchEventsFrame, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceWatchEventsFrame)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceWatchEventsFrame preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceWatchEventsFrame(value *NodeServiceWatchEventsFrame) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceSetRemoteGrantRequest checks the authored V2 shape, not authorization or native effects.
@@ -1947,7 +2763,33 @@ func ValidateNodeServiceSetRemoteGrantRequest(value *NodeServiceSetRemoteGrantRe
 	if value.GetMeta().GetExpectedRev() == nil || value.GetMeta().GetExpectedRev().Value == nil || value.GetMeta().GetExpectedRev().GetValue() <= 0 || value.GetMeta().GetExpectedNative() != nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeNodeServiceSetRemoteGrantRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceSetRemoteGrantRequest(data []byte) (*NodeServiceSetRemoteGrantRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceSetRemoteGrantRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceSetRemoteGrantRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceSetRemoteGrantRequest(value *NodeServiceSetRemoteGrantRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceSetRemoteGrantResponse checks the authored V2 shape, not authorization or native effects.
@@ -1976,7 +2818,36 @@ func ValidateNodeServiceSetRemoteGrantResponse(value *NodeServiceSetRemoteGrantR
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeNodeServiceSetRemoteGrantResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceSetRemoteGrantResponse(data []byte) (*NodeServiceSetRemoteGrantResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceSetRemoteGrantResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceSetRemoteGrantResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceSetRemoteGrantResponse(value *NodeServiceSetRemoteGrantResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceSetRemoteGrantValue checks the authored V2 shape, not authorization or native effects.
@@ -1993,6 +2864,29 @@ func ValidateNodeServiceSetRemoteGrantValue(value *NodeServiceSetRemoteGrantValu
 		}
 	}
 	return true
+}
+
+// DecodeNodeServiceSetRemoteGrantValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceSetRemoteGrantValue(data []byte) (*NodeServiceSetRemoteGrantValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceSetRemoteGrantValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceSetRemoteGrantValue preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceSetRemoteGrantValue(value *NodeServiceSetRemoteGrantValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceRevokeRemoteGrantRequest checks the authored V2 shape, not authorization or native effects.
@@ -2036,7 +2930,33 @@ func ValidateNodeServiceRevokeRemoteGrantRequest(value *NodeServiceRevokeRemoteG
 	if value.GetMeta().GetExpectedRev() == nil || value.GetMeta().GetExpectedRev().Value == nil || value.GetMeta().GetExpectedRev().GetValue() <= 0 || value.GetMeta().GetExpectedNative() != nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeNodeServiceRevokeRemoteGrantRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceRevokeRemoteGrantRequest(data []byte) (*NodeServiceRevokeRemoteGrantRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceRevokeRemoteGrantRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceRevokeRemoteGrantRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceRevokeRemoteGrantRequest(value *NodeServiceRevokeRemoteGrantRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceRevokeRemoteGrantResponse checks the authored V2 shape, not authorization or native effects.
@@ -2065,7 +2985,36 @@ func ValidateNodeServiceRevokeRemoteGrantResponse(value *NodeServiceRevokeRemote
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeNodeServiceRevokeRemoteGrantResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceRevokeRemoteGrantResponse(data []byte) (*NodeServiceRevokeRemoteGrantResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceRevokeRemoteGrantResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceRevokeRemoteGrantResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceRevokeRemoteGrantResponse(value *NodeServiceRevokeRemoteGrantResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceRevokeRemoteGrantValue checks the authored V2 shape, not authorization or native effects.
@@ -2082,6 +3031,29 @@ func ValidateNodeServiceRevokeRemoteGrantValue(value *NodeServiceRevokeRemoteGra
 		}
 	}
 	return true
+}
+
+// DecodeNodeServiceRevokeRemoteGrantValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceRevokeRemoteGrantValue(data []byte) (*NodeServiceRevokeRemoteGrantValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceRevokeRemoteGrantValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceRevokeRemoteGrantValue preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceRevokeRemoteGrantValue(value *NodeServiceRevokeRemoteGrantValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceListRemoteGrantsRequest checks the authored V2 shape, not authorization or native effects.
@@ -2118,7 +3090,33 @@ func ValidateNodeServiceListRemoteGrantsRequest(value *NodeServiceListRemoteGran
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeNodeServiceListRemoteGrantsRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceListRemoteGrantsRequest(data []byte) (*NodeServiceListRemoteGrantsRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceListRemoteGrantsRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceListRemoteGrantsRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceListRemoteGrantsRequest(value *NodeServiceListRemoteGrantsRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceListRemoteGrantsResponse checks the authored V2 shape, not authorization or native effects.
@@ -2147,7 +3145,36 @@ func ValidateNodeServiceListRemoteGrantsResponse(value *NodeServiceListRemoteGra
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeNodeServiceListRemoteGrantsResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceListRemoteGrantsResponse(data []byte) (*NodeServiceListRemoteGrantsResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceListRemoteGrantsResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceListRemoteGrantsResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceListRemoteGrantsResponse(value *NodeServiceListRemoteGrantsResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateNodeServiceListRemoteGrantsValue checks the authored V2 shape, not authorization or native effects.
@@ -2169,6 +3196,29 @@ func ValidateNodeServiceListRemoteGrantsValue(value *NodeServiceListRemoteGrants
 		}
 	}
 	return true
+}
+
+// DecodeNodeServiceListRemoteGrantsValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeNodeServiceListRemoteGrantsValue(data []byte) (*NodeServiceListRemoteGrantsValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(NodeServiceListRemoteGrantsValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeNodeServiceListRemoteGrantsValue preserves unknown fields within its V2 byte ceiling.
+func EncodeNodeServiceListRemoteGrantsValue(value *NodeServiceListRemoteGrantsValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceCreateRequest checks the authored V2 shape, not authorization or native effects.
@@ -2251,7 +3301,33 @@ func ValidateSandboxServiceCreateRequest(value *SandboxServiceCreateRequest) boo
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeSandboxServiceCreateRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceCreateRequest(data []byte) (*SandboxServiceCreateRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceCreateRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceCreateRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceCreateRequest(value *SandboxServiceCreateRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceCreateResponse checks the authored V2 shape, not authorization or native effects.
@@ -2280,7 +3356,36 @@ func ValidateSandboxServiceCreateResponse(value *SandboxServiceCreateResponse) b
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeSandboxServiceCreateResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceCreateResponse(data []byte) (*SandboxServiceCreateResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceCreateResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceCreateResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceCreateResponse(value *SandboxServiceCreateResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceCreateValue checks the authored V2 shape, not authorization or native effects.
@@ -2297,6 +3402,29 @@ func ValidateSandboxServiceCreateValue(value *SandboxServiceCreateValue) bool {
 		}
 	}
 	return true
+}
+
+// DecodeSandboxServiceCreateValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceCreateValue(data []byte) (*SandboxServiceCreateValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceCreateValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceCreateValue preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceCreateValue(value *SandboxServiceCreateValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceConfigureRequest checks the authored V2 shape, not authorization or native effects.
@@ -2373,7 +3501,33 @@ func ValidateSandboxServiceConfigureRequest(value *SandboxServiceConfigureReques
 	if value.GetMeta().GetExpectedRev() == nil || value.GetMeta().GetExpectedRev().Value == nil || value.GetMeta().GetExpectedRev().GetValue() <= 0 || value.GetMeta().GetExpectedNative() != nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeSandboxServiceConfigureRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceConfigureRequest(data []byte) (*SandboxServiceConfigureRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceConfigureRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceConfigureRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceConfigureRequest(value *SandboxServiceConfigureRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceConfigureResponse checks the authored V2 shape, not authorization or native effects.
@@ -2402,7 +3556,36 @@ func ValidateSandboxServiceConfigureResponse(value *SandboxServiceConfigureRespo
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeSandboxServiceConfigureResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceConfigureResponse(data []byte) (*SandboxServiceConfigureResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceConfigureResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceConfigureResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceConfigureResponse(value *SandboxServiceConfigureResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceConfigureValue checks the authored V2 shape, not authorization or native effects.
@@ -2419,6 +3602,29 @@ func ValidateSandboxServiceConfigureValue(value *SandboxServiceConfigureValue) b
 		}
 	}
 	return true
+}
+
+// DecodeSandboxServiceConfigureValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceConfigureValue(data []byte) (*SandboxServiceConfigureValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceConfigureValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceConfigureValue preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceConfigureValue(value *SandboxServiceConfigureValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceListRequest checks the authored V2 shape, not authorization or native effects.
@@ -2450,7 +3656,33 @@ func ValidateSandboxServiceListRequest(value *SandboxServiceListRequest) bool {
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeSandboxServiceListRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceListRequest(data []byte) (*SandboxServiceListRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceListRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceListRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceListRequest(value *SandboxServiceListRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceListResponse checks the authored V2 shape, not authorization or native effects.
@@ -2479,7 +3711,36 @@ func ValidateSandboxServiceListResponse(value *SandboxServiceListResponse) bool 
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeSandboxServiceListResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceListResponse(data []byte) (*SandboxServiceListResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceListResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceListResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceListResponse(value *SandboxServiceListResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceListValue checks the authored V2 shape, not authorization or native effects.
@@ -2503,6 +3764,29 @@ func ValidateSandboxServiceListValue(value *SandboxServiceListValue) bool {
 	return true
 }
 
+// DecodeSandboxServiceListValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceListValue(data []byte) (*SandboxServiceListValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceListValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceListValue preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceListValue(value *SandboxServiceListValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateSandboxServiceInspectRequest checks the authored V2 shape, not authorization or native effects.
 func ValidateSandboxServiceInspectRequest(value *SandboxServiceInspectRequest) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -2524,7 +3808,33 @@ func ValidateSandboxServiceInspectRequest(value *SandboxServiceInspectRequest) b
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeSandboxServiceInspectRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceInspectRequest(data []byte) (*SandboxServiceInspectRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceInspectRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceInspectRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceInspectRequest(value *SandboxServiceInspectRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceInspectResponse checks the authored V2 shape, not authorization or native effects.
@@ -2553,7 +3863,36 @@ func ValidateSandboxServiceInspectResponse(value *SandboxServiceInspectResponse)
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeSandboxServiceInspectResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceInspectResponse(data []byte) (*SandboxServiceInspectResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceInspectResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceInspectResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceInspectResponse(value *SandboxServiceInspectResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceInspectValue checks the authored V2 shape, not authorization or native effects.
@@ -2570,6 +3909,29 @@ func ValidateSandboxServiceInspectValue(value *SandboxServiceInspectValue) bool 
 		}
 	}
 	return true
+}
+
+// DecodeSandboxServiceInspectValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceInspectValue(data []byte) (*SandboxServiceInspectValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceInspectValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceInspectValue preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceInspectValue(value *SandboxServiceInspectValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServicePlanDeleteRequest checks the authored V2 shape, not authorization or native effects.
@@ -2593,7 +3955,33 @@ func ValidateSandboxServicePlanDeleteRequest(value *SandboxServicePlanDeleteRequ
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeSandboxServicePlanDeleteRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServicePlanDeleteRequest(data []byte) (*SandboxServicePlanDeleteRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServicePlanDeleteRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServicePlanDeleteRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServicePlanDeleteRequest(value *SandboxServicePlanDeleteRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServicePlanDeleteResponse checks the authored V2 shape, not authorization or native effects.
@@ -2622,7 +4010,36 @@ func ValidateSandboxServicePlanDeleteResponse(value *SandboxServicePlanDeleteRes
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeSandboxServicePlanDeleteResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServicePlanDeleteResponse(data []byte) (*SandboxServicePlanDeleteResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServicePlanDeleteResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServicePlanDeleteResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServicePlanDeleteResponse(value *SandboxServicePlanDeleteResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServicePlanDeleteValue checks the authored V2 shape, not authorization or native effects.
@@ -2639,6 +4056,29 @@ func ValidateSandboxServicePlanDeleteValue(value *SandboxServicePlanDeleteValue)
 		}
 	}
 	return true
+}
+
+// DecodeSandboxServicePlanDeleteValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServicePlanDeleteValue(data []byte) (*SandboxServicePlanDeleteValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServicePlanDeleteValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServicePlanDeleteValue preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServicePlanDeleteValue(value *SandboxServicePlanDeleteValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceDeleteRequest checks the authored V2 shape, not authorization or native effects.
@@ -2701,7 +4141,33 @@ func ValidateSandboxServiceDeleteRequest(value *SandboxServiceDeleteRequest) boo
 	if (value.PlanId == nil) == (value.ResumeCommandId == nil) || value.ResumeCommandId != nil && proto.Equal(value.ResumeCommandId, value.GetMeta().GetCommandId()) {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeSandboxServiceDeleteRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceDeleteRequest(data []byte) (*SandboxServiceDeleteRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceDeleteRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceDeleteRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceDeleteRequest(value *SandboxServiceDeleteRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceDeleteResponse checks the authored V2 shape, not authorization or native effects.
@@ -2730,7 +4196,36 @@ func ValidateSandboxServiceDeleteResponse(value *SandboxServiceDeleteResponse) b
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeSandboxServiceDeleteResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceDeleteResponse(data []byte) (*SandboxServiceDeleteResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceDeleteResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceDeleteResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceDeleteResponse(value *SandboxServiceDeleteResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateSandboxServiceDeleteValue checks the authored V2 shape, not authorization or native effects.
@@ -2747,6 +4242,29 @@ func ValidateSandboxServiceDeleteValue(value *SandboxServiceDeleteValue) bool {
 		}
 	}
 	return true
+}
+
+// DecodeSandboxServiceDeleteValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeSandboxServiceDeleteValue(data []byte) (*SandboxServiceDeleteValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(SandboxServiceDeleteValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeSandboxServiceDeleteValue preserves unknown fields within its V2 byte ceiling.
+func EncodeSandboxServiceDeleteValue(value *SandboxServiceDeleteValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceStartRequest checks the authored V2 shape, not authorization or native effects.
@@ -2869,7 +4387,33 @@ func ValidateRunServiceStartRequest(value *RunServiceStartRequest) bool {
 	if total > 1048576 || !uniqueEnvironment(value.Environment) {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceStartRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceStartRequest(data []byte) (*RunServiceStartRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceStartRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceStartRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceStartRequest(value *RunServiceStartRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceStartResponse checks the authored V2 shape, not authorization or native effects.
@@ -2898,7 +4442,36 @@ func ValidateRunServiceStartResponse(value *RunServiceStartResponse) bool {
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceStartResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceStartResponse(data []byte) (*RunServiceStartResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceStartResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceStartResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceStartResponse(value *RunServiceStartResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceStartValue checks the authored V2 shape, not authorization or native effects.
@@ -2923,6 +4496,29 @@ func ValidateRunServiceStartValue(value *RunServiceStartValue) bool {
 		}
 	}
 	return true
+}
+
+// DecodeRunServiceStartValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceStartValue(data []byte) (*RunServiceStartValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceStartValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceStartValue preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceStartValue(value *RunServiceStartValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceListRequest checks the authored V2 shape, not authorization or native effects.
@@ -2962,7 +4558,33 @@ func ValidateRunServiceListRequest(value *RunServiceListRequest) bool {
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceListRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceListRequest(data []byte) (*RunServiceListRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceListRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceListRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceListRequest(value *RunServiceListRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceListResponse checks the authored V2 shape, not authorization or native effects.
@@ -2991,7 +4613,36 @@ func ValidateRunServiceListResponse(value *RunServiceListResponse) bool {
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceListResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceListResponse(data []byte) (*RunServiceListResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceListResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceListResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceListResponse(value *RunServiceListResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceListValue checks the authored V2 shape, not authorization or native effects.
@@ -3015,6 +4666,29 @@ func ValidateRunServiceListValue(value *RunServiceListValue) bool {
 	return true
 }
 
+// DecodeRunServiceListValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceListValue(data []byte) (*RunServiceListValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceListValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceListValue preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceListValue(value *RunServiceListValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateRunServiceInspectRequest checks the authored V2 shape, not authorization or native effects.
 func ValidateRunServiceInspectRequest(value *RunServiceInspectRequest) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -3036,7 +4710,33 @@ func ValidateRunServiceInspectRequest(value *RunServiceInspectRequest) bool {
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceInspectRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceInspectRequest(data []byte) (*RunServiceInspectRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceInspectRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceInspectRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceInspectRequest(value *RunServiceInspectRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceInspectResponse checks the authored V2 shape, not authorization or native effects.
@@ -3065,7 +4765,36 @@ func ValidateRunServiceInspectResponse(value *RunServiceInspectResponse) bool {
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceInspectResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceInspectResponse(data []byte) (*RunServiceInspectResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceInspectResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceInspectResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceInspectResponse(value *RunServiceInspectResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceInspectValue checks the authored V2 shape, not authorization or native effects.
@@ -3082,6 +4811,29 @@ func ValidateRunServiceInspectValue(value *RunServiceInspectValue) bool {
 		}
 	}
 	return true
+}
+
+// DecodeRunServiceInspectValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceInspectValue(data []byte) (*RunServiceInspectValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceInspectValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceInspectValue preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceInspectValue(value *RunServiceInspectValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceStopRequest checks the authored V2 shape, not authorization or native effects.
@@ -3133,7 +4885,33 @@ func ValidateRunServiceStopRequest(value *RunServiceStopRequest) bool {
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceStopRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceStopRequest(data []byte) (*RunServiceStopRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceStopRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceStopRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceStopRequest(value *RunServiceStopRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceStopResponse checks the authored V2 shape, not authorization or native effects.
@@ -3162,7 +4940,36 @@ func ValidateRunServiceStopResponse(value *RunServiceStopResponse) bool {
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceStopResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceStopResponse(data []byte) (*RunServiceStopResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceStopResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceStopResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceStopResponse(value *RunServiceStopResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceStopValue checks the authored V2 shape, not authorization or native effects.
@@ -3187,6 +4994,29 @@ func ValidateRunServiceStopValue(value *RunServiceStopValue) bool {
 		}
 	}
 	return true
+}
+
+// DecodeRunServiceStopValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceStopValue(data []byte) (*RunServiceStopValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceStopValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceStopValue preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceStopValue(value *RunServiceStopValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceWatchOutputRequest checks the authored V2 shape, not authorization or native effects.
@@ -3228,7 +5058,33 @@ func ValidateRunServiceWatchOutputRequest(value *RunServiceWatchOutputRequest) b
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceWatchOutputRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceWatchOutputRequest(data []byte) (*RunServiceWatchOutputRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceWatchOutputRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceWatchOutputRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceWatchOutputRequest(value *RunServiceWatchOutputRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceWatchOutputFrame checks the authored V2 shape, not authorization or native effects.
@@ -3267,7 +5123,36 @@ func ValidateRunServiceWatchOutputFrame(value *RunServiceWatchOutputFrame) bool 
 	if value.Frame == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceWatchOutputFrame enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceWatchOutputFrame(data []byte) (*RunServiceWatchOutputFrame, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceWatchOutputFrame)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceWatchOutputFrame preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceWatchOutputFrame(value *RunServiceWatchOutputFrame) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceAcquireTerminalRequest checks the authored V2 shape, not authorization or native effects.
@@ -3309,7 +5194,33 @@ func ValidateRunServiceAcquireTerminalRequest(value *RunServiceAcquireTerminalRe
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceAcquireTerminalRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceAcquireTerminalRequest(data []byte) (*RunServiceAcquireTerminalRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceAcquireTerminalRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceAcquireTerminalRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceAcquireTerminalRequest(value *RunServiceAcquireTerminalRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceAcquireTerminalResponse checks the authored V2 shape, not authorization or native effects.
@@ -3338,7 +5249,36 @@ func ValidateRunServiceAcquireTerminalResponse(value *RunServiceAcquireTerminalR
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceAcquireTerminalResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceAcquireTerminalResponse(data []byte) (*RunServiceAcquireTerminalResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceAcquireTerminalResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceAcquireTerminalResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceAcquireTerminalResponse(value *RunServiceAcquireTerminalResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceAcquireTerminalValue checks the authored V2 shape, not authorization or native effects.
@@ -3355,6 +5295,29 @@ func ValidateRunServiceAcquireTerminalValue(value *RunServiceAcquireTerminalValu
 		}
 	}
 	return true
+}
+
+// DecodeRunServiceAcquireTerminalValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceAcquireTerminalValue(data []byte) (*RunServiceAcquireTerminalValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceAcquireTerminalValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceAcquireTerminalValue preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceAcquireTerminalValue(value *RunServiceAcquireTerminalValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceWriteTerminalRequest checks the authored V2 shape, not authorization or native effects.
@@ -3413,7 +5376,33 @@ func ValidateRunServiceWriteTerminalRequest(value *RunServiceWriteTerminalReques
 	if int32(value.GetLease().GetMode()) != 2 || (value.Input != nil) == value.GetCloseStdin() || value.Input != nil && (len(value.Input) < 1 || len(value.Input) > 65536) {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceWriteTerminalRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceWriteTerminalRequest(data []byte) (*RunServiceWriteTerminalRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceWriteTerminalRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceWriteTerminalRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceWriteTerminalRequest(value *RunServiceWriteTerminalRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceWriteTerminalResponse checks the authored V2 shape, not authorization or native effects.
@@ -3442,7 +5431,36 @@ func ValidateRunServiceWriteTerminalResponse(value *RunServiceWriteTerminalRespo
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceWriteTerminalResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceWriteTerminalResponse(data []byte) (*RunServiceWriteTerminalResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceWriteTerminalResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceWriteTerminalResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceWriteTerminalResponse(value *RunServiceWriteTerminalResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceWriteTerminalValue checks the authored V2 shape, not authorization or native effects.
@@ -3454,8 +5472,34 @@ func ValidateRunServiceWriteTerminalValue(value *RunServiceWriteTerminalValue) b
 		return false
 	}
 	if value.AcceptedBytes != nil {
+		if value.GetAcceptedBytes() > 65536 {
+			return false
+		}
 	}
 	return true
+}
+
+// DecodeRunServiceWriteTerminalValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceWriteTerminalValue(data []byte) (*RunServiceWriteTerminalValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceWriteTerminalValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceWriteTerminalValue preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceWriteTerminalValue(value *RunServiceWriteTerminalValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceResizeTerminalRequest checks the authored V2 shape, not authorization or native effects.
@@ -3512,7 +5556,33 @@ func ValidateRunServiceResizeTerminalRequest(value *RunServiceResizeTerminalRequ
 	if int32(value.GetLease().GetMode()) != 2 {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceResizeTerminalRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceResizeTerminalRequest(data []byte) (*RunServiceResizeTerminalRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceResizeTerminalRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceResizeTerminalRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceResizeTerminalRequest(value *RunServiceResizeTerminalRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceResizeTerminalResponse checks the authored V2 shape, not authorization or native effects.
@@ -3541,7 +5611,36 @@ func ValidateRunServiceResizeTerminalResponse(value *RunServiceResizeTerminalRes
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceResizeTerminalResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceResizeTerminalResponse(data []byte) (*RunServiceResizeTerminalResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceResizeTerminalResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceResizeTerminalResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceResizeTerminalResponse(value *RunServiceResizeTerminalResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceResizeTerminalValue checks the authored V2 shape, not authorization or native effects.
@@ -3558,6 +5657,29 @@ func ValidateRunServiceResizeTerminalValue(value *RunServiceResizeTerminalValue)
 		}
 	}
 	return true
+}
+
+// DecodeRunServiceResizeTerminalValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceResizeTerminalValue(data []byte) (*RunServiceResizeTerminalValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceResizeTerminalValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceResizeTerminalValue preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceResizeTerminalValue(value *RunServiceResizeTerminalValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceDetachTerminalRequest checks the authored V2 shape, not authorization or native effects.
@@ -3589,7 +5711,33 @@ func ValidateRunServiceDetachTerminalRequest(value *RunServiceDetachTerminalRequ
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceDetachTerminalRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceDetachTerminalRequest(data []byte) (*RunServiceDetachTerminalRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceDetachTerminalRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceDetachTerminalRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceDetachTerminalRequest(value *RunServiceDetachTerminalRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceDetachTerminalResponse checks the authored V2 shape, not authorization or native effects.
@@ -3618,7 +5766,36 @@ func ValidateRunServiceDetachTerminalResponse(value *RunServiceDetachTerminalRes
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeRunServiceDetachTerminalResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceDetachTerminalResponse(data []byte) (*RunServiceDetachTerminalResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceDetachTerminalResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceDetachTerminalResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceDetachTerminalResponse(value *RunServiceDetachTerminalResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateRunServiceDetachTerminalValue checks the authored V2 shape, not authorization or native effects.
@@ -3627,6 +5804,29 @@ func ValidateRunServiceDetachTerminalValue(value *RunServiceDetachTerminalValue)
 		return false
 	}
 	return true
+}
+
+// DecodeRunServiceDetachTerminalValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeRunServiceDetachTerminalValue(data []byte) (*RunServiceDetachTerminalValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(RunServiceDetachTerminalValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeRunServiceDetachTerminalValue preserves unknown fields within its V2 byte ceiling.
+func EncodeRunServiceDetachTerminalValue(value *RunServiceDetachTerminalValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateResourceServiceGetBudgetRequest checks the authored V2 shape, not authorization or native effects.
@@ -3664,7 +5864,33 @@ func ValidateResourceServiceGetBudgetRequest(value *ResourceServiceGetBudgetRequ
 	if (value.GetScopeKind() == "node") != (value.ScopeId == nil) {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeResourceServiceGetBudgetRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeResourceServiceGetBudgetRequest(data []byte) (*ResourceServiceGetBudgetRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(ResourceServiceGetBudgetRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeResourceServiceGetBudgetRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeResourceServiceGetBudgetRequest(value *ResourceServiceGetBudgetRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateResourceServiceGetBudgetResponse checks the authored V2 shape, not authorization or native effects.
@@ -3693,7 +5919,36 @@ func ValidateResourceServiceGetBudgetResponse(value *ResourceServiceGetBudgetRes
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeResourceServiceGetBudgetResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeResourceServiceGetBudgetResponse(data []byte) (*ResourceServiceGetBudgetResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(ResourceServiceGetBudgetResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeResourceServiceGetBudgetResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeResourceServiceGetBudgetResponse(value *ResourceServiceGetBudgetResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateResourceServiceGetBudgetValue checks the authored V2 shape, not authorization or native effects.
@@ -3710,6 +5965,29 @@ func ValidateResourceServiceGetBudgetValue(value *ResourceServiceGetBudgetValue)
 		}
 	}
 	return true
+}
+
+// DecodeResourceServiceGetBudgetValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeResourceServiceGetBudgetValue(data []byte) (*ResourceServiceGetBudgetValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(ResourceServiceGetBudgetValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeResourceServiceGetBudgetValue preserves unknown fields within its V2 byte ceiling.
+func EncodeResourceServiceGetBudgetValue(value *ResourceServiceGetBudgetValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateResourceServiceSetPolicyRequest checks the authored V2 shape, not authorization or native effects.
@@ -3781,7 +6059,33 @@ func ValidateResourceServiceSetPolicyRequest(value *ResourceServiceSetPolicyRequ
 	if (value.GetScopeKind() == "node") != (value.ScopeId == nil) {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeResourceServiceSetPolicyRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeResourceServiceSetPolicyRequest(data []byte) (*ResourceServiceSetPolicyRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(ResourceServiceSetPolicyRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeResourceServiceSetPolicyRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeResourceServiceSetPolicyRequest(value *ResourceServiceSetPolicyRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateResourceServiceSetPolicyResponse checks the authored V2 shape, not authorization or native effects.
@@ -3810,7 +6114,36 @@ func ValidateResourceServiceSetPolicyResponse(value *ResourceServiceSetPolicyRes
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeResourceServiceSetPolicyResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeResourceServiceSetPolicyResponse(data []byte) (*ResourceServiceSetPolicyResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(ResourceServiceSetPolicyResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeResourceServiceSetPolicyResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeResourceServiceSetPolicyResponse(value *ResourceServiceSetPolicyResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateResourceServiceSetPolicyValue checks the authored V2 shape, not authorization or native effects.
@@ -3835,6 +6168,29 @@ func ValidateResourceServiceSetPolicyValue(value *ResourceServiceSetPolicyValue)
 		}
 	}
 	return true
+}
+
+// DecodeResourceServiceSetPolicyValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeResourceServiceSetPolicyValue(data []byte) (*ResourceServiceSetPolicyValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(ResourceServiceSetPolicyValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeResourceServiceSetPolicyValue preserves unknown fields within its V2 byte ceiling.
+func EncodeResourceServiceSetPolicyValue(value *ResourceServiceSetPolicyValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateResourceServiceWatchUsageRequest checks the authored V2 shape, not authorization or native effects.
@@ -3880,7 +6236,33 @@ func ValidateResourceServiceWatchUsageRequest(value *ResourceServiceWatchUsageRe
 	if (value.GetScopeKind() == "node") != (value.ScopeId == nil) {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeResourceServiceWatchUsageRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeResourceServiceWatchUsageRequest(data []byte) (*ResourceServiceWatchUsageRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(ResourceServiceWatchUsageRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeResourceServiceWatchUsageRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeResourceServiceWatchUsageRequest(value *ResourceServiceWatchUsageRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateResourceServiceWatchUsageFrame checks the authored V2 shape, not authorization or native effects.
@@ -3909,7 +6291,36 @@ func ValidateResourceServiceWatchUsageFrame(value *ResourceServiceWatchUsageFram
 	if value.Frame == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeResourceServiceWatchUsageFrame enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeResourceServiceWatchUsageFrame(data []byte) (*ResourceServiceWatchUsageFrame, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(ResourceServiceWatchUsageFrame)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeResourceServiceWatchUsageFrame preserves unknown fields within its V2 byte ceiling.
+func EncodeResourceServiceWatchUsageFrame(value *ResourceServiceWatchUsageFrame) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceGetUsageRequest checks the authored V2 shape, not authorization or native effects.
@@ -3933,7 +6344,33 @@ func ValidateDataServiceGetUsageRequest(value *DataServiceGetUsageRequest) bool 
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceGetUsageRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceGetUsageRequest(data []byte) (*DataServiceGetUsageRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceGetUsageRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceGetUsageRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceGetUsageRequest(value *DataServiceGetUsageRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceGetUsageResponse checks the authored V2 shape, not authorization or native effects.
@@ -3962,7 +6399,36 @@ func ValidateDataServiceGetUsageResponse(value *DataServiceGetUsageResponse) boo
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceGetUsageResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceGetUsageResponse(data []byte) (*DataServiceGetUsageResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceGetUsageResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceGetUsageResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceGetUsageResponse(value *DataServiceGetUsageResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceGetUsageValue checks the authored V2 shape, not authorization or native effects.
@@ -3979,6 +6445,29 @@ func ValidateDataServiceGetUsageValue(value *DataServiceGetUsageValue) bool {
 		}
 	}
 	return true
+}
+
+// DecodeDataServiceGetUsageValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceGetUsageValue(data []byte) (*DataServiceGetUsageValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceGetUsageValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceGetUsageValue preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceGetUsageValue(value *DataServiceGetUsageValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceListEntriesRequest checks the authored V2 shape, not authorization or native effects.
@@ -4029,7 +6518,33 @@ func ValidateDataServiceListEntriesRequest(value *DataServiceListEntriesRequest)
 	if value.RelativeDirectory != nil && !validRelative(value.GetRelativeDirectory()) {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceListEntriesRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceListEntriesRequest(data []byte) (*DataServiceListEntriesRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceListEntriesRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceListEntriesRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceListEntriesRequest(value *DataServiceListEntriesRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceListEntriesResponse checks the authored V2 shape, not authorization or native effects.
@@ -4058,7 +6573,36 @@ func ValidateDataServiceListEntriesResponse(value *DataServiceListEntriesRespons
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceListEntriesResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceListEntriesResponse(data []byte) (*DataServiceListEntriesResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceListEntriesResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceListEntriesResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceListEntriesResponse(value *DataServiceListEntriesResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceListEntriesValue checks the authored V2 shape, not authorization or native effects.
@@ -4080,6 +6624,29 @@ func ValidateDataServiceListEntriesValue(value *DataServiceListEntriesValue) boo
 		}
 	}
 	return true
+}
+
+// DecodeDataServiceListEntriesValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceListEntriesValue(data []byte) (*DataServiceListEntriesValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceListEntriesValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceListEntriesValue preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceListEntriesValue(value *DataServiceListEntriesValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceBeginImportRequest checks the authored V2 shape, not authorization or native effects.
@@ -4181,7 +6748,33 @@ func ValidateDataServiceBeginImportRequest(value *DataServiceBeginImportRequest)
 	if value.GetOverwrite() && (value.ExpectedFileVersion == nil || value.GetExpectedFileVersion() == "") {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceBeginImportRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceBeginImportRequest(data []byte) (*DataServiceBeginImportRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceBeginImportRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceBeginImportRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceBeginImportRequest(value *DataServiceBeginImportRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceBeginImportResponse checks the authored V2 shape, not authorization or native effects.
@@ -4210,7 +6803,36 @@ func ValidateDataServiceBeginImportResponse(value *DataServiceBeginImportRespons
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceBeginImportResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceBeginImportResponse(data []byte) (*DataServiceBeginImportResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceBeginImportResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceBeginImportResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceBeginImportResponse(value *DataServiceBeginImportResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceBeginImportValue checks the authored V2 shape, not authorization or native effects.
@@ -4227,6 +6849,29 @@ func ValidateDataServiceBeginImportValue(value *DataServiceBeginImportValue) boo
 		}
 	}
 	return true
+}
+
+// DecodeDataServiceBeginImportValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceBeginImportValue(data []byte) (*DataServiceBeginImportValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceBeginImportValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceBeginImportValue preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceBeginImportValue(value *DataServiceBeginImportValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceWriteImportRequest checks the authored V2 shape, not authorization or native effects.
@@ -4289,7 +6934,33 @@ func ValidateDataServiceWriteImportRequest(value *DataServiceWriteImportRequest)
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceWriteImportRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceWriteImportRequest(data []byte) (*DataServiceWriteImportRequest, error) {
+	if len(data) > 2097152 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceWriteImportRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceWriteImportRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceWriteImportRequest(value *DataServiceWriteImportRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 2097152 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceWriteImportResponse checks the authored V2 shape, not authorization or native effects.
@@ -4318,7 +6989,36 @@ func ValidateDataServiceWriteImportResponse(value *DataServiceWriteImportRespons
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceWriteImportResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceWriteImportResponse(data []byte) (*DataServiceWriteImportResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceWriteImportResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceWriteImportResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceWriteImportResponse(value *DataServiceWriteImportResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceWriteImportValue checks the authored V2 shape, not authorization or native effects.
@@ -4335,6 +7035,29 @@ func ValidateDataServiceWriteImportValue(value *DataServiceWriteImportValue) boo
 		}
 	}
 	return true
+}
+
+// DecodeDataServiceWriteImportValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceWriteImportValue(data []byte) (*DataServiceWriteImportValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceWriteImportValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceWriteImportValue preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceWriteImportValue(value *DataServiceWriteImportValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceCommitImportRequest checks the authored V2 shape, not authorization or native effects.
@@ -4375,7 +7098,33 @@ func ValidateDataServiceCommitImportRequest(value *DataServiceCommitImportReques
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceCommitImportRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceCommitImportRequest(data []byte) (*DataServiceCommitImportRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceCommitImportRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceCommitImportRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceCommitImportRequest(value *DataServiceCommitImportRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceCommitImportResponse checks the authored V2 shape, not authorization or native effects.
@@ -4404,7 +7153,36 @@ func ValidateDataServiceCommitImportResponse(value *DataServiceCommitImportRespo
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceCommitImportResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceCommitImportResponse(data []byte) (*DataServiceCommitImportResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceCommitImportResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceCommitImportResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceCommitImportResponse(value *DataServiceCommitImportResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceCommitImportValue checks the authored V2 shape, not authorization or native effects.
@@ -4429,6 +7207,29 @@ func ValidateDataServiceCommitImportValue(value *DataServiceCommitImportValue) b
 		}
 	}
 	return true
+}
+
+// DecodeDataServiceCommitImportValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceCommitImportValue(data []byte) (*DataServiceCommitImportValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceCommitImportValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceCommitImportValue preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceCommitImportValue(value *DataServiceCommitImportValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceBeginExportRequest checks the authored V2 shape, not authorization or native effects.
@@ -4497,7 +7298,33 @@ func ValidateDataServiceBeginExportRequest(value *DataServiceBeginExportRequest)
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceBeginExportRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceBeginExportRequest(data []byte) (*DataServiceBeginExportRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceBeginExportRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceBeginExportRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceBeginExportRequest(value *DataServiceBeginExportRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceBeginExportResponse checks the authored V2 shape, not authorization or native effects.
@@ -4526,7 +7353,36 @@ func ValidateDataServiceBeginExportResponse(value *DataServiceBeginExportRespons
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceBeginExportResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceBeginExportResponse(data []byte) (*DataServiceBeginExportResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceBeginExportResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceBeginExportResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceBeginExportResponse(value *DataServiceBeginExportResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceBeginExportValue checks the authored V2 shape, not authorization or native effects.
@@ -4543,6 +7399,29 @@ func ValidateDataServiceBeginExportValue(value *DataServiceBeginExportValue) boo
 		}
 	}
 	return true
+}
+
+// DecodeDataServiceBeginExportValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceBeginExportValue(data []byte) (*DataServiceBeginExportValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceBeginExportValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceBeginExportValue preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceBeginExportValue(value *DataServiceBeginExportValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceReadExportRequest checks the authored V2 shape, not authorization or native effects.
@@ -4582,7 +7461,33 @@ func ValidateDataServiceReadExportRequest(value *DataServiceReadExportRequest) b
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceReadExportRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceReadExportRequest(data []byte) (*DataServiceReadExportRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceReadExportRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceReadExportRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceReadExportRequest(value *DataServiceReadExportRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceReadExportResponse checks the authored V2 shape, not authorization or native effects.
@@ -4611,7 +7516,36 @@ func ValidateDataServiceReadExportResponse(value *DataServiceReadExportResponse)
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceReadExportResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceReadExportResponse(data []byte) (*DataServiceReadExportResponse, error) {
+	if len(data) > 2097152 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceReadExportResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceReadExportResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceReadExportResponse(value *DataServiceReadExportResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 2097152 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceReadExportValue checks the authored V2 shape, not authorization or native effects.
@@ -4628,6 +7562,29 @@ func ValidateDataServiceReadExportValue(value *DataServiceReadExportValue) bool 
 		}
 	}
 	return true
+}
+
+// DecodeDataServiceReadExportValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceReadExportValue(data []byte) (*DataServiceReadExportValue, error) {
+	if len(data) > 2097152 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceReadExportValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceReadExportValue preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceReadExportValue(value *DataServiceReadExportValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 2097152 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceCloseTransferRequest checks the authored V2 shape, not authorization or native effects.
@@ -4668,7 +7625,33 @@ func ValidateDataServiceCloseTransferRequest(value *DataServiceCloseTransferRequ
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceCloseTransferRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceCloseTransferRequest(data []byte) (*DataServiceCloseTransferRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceCloseTransferRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceCloseTransferRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceCloseTransferRequest(value *DataServiceCloseTransferRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceCloseTransferResponse checks the authored V2 shape, not authorization or native effects.
@@ -4697,7 +7680,36 @@ func ValidateDataServiceCloseTransferResponse(value *DataServiceCloseTransferRes
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceCloseTransferResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceCloseTransferResponse(data []byte) (*DataServiceCloseTransferResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceCloseTransferResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceCloseTransferResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceCloseTransferResponse(value *DataServiceCloseTransferResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceCloseTransferValue checks the authored V2 shape, not authorization or native effects.
@@ -4714,6 +7726,29 @@ func ValidateDataServiceCloseTransferValue(value *DataServiceCloseTransferValue)
 		}
 	}
 	return true
+}
+
+// DecodeDataServiceCloseTransferValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceCloseTransferValue(data []byte) (*DataServiceCloseTransferValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceCloseTransferValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceCloseTransferValue preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceCloseTransferValue(value *DataServiceCloseTransferValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceInspectTransferRequest checks the authored V2 shape, not authorization or native effects.
@@ -4737,7 +7772,33 @@ func ValidateDataServiceInspectTransferRequest(value *DataServiceInspectTransfer
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceInspectTransferRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceInspectTransferRequest(data []byte) (*DataServiceInspectTransferRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceInspectTransferRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceInspectTransferRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceInspectTransferRequest(value *DataServiceInspectTransferRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceInspectTransferResponse checks the authored V2 shape, not authorization or native effects.
@@ -4766,7 +7827,36 @@ func ValidateDataServiceInspectTransferResponse(value *DataServiceInspectTransfe
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeDataServiceInspectTransferResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceInspectTransferResponse(data []byte) (*DataServiceInspectTransferResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceInspectTransferResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceInspectTransferResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceInspectTransferResponse(value *DataServiceInspectTransferResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateDataServiceInspectTransferValue checks the authored V2 shape, not authorization or native effects.
@@ -4783,6 +7873,29 @@ func ValidateDataServiceInspectTransferValue(value *DataServiceInspectTransferVa
 		}
 	}
 	return true
+}
+
+// DecodeDataServiceInspectTransferValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeDataServiceInspectTransferValue(data []byte) (*DataServiceInspectTransferValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(DataServiceInspectTransferValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeDataServiceInspectTransferValue preserves unknown fields within its V2 byte ceiling.
+func EncodeDataServiceInspectTransferValue(value *DataServiceInspectTransferValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterConnection checks the authored V2 shape, not authorization or native effects.
@@ -4871,6 +7984,29 @@ func ValidateCenterConnection(value *CenterConnection) bool {
 	return true
 }
 
+// DecodeCenterConnection enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterConnection(data []byte) (*CenterConnection, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterConnection)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterConnection preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterConnection(value *CenterConnection) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateCenterConnectFlow checks the authored V2 shape, not authorization or native effects.
 func ValidateCenterConnectFlow(value *CenterConnectFlow) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -4935,6 +8071,29 @@ func ValidateCenterConnectFlow(value *CenterConnectFlow) bool {
 	return true
 }
 
+// DecodeCenterConnectFlow enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterConnectFlow(data []byte) (*CenterConnectFlow, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterConnectFlow)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterConnectFlow preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterConnectFlow(value *CenterConnectFlow) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateCenterControlServiceGetStatusRequest checks the authored V2 shape, not authorization or native effects.
 func ValidateCenterControlServiceGetStatusRequest(value *CenterControlServiceGetStatusRequest) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -4948,7 +8107,33 @@ func ValidateCenterControlServiceGetStatusRequest(value *CenterControlServiceGet
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeCenterControlServiceGetStatusRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceGetStatusRequest(data []byte) (*CenterControlServiceGetStatusRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceGetStatusRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceGetStatusRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceGetStatusRequest(value *CenterControlServiceGetStatusRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceGetStatusResponse checks the authored V2 shape, not authorization or native effects.
@@ -4977,7 +8162,36 @@ func ValidateCenterControlServiceGetStatusResponse(value *CenterControlServiceGe
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeCenterControlServiceGetStatusResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceGetStatusResponse(data []byte) (*CenterControlServiceGetStatusResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceGetStatusResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceGetStatusResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceGetStatusResponse(value *CenterControlServiceGetStatusResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceGetStatusValue checks the authored V2 shape, not authorization or native effects.
@@ -4994,6 +8208,29 @@ func ValidateCenterControlServiceGetStatusValue(value *CenterControlServiceGetSt
 		}
 	}
 	return true
+}
+
+// DecodeCenterControlServiceGetStatusValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceGetStatusValue(data []byte) (*CenterControlServiceGetStatusValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceGetStatusValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceGetStatusValue preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceGetStatusValue(value *CenterControlServiceGetStatusValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceBeginConnectRequest checks the authored V2 shape, not authorization or native effects.
@@ -5074,7 +8311,33 @@ func ValidateCenterControlServiceBeginConnectRequest(value *CenterControlService
 	if !validOrigin(value.GetCenterOrigin()) {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeCenterControlServiceBeginConnectRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceBeginConnectRequest(data []byte) (*CenterControlServiceBeginConnectRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceBeginConnectRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceBeginConnectRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceBeginConnectRequest(value *CenterControlServiceBeginConnectRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceBeginConnectResponse checks the authored V2 shape, not authorization or native effects.
@@ -5103,7 +8366,36 @@ func ValidateCenterControlServiceBeginConnectResponse(value *CenterControlServic
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeCenterControlServiceBeginConnectResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceBeginConnectResponse(data []byte) (*CenterControlServiceBeginConnectResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceBeginConnectResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceBeginConnectResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceBeginConnectResponse(value *CenterControlServiceBeginConnectResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceBeginConnectValue checks the authored V2 shape, not authorization or native effects.
@@ -5135,6 +8427,29 @@ func ValidateCenterControlServiceBeginConnectValue(value *CenterControlServiceBe
 	return true
 }
 
+// DecodeCenterControlServiceBeginConnectValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceBeginConnectValue(data []byte) (*CenterControlServiceBeginConnectValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceBeginConnectValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceBeginConnectValue preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceBeginConnectValue(value *CenterControlServiceBeginConnectValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
 // ValidateCenterControlServiceGetConnectFlowRequest checks the authored V2 shape, not authorization or native effects.
 func ValidateCenterControlServiceGetConnectFlowRequest(value *CenterControlServiceGetConnectFlowRequest) bool {
 	if value == nil || proto.Size(value) > 1048576 {
@@ -5156,7 +8471,33 @@ func ValidateCenterControlServiceGetConnectFlowRequest(value *CenterControlServi
 			return false
 		}
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeCenterControlServiceGetConnectFlowRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceGetConnectFlowRequest(data []byte) (*CenterControlServiceGetConnectFlowRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceGetConnectFlowRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceGetConnectFlowRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceGetConnectFlowRequest(value *CenterControlServiceGetConnectFlowRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceGetConnectFlowResponse checks the authored V2 shape, not authorization or native effects.
@@ -5185,7 +8526,36 @@ func ValidateCenterControlServiceGetConnectFlowResponse(value *CenterControlServ
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeCenterControlServiceGetConnectFlowResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceGetConnectFlowResponse(data []byte) (*CenterControlServiceGetConnectFlowResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceGetConnectFlowResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceGetConnectFlowResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceGetConnectFlowResponse(value *CenterControlServiceGetConnectFlowResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceGetConnectFlowValue checks the authored V2 shape, not authorization or native effects.
@@ -5202,6 +8572,29 @@ func ValidateCenterControlServiceGetConnectFlowValue(value *CenterControlService
 		}
 	}
 	return true
+}
+
+// DecodeCenterControlServiceGetConnectFlowValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceGetConnectFlowValue(data []byte) (*CenterControlServiceGetConnectFlowValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceGetConnectFlowValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceGetConnectFlowValue preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceGetConnectFlowValue(value *CenterControlServiceGetConnectFlowValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceCancelConnectRequest checks the authored V2 shape, not authorization or native effects.
@@ -5242,7 +8635,33 @@ func ValidateCenterControlServiceCancelConnectRequest(value *CenterControlServic
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeCenterControlServiceCancelConnectRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceCancelConnectRequest(data []byte) (*CenterControlServiceCancelConnectRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceCancelConnectRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceCancelConnectRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceCancelConnectRequest(value *CenterControlServiceCancelConnectRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceCancelConnectResponse checks the authored V2 shape, not authorization or native effects.
@@ -5271,7 +8690,36 @@ func ValidateCenterControlServiceCancelConnectResponse(value *CenterControlServi
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeCenterControlServiceCancelConnectResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceCancelConnectResponse(data []byte) (*CenterControlServiceCancelConnectResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceCancelConnectResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceCancelConnectResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceCancelConnectResponse(value *CenterControlServiceCancelConnectResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceCancelConnectValue checks the authored V2 shape, not authorization or native effects.
@@ -5288,6 +8736,29 @@ func ValidateCenterControlServiceCancelConnectValue(value *CenterControlServiceC
 		}
 	}
 	return true
+}
+
+// DecodeCenterControlServiceCancelConnectValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceCancelConnectValue(data []byte) (*CenterControlServiceCancelConnectValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceCancelConnectValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceCancelConnectValue preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceCancelConnectValue(value *CenterControlServiceCancelConnectValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceDisconnectRequest checks the authored V2 shape, not authorization or native effects.
@@ -5317,7 +8788,33 @@ func ValidateCenterControlServiceDisconnectRequest(value *CenterControlServiceDi
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeCenterControlServiceDisconnectRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceDisconnectRequest(data []byte) (*CenterControlServiceDisconnectRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceDisconnectRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceDisconnectRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceDisconnectRequest(value *CenterControlServiceDisconnectRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceDisconnectResponse checks the authored V2 shape, not authorization or native effects.
@@ -5346,7 +8843,36 @@ func ValidateCenterControlServiceDisconnectResponse(value *CenterControlServiceD
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeCenterControlServiceDisconnectResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceDisconnectResponse(data []byte) (*CenterControlServiceDisconnectResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceDisconnectResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceDisconnectResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceDisconnectResponse(value *CenterControlServiceDisconnectResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceDisconnectValue checks the authored V2 shape, not authorization or native effects.
@@ -5371,6 +8897,29 @@ func ValidateCenterControlServiceDisconnectValue(value *CenterControlServiceDisc
 		}
 	}
 	return true
+}
+
+// DecodeCenterControlServiceDisconnectValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceDisconnectValue(data []byte) (*CenterControlServiceDisconnectValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceDisconnectValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceDisconnectValue preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceDisconnectValue(value *CenterControlServiceDisconnectValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceSignOutRequest checks the authored V2 shape, not authorization or native effects.
@@ -5400,7 +8949,33 @@ func ValidateCenterControlServiceSignOutRequest(value *CenterControlServiceSignO
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
 	return true
+}
+
+// DecodeCenterControlServiceSignOutRequest enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceSignOutRequest(data []byte) (*CenterControlServiceSignOutRequest, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceSignOutRequest)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceSignOutRequest preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceSignOutRequest(value *CenterControlServiceSignOutRequest) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceSignOutResponse checks the authored V2 shape, not authorization or native effects.
@@ -5429,7 +9004,36 @@ func ValidateCenterControlServiceSignOutResponse(value *CenterControlServiceSign
 	if value.Outcome == nil {
 		return false
 	}
+	if proto.Size(value.Meta) > 1048576 {
+		return false
+	}
+	if value.GetError() != nil && !validError(value.GetError()) {
+		return false
+	}
 	return true
+}
+
+// DecodeCenterControlServiceSignOutResponse enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceSignOutResponse(data []byte) (*CenterControlServiceSignOutResponse, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceSignOutResponse)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceSignOutResponse preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceSignOutResponse(value *CenterControlServiceSignOutResponse) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
 }
 
 // ValidateCenterControlServiceSignOutValue checks the authored V2 shape, not authorization or native effects.
@@ -5454,6 +9058,86 @@ func ValidateCenterControlServiceSignOutValue(value *CenterControlServiceSignOut
 		}
 	}
 	return true
+}
+
+// DecodeCenterControlServiceSignOutValue enforces its V2 byte ceiling before generated protobuf parsing; unknown fields remain intact.
+func DecodeCenterControlServiceSignOutValue(data []byte) (*CenterControlServiceSignOutValue, error) {
+	if len(data) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	value := new(CenterControlServiceSignOutValue)
+	if err := (proto.UnmarshalOptions{RecursionLimit: 100, DiscardUnknown: false}).Unmarshal(data, value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+// EncodeCenterControlServiceSignOutValue preserves unknown fields within its V2 byte ceiling.
+func EncodeCenterControlServiceSignOutValue(value *CenterControlServiceSignOutValue) ([]byte, error) {
+	if value == nil {
+		return nil, errors.New("nil V2 message")
+	}
+	if proto.Size(value) > 1048576 {
+		return nil, ErrWireTooLarge
+	}
+	return proto.Marshal(value)
+}
+
+// MethodPolicy is a static annotation projection, not a dispatcher or runtime authority.
+type MethodPolicy struct {
+	Binding          string
+	Kind             string
+	LocalOnly        bool
+	OwnerEpoch       bool
+	ServerStreaming  bool
+	Reconciliation   string
+	MaxRequestBytes  int
+	MaxResponseBytes int
+}
+
+// MethodPolicies returns a fresh copy of the closed V2 method inventory.
+func MethodPolicies() []MethodPolicy {
+	return []MethodPolicy{
+		{"arcforges.sandbox.v2.CenterControlService/BeginConnect", "durable_node", true, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.CenterControlService/CancelConnect", "durable_node", true, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.CenterControlService/Disconnect", "durable_node", true, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.CenterControlService/GetConnectFlow", "read", true, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.CenterControlService/GetStatus", "read", true, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.CenterControlService/SignOut", "durable_node", true, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.DataService/BeginExport", "durable_node", false, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.DataService/BeginImport", "durable_node", false, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.DataService/CloseTransfer", "durable_node", false, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.DataService/CommitImport", "durable_node", false, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.DataService/GetUsage", "read", false, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.DataService/InspectTransfer", "read", false, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.DataService/ListEntries", "read", false, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.DataService/ReadExport", "read", false, false, false, "read_only", 1048576, 2097152},
+		{"arcforges.sandbox.v2.DataService/WriteImport", "durable_node", false, true, false, "NodeService.GetOperation", 2097152, 1048576},
+		{"arcforges.sandbox.v2.NodeService/GetOperation", "read", false, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.NodeService/Handshake", "read", true, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.NodeService/ListRemoteGrants", "read", false, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.NodeService/RevokeRemoteGrant", "durable_node", false, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.NodeService/SetRemoteGrant", "durable_node", true, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.NodeService/WatchEvents", "read", false, false, true, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.ResourceService/GetBudget", "read", false, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.ResourceService/SetPolicy", "durable_node", false, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.ResourceService/WatchUsage", "read", false, false, true, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.RunService/AcquireTerminal", "transient_terminal", true, false, false, "none", 1048576, 1048576},
+		{"arcforges.sandbox.v2.RunService/DetachTerminal", "transient_terminal", true, false, false, "none", 1048576, 1048576},
+		{"arcforges.sandbox.v2.RunService/Inspect", "read", false, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.RunService/List", "read", false, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.RunService/ResizeTerminal", "transient_terminal", true, false, false, "none", 1048576, 1048576},
+		{"arcforges.sandbox.v2.RunService/Start", "durable_node", false, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.RunService/Stop", "durable_node", false, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.RunService/WatchOutput", "read", false, false, true, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.RunService/WriteTerminal", "transient_terminal", true, false, false, "none", 1048576, 1048576},
+		{"arcforges.sandbox.v2.SandboxService/Configure", "durable_node", false, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.SandboxService/Create", "durable_node", false, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.SandboxService/Delete", "durable_node", false, true, false, "NodeService.GetOperation", 1048576, 1048576},
+		{"arcforges.sandbox.v2.SandboxService/Inspect", "read", false, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.SandboxService/List", "read", false, false, false, "read_only", 1048576, 1048576},
+		{"arcforges.sandbox.v2.SandboxService/PlanDelete", "read", false, false, false, "read_only", 1048576, 1048576},
+	}
 }
 func validID(value *foundationv1.Id) bool {
 	if value == nil || len(value.GetValue()) != 16 {
@@ -5488,13 +9172,13 @@ func validError(value *foundationv1.ArcError) bool {
 	if int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 3 {
 		return false
 	}
-	if int32(value.Retry.GetMode()) == 4 && value.Retry.GetReconciliationOperation() == "" {
+	if (int32(value.Retry.GetMode()) == 4) != (value.Retry.ReconciliationOperation != nil) || value.Retry.ReconciliationOperation != nil && !regexp.MustCompile(`^[A-Za-z0-9._:/-]{1,128}$`).MatchString(value.Retry.GetReconciliationOperation()) {
 		return false
 	}
-	if int32(value.Retry.GetMode()) == 3 && !validInstant(value.Retry.RetryAt) {
+	if (int32(value.Retry.GetMode()) == 3) != (value.Retry.RetryAt != nil) || value.Retry.RetryAt != nil && !validInstant(value.Retry.RetryAt) {
 		return false
 	}
-	return true
+	return allowedV2Error(value)
 }
 func validRelative(path string) bool {
 	if path == "" || strings.HasPrefix(path, "/") || strings.HasPrefix(path, "\\") || strings.ContainsAny(path, ":\x00") {
@@ -5509,7 +9193,74 @@ func validRelative(path string) bool {
 }
 func validOrigin(origin string) bool {
 	value, err := url.Parse(origin)
-	return err == nil && value.Scheme == "https" && value.Host != "" && value.User == nil && value.RawQuery == "" && value.Fragment == "" && (value.Path == "" || value.Path == "/") && !strings.ContainsAny(origin, "\r\n\x00")
+	return err == nil && strings.HasPrefix(origin, "https://") && value.Host != "" && value.User == nil && !value.ForceQuery && value.RawQuery == "" && !strings.ContainsAny(origin, "# \t\r\n\x00") && (value.Path == "" || value.Path == "/")
+}
+
+func allowedV2Error(value *foundationv1.ArcError) bool {
+	if proto.Size(value) > 1048576 {
+		return false
+	}
+	switch value.GetCode() {
+	case "invalid_argument":
+		return int32(value.GetCategory()) == 1 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "invalid_cursor":
+		return int32(value.GetCategory()) == 1 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "path_rejected":
+		return int32(value.GetCategory()) == 1 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "unauthenticated":
+		return int32(value.GetCategory()) == 2 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "permission_denied":
+		return int32(value.GetCategory()) == 3 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "hosted_access_required":
+		return int32(value.GetCategory()) == 4 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "revision_mismatch":
+		return int32(value.GetCategory()) == 5 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "command_id_reused":
+		return int32(value.GetCategory()) == 5 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "owner_epoch_retired":
+		return int32(value.GetCategory()) == 5 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "identity_changed":
+		return int32(value.GetCategory()) == 5 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "lease_stale":
+		return int32(value.GetCategory()) == 5 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "not_found":
+		return int32(value.GetCategory()) == 6 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "managed_use":
+		return int32(value.GetCategory()) == 6 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "terminal_unavailable":
+		return int32(value.GetCategory()) == 6 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "not_activated":
+		return int32(value.GetCategory()) == 6 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "unsupported_combination":
+		return int32(value.GetCategory()) == 8 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "launch_failed":
+		return int32(value.GetCategory()) == 8 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1)
+	case "busy":
+		return int32(value.GetCategory()) == 6 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 3)
+	case "node_stopping":
+		return int32(value.GetCategory()) == 6 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 3)
+	case "budget_unavailable":
+		return int32(value.GetCategory()) == 7 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 3)
+	case "disk_space":
+		return int32(value.GetCategory()) == 7 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 3)
+	case "overloaded":
+		return int32(value.GetCategory()) == 7 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 3)
+	case "rate_limited":
+		return int32(value.GetCategory()) == 7 && (int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 3)
+	case "receipt_compacted":
+		return int32(value.GetCategory()) == 6 && ((int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1) || (int32(value.GetEffect()) == 2 && int32(value.Retry.GetMode()) == 1))
+	case "terminal_ack_unavailable":
+		return int32(value.GetCategory()) == 8 && (int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 1)
+	case "enforcement_failed":
+		return int32(value.GetCategory()) == 7 && ((int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1) || (int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 4))
+	case "outcome_unknown":
+		return int32(value.GetCategory()) == 8 && (int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 4)
+	case "store_corrupt":
+		return int32(value.GetCategory()) == 9 && (int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 1)
+	case "internal":
+		return int32(value.GetCategory()) == 9 && ((int32(value.GetEffect()) == 1 && int32(value.Retry.GetMode()) == 1) || (int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 4))
+	}
+	return false
 }
 
 func uniqueEnvironment(values []*EnvironmentEntry) bool {
@@ -5521,4 +9272,25 @@ func uniqueEnvironment(values []*EnvironmentEntry) bool {
 		seen[entry.GetName()] = true
 	}
 	return true
+}
+
+// Live terminal acknowledgments remain volatile; these are ceilings, not a persistence implementation.
+const (
+	AckWindowMs = 30000
+	AckRecords  = 256
+	AckBytes    = 1048576
+)
+
+// CanAdmitWrite validates the current writer, epoch, expiry and next unconsumed sequence only.
+// A consumed sequence requires the retained acknowledgment; it never becomes a new write.
+func CanAdmitWrite(request *RunServiceWriteTerminalRequest, current *TerminalLease, runEpoch string, consumedSequence uint64, now *foundationv1.Instant) bool {
+	return ValidateRunServiceWriteTerminalRequest(request) && currentLease(request.Lease, current, runEpoch, now) && int32(current.GetMode()) == 2 && consumedSequence < ^uint64(0) && request.GetInputSequence() == consumedSequence+1
+}
+
+// CanAdmitResize applies the same current-lease sequence rule to terminal geometry.
+func CanAdmitResize(request *RunServiceResizeTerminalRequest, current *TerminalLease, runEpoch string, consumedSequence uint64, now *foundationv1.Instant) bool {
+	return ValidateRunServiceResizeTerminalRequest(request) && currentLease(request.Lease, current, runEpoch, now) && int32(current.GetMode()) == 2 && consumedSequence < ^uint64(0) && request.GetResizeSequence() == consumedSequence+1
+}
+func currentLease(supplied, current *TerminalLease, epoch string, now *foundationv1.Instant) bool {
+	return ValidateTerminalLease(supplied) && ValidateTerminalLease(current) && validInstant(now) && proto.Equal(supplied.LeaseId, current.LeaseId) && supplied.GetGeneration() == current.GetGeneration() && supplied.GetRunEpoch() == current.GetRunEpoch() && current.GetRunEpoch() == epoch && supplied.GetMode() == current.GetMode() && (current.ExpiresAt.GetUnixSeconds() > now.GetUnixSeconds() || current.ExpiresAt.GetUnixSeconds() == now.GetUnixSeconds() && current.ExpiresAt.GetNanos() > now.GetNanos())
 }

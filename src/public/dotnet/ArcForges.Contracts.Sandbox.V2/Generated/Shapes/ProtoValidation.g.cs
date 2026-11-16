@@ -421,6 +421,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (!value.HasKey) return false;
         if (value.HasKey)
         {
@@ -455,6 +456,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.FlowId is null) return false;
         if (!Check(value.FlowId, context)) return false;
         if (!value.HasState) return false;
@@ -495,6 +497,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.HasCenterOrigin)
         {
             if (!ValidUnicode(value.CenterOrigin)) return false;
@@ -550,6 +553,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (!value.HasCenterOrigin) return false;
@@ -580,6 +584,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (!V2Origin(value.CenterOrigin)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -591,6 +596,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -602,6 +608,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -613,6 +621,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Connection is null) return false;
         if (!Check(value.Connection, context)) return false;
         if (value.FlowId is not null)
@@ -632,6 +641,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.FlowId is null) return false;
@@ -641,6 +651,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -652,6 +663,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -663,6 +675,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -674,6 +688,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Operation is null) return false;
         if (!Check(value.Operation, context)) return false;
         return true;
@@ -687,12 +702,14 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -704,6 +721,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -715,6 +733,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -726,6 +746,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Connection is null) return false;
         if (!Check(value.Connection, context)) return false;
         if (value.Operation is null) return false;
@@ -741,10 +762,12 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.FlowId is null) return false;
         if (!Check(value.FlowId, context)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -756,6 +779,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -767,6 +791,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -778,6 +804,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Flow is null) return false;
         if (!Check(value.Flow, context)) return false;
         return true;
@@ -791,8 +818,10 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -804,6 +833,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -815,6 +845,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -826,6 +858,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Connection is null) return false;
         if (!Check(value.Connection, context)) return false;
         return true;
@@ -839,12 +872,14 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -856,6 +891,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -867,6 +903,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -878,6 +916,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Connection is null) return false;
         if (!Check(value.Connection, context)) return false;
         if (value.Operation is null) return false;
@@ -893,6 +932,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 2097152) return false;
         if (value.HasData)
         {
             if (value.Data.Length < 1) return false;
@@ -915,6 +955,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.SandboxId is null) return false;
@@ -938,6 +979,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -949,6 +991,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -960,6 +1003,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -971,6 +1016,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Transfer is null) return false;
         if (!Check(value.Transfer, context)) return false;
         return true;
@@ -984,6 +1030,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.SandboxId is null) return false;
@@ -1025,6 +1072,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.HasOverwrite && value.Overwrite && (!value.HasExpectedFileVersion || value.ExpectedFileVersion.Length == 0)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1036,6 +1084,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -1047,6 +1096,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1058,6 +1109,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Transfer is null) return false;
         if (!Check(value.Transfer, context)) return false;
         return true;
@@ -1071,6 +1123,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.TransferId is null) return false;
@@ -1080,6 +1133,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1091,6 +1145,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -1102,6 +1157,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1113,6 +1170,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Transfer is null) return false;
         if (!Check(value.Transfer, context)) return false;
         return true;
@@ -1126,6 +1184,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.TransferId is null) return false;
@@ -1135,6 +1194,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1146,6 +1206,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -1157,6 +1218,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1168,6 +1231,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Transfer is null) return false;
         if (!Check(value.Transfer, context)) return false;
         if (value.Operation is null) return false;
@@ -1183,10 +1247,12 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.SandboxId is null) return false;
         if (!Check(value.SandboxId, context)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1198,6 +1264,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -1209,6 +1276,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1220,6 +1289,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Usage is null) return false;
         if (!Check(value.Usage, context)) return false;
         return true;
@@ -1233,10 +1303,12 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.TransferId is null) return false;
         if (!Check(value.TransferId, context)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1248,6 +1320,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -1259,6 +1332,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1270,6 +1345,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Transfer is null) return false;
         if (!Check(value.Transfer, context)) return false;
         return true;
@@ -1283,6 +1359,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.SandboxId is null) return false;
@@ -1303,6 +1380,7 @@ public static class ContractShapeValidation
             if (value.Limit > 200) return false;
         }
         if (value.HasRelativeDirectory && !V2Relative(value.RelativeDirectory)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1314,6 +1392,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -1325,6 +1404,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1336,6 +1417,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         foreach (var item in value.Entries)
         {
             if (!Check(item, context)) return false;
@@ -1353,6 +1435,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.TransferId is null) return false;
@@ -1367,6 +1450,7 @@ public static class ContractShapeValidation
             if (value.MaxBytes < 1) return false;
             if (value.MaxBytes > 1048576) return false;
         }
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1378,6 +1462,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 2097152) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -1389,6 +1474,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1400,6 +1487,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 2097152) return false;
         if (value.Chunk is null) return false;
         if (!Check(value.Chunk, context)) return false;
         return true;
@@ -1413,6 +1501,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 2097152) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.TransferId is null) return false;
@@ -1434,6 +1523,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1445,6 +1535,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -1456,6 +1547,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1467,6 +1560,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Transfer is null) return false;
         if (!Check(value.Transfer, context)) return false;
         return true;
@@ -1480,6 +1574,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.PlanId is null) return false;
         if (!Check(value.PlanId, context)) return false;
         if (value.SandboxId is null) return false;
@@ -1521,6 +1616,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1532,6 +1628,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (!value.HasName) return false;
         if (value.HasName)
         {
@@ -1563,6 +1660,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (!value.HasSequence) return false;
         if (value.HasSequence)
         {
@@ -1605,6 +1703,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (!value.HasEpoch) return false;
         if (value.HasEpoch)
         {
@@ -1638,6 +1737,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.HasRelativePath)
         {
             if (!ValidUnicode(value.RelativePath)) return false;
@@ -1672,6 +1772,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (!value.HasHostPath) return false;
         if (value.HasHostPath)
         {
@@ -1704,6 +1805,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.HasDimension)
         {
             if (!ValidUnicode(value.Dimension)) return false;
@@ -1768,6 +1870,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (!value.HasEgress) return false;
         if (value.HasEgress)
         {
@@ -1797,6 +1900,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.CommandId is null) return false;
@@ -1806,6 +1910,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1817,6 +1922,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -1828,6 +1934,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1839,6 +1947,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Operation is null) return false;
         if (!Check(value.Operation, context)) return false;
         return true;
@@ -1852,8 +1961,10 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1865,6 +1976,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -1876,6 +1988,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1887,6 +2001,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         foreach (var item in value.Capabilities)
         {
             if (!Check(item, context)) return false;
@@ -1924,6 +2039,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.SandboxId is not null)
@@ -1940,6 +2056,7 @@ public static class ContractShapeValidation
             if (value.Limit < 1) return false;
             if (value.Limit > 200) return false;
         }
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1951,6 +2068,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -1962,6 +2080,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -1973,6 +2093,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         foreach (var item in value.Grants)
         {
             if (!Check(item, context)) return false;
@@ -1990,6 +2111,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.GrantId is null) return false;
@@ -2000,6 +2122,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.ExpectedRev is not { HasValue: true, Value: > 0 } || value.Meta.ExpectedNative is not null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2011,6 +2134,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -2022,6 +2146,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2033,6 +2159,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Grant is null) return false;
         if (!Check(value.Grant, context)) return false;
         return true;
@@ -2046,6 +2173,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.Grant is null) return false;
@@ -2056,6 +2184,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.ExpectedRev is not { HasValue: true, Value: > 0 } || value.Meta.ExpectedNative is not null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2067,6 +2196,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -2078,6 +2208,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2089,6 +2221,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Grant is null) return false;
         if (!Check(value.Grant, context)) return false;
         return true;
@@ -2102,6 +2235,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.FrameCase == 10)
@@ -2117,6 +2251,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.FrameCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2128,6 +2264,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.HasEpoch)
@@ -2139,6 +2276,7 @@ public static class ContractShapeValidation
         if (value.HasAfterSequence)
         {
         }
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2150,6 +2288,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.CommandId is null) return false;
         if (!Check(value.CommandId, context)) return false;
         if (!value.HasState) return false;
@@ -2190,6 +2329,7 @@ public static class ContractShapeValidation
         }
         if (value.Revision is not null && (!value.Revision.HasValue || value.Revision.Value <= 0)) return false;
         if ((int)value.State == 4 && (int)value.Effect != 3 || (int)value.State == 2 && (int)value.Effect != 2 || value.ResponseCompacted && (int)value.State is 1 or 4) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2201,6 +2341,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (!value.HasEpoch) return false;
         if (value.HasEpoch)
         {
@@ -2239,6 +2380,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (!value.HasEpoch) return false;
         if (value.HasEpoch)
         {
@@ -2272,6 +2414,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.HasNextCursor)
         {
             if (!ValidUnicode(value.NextCursor)) return false;
@@ -2288,6 +2431,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.GrantId is null) return false;
         if (!Check(value.GrantId, context)) return false;
         if (value.SandboxId is not null)
@@ -2353,10 +2497,11 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.HasCpuMaxMillicores)
         {
             if (value.CpuMaxMillicores < 1) return false;
-            if (value.CpuMaxMillicores > 2147483647) return false;
+            if (value.CpuMaxMillicores > 4294967295) return false;
         }
         if (value.HasMemoryMaxBytes)
         {
@@ -2409,6 +2554,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (!value.HasScopeKind) return false;
@@ -2423,6 +2569,7 @@ public static class ContractShapeValidation
             if (!Check(value.ScopeId, context)) return false;
         }
         if ((value.ScopeKind == "node") != (value.ScopeId is null)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2434,6 +2581,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -2445,6 +2593,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2456,6 +2606,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Snapshot is null) return false;
         if (!Check(value.Snapshot, context)) return false;
         return true;
@@ -2469,6 +2620,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (!value.HasScopeKind) return false;
@@ -2493,6 +2645,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.ExpectedRev is not { HasValue: true, Value: > 0 } || value.Meta.ExpectedNative is not null) return false;
         if ((value.ScopeKind == "node") != (value.ScopeId is null)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2504,6 +2657,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -2515,6 +2669,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2526,6 +2682,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Snapshot is null) return false;
         if (!Check(value.Snapshot, context)) return false;
         if (value.Operation is null) return false;
@@ -2541,6 +2698,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.FrameCase == 10)
@@ -2552,6 +2710,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.FrameCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2563,6 +2723,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (!value.HasScopeKind) return false;
@@ -2582,6 +2743,7 @@ public static class ContractShapeValidation
             if (value.IntervalMs > 60000) return false;
         }
         if ((value.ScopeKind == "node") != (value.ScopeId is null)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2593,6 +2755,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (!value.HasScopeKind) return false;
         if (value.HasScopeKind)
         {
@@ -2721,6 +2884,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.RunId is null) return false;
         if (!Check(value.RunId, context)) return false;
         if (value.SandboxId is null) return false;
@@ -2805,6 +2969,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.HasRawCode)
         {
         }
@@ -2845,6 +3010,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.RunId is null) return false;
@@ -2862,6 +3028,7 @@ public static class ContractShapeValidation
         {
         }
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2873,6 +3040,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -2884,6 +3052,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2895,6 +3065,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Lease is null) return false;
         if (!Check(value.Lease, context)) return false;
         return true;
@@ -2908,6 +3079,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.RunId is null) return false;
@@ -2917,6 +3089,7 @@ public static class ContractShapeValidation
             if (!Check(value.Lease, context)) return false;
         }
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2928,6 +3101,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -2939,6 +3113,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2950,6 +3126,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2961,10 +3138,12 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.RunId is null) return false;
         if (!Check(value.RunId, context)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2976,6 +3155,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -2987,6 +3167,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2998,6 +3180,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Run is null) return false;
         if (!Check(value.Run, context)) return false;
         return true;
@@ -3011,6 +3194,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.SandboxId is null) return false;
@@ -3025,6 +3209,7 @@ public static class ContractShapeValidation
             if (value.Limit < 1) return false;
             if (value.Limit > 200) return false;
         }
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3036,6 +3221,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -3047,6 +3233,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3058,6 +3246,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         foreach (var item in value.Runs)
         {
             if (!Check(item, context)) return false;
@@ -3075,6 +3264,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.RunId is null) return false;
@@ -3091,6 +3281,7 @@ public static class ContractShapeValidation
         }
         if (value.Meta.CommandId is null) return false;
         if ((int)value.Lease.Mode != 2) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3102,6 +3293,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -3113,6 +3305,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3124,6 +3318,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.AppliedSize is null) return false;
         if (!Check(value.AppliedSize, context)) return false;
         return true;
@@ -3137,6 +3332,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.SandboxId is null) return false;
@@ -3186,6 +3382,7 @@ public static class ContractShapeValidation
         if ((int)value.TerminalMode == 2 && value.TerminalSize is null) return false;
         if (value.Argv.Sum(x => (long)global::System.Text.Encoding.UTF8.GetByteCount(x)) > 1048576 || value.Argv.Any(x => x.Contains('\0'))) return false;
         if (value.Environment.Select(x => x.Name).Distinct(global::System.StringComparer.Ordinal).Count() != value.Environment.Count) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3197,6 +3394,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -3208,6 +3406,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3219,6 +3419,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Run is null) return false;
         if (!Check(value.Run, context)) return false;
         if (value.Operation is null) return false;
@@ -3234,6 +3435,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.RunId is null) return false;
@@ -3249,6 +3451,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3260,6 +3463,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -3271,6 +3475,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3282,6 +3488,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Run is null) return false;
         if (!Check(value.Run, context)) return false;
         if (value.Operation is null) return false;
@@ -3297,6 +3504,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.FrameCase == 10)
@@ -3316,6 +3524,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.FrameCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3327,6 +3537,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.RunId is null) return false;
@@ -3344,6 +3555,7 @@ public static class ContractShapeValidation
         {
             if ((int)value.Stream != 1 && (int)value.Stream != 2 && (int)value.Stream != 3) return false;
         }
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3355,6 +3567,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.RunId is null) return false;
@@ -3377,6 +3590,7 @@ public static class ContractShapeValidation
         }
         if (value.Meta.CommandId is null) return false;
         if ((int)value.Lease.Mode != 2 || (value.HasInput == (value.HasCloseStdin && value.CloseStdin)) || (value.HasInput && value.Input.Length is < 1 or > 65536)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3388,6 +3602,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -3399,6 +3614,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3410,9 +3627,11 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (!value.HasAcceptedBytes) return false;
         if (value.HasAcceptedBytes)
         {
+            if (value.AcceptedBytes > 65536) return false;
         }
         return true;
         }
@@ -3425,6 +3644,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.SandboxId is null) return false;
         if (!Check(value.SandboxId, context)) return false;
         if (!value.HasDisplayName) return false;
@@ -3471,6 +3691,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (!value.HasProfileId) return false;
         if (value.HasProfileId)
         {
@@ -3520,6 +3741,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.SandboxId is null) return false;
@@ -3545,6 +3767,7 @@ public static class ContractShapeValidation
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.ExpectedRev is not { HasValue: true, Value: > 0 } || value.Meta.ExpectedNative is not null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3556,6 +3779,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -3567,6 +3791,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3578,6 +3804,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Sandbox is null) return false;
         if (!Check(value.Sandbox, context)) return false;
         return true;
@@ -3591,6 +3818,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (!value.HasDisplayName) return false;
@@ -3618,6 +3846,7 @@ public static class ContractShapeValidation
         if (value.TemplateRevision is not null && (!value.TemplateRevision.HasValue || value.TemplateRevision.Value <= 0)) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3629,6 +3858,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -3640,6 +3870,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3651,6 +3883,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Sandbox is null) return false;
         if (!Check(value.Sandbox, context)) return false;
         return true;
@@ -3664,6 +3897,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.SandboxId is null) return false;
@@ -3686,6 +3920,7 @@ public static class ContractShapeValidation
         if (value.Meta.ExpectedRev is not { HasValue: true, Value: > 0 } || value.Meta.ExpectedNative is not null) return false;
         if ((value.PlanId is null) == (value.ResumeCommandId is null)) return false;
         if (value.ResumeCommandId is not null && value.ResumeCommandId.Equals(value.Meta.CommandId)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3697,6 +3932,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -3708,6 +3944,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3719,6 +3957,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Operation is null) return false;
         if (!Check(value.Operation, context)) return false;
         return true;
@@ -3732,10 +3971,12 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.SandboxId is null) return false;
         if (!Check(value.SandboxId, context)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3747,6 +3988,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -3758,6 +4000,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3769,6 +4013,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Sandbox is null) return false;
         if (!Check(value.Sandbox, context)) return false;
         return true;
@@ -3782,6 +4027,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.HasCursor)
@@ -3794,6 +4040,7 @@ public static class ContractShapeValidation
             if (value.Limit < 1) return false;
             if (value.Limit > 200) return false;
         }
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3805,6 +4052,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -3816,6 +4064,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3827,6 +4077,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         foreach (var item in value.Sandboxes)
         {
             if (!Check(item, context)) return false;
@@ -3844,10 +4095,12 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if (value.SandboxId is null) return false;
         if (!Check(value.SandboxId, context)) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3859,6 +4112,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
         if ((int)value.OutcomeCase == 2)
@@ -3870,6 +4124,8 @@ public static class ContractShapeValidation
             if (!Check(value.Error, context)) return false;
         }
         if ((int)value.OutcomeCase == 0) return false;
+        if (value.Meta.CalculateSize() > 1048576) return false;
+        if (value.Error is not null && (value.Error.CalculateSize() > 1048576 || !V2Error(value.Error))) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3881,6 +4137,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.Plan is null) return false;
         if (!Check(value.Plan, context)) return false;
         return true;
@@ -3894,6 +4151,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.LeaseId is null) return false;
         if (!Check(value.LeaseId, context)) return false;
         if (!value.HasRunEpoch) return false;
@@ -3933,6 +4191,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (!value.HasRows) return false;
         if (value.HasRows)
         {
@@ -3956,6 +4215,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.TransferId is null) return false;
         if (!Check(value.TransferId, context)) return false;
         if (value.SandboxId is null) return false;
@@ -4010,6 +4270,7 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
+        if (value.CalculateSize() > 1048576) return false;
         if (value.HasOwnedBytes)
         {
         }
@@ -4145,6 +4406,39 @@ public static class ContractShapeValidation
         "conflict.duplicate_identifier" or "command.reused_identifier" or "state.not_found" or "state.invalid_transition" or "state.gone" or "resource.integrity_failed";
 
     private static bool V2Relative(string path) => path.Length > 0 && !path.StartsWith('/') && !path.StartsWith('\\') && !path.Contains(':') && !path.Contains('\0') && path.Replace('\\', '/').Split('/').All(x => x.Length > 0 && x != "." && x != "..");
-    private static bool V2Origin(string origin) => global::System.Uri.TryCreate(origin, global::System.UriKind.Absolute, out var uri) && uri.Scheme == "https" && uri.UserInfo.Length == 0 && uri.Query.Length == 0 && uri.Fragment.Length == 0 && uri.AbsolutePath == "/" && (origin == uri.GetLeftPart(global::System.UriPartial.Authority) || origin == uri.GetLeftPart(global::System.UriPartial.Authority) + "/");
+    private static bool V2Origin(string origin) => origin.StartsWith("https://", global::System.StringComparison.Ordinal) && !origin.Any(char.IsWhiteSpace) && global::System.Uri.TryCreate(origin, global::System.UriKind.Absolute, out var uri) && uri.Host.Length > 0 && uri.UserInfo.Length == 0 && uri.Query.Length == 0 && uri.Fragment.Length == 0 && uri.AbsolutePath == "/";
+    private static bool V2Error(global::ArcForges.Contracts.Foundation.V1.ArcError error) => error.Code switch
+    {
+        "invalid_argument" => (int)error.Category == 1 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "invalid_cursor" => (int)error.Category == 1 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "path_rejected" => (int)error.Category == 1 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "unauthenticated" => (int)error.Category == 2 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "permission_denied" => (int)error.Category == 3 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "hosted_access_required" => (int)error.Category == 4 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "revision_mismatch" => (int)error.Category == 5 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "command_id_reused" => (int)error.Category == 5 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "owner_epoch_retired" => (int)error.Category == 5 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "identity_changed" => (int)error.Category == 5 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "lease_stale" => (int)error.Category == 5 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "not_found" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "managed_use" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "terminal_unavailable" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "not_activated" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "unsupported_combination" => (int)error.Category == 8 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "launch_failed" => (int)error.Category == 8 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1)),
+        "busy" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 3)),
+        "node_stopping" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 3)),
+        "budget_unavailable" => (int)error.Category == 7 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 3)),
+        "disk_space" => (int)error.Category == 7 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 3)),
+        "overloaded" => (int)error.Category == 7 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 3)),
+        "rate_limited" => (int)error.Category == 7 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 3)),
+        "receipt_compacted" => (int)error.Category == 6 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1) || ((int)error.Effect == 2 && (int)error.Retry.Mode == 1)),
+        "terminal_ack_unavailable" => (int)error.Category == 8 && (((int)error.Effect == 3 && (int)error.Retry.Mode == 1)),
+        "enforcement_failed" => (int)error.Category == 7 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1) || ((int)error.Effect == 3 && (int)error.Retry.Mode == 4)),
+        "outcome_unknown" => (int)error.Category == 8 && (((int)error.Effect == 3 && (int)error.Retry.Mode == 4)),
+        "store_corrupt" => (int)error.Category == 9 && (((int)error.Effect == 3 && (int)error.Retry.Mode == 1)),
+        "internal" => (int)error.Category == 9 && (((int)error.Effect == 1 && (int)error.Retry.Mode == 1) || ((int)error.Effect == 3 && (int)error.Retry.Mode == 4)),
+        _ => false,
+    };
 
 }

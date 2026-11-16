@@ -13,12 +13,7 @@
         },
         "state": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         },
         "reason": {
           "maxUtf8Bytes": 1048576
@@ -52,17 +47,11 @@
       "fields": {
         "egress": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "ingress": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "hostLoopback": {},
         "allowedDestinations": {
@@ -76,7 +65,7 @@
       "fields": {
         "cpuMaxMillicores": {
           "min": 1,
-          "max": 2147483647
+          "max": 4294967295
         },
         "memoryMaxBytes": {
           "min": 1,
@@ -93,10 +82,7 @@
         "preemptible": {},
         "pressureAction": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "maxConcurrentRuns": {
           "min": 1,
@@ -109,9 +95,7 @@
           "max": 18446744073709551615
         }
       },
-      "rules": [
-        "v2ResourcePolicy"
-      ]
+      "rules": ["v2ResourcePolicy"]
     },
     "arcforges.sandbox.v2.EnvironmentEntry": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.EnvironmentEntry",
@@ -130,9 +114,7 @@
           "maxUtf8Bytes": 1048576
         }
       },
-      "rules": [
-        "v2Environment"
-      ]
+      "rules": ["v2Environment"]
     },
     "arcforges.sandbox.v2.SandboxConfig": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxConfig",
@@ -166,10 +148,7 @@
         },
         "outputRetentionBytes": {}
       },
-      "rules": [
-        "v2SafeDefaultWorkdir",
-        "v2EnvironmentUnique"
-      ]
+      "rules": ["v2SafeDefaultWorkdir", "v2EnvironmentUnique"]
     },
     "arcforges.sandbox.v2.Sandbox": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.Sandbox",
@@ -188,14 +167,7 @@
         },
         "state": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
-          ]
+          "enumValues": [1, 2, 3, 4, 5, 6]
         },
         "config": {
           "required": true
@@ -213,9 +185,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2PositiveRevision"
-      ]
+      "rules": ["v2PositiveRevision"]
     },
     "arcforges.sandbox.v2.RunExit": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunExit",
@@ -223,31 +193,18 @@
         "rawCode": {},
         "source": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         },
         "terminationReason": {
           "maxUtf8Bytes": 1048576
         },
         "payloadStarted": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         },
         "effect": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         },
         "groupEmptyVerified": {
           "required": true
@@ -271,15 +228,7 @@
         },
         "state": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7
-          ]
+          "enumValues": [1, 2, 3, 4, 5, 6, 7]
         },
         "epoch": {
           "maxUtf8Bytes": 256,
@@ -297,10 +246,7 @@
         },
         "terminalMode": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "createdAt": {
           "required": true
@@ -324,11 +270,7 @@
           "minLength": 1
         }
       },
-      "rules": [
-        "v2PositiveRevision",
-        "v2PositiveSandboxRevision",
-        "v2RunExit"
-      ]
+      "rules": ["v2PositiveRevision", "v2PositiveSandboxRevision", "v2RunExit"]
     },
     "arcforges.sandbox.v2.TerminalSize": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.TerminalSize",
@@ -362,10 +304,7 @@
           "max": 18446744073709551615
         },
         "mode": {
-          "enumValues": [
-            1,
-            2
-          ],
+          "enumValues": [1, 2],
           "required": true
         },
         "expiresAt": {
@@ -399,13 +338,7 @@
         },
         "status": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ]
+          "enumValues": [1, 2, 3, 4, 5]
         },
         "reason": {
           "maxUtf8Bytes": 1048576
@@ -413,9 +346,7 @@
         "appliedAt": {},
         "readbackAt": {}
       },
-      "rules": [
-        "v2PositiveDesiredRevision"
-      ]
+      "rules": ["v2PositiveDesiredRevision"]
     },
     "arcforges.sandbox.v2.ResourceSnapshot": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceSnapshot",
@@ -423,11 +354,7 @@
         "scopeKind": {
           "maxUtf8Bytes": 1048576,
           "required": true,
-          "enumValues": [
-            "node",
-            "sandbox",
-            "run"
-          ]
+          "enumValues": ["node", "sandbox", "run"]
         },
         "scopeId": {},
         "sampledAt": {
@@ -484,10 +411,7 @@
           "minLength": 1
         }
       },
-      "rules": [
-        "v2PositivePolicyRevision",
-        "v2Scope"
-      ]
+      "rules": ["v2PositivePolicyRevision", "v2Scope"]
     },
     "arcforges.sandbox.v2.OutputChunk": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.OutputChunk",
@@ -502,11 +426,7 @@
         },
         "stream": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         },
         "data": {
           "minLength": 1,
@@ -517,9 +437,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2OutputOffsets"
-      ]
+      "rules": ["v2OutputOffsets"]
     },
     "arcforges.sandbox.v2.OutputGap": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.OutputGap",
@@ -538,11 +456,7 @@
         "reason": {
           "maxUtf8Bytes": 1048576,
           "required": true,
-          "enumValues": [
-            "retention",
-            "epoch_changed",
-            "slow_consumer"
-          ]
+          "enumValues": ["retention", "epoch_changed", "slow_consumer"]
         }
       }
     },
@@ -563,11 +477,7 @@
         "reason": {
           "required": true,
           "maxUtf8Bytes": 1048576,
-          "enumValues": [
-            "retention",
-            "epoch_changed",
-            "slow_consumer"
-          ]
+          "enumValues": ["retention", "epoch_changed", "slow_consumer"]
         }
       }
     },
@@ -584,13 +494,7 @@
         },
         "kind": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ]
+          "enumValues": [1, 2, 3, 4, 5]
         },
         "sandboxId": {},
         "runId": {},
@@ -599,9 +503,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2PositiveRevision"
-      ]
+      "rules": ["v2PositiveRevision"]
     },
     "arcforges.sandbox.v2.Operation": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.Operation",
@@ -610,21 +512,12 @@
           "required": true
         },
         "state": {
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ],
+          "enumValues": [1, 2, 3, 4],
           "required": true
         },
         "effect": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         },
         "method": {
           "maxUtf8Bytes": 1048576,
@@ -643,10 +536,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2PositiveRevision",
-        "v2Operation"
-      ]
+      "rules": ["v2PositiveRevision", "v2Operation", "v2Error"]
     },
     "arcforges.sandbox.v2.DeletePlan": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DeletePlan",
@@ -678,9 +568,7 @@
           "items": {}
         }
       },
-      "rules": [
-        "v2PositiveRevision"
-      ]
+      "rules": ["v2PositiveRevision"]
     },
     "arcforges.sandbox.v2.Transfer": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.Transfer",
@@ -693,13 +581,7 @@
         },
         "state": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ]
+          "enumValues": [1, 2, 3, 4, 5]
         },
         "relativePath": {
           "maxUtf8Bytes": 1048576,
@@ -717,17 +599,11 @@
         "direction": {
           "maxUtf8Bytes": 1048576,
           "required": true,
-          "enumValues": [
-            "import",
-            "export"
-          ]
+          "enumValues": ["import", "export"]
         },
         "closedAt": {}
       },
-      "rules": [
-        "v2SafeRelativePath",
-        "v2Transfer"
-      ]
+      "rules": ["v2SafeRelativePath", "v2Transfer"]
     },
     "arcforges.sandbox.v2.FileEntry": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.FileEntry",
@@ -744,9 +620,7 @@
         },
         "modifiedAt": {}
       },
-      "rules": [
-        "v2SafeRelativePath"
-      ]
+      "rules": ["v2SafeRelativePath"]
     },
     "arcforges.sandbox.v2.RemoteGrant": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RemoteGrant",
@@ -763,11 +637,7 @@
         },
         "state": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         },
         "methods": {
           "items": {}
@@ -779,19 +649,13 @@
         "scopeKind": {
           "maxUtf8Bytes": 1048576,
           "required": true,
-          "enumValues": [
-            "sandbox",
-            "provision"
-          ]
+          "enumValues": ["sandbox", "provision"]
         },
         "creationTemplate": {},
         "templateRevision": {},
         "parentGrantId": {}
       },
-      "rules": [
-        "v2PositiveRevision",
-        "v2PositiveTemplateRevision"
-      ]
+      "rules": ["v2PositiveRevision", "v2PositiveTemplateRevision"]
     },
     "arcforges.sandbox.v2.Page": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.Page",
@@ -835,7 +699,8 @@
         "meta": {
           "required": true
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.NodeServiceHandshakeResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceHandshakeResponse",
@@ -846,9 +711,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.NodeServiceHandshakeValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceHandshakeValue",
@@ -864,9 +728,7 @@
         "contractVersion": {
           "maxUtf8Bytes": 1048576,
           "required": true,
-          "enumValues": [
-            "2.0"
-          ]
+          "enumValues": ["2.0"]
         },
         "cohort": {
           "maxUtf8Bytes": 1048576,
@@ -890,11 +752,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2Durable",
-        "v2Durable",
-        "v2Durable"
-      ]
+      "rules": ["v2Durable", "v2Durable", "v2Durable", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.NodeServiceGetOperationResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceGetOperationResponse",
@@ -905,9 +763,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.NodeServiceGetOperationValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceGetOperationValue",
@@ -928,7 +785,8 @@
           "minLength": 1
         },
         "afterSequence": {}
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.NodeServiceWatchEventsFrame": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceWatchEventsFrame",
@@ -940,9 +798,8 @@
         "gap": {},
         "error": {}
       },
-      "oneofRequired": [
-        "frame"
-      ]
+      "oneofRequired": ["frame"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.NodeServiceSetRemoteGrantRequest": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceSetRemoteGrantRequest",
@@ -957,12 +814,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2Durable",
-        "v2Durable",
-        "v2Durable",
-        "v2ExpectedRevision"
-      ]
+      "rules": ["v2Durable", "v2Durable", "v2Durable", "v2ExpectedRevision", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.NodeServiceSetRemoteGrantResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceSetRemoteGrantResponse",
@@ -973,9 +825,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.NodeServiceSetRemoteGrantValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceSetRemoteGrantValue",
@@ -998,12 +849,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2Durable",
-        "v2Durable",
-        "v2Durable",
-        "v2ExpectedRevision"
-      ]
+      "rules": ["v2Durable", "v2Durable", "v2Durable", "v2ExpectedRevision", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.NodeServiceRevokeRemoteGrantResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceRevokeRemoteGrantResponse",
@@ -1014,9 +860,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.NodeServiceRevokeRemoteGrantValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceRevokeRemoteGrantValue",
@@ -1040,7 +885,8 @@
           "min": 1,
           "max": 200
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.NodeServiceListRemoteGrantsResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceListRemoteGrantsResponse",
@@ -1051,9 +897,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.NodeServiceListRemoteGrantsValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.NodeServiceListRemoteGrantsValue",
@@ -1096,7 +941,8 @@
         "v2Durable",
         "v2PositiveTemplateRevision",
         "v2Durable",
-        "v2Durable"
+        "v2Durable",
+        "v2MetaSize"
       ]
     },
     "arcforges.sandbox.v2.SandboxServiceCreateResponse": {
@@ -1108,9 +954,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.SandboxServiceCreateValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceCreateValue",
@@ -1149,7 +994,8 @@
         "v2Durable",
         "v2Durable",
         "v2Durable",
-        "v2ExpectedRevision"
+        "v2ExpectedRevision",
+        "v2MetaSize"
       ]
     },
     "arcforges.sandbox.v2.SandboxServiceConfigureResponse": {
@@ -1161,9 +1007,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.SandboxServiceConfigureValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceConfigureValue",
@@ -1186,7 +1031,8 @@
           "min": 1,
           "max": 200
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.SandboxServiceListResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceListResponse",
@@ -1197,9 +1043,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.SandboxServiceListValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceListValue",
@@ -1221,7 +1066,8 @@
         "sandboxId": {
           "required": true
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.SandboxServiceInspectResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceInspectResponse",
@@ -1232,9 +1078,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.SandboxServiceInspectValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceInspectValue",
@@ -1253,7 +1098,8 @@
         "sandboxId": {
           "required": true
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.SandboxServicePlanDeleteResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServicePlanDeleteResponse",
@@ -1264,9 +1110,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.SandboxServicePlanDeleteValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServicePlanDeleteValue",
@@ -1298,7 +1143,8 @@
         "v2Durable",
         "v2Durable",
         "v2ExpectedRevision",
-        "v2DeleteIntent"
+        "v2DeleteIntent",
+        "v2MetaSize"
       ]
     },
     "arcforges.sandbox.v2.SandboxServiceDeleteResponse": {
@@ -1310,9 +1156,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.SandboxServiceDeleteValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.SandboxServiceDeleteValue",
@@ -1347,10 +1192,7 @@
         },
         "terminalMode": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "terminalSize": {},
         "requestedResources": {},
@@ -1369,7 +1211,8 @@
         "v2Durable",
         "v2Durable",
         "v2ExpectedRevision",
-        "v2Start"
+        "v2Start",
+        "v2MetaSize"
       ]
     },
     "arcforges.sandbox.v2.RunServiceStartResponse": {
@@ -1381,9 +1224,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.RunServiceStartValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceStartValue",
@@ -1412,7 +1254,8 @@
           "min": 1,
           "max": 200
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.RunServiceListResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceListResponse",
@@ -1423,9 +1266,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.RunServiceListValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceListValue",
@@ -1447,7 +1289,8 @@
         "runId": {
           "required": true
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.RunServiceInspectResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceInspectResponse",
@@ -1458,9 +1301,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.RunServiceInspectValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceInspectValue",
@@ -1487,12 +1329,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2Durable",
-        "v2Durable",
-        "v2Durable",
-        "v2Durable"
-      ]
+      "rules": ["v2Durable", "v2Durable", "v2Durable", "v2Durable", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.RunServiceStopResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceStopResponse",
@@ -1503,9 +1340,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.RunServiceStopValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceStopValue",
@@ -1533,13 +1369,10 @@
         },
         "offset": {},
         "stream": {
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.RunServiceWatchOutputFrame": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceWatchOutputFrame",
@@ -1552,9 +1385,8 @@
         "run": {},
         "error": {}
       },
-      "oneofRequired": [
-        "frame"
-      ]
+      "oneofRequired": ["frame"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.RunServiceAcquireTerminalRequest": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceAcquireTerminalRequest",
@@ -1566,18 +1398,13 @@
           "required": true
         },
         "mode": {
-          "enumValues": [
-            1,
-            2
-          ],
+          "enumValues": [1, 2],
           "required": true
         },
         "existingLeaseId": {},
         "takeover": {}
       },
-      "rules": [
-        "v2Command"
-      ]
+      "rules": ["v2Command", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.RunServiceAcquireTerminalResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceAcquireTerminalResponse",
@@ -1588,9 +1415,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.RunServiceAcquireTerminalValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceAcquireTerminalValue",
@@ -1623,10 +1449,7 @@
         },
         "closeStdin": {}
       },
-      "rules": [
-        "v2Command",
-        "v2TerminalWrite"
-      ]
+      "rules": ["v2Command", "v2TerminalWrite", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.RunServiceWriteTerminalResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceWriteTerminalResponse",
@@ -1637,15 +1460,15 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.RunServiceWriteTerminalValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceWriteTerminalValue",
       "fields": {
         "acceptedBytes": {
-          "required": true
+          "required": true,
+          "max": 65536
         }
       }
     },
@@ -1670,10 +1493,7 @@
           "max": 18446744073709551615
         }
       },
-      "rules": [
-        "v2Command",
-        "v2WriterLease"
-      ]
+      "rules": ["v2Command", "v2WriterLease", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.RunServiceResizeTerminalResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceResizeTerminalResponse",
@@ -1684,9 +1504,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.RunServiceResizeTerminalValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceResizeTerminalValue",
@@ -1707,9 +1526,7 @@
         },
         "lease": {}
       },
-      "rules": [
-        "v2Command"
-      ]
+      "rules": ["v2Command", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.RunServiceDetachTerminalResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceDetachTerminalResponse",
@@ -1720,9 +1537,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.RunServiceDetachTerminalValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.RunServiceDetachTerminalValue",
@@ -1737,17 +1553,11 @@
         "scopeKind": {
           "maxUtf8Bytes": 1048576,
           "required": true,
-          "enumValues": [
-            "node",
-            "sandbox",
-            "run"
-          ]
+          "enumValues": ["node", "sandbox", "run"]
         },
         "scopeId": {}
       },
-      "rules": [
-        "v2Scope"
-      ]
+      "rules": ["v2Scope", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.ResourceServiceGetBudgetResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceServiceGetBudgetResponse",
@@ -1758,9 +1568,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.ResourceServiceGetBudgetValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceServiceGetBudgetValue",
@@ -1779,11 +1588,7 @@
         "scopeKind": {
           "maxUtf8Bytes": 1048576,
           "required": true,
-          "enumValues": [
-            "node",
-            "sandbox",
-            "run"
-          ]
+          "enumValues": ["node", "sandbox", "run"]
         },
         "scopeId": {},
         "policy": {
@@ -1800,7 +1605,8 @@
         "v2Durable",
         "v2Durable",
         "v2ExpectedRevision",
-        "v2Scope"
+        "v2Scope",
+        "v2MetaSize"
       ]
     },
     "arcforges.sandbox.v2.ResourceServiceSetPolicyResponse": {
@@ -1812,9 +1618,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.ResourceServiceSetPolicyValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceServiceSetPolicyValue",
@@ -1836,11 +1641,7 @@
         "scopeKind": {
           "maxUtf8Bytes": 1048576,
           "required": true,
-          "enumValues": [
-            "node",
-            "sandbox",
-            "run"
-          ]
+          "enumValues": ["node", "sandbox", "run"]
         },
         "scopeId": {},
         "intervalMs": {
@@ -1848,9 +1649,7 @@
           "max": 60000
         }
       },
-      "rules": [
-        "v2Scope"
-      ]
+      "rules": ["v2Scope", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.ResourceServiceWatchUsageFrame": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.ResourceServiceWatchUsageFrame",
@@ -1861,9 +1660,8 @@
         "snapshot": {},
         "error": {}
       },
-      "oneofRequired": [
-        "frame"
-      ]
+      "oneofRequired": ["frame"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.DataServiceGetUsageRequest": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceGetUsageRequest",
@@ -1874,7 +1672,8 @@
         "sandboxId": {
           "required": true
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.DataServiceGetUsageResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceGetUsageResponse",
@@ -1885,9 +1684,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.DataServiceGetUsageValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceGetUsageValue",
@@ -1917,9 +1715,7 @@
           "max": 200
         }
       },
-      "rules": [
-        "v2SafeRelativeDirectory"
-      ]
+      "rules": ["v2SafeRelativeDirectory", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.DataServiceListEntriesResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceListEntriesResponse",
@@ -1930,9 +1726,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.DataServiceListEntriesValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceListEntriesValue",
@@ -1984,7 +1779,8 @@
         "v2Durable",
         "v2Durable",
         "v2Durable",
-        "v2Overwrite"
+        "v2Overwrite",
+        "v2MetaSize"
       ]
     },
     "arcforges.sandbox.v2.DataServiceBeginImportResponse": {
@@ -1996,9 +1792,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.DataServiceBeginImportValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceBeginImportValue",
@@ -2029,13 +1824,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2Durable",
-        "v2Durable",
-        "v2Durable",
-        "v2Durable",
-        "v2Durable"
-      ]
+      "rules": ["v2Durable", "v2Durable", "v2Durable", "v2Durable", "v2Durable", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.DataServiceWriteImportResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceWriteImportResponse",
@@ -2046,9 +1835,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.DataServiceWriteImportValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceWriteImportValue",
@@ -2071,11 +1859,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2Durable",
-        "v2Durable",
-        "v2Durable"
-      ]
+      "rules": ["v2Durable", "v2Durable", "v2Durable", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.DataServiceCommitImportResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceCommitImportResponse",
@@ -2086,9 +1870,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.DataServiceCommitImportValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceCommitImportValue",
@@ -2127,7 +1910,8 @@
         "v2SafeRelativePath",
         "v2Durable",
         "v2Durable",
-        "v2Durable"
+        "v2Durable",
+        "v2MetaSize"
       ]
     },
     "arcforges.sandbox.v2.DataServiceBeginExportResponse": {
@@ -2139,9 +1923,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.DataServiceBeginExportValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceBeginExportValue",
@@ -2168,7 +1951,8 @@
           "max": 1048576,
           "required": true
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.DataServiceReadExportResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceReadExportResponse",
@@ -2179,9 +1963,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.DataServiceReadExportValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceReadExportValue",
@@ -2204,11 +1987,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2Durable",
-        "v2Durable",
-        "v2Durable"
-      ]
+      "rules": ["v2Durable", "v2Durable", "v2Durable", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.DataServiceCloseTransferResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceCloseTransferResponse",
@@ -2219,9 +1998,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.DataServiceCloseTransferValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceCloseTransferValue",
@@ -2240,7 +2018,8 @@
         "transferId": {
           "required": true
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.DataServiceInspectTransferResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceInspectTransferResponse",
@@ -2251,9 +2030,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.DataServiceInspectTransferValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.DataServiceInspectTransferValue",
@@ -2271,10 +2049,7 @@
         },
         "serviceMode": {
           "maxUtf8Bytes": 1048576,
-          "enumValues": [
-            "official",
-            "self_hosted"
-          ]
+          "enumValues": ["official", "self_hosted"]
         },
         "state": {
           "required": true,
@@ -2294,23 +2069,14 @@
         "enrollmentId": {},
         "channelState": {
           "maxUtf8Bytes": 1048576,
-          "enumValues": [
-            "offline",
-            "connecting",
-            "online",
-            "stale"
-          ]
+          "enumValues": ["offline", "connecting", "online", "stale"]
         },
         "observedAt": {
           "required": true
         },
         "remoteRevocation": {
           "maxUtf8Bytes": 1048576,
-          "enumValues": [
-            "not_requested",
-            "confirmed",
-            "unknown"
-          ]
+          "enumValues": ["not_requested", "confirmed", "unknown"]
         },
         "reasonCodes": {
           "items": {}
@@ -2326,14 +2092,7 @@
         "state": {
           "maxUtf8Bytes": 1048576,
           "required": true,
-          "enumValues": [
-            "pending",
-            "completing",
-            "succeeded",
-            "cancelled",
-            "expired",
-            "failed"
-          ]
+          "enumValues": ["pending", "completing", "succeeded", "cancelled", "expired", "failed"]
         },
         "verificationUri": {
           "maxUtf8Bytes": 1048576
@@ -2356,7 +2115,8 @@
         "meta": {
           "required": true
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.CenterControlServiceGetStatusResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceGetStatusResponse",
@@ -2367,9 +2127,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.CenterControlServiceGetStatusValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceGetStatusValue",
@@ -2392,18 +2151,12 @@
         "serviceMode": {
           "maxUtf8Bytes": 1048576,
           "required": true,
-          "enumValues": [
-            "official",
-            "self_hosted"
-          ]
+          "enumValues": ["official", "self_hosted"]
         },
         "flowKind": {
           "maxUtf8Bytes": 1048576,
           "required": true,
-          "enumValues": [
-            "browser",
-            "device_code"
-          ]
+          "enumValues": ["browser", "device_code"]
         },
         "ownerEpoch": {
           "required": true
@@ -2415,7 +2168,8 @@
         "v2Durable",
         "v2Durable",
         "v2Durable",
-        "v2CenterOrigin"
+        "v2CenterOrigin",
+        "v2MetaSize"
       ]
     },
     "arcforges.sandbox.v2.CenterControlServiceBeginConnectResponse": {
@@ -2427,9 +2181,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.CenterControlServiceBeginConnectValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceBeginConnectValue",
@@ -2452,7 +2205,8 @@
         "flowId": {
           "required": true
         }
-      }
+      },
+      "rules": ["v2MetaSize"]
     },
     "arcforges.sandbox.v2.CenterControlServiceGetConnectFlowResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceGetConnectFlowResponse",
@@ -2463,9 +2217,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.CenterControlServiceGetConnectFlowValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceGetConnectFlowValue",
@@ -2488,11 +2241,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2Durable",
-        "v2Durable",
-        "v2Durable"
-      ]
+      "rules": ["v2Durable", "v2Durable", "v2Durable", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.CenterControlServiceCancelConnectResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceCancelConnectResponse",
@@ -2503,9 +2252,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.CenterControlServiceCancelConnectValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceCancelConnectValue",
@@ -2525,10 +2273,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2Durable",
-        "v2Durable"
-      ]
+      "rules": ["v2Durable", "v2Durable", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.CenterControlServiceDisconnectResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceDisconnectResponse",
@@ -2539,9 +2284,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.CenterControlServiceDisconnectValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceDisconnectValue",
@@ -2564,10 +2308,7 @@
           "required": true
         }
       },
-      "rules": [
-        "v2Durable",
-        "v2Durable"
-      ]
+      "rules": ["v2Durable", "v2Durable", "v2MetaSize"]
     },
     "arcforges.sandbox.v2.CenterControlServiceSignOutResponse": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceSignOutResponse",
@@ -2578,9 +2319,8 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"],
+      "rules": ["v2MetaSize", "v2Error"]
     },
     "arcforges.sandbox.v2.CenterControlServiceSignOutValue": {
       "csharpType": "ArcForges.Contracts.Sandbox.V2.CenterControlServiceSignOutValue",

@@ -9,6 +9,11 @@ using ArcForges.Sdk.Contracts.V1;
 using Validation = ArcForges.Contracts.Validation.ContractShapeValidation;
 
 var root = args.Length >= 1 ? Path.GetFullPath(args[0]) : Directory.GetCurrentDirectory();
+if (args.Contains("--afv2-api-01", StringComparer.Ordinal))
+{
+    V2ContractCases.Run(root);
+    return 0;
+}
 if (args.Length == 3 && args[1] == "--compatibility-later-services")
 {
     LaterServiceCases.Run(Path.GetFullPath(args[2]));
@@ -87,6 +92,7 @@ if (args.Contains("--verify-foundation-exchange", StringComparer.Ordinal))
     return 0;
 }
 CatalogCases.Run(root);
+V2ContractCases.Run(root);
 var count = 0;
 foreach (var visibility in new[] { "public", "internal" })
 {

@@ -16,6 +16,7 @@
     <LicenceBoundary>Apache</LicenceBoundary>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../StructureTests/V2ContractCases.cs" Link="V2ContractCases.cs" />
     <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.Management.V2/ArcForges.Contracts.Management.V2.csproj" />
     <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.Sandbox.V2/ArcForges.Contracts.Sandbox.V2.csproj" />
     <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj" />

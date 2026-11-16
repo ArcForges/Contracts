@@ -9,6 +9,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -28,6 +30,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -47,6 +51,8 @@
       "kind": "durable_center",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "Center receipt",
       "annotations": {
@@ -66,6 +72,8 @@
       "kind": "durable_node",
       "localOnly": true,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -85,6 +93,8 @@
       "kind": "durable_node",
       "localOnly": true,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -104,6 +114,8 @@
       "kind": "durable_node",
       "localOnly": true,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -123,6 +135,8 @@
       "kind": "read",
       "localOnly": true,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -142,6 +156,8 @@
       "kind": "read",
       "localOnly": true,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -161,6 +177,8 @@
       "kind": "durable_node",
       "localOnly": true,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -180,6 +198,8 @@
       "kind": "durable_node",
       "localOnly": false,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -199,6 +219,8 @@
       "kind": "durable_node",
       "localOnly": false,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -218,6 +240,8 @@
       "kind": "durable_node",
       "localOnly": false,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -237,6 +261,8 @@
       "kind": "durable_node",
       "localOnly": false,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -256,6 +282,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -275,6 +303,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -294,6 +324,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -313,6 +345,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 2097152,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -332,6 +366,8 @@
       "kind": "durable_node",
       "localOnly": false,
       "ownerEpoch": true,
+      "maxRequestBytes": 2097152,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -351,6 +387,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -370,6 +408,8 @@
       "kind": "read",
       "localOnly": true,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -389,6 +429,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -408,6 +450,8 @@
       "kind": "durable_node",
       "localOnly": false,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -427,6 +471,8 @@
       "kind": "durable_node",
       "localOnly": true,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -446,6 +492,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": true,
       "reconciliation": "read_only",
       "annotations": {
@@ -465,6 +513,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -484,6 +534,8 @@
       "kind": "durable_node",
       "localOnly": false,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -503,6 +555,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": true,
       "reconciliation": "read_only",
       "annotations": {
@@ -522,6 +576,8 @@
       "kind": "transient_terminal",
       "localOnly": true,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "none",
       "annotations": {
@@ -541,6 +597,8 @@
       "kind": "transient_terminal",
       "localOnly": true,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "none",
       "annotations": {
@@ -560,6 +618,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -579,6 +639,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -598,6 +660,8 @@
       "kind": "transient_terminal",
       "localOnly": true,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "none",
       "annotations": {
@@ -617,6 +681,8 @@
       "kind": "durable_node",
       "localOnly": false,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -636,6 +702,8 @@
       "kind": "durable_node",
       "localOnly": false,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -655,6 +723,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": true,
       "reconciliation": "read_only",
       "annotations": {
@@ -674,6 +744,8 @@
       "kind": "transient_terminal",
       "localOnly": true,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "none",
       "annotations": {
@@ -693,6 +765,8 @@
       "kind": "durable_node",
       "localOnly": false,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -712,6 +786,8 @@
       "kind": "durable_node",
       "localOnly": false,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -731,6 +807,8 @@
       "kind": "durable_node",
       "localOnly": false,
       "ownerEpoch": true,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "NodeService.GetOperation",
       "annotations": {
@@ -750,6 +828,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -769,6 +849,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
@@ -788,6 +870,8 @@
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
+      "maxRequestBytes": 1048576,
+      "maxResponseBytes": 1048576,
       "serverStreaming": false,
       "reconciliation": "read_only",
       "annotations": {
