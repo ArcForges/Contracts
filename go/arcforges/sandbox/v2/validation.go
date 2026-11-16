@@ -2469,15 +2469,6 @@ func ValidateNodeServiceGetOperationRequest(value *NodeServiceGetOperationReques
 			return false
 		}
 	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
 	if proto.Size(value.Meta) > 1048576 {
 		return false
 	}
@@ -2754,12 +2745,6 @@ func ValidateNodeServiceSetRemoteGrantRequest(value *NodeServiceSetRemoteGrantRe
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
 	if value.GetMeta().GetExpectedRev() == nil || value.GetMeta().GetExpectedRev().Value == nil || value.GetMeta().GetExpectedRev().GetValue() <= 0 || value.GetMeta().GetExpectedNative() != nil {
 		return false
 	}
@@ -2917,12 +2902,6 @@ func ValidateNodeServiceRevokeRemoteGrantRequest(value *NodeServiceRevokeRemoteG
 		if !validID(value.GetOwnerEpoch()) {
 			return false
 		}
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
 	}
 	if value.GetMeta().GetCommandId() == nil {
 		return false
@@ -3283,22 +3262,7 @@ func ValidateSandboxServiceCreateRequest(value *SandboxServiceCreateRequest) boo
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
 	if value.TemplateRevision != nil && (value.TemplateRevision.Value == nil || value.TemplateRevision.GetValue() <= 0) {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
 	if proto.Size(value.Meta) > 1048576 {
@@ -3479,21 +3443,6 @@ func ValidateSandboxServiceConfigureRequest(value *SandboxServiceConfigureReques
 		}
 	}
 	if value.RepairError != nil {
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
 	}
 	if value.GetMeta().GetCommandId() == nil {
 		return false
@@ -4123,18 +4072,6 @@ func ValidateSandboxServiceDeleteRequest(value *SandboxServiceDeleteRequest) boo
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
 	if value.GetMeta().GetExpectedRev() == nil || value.GetMeta().GetExpectedRev().Value == nil || value.GetMeta().GetExpectedRev().GetValue() <= 0 || value.GetMeta().GetExpectedNative() != nil {
 		return false
 	}
@@ -4343,30 +4280,6 @@ func ValidateRunServiceStartRequest(value *RunServiceStartRequest) bool {
 		if !validID(value.GetOwnerEpoch()) {
 			return false
 		}
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
 	}
 	if value.GetMeta().GetCommandId() == nil {
 		return false
@@ -4872,15 +4785,6 @@ func ValidateRunServiceStopRequest(value *RunServiceStopRequest) bool {
 		if !validID(value.GetOwnerEpoch()) {
 			return false
 		}
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
 	}
 	if value.GetMeta().GetCommandId() == nil {
 		return false
@@ -6041,18 +5945,6 @@ func ValidateResourceServiceSetPolicyRequest(value *ResourceServiceSetPolicyRequ
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
 	if value.GetMeta().GetExpectedRev() == nil || value.GetMeta().GetExpectedRev().Value == nil || value.GetMeta().GetExpectedRev().GetValue() <= 0 || value.GetMeta().GetExpectedNative() != nil {
 		return false
 	}
@@ -6721,28 +6613,7 @@ func ValidateDataServiceBeginImportRequest(value *DataServiceBeginImportRequest)
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
 	if value.RelativePath != nil && !validRelative(value.GetRelativePath()) {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
 	if value.GetOverwrite() && (value.ExpectedFileVersion == nil || value.GetExpectedFileVersion() == "") {
@@ -6922,18 +6793,6 @@ func ValidateDataServiceWriteImportRequest(value *DataServiceWriteImportRequest)
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
 	if proto.Size(value.Meta) > 1048576 {
 		return false
 	}
@@ -7088,12 +6947,6 @@ func ValidateDataServiceCommitImportRequest(value *DataServiceCommitImportReques
 		if !validID(value.GetOwnerEpoch()) {
 			return false
 		}
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
 	}
 	if value.GetMeta().GetCommandId() == nil {
 		return false
@@ -7283,19 +7136,7 @@ func ValidateDataServiceBeginExportRequest(value *DataServiceBeginExportRequest)
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
 	if value.RelativePath != nil && !validRelative(value.GetRelativePath()) {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
 	if proto.Size(value.Meta) > 1048576 {
@@ -7615,12 +7456,6 @@ func ValidateDataServiceCloseTransferRequest(value *DataServiceCloseTransferRequ
 		if !validID(value.GetOwnerEpoch()) {
 			return false
 		}
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
 	}
 	if value.GetMeta().GetCommandId() == nil {
 		return false
@@ -8296,18 +8131,6 @@ func ValidateCenterControlServiceBeginConnectRequest(value *CenterControlService
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
 	if !validOrigin(value.GetCenterOrigin()) {
 		return false
 	}
@@ -8629,12 +8452,6 @@ func ValidateCenterControlServiceCancelConnectRequest(value *CenterControlServic
 	if value.GetMeta().GetCommandId() == nil {
 		return false
 	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
-	}
 	if proto.Size(value.Meta) > 1048576 {
 		return false
 	}
@@ -8781,9 +8598,6 @@ func ValidateCenterControlServiceDisconnectRequest(value *CenterControlServiceDi
 		if !validID(value.GetOwnerEpoch()) {
 			return false
 		}
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
 	}
 	if value.GetMeta().GetCommandId() == nil {
 		return false
@@ -8942,9 +8756,6 @@ func ValidateCenterControlServiceSignOutRequest(value *CenterControlServiceSignO
 		if !validID(value.GetOwnerEpoch()) {
 			return false
 		}
-	}
-	if value.GetMeta().GetCommandId() == nil {
-		return false
 	}
 	if value.GetMeta().GetCommandId() == nil {
 		return false

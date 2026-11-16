@@ -63,16 +63,26 @@ def methods(root: Path = ROOT):
     for source, text in specifications(root):
         types = {name: body for name, body in re.findall(r"message (\w+) \{(.*?)\n\}", text, re.S)}
         annotated = flagship_annotations(text, source["path"])
+        package = re.search(r"package ([\w.]+);", text)[1]
+        rpcs = {}
+        for service, body in re.findall(r"service (\w+) \{(.*?)\n\}", text, re.S):
+            for method, request, streamed, response in re.findall(r"rpc (\w+)\((\w+)\) returns \((stream )?(\w+)\)", body):
+                rpcs[f"{package}.{service}/{method}"] = (request, streamed, response)
+        if set(rpcs) != set(annotated):
+            raise ValueError("V2 annotated/declared method inventory differs: " + source["path"])
+        domain = "sandbox" if "/sandbox/" in source["path"] else "management"
+        profiles = json.loads((root / f"public/proto/constraints/afv2-api-01-{domain}.json").read_text())["messages"]
         for binding, annotation in annotated.items():
-            name = binding.rsplit("/", 1)[1]
-            match = re.search(r"rpc " + name + r"\((\w+)\) returns \((stream )?(\w+)\)", text)
-            request, streamed, response = match.groups()
+            request, streamed, response = rpcs[binding]
             transient = "transient live-lease" in annotation["idempotency"]
             durable = "durable owner+owner_epoch" in annotation["idempotency"] or (binding.endswith("DeviceService/Revoke"))
             kind = "transient_terminal" if transient else "durable_node" if durable and "sandbox.v2" in binding else "durable_center" if durable else "read"
             owner_epoch = "owner_epoch = 100" in types[request]
             if owner_epoch != (kind == "durable_node") or transient and (owner_epoch or annotation["locality"] != "local only"):
                 raise ValueError("Invalid V2 epoch/locality classification: " + binding)
+            constraints = profiles[f"arcforges.{domain}.v2.{request}"]
+            if ("v2Durable" in constraints.get("rules", [])) != (kind == "durable_node"):
+                raise ValueError("V2 mutation/read constraint differs from its operation annotation: " + binding)
             rows.append({"binding": binding, "source": source["path"], "request": request, "response": response,
                          "kind": kind, "localOnly": annotation["locality"] == "local only", "ownerEpoch": owner_epoch,
                          "maxRequestBytes": maximum(request), "maxResponseBytes": maximum(response),

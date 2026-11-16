@@ -613,8 +613,8 @@
     {
       "binding": "arcforges.sandbox.v2.RunService/Inspect",
       "source": "public/proto/arcforges/sandbox/v2/platform.proto",
-      "request": "SandboxServiceInspectRequest",
-      "response": "SandboxServiceInspectResponse",
+      "request": "RunServiceInspectRequest",
+      "response": "RunServiceInspectResponse",
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,
@@ -634,8 +634,8 @@
     {
       "binding": "arcforges.sandbox.v2.RunService/List",
       "source": "public/proto/arcforges/sandbox/v2/platform.proto",
-      "request": "SandboxServiceListRequest",
-      "response": "SandboxServiceListResponse",
+      "request": "RunServiceListRequest",
+      "response": "RunServiceListResponse",
       "kind": "read",
       "localOnly": false,
       "ownerEpoch": false,

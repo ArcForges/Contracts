@@ -58,12 +58,14 @@ class GoModuleRow(unittest.TestCase):
         self.assertEqual(packages, {
             "arcforges.foundation.v1": "public", "arcforges.hello.v1": "public", "arcforges.publicapi.v1": "public",
             "arcforges.catalog.v1": "public", "arcforges.node.v1": "public", "arcforges.fleet.v1": "public",
-            "arcforges.relay.v1": "internal", "arcforges.operator.v1": "internal"})
-        # Every file of the eight proto packages, and nothing else (retired identities stay retired).
+            "arcforges.relay.v1": "internal", "arcforges.operator.v1": "internal",
+            "arcforges.sandbox.v2": "public", "arcforges.management.v2": "public"})
+        # Every file of the ten proto packages, and nothing else (retired identities stay retired).
         expected = sorted(path for path in git(ROOT, "ls-files", "*.proto").split()
                           if path.split("/proto/")[0] in {"public", "internal"}
                           and path.split("/proto/")[1].split("/")[1] in {
-                              "foundation", "hello", "publicapi", "catalog", "node", "fleet", "relay", "operator"})
+                              "foundation", "hello", "publicapi", "catalog", "node", "fleet", "relay", "operator",
+                              "sandbox", "management"})
         self.assertEqual(sorted(self.row["proto"]), expected)
 
     def test_row_negatives(self):
@@ -82,7 +84,8 @@ class GoModuleRow(unittest.TestCase):
             "renamed package": lambda row: row["goPackages"][0].update(name="foundation"),
             "wrong import path": lambda row: row["goPackages"][0].update(
                 importPath="github.com/ArcForges/Contracts/go/internal/foundation/v1"),
-            "internal file in a public package": lambda row: row["goPackages"][-1].update(contractAccess="public"),
+            "internal file in a public package": lambda row: next(
+                item for item in row["goPackages"] if item["protoPackage"] == "arcforges.operator.v1").update(contractAccess="public"),
             "unused mapping": lambda row: row["goPackages"].append({
                 "protoPackage": "arcforges.events.v1", "importPath": "github.com/ArcForges/Contracts/go/arcforges/events/v1",
                 "name": "eventsv1", "contractAccess": "public"}),

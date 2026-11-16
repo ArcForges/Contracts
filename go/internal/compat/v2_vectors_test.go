@@ -41,6 +41,10 @@ func TestV2ContractVectors(t *testing.T) {
 			var message proto.Message
 			var check func() bool
 			switch row.Type {
+			case "NodeServiceGetOperationRequest":
+				value := new(sandboxv2.NodeServiceGetOperationRequest)
+				message = value
+				check = func() bool { return sandboxv2.ValidateNodeServiceGetOperationRequest(value) }
 			case "NodeServiceHandshakeResponse":
 				value := new(sandboxv2.NodeServiceHandshakeResponse)
 				message = value

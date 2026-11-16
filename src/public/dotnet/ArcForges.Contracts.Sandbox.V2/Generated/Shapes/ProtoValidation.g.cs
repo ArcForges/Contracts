@@ -579,10 +579,6 @@ public static class ContractShapeValidation
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
         if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (!V2Origin(value.CenterOrigin)) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
@@ -649,8 +645,6 @@ public static class ContractShapeValidation
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
         if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
@@ -707,7 +701,6 @@ public static class ContractShapeValidation
         if (!Check(value.Meta, context)) return false;
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
@@ -878,7 +871,6 @@ public static class ContractShapeValidation
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
         if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
@@ -974,11 +966,7 @@ public static class ContractShapeValidation
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
         if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.HasRelativePath && !V2Relative(value.RelativePath)) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
@@ -1063,14 +1051,7 @@ public static class ContractShapeValidation
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
         if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.HasRelativePath && !V2Relative(value.RelativePath)) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.HasOverwrite && value.Overwrite && (!value.HasExpectedFileVersion || value.ExpectedFileVersion.Length == 0)) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
@@ -1131,8 +1112,6 @@ public static class ContractShapeValidation
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
         if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
@@ -1191,8 +1170,6 @@ public static class ContractShapeValidation
         if (!Check(value.TransferId, context)) return false;
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
@@ -1518,10 +1495,6 @@ public static class ContractShapeValidation
         }
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
@@ -1907,9 +1880,6 @@ public static class ContractShapeValidation
         if (!Check(value.CommandId, context)) return false;
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
@@ -2119,8 +2089,6 @@ public static class ContractShapeValidation
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
         if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.ExpectedRev is not { HasValue: true, Value: > 0 } || value.Meta.ExpectedNative is not null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
@@ -2180,8 +2148,6 @@ public static class ContractShapeValidation
         if (!Check(value.Grant, context)) return false;
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.ExpectedRev is not { HasValue: true, Value: > 0 } || value.Meta.ExpectedNative is not null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
@@ -2638,10 +2604,6 @@ public static class ContractShapeValidation
         if (!Check(value.Policy, context)) return false;
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.ExpectedRev is not { HasValue: true, Value: > 0 } || value.Meta.ExpectedNative is not null) return false;
         if ((value.ScopeKind == "node") != (value.ScopeId is null)) return false;
@@ -3370,14 +3332,6 @@ public static class ContractShapeValidation
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
         if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.ExpectedRev is not { HasValue: true, Value: > 0 } || value.Meta.ExpectedNative is not null) return false;
         if ((int)value.TerminalMode == 2 && value.TerminalSize is null) return false;
         if (value.Argv.Sum(x => (long)global::System.Text.Encoding.UTF8.GetByteCount(x)) > 1048576 || value.Argv.Any(x => x.Contains('\0'))) return false;
@@ -3447,9 +3401,6 @@ public static class ContractShapeValidation
         }
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
@@ -3761,11 +3712,6 @@ public static class ContractShapeValidation
         {
         }
         if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.ExpectedRev is not { HasValue: true, Value: > 0 } || value.Meta.ExpectedNative is not null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
@@ -3840,12 +3786,7 @@ public static class ContractShapeValidation
         if (value.OwnerEpoch is null) return false;
         if (!Check(value.OwnerEpoch, context)) return false;
         if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.TemplateRevision is not null && (!value.TemplateRevision.HasValue || value.TemplateRevision.Value <= 0)) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CalculateSize() > 1048576) return false;
         return true;
         }
@@ -3912,10 +3853,6 @@ public static class ContractShapeValidation
         {
             if (!Check(value.ResumeCommandId, context)) return false;
         }
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
-        if (value.Meta.CommandId is null) return false;
         if (value.Meta.CommandId is null) return false;
         if (value.Meta.ExpectedRev is not { HasValue: true, Value: > 0 } || value.Meta.ExpectedNative is not null) return false;
         if ((value.PlanId is null) == (value.ResumeCommandId is null)) return false;

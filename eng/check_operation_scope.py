@@ -16,6 +16,9 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+# Also support the existing offline tests loading this gate by file location.
+if str(ROOT / "eng") not in sys.path:
+    sys.path.insert(0, str(ROOT / "eng"))
 FIELDS = {"capability", "risk", "approval", "stepUp", "localPresence", "egress", "patEligible", "actorKinds"}
 ROW_REQUIRED = {"operationId", "binding", "kind", "source", "scope", "surface", "profile",
                 "sourceRule", "idempotency", "authorization"}

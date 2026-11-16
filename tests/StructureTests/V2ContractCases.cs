@@ -59,6 +59,13 @@ internal static class V2ContractCases
             .Concat(Management.ContractMethods.All.Select(x => (x.Binding, x.Kind, x.LocalOnly, x.OwnerEpoch, x.ServerStreaming, x.MaxRequestBytes, x.MaxResponseBytes))).ToArray();
         var routes = files.SelectMany(file => file.Services).SelectMany(service => service.Methods.Select(method => service.FullName + "/" + method.Name)).Order(StringComparer.Ordinal);
         Require(methods.Select(x => x.Binding).Order(StringComparer.Ordinal).SequenceEqual(routes), "every compiled route has a generated policy");
+        using var methodInventory = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root, "eng/v2-methods.json")));
+        var compiledMethods = files.SelectMany(x => x.Services).SelectMany(service => service.Methods.Select(method => (Binding: service.FullName + "/" + method.Name, Method: method))).ToDictionary(x => x.Binding, x => x.Method, StringComparer.Ordinal);
+        foreach (var row in methodInventory.RootElement.GetProperty("methods").EnumerateArray())
+        {
+            var method = compiledMethods[row.GetProperty("binding").GetString()!];
+            Require(method.InputType.Name == row.GetProperty("request").GetString() && method.OutputType.Name == row.GetProperty("response").GetString() && method.IsServerStreaming == row.GetProperty("serverStreaming").GetBoolean(), "qualified route request/response/stream binding");
+        }
         Require(methods.Length == 42 && methods.Count(x => x.Kind == "transient_terminal") == 4, "complete method classification");
         Require(methods.Where(x => x.Kind == "transient_terminal").All(x => x.LocalOnly && !x.OwnerEpoch), "transient terminal has no durable epoch");
         Require(methods.Where(x => x.Kind == "durable_node").All(x => x.OwnerEpoch), "durable Node epoch binding");
@@ -103,6 +110,7 @@ internal static class V2ContractCases
         "SandboxServiceDeleteRequest" => SandboxShape.IsValid(Sandbox.SandboxServiceDeleteRequest.Parser.ParseFrom(bytes)),
         "CenterControlServiceBeginConnectRequest" => SandboxShape.IsValid(Sandbox.CenterControlServiceBeginConnectRequest.Parser.ParseFrom(bytes)),
         "DataServiceInspectTransferRequest" => SandboxShape.IsValid(Sandbox.DataServiceInspectTransferRequest.Parser.ParseFrom(bytes)),
+        "NodeServiceGetOperationRequest" => SandboxShape.IsValid(Sandbox.NodeServiceGetOperationRequest.Parser.ParseFrom(bytes)),
         "Transfer" => SandboxShape.IsValid(Sandbox.Transfer.Parser.ParseFrom(bytes)),
         "Operation" => SandboxShape.IsValid(Sandbox.Operation.Parser.ParseFrom(bytes)),
         "DeviceServiceRevokeRequest" => ManagementShape.IsValid(Management.DeviceServiceRevokeRequest.Parser.ParseFrom(bytes)),

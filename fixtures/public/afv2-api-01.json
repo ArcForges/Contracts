@@ -354,6 +354,24 @@
       "type": "NodeServiceHandshakeResponse",
       "wireHex": "0a1422120a10010101010101010101010101010101011a750a0f6f7574636f6d655f756e6b6e6f776e10081a156572726f722e6f7574636f6d655f756e6b6e6f776e223108041a2d617263666f726765732e73616e64626f782e76322e4e6f6465536572766963652f4765744f7065726174696f6e280332120a10010101010101010101010101010101013a00",
       "valid": false
+    },
+    {
+      "name": "operation-query-correlation-only",
+      "type": "NodeServiceGetOperationRequest",
+      "wireHex": "0a141a120a100101010101010101010101010101010152120a10010101010101010101010101010101015a120a1001010101010101010101010101010101",
+      "valid": true
+    },
+    {
+      "name": "operation-query-no-original-command",
+      "type": "NodeServiceGetOperationRequest",
+      "wireHex": "0a141a120a10010101010101010101010101010101015a120a1001010101010101010101010101010101",
+      "valid": false
+    },
+    {
+      "name": "operation-query-no-original-epoch",
+      "type": "NodeServiceGetOperationRequest",
+      "wireHex": "0a141a120a100101010101010101010101010101010152120a1001010101010101010101010101010101",
+      "valid": false
     }
   ]
 }
