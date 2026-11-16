@@ -224,15 +224,37 @@ func validRevision(value *foundationv1.Revision) bool { return value != nil && v
 func validInstant(value *foundationv1.Instant) bool { return value != nil && value.UnixSeconds != nil && value.Nanos != nil && value.GetUnixSeconds() >= -62135596800 && value.GetUnixSeconds() <= 253402300799 && value.GetNanos() >= 0 && value.GetNanos() <= 999999999 }
 func validMeta(value *foundationv1.RequestMeta) bool {
  if value == nil || !validID(value.CorrelationId) || value.CommandId != nil && !validID(value.CommandId) || value.ExpectedRev != nil && !validRevision(value.ExpectedRev) || value.WorkspaceId != nil && !validID(value.WorkspaceId) { return false }
+ if value.ExpectedNative != nil && value.ExpectedNative.Value == nil { return false }
+ if value.ApplicationScope != nil && (value.ApplicationScope.ProductId == nil || value.ApplicationScope.GetProductId() != "arcscope" && value.ApplicationScope.GetProductId() != "companion" || value.ApplicationScope.InstallationId != nil && !validID(value.ApplicationScope.InstallationId)) { return false }
  return value.ExpectedRev == nil || value.ExpectedNative == nil
 }
-func validResponseMeta(value *foundationv1.ResponseMeta) bool { return value != nil && validID(value.CorrelationId) && (value.ResultRev == nil || validRevision(value.ResultRev)) }
+func validResponseMeta(value *foundationv1.ResponseMeta) bool { if value == nil || !validID(value.CorrelationId) || value.ResultRev != nil && !validRevision(value.ResultRev) { return false }; for _, warning := range value.Warnings { if !utf8.ValidString(warning) { return false } }; return true }
 func validError(value *foundationv1.ArcError) bool {
  if value == nil || value.Code == nil || !regexp.MustCompile(`^[a-z][a-z0-9_]{0,127}$`).MatchString(value.GetCode()) || value.Category == nil || int32(value.GetCategory()) < 1 || int32(value.GetCategory()) > 9 || value.MessageKey == nil || !regexp.MustCompile(`^[A-Za-z0-9._:/-]{1,128}$`).MatchString(value.GetMessageKey()) || !validID(value.CorrelationId) || value.Effect == nil || int32(value.GetEffect()) < 1 || int32(value.GetEffect()) > 3 || value.Retry == nil || value.Retry.Mode == nil || int32(value.Retry.GetMode()) < 1 || int32(value.Retry.GetMode()) > 4 { return false }
  if int32(value.GetEffect()) == 3 && int32(value.Retry.GetMode()) == 3 { return false }
  if (int32(value.Retry.GetMode()) == 4) != (value.Retry.ReconciliationOperation != nil) || value.Retry.ReconciliationOperation != nil && !regexp.MustCompile(`^[A-Za-z0-9._:/-]{1,128}$`).MatchString(value.Retry.GetReconciliationOperation()) { return false }
  if (int32(value.Retry.GetMode()) == 3) != (value.Retry.RetryAt != nil) || value.Retry.RetryAt != nil && !validInstant(value.Retry.RetryAt) { return false }
+ if value.Details != nil && !validErrorDetails(value.Details) { return false }
  return allowedV2Error(value)
+}
+func validSymbol(value string) bool { return regexp.MustCompile(`^[A-Za-z0-9._:/-]{1,128}$`).MatchString(value) }
+func validDecimal(value *foundationv1.Decimal) bool {
+ if value == nil || value.Value == nil || !regexp.MustCompile(`^-?(0|[1-9][0-9]*)(\.[0-9]{1,9})?$`).MatchString(value.GetValue()) { return false }
+ text:=value.GetValue(); if strings.HasPrefix(text,"-")&&!strings.ContainsAny(text,"123456789"){return false};digits:=strings.TrimLeft(strings.ReplaceAll(strings.ReplaceAll(text,"-",""),".",""),"0");return len(digits)<=28
+}
+func validErrorDetails(value *foundationv1.ErrorDetails) bool {
+ if value == nil { return false }
+ switch detail:=value.Detail.(type) {
+ case *foundationv1.ErrorDetails_Revision:
+  if detail==nil||detail.Revision==nil{return false};x:=detail.Revision;return (x.Expected==nil||validRevision(x.Expected))&&(x.Actual==nil||validRevision(x.Actual))&&(x.ConflictId==nil||validID(x.ConflictId))
+ case *foundationv1.ErrorDetails_Limit:
+  if detail==nil||detail.Limit==nil{return false};x:=detail.Limit;return x.LimitName!=nil&&validSymbol(x.GetLimitName())&&(x.Maximum==nil||validDecimal(x.Maximum))&&(x.Available==nil||validDecimal(x.Available))&&(x.RecoveryAt==nil||validInstant(x.RecoveryAt))
+ case *foundationv1.ErrorDetails_Upgrade:
+  if detail==nil||detail.Upgrade==nil{return false};x:=detail.Upgrade;return x.MinReadable!=nil&&x.MinWritable!=nil&&x.Received!=nil&&validSymbol(x.GetMinReadable())&&validSymbol(x.GetMinWritable())&&validSymbol(x.GetReceived())
+ case *foundationv1.ErrorDetails_State:
+  if detail==nil||detail.State==nil{return false};x:=detail.State;if x.State==nil||x.Reason==nil||!validSymbol(x.GetState())||!utf8.ValidString(x.GetReason()){return false};if x.Native!=nil&&x.Native.Value==nil{return false};return x.Resource==nil||x.Resource.Kind!=nil&&validSymbol(x.Resource.GetKind())&&validID(x.Resource.Id)
+ default:return false
+ }
 }
 func validRelative(path string) bool { if path == "" || strings.HasPrefix(path, "/") || strings.HasPrefix(path, "\\") || strings.ContainsAny(path, ":\x00") { return false }; for _, part := range strings.Split(strings.ReplaceAll(path, "\\", "/"), "/") { if part == "" || part == "." || part == ".." { return false } }; return true }
 func validOrigin(origin string) bool { value, err := url.Parse(origin); return err == nil && strings.HasPrefix(origin, "https://") && value.Host != "" && value.User == nil && !value.ForceQuery && value.RawQuery == "" && !strings.ContainsAny(origin, "# \t\r\n\x00") && (value.Path == "" || value.Path == "/") }
