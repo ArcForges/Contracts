@@ -93,6 +93,8 @@ internal static class V2ContractCases
 
     private static bool Check(string type, byte[] bytes) => type switch
     {
+        "EnvironmentEntry" => SandboxShape.IsValid(Sandbox.EnvironmentEntry.Parser.ParseFrom(bytes)),
+        "Capability" => SandboxShape.IsValid(Sandbox.Capability.Parser.ParseFrom(bytes)),
         "TerminalSize" => SandboxShape.IsValid(Sandbox.TerminalSize.Parser.ParseFrom(bytes)),
         "RunServiceStartRequest" => SandboxShape.IsValid(Sandbox.RunServiceStartRequest.Parser.ParseFrom(bytes)),
         "OutputChunk" => SandboxShape.IsValid(Sandbox.OutputChunk.Parser.ParseFrom(bytes)),

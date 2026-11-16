@@ -36,7 +36,7 @@ func ValidateCapability(value *Capability) bool {
 		if utf8.RuneCountInString(value.GetKey()) > 96 {
 			return false
 		}
-		if len(value.GetKey()) > 256 {
+		if len(value.GetKey()) > 384 {
 			return false
 		}
 	}
@@ -327,7 +327,7 @@ func ValidateEnvironmentEntry(value *EnvironmentEntry) bool {
 		if utf8.RuneCountInString(value.GetName()) > 256 {
 			return false
 		}
-		if len(value.GetName()) > 256 {
+		if len(value.GetName()) > 1024 {
 			return false
 		}
 		if !regexp.MustCompile("^[^=\\x00]+$").MatchString(value.GetName()) {

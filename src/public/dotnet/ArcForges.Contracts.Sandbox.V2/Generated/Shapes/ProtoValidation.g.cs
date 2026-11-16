@@ -428,7 +428,7 @@ public static class ContractShapeValidation
             if (!ValidUnicode(value.Key)) return false;
             if (ScalarLength(value.Key) < 1) return false;
             if (ScalarLength(value.Key) > 96) return false;
-            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Key) > 256) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Key) > 384) return false;
         }
         if (!value.HasState) return false;
         if (value.HasState)
@@ -1635,7 +1635,7 @@ public static class ContractShapeValidation
             if (!ValidUnicode(value.Name)) return false;
             if (ScalarLength(value.Name) < 1) return false;
             if (ScalarLength(value.Name) > 256) return false;
-            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Name) > 256) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Name) > 1024) return false;
             if (!Matches(value.Name, "^[^=\\x00]+$")) return false;
         }
         if (value.HasValue)

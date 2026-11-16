@@ -45,6 +45,14 @@ func TestV2ContractVectors(t *testing.T) {
 				value := new(sandboxv2.NodeServiceHandshakeResponse)
 				message = value
 				check = func() bool { return sandboxv2.ValidateNodeServiceHandshakeResponse(value) }
+			case "EnvironmentEntry":
+				value := new(sandboxv2.EnvironmentEntry)
+				message = value
+				check = func() bool { return sandboxv2.ValidateEnvironmentEntry(value) }
+			case "Capability":
+				value := new(sandboxv2.Capability)
+				message = value
+				check = func() bool { return sandboxv2.ValidateCapability(value) }
 			case "TerminalSize":
 				value := new(sandboxv2.TerminalSize)
 				message = value
@@ -140,7 +148,7 @@ func TestV2ContractVectors(t *testing.T) {
 			}
 		}
 	}
-	now := &foundationv1.Instant{UnixSeconds: proto.Int64(-1), Nanos: proto.Int32(0)}
+	now := &foundationv1.Instant{UnixSeconds: proto.Int64(-1), Nanos: proto.Uint32(0)}
 	if !sandboxv2.CanAdmitWrite(&write, proto.Clone(write.Lease).(*sandboxv2.TerminalLease), "run-epoch", 0, now) {
 		t.Fatal("current writer next sequence")
 	}
@@ -156,23 +164,30 @@ func TestV2ContractVectors(t *testing.T) {
 	if sandboxv2.CanAdmitWrite(&write, write.Lease, "run-epoch", 0, now) {
 		t.Fatal("expired lease")
 	}
-	policies := append(sandboxv2.MethodPolicies(), managementv2.MethodPolicies()...)
-	if len(policies) != 42 {
-		t.Fatal("V2 method inventory")
-	}
-	for _, method := range policies {
-		if method.Kind == "transient_terminal" && (!method.LocalOnly || method.OwnerEpoch) {
+	countPolicies := 0
+	checkPolicy := func(binding, kind string, localOnly, ownerEpoch bool) {
+		countPolicies++
+		if kind == "transient_terminal" && (!localOnly || ownerEpoch) {
 			t.Fatal("transient terminal authority")
 		}
-		if method.Kind == "durable_node" && !method.OwnerEpoch {
+		if kind == "durable_node" && !ownerEpoch {
 			t.Fatal("durable epoch missing")
 		}
-		if strings.Contains(method.Binding, "CenterControlService/") && !method.LocalOnly {
+		if strings.Contains(binding, "CenterControlService/") && !localOnly {
 			t.Fatal("Center control locality")
 		}
-		if strings.HasSuffix(method.Binding, "/InspectTransfer") && method.Kind != "read" {
+		if strings.HasSuffix(binding, "/InspectTransfer") && kind != "read" {
 			t.Fatal("progress cannot replay creation")
 		}
+	}
+	for _, method := range sandboxv2.MethodPolicies() {
+		checkPolicy(method.Binding, method.Kind, method.LocalOnly, method.OwnerEpoch)
+	}
+	for _, method := range managementv2.MethodPolicies() {
+		checkPolicy(method.Binding, method.Kind, method.LocalOnly, method.OwnerEpoch)
+	}
+	if countPolicies != 42 {
+		t.Fatal("V2 method inventory")
 	}
 	if _, err := sandboxv2.DecodeRunServiceStartRequest(make([]byte, 1048577)); !errors.Is(err, sandboxv2.ErrWireTooLarge) {
 		t.Fatal("unary ceiling")
