@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "id": "afv2-api-01-design-specs-r2",
+  "kind": "source",
+  "sourceRepository": "https://github.com/ArcForges/ArcForges-Design",
+  "sourceCommit": "28f73b99b157cfe34ca183d1bbf8c92a6bfd10fe",
+  "sourcePaths": [
+    "docs/contracts/proto/arcforges/sandbox/v2/platform.proto",
+    "docs/contracts/proto/arcforges/sandbox/v2/center_control.proto",
+    "docs/contracts/proto/arcforges/management/v2/devices.proto"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "docs/contracts/proto/arcforges/sandbox/v2/platform.proto",
+        "sha256": "bac404101034451f5c965d157c4bb66265e8bfc943026b7a35b60855eab83030",
+        "finding": "Exact immutable file begins with SPDX-License-Identifier: Apache-2.0; no conflicting file-level licence. Authored contract specification, no third-party implementation copied."
+      },
+      {
+        "path": "docs/contracts/proto/arcforges/sandbox/v2/center_control.proto",
+        "sha256": "95e214fa431f0558f66f1854503bfb5b9c9a792345e7d2de217ba421d2227071",
+        "finding": "Exact immutable file begins with SPDX-License-Identifier: Apache-2.0; no conflicting file-level licence. Authored contract specification, no third-party implementation copied."
+      },
+      {
+        "path": "docs/contracts/proto/arcforges/management/v2/devices.proto",
+        "sha256": "43a9d8f7dd24e43f4ad8fa3d2e7b1510ce060145c5d7ae46d88ac6894d08b046",
+        "finding": "Exact immutable file begins with SPDX-License-Identifier: Apache-2.0; no conflicting file-level licence. Authored contract specification, no third-party implementation copied."
+      }
+    ],
+    "scope": "Preserve the three existing V2 protobuf specifications and add only the optional owner-local CenterConnectFlow fingerprint.",
+    "copyingPermission": null
+  },
+  "attribution": [
+    "ArcForges-Design contributors; retained Apache-2.0 SPDX headers"
+  ],
+  "targets": [
+    {
+      "path": "public/proto/arcforges/sandbox/v2/platform.proto",
+      "sha256": "bac404101034451f5c965d157c4bb66265e8bfc943026b7a35b60855eab83030",
+      "normalization": "lf"
+    },
+    {
+      "path": "public/proto/arcforges/sandbox/v2/center_control.proto",
+      "sha256": "95e214fa431f0558f66f1854503bfb5b9c9a792345e7d2de217ba421d2227071",
+      "normalization": "lf"
+    },
+    {
+      "path": "public/proto/arcforges/management/v2/devices.proto",
+      "sha256": "43a9d8f7dd24e43f4ad8fa3d2e7b1510ce060145c5d7ae46d88ac6894d08b046",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "byte-match",
+    "command": "Compare all three adopted V2 protobuf specifications with the exact merged ArcForges-Design commit in eng/afv2-contracts.json.",
+    "expected": "All three files match the pinned source bytes. The only wire change is optional sandbox.v2 CenterConnectFlow field 8.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": false,
+    "text": "ArcForges V2 contract specifications are Apache-2.0; original SPDX headers are retained.",
+    "files": [],
+    "distribution": "source",
+    "reason": "Same Apache-2.0 first-party contract boundary; no additional upstream NOTICE supplied for these three specification files."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Contracts / AFV2-CENTER-02",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex author file-level source/licence assessment under the maintainer authorization; independent PR review remains required",
+    "reviewedOn": "2026-11-20",
+    "decision": "approved",
+    "rationale": "Verified the three copied specifications against the merged Design and their original first-party Apache-2.0 headers. This author assessment is separate from independent review and publication.",
+    "baselineCommit": "c22be9a7da5a747b4a14b1b81d78f0ea460f810f",
+    "reconciliation": false
+  },
+  "supersedes": "afv2-api-01-design-specs-r1"
+}

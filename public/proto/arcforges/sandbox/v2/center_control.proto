@@ -27,6 +27,11 @@ message CenterConnectFlow {
   arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"]; // validate: Center expiry bounded by local policy; no reuse after expiry
   optional uint32 poll_after_ms = 6 [json_name = "pollAfterMs"]; // validate: bounded polling interval; no unbounded browser loop
   optional string reason_code = 7 [json_name = "reasonCode"]; // validate: safe final/blocked reason
+  // Derive the fingerprint from the exact originating flow's Node public key. Use the first ten bytes of
+  // SHA-256 over its DER SubjectPublicKeyInfo. Show it only in a transient owner-local reply while the flow
+  // is pending, unexpired, and still accepts local approval. Omit it after the flow ends or expires.
+  // Keep it out of durable receipts, mutation replays, audit, logs, and the outbound Center channel.
+  optional string node_key_fingerprint = 8 [json_name = "nodeKeyFingerprint"]; // validate: five groups of four uppercase hexadecimal digits separated by hyphens
 }
 
 // A fixed local-only V2 adapter reuses CloudLinkService, SignInOrchestrator and

@@ -2037,6 +2037,10 @@
         "pollAfterMs": {},
         "reasonCode": {
           "maxUtf8Bytes": 1048576
+        },
+        "nodeKeyFingerprint": {
+          "maxUtf8Bytes": 24,
+          "pattern": "^[0-9A-F]{4}(-[0-9A-F]{4}){4}$"
         }
       }
     },

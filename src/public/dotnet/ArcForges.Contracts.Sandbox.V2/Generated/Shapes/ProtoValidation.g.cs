@@ -486,6 +486,12 @@ public static class ContractShapeValidation
             if (!ValidUnicode(value.ReasonCode)) return false;
             if (global::System.Text.Encoding.UTF8.GetByteCount(value.ReasonCode) > 1048576) return false;
         }
+        if (value.HasNodeKeyFingerprint)
+        {
+            if (!ValidUnicode(value.NodeKeyFingerprint)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.NodeKeyFingerprint) > 24) return false;
+            if (!Matches(value.NodeKeyFingerprint, "^[0-9A-F]{4}(-[0-9A-F]{4}){4}$")) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
