@@ -2,8 +2,8 @@ ArcForges source provenance notices
 
 Generated from reviewed active records. Original licence files and dependency notices remain authoritative.
 
-afv2-api-01-design-specs-r1
-Source: https://github.com/ArcForges/ArcForges-Design @ 493022fbf643b484665b2713c9eb8670f2fb2234
+afv2-api-01-design-specs-r2
+Source: https://github.com/ArcForges/ArcForges-Design @ 28f73b99b157cfe34ca183d1bbf8c92a6bfd10fe
 Material licence: Apache-2.0
 Notice scope: source
 ArcForges-Design contributors; retained Apache-2.0 SPDX headers
@@ -45,8 +45,8 @@ Notice scope: source
 Copyright 2021-2026 The Connect Authors; Apache License, Version 2.0.
 connectrpc.com/connect/v2 v2.0.2 keeps its Apache-2.0 licence; the Go bindings module requires it through go.mod and does not vendor it.
 
-contract-bindings-afv2-api-01-r1
-Source: https://github.com/ArcForges/Contracts @ 4d92cf527652f2bcea69bca5ffc4075272d169ad
+contract-bindings-afv2-api-01-r2
+Source: https://github.com/ArcForges/Contracts @ a186253f0fabf0787decd2d3f05c19e12fe2e4e9
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
@@ -726,8 +726,8 @@ Copyright (c) 2015 Jordan Harband
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
 
-go-bindings-afv2-api-01-r2
-Source: https://github.com/ArcForges/Contracts @ 1efa1dd761ee4d37028d3d0b2e67fc827d556bc6
+go-bindings-afv2-api-01-r3
+Source: https://github.com/ArcForges/Contracts @ a186253f0fabf0787decd2d3f05c19e12fe2e4e9
 Material licence: Apache-2.0
 Notice scope: source
 Copyright 2026 ArcForges contributors.
