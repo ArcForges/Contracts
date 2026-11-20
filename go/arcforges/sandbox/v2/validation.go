@@ -7905,6 +7905,17 @@ func ValidateCenterConnectFlow(value *CenterConnectFlow) bool {
 			return false
 		}
 	}
+	if value.NodeKeyFingerprint != nil {
+		if !utf8.ValidString(value.GetNodeKeyFingerprint()) {
+			return false
+		}
+		if len(value.GetNodeKeyFingerprint()) > 24 {
+			return false
+		}
+		if !regexp.MustCompile("^[0-9A-F]{4}(-[0-9A-F]{4}){4}$").MatchString(value.GetNodeKeyFingerprint()) {
+			return false
+		}
+	}
 	return true
 }
 

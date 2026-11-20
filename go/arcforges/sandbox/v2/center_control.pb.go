@@ -143,8 +143,13 @@ type CenterConnectFlow struct {
 	ExpiresAt       *v1.Instant            `protobuf:"bytes,5,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`                         // validate: Center expiry bounded by local policy; no reuse after expiry
 	PollAfterMs     *uint32                `protobuf:"varint,6,opt,name=poll_after_ms,json=pollAfterMs,proto3,oneof" json:"poll_after_ms,omitempty"`          // validate: bounded polling interval; no unbounded browser loop
 	ReasonCode      *string                `protobuf:"bytes,7,opt,name=reason_code,json=reasonCode,proto3,oneof" json:"reason_code,omitempty"`                // validate: safe final/blocked reason
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// Derive the fingerprint from the exact originating flow's Node public key. Use the first ten bytes of
+	// SHA-256 over its DER SubjectPublicKeyInfo. Show it only in a transient owner-local reply while the flow
+	// is pending, unexpired, and still accepts local approval. Omit it after the flow ends or expires.
+	// Keep it out of durable receipts, mutation replays, audit, logs, and the outbound Center channel.
+	NodeKeyFingerprint *string `protobuf:"bytes,8,opt,name=node_key_fingerprint,json=nodeKeyFingerprint,proto3,oneof" json:"node_key_fingerprint,omitempty"` // validate: five groups of four uppercase hexadecimal digits separated by hyphens
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *CenterConnectFlow) Reset() {
@@ -222,6 +227,13 @@ func (x *CenterConnectFlow) GetPollAfterMs() uint32 {
 func (x *CenterConnectFlow) GetReasonCode() string {
 	if x != nil && x.ReasonCode != nil {
 		return *x.ReasonCode
+	}
+	return ""
+}
+
+func (x *CenterConnectFlow) GetNodeKeyFingerprint() string {
+	if x != nil && x.NodeKeyFingerprint != nil {
+		return *x.NodeKeyFingerprint
 	}
 	return ""
 }
@@ -1429,7 +1441,7 @@ const file_arcforges_sandbox_v2_center_control_proto_rawDesc = "" +
 	"\x06_stateB\x15\n" +
 	"\x13_connection_enabledB\x10\n" +
 	"\x0e_channel_stateB\x14\n" +
-	"\x12_remote_revocation\"\x95\x03\n" +
+	"\x12_remote_revocation\"\xe5\x03\n" +
 	"\x11CenterConnectFlow\x124\n" +
 	"\aflow_id\x18\x01 \x01(\v2\x1b.arcforges.foundation.v1.IdR\x06flowId\x12\x19\n" +
 	"\x05state\x18\x02 \x01(\tH\x00R\x05state\x88\x01\x01\x12.\n" +
@@ -1439,13 +1451,15 @@ const file_arcforges_sandbox_v2_center_control_proto_rawDesc = "" +
 	"expires_at\x18\x05 \x01(\v2 .arcforges.foundation.v1.InstantR\texpiresAt\x12'\n" +
 	"\rpoll_after_ms\x18\x06 \x01(\rH\x03R\vpollAfterMs\x88\x01\x01\x12$\n" +
 	"\vreason_code\x18\a \x01(\tH\x04R\n" +
-	"reasonCode\x88\x01\x01B\b\n" +
+	"reasonCode\x88\x01\x01\x125\n" +
+	"\x14node_key_fingerprint\x18\b \x01(\tH\x05R\x12nodeKeyFingerprint\x88\x01\x01B\b\n" +
 	"\x06_stateB\x13\n" +
 	"\x11_verification_uriB\f\n" +
 	"\n" +
 	"_user_codeB\x10\n" +
 	"\x0e_poll_after_msB\x0e\n" +
-	"\f_reason_code\"f\n" +
+	"\f_reason_codeB\x17\n" +
+	"\x15_node_key_fingerprint\"f\n" +
 	"$CenterControlServiceGetStatusRequest\x128\n" +
 	"\x04meta\x18\x01 \x01(\v2$.arcforges.foundation.v1.RequestMetaR\x04metaJ\x04\b\x02\x10\n" +
 	"\"\x80\x02\n" +
